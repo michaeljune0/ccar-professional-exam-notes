@@ -1,0 +1,980 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>◆ 100% 약속 vs 측정된 SLO + 사람 안전망 — CCAR-P 개념 카드</title>
+<link rel="icon" href="data:,">
+<script>try{var t=localStorage.getItem('ccarp-concepts-theme');if(/^(github-light|github-dark|paper|terminal|large)$/.test(t))document.documentElement.dataset.theme=t;}catch(e){}</script>
+<script>try{var w=parseFloat(localStorage.getItem('ccarp-concepts-side-w'));if(w>0&&innerWidth>=900)document.documentElement.style.setProperty('--side-w',Math.round(Math.max(240,Math.min(w,640,Math.floor(innerWidth/2))))+'px');}catch(e){}</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@600;700&amp;family=IBM+Plex+Mono:wght@400&amp;family=IBM+Plex+Sans+KR:wght@400;500;600&amp;family=Noto+Serif+KR:wght@400;600&amp;display=swap">
+<link rel="stylesheet" href="../assets/concepts.css">
+<script src="../assets/shell.js" defer></script>
+<script src="../assets/concepts.js" defer></script>
+<!-- vx:script -->
+<script src="../vx/expectation-slo.js" defer></script>
+<!-- /vx:script -->
+</head>
+<body class="shell" data-page="expectation-slo">
+<a class="skip" href="#content" data-shell-outside>본문으로 건너뛰기</a>
+<header class="topbar">
+  <button type="button" class="nav-toggle" aria-controls="site-nav" aria-expanded="true">목차</button>
+  <a class="site-name" href="../index.html" data-shell-outside>CCAR-P 개념 카드</a>
+  <select class="theme-pick" aria-label="테마" data-shell-outside><option value="auto">자동(지금 모양)</option><option value="github-light">GitHub 라이트</option><option value="github-dark">GitHub 다크</option><option value="paper">종이</option><option value="terminal">터미널</option><option value="large">큰 글자</option></select>
+</header>
+<div class="scrim" hidden></div>
+<nav class="side" id="site-nav" aria-label="개념 목록">
+  <a class="side-home" href="../index.html">← 목차 첫 화면</a>
+  <p class="side-title">CCAR-P 개념 카드</p>
+  <a class="side-exam" href="about-exam.html">시험 소개 — 형식 · 도메인 · 예제</a>
+  <p class="side-legend">● 열어 봄 · ○ 안 봄 · ■ 개념 · ◆ 비교</p>
+  <ul class="st">
+    <li class="st-dom">
+      <button type="button" class="st-tg st-dh" aria-expanded="true" aria-controls="st-d1" data-tree="d1"><span class="st-chev" aria-hidden="true"></span><span class="st-lab">D1 <span lang="en">Solution Design &amp; Architecture</span> <span class="st-w">17%</span></span></button>
+      <ul class="st-goals" id="st-d1">
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g1-1" data-tree="g1.1" title="Translate business problems into Claude-based AI solutions"><span class="st-chev" aria-hidden="true"></span><span class="st-num">1.1</span><span class="st-name">업무 문제를 Claude 해법으로</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g1-1" hidden>
+            <li><a class="side-item" href="code-vs-llm.html" data-id="code-vs-llm"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> 코드 vs LLM vs hybrid</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="problem-framing.html" data-id="problem-framing"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 문제 정의</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g1-2" data-tree="g1.2" title="Design end-to-end architectures (input → processing → output → feedback loops)"><span class="st-chev" aria-hidden="true"></span><span class="st-num">1.2</span><span class="st-name">입력부터 피드백까지 구조 설계</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g1-2" hidden>
+            <li><a class="side-item" href="e2e-architecture.html" data-id="e2e-architecture"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> input → processing → output → feedback loop</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="stop-reason.html" data-id="stop-reason"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> stop_reason 으로 분기</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g1-3" data-tree="g1.3" title="Select appropriate architectural patterns (workflow, agentic, augmented LLM)"><span class="st-chev" aria-hidden="true"></span><span class="st-num">1.3</span><span class="st-name">구조 패턴 고르기</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g1-3" hidden>
+            <li><a class="side-item" href="smallest-fit.html" data-id="smallest-fit"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 가장 작은 맞는 형태</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="workflow-patterns.html" data-id="workflow-patterns"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 워크플로 5패턴</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="workflow-vs-agent.html" data-id="workflow-vs-agent"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> 워크플로 vs 에이전트</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g1-4" data-tree="g1.4" title="Design multi-agent systems and orchestration strategies"><span class="st-chev" aria-hidden="true"></span><span class="st-num">1.4</span><span class="st-name">멀티 에이전트와 조율</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g1-4" hidden>
+            <li><a class="side-item" href="agent-resilience.html" data-id="agent-resilience"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 에이전트 상태·실패·배포</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="orchestrator-delegation.html" data-id="orchestrator-delegation"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> orchestrator-worker 위임</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="single-vs-multi-agent.html" data-id="single-vs-multi-agent"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> 단일 vs 멀티 에이전트</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g1-5" data-tree="g1.5" title="Apply decomposition techniques for complex problem solving"><span class="st-chev" aria-hidden="true"></span><span class="st-num">1.5</span><span class="st-name">복잡한 문제 쪼개기</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g1-5" hidden>
+            <li><a class="side-item" href="decomposition-unit.html" data-id="decomposition-unit"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> decomposition 단위 정하기</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="static-vs-dynamic-decomp.html" data-id="static-vs-dynamic-decomp"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> static vs dynamic decomposition</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g1-6" data-tree="g1.6" title="Align solutions to business value pillars (efficiency, transformation, productivity, cost, performance SLAs)"><span class="st-chev" aria-hidden="true"></span><span class="st-num">1.6</span><span class="st-name">비즈니스 가치 축 맞추기</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g1-6" hidden>
+            <li><a class="side-item" href="cost-per-request.html" data-id="cost-per-request"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> per-request cost</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="impact-metrics.html" data-id="impact-metrics"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> impact metrics</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="value-pillars.html" data-id="value-pillars"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> value pillars 5개</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="st-dom">
+      <button type="button" class="st-tg st-dh" aria-expanded="true" aria-controls="st-d2" data-tree="d2"><span class="st-chev" aria-hidden="true"></span><span class="st-lab">D2 <span lang="en">Claude Models, Prompting &amp; Context Engineering</span> <span class="st-w">13%</span></span></button>
+      <ul class="st-goals" id="st-d2">
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g2-1" data-tree="g2.1" title="Select appropriate Claude models based on trade-offs"><span class="st-chev" aria-hidden="true"></span><span class="st-num">2.1</span><span class="st-name">모델 고르기</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g2-1" hidden>
+            <li><a class="side-item" href="effort-vs-model.html" data-id="effort-vs-model"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> effort 조정 vs 모델 교체</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="model-selection.html" data-id="model-selection"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 출발 모델 고르기</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g2-2" data-tree="g2.2" title="Design system prompts, templates, and guardrails"><span class="st-chev" aria-hidden="true"></span><span class="st-num">2.2</span><span class="st-name">시스템 프롬프트와 가드레일</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g2-2" hidden>
+            <li><a class="side-item" href="structured-output.html" data-id="structured-output"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> structured outputs</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="system-prompt-style.html" data-id="system-prompt-style"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 시스템 프롬프트 문체</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g2-3" data-tree="g2.3" title="Apply prompt engineering techniques (zero-shot, few-shot, chain-of-thought)"><span class="st-chev" aria-hidden="true"></span><span class="st-num">2.3</span><span class="st-name">프롬프트 기법</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g2-3" hidden>
+            <li><a class="side-item" href="few-shot-examples.html" data-id="few-shot-examples"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> few-shot 예시</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="thinking-controls.html" data-id="thinking-controls"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 모델별 thinking 제어</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="thinking-vs-chaining.html" data-id="thinking-vs-chaining"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> 한 요청 안 thinking vs 여러 호출 체이닝</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g2-4" data-tree="g2.4" title="Optimize context windows and manage token usage"><span class="st-chev" aria-hidden="true"></span><span class="st-num">2.4</span><span class="st-name">컨텍스트 창과 토큰 관리</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g2-4" hidden>
+            <li><a class="side-item" href="rag-vs-full.html" data-id="rag-vs-full"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> RAG vs full context</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g2-5" data-tree="g2.5" title="Implement prompt reuse strategies (caching, modular prompts, Skills)"><span class="st-chev" aria-hidden="true"></span><span class="st-num">2.5</span><span class="st-name">프롬프트 재사용</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g2-5" hidden>
+            <li><a class="side-item" href="caching.html" data-id="caching"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 프롬프트 캐싱</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="st-dom">
+      <button type="button" class="st-tg st-dh" aria-expanded="true" aria-controls="st-d3" data-tree="d3"><span class="st-chev" aria-hidden="true"></span><span class="st-lab">D3 <span lang="en">Integration</span> <span class="st-w">19%</span></span></button>
+      <ul class="st-goals" id="st-d3">
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g3-1" data-tree="g3.1" title="Evaluate tool/agent configuration for capability bloat"><span class="st-chev" aria-hidden="true"></span><span class="st-num">3.1</span><span class="st-name">도구·에이전트 과잉 설정</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g3-1" hidden>
+            <li><a class="side-item" href="least-privilege.html" data-id="least-privilege"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 최소 권한</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="tool-design.html" data-id="tool-design"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 도구 설계</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g3-2" data-tree="g3.2" title="Analyze authentication and authorization requirements to identify security gaps"><span class="st-chev" aria-hidden="true"></span><span class="st-num">3.2</span><span class="st-name">인증·권한 빈틈</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g3-2" hidden>
+            <li><a class="side-item" href="injection-egress.html" data-id="injection-egress"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 프롬프트 인젝션 피해 경로 끊기</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="mcp-auth.html" data-id="mcp-auth"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> MCP 인증·인가</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g3-3" data-tree="g3.3" title="Evaluate accuracy-latency trade-offs and justify configuration decisions"><span class="st-chev" aria-hidden="true"></span><span class="st-num">3.3</span><span class="st-name">정확도와 지연 절충</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g3-3" hidden>
+            <li><a class="side-item" href="latency-levers.html" data-id="latency-levers"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 지연 줄이기 lever</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g3-4" data-tree="g3.4" title="Analyze observability challenges and select monitoring strategies at scale"><span class="st-chev" aria-hidden="true"></span><span class="st-num">3.4</span><span class="st-name">대규모 관측</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g3-4" hidden>
+            <li><a class="side-item" href="observability-signals.html" data-id="observability-signals"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> observability 세 신호</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="rate-limits.html" data-id="rate-limits"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> rate limit</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="telemetry-scope.html" data-id="telemetry-scope"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 텔레메트리 기록 범위</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g3-5" data-tree="g3.5" title="Design a RAG pipeline with appropriate chunking and indexing strategies"><span class="st-chev" aria-hidden="true"></span><span class="st-num">3.5</span><span class="st-name">RAG 파이프라인</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g3-5" hidden>
+            <li><a class="side-item" href="rag-pipeline.html" data-id="rag-pipeline"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> RAG 파이프라인</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g3-6" data-tree="g3.6" title="Apply retrieval strategies matched to data shape and query pattern"><span class="st-chev" aria-hidden="true"></span><span class="st-num">3.6</span><span class="st-name">데이터 모양에 맞는 검색</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g3-6" hidden>
+            <li><a class="side-item" href="query-routing.html" data-id="query-routing"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 질의 패턴별 검색</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="retrieval-shape.html" data-id="retrieval-shape"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> 임베딩 vs BM25 vs hybrid</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g3-7" data-tree="g3.7" title="Evaluate connection protocols and select the appropriate integration mechanism (MCP, API/CLI, agent-to-agent)"><span class="st-chev" aria-hidden="true"></span><span class="st-num">3.7</span><span class="st-name">연결 방식 고르기</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g3-7" hidden>
+            <li><a class="side-item" href="integration-options.html" data-id="integration-options"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> 직접 API vs Agent SDK vs CLI vs Managed Agents</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="mcp-connector.html" data-id="mcp-connector"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> MCP connector</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g3-8" data-tree="g3.8" title="Evaluate progressive discovery vs. monolithic context strategy"><span class="st-chev" aria-hidden="true"></span><span class="st-num">3.8</span><span class="st-name">점진 탐색과 통째 컨텍스트</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g3-8" hidden>
+            <li><a class="side-item" href="agent-skills.html" data-id="agent-skills"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> Agent Skills progressive disclosure</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="tool-search.html" data-id="tool-search"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> 도구 미리 싣기 vs tool search</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="st-dom">
+      <button type="button" class="st-tg st-dh" aria-expanded="true" aria-controls="st-d4" data-tree="d4"><span class="st-chev" aria-hidden="true"></span><span class="st-lab">D4 <span lang="en">Evaluation, Testing &amp; Optimization</span> <span class="st-w">16%</span></span></button>
+      <ul class="st-goals" id="st-d4">
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g4-1" data-tree="g4.1" title="Define evaluation metrics (accuracy, latency, cost, safety, security)"><span class="st-chev" aria-hidden="true"></span><span class="st-num">4.1</span><span class="st-name">평가 지표 정하기</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g4-1" hidden>
+            <li><a class="side-item" href="pass-at-k.html" data-id="pass-at-k"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> pass@k vs pass^k</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="success-criteria.html" data-id="success-criteria"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 성공 기준</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="ttft-vs-total.html" data-id="ttft-vs-total"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> TTFT vs 응답 완료 지연</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g4-2" data-tree="g4.2" title="Design evaluation datasets and test frameworks using mixed methodologies"><span class="st-chev" aria-hidden="true"></span><span class="st-num">4.2</span><span class="st-name">평가 데이터·테스트 설계</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g4-2" hidden>
+            <li><a class="side-item" href="eval-dataset.html" data-id="eval-dataset"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 첫 eval 셋 만들기</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="grader-choice.html" data-id="grader-choice"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> grader 고르기</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="llm-judge.html" data-id="llm-judge"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> LLM-as-judge 설계</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g4-3" data-tree="g4.3" title="Conduct A/B testing and iterative improvements"><span class="st-chev" aria-hidden="true"></span><span class="st-num">4.3</span><span class="st-name">A/B 테스트와 반복 개선</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g4-3" hidden>
+            <li><a class="side-item" href="capability-vs-regression.html" data-id="capability-vs-regression"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> capability eval vs regression eval</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="eval-driven-iteration.html" data-id="eval-driven-iteration"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 변경마다 eval 다시</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="eval-layers.html" data-id="eval-layers"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 검증 층</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g4-4" data-tree="g4.4" title="Diagnose system issues (prompt failure, hallucinations, model mismatch)"><span class="st-chev" aria-hidden="true"></span><span class="st-num">4.4</span><span class="st-name">문제 진단</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g4-4" hidden>
+            <li><a class="side-item" href="diagnose-by-change.html" data-id="diagnose-by-change"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 변경부터 묻는 진단</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="prompt-vs-model-mismatch.html" data-id="prompt-vs-model-mismatch"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> prompt failure vs model mismatch</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="retrieval-vs-grounding.html" data-id="retrieval-vs-grounding"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> 검색 실패 vs grounding 실패</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g4-5" data-tree="g4.5" title="Optimize token usage, latency, and cost-performance trade-offs"><span class="st-chev" aria-hidden="true"></span><span class="st-num">4.5</span><span class="st-name">토큰·지연·비용 최적화</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g4-5" hidden>
+            <li><a class="side-item" href="batch-vs-sync.html" data-id="batch-vs-sync"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> Batch API vs 동기 호출</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="max-tokens.html" data-id="max-tokens"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> max_tokens 와 긴 출력</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="optimization-levers.html" data-id="optimization-levers"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 최적화 lever 하나 고르기</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g4-6" data-tree="g4.6" title="Monitor system performance using logging and observability tools"><span class="st-chev" aria-hidden="true"></span><span class="st-num">4.6</span><span class="st-name">로깅과 관측으로 감시</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g4-6" hidden>
+            <li><a class="side-item" href="production-feedback-loop.html" data-id="production-feedback-loop"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 운영 → eval feedback loop</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="usage-cost-tracing.html" data-id="usage-cost-tracing"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 비용 급증 추적</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="st-dom">
+      <button type="button" class="st-tg st-dh" aria-expanded="true" aria-controls="st-d5" data-tree="d5"><span class="st-chev" aria-hidden="true"></span><span class="st-lab">D5 <span lang="en">Governance, Safety &amp; Risk Management</span> <span class="st-w">14%</span></span></button>
+      <ul class="st-goals" id="st-d5">
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g5-1" data-tree="g5.1" title="Implement guardrails and safety controls"><span class="st-chev" aria-hidden="true"></span><span class="st-num">5.1</span><span class="st-name">가드레일과 안전 통제</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g5-1" hidden>
+            <li><a class="side-item" href="direct-vs-indirect-injection.html" data-id="direct-vs-indirect-injection"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> 직접 인젝션 vs 간접 인젝션</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="guide-vs-enforce.html" data-id="guide-vs-enforce"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> 안내(프롬프트) vs 강제(구성·코드)</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g5-2" data-tree="g5.2" title="Identify risks, limitations, and failure modes of LLM systems"><span class="st-chev" aria-hidden="true"></span><span class="st-num">5.2</span><span class="st-name">위험·한계·실패 유형</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g5-2" hidden>
+            <li><a class="side-item" href="failure-modes.html" data-id="failure-modes"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> failure modes → 바꾸는 통제</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g5-3" data-tree="g5.3" title="Apply human-in-the-loop validation strategies"><span class="st-chev" aria-hidden="true"></span><span class="st-num">5.3</span><span class="st-name">사람 검증 전략</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g5-3" hidden>
+            <li><a class="side-item" href="aup-high-risk.html" data-id="aup-high-risk"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> AUP 고위험 용도</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="human-approval-gates.html" data-id="human-approval-gates"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> human-in-the-loop 게이트 위치</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="moderation-tiers.html" data-id="moderation-tiers"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> moderation 위험 등급</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g5-4" data-tree="g5.4" title="Ensure compliance with regulations (e.g., GDPR, HIPAA, FedRAMP)"><span class="st-chev" aria-hidden="true"></span><span class="st-num">5.4</span><span class="st-name">규정 준수</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g5-4" hidden>
+            <li><a class="side-item" href="baa-scope.html" data-id="baa-scope"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> BAA 적용 범위</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="data-policy.html" data-id="data-policy"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 데이터 기본값</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="hipaa-config.html" data-id="hipaa-config"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> HIPAA 구성</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="regulatory-paths.html" data-id="regulatory-paths"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 규정별 계약·경로</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g5-5" data-tree="g5.5" title="Address ethical AI considerations (bias, fairness, transparency)"><span class="st-chev" aria-hidden="true"></span><span class="st-num">5.5</span><span class="st-name">편향·공정·투명</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g5-5" hidden>
+            <li><a class="side-item" href="ai-disclosure.html" data-id="ai-disclosure"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> AI 고지·사람 사칭 금지</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="bias-measurement.html" data-id="bias-measurement"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 편향 측정</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="process-transparency.html" data-id="process-transparency"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 과정 투명성</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="st-dom">
+      <button type="button" class="st-tg st-dh" aria-expanded="true" aria-controls="st-d6" data-tree="d6"><span class="st-chev" aria-hidden="true"></span><span class="st-lab">D6 <span lang="en">Stakeholder Communication &amp; Lifecycle Management</span> <span class="st-w">14%</span></span></button>
+      <ul class="st-goals" id="st-d6">
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g6-1" data-tree="g6.1" title="Conduct structured discovery and requirement gathering"><span class="st-chev" aria-hidden="true"></span><span class="st-num">6.1</span><span class="st-name">요구 수집</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g6-1" hidden>
+            <li><a class="side-item" href="discovery.html" data-id="discovery"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> discovery</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="discovery-outputs.html" data-id="discovery-outputs"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> discovery 산출물</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g6-2" data-tree="g6.2" title="Communicate architectural decisions and trade-offs"><span class="st-chev" aria-hidden="true"></span><span class="st-num">6.2</span><span class="st-name">결정과 절충 전달</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g6-2" hidden>
+            <li><a class="side-item" href="audience-briefing.html" data-id="audience-briefing"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 청중별 브리핑</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="tradeoff-communication.html" data-id="tradeoff-communication"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> trade-off 전달</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="true" aria-controls="st-g6-3" data-tree="g6.3" title="Manage stakeholder feedback loops and expectation alignment (including SLAs)"><span class="st-chev" aria-hidden="true"></span><span class="st-num">6.3</span><span class="st-name">피드백과 기대 맞추기</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g6-3">
+            <li><a class="side-item" href="expectation-slo.html" data-id="expectation-slo" aria-current="page"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> 100% 약속 vs 측정된 SLO + 사람 안전망</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="feedback-loop-governance.html" data-id="feedback-loop-governance"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> feedback loop 책임 표</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="sla-clause.html" data-id="sla-clause"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> SLA 조항 쓰기</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g6-4" data-tree="g6.4" title="Document architectures and provide implementation guidance"><span class="st-chev" aria-hidden="true"></span><span class="st-num">6.4</span><span class="st-name">구조 문서화</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g6-4" hidden>
+            <li><a class="side-item" href="adr-package.html" data-id="adr-package"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> ADR·아키텍처 패키지</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="handoff-package.html" data-id="handoff-package"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> handoff 패키지</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="implementation-guide.html" data-id="implementation-guide"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 구현 가이드</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g6-5" data-tree="g6.5" title="Support lifecycle phases (discovery, design, handoff, monitoring, iteration)"><span class="st-chev" aria-hidden="true"></span><span class="st-num">6.5</span><span class="st-name">수명주기 지원</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g6-5" hidden>
+            <li><a class="side-item" href="lifecycle-loop.html" data-id="lifecycle-loop"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> lifecycle 루프</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="pilot-gates.html" data-id="pilot-gates"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> PoC → 파일럿 → 확장 게이트</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="st-dom">
+      <button type="button" class="st-tg st-dh" aria-expanded="true" aria-controls="st-d7" data-tree="d7"><span class="st-chev" aria-hidden="true"></span><span class="st-lab">D7 <span lang="en">Developer Productivity &amp; Operational Enablement</span> <span class="st-w">7%</span></span></button>
+      <ul class="st-goals" id="st-d7">
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g7-1" data-tree="g7.1" title="Configure Claude tools and environments for teams (e.g., Claude Code)"><span class="st-chev" aria-hidden="true"></span><span class="st-num">7.1</span><span class="st-name">팀 도구·환경 설정</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g7-1" hidden>
+            <li><a class="side-item" href="agent-permissions.html" data-id="agent-permissions"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 에이전트 권한</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="claude-md-vs-hooks.html" data-id="claude-md-vs-hooks"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> CLAUDE.md(지시) vs 훅(강제)</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="team-config-scopes.html" data-id="team-config-scopes"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 팀 설정 위치</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g7-2" data-tree="g7.2" title="Improve developer workflows using AI-assisted tooling"><span class="st-chev" aria-hidden="true"></span><span class="st-num">7.2</span><span class="st-name">개발 흐름 개선</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g7-2" hidden>
+            <li><a class="side-item" href="ai-code-review.html" data-id="ai-code-review"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> AI 코드 리뷰</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="automation-surfaces.html" data-id="automation-surfaces"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 자동화 surface 고르기</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="coding-loop.html" data-id="coding-loop"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 코딩 맡기는 흐름</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+        <li class="st-goal">
+          <button type="button" class="st-tg st-gh" aria-expanded="false" aria-controls="st-g7-3" data-tree="g7.3" title="Support debugging and operational issue resolution"><span class="st-chev" aria-hidden="true"></span><span class="st-num">7.3</span><span class="st-name">디버깅과 운영 문제 해결</span><span class="st-cnt" aria-hidden="true"></span></button>
+          <ul class="st-cards" id="st-g7-3" hidden>
+            <li><a class="side-item" href="api-errors.html" data-id="api-errors"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> API 오류별 대응</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="debug-handoff.html" data-id="debug-handoff"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 디버깅 요청 증거 묶음</span><span class="vh side-state"> (안 봄)</span></a></li>
+            <li><a class="side-item" href="incident-agent-scope.html" data-id="incident-agent-scope"><span class="side-mark" aria-hidden="true">○</span><span class="side-t"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 장애 대응 권한 경계</span><span class="vh side-state"> (안 봄)</span></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+<div class="side-resize" role="separator" aria-orientation="vertical" aria-controls="site-nav" aria-label="목차 폭" aria-valuenow="420" aria-valuemin="240" aria-valuemax="640" tabindex="0" title="끌어서 목차 폭 바꾸기 · 두 번 누르면 처음 폭 · ← → 키로 16px 씩"></div>
+<main class="main" id="content" tabindex="-1" data-shell-outside>
+<div class="col">
+
+<!-- ◆ 100% 약속 vs 측정된 SLO + 사람 안전망 -->
+<article class="card t5-card" id="expectation-slo" aria-labelledby="expectation-slo-title">
+  <header class="t5-head">
+    <h1 id="expectation-slo-title"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> 100% 약속 vs 측정된 SLO + 사람 안전망</h1>
+    <p class="lemma-meta"><span lang="en">100% accuracy promise vs measured SLO + human safety net</span><span class="lemma-main">6.3 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+  </header>
+  <h2 class="sec-h" id="expectation-slo-case-h">지문</h2>
+  <section class="csx" id="expectation-slo-case" aria-labelledby="expectation-slo-case-h" data-tree="expectation-slo-tree-3" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,null],[&quot;n5&quot;,null],[&quot;n6&quot;,&quot;비용이 큼&quot;],[&quot;n7&quot;,null]]" data-flow="expectation-slo-flow" data-scene="0">
+    <p class="csx-text">고객지원 Agent 가 환불 금액을 확정해 안내한다. <mark class="csx-m" data-tag="비용이 큼">금액이 틀리면 고객에게 돈이 잘못 나간다<span class="csx-tag">비용이 큼</span></mark>. 영업은 <mark class="csx-m" data-tag="100% 약속">"더 큰 모델로 바꾸고 계약서에 '100% 정확' 을 넣자"<span class="csx-tag">100% 약속</span></mark>고 한다. 틀린 답은 어떻게 다룰까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="expectation-slo-trees-h">갈림길</h2>
+  <section class="t5-flow tree" id="expectation-slo-tree-1" aria-labelledby="expectation-slo-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9|n1 n10 n11 n12 n13|n1 n10 n11 n14 n15">
+    <div class="t5-fh"><h3 id="expectation-slo-tree-1-h">무엇을 약속 <span class="pg">[6.3①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
+    <div class="tree-body is-deep">
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>약속 문구는?<span class="t5-sub">계약서 · 제안서</span></div>
+      <div class="t5-fork" style="--n:5">
+        <div class="t5-arm is-leaf">
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>"항상 정확 · 100%"</span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">약속 안 함</p><p>가장 발전된 모델도 때때로 사실과 다른 답 · 에이전트는 실행마다 결과가 다름 <span class="ok">✓ 확인</span></p></div>
+        </div>
+        <div class="t5-arm is-leaf">
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>코드·권한이 막는 한도</span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">약속 가능</p><p>모델 행동이 아니라 결정적(deterministic) 장치가 보장 — CLAUDE.md 지시는 권고, hook 은 결정적이고 반드시 실행 <span class="ok">✓ 확인</span> · 코드·권한 검사로 넓힌 건 해석</p></div>
+        </div>
+        <div class="t5-arm is-leaf">
+          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>품질 숫자</span>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">평가셋 통과율</p><p>held-out 평가셋 통과율 + 오류 심각도 <span class="ok">✓ 확인</span></p></div>
+        </div>
+        <div class="t5-arm is-leaf">
+          <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>지연 숫자</span>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">분위수</p><p>예 "응답 95% 가 200ms 미만" <span class="ok">✓ 확인</span></p></div>
+        </div>
+        <div class="t5-arm">
+          <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>가용성</span>
+          <div class="t5-q" data-p="n11"><span class="t5-hl" aria-hidden="true"></span>어느 티어?<span class="t5-sub">Standard vs Priority Tier</span></div>
+          <div class="t5-fork" style="--n:2">
+            <div class="t5-arm is-leaf">
+              <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>Standard</span>
+              <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">윗단(API)보다 센 약속 금지</p><p>Standard 티어 = best-effort 가용성 <span class="ok">✓ 확인</span> · 윗단이 약속 안 한 가동률을 내 SLA 로 걸지 않음 <span class="gen">업계 일반</span></p></div>
+            </div>
+            <div class="t5-arm is-leaf">
+              <span class="t5-edge" data-p="n14"><span class="t5-hl" aria-hidden="true"></span>Priority Tier 약정</span>
+              <div class="t5-leaf t5-ans" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">99.5% 는 윗단(API) 목표</p><p>Priority Tier = 99.5% 가동 목표, 약정 넘는 요청은 Standard 로 <span class="ok">✓ 확인</span> · Opus 5.5 · Sonnet 5 · Fable 5.1 등은 Priority Tier 미지원 <span class="ok">✓ 확인</span> · 그 가동률을 약속으로 걸려면 대비책(재시도·대체 경로)부터 <span class="gen">업계 일반</span></p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="t5-flow tree" id="expectation-slo-tree-2" aria-labelledby="expectation-slo-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9">
+    <div class="t5-fh"><h3 id="expectation-slo-tree-2-h">걸기 전에 <span class="pg">[6.3①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
+    <div class="tree-body">
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>숫자를 쟀나?</div>
+      <div class="t5-fork" style="--n:2">
+        <div class="t5-arm is-leaf">
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(감으로)</span></span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">먼저 잼</p><p>실측(SLI) → 내부 목표(SLO) → 외부 약속(SLA) <span class="gen">업계 일반</span></p></div>
+        </div>
+        <div class="t5-arm">
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>예</span>
+          <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>숫자를 흔드는 요인 확인?<span class="t5-sub">effort · 429 · 모델 교체</span></div>
+          <div class="t5-fork" style="--n:2">
+            <div class="t5-arm is-leaf">
+              <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>아직</span>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">변동 확인</p><p>effort 를 명시 · rate limit(속도 제한)은 보장된 최소가 아니라 허용 최대치 · 짧은 폭주도 429 <span class="ok">✓ 확인</span></p></div>
+            </div>
+            <div class="t5-arm is-leaf">
+              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>확인함</span>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">약속으로</p><p>잰 값보다 여유를 두고 걸기 <span class="gen">업계 일반</span></p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="t5-flow tree" id="expectation-slo-tree-3" aria-labelledby="expectation-slo-tree-3-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9">
+    <div class="t5-fh"><h3 id="expectation-slo-tree-3-h">틀렸을 때 <span class="pg">[6.3①]</span> <span class="pg">[5.3]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
+    <div class="tree-body">
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>사람을 찾는 대화인가?<span class="t5-sub">"사람 바꿔 줘요"</span></div>
+      <div class="t5-fork" style="--n:2">
+        <div class="t5-arm is-leaf">
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">넘김</p><p>사람에게 넘길 대화를 붙잡지 않게 — 에스컬레이션 놓침을 따로 셈 · 에스컬레이션 정확도 95% 이상을 목표로 <span class="ok">✓ 확인</span></p></div>
+        </div>
+        <div class="t5-arm">
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
+          <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>틀리면 비용이 큰가?<span class="t5-sub">돈 · 법 · 안전</span></div>
+          <div class="t5-fork" style="--n:2">
+            <div class="t5-arm is-leaf">
+              <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>큼</span>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">사람 검토로</p><p>위험 등급을 나눠 사람 검토 대상으로 표시 <span class="ok">✓ 확인</span> · "모르겠다" 허용 — 불확실을 인정할 권한을 명시적으로 줌 → 거짓 정보를 크게 줄임 <span class="ok">✓ 확인</span> → <a href="moderation-tiers.html">■ moderation 위험 등급</a></p></div>
+            </div>
+            <div class="t5-arm is-leaf">
+              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>작음</span>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">자동 + 표본 확인</p><p><span class="gen">업계 일반</span></p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <h2 class="sec-h" id="expectation-slo-flow-h">흐름</h2>
+  <figure class="fl" id="expectation-slo-flow" aria-label="100% 약속 vs 측정된 SLO + 사람 안전망 흐름 그림">
+    <script type="application/json" class="fl-data">{"cols":["Claude","라우팅","사람 검토","고객"],"blocks":[],"rules":[null,"틀리면 비용이 큰 결과는 사람 검토",null,null],"question":"이 답은 바로 고객에게 가도 될까?","scenes":[{"name":"① 위험 등급으로 나눔","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["A 배송 조회 링크","B 환불 58,000원"]}},{"kind":"move","step":"답","from":{"col":0},"to":1,"label":"위험 등급을 나눔","art":{"kind":"slip","lines":["A = 낮음","B = 높음","(돈이 나감)"]}},{"kind":"move","step":"통과","from":{"col":1},"to":3,"label":"틀려도 비용이 작은 결과","art":{"kind":"say","text":"배송 조회는 이 링크에서 돼요."}},{"kind":"move","step":"검토","from":{"col":1},"to":2,"label":"틀리면 비용이 큰 결과","art":{"kind":"slip","lines":["B 환불 58,000원","상담원 확인 대기"]}},{"kind":"end","label":"약속 = 잰 숫자 + 틀렸을 때의 경로"}]},{"name":"② \"100% 정확\" 약속","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["계약서:","\"100% 정확\"","→ 검토 단계 없음"]}},{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["B 환불 58,000원"]}},{"kind":"skip","at":1},{"kind":"skip","at":2},{"kind":"move","step":"답","from":{"col":0},"to":3,"label":"사람 관문 없음","art":{"kind":"say","text":"58,000원 환불됐어요."}},{"kind":"mark","step":"틀림","at":{"col":3},"label":"가장 발전된 모델도 때때로 틀림 ≠","art":{"kind":"slip","lines":["규정대로면","52,000원"]}},{"kind":"end","label":"\"100% 정확\"은 약속 안 함"}]},{"name":"③ 넘길 대화를 붙잡음","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["대화:","\"사람 바꿔 줘요\"","(같은 말 3번째)"]}},{"kind":"move","step":"답","from":{"col":0},"to":1,"label":"사람에게 넘길 대화","art":{"kind":"slip","lines":["분류:","자동 응대 계속"]}},{"kind":"skip","at":2},{"kind":"move","step":"붙잡음","from":{"col":1},"to":3,"label":"에스컬레이션 놓침 ≠","art":{"kind":"say","text":"제가 계속 도와드릴게요."}},{"kind":"end","label":"넘길 대화를 붙잡음 — 에스컬레이션 놓침은 따로 셈 (목표 : 에스컬레이션 정확도 95% 이상)"}]}]}</script>
+    <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
+    <details class="fl-alt">
+      <summary>장면 글로 보기</summary>
+      <p><span class="lead">칸 :</span> Claude → 라우팅 → 사람 검토 → 고객</p>
+      <p><span class="lead">규칙 (라우팅) :</span> 틀리면 비용이 큰 결과는 사람 검토</p>
+      <p><span class="lead">질문 :</span> 이 답은 바로 고객에게 가도 될까?</p>
+      <p class="lead">① 위험 등급으로 나눔 <span class="fl-v is-ok">✓</span></p>
+      <ol>
+        <li>시작 : Claude — 쪽지 : <span class="flx-alt-slip">A 배송 조회 링크 / B 환불 58,000원</span></li>
+        <li>답 : Claude → 라우팅 : 위험 등급을 나눔 — 쪽지 : <span class="flx-alt-slip">A = 낮음 / B = 높음 / (돈이 나감)</span></li>
+        <li>통과 : 라우팅 → 고객 : 틀려도 비용이 작은 결과 — 말 : <span class="flx-alt-say">“배송 조회는 이 링크에서 돼요.”</span></li>
+        <li>검토 : 라우팅 → 사람 검토 : 틀리면 비용이 큰 결과 — 쪽지 : <span class="flx-alt-slip">B 환불 58,000원 / 상담원 확인 대기</span></li>
+        <li>끝 : 약속 = 잰 숫자 + 틀렸을 때의 경로</li>
+      </ol>
+      <p class="lead">② "100% 정확" 약속 <span class="fl-v is-ng">≠</span></p>
+      <ol>
+        <li>시작 : Claude — 쪽지 : <span class="flx-alt-slip">계약서: / "100% 정확" / → 검토 단계 없음</span></li>
+        <li>시작 : Claude — 쪽지 : <span class="flx-alt-slip">B 환불 58,000원</span></li>
+        <li>건너뜀 : 라우팅</li>
+        <li>건너뜀 : 사람 검토</li>
+        <li>답 : Claude → 고객 : 사람 관문 없음 — 말 : <span class="flx-alt-say">“58,000원 환불됐어요.”</span></li>
+        <li>틀림 : 고객 : 가장 발전된 모델도 때때로 틀림 ≠ — 쪽지 : <span class="flx-alt-slip">규정대로면 / 52,000원</span></li>
+        <li>끝 : "100% 정확"은 약속 안 함</li>
+      </ol>
+      <p class="lead">③ 넘길 대화를 붙잡음 <span class="fl-v is-ng">≠</span></p>
+      <ol>
+        <li>시작 : Claude — 쪽지 : <span class="flx-alt-slip">대화: / "사람 바꿔 줘요" / (같은 말 3번째)</span></li>
+        <li>답 : Claude → 라우팅 : 사람에게 넘길 대화 — 쪽지 : <span class="flx-alt-slip">분류: / 자동 응대 계속</span></li>
+        <li>건너뜀 : 사람 검토</li>
+        <li>붙잡음 : 라우팅 → 고객 : 에스컬레이션 놓침 ≠ — 말 : <span class="flx-alt-say">“제가 계속 도와드릴게요.”</span></li>
+        <li>끝 : 넘길 대화를 붙잡음 — 에스컬레이션 놓침은 따로 셈 (목표 : 에스컬레이션 정확도 95% 이상)</li>
+      </ol>
+    </details>
+  </figure>
+  <div class="t5-rest">
+    <details class="t5-orig">
+      <summary>규칙 원문 <span class="note">갈림 기준 거는 순서 사람 안전망 (갈림길로 그린 규칙)</span></summary>
+      <p class="lead orig-h">갈림 기준</p>
+      <p class="lead">약속하는 것 = 잰 숫자 + 틀렸을 때의 경로. "정확하다"는 약속 안 함</p>
+      <ul class="plain">
+        <li>"100% 정확"은 약속 안 함 — 가장 발전된 모델도 때때로 사실과 다른 답을 냄 <span class="ok">✓ 확인</span> · 에이전트는 실행마다 결과가 다름 <span class="ok">✓ 확인</span>. 더 큰 모델로 바꿔도 이 문장은 그대로 <span class="ok">✓ 확인</span></li>
+      </ul>
+      <p>대신 거는 것 : 품질 = held-out 평가셋 통과율 + 오류 심각도(공식 예 "오류의 90% 는 불편 수준") <span class="ok">✓ 확인</span> · 지연(latency) = 분위수(예 "응답 95% 가 200ms 미만") <span class="ok">✓ 확인</span> · 틀렸을 때 = 사람 검토 · 에스컬레이션 경로 <span class="ok">✓ 확인</span> → 기준 문장 쓰는 법 = <a href="success-criteria.html">■ 성공 기준</a></p>
+      <ul class="plain">
+        <li>"약속 안 함" 은 모델 행동에만 : 코드·권한이 강제하는 한도(권한 없는 자격증명 · 서비스 쪽 검사가 막는 금액·동작)는 그 장치를 근거로 약속해도 됨 — CLAUDE.md 지시는 권고, hook 은 결정적이고 반드시 실행 <span class="ok">✓ 확인</span> (코드·권한 검사로 넓힌 건 해석). 프롬프트 지시로 막은 한도는 권고일 뿐이라 약속 근거가 못 됨 <span class="ok">✓ 확인</span></li>
+        <li>목표는 현재 프런티어 모델 역량에 비춰 현실적으로(달성 가능) · 대부분 여러 차원 <span class="ok">✓ 확인</span></li>
+        <li>"매번 맞아야" 하는 고객 대면이면 pass^k 로 잼 — 시도당 75% 면 3번 모두 성공 ≈ 42% <span class="ok">✓ 확인</span> → <a href="pass-at-k.html">◆ pass@k vs pass^k</a></li>
+        <li>내부 eval 목표 100% 는 다른 말 : regression(회귀) eval 은 거의 100% 통과가 정상 · 맥락에 준 회사·상품 정보 정확도는 100% 목표 <span class="ok">✓ 확인</span> — 고객 약속이 아니라 평가 목표</li>
+        <li>SLA 를 아예 없애는 것도 답 아님 : 가이드 목표 6.3 이 "(including SLAs)", 1.6 value pillars(가치 축)에 성능 SLA <span class="ok">✓ 확인</span> → <a href="value-pillars.html">■ value pillars 5개</a></li>
+      </ul>
+      <p class="lead orig-h">거는 순서</p>
+      <p>실측(SLI) → 내부 목표(SLO) → 외부 약속(SLA = 어기면 보상 등 결과가 따르는 약속). 용어·순서는 업계 일반 — Anthropic 문서에 SLA/SLO 정의 없음</p>
+      <p>지연은 모델 크기 · 프롬프트 복잡성 · 기반 인프라에 따라 달라짐 <span class="ok">✓ 확인</span> → 재 보기 전 숫자는 못 믿음</p>
+      <p>effort 를 명시 : low effort 는 응답 시간·비용을 크게 줄임 <span class="ok">✓ 확인</span>. 생략하면 모델 기본값 — Opus 5.5 는 <code>medium</code>, Opus 5 이전은 <code>high</code> → 모델만 바꿔도 지연·품질이 움직임 <span class="post">시험 뒤 변경</span> <span class="note">Opus 5.5 출시 2026-09-22</span> → <a href="latency-levers.html">■ 지연 줄이기 lever</a></p>
+      <p>rate limit 은 보장된 최소가 아니라 허용 최대치 <span class="ok">✓ 확인</span> · 넘으면 429 + 어느 한도인지 + <code>retry-after</code> <span class="ok">✓ 확인</span> · 짧은 폭주도 429 <span class="ok">✓ 확인</span> → <a href="rate-limits.html">■ rate limit</a></p>
+      <p>가용성 : Standard 티어 = best-effort 가용성 <span class="ok">✓ 확인</span> · Priority Tier = 99.5% 가동 목표, 약정(분당 입력·출력 토큰 · 1/3/6/12개월 · 특정 모델 버전) 넘는 요청은 Standard 로 <span class="ok">✓ 확인</span> · Opus 5.5 · Sonnet 5 · Fable 5.1 등은 Priority Tier 미지원 <span class="ok">✓ 확인</span> <span class="src">(2026-09-28 조회)</span></p>
+      <p>윗단(API)이 약속 안 한 가동률을 내 SLA 로 걸지 않음 — 그 가동률을 약속으로 걸려면 대비책(재시도·대체 경로)부터 <span class="gen">업계 일반</span></p>
+      <p>변동을 확인한 뒤 : 잰 값보다 여유를 두고 걸기 <span class="gen">업계 일반</span> <span class="note">에러 버짓 개념</span></p>
+      <p class="lead orig-h">사람 안전망</p>
+      <p>틀리면 비용이 큰 결과 → 사람 검토. 위험 등급을 나눠 고위험(high-risk)은 자동 차단, 중위험이 쌓이면 사람 검토 대상으로 표시 <span class="ok">✓ 확인</span> → <a href="moderation-tiers.html">■ moderation 위험 등급</a> · 행동 앞 승인은 <a href="human-approval-gates.html">■ human-in-the-loop 게이트 위치</a></p>
+      <p>"모르겠다" 허용 : 불확실을 인정할 권한을 명시적으로 줌 → 거짓 정보를 크게 줄임 <span class="ok">✓ 확인</span>. 주장마다 인용을 달게 해 감사 가능하게 <span class="ok">✓ 확인</span></p>
+      <p>사람에게 넘길 대화를 붙잡지 않게(에스컬레이션 놓침을 따로 셈) : 에스컬레이션 정확도 95% 이상을 목표로 <span class="ok">✓ 확인</span></p>
+      <p>틀려도 비용이 작은 결과 → 자동 + 표본 확인 <span class="gen">업계 일반</span></p>
+      <p>기대는 계약 전에 eval 로 드러냄 — 초기 테스트에서 "되는" 기능이 말하지 않은 기대를 못 채워 몇 주를 날림 <span class="ok">✓ 확인</span></p>
+    </details>
+    <h2>함정</h2>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"더 큰 모델로 바꾸면 100% 가 된다" → 가장 발전된 모델도 때때로 틀림 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>사람 관문 없음 + "100% 정확" 약속 → 틀린 답이 그대로 고객에게 <span class="gen">업계 일반</span> · 틀리면 비용이 큰 결과는 사람 검토 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"'빠르고 정확함'을 마케팅 문구로 약속" → 숫자 없는 말. 구체적·측정 가능해야 <span class="ok">✓ 확인</span> <span class="src">(■ 성공 기준)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"약속이 위험하니 SLA 자체를 없앤다" → 가이드 목표가 SLA 를 관리 대상으로 둠 <span class="ok">✓ 확인</span>. 잰 숫자로 거는 게 답 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"regression eval 이 거의 100% 통과하니 서비스 정확도 100% 약속" → regression eval = 예전에 되던 과제를 아직 하나. 고객 약속과 다른 말 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "모델은 보장 못 하니 어떤 것도 약속 안 함 · 정확도 숫자만 제시" → 코드·권한이 막는 한도는 그 장치를 근거로 약속 가능 <span class="ok">✓ 확인</span> <span class="src">(적용은 해석)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"프롬프트를 다듬었으니 정책대로 동작한다고 약속" → 프롬프트 지시는 권고 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"평균 지연 2초 약속" → 분위수로 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"rate limit 만큼 처리량 보장" → 허용 최대치일 뿐 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Standard 티어 위에 99.9% 가동 SLA" → best-effort 위에 윗단보다 센 약속 <span class="gen">업계 일반</span> <span class="note">계산 = 설명 쪽</span></span></li>
+      </ul>
+    <h2>신호</h2>
+      <div class="sheet">
+        <p lang="en">"Even the most advanced language models, like Claude, can sometimes generate text that is factually incorrect or inconsistent with the given context."</p>
+        <p lang="en">"Regardless of agent type, agent behavior varies between runs"</p>
+        <p lang="en">"Your success metrics should not be unrealistic to current frontier model capabilities."</p>
+        <p lang="en">"If you exceed any of the rate limits you will get a 429 error describing which rate limit was exceeded"</p>
+        <p lang="en">"All limits described here represent maximum allowed usage, not guaranteed minimums."</p>
+        <p lang="en">"When latency matters or tasks are straightforward, low effort can significantly reduce response times and costs."</p>
+        <p lang="en">"The API prioritizes these requests alongside all other requests with best-effort availability."</p>
+        <p lang="en">"Priority Tier targets 99.5% uptime with prioritized computational resources."</p>
+        <p lang="en">"Explicitly give Claude permission to admit uncertainty."</p>
+        <p lang="en">"Unlike CLAUDE.md instructions which are advisory, hooks are deterministic and guarantee the action happens."</p>
+        <p lang="en">"Creating multiple risk levels allows you to adjust the aggressiveness of your moderation."</p>
+        <p lang="en">"Manage stakeholder feedback loops and expectation alignment (including SLAs)" <span class="src" lang="ko">(가이드 목표 6.3)</span></p>
+      </div>
+    <div class="t5-meta2">
+    <div>
+    <h2>개념</h2>
+      <ul class="plain">
+        <li><a href="success-criteria.html">■ 성공 기준</a></li>
+        <li><a href="pass-at-k.html">◆ pass@k vs pass^k</a></li>
+        <li><a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
+        <li><a href="rate-limits.html">■ rate limit</a></li>
+        <li><a href="moderation-tiers.html">■ moderation 위험 등급</a></li>
+        <li><a href="value-pillars.html">■ value pillars 5개</a></li>
+        <li><a href="production-feedback-loop.html">■ 운영 → eval feedback loop</a></li>
+        <li><a href="lifecycle-loop.html">■ lifecycle 루프</a></li>
+      </ul>
+    <h2>출처</h2>
+      <ul class="plain">
+        <li>가이드 목표 6.3 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>가이드 목표 1.6 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>reduce-hallucinations <span class="src">(ko 1·5·7줄, en 1·5·7줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/ko/api/rate-limits">rate-limits</a> <span class="src">(ko 14·17·68줄, en 14·17·68줄)</span></li>
+        <li>effort <span class="src">(ko 47·157줄, en 47·157줄)</span></li>
+        <li>reduce-latency <span class="src">(ko 1줄, en 1줄)</span></li>
+        <li>service-tiers <span class="src">(ko 9·81~92줄, en 9·81~92줄 — 2026-09-28 새로 받음)</span></li>
+        <li>define-success <span class="src">(ko 16·23줄, en-full 88·102줄)</span></li>
+        <li>content-moderation <span class="src">(ko 59·65줄, en 59·65줄)</span></li>
+        <li>customer-support-chat-full <span class="src">(ko 144·160줄, en 144·160줄)</span></li>
+        <li>demystifying-evals <span class="src">(en 86·199·205·277줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 15·168줄)</span></li>
+        <li>Claude Code best-practices <span class="src">(en 406줄)</span></li>
+      </ul>
+    </div>
+    <div>
+    <h2>상태</h2>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (갈림 기준 · 변동 요인 · 가용성 티어 · 사람 안전망)</li>
+        <li><span class="gen">업계 일반</span> 6줄(SLI→SLO→SLA 순서·용어 · 윗단보다 센 약속 금지 · 여유 두기 · 작은 비용 = 자동+표본 · SLA 없애기 반박)</li>
+        <li><span class="post">시험 뒤 변경</span> 1곳(Opus 5.5 effort 기본값)</li>
+      </ul>
+    <h2>쓰는 쪽</h2>
+      <ul class="chips">
+        <li class="chip">6.3①</li>
+      </ul>
+    </div>
+    </div>
+  </div>
+</article>
+
+<section class="ex-part" id="explain" aria-labelledby="explain-h">
+<h2 id="explain-h">설명 — 문제 만들 재료</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-expectation-slo" aria-labelledby="vx-expectation-slo-cap">
+  <div class="vx-player" data-vx-scene="expectation-slo"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-expectation-slo-cap">영상 — 100% 대신 잰 숫자와 사람 검토 (약 43초 · 소리 없음 · 자막). 답 20건 · 틀린 건수(2 → 1) · 통과율 95% · 기다림 막대는 그림용 가정 · 실측 아님 — 58,000원/52,000원 · &#x27;검토 단계 없음&#x27; · 배송 조회/환불은 카드 흐름 값, &#x27;가장 발전된 모델도 때때로 틀림&#x27;은 공식 문장 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<dl class="def meta">
+  <dt>카드</dt>
+  <dd>expectation-slo</dd>
+  <dt>본편</dt>
+  <dd>6.3</dd>
+  <dt>쓰는 쪽</dt>
+  <dd><ul class="chips"><li class="chip">6.3①</li></ul></dd>
+  <dt>조회일</dt>
+  <dd>2026-09-28</dd>
+</dl>
+
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>날씨 예보관이 "내일 절대 비 안 와요"라고 약속하지 않는 것과 같아요.</p>
+<ul>
+<li>예보관은 "비 올 확률 20%"처럼 재 본 숫자를 말해요.</li>
+<li>그래도 틀릴 수 있으니 우산을 챙기라고 알려 줘요.</li>
+<li>AI 도 가끔 틀려요. 그래서 "항상 맞아요" 대신 "이만큼 맞았어요"를 약속해요.</li>
+<li>중요한 답은 사람이 한 번 더 봐요. 그게 우산이에요.</li>
+</ul>
+</section>
+
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">왜 100% 를 약속 못 하나</p>
+<ul>
+<li>가장 발전된 모델도 때때로 사실과 다른 답을 냄 (공식). 모델을 키워도 이 문장은 안 바뀜.</li>
+<li>에이전트는 실행마다 결과가 다름 (공식). 같은 질문도 매번 같게 나오지 않음.</li>
+<li>그래서 "정확하다" 는 약속할 수 없는 것. 약속할 수 있는 건 잰 값(통과율·분위수)과 틀렸을 때의 경로.</li>
+</ul>
+<p class="lead">무엇을 약속하나</p>
+<ul>
+<li>품질 : held-out 평가셋 통과율 + 오류 심각도. 한 차원이 아니라 여러 차원.</li>
+<li>지연 : 평균이 아니라 분위수 ("응답 95% 가 200ms 미만").</li>
+<li>가용성 : 내가 올라탄 윗단(API)이 무엇을 약속하는지부터. Standard 티어 = best-effort, Priority Tier = 99.5% 가동 목표.</li>
+<li>틀렸을 때 : 위험 등급별 사람 검토 · 에스컬레이션 · "모르겠다" 허용.</li>
+</ul>
+<p class="lead">숫자를 거는 순서 (업계 일반 — SRE 습관)</p>
+<ul>
+<li>SLI(실제로 잰 값) → SLO(내부 목표) → SLA(어기면 결과가 따르는 외부 약속).</li>
+<li>재기 전에 확인할, 숫자를 흔드는 요인 : effort 기본값(모델마다 다름) · rate limit(속도 제한 — 보장 아닌 최대치, 짧은 폭주도 429) · 인프라.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>이 숫자를 실제로 재 봤나, 그리고 흔드는 요인을 확인했나?</li>
+<li>틀렸을 때 누가, 어떤 경로로 잡나?</li>
+</ul>
+</section>
+
+<section class="ex-sec" id="rules" aria-labelledby="rules-h">
+<h3 id="rules-h">판단 규칙</h3>
+<div class="tscroll" role="region" aria-label="표" tabindex="0">
+<table>
+<thead>
+<tr>
+<th scope="col">조건</th>
+<th scope="col">답</th>
+<th scope="col">등급</th>
+<th scope="col">근거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>고객이 "항상 정확 · 100%" 를 계약에 넣자 함</td>
+<td>약속 안 함. 잰 통과율 + 사람 안전망(safety net)으로 바꿈</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>reduce-hallucinations en 1줄 "Even the most advanced language models, like Claude, can sometimes generate text that is factually incorrect" · demystifying-evals en 199줄 "agent behavior varies between runs"</td>
+</tr>
+<tr>
+<td>"더 큰 모델이면 확실"</td>
+<td>아님</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>reduce-hallucinations en 1줄 (most advanced 도 틀림)</td>
+</tr>
+<tr>
+<td>품질 약속 문장</td>
+<td>held-out 평가셋 통과율 + 오류 심각도 · 여러 차원</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>define-success en-full 102줄 · ko 23줄</td>
+</tr>
+<tr>
+<td>지연(latency) 약속 문장</td>
+<td>분위수</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>define-success en-full 102줄 "95% response time &lt; 200ms"</td>
+</tr>
+<tr>
+<td>목표치 정하기</td>
+<td>현재 프런티어 모델 역량에 비춰 현실적으로</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>define-success ko 16줄</td>
+</tr>
+<tr>
+<td>가용성 약속 · Standard 티어</td>
+<td>윗단은 best-effort → 내 SLA 를 그보다 세게 걸지 않음(대비책 없으면)</td>
+<td>확인(티어 성격) · 업계 일반(판단)</td>
+<td>service-tiers en 9줄 "best-effort availability"</td>
+</tr>
+<tr>
+<td>가용성 약속 · Priority Tier 약정</td>
+<td>윗단 목표 = 99.5% 가동, 약정 넘는 요청은 Standard 로</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>service-tiers en 88줄</td>
+</tr>
+<tr>
+<td>처리량 약속</td>
+<td>rate limit 은 최대치일 뿐 · 초 단위 폭주도 429</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>rate-limits en 14·17·68줄</td>
+</tr>
+<tr>
+<td>지연 숫자를 걸기 전</td>
+<td>effort 를 명시하고 재기 (기본값이 모델마다 다름)</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>effort en 47·157줄 (Opus 5.5 기본 medium — 시험 뒤 변경)</td>
+</tr>
+<tr>
+<td>틀리면 비용이 큰 결과</td>
+<td>위험 등급별 사람 검토</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>content-moderation en 59·65줄</td>
+</tr>
+<tr>
+<td>모델이 확신 못 함</td>
+<td>"모르겠다" 허용 → 사람에게</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>reduce-hallucinations en 5줄</td>
+</tr>
+<tr>
+<td>사람에게 넘길 대화</td>
+<td>에스컬레이션 정확도 95% 이상 목표</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>customer-support-chat-full en 160줄</td>
+</tr>
+<tr>
+<td>SLI → SLO → SLA 순서</td>
+<td>재고 → 내부 목표 → 외부 약속</td>
+<td><span class="gen">업계 일반</span></td>
+<td>Anthropic 문서에 SLA/SLO 정의 없음 (미해결 1)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section class="ex-sec" id="variables" aria-labelledby="variables-h">
+<h3 id="variables-h">상황 변수</h3>
+<div class="tscroll" role="region" aria-label="표" tabindex="0">
+<table>
+<thead>
+<tr>
+<th scope="col">변수</th>
+<th scope="col">값</th>
+<th scope="col">답 쪽</th>
+<th scope="col">등급</th>
+<th scope="col">근거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>약속 대상</td>
+<td>정확성 자체 ("틀리지 않음")</td>
+<td>약속 안 함</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>판단 규칙 1</td>
+</tr>
+<tr>
+<td>약속 대상</td>
+<td>잰 통과율 · 분위수 지연</td>
+<td>약속 가능 (여유 두고)</td>
+<td>확인(형식) · 업계 일반(여유)</td>
+<td>define-success en-full 102줄</td>
+</tr>
+<tr>
+<td>약속 대상</td>
+<td>내부 eval 목표</td>
+<td>100% 도 됨 (약속 아님)</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>뒤집히는 때 1</td>
+</tr>
+<tr>
+<td>고객 대면 · 매번 맞아야</td>
+<td>pass^k 로 잼</td>
+<td>시도당 비율보다 훨씬 낮게 나옴</td>
+<td><span class="calc">계산</span></td>
+<td>뒤집히는 때 2</td>
+</tr>
+<tr>
+<td>가용성 목표</td>
+<td>99.5% 초과</td>
+<td>윗단 목표보다 셈 → 대비책 없으면 못 지킴</td>
+<td><span class="calc">계산</span></td>
+<td>뒤집히는 때 3</td>
+</tr>
+<tr>
+<td>트래픽 모양</td>
+<td>짧은 폭주</td>
+<td>분당 한도 안이어도 429</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>rate-limits en 14줄 · 뒤집히는 때 4</td>
+</tr>
+<tr>
+<td>모델 교체</td>
+<td>Opus 5 → Opus 5.5 · effort 생략</td>
+<td>한 단계 낮은 effort → 지연·품질 달라짐 → 다시 잼</td>
+<td><span class="ok">✓ 확인</span> (시험 뒤 변경)</td>
+<td>effort ko 47줄 · 뒤집히는 때 5</td>
+</tr>
+<tr>
+<td>오류 비용</td>
+<td>돈 · 법 · 안전</td>
+<td>사람 검토</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>content-moderation en 59줄</td>
+</tr>
+<tr>
+<td>오류 비용</td>
+<td>작음</td>
+<td>자동 + 표본 확인</td>
+<td><span class="gen">업계 일반</span></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section class="ex-sec" id="flips" aria-labelledby="flips-h">
+<h3 id="flips-h">뒤집히는 때</h3>
+<h4>1. "100%" 가 맞는 답일 때 — 내부 eval 목표</h4>
+<ul>
+<li><span class="lead">조건 :</span> 지문이 계약 약속이 아니라 내부 평가 목표를 묻는다.</li>
+<li><span class="lead">판단 :</span> 공식 고객지원 가이드는 맥락에 준 회사·상품 정보 정확도와 견적 정확도에 "100% 목표"를 둠. regression(회귀) eval 도 거의 100% 통과가 정상.</li>
+<li><span class="lead">등급 :</span> <span class="ok">✓ 확인</span></li>
+<li><span class="lead">근거 :</span> customer-support-chat-full en 144·156줄 "Target 100% accuracy" · demystifying-evals en 86줄 "should have a nearly 100% pass rate"</li>
+<li><span class="lead">주의 :</span> "100% 가 나오면 항상 오답" 으로 외우면 여기서 틀림. 가르는 말 = 약속(외부)인가 목표(내부)인가.</li>
+</ul>
+<h4>2. 시도당 정확도가 높아도 "매번" 은 훨씬 낮을 때</h4>
+<ul>
+<li><span class="lead">조건 :</span> 고객 대면 에이전트, 같은 유형 요청을 반복 처리. 지문이 "사용자는 매번 같은 결과를 기대"라고 함.</li>
+<li><span class="lead">계산 :</span> pass^k = (시도당 성공률)^k. 시도당 92% · k = 5 → 0.92^5 ≈ 0.659 → 약 66%.</li>
+<li><span class="lead">전제 :</span> 시도끼리 독립이라고 봄 (공식 예 0.75³ ≈ 42% 와 같은 식).</li>
+<li><span class="lead">등급 :</span> <span class="calc">계산</span> (식은 확인)</li>
+<li><span class="lead">근거 :</span> demystifying-evals en 205·211줄</li>
+<li><span class="lead">뜻 :</span> "정확도 92%" 를 "거의 항상 맞음" 으로 약속하면 사용자 체감과 어긋남 → 약속 문장에 무엇을 셌는지(시도당 vs k번 모두)를 적음.</li>
+</ul>
+<h4>3. 윗단보다 센 가용성 약속</h4>
+<ul>
+<li><span class="lead">조건 :</span> Priority Tier 약정 위에서 고객에게 99.9% 가동 SLA 를 걸려 함.</li>
+<li><span class="lead">계산 :</span> 30일 = 43,200분. 99.5% → 허용 중단 216분(3.6시간). 99.9% → 43.2분. 내 약속이 윗단 목표보다 5배 빡빡.</li>
+<li><span class="lead">전제 :</span> 윗단 중단이 곧 내 중단(대체 경로 없음). Standard 티어는 목표 숫자조차 없음(best-effort).</li>
+<li><span class="lead">등급 :</span> <span class="calc">계산</span> (99.5% · best-effort 는 확인)</li>
+<li><span class="lead">근거 :</span> service-tiers en 9·88줄</li>
+<li><span class="lead">처방 :</span> 대비책(재시도 · 대체 모델·경로)을 먼저 설계하거나 약속을 낮춤 (업계 일반).</li>
+</ul>
+<h4>4. 분당 한도 안인데 429</h4>
+<ul>
+<li><span class="lead">조건 :</span> 분당 300 RPM 한도, 평균은 분당 200건인데 매시 정각에 1초에 12건이 몰림.</li>
+<li><span class="lead">계산 :</span> 공식 예 "60 RPM 이 초당 1건으로 적용될 수 있음" 과 같은 비율이면 300 RPM ≈ 초당 5건 → 12건 폭주는 초과.</li>
+<li><span class="lead">등급 :</span> <span class="calc">계산</span> (비율 적용은 추론 — 공식은 60→1 예만 듦)</li>
+<li><span class="lead">근거 :</span> rate-limits en 14·17줄</li>
+<li><span class="lead">뜻 :</span> 처리량 약속은 평균이 아니라 폭주 모양까지 재고 나서.</li>
+</ul>
+<h4>5. 모델만 바꿨는데 지연 SLO 가 흔들림</h4>
+<ul>
+<li><span class="lead">조건 :</span> Opus 5 에서 effort 를 안 적고 쓰다가 Opus 5.5 로 교체.</li>
+<li><span class="lead">판단 :</span> Opus 5.5 기본 = medium (Opus 5 이전 = high) → 생략한 요청은 한 단계 낮게 돎 → 지연·비용·품질이 함께 움직임. 이전 설정을 가져오지 말고 effort 스윕.</li>
+<li><span class="lead">등급 :</span> <span class="ok">✓ 확인</span> (시험 뒤 변경 — 2026-09-22 출시. 시험은 "effort 를 명시해 예상치 못한 지연 피하기" 로 물을 가능성 — Sonnet 4.6 문장)</li>
+<li><span class="lead">근거 :</span> effort ko 47·101줄 · 릴리스 노트 en 15줄</li>
+</ul>
+</section>
+
+<section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
+<h3 id="distractors-h">오답 재료</h3>
+<div class="tscroll" role="region" aria-label="표" tabindex="0">
+<table>
+<thead>
+<tr>
+<th scope="col">오답</th>
+<th scope="col">왜 끌리나</th>
+<th scope="col">왜 틀리나</th>
+<th scope="col">등급</th>
+<th scope="col">근거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"더 큰 모델로 바꾸면 100% 정확을 약속할 수 있다"</td>
+<td>큰 모델 = 더 정확</td>
+<td>가장 발전된 모델도 때때로 틀림</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>reduce-hallucinations en 1줄</td>
+</tr>
+<tr>
+<td>"'빠르고 정확함' 을 마케팅 문구로 약속"</td>
+<td>부드럽고 무난해 보임</td>
+<td>숫자·데이터 없는 말 → 측정 못 함, 분쟁 때 기준이 없음</td>
+<td>확인(구체적·측정 가능 원칙) · 업계 일반(분쟁)</td>
+<td>define-success ko 16·23줄</td>
+</tr>
+<tr>
+<td>"약속이 위험하니 SLA 자체를 없앤다"</td>
+<td>위험 회피</td>
+<td>가이드 목표 6.3 은 SLA 를 관리 대상으로 둠. 잰 숫자로 걸면 됨</td>
+<td>확인(목표 문구) · 업계 일반(판단)</td>
+<td>가이드 목표 6.3 "(including SLAs)"</td>
+</tr>
+<tr>
+<td>"regression eval 이 거의 100% 라 서비스 정확도 100% 약속"</td>
+<td>숫자가 100% 에 가까움</td>
+<td>regression eval = 예전에 되던 과제를 아직 하나. 실사용 전체의 정확도가 아님</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>demystifying-evals en 86줄</td>
+</tr>
+<tr>
+<td>"평균 응답 2초를 SLA 로"</td>
+<td>평균이 익숙</td>
+<td>공식 예는 분위수</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>define-success en-full 102줄</td>
+</tr>
+<tr>
+<td>"rate limit 만큼은 처리량이 보장된다"</td>
+<td>한도 = 할당량처럼 보임</td>
+<td>보장된 최소가 아니라 허용 최대치</td>
+<td><span class="ok">✓ 확인</span></td>
+<td>rate-limits en 17줄</td>
+</tr>
+<tr>
+<td>"모든 답을 사람이 검토하면 100% 약속 가능"</td>
+<td>사람 = 안전</td>
+<td>사람도 틀림 · 비용·지연이 커짐 → 위험 등급별로 나눔</td>
+<td>업계 일반(사람 오류) · 확인(등급 나누기)</td>
+<td>content-moderation en 59줄</td>
+</tr>
+<tr>
+<td>"P95 2초 for 99% of requests" 같은 문장</td>
+<td>숫자가 많아 정밀해 보임</td>
+<td>분위수(95%)와 비율(99%)이 섞임 — 분위수 하나에 목표 하나</td>
+<td><span class="gen">업계 일반</span></td>
+<td>목록 6.3① 영상 표현</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
+<h3 id="open-questions-h">미해결</h3>
+<ol>
+<li>SLA · SLO · SLI 의 정의와 순서를 말하는 Anthropic 공식 문장 없음 (<code>grep -rn -w "SLA\|SLAs\|SLO\|SLOs\|SLI" ccarp/raw/official-docs/</code> → advanced-tool-use en 411줄 1건, 무관한 예시 · 제외 = 받지 않은 문서). 카드에선 업계 일반.</li>
+<li>목록 6.3① 의 "저신뢰 결과를 사람에게 보내는 라우팅" — 공식 문서에서 "confidence" 로 라우팅하는 문장은 못 찾음(en 문서 <code>low confidence\|confidence score</code> grep 0건). 공식에 있는 건 위험 등급별 사람 검토 · 에스컬레이션 정확도 · "모르겠다" 허용 → 카드는 그 셋으로 고쳐 씀.</li>
+<li>목록의 "지연 변동(effort·thinking)" 중 thinking 이 지연을 흔든다는 직접 문장은 reduce-latency · thinking-troubleshooting 에서 못 찾음. effort 문장(en 157줄 · ko 101줄)만 확인.</li>
+<li>Priority Tier 99.5% 는 "목표(targets)" — 계약상 보상 조건 같은 SLA 세부는 받은 문서에 없음.</li>
+<li>목록 영어 신호 3개는 모두 원문에서 찾음 (reduce-hallucinations en 1줄 · rate-limits en 68줄 · effort en 157줄).</li>
+</ol>
+</section>
+
+</section>
+
+<footer>
+  <p>카드 원본 = concepts/cards/expectation-slo.md</p>
+  <p>설명 원본 = concepts/explain/expectation-slo.md</p>
+</footer>
+
+</div>
+</main>
+<nav class="bottombar" aria-label="앞뒤 개념" data-shell-outside>
+  <div class="bb-in">
+    <a class="bb-prev" rel="prev" href="tradeoff-communication.html">이전 — ■ trade-off 전달</a>
+    <a class="bb-next" rel="next" href="feedback-loop-governance.html">다음<span class="vh"> — ■ feedback loop 책임 표</span></a>
+  </div>
+</nav>
+</body>
+</html>
