@@ -358,12 +358,12 @@
   </header>
   <h2 class="sec-h" id="tool-design-sum-h">카드</h2>
   <div class="t5-sum">
-      <p>도구는 API 엔드포인트를 그대로 감싸는 게 아니라 에이전트가 실제로 하는 **일 단위**로 만듦. 도구가 많고 겹칠수록 고르기가 흔들리고 정의가 컨텍스트를 먹음 <span class="ok">✓ 확인</span></p>
+      <p>도구는 API 엔드포인트를 그대로 감싸는 게 아니라 에이전트가 실제로 하는 **업무 단위**로 만듦. 도구가 많고 겹칠수록 고르기가 흔들리고 정의가 컨텍스트를 먹음 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> kubectl 명령 10개를 매번 조합하게 두지 말고 업무 단위 deploy.sh 하나로</p>
   </div>
   <h2 class="sec-h" id="tool-design-case-h">지문</h2>
   <section class="csx" id="tool-design-case" aria-labelledby="tool-design-case-h" data-tree="tool-design-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;겹치는 도구&quot;],[&quot;n5&quot;,null],[&quot;n8&quot;,&quot;합치면 적음&quot;],[&quot;n9&quot;,null]]">
-    <p class="csx-text">상담 에이전트에 CRM API 엔드포인트마다 도구를 하나씩, 24개를 붙였다. <code>get_customer_by_id</code> · <code>list_transactions</code> · <code>list_notes</code> 처럼 <mark class="csx-m" data-tag="겹치는 도구">비슷한 도구를 번갈아 잘못 부른다<span class="csx-tag">겹치는 도구</span></mark>. 실제 상담 일 단위로 묶으면 <mark class="csx-m" data-tag="합치면 적음">8개쯤으로 줄어든다<span class="csx-tag">합치면 적음</span></mark>. 팀은 도구를 더 쪼개고 설명을 길게 쓰자고 한다. 무엇을 할까?</p>
+    <p class="csx-text">상담 에이전트에 CRM API 엔드포인트마다 도구를 하나씩, 24개를 붙였다. <code>get_customer_by_id</code> · <code>list_transactions</code> · <code>list_notes</code> 처럼 <mark class="csx-m" data-tag="겹치는 도구">비슷한 도구를 번갈아 잘못 부른다<span class="csx-tag">겹치는 도구</span></mark>. 실제 상담 업무 단위로 묶으면 <mark class="csx-m" data-tag="합치면 적음">8개쯤으로 줄어든다<span class="csx-tag">합치면 적음</span></mark>. 팀은 도구를 더 쪼개고 설명을 길게 쓰자고 한다. 무엇을 할까?</p>
     <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
   </section>
   <h2 class="sec-h" id="tool-design-trees-h">갈림길</h2>
@@ -396,7 +396,7 @@
   <section class="t5-flow tree" id="tool-design-tree-2" aria-labelledby="tool-design-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5">
     <div class="t5-fh"><h3 id="tool-design-tree-2-h">⑥ eval 증상 <span class="pg">[3.1②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>트랜스크립트에 뭐가 많나?<span class="t5-sub">트랜스크립트·호출 수·오류</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>transcript 에 뭐가 많나?<span class="t5-sub">transcript·호출 수·오류</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>중복 호출</span>
@@ -410,7 +410,7 @@
     </div>
   </section>
   <section class="t5-flow tree" id="tool-design-tree-3" aria-labelledby="tool-design-tree-3-h" data-paths="n1 n2 n3|n1 n4 n5">
-    <div class="t5-fh"><h3 id="tool-design-tree-3-h">① 범용 vs 일 단위 <span class="pg">[3.1②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
+    <div class="t5-fh"><h3 id="tool-design-tree-3-h">① 범용 vs 업무 단위 <span class="pg">[3.1②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
       <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>과제가 열려 있나?<span class="t5-sub">코딩처럼</span></div>
       <div class="t5-fork" style="--n:2">
@@ -420,7 +420,7 @@
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(정해진 업무)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">일 단위 도구</p><p>정해진 업무 = 일 단위 도구 (가르는 해석은 업계 일반) · 둘 다 "엔드포인트마다 좁은 도구 금지"</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">업무 단위 도구</p><p>정해진 업무 = 업무 단위 도구 (가르는 해석은 업계 일반) · 둘 다 "엔드포인트마다 좁은 도구 금지"</p></div>
         </div>
       </div>
     </div>
@@ -440,7 +440,7 @@
       <ol class="how">
         <li id="tool-design-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p>적게, 일 단위로 합치기 <span class="ok">✓ 확인</span> <span class="pg">[3.1②]</span></p>
+            <p>적게, 업무 단위로 합치기 <span class="ok">✓ 확인</span> <span class="pg">[3.1②]</span></p>
             <p>list_users·list_events·create_event → schedule_event <span class="note">(빈 시간 찾기 + 예약)</span></p>
             <p>read_logs → search_logs <span class="note">(관련 줄 + 주변만)</span></p>
             <p>get_customer_by_id·list_transactions·list_notes → get_customer_context</p>
@@ -466,21 +466,21 @@
         </li>
         <li id="tool-design-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
-            <p><span class="lead">고치는 순서 :</span> 프로토타입 → 실제 업무 같은 eval 과제(도구 여러 번 부르는) → 트랜스크립트·호출 수·오류 보고 수정 → 따로 떼어 둔(held-out) 평가 세트로 과적합 확인 <span class="ok">✓ 확인</span></p>
+            <p><span class="lead">고치는 순서 :</span> 프로토타입 → 실제 업무 같은 eval 과제(도구 여러 번 부르는) → transcript·호출 수·오류 보고 수정 → 따로 떼어 둔(held-out) 평가 세트로 과적합 확인 <span class="ok">✓ 확인</span></p>
             <p>중복 호출 많음 = 페이지·토큰 한도 조정 / 파라미터 오류 많음 = 설명·예시 보강 <span class="ok">✓ 확인</span></p>
           </div>
         </li>
       </ol>
     </details>
     <h2>CCA-F</h2>
-      <p>봄 — CCA-F 는 "설명이 겹쳐 엉뚱한 도구가 불림 → 개명 + 경계 문장"(설명 고치기)을 물었음. 여기선 **도구 모양 자체**(엔드포인트 1:1 vs 일 단위 통합)를 설계 판단으로 묻고, 오답은 "더 쪼개기"</p>
+      <p>봄 — CCA-F 는 "설명이 겹쳐 엉뚱한 도구가 불림 → 개명 + 경계 문장"(설명 고치기)을 물었음. 여기선 **도구 모양 자체**(엔드포인트 1:1 vs 업무 단위 통합)를 설계 판단으로 묻고, 오답은 "더 쪼개기"</p>
     <h2>함정</h2>
       <ul class="traps">
         <li><span class="neq" aria-hidden="true">≠</span><span>"비슷한 도구를 번갈아 잘못 부른다 → 엔드포인트마다 더 쪼개고 설명을 길게" → 도구가 늘면 더 헷갈림. 합치기 + 네임스페이스 <span class="ok">✓ 확인</span></span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"작게 쪼갤수록 재사용·권한 관리에 좋다(유닉스 철학)" → 에이전트는 컨텍스트가 한정. 전부 돌려주는 list_* 는 낭비 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"모든 걸 하는 mega tool 하나" → 공식은 "목적이 뚜렷한 도구를 일 단위로"까지. 하나로 몰기 근거 없음 <span class="note">(목록 영상 요령 — 공식 근거 없음)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"모든 걸 하는 mega tool 하나" → 공식은 "목적이 뚜렷한 도구를 업무 단위로"까지. 하나로 몰기 근거 없음 <span class="note">(목록 영상 요령 — 공식 근거 없음)</span></span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"더 큰 모델로 바꾸면 덜 헷갈림" → 고르기는 이름·설명을 보고 함. 경계부터 <span class="gen">업계 일반</span> <span class="note">CCA-F 노트 2.1 같은 함정</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar 는 "hyper-specialized 말고 reasonably abstract 한(bash·read 같은 범용) 도구"를 권함 → 합치기와 반대 같지만 둘 다 "엔드포인트마다 좁은 도구 금지". 열린 과제(코딩) = 조합 가능한 범용 도구, 정해진 업무 = 일 단위 도구 <span class="note">(가르는 해석은 업계 일반)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar 는 "hyper-specialized 말고 reasonably abstract 한(bash·read 같은 범용) 도구"를 권함 → 합치기와 반대 같지만 둘 다 "엔드포인트마다 좁은 도구 금지". 열린 과제(코딩) = 조합 가능한 범용 도구, 정해진 업무 = 업무 단위 도구 <span class="note">(가르는 해석은 업계 일반)</span></span></li>
       </ul>
     <h2>신호</h2>
       <div class="sheet">
@@ -592,7 +592,7 @@
 <tbody>
 <tr>
 <td>API 엔드포인트마다 도구 하나, 비슷한 도구를 번갈아 잘못 부름</td>
-<td>일 단위로 합치고 네임스페이스로 가름</td>
+<td>업무 단위로 합치고 네임스페이스로 가름</td>
 <td><span class="ok">✓ 확인</span></td>
 <td>writing-tools en 118·126~136·142줄 · define-tools en 43~44줄</td>
 </tr>
@@ -702,7 +702,7 @@
 <tr>
 <td>과제 모양</td>
 <td>정해진 업무 흐름(예약·고객 조회)</td>
-<td>일 단위 통합 도구</td>
+<td>업무 단위 통합 도구</td>
 <td><span class="ok">✓ 확인</span></td>
 <td>writing-tools en 124·130~132줄</td>
 </tr>
@@ -730,7 +730,7 @@
 <h4>2. 범용 도구가 맞는 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 코딩·리서치처럼 단계를 미리 못 정하는 에이전트.</li>
-<li><span class="lead">판단 :</span> 일 단위 도구를 미리 다 만들 수 없음. bash·read·edit 같은 범용·조합 가능 도구가 공식(Skilljar)이 드는 모양. 둘 다 "엔드포인트마다 좁은 도구"는 거부.</li>
+<li><span class="lead">판단 :</span> 업무 단위 도구를 미리 다 만들 수 없음. bash·read·edit 같은 범용·조합 가능 도구가 공식(Skilljar)이 드는 모양. 둘 다 "엔드포인트마다 좁은 도구"는 거부.</li>
 <li><span class="lead">등급 :</span> 확인(Skilljar 문장) · 가르는 기준은 업계 일반</li>
 <li><span class="lead">근거 :</span> Skilljar API 287803 · writing-tools en 134줄 "subdivide and solve tasks in much the same way that a human would"</li>
 </ul>
@@ -782,7 +782,7 @@
 <tr>
 <td>"모든 기능을 하는 mega tool 하나"</td>
 <td>도구 수 최소</td>
-<td>공식은 목적이 뚜렷한 도구를 일 단위로. 하나로 몰기 근거 없음</td>
+<td>공식은 목적이 뚜렷한 도구를 업무 단위로. 하나로 몰기 근거 없음</td>
 <td><span class="gen">업계 일반</span></td>
 <td>목록 3.1② 영상 메모</td>
 </tr>

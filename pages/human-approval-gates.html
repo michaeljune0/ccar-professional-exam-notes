@@ -387,7 +387,7 @@
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(되돌릴 수 없음 · 공유 자원 · 신뢰 경계 밖)</span></span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">실행 전 막고 사람</p><p>되돌릴 수 없고 파괴적이거나 피해 범위가 남에게 미치는 행동 앞에만 사람 <span class="ok">✓ 확인</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">실행 전 막고 사람</p><p>되돌릴 수 없고 파괴적이거나 피해가 남에게 미치는 행동 앞에만 사람 <span class="ok">✓ 확인</span></p></div>
             </div>
           </div>
         </div>
@@ -401,7 +401,7 @@
       <div class="t5-fork" style="--n:4">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>모든 행동에 승인</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">승인 피로</p><p>수동 프롬프트 93% 승인 <span class="ok">✓ 확인</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">승인 피로</p><p>수동 확인 93% 승인 <span class="ok">✓ 확인</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>권한 확인 전부 끔</span>
@@ -429,7 +429,7 @@
     </div>
   </section>
   <section class="t5-flow tree" id="human-approval-gates-tree-3" aria-labelledby="human-approval-gates-tree-3-h" data-paths="n1 n2 n3|n1 n4 n5">
-    <div class="t5-fh"><h3 id="human-approval-gates-tree-3-h">⑥ 동의가 덮나 <span class="pg">[5.3①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
+    <div class="t5-fh"><h3 id="human-approval-gates-tree-3-h">⑥ 동의 범위인가 <span class="pg">[5.3①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
       <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>사용자가 그 행동을 말했나?</div>
       <div class="t5-fork" style="--n:2">
@@ -439,19 +439,19 @@
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(비슷한 말·예전 승인)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">미승인</p><p>에이전트가 스스로 고른 건 사용자가 말하기 전까진 미승인. 한 번 승인은 패턴이 아님 <span class="ok">✓ 확인</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">미승인</p><p>에이전트가 스스로 고른 건 사용자가 말하기 전까진 미승인. 한 번 승인했다고 계속 승인한 건 아님 <span class="ok">✓ 확인</span></p></div>
         </div>
       </div>
     </div>
   </section>
   <h2 class="sec-h" id="human-approval-gates-flow-h">흐름</h2>
   <figure class="fl" id="human-approval-gates-flow" aria-label="human-in-the-loop 게이트 위치 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["에이전트","분류기","실행","사람"],"blocks":[],"rules":[null,null,null,"되돌릴 수 없고 파괴적이거나 피해 범위가 남에게 미치는 행동 앞에만"],"question":"사람은 어느 행동 앞에 서야 할까?","scenes":[{"name":"① 상태 안 바꾸는 도구","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"어떤 브랜치가 오래됐는지 먼저 볼게요"}},{"kind":"skip","at":1},{"kind":"move","step":"읽기","from":{"col":0},"to":2,"label":"읽기·검색은 허용 목록","art":{"kind":"slip","lines":["`git branch -r`","→ 브랜치 57개"]}},{"kind":"end","label":"상태를 못 바꾸는 도구는 승인 없이"}]},{"name":"② 되돌릴 수 없는 삭제","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["사용자:","\"오래된 브랜치","정리해 줘\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"원격 브랜치 일괄 삭제","art":{"kind":"slip","lines":["`git push origin`","`--delete …`","(브랜치 40개)"]}},{"kind":"mark","step":"막음","at":{"col":1},"label":"되돌릴 수 없고 파괴적 → 차단","art":{"kind":"slip","lines":["차단","지시가 모호","되돌릴 수 없음"]}},{"kind":"move","step":"되돌림","from":{"col":1},"to":0,"label":"거부는 도구 결과로","art":{"kind":"slip","lines":["tool_result:","거부됨 (1번째)","→ 안전한 길 찾기"]}},{"kind":"move","step":"올림","from":{"col":0},"to":3,"label":"연속 3번 또는 총 20번 거부면","art":{"kind":"slip","lines":["연속 3번째 거부","→ 멈춤","사람 확인 대기"]}},{"kind":"end","label":"되돌릴 수 없고 파괴적인 행동 앞에만 사람"}]},{"name":"③ 모든 행동에 승인","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["오늘 행동 200개","(읽기·편집·삭제)"]}},{"kind":"move","step":"요청","from":{"col":0},"to":3,"label":"행동마다 승인 요청","art":{"kind":"slip","lines":["허용할까요?","[예] [아니오]","(오늘 200번째)"]}},{"kind":"mark","step":"도장","at":{"col":3},"label":"수동 프롬프트 93% 승인","art":{"kind":"slip","lines":["예 · 예 · 예 …","93% 그냥 승인"]}},{"kind":"end","label":"승인 피로 — 사람이 뭘 승인하는지 안 봄"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["에이전트","분류기","실행","사람"],"blocks":[],"rules":[null,null,null,"되돌릴 수 없고 파괴적이거나 피해가 남에게 미치는 행동 앞에만"],"question":"사람은 어느 행동 앞에 서야 할까?","scenes":[{"name":"① 상태 안 바꾸는 도구","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"어떤 브랜치가 오래됐는지 먼저 볼게요"}},{"kind":"skip","at":1},{"kind":"move","step":"읽기","from":{"col":0},"to":2,"label":"읽기·검색은 허용 목록","art":{"kind":"slip","lines":["`git branch -r`","→ 브랜치 57개"]}},{"kind":"end","label":"상태를 못 바꾸는 도구는 승인 없이"}]},{"name":"② 되돌릴 수 없는 삭제","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["사용자:","\"오래된 브랜치","정리해 줘\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"원격 브랜치 일괄 삭제","art":{"kind":"slip","lines":["`git push origin`","`--delete …`","(브랜치 40개)"]}},{"kind":"mark","step":"막음","at":{"col":1},"label":"되돌릴 수 없고 파괴적 → 차단","art":{"kind":"slip","lines":["차단","지시가 모호","되돌릴 수 없음"]}},{"kind":"move","step":"되돌림","from":{"col":1},"to":0,"label":"거부는 도구 결과로","art":{"kind":"slip","lines":["tool_result:","거부됨 (1번째)","→ 안전한 길 찾기"]}},{"kind":"move","step":"올림","from":{"col":0},"to":3,"label":"연속 3번 또는 총 20번 거부면","art":{"kind":"slip","lines":["연속 3번째 거부","→ 멈춤","사람 확인 대기"]}},{"kind":"end","label":"되돌릴 수 없고 파괴적인 행동 앞에만 사람"}]},{"name":"③ 모든 행동에 승인","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["오늘 행동 200개","(읽기·편집·삭제)"]}},{"kind":"move","step":"요청","from":{"col":0},"to":3,"label":"행동마다 승인 요청","art":{"kind":"slip","lines":["허용할까요?","[예] [아니오]","(오늘 200번째)"]}},{"kind":"mark","step":"도장","at":{"col":3},"label":"수동 확인 93% 승인","art":{"kind":"slip","lines":["예 · 예 · 예 …","93% 그냥 승인"]}},{"kind":"end","label":"승인 피로 — 사람이 뭘 승인하는지 안 봄"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> 에이전트 → 분류기 → 실행 → 사람</p>
-      <p><span class="lead">규칙 (사람) :</span> 되돌릴 수 없고 파괴적이거나 피해 범위가 남에게 미치는 행동 앞에만</p>
+      <p><span class="lead">규칙 (사람) :</span> 되돌릴 수 없고 파괴적이거나 피해가 남에게 미치는 행동 앞에만</p>
       <p><span class="lead">질문 :</span> 사람은 어느 행동 앞에 서야 할까?</p>
       <p class="lead">① 상태 안 바꾸는 도구 <span class="fl-v is-ok">✓</span></p>
       <ol>
@@ -473,7 +473,7 @@
       <ol>
         <li>시작 : 에이전트 — 쪽지 : <span class="flx-alt-slip">오늘 행동 200개 / (읽기·편집·삭제)</span></li>
         <li>요청 : 에이전트 → 사람 : 행동마다 승인 요청 — 쪽지 : <span class="flx-alt-slip">허용할까요? / [예] [아니오] / (오늘 200번째)</span></li>
-        <li>도장 : 사람 : 수동 프롬프트 93% 승인 — 쪽지 : <span class="flx-alt-slip">예 · 예 · 예 … / 93% 그냥 승인</span></li>
+        <li>도장 : 사람 : 수동 확인 93% 승인 — 쪽지 : <span class="flx-alt-slip">예 · 예 · 예 … / 93% 그냥 승인</span></li>
         <li>끝 : 승인 피로 — 사람이 뭘 승인하는지 안 봄</li>
       </ol>
     </details>
@@ -511,7 +511,7 @@
         </li>
         <li id="human-approval-gates-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">승인 피로 :</span> 행동마다 승인하면 사람이 주의를 잃음. 수동 프롬프트 93% 승인 <span class="ok">✓ 확인</span>. 선택지 셋 = 샌드박스(안전하지만 유지보수 큼, 네트워크·호스트 접근이 필요하면 격리가 깨짐) · 전부 건너뛰기(<code>--dangerously-skip-permissions</code>, 유지보수 0·보호 0) · 수동 프롬프트(중간) → auto mode = 수동 승인 자리를 모델 분류기가 대신함 <span class="ok">✓ 확인</span> <span class="pg">[5.3①]</span> <span class="pg">[5.2①]</span></p>
+            <p><span class="lead">승인 피로 :</span> 행동마다 승인하면 사람이 주의를 잃음. 수동 확인 93% 승인 <span class="ok">✓ 확인</span>. 선택지 셋 = 샌드박스(안전하지만 유지보수 큼, 네트워크·호스트 접근이 필요하면 격리가 깨짐) · 전부 건너뛰기(<code>--dangerously-skip-permissions</code>, 유지보수 0·보호 0) · 수동 확인(중간) → auto mode = 수동 승인 자리를 모델 분류기가 대신함 <span class="ok">✓ 확인</span> <span class="pg">[5.3①]</span> <span class="pg">[5.2①]</span></p>
           </div>
         </li>
         <li id="human-approval-gates-rule-4"><span class="num" aria-hidden="true">④</span>

@@ -365,7 +365,7 @@
   <section class="t5-flow tree" id="single-vs-multi-agent-tree-1" aria-labelledby="single-vs-multi-agent-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7 n8 n9|n1 n4 n5 n6 n7 n10 n11|n1 n4 n5 n12 n13|n1 n4 n5 n14 n15|n1 n4 n5 n16 n17 n18 n19|n1 n4 n5 n16 n17 n20 n21|n1 n4 n5 n22 n23">
     <div class="t5-fh"><h3 id="single-vs-multi-agent-tree-1-h">멀티를 쓸까 <span class="pg">[1.4①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>같은 컨텍스트 공유·의존 많음?<span class="t5-sub">순차 단계(계획→구현→테스트)도</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>컨텍스트 공유·의존이 많나?<span class="t5-sub">순차 단계(계획→구현→테스트)도</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
@@ -381,7 +381,7 @@
               <div class="t5-fork" style="--n:2">
                 <div class="t5-arm is-leaf">
                   <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-                  <div class="t5-leaf" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#single-vs-multi-agent-tree-2">멀티 가기 전에 으로</a></p></div>
+                  <div class="t5-leaf t5-ans t5-ref" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#single-vs-multi-agent-tree-2">↓ 아래 「멀티 가기 전에」 갈림길로 이어짐</a></p><p>다음 물음 — 무엇이 문제?</p></div>
                 </div>
                 <div class="t5-arm is-leaf">
                   <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>예, 하위작업 토큰이 많고 무관</span>
@@ -403,7 +403,7 @@
               <div class="t5-fork" style="--n:2">
                 <div class="t5-arm is-leaf">
                   <span class="t5-edge" data-p="n18"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-                  <div class="t5-leaf" data-p="n19"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#single-vs-multi-agent-tree-2">멀티 가기 전에 으로</a></p></div>
+                  <div class="t5-leaf t5-ans t5-ref" data-p="n19"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#single-vs-multi-agent-tree-2">↓ 아래 「멀티 가기 전에」 갈림길로 이어짐</a></p><p>다음 물음 — 무엇이 문제?</p></div>
                 </div>
                 <div class="t5-arm is-leaf">
                   <span class="t5-edge" data-p="n20"><span class="t5-hl" aria-hidden="true"></span>예, 그래도 많음 <span class="note">(흔히 20+)</span></span>
@@ -454,7 +454,7 @@
   </section>
   <h2 class="sec-h" id="single-vs-multi-agent-flow-h">흐름</h2>
   <figure class="fl" id="single-vs-multi-agent-flow" aria-label="단일 vs 멀티 에이전트 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["orchestrator","서브에이전트들","요약"],"blocks":[],"rules":["에이전트 하나로 먼저. 하나가 못 넘는 제약이 있을 때만 여럿",null,null],"question":"이 일을 여럿에게 쪼갤 만할까?","scenes":[{"name":"① 컨텍스트 오염","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"이 고객 최근 주문 5건 중 환불 대상 있어?"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"하위작업이 많은 토큰(1천+)","art":{"kind":"slip","lines":["주문 조회 5번","한 번에 2,500 토큰","서브 컨텍스트 창에 12,500 토큰"]}},{"kind":"move","step":"요약","from":{"col":1},"to":2,"label":"걸러 요약만 돌려줌","art":{"kind":"slip","lines":["환불 대상: 주문 #3","주 컨텍스트 창엔 90 × 5 = 450 토큰"]}},{"kind":"end","label":"주 작업엔 대부분 무관한 토큰을 걸러 냄 — 총 토큰은 늘어도 주 판단을 지킴"}]},{"name":"② 병렬","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"경쟁사 11곳 환불 정책을 비교해 줘"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"서로 독립인 방향을 동시에","art":{"kind":"slip","lines":["서브 11개","회사마다 하나씩 동시에"]}},{"kind":"move","step":"요약","from":{"col":1},"to":2,"label":"요약만 돌려줌","art":{"kind":"slip","lines":["회사별 요약 11개","11곳 빠짐없이"]}},{"kind":"end","label":"병렬의 주 이득 = 철저함 (속도가 아님)"}]},{"name":"③ 순차 단계 쪼개기","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"환불 기능 하나 만들어 줘"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"계획→구현→테스트","art":{"kind":"slip","lines":["계획 에이전트 →","구현 에이전트 →","테스트 에이전트"]}},{"kind":"move","step":"요약","from":{"col":1},"to":2,"label":"전화 게임(거칠수록 내용이 빠짐)","art":{"kind":"slip","lines":["테스트: \"구현이 뭘 바꿨지?\"","조율 토큰 > 실제 작업"]}},{"kind":"end","label":"순차 단계는 컨텍스트를 공유해야 해서, 쪼개면 손해"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["orchestrator","서브에이전트들","요약"],"blocks":[],"rules":["에이전트 하나로 먼저. 하나가 못 넘는 제약이 있을 때만 여럿",null,null],"question":"이 일을 여럿에게 쪼갤 만할까?","scenes":[{"name":"① 컨텍스트 오염","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"이 고객 최근 주문 5건 중 환불 대상 있어?"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"하위작업 토큰이 많음(1천+)","art":{"kind":"slip","lines":["주문 조회 5번","한 번에 2,500 토큰","서브 컨텍스트 창에 12,500 토큰"]}},{"kind":"move","step":"요약","from":{"col":1},"to":2,"label":"걸러 요약만 돌려줌","art":{"kind":"slip","lines":["환불 대상: 주문 #3","주 컨텍스트 창엔 90 × 5 = 450 토큰"]}},{"kind":"end","label":"주 작업엔 대부분 무관한 토큰을 걸러 냄 — 총 토큰은 늘어도 주 판단을 지킴"}]},{"name":"② 병렬","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"경쟁사 11곳 환불 정책을 비교해 줘"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"서로 독립인 방향을 동시에","art":{"kind":"slip","lines":["서브 11개","회사마다 하나씩 동시에"]}},{"kind":"move","step":"요약","from":{"col":1},"to":2,"label":"요약만 돌려줌","art":{"kind":"slip","lines":["회사별 요약 11개","11곳 빠짐없이"]}},{"kind":"end","label":"병렬의 주 이득 = 철저함 (속도가 아님)"}]},{"name":"③ 순차 단계 쪼개기","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"환불 기능 하나 만들어 줘"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"계획→구현→테스트","art":{"kind":"slip","lines":["계획 에이전트 →","구현 에이전트 →","테스트 에이전트"]}},{"kind":"move","step":"요약","from":{"col":1},"to":2,"label":"말 전달 놀이(거쳐 갈수록 내용이 빠짐)","art":{"kind":"slip","lines":["테스트: \"구현이 뭘 바꿨지?\"","조율 토큰 > 실제 작업"]}},{"kind":"end","label":"순차 단계는 컨텍스트를 공유해야 해서, 쪼개면 손해"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -464,7 +464,7 @@
       <p class="lead">① 컨텍스트 오염 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : orchestrator — 말 : <span class="flx-alt-say">“이 고객 최근 주문 5건 중 환불 대상 있어?”</span></li>
-        <li>위임 : orchestrator → 서브에이전트들 : 하위작업이 많은 토큰(1천+) — 쪽지 : <span class="flx-alt-slip">주문 조회 5번 / 한 번에 2,500 토큰 / 서브 컨텍스트 창에 12,500 토큰</span></li>
+        <li>위임 : orchestrator → 서브에이전트들 : 하위작업 토큰이 많음(1천+) — 쪽지 : <span class="flx-alt-slip">주문 조회 5번 / 한 번에 2,500 토큰 / 서브 컨텍스트 창에 12,500 토큰</span></li>
         <li>요약 : 서브에이전트들 → 요약 : 걸러 요약만 돌려줌 — 쪽지 : <span class="flx-alt-slip">환불 대상: 주문 #3 / 주 컨텍스트 창엔 90 × 5 = 450 토큰</span></li>
         <li>끝 : 주 작업엔 대부분 무관한 토큰을 걸러 냄 — 총 토큰은 늘어도 주 판단을 지킴</li>
       </ol>
@@ -479,7 +479,7 @@
       <ol>
         <li>시작 : orchestrator — 말 : <span class="flx-alt-say">“환불 기능 하나 만들어 줘”</span></li>
         <li>위임 : orchestrator → 서브에이전트들 : 계획→구현→테스트 — 쪽지 : <span class="flx-alt-slip">계획 에이전트 → / 구현 에이전트 → / 테스트 에이전트</span></li>
-        <li>요약 : 서브에이전트들 → 요약 : 전화 게임(거칠수록 내용이 빠짐) — 쪽지 : <span class="flx-alt-slip">테스트: "구현이 뭘 바꿨지?" / 조율 토큰 &gt; 실제 작업</span></li>
+        <li>요약 : 서브에이전트들 → 요약 : 말 전달 놀이(거쳐 갈수록 내용이 빠짐) — 쪽지 : <span class="flx-alt-slip">테스트: "구현이 뭘 바꿨지?" / 조율 토큰 &gt; 실제 작업</span></li>
         <li>끝 : 순차 단계는 컨텍스트를 공유해야 해서, 쪼개면 손해</li>
       </ol>
     </details>

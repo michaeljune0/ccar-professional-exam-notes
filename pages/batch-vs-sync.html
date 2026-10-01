@@ -389,7 +389,7 @@
     </div>
   </section>
   <section class="t5-flow tree" id="batch-vs-sync-tree-2" aria-labelledby="batch-vs-sync-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9">
-    <div class="t5-fh"><h3 id="batch-vs-sync-tree-2-h">배치에 걸리는 것 <span class="pg">[4.5①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
+    <div class="t5-fh"><h3 id="batch-vs-sync-tree-2-h">배치 전 확인할 것 <span class="pg">[4.5①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
       <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>배치로 보내기 전 무엇을 확인?<span class="t5-sub">건수 · 기능 · 할인 · 결과</span></div>
       <div class="t5-fork" style="--n:4">
@@ -402,7 +402,7 @@
           <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">배치에서 안 됨</p><p><code>stream: true</code> · fast mode(<code>speed</code>) · <code>max_tokens: 0</code>(캐시 데우기) <span class="ok">✓ 확인</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>캐시 할인을 셈</span>
+          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>캐시 할인까지 셈에 넣음</span>
           <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">보장 없음</p><p>배치 안 캐시 적중은 보장 없음(되는 만큼 · 보통 30~98%) → 모든 요청에 같은 <code>cache_control</code> 블록 <span class="ok">✓ 확인</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
@@ -414,7 +414,7 @@
   </section>
   <h2 class="sec-h" id="batch-vs-sync-flow-h">흐름</h2>
   <figure class="fl" id="batch-vs-sync-flow" aria-label="Batch API vs 동기 호출 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["요청 묶음","Batch 큐","결과"],"blocks":[{"name":"비전","var":false},{"name":"도구","var":false},{"name":"멀티턴","var":false},{"name":"thinking","var":false}],"rules":[null,"대부분 1시간 안, 약속은 아님 · 24시간 안에 못 끝나면 만료",null],"question":"이 묶음, 언제까지 받아야 하지?","scenes":[{"name":"① 마감 없는 대량","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["지난달 상담 8만 건","분류 · 다음 주 회의용"]}},{"kind":"move","step":"보냄","from":{"col":0},"to":1,"label":"입력·출력 모두 50% 할인","art":{"kind":"slip","lines":["requests : 8만 개","{custom_id:\"c-00001\"}","…"]}},{"kind":"timer","at":1,"label":"대부분 1시간 안, 약속은 아님"},{"kind":"move","step":"결과","from":{"col":1},"to":2,"label":"순서 없이 옴 → `custom_id` 로 짝 맞춤","art":{"kind":"slip","lines":["c-51207 : 배송","c-00003 : 환불","c-20981 : 교환"]}},{"kind":"end","label":"즉시 응답 필요 없음 · 대량 · 비용 우선 → Batch"}]},{"name":"② 15분 마감","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["밤사이 문의 3,000건","08:30 넣음 · 08:45 필요"]}},{"kind":"move","step":"보냄","from":{"col":0},"to":1,"label":"입력·출력 모두 50% 할인","art":{"kind":"slip","lines":["요청 3,000개 접수","끝나는 시각 : 약속 없음"]}},{"kind":"timer","at":1,"label":"분 단위 약속이 없음"},{"kind":"mark","step":"마감","at":{"col":2},"label":"15분 안을 약속 못 함","art":{"kind":"slip","lines":["08:45 마감","끝났다는 보장 없음"]}},{"kind":"end","label":"15분 마감이면 동기 호출 — 배치엔 분 단위 약속이 없음"}]},{"name":"③ 24시간 넘김","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["상담 기록 8만 건","월 09:00 넣음"]}},{"kind":"move","step":"보냄","from":{"col":0},"to":1,"label":"입력·출력 모두 50% 할인","art":{"kind":"slip","lines":["requests : 8만 개"]}},{"kind":"timer","at":1,"label":"24시간 안에 못 끝나면 만료"},{"kind":"move","step":"만료","from":{"col":1},"to":2,"label":"만료된 요청은 과금 안 함","art":{"kind":"slip","lines":["화 09:00 만료","못 끝낸 요청 : 과금 0"]}},{"kind":"end","label":"24시간 안에 못 끝난 요청은 만료 — 만료된 요청은 과금 안 함"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["요청 묶음","Batch 큐","결과"],"blocks":[{"name":"비전","var":false},{"name":"도구","var":false},{"name":"멀티턴","var":false},{"name":"thinking","var":false}],"rules":[null,"대부분 1시간 안, 약속은 아님 · 24시간 안에 못 끝나면 만료",null],"question":"이 묶음, 언제까지 받아야 하지?","scenes":[{"name":"① 마감 없는 대량","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["지난달 상담 8만 건","분류 · 다음 주 회의용"]}},{"kind":"move","step":"보냄","from":{"col":0},"to":1,"label":"입력·출력 모두 50% 할인","art":{"kind":"slip","lines":["requests : 8만 개","{custom_id:\"c-00001\"}","…"]}},{"kind":"timer","at":1,"label":"대부분 1시간 안, 약속은 아님"},{"kind":"move","step":"결과","from":{"col":1},"to":2,"label":"순서 없이 옴 → `custom_id` 로 짝 맞춤","art":{"kind":"slip","lines":["c-51207 : 배송","c-00003 : 환불","c-20981 : 교환"]}},{"kind":"end","label":"즉시 응답 필요 없음 · 대량 · 비용 우선 → Batch"}]},{"name":"② 15분 마감","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["밤사이 문의 3,000건","08:30 넣음 · 08:45 필요"]}},{"kind":"move","step":"보냄","from":{"col":0},"to":1,"label":"입력·출력 모두 50% 할인","art":{"kind":"slip","lines":["요청 3,000개 접수","끝나는 시각 : 약속 없음"]}},{"kind":"timer","at":1,"label":"분 단위 약속이 없음"},{"kind":"mark","step":"마감","at":{"col":2},"label":"15분 안 완료를 약속 못 함","art":{"kind":"slip","lines":["08:45 마감","끝났다는 보장 없음"]}},{"kind":"end","label":"15분 마감이면 동기 호출 — 배치엔 분 단위 약속이 없음"}]},{"name":"③ 24시간 넘김","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["상담 기록 8만 건","월 09:00 넣음"]}},{"kind":"move","step":"보냄","from":{"col":0},"to":1,"label":"입력·출력 모두 50% 할인","art":{"kind":"slip","lines":["requests : 8만 개"]}},{"kind":"timer","at":1,"label":"24시간 안에 못 끝나면 만료"},{"kind":"move","step":"만료","from":{"col":1},"to":2,"label":"만료된 요청은 과금 안 함","art":{"kind":"slip","lines":["화 09:00 만료","못 끝낸 요청 : 과금 0"]}},{"kind":"end","label":"24시간 안에 못 끝난 요청은 만료 — 만료된 요청은 과금 안 함"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -435,7 +435,7 @@
         <li>시작 : 요청 묶음 — 쪽지 : <span class="flx-alt-slip">밤사이 문의 3,000건 / 08:30 넣음 · 08:45 필요</span></li>
         <li>보냄 : 요청 묶음 → Batch 큐 : 입력·출력 모두 50% 할인 — 쪽지 : <span class="flx-alt-slip">요청 3,000개 접수 / 끝나는 시각 : 약속 없음</span></li>
         <li>타이머 : Batch 큐 : 분 단위 약속이 없음</li>
-        <li>마감 : 결과 : 15분 안을 약속 못 함 — 쪽지 : <span class="flx-alt-slip">08:45 마감 / 끝났다는 보장 없음</span></li>
+        <li>마감 : 결과 : 15분 안 완료를 약속 못 함 — 쪽지 : <span class="flx-alt-slip">08:45 마감 / 끝났다는 보장 없음</span></li>
         <li>끝 : 15분 마감이면 동기 호출 — 배치엔 분 단위 약속이 없음</li>
       </ol>
       <p class="lead">③ 24시간 넘김 <span class="fl-v is-ng">≠</span></p>

@@ -398,7 +398,7 @@
           <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>누가 지켜보나?<span class="t5-sub">무인 실행이 사람 없이 제대로 끝나게 하는 건 <code>/goal</code>·Stop 훅 쪽 <span class="ok">✓ 확인</span></span></div>
           <div class="t5-fork" style="--n:3">
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>내가 보는 한 번</span>
+              <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>내가 지켜보는 작업</span>
               <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">한 프롬프트에</p><p>검사를 돌려 보며 고치라고 같은 메시지에 요청 <span class="ok">✓ 확인</span></p></div>
             </div>
             <div class="t5-arm is-leaf">
@@ -406,8 +406,8 @@
               <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>/goal</code> · Stop 훅</p><p>통과할 때까지 턴 종료를 막음 <span class="ok">✓ 확인</span></p></div>
             </div>
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>거기에 두 번째 의견까지 <span class="note">(오래 혼자 돈 작업)</span></span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">검증 서브에이전트</p><p>결과를 반박 — 일한 에이전트가 채점하지 않게 <span class="ok">✓ 확인</span></p></div>
+              <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>거기에 다른 검토자 의견까지 <span class="note">(오래 혼자 돈 작업)</span></span>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">검증 서브에이전트</p><p>결과를 따져 봄 — 일한 에이전트가 채점하지 않게 <span class="ok">✓ 확인</span></p></div>
             </div>
           </div>
         </div>
@@ -432,7 +432,7 @@
   </section>
   <h2 class="sec-h" id="coding-loop-flow-h">흐름</h2>
   <figure class="fl" id="coding-loop-flow" aria-label="코딩 맡기는 흐름 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["사람","Claude","검사"],"blocks":[],"rules":[null,null,"테스트 · 빌드 종료 코드 · 린터"],"question":"\"다 됐다\" 는 누가 판정할까?","scenes":[{"name":"① 검사를 줌 → 루프가 닫힘","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"결제 모듈 리팩터링해 줘. `npm test` 통과까지."}},{"kind":"move","step":"맡기기","from":{"col":0},"to":1,"label":"검사 기준까지 같이","art":{"kind":"slip","lines":["할 일: 리팩터링","완료: `npm test` 통과"]}},{"kind":"move","step":"실행","from":{"col":1},"to":2,"label":"테스트를 돌림","art":{"kind":"slip","lines":["$ npm test","2 failed · 48 passed"]}},{"kind":"move","step":"읽기","from":{"col":2},"to":1,"label":"실패를 읽고 고침","art":{"kind":"slip","lines":["FAIL `refund.test.ts`","→ 고치고 다시"]}},{"kind":"move","step":"통과","from":{"col":1},"to":2,"label":"다시 돌림","art":{"kind":"slip","lines":["$ npm test","50 passed · exit 0"]}},{"kind":"end","label":"검사가 통과할 때까지 스스로 반복 — 사람이 검증 루프가 되지 않음"}]},{"name":"② 검사 없음 → 사람이 검증 루프","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"대시보드 좀 좋게 해 줘."}},{"kind":"move","step":"맡기기","from":{"col":0},"to":1,"label":"완료 기준 없음","art":{"kind":"slip","lines":["할 일: 대시보드 개선","완료: ?"]}},{"kind":"skip","at":2},{"kind":"mark","step":"멈춤","at":{"col":1},"label":"\"끝나 보임\" 이 유일한 신호","art":{"kind":"say","text":"다 된 것 같아요."}},{"kind":"move","step":"넘기기","from":{"col":1},"to":0,"label":"실수가 사람을 기다림","art":{"kind":"slip","lines":["PR #214","검사 결과: 없음"]}},{"kind":"end","label":"사람이 검증 루프가 됨 — 모든 실수가 사람이 알아챌 때까지 기다림"}]},{"name":"③ 같은 문제 교정 반복","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"날짜 형식 또 틀렸어."}},{"kind":"move","step":"교정","from":{"col":0},"to":1,"label":"같은 문제 세 번째","art":{"kind":"slip","lines":["교정 1: 날짜 형식","교정 2: 날짜 형식","교정 3: 날짜 형식"]}},{"kind":"mark","step":"쌓임","at":{"col":1},"label":"컨텍스트가 실패한 접근으로 어지러움","art":{"kind":"slip","lines":["시도 A 실패","시도 B 실패","교정 ×3 …"]}},{"kind":"end","label":"두 번 넘게 교정했으면 `/clear` 후 배운 걸 넣은 더 구체적 프롬프트로"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["사람","Claude","검사"],"blocks":[],"rules":[null,null,"테스트 · 빌드 종료 코드 · 린터"],"question":"\"다 됐다\" 는 누가 판정할까?","scenes":[{"name":"① 검사를 줌 → 루프가 닫힘","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"결제 모듈 리팩터링해 줘. `npm test` 통과까지."}},{"kind":"move","step":"맡기기","from":{"col":0},"to":1,"label":"검사 기준까지 같이","art":{"kind":"slip","lines":["할 일: 리팩터링","완료: `npm test` 통과"]}},{"kind":"move","step":"실행","from":{"col":1},"to":2,"label":"테스트를 돌림","art":{"kind":"slip","lines":["$ npm test","2 failed · 48 passed"]}},{"kind":"move","step":"읽기","from":{"col":2},"to":1,"label":"실패를 읽고 고침","art":{"kind":"slip","lines":["FAIL `refund.test.ts`","→ 고치고 다시"]}},{"kind":"move","step":"통과","from":{"col":1},"to":2,"label":"다시 돌림","art":{"kind":"slip","lines":["$ npm test","50 passed · exit 0"]}},{"kind":"end","label":"검사가 통과할 때까지 스스로 반복 — 사람이 검증 루프가 되지 않음"}]},{"name":"② 검사 없음 → 사람이 검증 루프","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"대시보드 좀 좋게 해 줘."}},{"kind":"move","step":"맡기기","from":{"col":0},"to":1,"label":"완료 기준 없음","art":{"kind":"slip","lines":["할 일: 대시보드 개선","완료: ?"]}},{"kind":"skip","at":2},{"kind":"mark","step":"멈춤","at":{"col":1},"label":"\"끝나 보임\" 이 유일한 신호","art":{"kind":"say","text":"다 된 것 같아요."}},{"kind":"move","step":"넘기기","from":{"col":1},"to":0,"label":"실수는 사람이 알아챌 때까지 남음","art":{"kind":"slip","lines":["PR #214","검사 결과: 없음"]}},{"kind":"end","label":"사람이 검증 루프가 됨 — 모든 실수가 사람이 알아챌 때까지 기다림"}]},{"name":"③ 같은 문제 교정 반복","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"날짜 형식 또 틀렸어."}},{"kind":"move","step":"교정","from":{"col":0},"to":1,"label":"같은 문제 세 번째","art":{"kind":"slip","lines":["교정 1: 날짜 형식","교정 2: 날짜 형식","교정 3: 날짜 형식"]}},{"kind":"mark","step":"쌓임","at":{"col":1},"label":"컨텍스트가 실패한 시도로 어지러움","art":{"kind":"slip","lines":["시도 A 실패","시도 B 실패","교정 ×3 …"]}},{"kind":"end","label":"두 번 넘게 교정했으면 `/clear` 후 배운 걸 넣은 더 구체적 프롬프트로"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -454,14 +454,14 @@
         <li>맡기기 : 사람 → Claude : 완료 기준 없음 — 쪽지 : <span class="flx-alt-slip">할 일: 대시보드 개선 / 완료: ?</span></li>
         <li>건너뜀 : 검사</li>
         <li>멈춤 : Claude : "끝나 보임" 이 유일한 신호 — 말 : <span class="flx-alt-say">“다 된 것 같아요.”</span></li>
-        <li>넘기기 : Claude → 사람 : 실수가 사람을 기다림 — 쪽지 : <span class="flx-alt-slip">PR #214 / 검사 결과: 없음</span></li>
+        <li>넘기기 : Claude → 사람 : 실수는 사람이 알아챌 때까지 남음 — 쪽지 : <span class="flx-alt-slip">PR #214 / 검사 결과: 없음</span></li>
         <li>끝 : 사람이 검증 루프가 됨 — 모든 실수가 사람이 알아챌 때까지 기다림</li>
       </ol>
       <p class="lead">③ 같은 문제 교정 반복 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 사람 — 말 : <span class="flx-alt-say">“날짜 형식 또 틀렸어.”</span></li>
         <li>교정 : 사람 → Claude : 같은 문제 세 번째 — 쪽지 : <span class="flx-alt-slip">교정 1: 날짜 형식 / 교정 2: 날짜 형식 / 교정 3: 날짜 형식</span></li>
-        <li>쌓임 : Claude : 컨텍스트가 실패한 접근으로 어지러움 — 쪽지 : <span class="flx-alt-slip">시도 A 실패 / 시도 B 실패 / 교정 ×3 …</span></li>
+        <li>쌓임 : Claude : 컨텍스트가 실패한 시도로 어지러움 — 쪽지 : <span class="flx-alt-slip">시도 A 실패 / 시도 B 실패 / 교정 ×3 …</span></li>
         <li>끝 : 두 번 넘게 교정했으면 <code>/clear</code> 후 배운 걸 넣은 더 구체적 프롬프트로</li>
       </ol>
     </details>
@@ -497,7 +497,7 @@
                 <tr><td>한 프롬프트</td><td>검사를 돌려 보며 고치라고 같은 메시지에 요청</td><td>어떤 작업에나 오늘 바로</td></tr>
                 <tr><td>세션 전체</td><td><code>/goal</code> 조건 — 별도 평가자가 매 턴 재확인</td><td>무인 실행</td></tr>
                 <tr><td>결정적 게이트</td><td>Stop 훅이 검사를 스크립트로 돌려 통과할 때까지 턴 종료를 막음</td><td>무인 실행</td></tr>
-                <tr><td>두 번째 의견</td><td>검증 서브에이전트·동적 workflow 가 결과를 반박 — 일한 에이전트가 채점하지 않게</td><td>오래 혼자 돈 작업</td></tr>
+                <tr><td>다른 검토자 의견</td><td>검증 서브에이전트·동적 workflow 가 결과를 반박 — 일한 에이전트가 채점하지 않게</td><td>오래 혼자 돈 작업</td></tr>
               </tbody>
             </table>
             <p>무인 실행이 사람 없이 제대로 끝나게 하는 건 <code>/goal</code>·Stop 훅 쪽 <span class="ok">✓ 확인</span> <span class="src">(2026-09-28 조회)</span></p>
@@ -515,7 +515,7 @@
         </li>
         <li id="coding-loop-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
-            <p><span class="lead">교정 :</span> 빗나가면 바로 교정 — <code>Esc</code> 로 멈추고 방향 틀기(컨텍스트 유지) · 되돌리기는 <code>/rewind</code>. 같은 문제를 한 세션에서 두 번 넘게 교정했으면 컨텍스트가 실패한 접근으로 어지러움 → <code>/clear</code> 후 배운 걸 넣은 더 구체적 프롬프트. 관련 없는 작업 사이 <code>/clear</code>. 조사는 서브에이전트로 — 별도 컨텍스트에서 읽고 요약만 돌려줌(메인 컨텍스트 보호) <span class="ok">✓ 확인</span></p>
+            <p><span class="lead">교정 :</span> 빗나가면 바로 교정 — <code>Esc</code> 로 멈추고 방향 틀기(컨텍스트 유지) · 되돌리기는 <code>/rewind</code>. 같은 문제를 한 세션에서 두 번 넘게 교정했으면 컨텍스트가 실패한 시도으로 어지러움 → <code>/clear</code> 후 배운 걸 넣은 더 구체적 프롬프트. 관련 없는 작업 사이 <code>/clear</code>. 조사는 서브에이전트로 — 별도 컨텍스트에서 읽고 요약만 돌려줌(메인 컨텍스트 보호) <span class="ok">✓ 확인</span></p>
           </div>
         </li>
       </ol>

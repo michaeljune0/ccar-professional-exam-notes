@@ -383,7 +383,7 @@
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오, 어려운 문제만</span>
-          <div class="t5-leaf" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#prompt-vs-model-mismatch-tree-2">모델 쪽 lever 으로</a></p></div>
+          <div class="t5-leaf t5-ans t5-ref" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#prompt-vs-model-mismatch-tree-2">↓ 아래 「모델 쪽 lever」 갈림길로 이어짐</a></p><p>다음 물음 — 지금 effort 는?</p></div>
         </div>
       </div>
     </div>
@@ -403,7 +403,7 @@
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>max 인데 구조화 출력</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">max 는 가장 어려운 문제용</p><p>대부분 작은 품질 이득에 비용만 크게 늘고, 구조화 출력에선 과도한 thinking(overthinking)으로 이어질 수 있음 <span class="ok">✓ 확인</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">max 는 가장 어려운 문제용</p><p>대부분은 품질 이득이 작은데 비용만 크게 늘고, 구조화 출력에선 과도한 thinking(overthinking)으로 이어질 수 있음 <span class="ok">✓ 확인</span></p></div>
         </div>
       </div>
     </div>
@@ -426,7 +426,7 @@
   </section>
   <h2 class="sec-h" id="prompt-vs-model-mismatch-flow-h">흐름</h2>
   <figure class="fl" id="prompt-vs-model-mismatch-flow" aria-label="prompt failure vs model mismatch 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["앱","모델","출력"],"blocks":[],"rules":[null,null,null],"question":"같은 입력이면 매번 같은 자리에서 깨질까?","scenes":[{"name":"① 같은 입력에서 매번 깨짐 → 프롬프트","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["주문 메일 #4821","\"JSON 으로 뽑아 줘\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"같은 입력","art":{"kind":"slip","lines":["같은 메일 #4821","5번째 요청"]}},{"kind":"move","step":"출력","from":{"col":1},"to":2,"label":"필수 필드 누락이 매번","art":{"kind":"slip","lines":["{\"order_id\":\"4821\"}","delivery_date 없음","stop_reason : end_turn"]}},{"kind":"mark","step":"고침","at":{"col":0},"label":"출력 형식 지정 · 원하는 출력 예시","art":{"kind":"slip","lines":["형식 : order_id,","delivery_date 필수","+ 출력 예시 1개"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"형식을 정한 요청","art":{"kind":"slip","lines":["같은 메일 #4821","+ 형식 · 예시"]}},{"kind":"move","step":"출력","from":{"col":1},"to":2,"label":"필드가 다 참","art":{"kind":"slip","lines":["{\"order_id\":\"4821\",","\"delivery_date\":","\"10-02\"}"]}},{"kind":"end","label":"같은 입력에서 매번 재현되는 형식 오류 = prompt failure — 모델 교체 아님"}]},{"name":"② 어려운 문제만 실패 → effort 먼저","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["환불 + 교환 + 쿠폰이","겹친 어려운 문의만 틀림"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"문맥·프롬프트는 맞음","art":{"kind":"slip","lines":["문맥 · 프롬프트 OK","effort : 기본값"]}},{"kind":"mark","step":"올림","at":{"col":1},"label":"effort 를 올림","art":{"kind":"slip","lines":["effort 를 올려","eval 다시 (xhigh·max 까지)"]}},{"kind":"move","step":"출력","from":{"col":1},"to":2,"label":"eval 로 다시 잼","art":{"kind":"slip","lines":["어려운 문의 eval","effort 올린 뒤 재측정"]}},{"kind":"end","label":"effort 를 올려도(xhigh·max) eval 이 모자랄 때만 상위 모델"}]},{"name":"③ prefill 로 형식 고정","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["주문 메일 #4821","\"JSON 으로 뽑아 줘\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"마지막 assistant 턴 prefill","art":{"kind":"slip","lines":["messages 끝 :","role : \"assistant\"","content : \"{\""]}},{"kind":"move","step":"거절","from":{"col":1},"to":0,"label":"4.6 이후 모델은 거절","art":{"kind":"slip","lines":["400","invalid_request_error"]}},{"kind":"end","label":"4.6 이후 모델은 prefill 을 안 받음 → structured outputs · 시스템 프롬프트 지시 · `output_config.format`"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["앱","모델","출력"],"blocks":[],"rules":[null,null,null],"question":"같은 입력이면 매번 같은 자리에서 깨질까?","scenes":[{"name":"① 같은 입력에서 매번 깨짐 → 프롬프트","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["주문 메일 #4821","\"JSON 으로 뽑아 줘\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"같은 입력","art":{"kind":"slip","lines":["같은 메일 #4821","5번째 요청"]}},{"kind":"move","step":"출력","from":{"col":1},"to":2,"label":"필수 필드 누락이 매번","art":{"kind":"slip","lines":["{\"order_id\":\"4821\"}","delivery_date 없음","stop_reason : end_turn"]}},{"kind":"mark","step":"고침","at":{"col":0},"label":"출력 형식 지정 · 원하는 출력 예시","art":{"kind":"slip","lines":["형식 : order_id,","delivery_date 필수","+ 출력 예시 1개"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"형식을 정한 요청","art":{"kind":"slip","lines":["같은 메일 #4821","+ 형식 · 예시"]}},{"kind":"move","step":"출력","from":{"col":1},"to":2,"label":"필드가 다 채워짐","art":{"kind":"slip","lines":["{\"order_id\":\"4821\",","\"delivery_date\":","\"10-02\"}"]}},{"kind":"end","label":"같은 입력에서 매번 재현되는 형식 오류 = prompt failure — 모델 교체 아님"}]},{"name":"② 어려운 문제만 실패 → effort 먼저","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["환불 + 교환 + 쿠폰이","겹친 어려운 문의만 틀림"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"문맥·프롬프트는 맞음","art":{"kind":"slip","lines":["문맥 · 프롬프트 OK","effort : 기본값"]}},{"kind":"mark","step":"올림","at":{"col":1},"label":"effort 를 올림","art":{"kind":"slip","lines":["effort 를 올려","eval 다시 (xhigh·max 까지)"]}},{"kind":"move","step":"출력","from":{"col":1},"to":2,"label":"eval 로 다시 측정","art":{"kind":"slip","lines":["어려운 문의 eval","effort 올린 뒤 재측정"]}},{"kind":"end","label":"effort 를 올려도(xhigh·max) eval 이 모자랄 때만 상위 모델"}]},{"name":"③ prefill 로 형식 고정","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["주문 메일 #4821","\"JSON 으로 뽑아 줘\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"마지막 assistant 턴 prefill","art":{"kind":"slip","lines":["messages 끝 :","role : \"assistant\"","content : \"{\""]}},{"kind":"move","step":"거절","from":{"col":1},"to":0,"label":"4.6 이후 모델은 거절","art":{"kind":"slip","lines":["400","invalid_request_error"]}},{"kind":"end","label":"4.6 이후 모델은 prefill 을 안 받음 → structured outputs · 시스템 프롬프트 지시 · `output_config.format`"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -439,7 +439,7 @@
         <li>출력 : 모델 → 출력 : 필수 필드 누락이 매번 — 쪽지 : <span class="flx-alt-slip">{"order_id":"4821"} / delivery_date 없음 / stop_reason : end_turn</span></li>
         <li>고침 : 앱 : 출력 형식 지정 · 원하는 출력 예시 — 쪽지 : <span class="flx-alt-slip">형식 : order_id, / delivery_date 필수 / + 출력 예시 1개</span></li>
         <li>요청 : 앱 → 모델 : 형식을 정한 요청 — 쪽지 : <span class="flx-alt-slip">같은 메일 #4821 / + 형식 · 예시</span></li>
-        <li>출력 : 모델 → 출력 : 필드가 다 참 — 쪽지 : <span class="flx-alt-slip">{"order_id":"4821", / "delivery_date": / "10-02"}</span></li>
+        <li>출력 : 모델 → 출력 : 필드가 다 채워짐 — 쪽지 : <span class="flx-alt-slip">{"order_id":"4821", / "delivery_date": / "10-02"}</span></li>
         <li>끝 : 같은 입력에서 매번 재현되는 형식 오류 = prompt failure — 모델 교체 아님</li>
       </ol>
       <p class="lead">② 어려운 문제만 실패 → effort 먼저 <span class="fl-v is-ok">✓</span></p>
@@ -447,7 +447,7 @@
         <li>시작 : 앱 — 쪽지 : <span class="flx-alt-slip">환불 + 교환 + 쿠폰이 / 겹친 어려운 문의만 틀림</span></li>
         <li>요청 : 앱 → 모델 : 문맥·프롬프트는 맞음 — 쪽지 : <span class="flx-alt-slip">문맥 · 프롬프트 OK / effort : 기본값</span></li>
         <li>올림 : 모델 : effort 를 올림 — 쪽지 : <span class="flx-alt-slip">effort 를 올려 / eval 다시 (xhigh·max 까지)</span></li>
-        <li>출력 : 모델 → 출력 : eval 로 다시 잼 — 쪽지 : <span class="flx-alt-slip">어려운 문의 eval / effort 올린 뒤 재측정</span></li>
+        <li>출력 : 모델 → 출력 : eval 로 다시 측정 — 쪽지 : <span class="flx-alt-slip">어려운 문의 eval / effort 올린 뒤 재측정</span></li>
         <li>끝 : effort 를 올려도(xhigh·max) eval 이 모자랄 때만 상위 모델</li>
       </ol>
       <p class="lead">③ prefill 로 형식 고정 <span class="fl-v is-ng">≠</span></p>

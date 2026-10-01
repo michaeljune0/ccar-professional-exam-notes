@@ -403,14 +403,14 @@
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>좋은 eval 도구를 들임</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">도구보다 과제</p><p>돌리는 과제만큼만 좋음 → 과제·grader(채점기)에 힘을 <span class="ok">✓ 확인</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">도구보다 과제</p><p>돌리는 과제 수준을 못 넘음 → 과제·grader(채점기)에 힘을 <span class="ok">✓ 확인</span></p></div>
         </div>
       </div>
     </div>
   </section>
   <h2 class="sec-h" id="eval-driven-iteration-flow-h">흐름</h2>
   <figure class="fl" id="eval-driven-iteration-flow" aria-label="변경마다 eval 다시 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["변경","eval","배포"],"blocks":[],"rules":[null,"같은 과제 은행으로 다시 · 기준선과 비교",null],"question":"이 변경, 바로 내보내도 될까?","scenes":[{"name":"① 통과한 것만 배포","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["PR #212","프롬프트 한 줄 추가","\"환불 전 주문번호 확인\""]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"같은 과제 은행으로","art":{"kind":"slip","lines":["과제 40개 × 새 프롬프트"]}},{"kind":"mark","step":"비교","at":{"col":1},"label":"기준선과 비교","art":{"kind":"slip","lines":["점수 82% → 88%","과제당 비용 그대로","regression 없음"]}},{"kind":"move","step":"넘김","from":{"col":1},"to":2,"label":"통과한 것만 배포","art":{"kind":"slip","lines":["CI : passed","배포 v1.13"]}},{"kind":"end","label":"변경마다 = 품질 문제의 첫 방어선"}]},{"name":"② 데모만 보고 배포","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["핫픽스 : 프롬프트 한 줄"]}},{"kind":"skip","at":1},{"kind":"move","step":"넘김","from":{"col":0},"to":2,"label":"몇 번 해 보고 됐다고 봄","art":{"kind":"slip","lines":["\"데모에서 3번 잘 됨\"","→ 바로 배포"]}},{"kind":"mark","step":"뒤","at":{"col":2},"label":"불만이 와서야 앎","art":{"kind":"say","text":"교환 신청했는데 왜 환불됐죠?"}},{"kind":"end","label":"eval 없이 내보내면 불만을 기다리는 사후 대응"}]},{"name":"③ 모델 업그레이드","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["모델 : Opus 4.6 → 4.7","단가 $5/$25 그대로"]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"모델 버전도 변경","art":{"kind":"slip","lines":["같은 과제 40개","새 모델로"]}},{"kind":"mark","step":"비교","at":{"col":1},"label":"새 토크나이저","art":{"kind":"slip","lines":["입력 6,500 → 약 8,450 토큰","per-request cost","약 +30%"]}},{"kind":"move","step":"넘김","from":{"col":1},"to":2,"label":"품질 + 비용·지연 기준선","art":{"kind":"slip","lines":["새 기준선 : 품질 · 지연","토큰 · 과제당 비용"]}},{"kind":"end","label":"단가가 같아도 같은 글의 토큰이 약 30% 늘어 per-request cost 가 오를 수 있음"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["변경","eval","배포"],"blocks":[],"rules":[null,"같은 과제 은행으로 다시 · 기준선과 비교",null],"question":"이 변경, 바로 내보내도 될까?","scenes":[{"name":"① 통과한 것만 배포","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["PR #212","프롬프트 한 줄 추가","\"환불 전 주문번호 확인\""]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"같은 과제 은행으로","art":{"kind":"slip","lines":["과제 40개 × 새 프롬프트"]}},{"kind":"mark","step":"비교","at":{"col":1},"label":"기준선과 비교","art":{"kind":"slip","lines":["점수 82% → 88%","과제당 비용 그대로","regression 없음"]}},{"kind":"move","step":"넘김","from":{"col":1},"to":2,"label":"통과한 것만 배포","art":{"kind":"slip","lines":["CI : passed","배포 v1.13"]}},{"kind":"end","label":"변경마다 = 품질 문제의 첫 방어선"}]},{"name":"② 데모만 보고 배포","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["핫픽스 : 프롬프트 한 줄"]}},{"kind":"skip","at":1},{"kind":"move","step":"넘김","from":{"col":0},"to":2,"label":"몇 번 해 보고 됐다고 봄","art":{"kind":"slip","lines":["\"데모에서 3번 잘 됨\"","→ 바로 배포"]}},{"kind":"mark","step":"나중","at":{"col":2},"label":"불만이 와서야 알게 됨","art":{"kind":"say","text":"교환 신청했는데 왜 환불됐죠?"}},{"kind":"end","label":"eval 없이 내보내면 불만을 기다리는 사후 대응"}]},{"name":"③ 모델 업그레이드","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["모델 : Opus 4.6 → 4.7","단가 $5/$25 그대로"]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"모델 버전도 변경","art":{"kind":"slip","lines":["같은 과제 40개","새 모델로"]}},{"kind":"mark","step":"비교","at":{"col":1},"label":"새 토크나이저","art":{"kind":"slip","lines":["입력 6,500 → 약 8,450 토큰","per-request cost","약 +30%"]}},{"kind":"move","step":"넘김","from":{"col":1},"to":2,"label":"품질 + 비용·지연 기준선","art":{"kind":"slip","lines":["새 기준선 : 품질 · 지연","토큰 · 과제당 비용"]}},{"kind":"end","label":"단가가 같아도 같은 글의 토큰이 약 30% 늘어 per-request cost 가 오를 수 있음"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -430,7 +430,7 @@
         <li>시작 : 변경 — 쪽지 : <span class="flx-alt-slip">핫픽스 : 프롬프트 한 줄</span></li>
         <li>건너뜀 : eval</li>
         <li>넘김 : 변경 → 배포 : 몇 번 해 보고 됐다고 봄 — 쪽지 : <span class="flx-alt-slip">"데모에서 3번 잘 됨" / → 바로 배포</span></li>
-        <li>뒤 : 배포 : 불만이 와서야 앎 — 말 : <span class="flx-alt-say">“교환 신청했는데 왜 환불됐죠?”</span></li>
+        <li>나중 : 배포 : 불만이 와서야 알게 됨 — 말 : <span class="flx-alt-say">“교환 신청했는데 왜 환불됐죠?”</span></li>
         <li>끝 : eval 없이 내보내면 불만을 기다리는 사후 대응</li>
       </ol>
       <p class="lead">③ 모델 업그레이드 <span class="fl-v is-ok">✓</span></p>
@@ -484,7 +484,7 @@
         </li>
         <li id="eval-driven-iteration-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">도구보다 과제 :</span> 프레임워크(Harbor · Braintrust · LangSmith · Langfuse · Arize)는 돌리는 과제만큼만 좋음 → 빨리 하나 고르고 과제·grader 에 힘을 <span class="ok">✓ 확인</span> <span class="pg">[4.3③]</span></p>
+            <p><span class="lead">도구보다 과제 :</span> 프레임워크(Harbor · Braintrust · LangSmith · Langfuse · Arize)는 돌리는 과제 수준을 못 넘음 → 빨리 하나 고르고 과제·grader 에 힘을 <span class="ok">✓ 확인</span> <span class="pg">[4.3③]</span></p>
           </div>
         </li>
       </ol>

@@ -379,7 +379,7 @@
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>모델 ID 교체</span>
-          <div class="t5-leaf" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#diagnose-by-change-tree-2">모델을 바꿨으면 으로</a></p></div>
+          <div class="t5-leaf t5-ans t5-ref" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#diagnose-by-change-tree-2">↓ 아래 「모델을 바꿨으면」 갈림길로 이어짐</a></p><p>다음 물음 — 무엇이 달라졌나?</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>프롬프트·설정 수정</span>
@@ -387,7 +387,7 @@
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>내 쪽은 안 바꿈</span>
-          <div class="t5-leaf" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#diagnose-by-change-tree-3">안 바꿨는데 달라짐 으로</a></p></div>
+          <div class="t5-leaf t5-ans t5-ref" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#diagnose-by-change-tree-3">↓ 아래 「안 바꿨는데 달라짐」 갈림길로 이어짐</a></p><p>다음 물음 — 모델 ID 는?</p></div>
         </div>
       </div>
     </div>
@@ -430,7 +430,7 @@
   </section>
   <h2 class="sec-h" id="diagnose-by-change-flow-h">흐름</h2>
   <figure class="fl" id="diagnose-by-change-flow" aria-label="변경부터 묻는 진단 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["문서","indexing","검색","모델"],"blocks":[],"rules":[null,null,null,"같은 ID 의 가중치·구성은 안 바뀜"],"question":"증상 직전에 무엇이 바뀌었지?","scenes":[{"name":"① 문서 갱신 → indexing 부터","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["환불규정 v3","기한 14일 → 30일"]}},{"kind":"move","step":"갱신","from":{"col":0},"to":1,"label":"re-index 가 깨짐","art":{"kind":"slip","lines":["새 v3 chunk : 0개","옛 v2 chunk : 그대로"]}},{"kind":"move","step":"찾기","from":{"col":1},"to":2,"label":"낡은 chunk","art":{"kind":"slip","lines":["top-1 : v2 §4","\"환불 기한 14일\""]}},{"kind":"move","step":"넣기","from":{"col":2},"to":3,"label":"나쁜 문맥","art":{"kind":"slip","lines":["문맥 : v2 §4 \"14일\""]}},{"kind":"mark","step":"답","at":{"col":3},"label":"자신 있게 틀림","art":{"kind":"say","text":"환불은 14일 안에 가능해요."}},{"kind":"mark","step":"진단","at":{"col":1},"label":"모델·지연 그대로 → 여기부터","art":{"kind":"slip","lines":["re-index 확인","v3 chunk 누락"]}},{"kind":"end","label":"모델·지연 그대로 → 검색·indexing 부터"}]},{"name":"② 모델부터 의심","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["환불규정 v3","기한 14일 → 30일"]}},{"kind":"move","step":"갱신","from":{"col":0},"to":1,"label":"re-index 가 깨짐","art":{"kind":"slip","lines":["새 v3 chunk : 0개"]}},{"kind":"move","step":"찾기","from":{"col":1},"to":2,"label":"낡은 chunk","art":{"kind":"slip","lines":["top-1 : v2 §4 \"14일\""]}},{"kind":"move","step":"넣기","from":{"col":2},"to":3,"label":"나쁜 문맥 그대로","art":{"kind":"slip","lines":["문맥 : v2 §4 \"14일\""]}},{"kind":"mark","step":"의심","at":{"col":3},"label":"가중치가 몰래 바뀜?","art":{"kind":"slip","lines":["조치 : 더 큰 모델로 교체","답 : 여전히 \"14일\""]}},{"kind":"end","label":"모델을 바꿔도 낡은 chunk 는 그대로 — 가중치 변화는 문서 갱신으로 생길 일이 아님"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["문서","indexing","검색","모델"],"blocks":[],"rules":[null,null,null,"같은 ID 의 가중치·구성은 안 바뀜"],"question":"증상 직전에 무엇이 바뀌었지?","scenes":[{"name":"① 문서 갱신 → indexing 부터","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["환불규정 v3","기한 14일 → 30일"]}},{"kind":"move","step":"갱신","from":{"col":0},"to":1,"label":"re-index 가 깨짐","art":{"kind":"slip","lines":["새 v3 chunk : 0개","옛 v2 chunk : 그대로"]}},{"kind":"move","step":"찾기","from":{"col":1},"to":2,"label":"낡은 chunk","art":{"kind":"slip","lines":["top-1 : v2 §4","\"환불 기한 14일\""]}},{"kind":"move","step":"넣기","from":{"col":2},"to":3,"label":"잘못된 문맥","art":{"kind":"slip","lines":["문맥 : v2 §4 \"14일\""]}},{"kind":"mark","step":"답","at":{"col":3},"label":"자신 있게 틀림","art":{"kind":"say","text":"환불은 14일 안에 가능해요."}},{"kind":"mark","step":"진단","at":{"col":1},"label":"모델·지연 그대로 → 여기부터","art":{"kind":"slip","lines":["re-index 확인","v3 chunk 누락"]}},{"kind":"end","label":"모델·지연 그대로 → 검색·indexing 부터"}]},{"name":"② 모델부터 의심","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["환불규정 v3","기한 14일 → 30일"]}},{"kind":"move","step":"갱신","from":{"col":0},"to":1,"label":"re-index 가 깨짐","art":{"kind":"slip","lines":["새 v3 chunk : 0개"]}},{"kind":"move","step":"찾기","from":{"col":1},"to":2,"label":"낡은 chunk","art":{"kind":"slip","lines":["top-1 : v2 §4 \"14일\""]}},{"kind":"move","step":"넣기","from":{"col":2},"to":3,"label":"잘못된 문맥 그대로","art":{"kind":"slip","lines":["문맥 : v2 §4 \"14일\""]}},{"kind":"mark","step":"의심","at":{"col":3},"label":"가중치가 몰래 바뀜?","art":{"kind":"slip","lines":["조치 : 더 큰 모델로 교체","답 : 여전히 \"14일\""]}},{"kind":"end","label":"모델을 바꿔도 낡은 chunk 는 그대로 — 가중치 변화는 문서 갱신으로 생길 일이 아님"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -442,7 +442,7 @@
         <li>시작 : 문서 — 쪽지 : <span class="flx-alt-slip">환불규정 v3 / 기한 14일 → 30일</span></li>
         <li>갱신 : 문서 → indexing : re-index 가 깨짐 — 쪽지 : <span class="flx-alt-slip">새 v3 chunk : 0개 / 옛 v2 chunk : 그대로</span></li>
         <li>찾기 : indexing → 검색 : 낡은 chunk — 쪽지 : <span class="flx-alt-slip">top-1 : v2 §4 / "환불 기한 14일"</span></li>
-        <li>넣기 : 검색 → 모델 : 나쁜 문맥 — 쪽지 : <span class="flx-alt-slip">문맥 : v2 §4 "14일"</span></li>
+        <li>넣기 : 검색 → 모델 : 잘못된 문맥 — 쪽지 : <span class="flx-alt-slip">문맥 : v2 §4 "14일"</span></li>
         <li>답 : 모델 : 자신 있게 틀림 — 말 : <span class="flx-alt-say">“환불은 14일 안에 가능해요.”</span></li>
         <li>진단 : indexing : 모델·지연 그대로 → 여기부터 — 쪽지 : <span class="flx-alt-slip">re-index 확인 / v3 chunk 누락</span></li>
         <li>끝 : 모델·지연 그대로 → 검색·indexing 부터</li>
@@ -452,7 +452,7 @@
         <li>시작 : 문서 — 쪽지 : <span class="flx-alt-slip">환불규정 v3 / 기한 14일 → 30일</span></li>
         <li>갱신 : 문서 → indexing : re-index 가 깨짐 — 쪽지 : <span class="flx-alt-slip">새 v3 chunk : 0개</span></li>
         <li>찾기 : indexing → 검색 : 낡은 chunk — 쪽지 : <span class="flx-alt-slip">top-1 : v2 §4 "14일"</span></li>
-        <li>넣기 : 검색 → 모델 : 나쁜 문맥 그대로 — 쪽지 : <span class="flx-alt-slip">문맥 : v2 §4 "14일"</span></li>
+        <li>넣기 : 검색 → 모델 : 잘못된 문맥 그대로 — 쪽지 : <span class="flx-alt-slip">문맥 : v2 §4 "14일"</span></li>
         <li>의심 : 모델 : 가중치가 몰래 바뀜? — 쪽지 : <span class="flx-alt-slip">조치 : 더 큰 모델로 교체 / 답 : 여전히 "14일"</span></li>
         <li>끝 : 모델을 바꿔도 낡은 chunk 는 그대로 — 가중치 변화는 문서 갱신으로 생길 일이 아님</li>
       </ol>

@@ -373,7 +373,7 @@
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-          <div class="t5-leaf" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#static-vs-dynamic-decomp-tree-2">미리 아나 으로</a></p></div>
+          <div class="t5-leaf t5-ans t5-ref" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#static-vs-dynamic-decomp-tree-2">↓ 아래 「미리 아나」 갈림길로 이어짐</a></p><p>다음 물음 — 하위작업을 입력 전에 적을 수 있나?</p></div>
         </div>
       </div>
     </div>
@@ -385,7 +385,7 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예 <span class="note">(늘 같은 목록)</span></span>
-          <div class="t5-q" data-p="n3"><span class="t5-hl" aria-hidden="true"></span>조각끼리 의존?</div>
+          <div class="t5-q" data-p="n3"><span class="t5-hl" aria-hidden="true"></span>조각끼리 의존하나?</div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>앞 출력이 다음 입력</span>
@@ -426,13 +426,13 @@
   </section>
   <h2 class="sec-h" id="static-vs-dynamic-decomp-flow-h">흐름</h2>
   <figure class="fl" id="static-vs-dynamic-decomp-flow" aria-label="static vs dynamic decomposition 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["입력","decomposition","workers","합치기"],"blocks":[],"rules":[null,null,null,null],"question":"하위작업을 입력 전에 적을 수 있나?","scenes":[{"name":"① 하위작업을 미리 앎 → 정적","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["티켓: \"배송이 2주째","안 와요, 화나네요\""]}},{"kind":"move","step":"나누기","from":{"col":0},"to":1,"label":"코드가 미리 나눔","art":{"kind":"slip","lines":["판정 목록 (코드에 고정)","의도 · 감정 · 요약"]}},{"kind":"move","step":"돌리기","from":{"col":1},"to":2,"label":"서로 독립이라 병렬","art":{"kind":"slip","lines":["호출 3개를 동시에"]}},{"kind":"move","step":"모으기","from":{"col":2},"to":3,"label":"코드가 모음","art":{"kind":"slip","lines":["{ 의도: \"배송 문의\",","감정: \"화남\",","요약: \"2주째 미배송\" }"]}},{"kind":"end","label":"잘 정의된 일엔 예측 가능성·일관성"}]},{"name":"② 입력마다 하위작업이 다름 → 동적","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["버그: \"환불 버튼이","가끔 두 번 눌려요\""]}},{"kind":"move","step":"보기","from":{"col":0},"to":1,"label":"orchestrator LLM 이 보고 나눔","art":{"kind":"slip","lines":["orchestrator:","고칠 파일 3개","button.tsx · refund.ts","· refund.test.ts"]}},{"kind":"move","step":"맡기기","from":{"col":1},"to":2,"label":"파일 수·내용이 작업마다 다름","art":{"kind":"slip","lines":["worker 3개에","파일 하나씩"]}},{"kind":"move","step":"모으기","from":{"col":2},"to":3,"label":"orchestrator 가 합침","art":{"kind":"slip","lines":["수정 3건","orchestrator 가","하나로 합침"]}},{"kind":"end","label":"입력마다 다름 → dynamic decomposition"}]},{"name":"③ 미리 아는데 orchestrator 에게","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["티켓: \"배송이 2주째","안 와요, 화나네요\""]}},{"kind":"move","step":"보기","from":{"col":0},"to":1,"label":"매 티켓 똑같은 세 판정을 orchestrator 가","art":{"kind":"slip","lines":["orchestrator","호출 1번 더","→ 의도 · 감정 · 요약"]}},{"kind":"move","step":"맡기기","from":{"col":1},"to":2,"label":"예측 가능성을 내줌","art":{"kind":"slip","lines":["늘 같은 세 판정인데","나누기를 매번 LLM 이 정함"]}},{"kind":"end","label":"하위작업이 여러 개라는 것만으로는 동적 이유가 안 됨"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["입력","decomposition","workers","합치기"],"blocks":[],"rules":[null,null,null,null],"question":"하위작업을 입력 전에 적을 수 있나?","scenes":[{"name":"① 하위작업이 미리 정해짐 → 정적","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["티켓: \"배송이 2주째","안 와요, 화나네요\""]}},{"kind":"move","step":"나누기","from":{"col":0},"to":1,"label":"코드가 미리 나눔","art":{"kind":"slip","lines":["판정 목록 (코드에 고정)","의도 · 감정 · 요약"]}},{"kind":"move","step":"돌리기","from":{"col":1},"to":2,"label":"서로 독립이라 병렬","art":{"kind":"slip","lines":["호출 3개를 동시에"]}},{"kind":"move","step":"모으기","from":{"col":2},"to":3,"label":"코드가 모음","art":{"kind":"slip","lines":["{ 의도: \"배송 문의\",","감정: \"화남\",","요약: \"2주째 미배송\" }"]}},{"kind":"end","label":"잘 정의된 일엔 예측 가능성·일관성"}]},{"name":"② 입력마다 하위작업이 다름 → 동적","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["버그: \"환불 버튼이","가끔 두 번 눌려요\""]}},{"kind":"move","step":"보기","from":{"col":0},"to":1,"label":"orchestrator LLM 이 보고 나눔","art":{"kind":"slip","lines":["orchestrator:","고칠 파일 3개","button.tsx · refund.ts","· refund.test.ts"]}},{"kind":"move","step":"맡기기","from":{"col":1},"to":2,"label":"파일 수·내용이 작업마다 다름","art":{"kind":"slip","lines":["worker 3개에","파일 하나씩"]}},{"kind":"move","step":"모으기","from":{"col":2},"to":3,"label":"orchestrator 가 합침","art":{"kind":"slip","lines":["수정 3건","orchestrator 가","하나로 합침"]}},{"kind":"end","label":"입력마다 다름 → dynamic decomposition"}]},{"name":"③ 미리 아는데 orchestrator 에게","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["티켓: \"배송이 2주째","안 와요, 화나네요\""]}},{"kind":"move","step":"보기","from":{"col":0},"to":1,"label":"매 티켓 똑같은 세 판정을 orchestrator 가","art":{"kind":"slip","lines":["orchestrator","호출 1번 더","→ 의도 · 감정 · 요약"]}},{"kind":"move","step":"맡기기","from":{"col":1},"to":2,"label":"예측 가능성을 내줌","art":{"kind":"slip","lines":["늘 같은 세 판정인데","나누기를 매번 LLM 이 정함"]}},{"kind":"end","label":"하위작업이 여러 개라는 것만으로는 동적 이유가 안 됨"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> 입력 → decomposition → workers → 합치기</p>
       <p><span class="lead">질문 :</span> 하위작업을 입력 전에 적을 수 있나?</p>
-      <p class="lead">① 하위작업을 미리 앎 → 정적 <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">① 하위작업이 미리 정해짐 → 정적 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 입력 — 쪽지 : <span class="flx-alt-slip">티켓: "배송이 2주째 / 안 와요, 화나네요"</span></li>
         <li>나누기 : 입력 → decomposition : 코드가 미리 나눔 — 쪽지 : <span class="flx-alt-slip">판정 목록 (코드에 고정) / 의도 · 감정 · 요약</span></li>
