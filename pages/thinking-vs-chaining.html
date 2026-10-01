@@ -350,18 +350,71 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ◆ 한 요청 안 thinking vs 여러 호출 체이닝 -->
-<article class="card t5-card" id="thinking-vs-chaining" aria-labelledby="thinking-vs-chaining-title">
+<!-- ◆ 한 요청 안 thinking vs 여러 호출 체이닝 (v3 시범 순서) -->
+<article class="card t5-card v3" id="thinking-vs-chaining" aria-labelledby="thinking-vs-chaining-title">
   <header class="t5-head">
     <h1 id="thinking-vs-chaining-title"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> 한 요청 안 thinking vs 여러 호출 체이닝</h1>
-    <p class="lemma-meta"><span lang="en">thinking vs prompt chaining</span><span class="lemma-main">2.3 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">thinking vs prompt chaining</span><span class="lemma-main">2.3 본편</span></p>
   </header>
-  <h2 class="sec-h" id="thinking-vs-chaining-case-h">지문</h2>
-  <section class="csx" id="thinking-vs-chaining-case" aria-labelledby="thinking-vs-chaining-case-h" data-tree="thinking-vs-chaining-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;중간 출력 검사&quot;],[&quot;n3&quot;,null]]" data-flow="thinking-vs-chaining-flow" data-scene="1">
-    <p class="csx-text">환불 가능 여부를 규정 3개와 대조해 판정하는 흐름이다. <mark class="csx-m" data-tag="중간 출력 검사">대조표 초안이 규정을 빠짐없이 담았는지 확인한 뒤에만 판정 단계로 간다<span class="csx-tag">중간 출력 검사</span></mark>. 한 팀원은 "Opus 5.5 는 thinking 이 늘 켜져 있으니 한 요청으로 끝내자"고 한다. 어떻게 짤까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="thinking-vs-chaining-trees-h">갈림길</h2>
+  <h2 class="sec-h" id="thinking-vs-chaining-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>2.3 프롬프트 기법</b> · D2 모델·프롬프트 13%<br><q lang="en">Apply prompt engineering techniques (zero-shot, few-shot, chain-of-thought)</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>2.3② 여러 단계 추론이 필요하다 — "step by step" 문구? thinking? 체이닝?</b> — CoT(한 요청 안에서 사고) vs 프롬프트 체이닝(여러 호출로 쪼개기)</li>
+      <li><b>1.5② 한 프롬프트에 다 시킬까, 나눠 시킬까?</b> — 분해 단위 정하기 <span class="note">(단일 프롬프트 vs 과제별 호출)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="thinking-vs-chaining-sum-h">한눈에</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>어려운 수학 숙제를 푸는 두 가지 방법이에요.</p>
+<ul>
+<li>혼자 연습장에 끄적이며 한 번에 풀 수도 있어요.</li>
+<li>한 단계 풀 때마다 선생님께 보여 드리고 다음으로 넘어갈 수도 있어요.</li>
+<li>한 번에 푸는 게 보통 더 빨라요.</li>
+<li>중간에 누가 꼭 봐야 하면 단계마다 보여 드려야 해요.</li>
+<li>이 쪽은 "언제 나눠야 하나"를 모아 둔 곳이에요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-thinking-vs-chaining" aria-labelledby="vx-thinking-vs-chaining-cap">
+  <div class="vx-player" data-vx-scene="thinking-vs-chaining"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-thinking-vs-chaining-cap">영상 — 한 요청으로 끝낼까, 나눌까? (약 43초 · 소리 없음 · 자막). 초안의 &#x27;정가&#x27; 빠짐 · 블록 길이(= 시간) · ④ 규정마다 한 호출은 그림용 가정 — 방향은 설명 원리(thinking 한계 · 체이닝은 지연을 내줌)를 따름 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">thinking (한 요청 안)</p>
+<ul>
+<li>모델이 답하기 전에 thinking 블록에서 문제를 다시 말하고, 방법을 시도하고, 중간 결과를 확인하고, 안 되는 길은 버림 → 답은 text 블록에.</li>
+<li>adaptive 모드면 모델이 요청마다 "생각할지·얼마나"를 스스로 정함. 단순한 요청엔 건너뜀.</li>
+<li>도구를 쓰면 도구 호출 사이에도 생각함(interleaved thinking, adaptive 면 자동). 도구 루프 전체가 한 어시스턴트 턴.</li>
+<li>비용 : thinking(사고) 토큰은 출력 토큰으로 청구, <code>max_tokens</code> 에 포함. 안 보여도 청구.</li>
+<li>한계 : 중간 결과가 모델 안에서만 흐름 → 코드·사람이 단계 사이에 끼어들 틈이 없음. 새 모델은 추론(reasoning) 원문도 안 줌(요약 또는 빈 칸).</li>
+</ul>
+<p class="lead">prompt chaining(프롬프트 체이닝 · 여러 호출)</p>
+<ul>
+<li>일을 순서대로 나눠 앞 호출의 출력을 다음 호출이 처리. 사이에 코드 검사(gate)를 둘 수 있음.</li>
+<li>호출마다 쉬운 일이 되니 정확도가 오름. 대신 호출이 순서대로 쌓여 지연(latency)이 늘어남.</li>
+<li>얻는 것 : 단계마다 기록·평가·분기 · 사람 확인 · 정해진 구조 강제.</li>
+<li>흔한 모양 = 자기 교정 (초안 → 기준으로 검토 → 고침).</li>
+</ul>
+<p class="lead">수동 CoT</p>
+<ul>
+<li>thinking 이 꺼져 있을 때의 대안. "생각해 보라"고 요청하고 <code>&lt;thinking&gt;</code>·<code>&lt;answer&gt;</code> 태그로 추론과 답을 나눔.</li>
+<li>추론이 답 글 안에 섞여 나오므로 코드가 태그로 잘라 내야 함.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>단계 사이의 중간 결과를 코드나 사람이 봐야 하나?</li>
+<li>thinking 을 켤 수 있는 모델인가, 켜져 있나?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="thinking-vs-chaining-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="thinking-vs-chaining-tree-1" aria-labelledby="thinking-vs-chaining-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9 n10 n11|n1 n4 n5 n8 n9 n12 n13">
     <div class="t5-fh"><h3 id="thinking-vs-chaining-tree-1-h">한 요청이냐 여러 호출이냐 <span class="pg">[2.3②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -418,7 +471,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="thinking-vs-chaining-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="thinking-vs-chaining-flow" aria-label="한 요청 안 thinking vs 여러 호출 체이닝 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["요청","모델","코드 검사","결과"],"blocks":[],"rules":[null,null,null,null],"question":"중간 결과를 봐야 할까?","scenes":[{"name":"① 다단계 추론 → thinking","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"주문 1042 환불돼요? / 규정 3개와 대조"}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"한 요청","art":{"kind":"slip","lines":["thinking:","{type: \"adaptive\"}"]}},{"kind":"mark","step":"thinking","at":{"col":1},"label":"thinking 블록에서 풀고 확인","art":{"kind":"slip","lines":["[thinking] 7일 이내 맞음","미개봉 맞음","할인 상품 아님"]}},{"kind":"skip","at":2},{"kind":"move","step":"답","from":{"col":1},"to":3,"label":"답은 text 블록","art":{"kind":"say","text":"환불 가능해요."}},{"kind":"end","label":"다단계 추론은 한 요청 안에서 대부분 처리"}]},{"name":"② 중간 출력을 봐야 함 → 체이닝","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"주문 1042 환불돼요? / 규정 3개와 대조"}},{"kind":"move","step":"호출 1","from":{"col":0},"to":1,"label":"1단계만","art":{"kind":"slip","lines":["초안: 대조표","7일 · 미개봉 · 정가"]}},{"kind":"move","step":"검사","from":{"col":1},"to":2,"label":"중간 출력 검사","art":{"kind":"slip","lines":["규정 3개 다 있음","통과"]}},{"kind":"move","step":"호출 2","from":{"col":2},"to":1,"label":"통과한 것만 다음 단계로","art":{"kind":"slip","lines":["2단계: 대조표로 판정"]}},{"kind":"move","step":"답","from":{"col":1},"to":3,"label":"판정","art":{"kind":"say","text":"환불 가능해요."}},{"kind":"end","label":"지연을 내주고 정확도를 얻음"}]},{"name":"③ 추론을 답 글에 쓰라고 함","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"주문 1042 환불돼요? / 판단 과정도 답에 다 적어 줘"}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"답 글로 추론 요구","art":{"kind":"slip","lines":["model: Opus 5.5","\"단계별 생각을 답에\""]}},{"kind":"mark","step":"거절","at":{"col":1},"label":"reasoning_extraction 으로 거절될 수 있음 ≠","art":{"kind":"slip","lines":["거절","사유: reasoning_extraction"]}},{"kind":"end","label":"추론은 thinking 블록에서 읽음"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -468,124 +521,9 @@
       </ul>
       <p>비용 : thinking 토큰 = 출력 토큰 단가, 안 보여도 청구 <span class="ok">✓ 확인</span> · 체이닝 = 지연(latency)을 내주고 정확도를 얻음 <span class="ok">✓ 확인</span> → 둘 다 공짜 아님</p>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"체이닝으로 나누면 더 빠르고 싸다" → 지연을 내주고 정확도를 얻음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"단계가 여러 개면 무조건 체이닝" → 한 요청 안에서 대부분 처리. 체이닝은 중간 검사·구조 강제일 때 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"thinking 켜 놓고 프롬프트에 단계 계획을 길게" → 일반 지시가 나을 때가 많음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"추론을 보려고 '생각 과정을 답에 써라'" → thinking 블록을 읽음. 새 모델은 거절될 수 있음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"thinking 블록이 빈 칸 → thinking 안 함" → display 기본 "omitted". 추론은 signature 에 담겨 있음, 그대로 돌려줌 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"thinking 없는 턴이 있음 → 설정 오류" → adaptive 는 단순한 요청엔 thinking 을 건너뜀, 정상 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar(2025 제작) "thinking 없이 먼저, 프롬프트를 다듬어도 정확도가 모자라면 켠다" → 평가로 정한다는 원칙은 맞지만, 지금은 새 모델 다수가 기본 켜짐이고 못 끄는 모델도 있음 <span class="note">(Skilljar)</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"With adaptive thinking and subagent orchestration, Claude handles most multistep reasoning internally."</p>
-        <p lang="en">"Explicit prompt chaining (breaking a task into sequential API calls) is still useful when you need to inspect intermediate outputs or enforce a specific pipeline structure."</p>
-        <p lang="en">"When thinking is off, you can still encourage step-by-step reasoning by asking Claude to think through the problem."</p>
-        <p lang="en">"A prompt like \"think thoroughly\" often produces better reasoning than a hand-written step-by-step plan."</p>
-        <p lang="en">"The main goal is to trade off latency for higher accuracy, by making each LLM call an easier task."</p>
-        <p lang="en">"To see the model's reasoning, read the <code>thinking</code> blocks rather than prompting for reasoning in the response text."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="decomposition-unit.html">■ decomposition 단위 정하기</a></li>
-        <li><a href="workflow-patterns.html">■ 워크플로 5패턴</a></li>
-        <li><a href="thinking-controls.html">■ 모델별 thinking 제어</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 2.3 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>prompting-best-practices <span class="src">(en 285·287·404·406줄)</span></li>
-        <li>thinking <span class="src">(ko/en 3·5·39·76·121·183~184줄)</span></li>
-        <li>thinking-steering-and-cost <span class="src">(en 15줄)</span></li>
-        <li>thinking-troubleshooting <span class="src">(en 116~120·126·134~136줄)</span></li>
-        <li>building-effective-agents <span class="src">(en 61줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 5·15·46·120·213줄)</span></li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287773">Skilljar API 287773</a> <span class="src">(33줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (갈림 기준 전부)</li>
-        <li>Skilljar 1줄</li>
-        <li><span class="post">시험 뒤 변경</span> 2곳(Opus 5 끄기 · 새 모델 추론 추출 거절)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">2.3②</li>
-        <li class="chip">1.5②</li>
-        <li>(<span class="note">체이닝 조건 본문은 <a href="decomposition-unit.html">■ decomposition 단위 정하기</a></span>)</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-thinking-vs-chaining" aria-labelledby="vx-thinking-vs-chaining-cap">
-  <div class="vx-player" data-vx-scene="thinking-vs-chaining"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-thinking-vs-chaining-cap">영상 — 한 요청으로 끝낼까, 나눌까? (약 43초 · 소리 없음 · 자막). 초안의 &#x27;정가&#x27; 빠짐 · 블록 길이(= 시간) · ④ 규정마다 한 호출은 그림용 가정 — 방향은 설명 원리(thinking 한계 · 체이닝은 지연을 내줌)를 따름 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>thinking-vs-chaining</dd>
-  <dt>본편</dt>
-  <dd>2.3</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">2.3②</li><li class="chip">1.5②</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>어려운 수학 숙제를 푸는 두 가지 방법이에요.</p>
-<ul>
-<li>혼자 연습장에 끄적이며 한 번에 풀 수도 있어요.</li>
-<li>한 단계 풀 때마다 선생님께 보여 드리고 다음으로 넘어갈 수도 있어요.</li>
-<li>한 번에 푸는 게 보통 더 빨라요.</li>
-<li>중간에 누가 꼭 봐야 하면 단계마다 보여 드려야 해요.</li>
-<li>이 쪽은 "언제 나눠야 하나"를 모아 둔 곳이에요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">thinking (한 요청 안)</p>
-<ul>
-<li>모델이 답하기 전에 thinking 블록에서 문제를 다시 말하고, 방법을 시도하고, 중간 결과를 확인하고, 안 되는 길은 버림 → 답은 text 블록에.</li>
-<li>adaptive 모드면 모델이 요청마다 "생각할지·얼마나"를 스스로 정함. 단순한 요청엔 건너뜀.</li>
-<li>도구를 쓰면 도구 호출 사이에도 생각함(interleaved thinking, adaptive 면 자동). 도구 루프 전체가 한 어시스턴트 턴.</li>
-<li>비용 : thinking(사고) 토큰은 출력 토큰으로 청구, <code>max_tokens</code> 에 포함. 안 보여도 청구.</li>
-<li>한계 : 중간 결과가 모델 안에서만 흐름 → 코드·사람이 단계 사이에 끼어들 틈이 없음. 새 모델은 추론(reasoning) 원문도 안 줌(요약 또는 빈 칸).</li>
-</ul>
-<p class="lead">prompt chaining(프롬프트 체이닝 · 여러 호출)</p>
-<ul>
-<li>일을 순서대로 나눠 앞 호출의 출력을 다음 호출이 처리. 사이에 코드 검사(gate)를 둘 수 있음.</li>
-<li>호출마다 쉬운 일이 되니 정확도가 오름. 대신 호출이 순서대로 쌓여 지연(latency)이 늘어남.</li>
-<li>얻는 것 : 단계마다 기록·평가·분기 · 사람 확인 · 정해진 구조 강제.</li>
-<li>흔한 모양 = 자기 교정 (초안 → 기준으로 검토 → 고침).</li>
-</ul>
-<p class="lead">수동 CoT</p>
-<ul>
-<li>thinking 이 꺼져 있을 때의 대안. "생각해 보라"고 요청하고 <code>&lt;thinking&gt;</code>·<code>&lt;answer&gt;</code> 태그로 추론과 답을 나눔.</li>
-<li>추론이 답 글 안에 섞여 나오므로 코드가 태그로 잘라 내야 함.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>단계 사이의 중간 결과를 코드나 사람이 봐야 하나?</li>
-<li>thinking 을 켤 수 있는 모델인가, 켜져 있나?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -651,7 +589,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -726,7 +663,37 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="thinking-vs-chaining-practice-h">연습 문제</h2>
 
+  <section class="csx" id="thinking-vs-chaining-case" aria-labelledby="thinking-vs-chaining-case-h" data-tree="thinking-vs-chaining-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;중간 출력 검사&quot;],[&quot;n3&quot;,null]]" data-flow="thinking-vs-chaining-flow" data-scene="1">
+    <p class="csx-text">환불 가능 여부를 규정 3개와 대조해 판정하는 흐름이다. <mark class="csx-m" data-tag="중간 출력 검사">대조표 초안이 규정을 빠짐없이 담았는지 확인한 뒤에만 판정 단계로 간다<span class="csx-tag">중간 출력 검사</span></mark>. 한 팀원은 "Opus 5.5 는 thinking 이 늘 켜져 있으니 한 요청으로 끝내자"고 한다. 어떻게 짤까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="thinking-vs-chaining-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"체이닝으로 나누면 더 빠르고 싸다" → 지연을 내주고 정확도를 얻음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"단계가 여러 개면 무조건 체이닝" → 한 요청 안에서 대부분 처리. 체이닝은 중간 검사·구조 강제일 때 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"thinking 켜 놓고 프롬프트에 단계 계획을 길게" → 일반 지시가 나을 때가 많음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"추론을 보려고 '생각 과정을 답에 써라'" → thinking 블록을 읽음. 새 모델은 거절될 수 있음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"thinking 블록이 빈 칸 → thinking 안 함" → display 기본 "omitted". 추론은 signature 에 담겨 있음, 그대로 돌려줌 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"thinking 없는 턴이 있음 → 설정 오류" → adaptive 는 단순한 요청엔 thinking 을 건너뜀, 정상 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar(2025 제작) "thinking 없이 먼저, 프롬프트를 다듬어도 정확도가 모자라면 켠다" → 평가로 정한다는 원칙은 맞지만, 지금은 새 모델 다수가 기본 켜짐이고 못 끄는 모델도 있음 <span class="note">(Skilljar)</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"With adaptive thinking and subagent orchestration, Claude handles most multistep reasoning internally."</p>
+        <p lang="en">"Explicit prompt chaining (breaking a task into sequential API calls) is still useful when you need to inspect intermediate outputs or enforce a specific pipeline structure."</p>
+        <p lang="en">"When thinking is off, you can still encourage step-by-step reasoning by asking Claude to think through the problem."</p>
+        <p lang="en">"A prompt like \"think thoroughly\" often produces better reasoning than a hand-written step-by-step plan."</p>
+        <p lang="en">"The main goal is to trade off latency for higher accuracy, by making each LLM call an easier task."</p>
+        <p lang="en">"To see the model's reasoning, read the <code>thinking</code> blocks rather than prompting for reasoning in the response text."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 체이닝이 오히려 싼 때 — 단계를 작은 모델로</h4>
@@ -762,7 +729,6 @@
 <li><span class="lead">근거 :</span> Skilljar 287773 33줄 · thinking-troubleshooting en 11~27줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -837,7 +803,33 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="thinking-vs-chaining-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="decomposition-unit.html">■ decomposition 단위 정하기</a></li>
+        <li><a href="workflow-patterns.html">■ 워크플로 5패턴</a></li>
+        <li><a href="thinking-controls.html">■ 모델별 thinking 제어</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 2.3 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>prompting-best-practices <span class="src">(en 285·287·404·406줄)</span></li>
+        <li>thinking <span class="src">(ko/en 3·5·39·76·121·183~184줄)</span></li>
+        <li>thinking-steering-and-cost <span class="src">(en 15줄)</span></li>
+        <li>thinking-troubleshooting <span class="src">(en 116~120·126·134~136줄)</span></li>
+        <li>building-effective-agents <span class="src">(en 61줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 5·15·46·120·213줄)</span></li>
+        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287773">Skilljar API 287773</a> <span class="src">(33줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (갈림 기준 전부)</li>
+        <li>Skilljar 1줄</li>
+        <li><span class="post">시험 뒤 변경</span> 2곳(Opus 5 끄기 · 새 모델 추론 추출 거절)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -845,8 +837,7 @@
 <li>목록 2.3② 의 영상 대조 "Opus 5.5 는 adaptive thinking 을 끌 수 없음(thinking disabled = 400)"은 맞음(effort en-2026-09-28 47줄). 목록 정답 규칙의 "수동 step by step 은 thinking 이 꺼져 있을 때의 대안" 도 맞음(prompting-best-practices en 287줄). 고친 곳 없음.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/thinking-vs-chaining.md</p>

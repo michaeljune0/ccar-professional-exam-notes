@@ -350,18 +350,72 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ◆ pass@k vs pass^k -->
-<article class="card t5-card" id="pass-at-k" aria-labelledby="pass-at-k-title">
+<!-- ◆ pass@k vs pass^k (v3 시범 순서) -->
+<article class="card t5-card v3" id="pass-at-k" aria-labelledby="pass-at-k-title">
   <header class="t5-head">
     <h1 id="pass-at-k-title"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> pass@k vs pass^k</h1>
-    <p class="lemma-meta"><span lang="en">at least one of k trials vs all k trials succeed</span><span class="lemma-main">4.1 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">at least one of k trials vs all k trials succeed</span><span class="lemma-main">4.1 본편</span></p>
   </header>
-  <h2 class="sec-h" id="pass-at-k-case-h">지문</h2>
-  <section class="csx" id="pass-at-k-case" aria-labelledby="pass-at-k-case-h" data-tree="pass-at-k-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;매번 성공&quot;],[&quot;n5&quot;,null]]" data-flow="pass-at-k-flow" data-scene="1">
-    <p class="csx-text">고객지원 Agent 가 <mark class="csx-m" data-tag="매번 성공">재시도 없이 고객에게 바로 답한다<span class="csx-tag">매번 성공</span></mark>. 과제마다 3번씩 돌려 보니 1회 성공률이 75% 였다. 팀원은 보고서에 "pass@3 ≈ 98%" 라고 적자고 한다. 무엇으로 보고해야 할까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="pass-at-k-trees-h">갈림길</h2>
+  <h2 class="sec-h" id="pass-at-k-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>4.1 평가 지표 정하기</b> · D4 평가 16%<br><q lang="en">Define evaluation metrics (accuracy, latency, cost, safety, security)</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>4.1③ 재시도 없는 고객 대면 에이전트 — pass@k 인가 pass^k 인가?</b> — 비결정성을 담는 신뢰성 지표 고르기</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="pass-at-k-sum-h">한눈에</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>농구 자유투를 떠올려 보세요.</p>
+<ul>
+<li>"세 번 던져서 한 번만 들어가면 돼"는 쉬운 시험이에요.</li>
+<li>"세 번 던져서 세 번 다 들어가야 해"는 어려운 시험이에요.</li>
+<li>같은 선수여도 어떤 시험이냐에 따라 점수가 크게 달라요.</li>
+<li>손님을 상대하는 일은 매번 들어가야 하는 쪽이에요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-pass-at-k" aria-labelledby="vx-pass-at-k-cap">
+  <div class="vx-player" data-vx-scene="pass-at-k"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-pass-at-k-cap">영상 — 보고서에 98% 라고 적어도 될까? (약 48초 · 소리 없음 · 자막). 1회 성공률 75% 는 공식 글의 예시 값 · 시도끼리 독립과 ✓✗✓ 는 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">왜 여러 번 돌리나</p>
+<ul>
+<li>에이전트는 같은 과제도 실행마다 결과가 다름. 한 번 통과한 과제가 다음엔 실패할 수 있음.</li>
+<li>그래서 과제마다 여러 번 시도(trial)하고, "얼마나 자주" 성공하는지를 봄.</li>
+<li>과제마다 성공률도 다름(어떤 건 90%, 어떤 건 50%).</li>
+</ul>
+<p class="lead">두 지표</p>
+<ul>
+<li>pass@k : k번 중 적어도 한 번 성공할 확률. k 가 커질수록 오름("슛 기회"가 많을수록).</li>
+<li>pass^k : k번 모두 성공할 확률. k 가 커질수록 내림(일관성 요구가 커짐).</li>
+<li>k = 1 이면 둘 다 1회 성공률로 같음. k = 10 이면 pass@k 는 100% 쪽, pass^k 는 0% 쪽 — 정반대 이야기를 함.</li>
+</ul>
+<p class="lead">고르는 기준 = 제품 요구</p>
+<ul>
+<li>후보를 여러 개 내고 하나만 맞으면 되는 일 → pass@k.</li>
+<li>사용자가 매번 믿을 만한 동작을 기대하는 고객 대면 에이전트 → pass^k.</li>
+<li>코딩은 첫 시도 해결(pass@1)을 가장 중시.</li>
+</ul>
+<p class="lead">숫자가 믿을 만하려면</p>
+<ul>
+<li>시도가 서로 독립이어야 함. 깨끗한 환경에서 시작하지 않으면 남은 파일·캐시·자원 고갈로 같이 실패하거나, 앞 시도의 흔적을 보고 점수가 부풂.</li>
+<li>프런티어 모델이 여러 번 다 0% 면 대개 과제가 고장.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>사용자(또는 다음 단계)가 받는 건 k번 중 가장 좋은 하나인가, 매번의 결과인가?</li>
+<li>이 k번은 서로 독립인가?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="pass-at-k-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="pass-at-k-tree-1" aria-labelledby="pass-at-k-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7">
     <div class="t5-fh"><h3 id="pass-at-k-tree-1-h">어느 지표 <span class="pg">[4.1③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -418,7 +472,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="pass-at-k-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="pass-at-k-flow" aria-label="pass@k vs pass^k 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["과제","시도 k번","판정"],"blocks":[],"rules":[null,null,"pass@k 는 한 번이라도 · pass^k 는 k번 모두"],"question":"3번 중 몇 번 성공해야 통과일까?","scenes":[{"name":"① 하나만 되면 되는 도구 → pass@k","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["상담원용 답 초안","후보 3개 중 하나만 쓰면 됨"]}},{"kind":"move","step":"시도","from":{"col":0},"to":1,"label":"3번 · 1회 성공률 75%","art":{"kind":"slip","lines":["시도 1 ✓","시도 2 ✗","시도 3 ✓"]}},{"kind":"move","step":"판정","from":{"col":1},"to":2,"label":"한 번이라도 성공이면 통과","art":{"kind":"slip","lines":["이 과제 : ✓ 있음","→ 통과"]}},{"kind":"mark","step":"셈","at":{"col":2},"label":"k번 중 적어도 한 번 성공할 확률","art":{"kind":"slip","lines":["pass@3 = 1 − 0.25³","≈ 98%"]}},{"kind":"end","label":"후보 중 하나만 맞으면 되는 도구엔 pass@k — pass@3 ≈ 98%"}]},{"name":"② 고객 대면 에이전트 → pass^k","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["고객 문의에 바로 답함","재시도 없음"]}},{"kind":"move","step":"시도","from":{"col":0},"to":1,"label":"3번 · 1회 성공률 75%","art":{"kind":"slip","lines":["시도 1 ✓","시도 2 ✗","시도 3 ✓"]}},{"kind":"move","step":"판정","from":{"col":1},"to":2,"label":"k번 모두 성공해야 통과","art":{"kind":"slip","lines":["이 과제 : ✗ 하나","→ 통과 못 함"]}},{"kind":"mark","step":"셈","at":{"col":2},"label":"k번 모두 성공할 확률","art":{"kind":"slip","lines":["pass^3 = (0.75)³","≈ 42%"]}},{"kind":"end","label":"매번 맞아야 하는 고객 대면 에이전트엔 pass^k — pass^3 ≈ 42%"}]},{"name":"③ 고객 대면을 pass@k 로 봄","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["고객 문의에 바로 답함","재시도 없음"]}},{"kind":"move","step":"시도","from":{"col":0},"to":1,"label":"3번 · 1회 성공률 75%","art":{"kind":"slip","lines":["시도 1 ✓","시도 2 ✗","시도 3 ✓"]}},{"kind":"move","step":"판정","from":{"col":1},"to":2,"label":"한 번이라도 성공이면 통과","art":{"kind":"slip","lines":["이 과제 : ✓ 있음","→ 통과"]}},{"kind":"mark","step":"보고","at":{"col":2},"label":"한 번 성공 기준으로 보고","art":{"kind":"slip","lines":["보고서 : \"pass@3 ≈ 98%\""]}},{"kind":"end","label":"고객 대면을 pass@k 로 보면 높게 나와 신뢰성을 과대평가 — 사용자는 매번 믿을 만한 동작을 기대"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -453,7 +507,7 @@
       </ol>
     </details>
   </figure>
-  <h2 class="sec-h" id="pass-at-k-rep-h">반복</h2>
+  <h3 class="v3-sub" id="pass-at-k-rep-h">반복</h3>
   <section class="rpx" id="pass-at-k-rep" aria-labelledby="pass-at-k-rep-h">
     <h3>과제 100개를 k번씩 모의로 돌려 보기</h3>
     <p class="rpx-assume"><span class="rpx-chip">가정</span>1회 성공률 75% 는 공식 글의 예시 값 — 과제마다 같고 시도끼리 독립이라고 봄. 실제 측정값 아님</p>
@@ -495,118 +549,9 @@
         <li>프런티어 모델이 여러 시도에서 0%(0% pass@100) → 대개 과제가 고장. 과제 명세·grader 확인, 과제마다 참고 해답(reference solution)</li>
       </ul>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>재시도 없는 고객 대면 에이전트를 pass@k 로 → 높게 나와 신뢰성을 과대평가. pass^k <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"몇 번 돌려 한 번 되면 됐다" → 그건 pass@k. 매번 돼야 하면 pass^k <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>실행 1회 정확도로 판단 → 실행마다 달라서 여러 번 시도 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>pass^k 를 "k번의 평균 성공률"로 읽음 → 모두 성공할 확률, k 가 커질수록 내려감 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"pass@k 가 올랐으니 에이전트가 좋아졌다" → k 만 늘려도 오름 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>신뢰성을 물었는데 TTFT 같은 지연(latency) 지표를 고름 → 다른 차원 <span class="note">(◆ TTFT vs 응답 완료 지연)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>0% pass@100 을 "모델이 못 한다"로 → 과제 고장부터 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"pass@k for tools where one success matters, pass^k for agents where consistency is essential."</p>
-        <p lang="en">"This metric especially matters for customer-facing agents where users expect reliable behavior every time."</p>
-        <p lang="en">"If your agent has a 75% per-trial success rate and you run 3 trials, the probability of passing all three is (0.75)³ ≈ 42%."</p>
-        <p lang="en">"In coding, we’re often most interested in the agent finding the solution on the first try—pass@1."</p>
-        <p lang="en">"At k=1, they're identical (both equal the per-trial success rate)."</p>
-        <p lang="en">"Because model outputs vary between runs, we run multiple trials to produce more consistent results."</p>
-        <p lang="en">"With frontier models, a 0% pass rate across many trials (i.e. 0% pass@100) is most often a signal of a broken task, not an incapable agent"</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="success-criteria.html">■ 성공 기준</a></li>
-        <li><a href="eval-dataset.html">■ 첫 eval 셋 만들기</a></li>
-        <li><a href="capability-vs-regression.html">◆ capability eval vs regression eval</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 4.1 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>demystifying-evals <span class="src">(en 24·199~211·231·241줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (갈림 기준 · 셈 · 시도 믿기)</li>
-        <li><span class="calc">계산</span> 1줄(pass@k 식)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">4.1③</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-pass-at-k" aria-labelledby="vx-pass-at-k-cap">
-  <div class="vx-player" data-vx-scene="pass-at-k"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-pass-at-k-cap">영상 — 보고서에 98% 라고 적어도 될까? (약 48초 · 소리 없음 · 자막). 1회 성공률 75% 는 공식 글의 예시 값 · 시도끼리 독립과 ✓✗✓ 는 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>pass-at-k</dd>
-  <dt>본편</dt>
-  <dd>4.1</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">4.1③</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>농구 자유투를 떠올려 보세요.</p>
-<ul>
-<li>"세 번 던져서 한 번만 들어가면 돼"는 쉬운 시험이에요.</li>
-<li>"세 번 던져서 세 번 다 들어가야 해"는 어려운 시험이에요.</li>
-<li>같은 선수여도 어떤 시험이냐에 따라 점수가 크게 달라요.</li>
-<li>손님을 상대하는 일은 매번 들어가야 하는 쪽이에요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">왜 여러 번 돌리나</p>
-<ul>
-<li>에이전트는 같은 과제도 실행마다 결과가 다름. 한 번 통과한 과제가 다음엔 실패할 수 있음.</li>
-<li>그래서 과제마다 여러 번 시도(trial)하고, "얼마나 자주" 성공하는지를 봄.</li>
-<li>과제마다 성공률도 다름(어떤 건 90%, 어떤 건 50%).</li>
-</ul>
-<p class="lead">두 지표</p>
-<ul>
-<li>pass@k : k번 중 적어도 한 번 성공할 확률. k 가 커질수록 오름("슛 기회"가 많을수록).</li>
-<li>pass^k : k번 모두 성공할 확률. k 가 커질수록 내림(일관성 요구가 커짐).</li>
-<li>k = 1 이면 둘 다 1회 성공률로 같음. k = 10 이면 pass@k 는 100% 쪽, pass^k 는 0% 쪽 — 정반대 이야기를 함.</li>
-</ul>
-<p class="lead">고르는 기준 = 제품 요구</p>
-<ul>
-<li>후보를 여러 개 내고 하나만 맞으면 되는 일 → pass@k.</li>
-<li>사용자가 매번 믿을 만한 동작을 기대하는 고객 대면 에이전트 → pass^k.</li>
-<li>코딩은 첫 시도 해결(pass@1)을 가장 중시.</li>
-</ul>
-<p class="lead">숫자가 믿을 만하려면</p>
-<ul>
-<li>시도가 서로 독립이어야 함. 깨끗한 환경에서 시작하지 않으면 남은 파일·캐시·자원 고갈로 같이 실패하거나, 앞 시도의 흔적을 보고 점수가 부풂.</li>
-<li>프런티어 모델이 여러 번 다 0% 면 대개 과제가 고장.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>사용자(또는 다음 단계)가 받는 건 k번 중 가장 좋은 하나인가, 매번의 결과인가?</li>
-<li>이 k번은 서로 독립인가?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -672,7 +617,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -740,7 +684,38 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="pass-at-k-practice-h">연습 문제</h2>
 
+  <section class="csx" id="pass-at-k-case" aria-labelledby="pass-at-k-case-h" data-tree="pass-at-k-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;매번 성공&quot;],[&quot;n5&quot;,null]]" data-flow="pass-at-k-flow" data-scene="1">
+    <p class="csx-text">고객지원 Agent 가 <mark class="csx-m" data-tag="매번 성공">재시도 없이 고객에게 바로 답한다<span class="csx-tag">매번 성공</span></mark>. 과제마다 3번씩 돌려 보니 1회 성공률이 75% 였다. 팀원은 보고서에 "pass@3 ≈ 98%" 라고 적자고 한다. 무엇으로 보고해야 할까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="pass-at-k-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>재시도 없는 고객 대면 에이전트를 pass@k 로 → 높게 나와 신뢰성을 과대평가. pass^k <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"몇 번 돌려 한 번 되면 됐다" → 그건 pass@k. 매번 돼야 하면 pass^k <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>실행 1회 정확도로 판단 → 실행마다 달라서 여러 번 시도 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>pass^k 를 "k번의 평균 성공률"로 읽음 → 모두 성공할 확률, k 가 커질수록 내려감 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"pass@k 가 올랐으니 에이전트가 좋아졌다" → k 만 늘려도 오름 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>신뢰성을 물었는데 TTFT 같은 지연(latency) 지표를 고름 → 다른 차원 <span class="note">(◆ TTFT vs 응답 완료 지연)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>0% pass@100 을 "모델이 못 한다"로 → 과제 고장부터 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"pass@k for tools where one success matters, pass^k for agents where consistency is essential."</p>
+        <p lang="en">"This metric especially matters for customer-facing agents where users expect reliable behavior every time."</p>
+        <p lang="en">"If your agent has a 75% per-trial success rate and you run 3 trials, the probability of passing all three is (0.75)³ ≈ 42%."</p>
+        <p lang="en">"In coding, we’re often most interested in the agent finding the solution on the first try—pass@1."</p>
+        <p lang="en">"At k=1, they're identical (both equal the per-trial success rate)."</p>
+        <p lang="en">"Because model outputs vary between runs, we run multiple trials to produce more consistent results."</p>
+        <p lang="en">"With frontier models, a 0% pass rate across many trials (i.e. 0% pass@100) is most often a signal of a broken task, not an incapable agent"</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 고객 대면인데 pass@k 가 설 자리가 있는 때</h4>
@@ -776,7 +751,6 @@
 <li><span class="lead">근거 :</span> demystifying-evals en 231줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -844,7 +818,26 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="pass-at-k-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="success-criteria.html">■ 성공 기준</a></li>
+        <li><a href="eval-dataset.html">■ 첫 eval 셋 만들기</a></li>
+        <li><a href="capability-vs-regression.html">◆ capability eval vs regression eval</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 4.1 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>demystifying-evals <span class="src">(en 24·199~211·231·241줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (갈림 기준 · 셈 · 시도 믿기)</li>
+        <li><span class="calc">계산</span> 1줄(pass@k 식)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -854,8 +847,7 @@
 <li>한국어판 없음 (anthropic.com/engineering 글) — 영어 원문만.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/pass-at-k.md</p>

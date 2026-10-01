@@ -350,24 +350,74 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ structured outputs -->
-<article class="card t5-card" id="structured-output" aria-labelledby="structured-output-title">
+<!-- ■ structured outputs (v3 시범 순서) -->
+<article class="card t5-card v3" id="structured-output" aria-labelledby="structured-output-title">
   <header class="t5-head">
     <h1 id="structured-output-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> structured outputs</h1>
-    <p class="lemma-meta"><span lang="en">출력 모양 강제 · enum 도구 · prefill 400 은 모델별</span><span class="lemma-main">2.2 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">출력 모양 강제 · enum 도구 · prefill 400 은 모델별</span><span class="lemma-main">2.2 본편</span></p>
   </header>
-  <h2 class="sec-h" id="structured-output-sum-h">카드</h2>
+  <h2 class="sec-h" id="structured-output-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>2.2 시스템 프롬프트와 가드레일</b> · D2 모델·프롬프트 13%<br><q lang="en">Design system prompts, templates, and guardrails</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>2.2② JSON 모양·금지 규칙을 꼭 지켜야 한다 — 프롬프트? prefill? 스키마?</b> — 유도(프롬프트) vs 강제(스키마·enum 도구·훅) · prefill 400 을 만났을 때의 수리</li>
+      <li><b>1.2① 입력·처리·출력·되먹임, 각 칸은 무슨 일을 맡나?</b> — 단계마다 책임 나누기 <span class="note">(입력 선별 → 보강된 LLM 처리 → 모양이 정해진 출력 → 평가 결과를 되돌리는 길)</span></li>
+      <li><b>4.4③ 형식이 매번 깨진다 vs 더 강한 설정에서만 풀린다</b> — prompt failure vs model mismatch 가르기</li>
+      <li><b>5.4① 병원 환자 메시지를 Claude API 로 — BAA·HIPAA readiness 면 되나, ZDR 도?</b> — HIPAA 구성 고르기 (BAA + HIPAA readiness + PHI 경계) vs ZDR</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="structured-output-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>JSON 모양은 부탁(프롬프트)이 아니라 structured outputs 의 제약 디코딩(constrained decoding)으로 보장. 응답 모양 = JSON outputs(<code>output_config.format</code>), 도구 입력 = strict tool use(<code>strict: true</code>), 한 요청에 둘 다 가능 <span class="ok">✓ 확인</span></p>
       <p>옛 수단 prefill(마지막 assistant 턴에 "{" 채우기)은 Claude 4.6 이후 모델에서 400 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> 출력을 grep 으로 긁어 검사하던 걸 스키마 검증(admission 정책)으로 바꾸기 / 폐기된 API 버전을 부르면 에러</p>
   </div>
-  <h2 class="sec-h" id="structured-output-case-h">지문</h2>
-  <section class="csx" id="structured-output-case" aria-labelledby="structured-output-case-h" data-tree="structured-output-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;4.6 이후 모델&quot;],[&quot;n3&quot;,null],[&quot;n4&quot;,&quot;prefill&quot;],[&quot;n5&quot;,null]]" data-flow="structured-output-flow" data-scene="0">
-    <p class="csx-text">주문 메일에서 JSON 을 뽑던 파이프라인을 <mark class="csx-m" data-tag="4.6 이후 모델">Sonnet 5 로 옮기자<span class="csx-tag">4.6 이후 모델</span></mark> 모든 요청이 400 <code>invalid_request_error</code> 다. 코드는 <mark class="csx-m" data-tag="prefill">마지막 assistant 턴에 "{" 를 채워 JSON 을 받던<span class="csx-tag">prefill</span></mark> 방식이다. 팀은 "prefill 되는 옛 모델로 고정하자"고 한다. 무엇으로 옮길까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="structured-output-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>택배 상자를 부탁으로 맞추느냐, 틀에 넣어 찍어 내느냐예요.</p>
+<ul>
+<li>"네모나게 싸 주세요" 라고 부탁하면 대부분 네모지만 가끔 찌그러져요.</li>
+<li>틀에 넣어 찍으면 늘 네모예요. 그게 structured outputs 예요.</li>
+<li>예전엔 상자 뚜껑을 미리 반쯤 접어 두는 요령(prefill)을 썼는데, 새 기계는 그걸 받지 않아요.</li>
+<li>틀이 있어도 기계가 "이건 못 싸요" 하거나 중간에 멈추면 상자가 비어 올 수 있어요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-structured-output" aria-labelledby="vx-structured-output-cap">
+  <div class="vx-player" data-vx-scene="structured-output"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-structured-output-cap">영상 — JSON 모양, 부탁하면 늘 맞을까? (약 43초 · 소리 없음 · 자막). 5번 중 2번 깨짐·후보 글자·재시도 결과는 그림용 가정(실측 아님) <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">부탁 vs 보장</p>
+<ul>
+<li>프롬프트로 "JSON 으로" 라고 하면 대개 맞지만, 파싱 오류·필수 필드 누락·타입 불일치가 섞일 수 있음.</li>
+<li>structured outputs 는 스키마를 문법으로 컴파일해 생성 단계에서 벗어난 토큰을 못 고르게 함(constrained decoding) → 항상 유효 · 타입 안전 · 스키마 위반 재시도 불필요.</li>
+<li>두 갈래 : 응답 전체 모양 = JSON outputs(<code>output_config.format</code>) / 도구 입력 모양 = strict tool use(<code>strict: true</code>). 한 요청에 둘 다.</li>
+</ul>
+<p class="lead">prefill 은 왜 막혔나</p>
+<ul>
+<li>prefill = 마지막 assistant 턴에 답의 앞머리("{", "```json")를 넣어 이어 쓰게 하던 요령.</li>
+<li>Claude 4.6 이후 모델 + Mythos Preview 는 이걸 400 으로 거절. 모델의 지시 따르기가 좋아져 대부분 필요 없어졌고, 모양은 structured outputs 가 전담.</li>
+<li>이전 모델(4.5 세대)은 계속 됨. 단 thinking 켠 동안엔 모델 불문 prefill 불가, JSON outputs 와도 같이 못 씀.</li>
+</ul>
+<p class="lead">강제 도구 호출도 모델별</p>
+<ul>
+<li><code>tool_choice</code> <code>any</code>·<code>tool</code> 은 내부적으로 prefill 로 도구 호출을 강제함(그래서 <code>tool_use</code> 앞에 설명 문장이 안 나옴).</li>
+<li>Opus 5.5 · Fable 5.1 · Mythos 5.1 은 이 강제 자체를 400 으로 거절 → <code>auto</code> + strict tool use, 또는 structured outputs. 어느 도구를 고를지는 프롬프트가 좌우.</li>
+</ul>
+<p class="lead">보장의 경계</p>
+<ul>
+<li>모양만 보장. refusal(HTTP 200)·max_tokens 잘림이면 스키마와 안 맞을 수 있고, enum 대소문자도 보장 안 함.</li>
+<li>값의 뜻(합계·필드 위치)은 스키마 밖 → 뒤쪽 검증.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="structured-output-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="structured-output-tree-1" aria-labelledby="structured-output-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7">
     <div class="t5-fh"><h3 id="structured-output-tree-1-h">①② 무엇의 모양? <span class="pg">[2.2②]</span> <span class="pg">[1.2①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -434,7 +484,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="structured-output-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="structured-output-flow" aria-label="structured outputs 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["앱","API","모델"],"blocks":[],"rules":[null,null,null],"question":"모양은 누가 보장할까?","scenes":[{"name":"① structured outputs","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["메일: \"우산 2개,","내일까지 보내 주세요\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"`output_config.format` + 스키마","art":{"kind":"slip","lines":["format: type \"json_schema\"","+ 스키마 {상품, 수량}"]}},{"kind":"mark","step":"생성","at":{"col":2},"label":"제약 디코딩(constrained decoding)","art":{"kind":"slip","lines":["스키마대로만 생성","{\"상품\": \"우산\", …"]}},{"kind":"move","step":"응답","from":{"col":2},"to":0,"label":"스키마 맞는 JSON","art":{"kind":"slip","lines":["{\"상품\": \"우산\",","\"수량\": 2}"]}},{"kind":"end","label":"항상 유효 — 스키마 위반 재시도 필요 없음"}]},{"name":"② prefill \"{\"","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["메일: \"우산 2개,","내일까지 보내 주세요\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"마지막 assistant 턴에 \"{\"","art":{"kind":"slip","lines":["모델: Sonnet 5","마지막 턴:","{role: \"assistant\", \"{\"}"]}},{"kind":"mark","step":"거절","at":{"col":1},"label":"400 `invalid_request_error`","art":{"kind":"slip","lines":["HTTP 400","invalid_request_error"]}},{"kind":"skip","at":2},{"kind":"end","label":"Claude 4.6 이후 모델 + Mythos Preview 는 prefill 400"}]},{"name":"③ 보장의 구멍","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["메일: 주문 180건 목록","(아주 김)"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"`output_config.format` + 스키마","art":{"kind":"slip","lines":["format: type \"json_schema\"","max_tokens: 1024"]}},{"kind":"mark","step":"생성","at":{"col":2},"label":"잘림(max_tokens) 또는 거절(refusal)","art":{"kind":"slip","lines":["… {\"상품\": \"장"]}},{"kind":"move","step":"응답","from":{"col":2},"to":0,"label":"스키마와 안 맞을 수 있음","art":{"kind":"slip","lines":["stop_reason: \"max_tokens\"","[{\"상품\": \"우산\", …,","{\"상품\": \"장"]}},{"kind":"end","label":"보장에도 예외 — stop_reason 먼저 봄"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -469,7 +519,7 @@
     </details>
   </figure>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="structured-output-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
@@ -525,121 +575,9 @@
         </li>
       </ol>
     </details>
-    <h2>CCA-F</h2>
-      <p>봄 — CCA-F 는 tool_use + JSON 스키마를 구현으로 물었음(<code>tool_choice</code> <code>tool</code>/<code>any</code> 강제 · strict · enum 대소문자 · 필수 vs nullable). 여기선 "prefill 이 400 난 코드를 무엇으로 옮기나 · 옛 모델 고정이 답인가"를 모델 수명·마이그레이션 판단으로 묻고, CCA-F 식 <code>tool_choice</code> 강제가 Opus 5.5·Fable 5.1 에선 400 이라는 게 새 함정</p>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"prefill 을 더 길게 채운다" → 4.6 이후 모델은 마지막 assistant 턴 prefill 자체가 400. 길이 무관 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"prefill 되는 옛 모델로 영구 고정" → 4.5 세대는 은퇴 하한일만 잡힌 상태, 은퇴 뒤 요청은 실패 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"prefill 이 보이면 모델 불문 무조건 틀림" → 이전 모델(4.5 세대)은 지원. 지문의 모델명·thinking 켬 여부 먼저 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"JSON 을 정규식으로 긁고 재시도 횟수를 늘림" → structured outputs 면 스키마 위반 재시도가 필요 없음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"structured outputs 면 무조건 스키마대로 · enum 도 글자 그대로" → refusal·max_tokens 예외 + enum 대소문자 미보장 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"분류 도구를 <code>tool_choice: tool</code> 로 못 박기" (CCA-F 식) → Opus 5.5·Fable 5.1·Mythos 5.1 에선 400. <code>auto</code> + strict <span class="post">시험 뒤 변경</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"근거도 달게 Citations 를 같이 켠 JSON" → <code>output_config.format</code> + Citations = 400 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar API 강의(2025 제작 추정) "prefill "``<code>json" + stop sequence "</code>``" 로 깨끗한 JSON" → 4.6 이후 모델에선 400. 지금은 structured outputs</span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Structured outputs guarantee schema-compliant responses through constrained decoding"</p>
-        <p lang="en">"Requests with prefilled assistant messages to these models return a 400 error."</p>
-        <p lang="en">"Earlier models continue to support prefills, and adding assistant messages elsewhere in the conversation is not affected."</p>
-        <p lang="en">"For classification tasks, use either tools with an enum field containing your valid labels or structured outputs."</p>
-        <p lang="en">"Structured outputs don't guarantee the capitalization of string <code>enum</code> and <code>const</code> values"</p>
-        <p lang="en">"Claude Opus 5.5, Claude Fable 5.1, and Claude Mythos 5.1 don't support forced tool use." <span class="src">(docs errors)</span></p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 2.2 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>structured-outputs <span class="src">(en-full 10~31줄 · en 1~6·17~21·97~123·171~215·238·253~254줄 · ko 17·173~201·253~254줄)</span></li>
-        <li>strict-tool-use <span class="src">(en 1·48줄)</span></li>
-        <li>prompting-best-practices <span class="src">(en-full 405~436줄 · ko 166줄)</span></li>
-        <li>errors <span class="src">(en 84~93·146~148줄 · ko 86줄)</span></li>
-        <li>define-tools <span class="src">(en·ko 71~76·93줄)</span></li>
-        <li>thinking <span class="src">(en·ko 452줄)</span></li>
-        <li>model-deprecations <span class="src">(en-full 15~18·28·36·71~91줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 16·48·379·388줄)</span></li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287732">Skilljar API 287732</a></li>
-        <li>CCA-F 노트 4.3 <span class="src">(ccaf-remotion <code>content/notes/notes_ko.md</code> 880줄~)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑦)</li>
-        <li><span class="post">시험 뒤 변경</span> 1곳(⑤ 강제 도구 호출 400)</li>
-        <li><span class="gen">업계 일반</span> 1줄</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">2.2②</li>
-        <li class="chip">1.2①</li>
-        <li class="chip">4.4③</li>
-        <li class="chip">5.4①</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-structured-output" aria-labelledby="vx-structured-output-cap">
-  <div class="vx-player" data-vx-scene="structured-output"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-structured-output-cap">영상 — JSON 모양, 부탁하면 늘 맞을까? (약 43초 · 소리 없음 · 자막). 5번 중 2번 깨짐·후보 글자·재시도 결과는 그림용 가정(실측 아님) <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>structured-output</dd>
-  <dt>본편</dt>
-  <dd>2.2</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">2.2②</li><li class="chip">1.2①</li><li class="chip">4.4③</li><li class="chip">5.4①</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>택배 상자를 부탁으로 맞추느냐, 틀에 넣어 찍어 내느냐예요.</p>
-<ul>
-<li>"네모나게 싸 주세요" 라고 부탁하면 대부분 네모지만 가끔 찌그러져요.</li>
-<li>틀에 넣어 찍으면 늘 네모예요. 그게 structured outputs 예요.</li>
-<li>예전엔 상자 뚜껑을 미리 반쯤 접어 두는 요령(prefill)을 썼는데, 새 기계는 그걸 받지 않아요.</li>
-<li>틀이 있어도 기계가 "이건 못 싸요" 하거나 중간에 멈추면 상자가 비어 올 수 있어요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">부탁 vs 보장</p>
-<ul>
-<li>프롬프트로 "JSON 으로" 라고 하면 대개 맞지만, 파싱 오류·필수 필드 누락·타입 불일치가 섞일 수 있음.</li>
-<li>structured outputs 는 스키마를 문법으로 컴파일해 생성 단계에서 벗어난 토큰을 못 고르게 함(constrained decoding) → 항상 유효 · 타입 안전 · 스키마 위반 재시도 불필요.</li>
-<li>두 갈래 : 응답 전체 모양 = JSON outputs(<code>output_config.format</code>) / 도구 입력 모양 = strict tool use(<code>strict: true</code>). 한 요청에 둘 다.</li>
-</ul>
-<p class="lead">prefill 은 왜 막혔나</p>
-<ul>
-<li>prefill = 마지막 assistant 턴에 답의 앞머리("{", "```json")를 넣어 이어 쓰게 하던 요령.</li>
-<li>Claude 4.6 이후 모델 + Mythos Preview 는 이걸 400 으로 거절. 모델의 지시 따르기가 좋아져 대부분 필요 없어졌고, 모양은 structured outputs 가 전담.</li>
-<li>이전 모델(4.5 세대)은 계속 됨. 단 thinking 켠 동안엔 모델 불문 prefill 불가, JSON outputs 와도 같이 못 씀.</li>
-</ul>
-<p class="lead">강제 도구 호출도 모델별</p>
-<ul>
-<li><code>tool_choice</code> <code>any</code>·<code>tool</code> 은 내부적으로 prefill 로 도구 호출을 강제함(그래서 <code>tool_use</code> 앞에 설명 문장이 안 나옴).</li>
-<li>Opus 5.5 · Fable 5.1 · Mythos 5.1 은 이 강제 자체를 400 으로 거절 → <code>auto</code> + strict tool use, 또는 structured outputs. 어느 도구를 고를지는 프롬프트가 좌우.</li>
-</ul>
-<p class="lead">보장의 경계</p>
-<ul>
-<li>모양만 보장. refusal(HTTP 200)·max_tokens 잘림이면 스키마와 안 맞을 수 있고, enum 대소문자도 보장 안 함.</li>
-<li>값의 뜻(합계·필드 위치)은 스키마 밖 → 뒤쪽 검증.</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -717,7 +655,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -806,7 +743,38 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="structured-output-practice-h">연습 문제</h2>
 
+  <section class="csx" id="structured-output-case" aria-labelledby="structured-output-case-h" data-tree="structured-output-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;4.6 이후 모델&quot;],[&quot;n3&quot;,null],[&quot;n4&quot;,&quot;prefill&quot;],[&quot;n5&quot;,null]]" data-flow="structured-output-flow" data-scene="0">
+    <p class="csx-text">주문 메일에서 JSON 을 뽑던 파이프라인을 <mark class="csx-m" data-tag="4.6 이후 모델">Sonnet 5 로 옮기자<span class="csx-tag">4.6 이후 모델</span></mark> 모든 요청이 400 <code>invalid_request_error</code> 다. 코드는 <mark class="csx-m" data-tag="prefill">마지막 assistant 턴에 "{" 를 채워 JSON 을 받던<span class="csx-tag">prefill</span></mark> 방식이다. 팀은 "prefill 되는 옛 모델로 고정하자"고 한다. 무엇으로 옮길까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="structured-output-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"prefill 을 더 길게 채운다" → 4.6 이후 모델은 마지막 assistant 턴 prefill 자체가 400. 길이 무관 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"prefill 되는 옛 모델로 영구 고정" → 4.5 세대는 은퇴 하한일만 잡힌 상태, 은퇴 뒤 요청은 실패 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"prefill 이 보이면 모델 불문 무조건 틀림" → 이전 모델(4.5 세대)은 지원. 지문의 모델명·thinking 켬 여부 먼저 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"JSON 을 정규식으로 긁고 재시도 횟수를 늘림" → structured outputs 면 스키마 위반 재시도가 필요 없음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"structured outputs 면 무조건 스키마대로 · enum 도 글자 그대로" → refusal·max_tokens 예외 + enum 대소문자 미보장 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"분류 도구를 <code>tool_choice: tool</code> 로 못 박기" (CCA-F 식) → Opus 5.5·Fable 5.1·Mythos 5.1 에선 400. <code>auto</code> + strict <span class="post">시험 뒤 변경</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"근거도 달게 Citations 를 같이 켠 JSON" → <code>output_config.format</code> + Citations = 400 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar API 강의(2025 제작 추정) "prefill "``<code>json" + stop sequence "</code>``" 로 깨끗한 JSON" → 4.6 이후 모델에선 400. 지금은 structured outputs</span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Structured outputs guarantee schema-compliant responses through constrained decoding"</p>
+        <p lang="en">"Requests with prefilled assistant messages to these models return a 400 error."</p>
+        <p lang="en">"Earlier models continue to support prefills, and adding assistant messages elsewhere in the conversation is not affected."</p>
+        <p lang="en">"For classification tasks, use either tools with an enum field containing your valid labels or structured outputs."</p>
+        <p lang="en">"Structured outputs don't guarantee the capitalization of string <code>enum</code> and <code>const</code> values"</p>
+        <p lang="en">"Claude Opus 5.5, Claude Fable 5.1, and Claude Mythos 5.1 don't support forced tool use." <span class="src">(docs errors)</span></p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. prefill 코드가 아직 맞는 때</h4>
@@ -842,7 +810,6 @@
 <li><span class="lead">근거 :</span> structured-outputs en 253줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -938,7 +905,32 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="structured-output-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>CCA-F</h3>
+      <p>봄 — CCA-F 는 tool_use + JSON 스키마를 구현으로 물었음(<code>tool_choice</code> <code>tool</code>/<code>any</code> 강제 · strict · enum 대소문자 · 필수 vs nullable). 여기선 "prefill 이 400 난 코드를 무엇으로 옮기나 · 옛 모델 고정이 답인가"를 모델 수명·마이그레이션 판단으로 묻고, CCA-F 식 <code>tool_choice</code> 강제가 Opus 5.5·Fable 5.1 에선 400 이라는 게 새 함정</p>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 2.2 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>structured-outputs <span class="src">(en-full 10~31줄 · en 1~6·17~21·97~123·171~215·238·253~254줄 · ko 17·173~201·253~254줄)</span></li>
+        <li>strict-tool-use <span class="src">(en 1·48줄)</span></li>
+        <li>prompting-best-practices <span class="src">(en-full 405~436줄 · ko 166줄)</span></li>
+        <li>errors <span class="src">(en 84~93·146~148줄 · ko 86줄)</span></li>
+        <li>define-tools <span class="src">(en·ko 71~76·93줄)</span></li>
+        <li>thinking <span class="src">(en·ko 452줄)</span></li>
+        <li>model-deprecations <span class="src">(en-full 15~18·28·36·71~91줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 16·48·379·388줄)</span></li>
+        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287732">Skilljar API 287732</a></li>
+        <li>CCA-F 노트 4.3 <span class="src">(ccaf-remotion <code>content/notes/notes_ko.md</code> 880줄~)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑦)</li>
+        <li><span class="post">시험 뒤 변경</span> 1곳(⑤ 강제 도구 호출 400)</li>
+        <li><span class="gen">업계 일반</span> 1줄</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -948,8 +940,7 @@
 <li>목록 영어 신호 "Claude treats them as context, not enforced configuration." 은 원문에 있으나(claude-code-memory en 191줄) Claude Code 메모리 문맥 — 이 카드가 아니라 D5 ◆ 안내(프롬프트) vs 강제(구성·코드) 몫이라 인용 안 함.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/structured-output.md</p>

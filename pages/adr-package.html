@@ -350,24 +350,75 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ ADR·아키텍처 패키지 -->
-<article class="card t5-card" id="adr-package" aria-labelledby="adr-package-title">
+<!-- ■ ADR·아키텍처 패키지 (v3 시범 순서) -->
+<article class="card t5-card v3" id="adr-package" aria-labelledby="adr-package-title">
   <header class="t5-head">
     <h1 id="adr-package-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> ADR·아키텍처 패키지</h1>
-    <p class="lemma-meta"><span lang="en">architecture decision record — 결정·맥락·기각 대안 · 재논쟁 방지</span><span class="lemma-main">6.4 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">architecture decision record — 결정·맥락·기각 대안 · 재논쟁 방지</span><span class="lemma-main">6.4 본편</span></p>
   </header>
-  <h2 class="sec-h" id="adr-package-sum-h">카드</h2>
+  <h2 class="sec-h" id="adr-package-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>6.4 구조 문서화</b> · D6 사람·문서 14%<br><q lang="en">Document architectures and provide implementation guidance</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>6.4① 몇 달 뒤 팀이 "왜 RAG 로 했지?" 를 처음부터 다시 논쟁한다 — 인계 때 무엇이 빠졌나? <span class="note">(빈 목표)</span></b> — 결정 기록(ADR)과 아키텍처 패키지의 목적</li>
+      <li><b>6.4③ ADR 에 "100쪽 계약은 context rot 때문에 RAG" 라고 적었다 — 이 근거가 맞나?</b> — ADR 근거를 공식 기준·평가 증거로 적기 <span class="note">(크기 기준부터 확인)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="adr-package-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>결정마다 한 장씩 "무엇을 골랐나 · 왜(맥락·제약·증거) · 무엇을 버렸나(기각된 대안과 이유)" 를 남김. 목적 = 사람이 바뀌어도 정해진 trade-off(절충)가 다시 논쟁되지 않음 <span class="gen">업계 일반</span> <span class="note">ADR 양식은 Anthropic 문서 없음, 양식 암기보다 목적</span></p>
       <p>공식에서 가장 가까운 원칙 : 코드에서 못 읽는 것만 적음. 프로젝트 고유의 구조 결정은 넣고, 코드를 읽으면 알 수 있는 건 뺌 <span class="ok">✓ 확인</span> <span class="src">(Claude Code CLAUDE.md 규칙 — 사람 팀 문서로 넓힌 건 추론)</span></p>
     <p class="t5-ana"><span class="lead">비유</span> "왜 EKS 대신 ECS 인가" 를 남긴 인프라 결정 기록. 없으면 새 팀원마다 같은 논쟁. "Slack 스레드에 다 있다" 가 속이는 습관</p>
   </div>
-  <h2 class="sec-h" id="adr-package-case-h">지문</h2>
-  <section class="csx" id="adr-package-case" aria-labelledby="adr-package-case-h" data-tree="adr-package-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;코드에 없음&quot;],[&quot;n5&quot;,null],[&quot;n8&quot;,null],[&quot;n9&quot;,null]]" data-flow="adr-package-flow" data-scene="0">
-    <p class="csx-text">아키텍트가 떠나며 계약 검토 Agent 를 새 팀에 넘긴다. <mark class="csx-m" data-tag="코드에 없음">"왜 RAG 대신 full context(통째 넣기) + 캐싱인가" 는 코드를 읽어도 안 나온다<span class="csx-tag">코드에 없음</span></mark>. 아키텍트는 "근거는 <mark class="csx-m" data-tag="채팅에 있음">슬랙 스레드에 다 있다<span class="csx-tag">채팅에 있음</span></mark>"고 한다. 이 결정의 근거를 어디에 어떻게 남길까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="adr-package-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>이사 가면서 새 집주인에게 "왜 이 벽에 선반을 달았는지" 쪽지를 남기는 거예요.</p>
+<ul>
+<li>선반은 눈에 보여요. 그런데 "왜 여기에 달았는지"는 안 보여요.</li>
+<li>쪽지가 없으면 새 주인은 벽을 다시 재고, 같은 고민을 처음부터 해요.</li>
+<li>쪽지에는 "다른 벽은 습기가 차서 안 됐어요"처럼 버린 자리도 적어요.</li>
+<li>집이 바뀌면(벽을 새로 바르면) 쪽지도 새로 써요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-adr-package" aria-labelledby="vx-adr-package-cap">
+  <div class="vx-player" data-vx-scene="adr-package"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-adr-package-cap">영상 — 결정의 &#x27;왜&#x27;는 어디에 남길까? (약 43초 · 소리 없음 · 자막). 쪽지 값(계약 1건 ≈ 3만 토큰 · 기각 RAG)은 카드 흐름 ① · &#x27;석 달 뒤/1년 뒤&#x27; · 팀원 3명 · 메모 4장은 그림용 가정(실측 아님) · &#x27;코드로 못 읽는 것만 적는다&#x27; 는 Claude 가 읽는 문서(CLAUDE.md) 원칙을 사람 팀 기록에 옮긴 추론(설명 미해결 2) <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">ADR (architecture decision record) 한 장</p>
+<ul>
+<li>결정 · 맥락(문제·제약·위험·증거) · 기각된 대안과 이유. 양식(제목·상태·결과 칸)은 업계 일반이고 Anthropic 문서에 없음 → 시험은 양식보다 목적(재논쟁 방지)을 물을 것.</li>
+<li>코드는 "무엇"을 보여 주지만 "왜"와 "버린 안"은 안 보여 줌. 사람이 바뀌면 그게 사라짐 → 새 팀이 처음부터 다시 비교.</li>
+</ul>
+<p class="lead">공식에서 가장 가까운 원칙 (Claude Code 가 읽는 문서, CLAUDE.md)</p>
+<ul>
+<li>넣을 것 = 프로젝트 고유의 구조 결정 · 흔한 함정. 뺄 것 = 코드를 읽으면 알 수 있는 것.</li>
+<li><code>/doctor</code> 는 구조 개요·디렉터리 배치처럼 코드로 알 수 있는 건 자르고, 함정·이유(rationale)는 남김.</li>
+<li>줄마다 "지우면 실수가 나나?" — 아니면 뺌. 길면 중요한 규칙이 묻힘.</li>
+<li>코드처럼 다룸 : 일이 틀어지면 검토 · 주기적으로 쳐냄 · git 에 넣어 팀이 기여 · 시간이 갈수록 쓸모가 쌓임.</li>
+<li>이 원칙들은 Claude 가 읽는 문서 기준. 사람 팀의 결정 기록에 그대로 옮긴 건 추론.</li>
+</ul>
+<p class="lead">근거는 평가 증거</p>
+<ul>
+<li>공식 출발점 = 성공 기준(success criteria)을 정하고 평가를 설계. 평가가 있으면 숫자가 짐작을 대신함.</li>
+<li>그래서 ADR 의 "왜" 칸은 "좋아 보여서"가 아니라 평가셋 숫자(품질·지연(latency)·비용).</li>
+<li>근거 문장이 공식 기준과 어긋나면 기록이 있어도 틀린 결정이 굳음 (6.4③ : "context rot 이니 RAG" → 크기 먼저, ◆ RAG vs full context).</li>
+</ul>
+<p class="lead">아키텍처 패키지</p>
+<ul>
+<li>ADR 묶음 + 흐름 그림(입력→처리→출력→feedback loop(되먹임)) + 고른 패턴과 이유 + 모델 선택과 평가 근거 + 가드레일·규정 + 평가·모니터링 계획. 구성은 업계 일반(목록 6.4①).</li>
+<li>패턴 이름은 가이드 기준 3개 : workflow · agentic · augmented LLM.</li>
+<li>ADR ≠ 패키지 전체. 구현 가이드·런북은 ■ 구현 가이드.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="adr-package-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="adr-package-tree-1" aria-labelledby="adr-package-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9">
     <div class="t5-fh"><h3 id="adr-package-tree-1-h">①⑤ 인계 때 무엇을 <span class="pg">[6.4①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -430,7 +481,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="adr-package-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="adr-package-flow" aria-label="ADR·아키텍처 패키지 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["아키텍트","인계 문서","새 팀"],"blocks":[{"name":"결정","var":false},{"name":"맥락·증거","var":true},{"name":"기각 대안","var":true},{"name":"코드·프롬프트","var":false}],"rules":[null,null,null],"question":"새 팀은 \"왜\" 를 어디서 알까?","scenes":[{"name":"① ADR 로 인계","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["결정: 계약서","full context + 캐싱"]}},{"kind":"move","step":"기록","from":{"block":"결정"},"to":1,"label":"결정 · 맥락 · 기각 대안","art":{"kind":"slip","lines":["ADR-007","full context + 캐싱","맥락: 계약 1건 ≈ 3만 토큰","기각: RAG (20만 미만)"]}},{"kind":"move","step":"읽기","from":{"col":1},"to":2,"label":"재논쟁 없이 ADR 을 가리킴","art":{"kind":"say","text":"RAG 는 ADR-007 에서 이미 기각됐네요."}},{"kind":"end","label":"정해진 trade-off 가 다시 논쟁되지 않음"}]},{"name":"② 코드·프롬프트만","verdict":"ng","blocks":[{"name":"코드·프롬프트","var":false}],"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["넘길 것: 레포 · 시스템 프롬프트"]}},{"kind":"skip","at":1},{"kind":"move","step":"넘김","from":{"block":"코드·프롬프트"},"to":2,"label":"코드엔 \"무엇\"만, \"왜\"는 없음 ≠","art":{"kind":"say","text":"context rot 이니 RAG 로 다시 비교하죠."}},{"kind":"end","label":"새 팀이 처음부터 다시 비교"}]},{"name":"③ 전제가 바뀜","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["ADR-007","full context + 캐싱","전제: 계약 1건씩 검토"]}},{"kind":"mark","step":"확인","at":{"col":1},"label":"그때와 무엇이 달라졌나","art":{"kind":"slip","lines":["그때: 1건 ≈ 3만 토큰","지금: 800건 전체 검색","≈ 2,400만 토큰"]}},{"kind":"move","step":"대체","from":{"col":1},"to":2,"label":"새 ADR 로 대체","art":{"kind":"slip","lines":["ADR-012 RAG","ADR-007 = 대체됨"]}},{"kind":"end","label":"옛 것은 지우지 않고 대체됨 표시"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -464,7 +515,7 @@
     </details>
   </figure>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="adr-package-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
@@ -508,117 +559,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"빠른 인계를 위해 코드·프롬프트만 넘기고 질문은 그때그때" → 코드엔 "무엇"만 있고 "왜"·기각 대안은 없음 → 새 팀이 처음부터 다시 비교 (업계 일반 · 가까운 공식 원칙 <span class="ok">✓ 확인</span> "코드로는 못 읽는 맥락")</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"결정 근거는 회의록·채팅에 다 있다" → 흩어져 새 팀이 못 찾음 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"ADR 하나에 다이어그램·구현 가이드·런북까지" → ADR = 결정 기록, 나머지는 패키지의 다른 문서 <span class="gen">업계 일반</span> <span class="note">목록 영상 설명 교정</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"ADR 이 있으니 결정은 못 바꿈" → 전제가 바뀌면 새 ADR 로 대체 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"근거 = context rot 이니 RAG" → 공식 기준과 어긋난 근거. 크기 먼저 → <a href="rag-vs-full.html">◆ RAG vs full context</a> <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"패턴은 workflow · agent 둘" → 가이드 기준 3개(augmented LLM 포함) <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"결정마다 긴 설명·튜토리얼까지" → 긴 설명은 CLAUDE.md 에서 뺄 것 · 길면 중요한 규칙이 묻힘 <span class="ok">✓ 확인</span> <span class="src">(Claude 가 읽는 문서 기준)</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Document architectures and provide implementation guidance" <span class="src" lang="ko">(가이드 목표 6.4)</span></p>
-        <p lang="en">"Architectural decisions specific to your project"</p>
-        <p lang="en">"This gives Claude persistent context it can’t infer from code alone."</p>
-        <p lang="en">"keeps pitfalls, rationale, and conventions that differ from tool defaults"</p>
-        <p lang="en">"Check CLAUDE.md into git so your team can contribute. The file compounds in value over time."</p>
-        <p lang="en">"Building a successful LLM-based application starts with clearly defining your success criteria and then designing evaluations to measure performance against them."</p>
-        <p lang="en">"development accelerates as failures become test cases, test cases prevent regressions, and metrics replace guesswork."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 6.4 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>가이드 목표 1.3 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>Claude Code best-practices <span class="src">(en 329·343·345~353·355줄)</span></li>
-        <li>Claude Code memory <span class="src">(en 255·844줄)</span></li>
-        <li>define-success <span class="src">(en 1줄)</span></li>
-        <li>demystifying-evals <span class="src">(en 50·312줄)</span></li>
-        <li>Skilljar Claude Code in Action 486929 <span class="src">(27줄 — 구조 결정을 local 파일에)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (② 근거 원칙 · ③ 패턴 3개 · ⑤ 레포 · 공식 가까운 원칙들)</li>
-        <li><span class="gen">업계 일반</span> (ADR 양식 · 패키지 구성 · 대체 절차 — 공식 문서 없음)</li>
-        <li>추론 1곳(CLAUDE.md 원칙 → 사람 문서)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">6.4①</li>
-        <li class="chip">6.4③</li>
-        <li>(<span class="note">근거 판단은 <a href="rag-vs-full.html">◆ RAG vs full context</a></span>)</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-adr-package" aria-labelledby="vx-adr-package-cap">
-  <div class="vx-player" data-vx-scene="adr-package"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-adr-package-cap">영상 — 결정의 &#x27;왜&#x27;는 어디에 남길까? (약 43초 · 소리 없음 · 자막). 쪽지 값(계약 1건 ≈ 3만 토큰 · 기각 RAG)은 카드 흐름 ① · &#x27;석 달 뒤/1년 뒤&#x27; · 팀원 3명 · 메모 4장은 그림용 가정(실측 아님) · &#x27;코드로 못 읽는 것만 적는다&#x27; 는 Claude 가 읽는 문서(CLAUDE.md) 원칙을 사람 팀 기록에 옮긴 추론(설명 미해결 2) <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>adr-package</dd>
-  <dt>본편</dt>
-  <dd>6.4</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">6.4①</li><li class="chip">6.4③</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>이사 가면서 새 집주인에게 "왜 이 벽에 선반을 달았는지" 쪽지를 남기는 거예요.</p>
-<ul>
-<li>선반은 눈에 보여요. 그런데 "왜 여기에 달았는지"는 안 보여요.</li>
-<li>쪽지가 없으면 새 주인은 벽을 다시 재고, 같은 고민을 처음부터 해요.</li>
-<li>쪽지에는 "다른 벽은 습기가 차서 안 됐어요"처럼 버린 자리도 적어요.</li>
-<li>집이 바뀌면(벽을 새로 바르면) 쪽지도 새로 써요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">ADR (architecture decision record) 한 장</p>
-<ul>
-<li>결정 · 맥락(문제·제약·위험·증거) · 기각된 대안과 이유. 양식(제목·상태·결과 칸)은 업계 일반이고 Anthropic 문서에 없음 → 시험은 양식보다 목적(재논쟁 방지)을 물을 것.</li>
-<li>코드는 "무엇"을 보여 주지만 "왜"와 "버린 안"은 안 보여 줌. 사람이 바뀌면 그게 사라짐 → 새 팀이 처음부터 다시 비교.</li>
-</ul>
-<p class="lead">공식에서 가장 가까운 원칙 (Claude Code 가 읽는 문서, CLAUDE.md)</p>
-<ul>
-<li>넣을 것 = 프로젝트 고유의 구조 결정 · 흔한 함정. 뺄 것 = 코드를 읽으면 알 수 있는 것.</li>
-<li><code>/doctor</code> 는 구조 개요·디렉터리 배치처럼 코드로 알 수 있는 건 자르고, 함정·이유(rationale)는 남김.</li>
-<li>줄마다 "지우면 실수가 나나?" — 아니면 뺌. 길면 중요한 규칙이 묻힘.</li>
-<li>코드처럼 다룸 : 일이 틀어지면 검토 · 주기적으로 쳐냄 · git 에 넣어 팀이 기여 · 시간이 갈수록 쓸모가 쌓임.</li>
-<li>이 원칙들은 Claude 가 읽는 문서 기준. 사람 팀의 결정 기록에 그대로 옮긴 건 추론.</li>
-</ul>
-<p class="lead">근거는 평가 증거</p>
-<ul>
-<li>공식 출발점 = 성공 기준(success criteria)을 정하고 평가를 설계. 평가가 있으면 숫자가 짐작을 대신함.</li>
-<li>그래서 ADR 의 "왜" 칸은 "좋아 보여서"가 아니라 평가셋 숫자(품질·지연(latency)·비용).</li>
-<li>근거 문장이 공식 기준과 어긋나면 기록이 있어도 틀린 결정이 굳음 (6.4③ : "context rot 이니 RAG" → 크기 먼저, ◆ RAG vs full context).</li>
-</ul>
-<p class="lead">아키텍처 패키지</p>
-<ul>
-<li>ADR 묶음 + 흐름 그림(입력→처리→출력→feedback loop(되먹임)) + 고른 패턴과 이유 + 모델 선택과 평가 근거 + 가드레일·규정 + 평가·모니터링 계획. 구성은 업계 일반(목록 6.4①).</li>
-<li>패턴 이름은 가이드 기준 3개 : workflow · agentic · augmented LLM.</li>
-<li>ADR ≠ 패키지 전체. 구현 가이드·런북은 ■ 구현 가이드.</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -684,7 +627,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -759,7 +701,38 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="adr-package-practice-h">연습 문제</h2>
 
+  <section class="csx" id="adr-package-case" aria-labelledby="adr-package-case-h" data-tree="adr-package-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;코드에 없음&quot;],[&quot;n5&quot;,null],[&quot;n8&quot;,null],[&quot;n9&quot;,null]]" data-flow="adr-package-flow" data-scene="0">
+    <p class="csx-text">아키텍트가 떠나며 계약 검토 Agent 를 새 팀에 넘긴다. <mark class="csx-m" data-tag="코드에 없음">"왜 RAG 대신 full context(통째 넣기) + 캐싱인가" 는 코드를 읽어도 안 나온다<span class="csx-tag">코드에 없음</span></mark>. 아키텍트는 "근거는 <mark class="csx-m" data-tag="채팅에 있음">슬랙 스레드에 다 있다<span class="csx-tag">채팅에 있음</span></mark>"고 한다. 이 결정의 근거를 어디에 어떻게 남길까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="adr-package-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"빠른 인계를 위해 코드·프롬프트만 넘기고 질문은 그때그때" → 코드엔 "무엇"만 있고 "왜"·기각 대안은 없음 → 새 팀이 처음부터 다시 비교 (업계 일반 · 가까운 공식 원칙 <span class="ok">✓ 확인</span> "코드로는 못 읽는 맥락")</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"결정 근거는 회의록·채팅에 다 있다" → 흩어져 새 팀이 못 찾음 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"ADR 하나에 다이어그램·구현 가이드·런북까지" → ADR = 결정 기록, 나머지는 패키지의 다른 문서 <span class="gen">업계 일반</span> <span class="note">목록 영상 설명 교정</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"ADR 이 있으니 결정은 못 바꿈" → 전제가 바뀌면 새 ADR 로 대체 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"근거 = context rot 이니 RAG" → 공식 기준과 어긋난 근거. 크기 먼저 → <a href="rag-vs-full.html">◆ RAG vs full context</a> <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"패턴은 workflow · agent 둘" → 가이드 기준 3개(augmented LLM 포함) <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"결정마다 긴 설명·튜토리얼까지" → 긴 설명은 CLAUDE.md 에서 뺄 것 · 길면 중요한 규칙이 묻힘 <span class="ok">✓ 확인</span> <span class="src">(Claude 가 읽는 문서 기준)</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Document architectures and provide implementation guidance" <span class="src" lang="ko">(가이드 목표 6.4)</span></p>
+        <p lang="en">"Architectural decisions specific to your project"</p>
+        <p lang="en">"This gives Claude persistent context it can’t infer from code alone."</p>
+        <p lang="en">"keeps pitfalls, rationale, and conventions that differ from tool defaults"</p>
+        <p lang="en">"Check CLAUDE.md into git so your team can contribute. The file compounds in value over time."</p>
+        <p lang="en">"Building a successful LLM-based application starts with clearly defining your success criteria and then designing evaluations to measure performance against them."</p>
+        <p lang="en">"development accelerates as failures become test cases, test cases prevent regressions, and metrics replace guesswork."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 기록한 결정이 뒤집혀야 맞는 때 — 전제(규모)가 바뀜</h4>
@@ -792,7 +765,6 @@
 <li><span class="lead">근거 :</span> best-practices en 343·349줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -867,7 +839,26 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="adr-package-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 6.4 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>가이드 목표 1.3 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>Claude Code best-practices <span class="src">(en 329·343·345~353·355줄)</span></li>
+        <li>Claude Code memory <span class="src">(en 255·844줄)</span></li>
+        <li>define-success <span class="src">(en 1줄)</span></li>
+        <li>demystifying-evals <span class="src">(en 50·312줄)</span></li>
+        <li>Skilljar Claude Code in Action 486929 <span class="src">(27줄 — 구조 결정을 local 파일에)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (② 근거 원칙 · ③ 패턴 3개 · ⑤ 레포 · 공식 가까운 원칙들)</li>
+        <li><span class="gen">업계 일반</span> (ADR 양식 · 패키지 구성 · 대체 절차 — 공식 문서 없음)</li>
+        <li>추론 1곳(CLAUDE.md 원칙 → 사람 문서)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -877,8 +868,7 @@
 <li>Skilljar Claude Code in Action 486929 는 CLAUDE.md local 파일에 "개인 브랜치의 구조 결정"을 두라고 함 — 팀 공유 결정은 프로젝트 파일. 시험이 이 구분을 묻는지는 모름.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/adr-package.md</p>

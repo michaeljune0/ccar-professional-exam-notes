@@ -350,25 +350,75 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ 최소 권한 -->
-<article class="card t5-card" id="least-privilege" aria-labelledby="least-privilege-title">
+<!-- ■ 최소 권한 (v3 시범 순서) -->
+<article class="card t5-card v3" id="least-privilege" aria-labelledby="least-privilege-title">
   <header class="t5-head">
     <h1 id="least-privilege-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 최소 권한</h1>
-    <p class="lemma-meta"><span lang="en">least privilege</span><span class="lemma-main">3.1 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">least privilege</span><span class="lemma-main">3.1 본편</span></p>
   </header>
-  <h2 class="sec-h" id="least-privilege-sum-h">카드</h2>
+  <h2 class="sec-h" id="least-privilege-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>3.1 도구·에이전트 과잉 설정</b> · D3 연결 19%<br><q lang="en">Evaluate tool/agent configuration for capability bloat</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>3.1① 상담원은 읽기·초안만 쓰는데 환불·삭제 도구가 붙어 있다 — 무엇을 바꾸나?</b> — 과잉 권한 줄이기 <span class="note">(도구 제거 vs 로그·확인창 vs 모델 교체)</span></li>
+      <li><b>5.1③ system prompt 에 "계정 삭제 금지" 를 적었는데도 삭제 도구를 부른다</b> — 안내(프롬프트) vs 강제(구성·코드)</li>
+      <li><b>6.2② 상담 에이전트에 환불·계정 삭제 권한까지 달라는 요구 — 확인창을 붙일까, 뺄까?</b> — 큰 자율성 요구의 첫 수 <span class="note">(권한 필요성 확인 → 불필요하면 제거 → 필요하면 위험 비례 통제)</span></li>
+      <li><b>7.1③ 에이전트에 줄 권한, 어디까지?</b> — 행동을 allow/ask/deny 로 나눈 공유 설정 + MCP 자격증명 최소 권한</li>
+      <li><b>5.1② 사용자가 넘긴 이메일 속에 "이 주소로 전부 보내라" 가 숨어 있다</b> — 간접 인젝션(사용자는 믿지만 가져온 콘텐츠가 적) 대응</li>
+      <li><b>3.2③ 민감 고객 데이터 + 믿을 수 없는 티켓 본문 + 외부로 보내는 도구 — 어느 다리를 끊나?</b> — 인젝션 피해 경로 끊기 <span class="note">(구조 통제 vs 탐지·문구)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="least-privilege-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>역할에 필요 없는 능력(도구·자격증명·네트워크·파일)은 아예 안 줌 → 공격면(attack surface) 자체가 사라짐. 지켜보기(로그)·막아서기(확인창)와 다른 것 <span class="ok">✓ 확인</span></p>
       <p>뚫려도(인젝션·모델 실수) 피해가 작게 하는 장치이기도 함 <span class="ok">✓ 확인</span></p>
       <p>가이드 3.1 원문 이름 = capability bloat — 도구·권한이 쓰임새보다 불어난 상태를 찾아 빼라 ("Evaluate tool/agent configuration for capability bloat") <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> IAM 역할에서 안 쓰는 refund·DeleteUser 권한을 지움. CloudTrail 로 지켜보기·MFA 승인은 그다음 보완책</p>
   </div>
-  <h2 class="sec-h" id="least-privilege-case-h">지문</h2>
-  <section class="csx" id="least-privilege-case" aria-labelledby="least-privilege-case-h" data-tree="least-privilege-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;안 쓰는 도구&quot;],[&quot;n3&quot;,null]]">
-    <p class="csx-text">상담 에이전트는 <mark class="csx-m" data-tag="읽기·초안만">주문 조회와 답장 초안만 한다<span class="csx-tag">읽기·초안만</span></mark>. 그런데 설정에는 <mark class="csx-m" data-tag="안 쓰는 도구">영업팀이 예전에 붙인 환불 도구와 고객 삭제 도구<span class="csx-tag">안 쓰는 도구</span></mark>가 그대로 남아 있다. 누군가 "환불·삭제 전에 확인창을 띄우자"고 한다. 첫 수는?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
-  </section>
-  <h2 class="sec-h" id="least-privilege-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>아이 방에 칼을 두고 "만지지 마" 하는 것보다, 칼을 방에서 치우는 게 확실해요.</p>
+<ul>
+<li>쓰지 않는 물건은 아예 치워요.</li>
+<li>지켜보는 카메라는 다친 뒤에야 알려 줘요.</li>
+<li>"만지기 전에 물어봐" 는 깜빡하면 소용없어요.</li>
+<li>꼭 필요한 가위만 남기고, 쓸 때 어른이 옆에 있어요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-least-privilege" aria-labelledby="vx-least-privilege-cap">
+  <div class="vx-player" data-vx-scene="least-privilege"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-least-privilege-cap">영상 — 안 쓰는 도구, 확인창이면 될까? (약 43초 · 소리 없음 · 자막). 같은 시도 5번 · 4번 막고 1번 놓침 · 고객 1명 삭제는 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">빼기가 왜 제일 센가</p>
+<ul>
+<li>없는 도구는 부를 수 없음 → 인젝션·모델 실수·오용이 그 도구로는 아예 안 일어남. 공격면(attack surface)이 0.</li>
+<li>로그 = 일이 난 뒤에 알게 됨(detective). 확인창 = 사람이 매번 맞게 눌러야 막힘(compensating). 둘 다 도구는 남아 있음.</li>
+<li>모델을 키워도 "무엇을 할 수 있나"는 안 바뀜. 권한은 모델이 아니라 설정이 정함.</li>
+</ul>
+<p class="lead">빼기의 범위는 도구보다 넓음</p>
+<ul>
+<li>파일(필요한 디렉토리만, 읽기 전용) · 네트워크(프록시로 특정 엔드포인트만) · 자격증명(프록시가 주입) · 컨테이너 권한(capability 떼기).</li>
+<li>공식은 이것을 "뚫려도 피해가 작게"라는 틀로 적음 — 막는 장치가 아니라 <strong>피해 반경을 줄이는</strong> 장치.</li>
+</ul>
+<p class="lead">설정 lever(손잡이)의 함정</p>
+<ul>
+<li>Agent SDK <code>allowedTools</code> = "묻지 않고 실행" 목록. 목록 밖 도구는 <strong>남아 있음</strong>. 도구를 없애는 건 <code>disallowedTools</code> 에 이름만 적을 때.</li>
+<li>MCP connector 는 서버를 붙이면 기본이 "모든 도구 켬". 읽기 전용이면 쓰기·파괴 도구를 꺼야 함.</li>
+</ul>
+<p class="lead">남겨야 하는 강한 도구</p>
+<ul>
+<li>먼저 "정말 역할에 필요한가". 필요하면 남기고 실행 직전 코드 검사(훅)·사람 확인을 붙임. 이 경우엔 확인창이 정답 쪽.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="least-privilege-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="least-privilege-tree-1" aria-labelledby="least-privilege-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9">
     <div class="t5-fh"><h3 id="least-privilege-tree-1-h">①⑤ 첫 수 <span class="pg">[3.1①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -450,7 +500,7 @@
     </div>
   </section>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="least-privilege-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
@@ -503,114 +553,9 @@
         </li>
       </ol>
     </details>
-    <h2>CCA-F</h2>
-      <p>봄 — CCA-F 는 "서브에이전트마다 역할에 필요한 도구만(18개 → 4~5개)"을 **고르기 정확도**로 물었음. 여기선 같은 빼기를 **보안(공격면)** 근거로 묻고, 보기에 로그·확인창·큰 모델이 섞여 나옴</p>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"도구는 두고 환불·삭제 전에 확인 단계" (샘플 1 C) → 보완 통제일 뿐 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"로그 달아 나중에 감사" (샘플 1 A) → 사후 감지 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"지시 잘 따르는 더 큰 모델로" (샘플 1 D) → 권한 범위와 무관 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"system prompt 에 '삭제 금지' 적기" → 안내일 뿐 강제 아님. 도구가 있으면 불릴 수 있음 <span class="gen">업계 일반</span> <span class="note">CCA-F 노트 2.3 "다 주고 프롬프트로 '쓰지 마'" 와 같은 함정</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>allowedTools</code> 에 읽기 도구만 적었으니 나머지는 막혔다" → 안 막힘. 목록 밖 도구는 남아 권한 모드로 넘어감. 빼려면 <code>disallowedTools</code> <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "확인창 보기는 항상 오답" → 필요해서 남긴 강한 도구엔 실행 전 검사·사람 확인이 맞는 통제 (업계 일반 + ⑤)</span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Least privilege means removing capabilities the role does not require, eliminating the attack surface rather than monitoring or guarding it." <span class="src" lang="ko">(가이드 샘플 1)</span></p>
-        <p lang="en">"Logging (A) and confirmations (C) are detective/compensating controls, not removal of unnecessary privilege; model size (D) is unrelated to authorization scope." <span class="src" lang="ko">(샘플 1)</span></p>
-        <p lang="en">"Denylisting write or destructive tools is recommended when building read-only assistants, or when you want a human confirmation step before state changes"</p>
-        <p lang="en">"Apply the principle of least privilege so that a successful injection can do minimal damage"</p>
-        <p lang="en">"To put a tool out of Claude’s reach entirely, add its bare name to <code>disallowedTools</code>."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 3.1 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>샘플 1 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>mcp-connector <span class="src">(en 171줄 · ko 171줄)</span></li>
-        <li>mitigate-jailbreaks <span class="src">(ko 28줄 · en 28줄)</span></li>
-        <li>agent-sdk permissions <span class="src">(en 251~273줄)</span></li>
-        <li>secure-deployment <span class="src">(en 206·248~257줄)</span></li>
-        <li>CCA-F 노트 2.3 <span class="src">(ccaf-remotion <code>content/notes/notes_ko.md</code> 423줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~④ · ⑤ 훅)</li>
-        <li><span class="gen">업계 일반</span> 4줄</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">3.1①</li>
-        <li class="chip">5.1③</li>
-        <li class="chip">6.2②</li>
-        <li class="chip">7.1③</li>
-        <li class="chip">5.1②</li>
-        <li class="chip">3.2③</li>
-        <li>(<a href="injection-egress.html">■ 프롬프트 인젝션 피해 경로 끊기</a>)</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-least-privilege" aria-labelledby="vx-least-privilege-cap">
-  <div class="vx-player" data-vx-scene="least-privilege"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-least-privilege-cap">영상 — 안 쓰는 도구, 확인창이면 될까? (약 43초 · 소리 없음 · 자막). 같은 시도 5번 · 4번 막고 1번 놓침 · 고객 1명 삭제는 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>least-privilege</dd>
-  <dt>본편</dt>
-  <dd>3.1</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">3.1①</li><li class="chip">5.1③</li><li class="chip">6.2②</li><li class="chip">7.1③</li><li class="chip">5.1②</li><li class="chip">3.2③</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>아이 방에 칼을 두고 "만지지 마" 하는 것보다, 칼을 방에서 치우는 게 확실해요.</p>
-<ul>
-<li>쓰지 않는 물건은 아예 치워요.</li>
-<li>지켜보는 카메라는 다친 뒤에야 알려 줘요.</li>
-<li>"만지기 전에 물어봐" 는 깜빡하면 소용없어요.</li>
-<li>꼭 필요한 가위만 남기고, 쓸 때 어른이 옆에 있어요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">빼기가 왜 제일 센가</p>
-<ul>
-<li>없는 도구는 부를 수 없음 → 인젝션·모델 실수·오용이 그 도구로는 아예 안 일어남. 공격면(attack surface)이 0.</li>
-<li>로그 = 일이 난 뒤에 알게 됨(detective). 확인창 = 사람이 매번 맞게 눌러야 막힘(compensating). 둘 다 도구는 남아 있음.</li>
-<li>모델을 키워도 "무엇을 할 수 있나"는 안 바뀜. 권한은 모델이 아니라 설정이 정함.</li>
-</ul>
-<p class="lead">빼기의 범위는 도구보다 넓음</p>
-<ul>
-<li>파일(필요한 디렉토리만, 읽기 전용) · 네트워크(프록시로 특정 엔드포인트만) · 자격증명(프록시가 주입) · 컨테이너 권한(capability 떼기).</li>
-<li>공식은 이것을 "뚫려도 피해가 작게"라는 틀로 적음 — 막는 장치가 아니라 <strong>피해 반경을 줄이는</strong> 장치.</li>
-</ul>
-<p class="lead">설정 lever(손잡이)의 함정</p>
-<ul>
-<li>Agent SDK <code>allowedTools</code> = "묻지 않고 실행" 목록. 목록 밖 도구는 <strong>남아 있음</strong>. 도구를 없애는 건 <code>disallowedTools</code> 에 이름만 적을 때.</li>
-<li>MCP connector 는 서버를 붙이면 기본이 "모든 도구 켬". 읽기 전용이면 쓰기·파괴 도구를 꺼야 함.</li>
-</ul>
-<p class="lead">남겨야 하는 강한 도구</p>
-<ul>
-<li>먼저 "정말 역할에 필요한가". 필요하면 남기고 실행 직전 코드 검사(훅)·사람 확인을 붙임. 이 경우엔 확인창이 정답 쪽.</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -670,7 +615,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -745,7 +689,35 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="least-privilege-practice-h">연습 문제</h2>
 
+  <section class="csx" id="least-privilege-case" aria-labelledby="least-privilege-case-h" data-tree="least-privilege-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;안 쓰는 도구&quot;],[&quot;n3&quot;,null]]">
+    <p class="csx-text">상담 에이전트는 <mark class="csx-m" data-tag="읽기·초안만">주문 조회와 답장 초안만 한다<span class="csx-tag">읽기·초안만</span></mark>. 그런데 설정에는 <mark class="csx-m" data-tag="안 쓰는 도구">영업팀이 예전에 붙인 환불 도구와 고객 삭제 도구<span class="csx-tag">안 쓰는 도구</span></mark>가 그대로 남아 있다. 누군가 "환불·삭제 전에 확인창을 띄우자"고 한다. 첫 수는?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
+  </section>
+  <h2 class="sec-h" id="least-privilege-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"도구는 두고 환불·삭제 전에 확인 단계" (샘플 1 C) → 보완 통제일 뿐 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"로그 달아 나중에 감사" (샘플 1 A) → 사후 감지 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"지시 잘 따르는 더 큰 모델로" (샘플 1 D) → 권한 범위와 무관 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"system prompt 에 '삭제 금지' 적기" → 안내일 뿐 강제 아님. 도구가 있으면 불릴 수 있음 <span class="gen">업계 일반</span> <span class="note">CCA-F 노트 2.3 "다 주고 프롬프트로 '쓰지 마'" 와 같은 함정</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>allowedTools</code> 에 읽기 도구만 적었으니 나머지는 막혔다" → 안 막힘. 목록 밖 도구는 남아 권한 모드로 넘어감. 빼려면 <code>disallowedTools</code> <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "확인창 보기는 항상 오답" → 필요해서 남긴 강한 도구엔 실행 전 검사·사람 확인이 맞는 통제 (업계 일반 + ⑤)</span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Least privilege means removing capabilities the role does not require, eliminating the attack surface rather than monitoring or guarding it." <span class="src" lang="ko">(가이드 샘플 1)</span></p>
+        <p lang="en">"Logging (A) and confirmations (C) are detective/compensating controls, not removal of unnecessary privilege; model size (D) is unrelated to authorization scope." <span class="src" lang="ko">(샘플 1)</span></p>
+        <p lang="en">"Denylisting write or destructive tools is recommended when building read-only assistants, or when you want a human confirmation step before state changes"</p>
+        <p lang="en">"Apply the principle of least privilege so that a successful injection can do minimal damage"</p>
+        <p lang="en">"To put a tool out of Claude’s reach entirely, add its bare name to <code>disallowedTools</code>."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 확인창이 정답이 되는 때</h4>
@@ -778,7 +750,6 @@
 <li><span class="lead">근거 :</span> define-tools en 43줄 · 샘플 1 · permissions en 262줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -846,7 +817,27 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="least-privilege-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>CCA-F</h3>
+      <p>봄 — CCA-F 는 "서브에이전트마다 역할에 필요한 도구만(18개 → 4~5개)"을 **고르기 정확도**로 물었음. 여기선 같은 빼기를 **보안(공격면)** 근거로 묻고, 보기에 로그·확인창·큰 모델이 섞여 나옴</p>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 3.1 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>샘플 1 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>mcp-connector <span class="src">(en 171줄 · ko 171줄)</span></li>
+        <li>mitigate-jailbreaks <span class="src">(ko 28줄 · en 28줄)</span></li>
+        <li>agent-sdk permissions <span class="src">(en 251~273줄)</span></li>
+        <li>secure-deployment <span class="src">(en 206·248~257줄)</span></li>
+        <li>CCA-F 노트 2.3 <span class="src">(ccaf-remotion <code>content/notes/notes_ko.md</code> 423줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~④ · ⑤ 훅)</li>
+        <li><span class="gen">업계 일반</span> 4줄</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -855,8 +846,7 @@
 <li>목록 3.1① 의 "서버째 뺄 수 없는 원격 MCP 면 denylist" 는 원문 그대로 확인됨. 다만 원문은 denylist 를 "사람 확인 단계를 두고 싶을 때"도 권함(en 171줄) — 여기서 '확인 단계'는 에이전트가 상태를 못 바꾸게 하고 사람이 바꾸는 뜻으로 읽힘(추론).</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/least-privilege.md</p>

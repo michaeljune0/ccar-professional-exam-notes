@@ -350,24 +350,81 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ 프롬프트 캐싱 -->
-<article class="card t5-card" id="caching" aria-labelledby="caching-title">
+<!-- ■ 프롬프트 캐싱 (v3 시범 순서) -->
+<article class="card t5-card v3" id="caching" aria-labelledby="caching-title">
   <header class="t5-head">
     <h1 id="caching-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 프롬프트 캐싱</h1>
-    <p class="lemma-meta"><span lang="en">prompt caching</span><span class="lemma-main">2.5 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">prompt caching</span><span class="lemma-main">2.5 본편</span></p>
   </header>
-  <h2 class="sec-h" id="caching-sum-h">카드</h2>
+  <h2 class="sec-h" id="caching-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>2.5 프롬프트 재사용</b> · D2 모델·프롬프트 13%<br><q lang="en">Implement prompt reuse strategies (caching, modular prompts, Skills)</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>2.5① 8,000토큰 정책이 매 요청 반복되고 질문만 바뀐다 — 비용·지연을 함께 줄이려면?</b> — 반복 접두부 재사용 <span class="note">(공식 샘플 2)</span></li>
+      <li><b>2.5② 캐싱을 켰는데 cache_read_input_tokens 가 계속 0 — 가장 먼저 의심할 곳은?</b> — 캐시 미적중 원인 진단 순서</li>
+      <li><b>2.5③ 같은 앞부분 · 같은 틀 · 가끔 필요한 전문지식 — 각각 무엇으로 재사용하나?</b> — 재사용 수단 고르기 <span class="note">(프롬프트 캐싱 / 모듈형 프롬프트·템플릿 / Agent Skills)</span></li>
+      <li><b>4.5② 보기마다 다른 최적화 — 이 시나리오의 레버는 무엇 하나?</b> — 시나리오 단서 → 레버 하나 <span class="note">(캐싱 · 배치 · 라우팅/effort · 스트리밍)</span></li>
+      <li><b>1.6③ 한 건에 얼마, 한 달에 얼마?</b> — 비용 축을 숫자로 — 요청당 비용으로 설계안 비교</li>
+      <li><b>3.4③ 트래픽이 늘자 429 가 난다 — 무엇을 보고, 캐싱이 도움이 되나?</b> — 속도 제한 관측·대응 <span class="note">(응답 헤더 · 캐시 인지 ITPM)</span></li>
+      <li><b>2.4① 지식 문서를 통째로 넣을까, RAG 를 만들까?</b> — 크기 기준으로 통째로+캐싱 vs RAG</li>
+      <li><b>3.8① 정책 모음이 12만 토큰이고 모든 상담에 재사용된다 — RAG 를 깔까, 통째로 넣을까?</b> — 통째 컨텍스트 + 캐싱 vs RAG</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="caching-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>매번 똑같이 보내는 앞부분(prefix)을 저장해 두고 다음 요청부터 다시 안 읽음 → 첫 토큰 빨라지고 입력 비용 줄어듦. 기본 수명 5분(쓰일 때마다 무료 갱신), 1시간은 선택 <span class="ok">✓ 확인</span></p>
       <p>할인은 입력만. 출력 토큰은 그대로 → 긴 답을 쓰는 일은 적중률이 높아도 총비용이 조금만 줄어듦 (출력 단가 = 입력의 5배) <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> CDN 캐시. 안 바뀌는 정적 파일은 캐시에서, 바뀌는 것만 오리진까지</p>
   </div>
-  <h2 class="sec-h" id="caching-case-h">지문</h2>
-  <section class="csx" id="caching-case" aria-labelledby="caching-case-h" data-tree="caching-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;읽기 0&quot;],[&quot;n3&quot;,null],[&quot;n6&quot;,&quot;쓰기 매번&quot;],[&quot;n7&quot;,null],[&quot;n8&quot;,&quot;시각이 맨 앞&quot;],[&quot;n9&quot;,null]]" data-flow="caching-flow" data-scene="1">
-    <p class="csx-text">고객지원 Agent 가 1분마다 같은 정책 6,000토큰을 보낸다. 캐싱을 켰더니 <mark class="csx-m" data-tag="쓰기 매번"><code>cache_creation_input_tokens</code> 는 요청마다 6000<span class="csx-tag">쓰기 매번</span></mark>인데 <mark class="csx-m" data-tag="읽기 0"><code>cache_read_input_tokens</code> 는 늘 0<span class="csx-tag">읽기 0</span></mark>. 오류는 없고, 시스템 프롬프트 맨 앞에는 <mark class="csx-m" data-tag="시각이 맨 앞">"지금 시각 09:41:07" 한 줄<span class="csx-tag">시각이 맨 앞</span></mark>이 있다. 무엇이 문제일까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="caching-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>매일 같은 동화책 앞부분을 읽어 주다가, 앞부분에 책갈피를 꽂아 두는 거예요.</p>
+<ul>
+<li>다음 날엔 책갈피부터 읽어서 빨라요.</li>
+<li>책갈피 꽂는 날은 조금 더 수고롭지만, 한 번만 다시 읽어도 본전이에요.</li>
+<li>앞부분 글자가 하나라도 바뀌면 책갈피가 소용없어요.</li>
+<li>5분 안 펼치면 책갈피가 빠져요(1시간짜리 책갈피는 더 비싸요).</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-caching" aria-labelledby="vx-caching-cap">
+  <div class="vx-player" data-vx-scene="caching"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-caching-cap">영상 — 시각 한 줄이 캐시를 깨는 이유 (약 42초 · 소리 없음 · 자막). 10번 · 09:43 이후 시각 · 비용 막대(정책 6,000토큰 몫만, 한 번 보낸 값 = 1)는 그림용 가정 · 실측 아님 — 쓰기 1.25배 · 읽기 0.1배는 카드 값, 12.5 · 2.15 는 그 배수로 계산 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">무엇을 저장하나</p>
+<ul>
+<li>요청 앞부분(prefix)의 처리 결과. 다음 요청의 앞부분이 <strong>책갈피(break point)까지 100% 같을 때만</strong> 다시 씀.</li>
+<li>앞부분 순서 = <code>tools</code> → <code>system</code> → <code>messages</code>. 앞 칸이 바뀌면 그 칸과 뒤 칸이 전부 무효.</li>
+<li>쓰기는 break point 에서만 일어남. 읽기는 break point 에서 이전 블록 쪽으로 한 칸씩 거슬러 최대 20블록까지 <strong>이전 요청이 쓴 항목</strong>을 찾음 — 안정적인 내용을 알아서 찾아 주지 않음.</li>
+</ul>
+<p class="lead">비용</p>
+<ul>
+<li>쓰기 = 입력가 1.25배(5분) · 2배(1시간). 읽기 = 0.1배(최신 모델은 더 쌈). 출력은 할인 없음.</li>
+<li>break point 자체는 요금이 붙지 않음 — 몇 개를 꽂든 실제로 쓰고 읽은 토큰만 냄(최대 4개).</li>
+<li>수명은 쓰일 때마다 무료로 갱신. 수명은 요청 <strong>시작</strong> 시점부터 셈(응답 생성 시간 포함).</li>
+</ul>
+<p class="lead">왜 속도도 빨라지나</p>
+<ul>
+<li>앞부분을 다시 처리 안 하니 첫 토큰까지 시간(TTFT)이 줄어듦. 처음 한 번의 미스도 없애려면 <code>max_tokens: 0</code> 사전 워밍.</li>
+</ul>
+<p class="lead">rate limit(속도 제한, 429)</p>
+<ul>
+<li>대부분 모델에서 캐시 읽은 토큰은 ITPM 에 안 셈. 캐시 안 된 입력 + 캐시 쓰기만 셈 → 캐싱이 처리량도 늘림. 예외 = Haiku 3.5(읽기도 셈).</li>
+</ul>
+<p class="lead">켜는 법 두 가지</p>
+<ul>
+<li>자동 캐싱 : 요청 최상위 <code>cache_control</code> 하나 → 마지막 캐시 가능 블록에 break point, 대화가 길어지면 자동으로 앞으로 옮김. 멀티턴의 출발점.</li>
+<li>명시 break point : 블록마다 <code>cache_control</code>. 바뀌는 빈도가 다른 칸을 따로 캐싱하거나, 끝 블록이 매번 바뀌는 구조일 때.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="caching-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="caching-tree-1" aria-labelledby="caching-tree-1-h" data-paths="n1 n2 n3 n4 n5|n1 n2 n3 n6 n7 n8 n9|n1 n2 n3 n6 n7 n10 n11|n1 n2 n3 n6 n7 n12 n13|n1 n14 n15">
     <div class="t5-fh"><h3 id="caching-tree-1-h">② 증상으로 가르기 <span class="pg">[2.5②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -440,7 +497,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="caching-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="caching-flow" aria-label="프롬프트 캐싱 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["요청","캐시","모델"],"blocks":[{"name":"tools","var":false},{"name":"system","var":false},{"name":"messages","var":false},{"name":"바뀌는 블록","var":true}],"rules":[null,"매번 똑같이 보내는 앞부분만 저장 · 기본 수명 5분",null],"question":"두 번째 요청은 캐시에서 읽힐까?","scenes":[{"name":"① 적중","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["요청 1","앞부분 6,000토큰","+ \"주문 1042 언제 와요?\""]}},{"kind":"move","step":"요청 1","from":{"col":0},"to":1,"label":"쓰기 1.25배","art":{"kind":"slip","lines":["cache_creation: 6000","cache_read: 0"]}},{"kind":"mark","step":"요청 2","at":{"col":1},"label":"읽기 0.1배 ✓","art":{"kind":"slip","lines":["cache_creation: 0","cache_read: 6000"]}},{"kind":"move","step":"요청 2","from":{"col":1},"to":2,"label":"다시 안 읽음","art":{"kind":"slip","lines":["앞부분 6,000토큰","(캐시에서)"]}},{"kind":"move","step":"요청 2","from":{"block":"바뀌는 블록"},"to":2,"label":"바뀌는 블록만","art":{"kind":"slip","lines":["messages 끝","\"그럼 환불은요?\""]}},{"kind":"end","label":"적중 — 읽기는 입력가 0.1배"}]},{"name":"② 날짜 앞에 → 미스","verdict":"ng","blocks":[{"name":"tools","var":false},{"name":"날짜","var":true},{"name":"system","var":false},{"name":"messages","var":false},{"name":"바뀌는 블록","var":true}],"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["system 맨 앞","\"지금 시각 09:41:07\"","+ 정책 6,000토큰"]}},{"kind":"move","step":"요청 1","from":{"col":0},"to":1,"label":"쓰기 1.25배","art":{"kind":"slip","lines":["cache_creation: 6000","cache_read: 0"]}},{"kind":"mark","step":"요청 2","at":{"block":"날짜"},"label":"앞부분이 매번 달라짐 ≠","art":{"kind":"slip","lines":["\"지금 시각 09:42:07\""]}},{"kind":"move","step":"요청 2","from":{"col":0},"to":1,"label":"쓰기 1.25배 · 읽기 0 ≠","art":{"kind":"slip","lines":["cache_creation: 6000","cache_read: 0"]}},{"kind":"end","label":"미스 — 앞부분이 매번 달라져 영영 적중 안 함"}]},{"name":"③ 5분 넘김 → 만료","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["09:00 요청 1","앞부분 6,000토큰"]}},{"kind":"move","step":"요청 1","from":{"col":0},"to":1,"label":"쓰기 1.25배","art":{"kind":"slip","lines":["cache_creation: 6000","cache_read: 0"]}},{"kind":"timer","at":1,"label":"기본 수명 5분"},{"kind":"move","step":"요청 2","from":{"col":0},"to":1,"label":"쓰기 1.25배 · 읽기 0 ≠","art":{"kind":"slip","lines":["09:07 요청 2","cache_creation: 6000","cache_read: 0"]}},{"kind":"end","label":"만료 — 호출 간격이 수명(5분)보다 긺"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -479,7 +536,7 @@
     </details>
   </figure>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="caching-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
@@ -534,121 +591,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>비용 줄이려 정책을 잘라냄 / 과제 무시하고 제일 작은 모델 / 정책을 few-shot 블록으로 옮김 → 셋 다 오답 (공식 샘플 2) <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>날짜·타임스탬프를 break point 앞 블록에 → 앞부분이 매번 달라져 영영 적중 안 함 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>적중 0 인데 "누가 무효화했다"만 봄 → 최소 길이 미달을 놓침 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>손익분기를 "요청 2~3회"로 외움 → 5분 = 읽기 1번 · 1시간 = 읽기 2번 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"캐시 입력도 ITPM 똑같이 먹으니 한도 상향만" → 반대. 대부분 모델에서 캐시 읽은 토큰은 ITPM 에 안 셈 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar API 강의(2025 제작 추정)는 "수명 1시간 · 최소 1024 고정 · 자동 캐싱 없음" → 지금 docs 는 기본 5분 · 모델별 최소 · 자동 캐싱 있음(2026-02-19~)</span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Ordering stable content first and enabling prompt caching lets repeated prefixes be reused, reducing both time-to-first-token and per-request cost without discarding required context." <span class="src" lang="ko">(가이드 샘플 2)</span></p>
-        <p lang="en">"Cache prefixes are created in the following order: <code>tools</code>, <code>system</code>, then <code>messages</code>."</p>
-        <p lang="en">"Place the breakpoint on the last block that stays identical across requests."</p>
-        <p lang="en">"if both <code>cache_creation_input_tokens</code> and <code>cache_read_input_tokens</code> are 0, the prompt was not cached (likely because it did not meet the minimum length requirement)."</p>
-        <p lang="en">"caching pays off after one cache read for the 5-minute duration (1.25x write), or after two cache reads for the 1-hour duration (2x write)."</p>
-        <p lang="en">"For most Claude models, only uncached input tokens count toward your ITPM rate limits."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 2.5 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>샘플 2 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li><a href="https://platform.claude.com/docs/ko/build-with-claude/prompt-caching">docs prompt-caching</a> <span class="src">(ko 29·57·122·151·177~188·217~234줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/ko/about-claude/pricing">pricing</a> <span class="src">(ko 87줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/ko/api/rate-limits">rate-limits</a> <span class="src">(ko 72~84줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/ko/agents-and-tools/agent-skills/overview">agent-skills overview</a> <span class="src">(ko 23·38·84~85줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 15·46~47·362줄)</span></li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287770">Skilljar API 287770</a></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑤ 전부)</li>
-        <li><span class="post">시험 뒤 변경</span> 1곳(③ 최신 모델 배수)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">2.5①</li>
-        <li class="chip">2.5②</li>
-        <li class="chip">2.5③</li>
-        <li class="chip">4.5②</li>
-        <li class="chip">1.6③</li>
-        <li class="chip">3.4③</li>
-        <li class="chip">2.4①</li>
-        <li class="chip">3.8①</li>
-        <li>(<a href="rag-vs-full.html">◆ RAG vs full context</a>)</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-caching" aria-labelledby="vx-caching-cap">
-  <div class="vx-player" data-vx-scene="caching"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-caching-cap">영상 — 시각 한 줄이 캐시를 깨는 이유 (약 42초 · 소리 없음 · 자막). 10번 · 09:43 이후 시각 · 비용 막대(정책 6,000토큰 몫만, 한 번 보낸 값 = 1)는 그림용 가정 · 실측 아님 — 쓰기 1.25배 · 읽기 0.1배는 카드 값, 12.5 · 2.15 는 그 배수로 계산 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>caching</dd>
-  <dt>본편</dt>
-  <dd>2.5</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">2.5①</li><li class="chip">2.5②</li><li class="chip">2.5③</li><li class="chip">4.5②</li><li class="chip">1.6③</li><li class="chip">3.4③</li><li class="chip">2.4①</li><li class="chip">3.8①</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>매일 같은 동화책 앞부분을 읽어 주다가, 앞부분에 책갈피를 꽂아 두는 거예요.</p>
-<ul>
-<li>다음 날엔 책갈피부터 읽어서 빨라요.</li>
-<li>책갈피 꽂는 날은 조금 더 수고롭지만, 한 번만 다시 읽어도 본전이에요.</li>
-<li>앞부분 글자가 하나라도 바뀌면 책갈피가 소용없어요.</li>
-<li>5분 안 펼치면 책갈피가 빠져요(1시간짜리 책갈피는 더 비싸요).</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">무엇을 저장하나</p>
-<ul>
-<li>요청 앞부분(prefix)의 처리 결과. 다음 요청의 앞부분이 <strong>책갈피(break point)까지 100% 같을 때만</strong> 다시 씀.</li>
-<li>앞부분 순서 = <code>tools</code> → <code>system</code> → <code>messages</code>. 앞 칸이 바뀌면 그 칸과 뒤 칸이 전부 무효.</li>
-<li>쓰기는 break point 에서만 일어남. 읽기는 break point 에서 이전 블록 쪽으로 한 칸씩 거슬러 최대 20블록까지 <strong>이전 요청이 쓴 항목</strong>을 찾음 — 안정적인 내용을 알아서 찾아 주지 않음.</li>
-</ul>
-<p class="lead">비용</p>
-<ul>
-<li>쓰기 = 입력가 1.25배(5분) · 2배(1시간). 읽기 = 0.1배(최신 모델은 더 쌈). 출력은 할인 없음.</li>
-<li>break point 자체는 요금이 붙지 않음 — 몇 개를 꽂든 실제로 쓰고 읽은 토큰만 냄(최대 4개).</li>
-<li>수명은 쓰일 때마다 무료로 갱신. 수명은 요청 <strong>시작</strong> 시점부터 셈(응답 생성 시간 포함).</li>
-</ul>
-<p class="lead">왜 속도도 빨라지나</p>
-<ul>
-<li>앞부분을 다시 처리 안 하니 첫 토큰까지 시간(TTFT)이 줄어듦. 처음 한 번의 미스도 없애려면 <code>max_tokens: 0</code> 사전 워밍.</li>
-</ul>
-<p class="lead">rate limit(속도 제한, 429)</p>
-<ul>
-<li>대부분 모델에서 캐시 읽은 토큰은 ITPM 에 안 셈. 캐시 안 된 입력 + 캐시 쓰기만 셈 → 캐싱이 처리량도 늘림. 예외 = Haiku 3.5(읽기도 셈).</li>
-</ul>
-<p class="lead">켜는 법 두 가지</p>
-<ul>
-<li>자동 캐싱 : 요청 최상위 <code>cache_control</code> 하나 → 마지막 캐시 가능 블록에 break point, 대화가 길어지면 자동으로 앞으로 옮김. 멀티턴의 출발점.</li>
-<li>명시 break point : 블록마다 <code>cache_control</code>. 바뀌는 빈도가 다른 칸을 따로 캐싱하거나, 끝 블록이 매번 바뀌는 구조일 때.</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -726,7 +671,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -857,7 +801,36 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="caching-practice-h">연습 문제</h2>
 
+  <section class="csx" id="caching-case" aria-labelledby="caching-case-h" data-tree="caching-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;읽기 0&quot;],[&quot;n3&quot;,null],[&quot;n6&quot;,&quot;쓰기 매번&quot;],[&quot;n7&quot;,null],[&quot;n8&quot;,&quot;시각이 맨 앞&quot;],[&quot;n9&quot;,null]]" data-flow="caching-flow" data-scene="1">
+    <p class="csx-text">고객지원 Agent 가 1분마다 같은 정책 6,000토큰을 보낸다. 캐싱을 켰더니 <mark class="csx-m" data-tag="쓰기 매번"><code>cache_creation_input_tokens</code> 는 요청마다 6000<span class="csx-tag">쓰기 매번</span></mark>인데 <mark class="csx-m" data-tag="읽기 0"><code>cache_read_input_tokens</code> 는 늘 0<span class="csx-tag">읽기 0</span></mark>. 오류는 없고, 시스템 프롬프트 맨 앞에는 <mark class="csx-m" data-tag="시각이 맨 앞">"지금 시각 09:41:07" 한 줄<span class="csx-tag">시각이 맨 앞</span></mark>이 있다. 무엇이 문제일까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="caching-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>비용 줄이려 정책을 잘라냄 / 과제 무시하고 제일 작은 모델 / 정책을 few-shot 블록으로 옮김 → 셋 다 오답 (공식 샘플 2) <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>날짜·타임스탬프를 break point 앞 블록에 → 앞부분이 매번 달라져 영영 적중 안 함 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>적중 0 인데 "누가 무효화했다"만 봄 → 최소 길이 미달을 놓침 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>손익분기를 "요청 2~3회"로 외움 → 5분 = 읽기 1번 · 1시간 = 읽기 2번 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"캐시 입력도 ITPM 똑같이 먹으니 한도 상향만" → 반대. 대부분 모델에서 캐시 읽은 토큰은 ITPM 에 안 셈 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar API 강의(2025 제작 추정)는 "수명 1시간 · 최소 1024 고정 · 자동 캐싱 없음" → 지금 docs 는 기본 5분 · 모델별 최소 · 자동 캐싱 있음(2026-02-19~)</span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Ordering stable content first and enabling prompt caching lets repeated prefixes be reused, reducing both time-to-first-token and per-request cost without discarding required context." <span class="src" lang="ko">(가이드 샘플 2)</span></p>
+        <p lang="en">"Cache prefixes are created in the following order: <code>tools</code>, <code>system</code>, then <code>messages</code>."</p>
+        <p lang="en">"Place the breakpoint on the last block that stays identical across requests."</p>
+        <p lang="en">"if both <code>cache_creation_input_tokens</code> and <code>cache_read_input_tokens</code> are 0, the prompt was not cached (likely because it did not meet the minimum length requirement)."</p>
+        <p lang="en">"caching pays off after one cache read for the 5-minute duration (1.25x write), or after two cache reads for the 1-hour duration (2x write)."</p>
+        <p lang="en">"For most Claude models, only uncached input tokens count toward your ITPM rate limits."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 호출이 5분보다 드문 때</h4>
@@ -910,7 +883,6 @@
 <li><span class="lead">근거 :</span> rate-limits ko 72~82줄 · rate-limits-full en 122줄(Haiku 3.5 예외)</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -1013,7 +985,26 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="caching-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 2.5 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>샘플 2 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a href="https://platform.claude.com/docs/ko/build-with-claude/prompt-caching">docs prompt-caching</a> <span class="src">(ko 29·57·122·151·177~188·217~234줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/ko/about-claude/pricing">pricing</a> <span class="src">(ko 87줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/ko/api/rate-limits">rate-limits</a> <span class="src">(ko 72~84줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/ko/agents-and-tools/agent-skills/overview">agent-skills overview</a> <span class="src">(ko 23·38·84~85줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 15·46~47·362줄)</span></li>
+        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287770">Skilljar API 287770</a></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑤ 전부)</li>
+        <li><span class="post">시험 뒤 변경</span> 1곳(③ 최신 모델 배수)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -1023,8 +1014,7 @@
 <li>rate-limits 표가 기존 <code>ko/en-rate-limits.md</code> 에서 빠져 있어 <code>en-rate-limits-full.md</code>(<code>.md</code> 원본)를 새로 받음 — Haiku 3.5 예외는 122줄.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/caching.md</p>

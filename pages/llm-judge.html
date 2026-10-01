@@ -350,24 +350,78 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ LLM-as-judge 설계 -->
-<article class="card t5-card" id="llm-judge" aria-labelledby="llm-judge-title">
+<!-- ■ LLM-as-judge 설계 (v3 시범 순서) -->
+<article class="card t5-card v3" id="llm-judge" aria-labelledby="llm-judge-title">
   <header class="t5-head">
     <h1 id="llm-judge-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> LLM-as-judge 설계</h1>
-    <p class="lemma-meta"><span lang="en">LLM-as-judge : rubric · reason then discard · way out · calibration</span><span class="lemma-main">4.2 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">LLM-as-judge : rubric · reason then discard · way out · calibration</span><span class="lemma-main">4.2 본편</span></p>
   </header>
-  <h2 class="sec-h" id="llm-judge-sum-h">카드</h2>
+  <h2 class="sec-h" id="llm-judge-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>4.2 평가 데이터·테스트 설계</b> · D4 평가 16%<br><q lang="en">Design evaluation datasets and test frameworks using mixed methodologies</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>4.2③ LLM 채점기를 어떻게 믿을 만하게 만드나?</b> — LLM judge 설계 <span class="note">(채점 모델·출력 형태·탈출구·보정)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="llm-judge-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>LLM judge = 답을 LLM 에게 채점시키는 grader(채점기). 자세한 rubric + 정해진 출력 + 먼저 추론(reasoning) + "Unknown" 탈출구를 주고, 사람 전문가와 먼저 맞춰 본 뒤 규모를 키움 <span class="ok">✓ 확인</span></p>
       <p>judge 는 비결정적이고 코드보다 비쌈 → 사람과 보정해야 정확 <span class="ok">✓ 확인</span> · grader 를 고를지 말지는 <a href="grader-choice.html">■ grader 고르기</a></p>
     <p class="t5-ana"><span class="lead">비유</span> 이상 탐지 알림을 온콜의 수동 판정과 대조해 정탐률을 맞춘 뒤 자동화. 맞춰지면 수동 확인은 가끔만</p>
   </div>
-  <h2 class="sec-h" id="llm-judge-case-h">지문</h2>
-  <section class="csx" id="llm-judge-case" aria-labelledby="llm-judge-case-h" data-tree="llm-judge-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n8&quot;,&quot;근거 모자람&quot;],[&quot;n9&quot;,null]]" data-flow="llm-judge-flow" data-scene="1">
-    <p class="csx-text">고객지원 답을 채점하는 LLM judge 가 <mark class="csx-m" data-tag="근거 모자람">채점에 필요한 주문 정보가 transcript 에 없는 답까지<span class="csx-tag">근거 모자람</span></mark> 전부 correct/incorrect 로 자신 있게 판정한다. 팀원은 답을 만든 모델과 다른 모델로 judge 를 바꾸면 해결된다고 한다. judge 프롬프트에 무엇을 더할까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="llm-judge-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>그림 대회에 심사 도우미를 새로 뽑는 거예요.</p>
+<ul>
+<li>도우미에게 "색칠이 선 밖으로 나가면 감점" 같은 채점표를 줘요.</li>
+<li>점수는 1점부터 5점 중에서만 고르게 해요.</li>
+<li>점수 전에 이유를 먼저 생각하게 하고, 점수판엔 점수만 적어요.</li>
+<li>잘 모르겠으면 "모르겠어요" 라고 해도 된다고 알려 줘요.</li>
+<li>처음 몇 번은 선생님 점수와 맞는지 봐요. 잘 맞으면 가끔만 봐요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-llm-judge" aria-labelledby="vx-llm-judge-cap">
+  <div class="vx-player" data-vx-scene="llm-judge"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-llm-judge-cap">영상 — judge 에게 &quot;Unknown&quot; 탈출구 (약 42초 · 소리 없음 · 자막). 답 6건과 판정 배분은 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">왜 LLM judge 인가</p>
+<ul>
+<li>어조·공감·종합처럼 정답이 하나가 아닌 답은 코드로 측정 못 함. LLM 은 뉘앙스를 잡고 규모를 키울 수 있음.</li>
+<li>대가 : 비결정적 · 코드보다 비쌈 · 사람과 맞춰 보기 전엔 정확한지 모름.</li>
+</ul>
+<p class="lead">judge 프롬프트 네 부품</p>
+<ul>
+<li>rubric : 기준이 흐리면 같은 답에 다른 점수가 나옴(일관성 없는 판정). 한 기준에도 rubric 이 여럿 필요할 수 있음.</li>
+<li>정해진 출력 : correct/incorrect 또는 1~5. 자유 글은 모아서 셀 수가 없음.</li>
+<li>먼저 추론(reasoning), 추론은 버림 : 생각할 자리를 주면 복잡한 판단에서 채점이 좋아짐. 점수 집계엔 <code>&lt;result&gt;</code> 만 씀.</li>
+<li>탈출구 : 정보가 모자라면 "Unknown". 없으면 judge 도 지어내서 확신 판정을 함(환각(hallucination)).</li>
+</ul>
+<p class="lead">믿게 만드는 절차</p>
+<ul>
+<li>사람 전문가 채점과 먼저 맞춰 봄 → 사람·모델 채점 차이가 작다는 확신 → 전체로 규모를 키움 → 안정되면 사람은 가끔.</li>
+<li>grader(채점기)도 틀림. transcript 와 점수를 읽어야 "에이전트 실수"와 "grader 가 맞는 답을 거절함"을 가름.</li>
+</ul>
+<p class="lead">공식 문서끼리 갈리는 곳</p>
+<ul>
+<li>demystifying-evals : 차원마다 따로 떼어낸 judge 가 "도움될 수 있음".</li>
+<li>멀티 에이전트 리서치 글 : 여러 judge 를 시험한 끝에 한 호출 · 한 프롬프트가 가장 일관되고 사람 판정과 맞았음.</li>
+<li>둘을 잇는 기준 = 사람 보정 결과. 어느 쪽이든 사람과 더 맞는 쪽.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>judge 가 사람 전문가와 얼마나 맞는지 재 봤나?</li>
+<li>judge 에게 기준(rubric) · 출력 형태 · 생각할 자리 · "모름" 이 모두 주어졌나?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="llm-judge-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="llm-judge-tree-1" aria-labelledby="llm-judge-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9">
     <div class="t5-fh"><h3 id="llm-judge-tree-1-h">①②③④ judge 프롬프트 <span class="pg">[4.2③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -428,7 +482,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="llm-judge-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="llm-judge-flow" aria-label="LLM-as-judge 설계 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["답","judge","점수","사람"],"blocks":[],"rules":[null,"자세한 rubric · 먼저 추론 · 모자라면 \"Unknown\"",null,null],"question":"judge 는 무엇을 돌려줘야 할까?","scenes":[{"name":"① 추론 → 점수만","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"주문 #4821 은 내일 도착해요."}},{"kind":"move","step":"채점","from":{"col":0},"to":1,"label":"자세한 rubric","art":{"kind":"slip","lines":["rubric : 첫 문장에","도착일을 반드시 언급"]}},{"kind":"mark","step":"추론","at":{"col":1},"label":"먼저 추론","art":{"kind":"slip","lines":["<thinking> 첫 문장에","도착일 \"내일\" 있음","<\/thinking>"]}},{"kind":"move","step":"점수","from":{"col":1},"to":2,"label":"추론은 버리고 점수만","art":{"kind":"slip","lines":["<result>correct<\/result>"]}},{"kind":"end","label":"코드는 `<result>` 만 읽음 — correct/incorrect 또는 1~5"}]},{"name":"② 근거 없이 확신","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"환불은 3일 안에 들어와요."}},{"kind":"move","step":"채점","from":{"col":0},"to":1,"label":"정보가 모자람","art":{"kind":"slip","lines":["transcript 에","결제 수단 정보 없음"]}},{"kind":"move","step":"점수","from":{"col":1},"to":2,"label":"탈출구 없이 판정","art":{"kind":"slip","lines":["<result>correct<\/result>"]}},{"kind":"end","label":"\"Unknown\" 탈출구가 없으면 근거 없이도 판정 = 환각 판정"}]},{"name":"③ 사람과 맞추기","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":3,"label":"","art":{"kind":"slip","lines":["전문가가 먼저 채점한","표본 100건"]}},{"kind":"move","step":"보정","from":{"col":3},"to":1,"label":"사람 전문가와 꼼꼼히 맞춰 봄","art":{"kind":"slip","lines":["같은 100건을 judge 로","판정이 다르면 rubric 고침"]}},{"kind":"move","step":"점수","from":{"col":1},"to":2,"label":"사람과 차이가 작음","art":{"kind":"slip","lines":["사람 ↔ judge","불일치 적음 → 확장"]}},{"kind":"end","label":"튼튼해지면 사람 검토는 가끔"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -514,118 +568,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>답을 만든 모델이 스스로 채점 → 다른 모델이 일반적 모범 사례 <span class="ok">✓ 확인</span> <span class="src">(단 "다른 모델"만 붙은 보기를 자동 정답으로 X — 보정·rubric 이 빠졌는지 먼저)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"한 judge 로 모든 차원 = 늘 오답" → 따로가 "도움될 수 있음", 한 호출이 더 일관된 사례도 공식 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>regex 로 공감 판정 → 뉘앙스 없음 <span class="ok">✓ 확인</span> → <a href="grader-choice.html">■ grader 고르기</a></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>사람만 전수 검토 → 가능하면 피함 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>근거가 모자라도 확신 판정 → 탈출구가 없으면 환각 판정. "Unknown" 을 줌 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>추론 없이 점수만 바로 → 복잡한 판단에서 성능이 떨어짐 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"좋은지 설명해 줘" 같은 순수 정성 평가 → 빠르게·대량으로 측정 못 함 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>사람과 한 번 맞춘 뒤 영영 안 봄 → 주관적일수록 자주 보정 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Have detailed, clear rubrics"</p>
-        <p lang="en">"instruct the LLM to output only 'correct' or 'incorrect', or to judge from a scale of 1–5."</p>
-        <p lang="en">"Ask the LLM to reason first before producing an evaluation score, and then discard the reasoning."</p>
-        <p lang="en">"Generally best practice to use a different model to evaluate than the model used to generate the evaluated output"</p>
-        <p lang="en">"LLM-as-judge graders should be closely calibrated with human experts to gain confidence that there is little divergence between the human grading and model grading."</p>
-        <p lang="en">"To avoid hallucinations, give the LLM a way out, like providing an instruction to return “Unknown” when it doesn’t have enough information."</p>
-        <p lang="en">"grade each dimension with an isolated LLM-as-judge rather than using one to grade all dimensions."</p>
-        <p lang="en">"Once the system is robust, it’s sufficient to use human review only occasionally."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 4.2 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>docs develop-tests <span class="src">(ko·en 49~53줄 · en-full 1194·1208~1210·2843~2860줄)</span></li>
-        <li>demystifying-evals <span class="src">(en 46·72·189·229·251~255·261줄)</span></li>
-        <li>multi-agent-research-system <span class="src">(en 60줄)</span></li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287742">Skilljar API 287742</a> <span class="src">(88·129줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑧)</li>
-        <li>공식 문서끼리 갈림 1곳(⑤ 차원별 vs 한 호출)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">4.2③</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-llm-judge" aria-labelledby="vx-llm-judge-cap">
-  <div class="vx-player" data-vx-scene="llm-judge"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-llm-judge-cap">영상 — judge 에게 &quot;Unknown&quot; 탈출구 (약 42초 · 소리 없음 · 자막). 답 6건과 판정 배분은 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>llm-judge</dd>
-  <dt>본편</dt>
-  <dd>4.2</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">4.2③</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>그림 대회에 심사 도우미를 새로 뽑는 거예요.</p>
-<ul>
-<li>도우미에게 "색칠이 선 밖으로 나가면 감점" 같은 채점표를 줘요.</li>
-<li>점수는 1점부터 5점 중에서만 고르게 해요.</li>
-<li>점수 전에 이유를 먼저 생각하게 하고, 점수판엔 점수만 적어요.</li>
-<li>잘 모르겠으면 "모르겠어요" 라고 해도 된다고 알려 줘요.</li>
-<li>처음 몇 번은 선생님 점수와 맞는지 봐요. 잘 맞으면 가끔만 봐요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">왜 LLM judge 인가</p>
-<ul>
-<li>어조·공감·종합처럼 정답이 하나가 아닌 답은 코드로 측정 못 함. LLM 은 뉘앙스를 잡고 규모를 키울 수 있음.</li>
-<li>대가 : 비결정적 · 코드보다 비쌈 · 사람과 맞춰 보기 전엔 정확한지 모름.</li>
-</ul>
-<p class="lead">judge 프롬프트 네 부품</p>
-<ul>
-<li>rubric : 기준이 흐리면 같은 답에 다른 점수가 나옴(일관성 없는 판정). 한 기준에도 rubric 이 여럿 필요할 수 있음.</li>
-<li>정해진 출력 : correct/incorrect 또는 1~5. 자유 글은 모아서 셀 수가 없음.</li>
-<li>먼저 추론(reasoning), 추론은 버림 : 생각할 자리를 주면 복잡한 판단에서 채점이 좋아짐. 점수 집계엔 <code>&lt;result&gt;</code> 만 씀.</li>
-<li>탈출구 : 정보가 모자라면 "Unknown". 없으면 judge 도 지어내서 확신 판정을 함(환각(hallucination)).</li>
-</ul>
-<p class="lead">믿게 만드는 절차</p>
-<ul>
-<li>사람 전문가 채점과 먼저 맞춰 봄 → 사람·모델 채점 차이가 작다는 확신 → 전체로 규모를 키움 → 안정되면 사람은 가끔.</li>
-<li>grader(채점기)도 틀림. transcript 와 점수를 읽어야 "에이전트 실수"와 "grader 가 맞는 답을 거절함"을 가름.</li>
-</ul>
-<p class="lead">공식 문서끼리 갈리는 곳</p>
-<ul>
-<li>demystifying-evals : 차원마다 따로 떼어낸 judge 가 "도움될 수 있음".</li>
-<li>멀티 에이전트 리서치 글 : 여러 judge 를 시험한 끝에 한 호출 · 한 프롬프트가 가장 일관되고 사람 판정과 맞았음.</li>
-<li>둘을 잇는 기준 = 사람 보정 결과. 어느 쪽이든 사람과 더 맞는 쪽.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>judge 가 사람 전문가와 얼마나 맞는지 재 봤나?</li>
-<li>judge 에게 기준(rubric) · 출력 형태 · 생각할 자리 · "모름" 이 모두 주어졌나?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -703,7 +648,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -785,7 +729,40 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="llm-judge-practice-h">연습 문제</h2>
 
+  <section class="csx" id="llm-judge-case" aria-labelledby="llm-judge-case-h" data-tree="llm-judge-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n8&quot;,&quot;근거 모자람&quot;],[&quot;n9&quot;,null]]" data-flow="llm-judge-flow" data-scene="1">
+    <p class="csx-text">고객지원 답을 채점하는 LLM judge 가 <mark class="csx-m" data-tag="근거 모자람">채점에 필요한 주문 정보가 transcript 에 없는 답까지<span class="csx-tag">근거 모자람</span></mark> 전부 correct/incorrect 로 자신 있게 판정한다. 팀원은 답을 만든 모델과 다른 모델로 judge 를 바꾸면 해결된다고 한다. judge 프롬프트에 무엇을 더할까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="llm-judge-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>답을 만든 모델이 스스로 채점 → 다른 모델이 일반적 모범 사례 <span class="ok">✓ 확인</span> <span class="src">(단 "다른 모델"만 붙은 보기를 자동 정답으로 X — 보정·rubric 이 빠졌는지 먼저)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"한 judge 로 모든 차원 = 늘 오답" → 따로가 "도움될 수 있음", 한 호출이 더 일관된 사례도 공식 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>regex 로 공감 판정 → 뉘앙스 없음 <span class="ok">✓ 확인</span> → <a href="grader-choice.html">■ grader 고르기</a></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>사람만 전수 검토 → 가능하면 피함 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>근거가 모자라도 확신 판정 → 탈출구가 없으면 환각 판정. "Unknown" 을 줌 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>추론 없이 점수만 바로 → 복잡한 판단에서 성능이 떨어짐 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"좋은지 설명해 줘" 같은 순수 정성 평가 → 빠르게·대량으로 측정 못 함 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>사람과 한 번 맞춘 뒤 영영 안 봄 → 주관적일수록 자주 보정 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Have detailed, clear rubrics"</p>
+        <p lang="en">"instruct the LLM to output only 'correct' or 'incorrect', or to judge from a scale of 1–5."</p>
+        <p lang="en">"Ask the LLM to reason first before producing an evaluation score, and then discard the reasoning."</p>
+        <p lang="en">"Generally best practice to use a different model to evaluate than the model used to generate the evaluated output"</p>
+        <p lang="en">"LLM-as-judge graders should be closely calibrated with human experts to gain confidence that there is little divergence between the human grading and model grading."</p>
+        <p lang="en">"To avoid hallucinations, give the LLM a way out, like providing an instruction to return “Unknown” when it doesn’t have enough information."</p>
+        <p lang="en">"grade each dimension with an isolated LLM-as-judge rather than using one to grade all dimensions."</p>
+        <p lang="en">"Once the system is robust, it’s sufficient to use human review only occasionally."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 차원별 judge 가 오히려 손해인 때</h4>
@@ -819,7 +796,6 @@
 <li><span class="lead">근거 :</span> demystifying-evals en 251줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -894,7 +870,23 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="llm-judge-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 4.2 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>docs develop-tests <span class="src">(ko·en 49~53줄 · en-full 1194·1208~1210·2843~2860줄)</span></li>
+        <li>demystifying-evals <span class="src">(en 46·72·189·229·251~255·261줄)</span></li>
+        <li>multi-agent-research-system <span class="src">(en 60줄)</span></li>
+        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287742">Skilljar API 287742</a> <span class="src">(88·129줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑧)</li>
+        <li>공식 문서끼리 갈림 1곳(⑤ 차원별 vs 한 호출)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -904,8 +896,7 @@
 <li>목록 4.2③ 의 "영어 신호" 3개는 모두 원문에서 찾음(develop-tests en 53줄 · define-success-full en 1208줄 · demystifying-evals en 251줄). 단 "Generally best practice…" 는 본문이 아니라 코드 주석.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/llm-judge.md</p>

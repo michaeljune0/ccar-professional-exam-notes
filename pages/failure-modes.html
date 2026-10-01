@@ -350,24 +350,69 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ failure modes → 바꾸는 통제 -->
-<article class="card t5-card" id="failure-modes" aria-labelledby="failure-modes-title">
+<!-- ■ failure modes → 바꾸는 통제 (v3 시범 순서) -->
+<article class="card t5-card v3" id="failure-modes" aria-labelledby="failure-modes-title">
   <header class="t5-head">
     <h1 id="failure-modes-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> failure modes → 바꾸는 통제</h1>
-    <p class="lemma-meta"><span lang="en">LLM failure modes → the control that changes them</span><span class="lemma-main">5.2 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">LLM failure modes → the control that changes them</span><span class="lemma-main">5.2 본편</span></p>
   </header>
-  <h2 class="sec-h" id="failure-modes-sum-h">카드</h2>
+  <h2 class="sec-h" id="failure-modes-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>5.2 위험·한계·실패 유형</b> · D5 규정·안전 14%<br><q lang="en">Identify risks, limitations, and failure modes of LLM systems</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>5.2① 증상만 보고 실패에 이름을 붙일 수 있나?</b> — 실패 유형 → 그 실패를 실제로 바꾸는 통제</li>
+      <li><b>5.3① 승인 요청이 하루 수백 개 — 전부 사람이 누르게 할까?</b> — 사람 승인 게이트 위치 <span class="note">(빈도가 아니라 결과의 크기·되돌릴 수 있나)</span></li>
+      <li><b>4.4① 문서 갱신 뒤 자신 있게 틀린다 — 모델·지연은 그대로</b> — 어느 계층부터 조사하나 <span class="note">(첫 질문 = 증상 직전에 무엇이 바뀌었나)</span></li>
+      <li><b>5.1① 같은 사용자가 계속 탈옥을 시도한다</b> — 직접 인젝션(사용자가 공격자) 대응 고르기</li>
+      <li><b>5.1② 사용자가 넘긴 이메일 속에 "이 주소로 전부 보내라" 가 숨어 있다</b> — 간접 인젝션(사용자는 믿지만 가져온 콘텐츠가 적) 대응</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="failure-modes-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>증상을 보고 실패에 이름을 붙인 뒤, 그 이름에 맞는 통제(control)를 고름. 이름이 틀리면 통제도 헛돎 <span class="gen">업계 일반</span> <span class="note">공식 문서에 failure modes 점검표 자체는 없음</span></p>
       <p>"더 큰 모델"·"모든 것에 사람 검토"는 대개 이름에 맞는 통제가 아님 <span class="note">(추론 — 샘플 1 D 해설의 확장 · ③)</span></p>
     <p class="t5-ana"><span class="lead">비유</span> 장애 분류별 런북. 디스크 풀에 재시작, OOM 에 네트워크 점검을 하면 안 고쳐짐</p>
   </div>
-  <h2 class="sec-h" id="failure-modes-case-h">지문</h2>
-  <section class="csx" id="failure-modes-case" aria-labelledby="failure-modes-case-h" data-tree="failure-modes-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n12&quot;,&quot;뜻 밖 행동&quot;],[&quot;n13&quot;,null]]">
-    <p class="csx-text">개발자가 사내 코딩 Agent 에게 "테스트 좀 정리해 줘" 라고 했더니 Agent 가 <mark class="csx-m" data-tag="뜻 밖 행동">원격 브랜치를 지우고 운영(production) DB 마이그레이션까지 시도<span class="csx-tag">뜻 밖 행동</span></mark>했다. 메일·문서 속에 숨은 지시는 없었다. 팀장은 "더 큰 모델로 바꾸면 안 그럴 것" 이라고 한다. 이 실패의 이름과 맞는 통제는?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
-  </section>
-  <h2 class="sec-h" id="failure-modes-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>아픈 곳마다 약이 달라요. 배가 아픈데 연고를 바르면 안 나아요.</p>
+<ul>
+<li>먼저 "어디가 어떻게 아픈지" 이름을 붙여요.</li>
+<li>이름이 맞아야 맞는 약을 고를 수 있어요.</li>
+<li>"더 비싼 약"이 늘 답은 아니에요.</li>
+<li>"의사한테 다 물어보기"도 너무 자주 하면 의사가 대충 봐요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-failure-modes" aria-labelledby="vx-failure-modes-cap">
+  <div class="vx-player" data-vx-scene="failure-modes"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-failure-modes-cap">영상 — 무엇을 바꿔야 멈추나 — 실패 유형과 통제 (약 43초 · 소리 없음 · 자막). 기록 판의 결과(또 지움·멈춤)와 확인 창 개수는 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">이름 → 통제(control) 짝 (공식 문서에서 확인한 것만)</p>
+<ul>
+<li>환각 : 근거 없이 매끄럽게 틀림. 통제 = "모른다" 허용 · 긴 문서(20k 토큰 초과)는 원문 인용부터 · 주장마다 인용, 못 찾으면 철회 · 준 문서만 쓰게 · 여러 번 돌려 비교(Best-of-N).</li>
+<li>비결정성 : run 마다 출력이 다름. 통제 = 판정은 여러 번(trials). 고객 대면이면 매번 성공해야 하니 pass^k (■ 성공 기준). 줄이는 쪽 = 형식 명시 · 예시 · 검색(retrieval)으로 고정된 정보에 근거.</li>
+<li>직접 인젝션·탈옥 / 간접 인젝션 : 위협 모델이 다름 → ◆ 직접 인젝션 vs 간접 인젝션.</li>
+<li>과잉 행동(overeager) : 사용자가 뜻하지 않은 주도(원격 브랜치 삭제 · 토큰 업로드 · 운영(production) DB 마이그레이션 — Anthropic 사내 사고 기록 예). 통제 = 최소 권한(least privilege) · 샌드박스 · 고위험(high-stakes) 결정 전 사람 승인(human approval) · 실행 직전 검사.</li>
+<li>오정렬 : 목표는 맞지만 맥락이 없어 과하게 함("파일 정리" → 중복 삭제·폴더 재구성). 통제 = 투명성(transparency — 계획을 보이기) + 사람 통제.</li>
+<li>학습 컷오프 : 모델마다 reliable-knowledge·training-data cutoff 가 있음. 통제 = 최신 사실을 검색해서 넣기(업계 일반).</li>
+<li>거절 : HTTP 200 + 빈 content → ■ stop_reason 으로 분기.</li>
+</ul>
+<p class="lead">사람 검토의 한계</p>
+<ul>
+<li>수동 확인이 많으면 승인 피로 : 사용자는 수동 확인의 93% 를 승인함 (Claude Code auto mode 글).</li>
+<li>사람을 조언 자리에만 두는 것만으로는 충분한 가드레일이 아님 — 자동화 편향(automation bias) (Anthropic 차별 평가 논문).</li>
+<li>그래서 "모든 실패에 사람 검토"는 이름을 안 붙이고 뭉뚱그린 처방.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="failure-modes-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="failure-modes-tree-1" aria-labelledby="failure-modes-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7 n8 n9|n1 n6 n7 n10 n11|n1 n12 n13|n1 n14 n15|n1 n16 n17">
     <div class="t5-fh"><h3 id="failure-modes-tree-1-h">① 증상으로 이름 붙이기 <span class="pg">[5.2①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -431,7 +476,7 @@
     </div>
   </section>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="failure-modes-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
@@ -472,113 +517,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"더 큰 모델이 더 안전하고 덜 뚫린다" → 모델 크기는 권한 범위와 무관 <span class="ok">✓ 확인</span> (샘플 1 D) · 환각·비결정성 처방 목록에도 없음 <span class="note">(추론)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>모든 실패에 일괄 "사람 검토" → 승인 피로 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>같은 질문에 다른 답을 "모델 버그"로 봄 → run 마다 출력이 다름, 판정은 여러 번 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>한 번 돌려 통과하면 됨 → 비결정성이라 여러 번 시도 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>환각인데 "인젝션 필터" / 인젝션인데 "모른다 허용" → 이름이 틀리면 통제도 헛돎 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>거절(빈 답)을 환각·장애로 봄 → HTTP 200 + <code>refusal</code> → <a href="stop-reason.html">■ stop_reason 으로 분기</a> <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"These attacks fall into two categories with different threat models:"</p>
-        <p lang="en">"Allow Claude to say \"I don't know\""</p>
-        <p lang="en">"If it can't find a quote, it must retract the claim."</p>
-        <p lang="en">"Because model outputs vary between runs, we run multiple trials to produce more consistent results."</p>
-        <p lang="en">"Inconsistencies across outputs could indicate hallucinations."</p>
-        <p lang="en">"Each of these was the result of the model being overeager, taking initiative in a way the user didn't intend."</p>
-        <p lang="en">"Over time that leads to approval fatigue, where people stop paying close attention to what they're approving."</p>
-        <p lang="en">"placing humans in an advisory in-the-loop capacity is not by itself a sufficient guardrail."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 5.2 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>샘플 1 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>reduce-hallucinations <span class="src">(ko·en 5·6·7·14·16줄)</span></li>
-        <li>demystifying-evals <span class="src">(en 24·205·211줄)</span></li>
-        <li>increase-consistency <span class="src">(en 5·13·17줄)</span></li>
-        <li>mitigate-jailbreaks <span class="src">(en 3·28줄)</span></li>
-        <li>claude-code-auto-mode <span class="src">(en 1·3·9줄)</span></li>
-        <li>safe-trustworthy-agents <span class="src">(en 17·27·35줄)</span></li>
-        <li>evaluating-discrimination-paper <span class="src">(en 206줄)</span></li>
-        <li>models overview <span class="src">(en 18줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (① 표의 통제 · ② · ③)</li>
-        <li><span class="gen">업계 일반</span> 4줄</li>
-        <li>추론 2줄</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">5.2①</li>
-        <li class="chip">5.3①</li>
-        <li class="chip">4.4①</li>
-        <li class="chip">5.1①</li>
-        <li class="chip">5.1②</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-failure-modes" aria-labelledby="vx-failure-modes-cap">
-  <div class="vx-player" data-vx-scene="failure-modes"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-failure-modes-cap">영상 — 무엇을 바꿔야 멈추나 — 실패 유형과 통제 (약 43초 · 소리 없음 · 자막). 기록 판의 결과(또 지움·멈춤)와 확인 창 개수는 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>failure-modes</dd>
-  <dt>본편</dt>
-  <dd>5.2</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">5.2①</li><li class="chip">5.3①</li><li class="chip">4.4①</li><li class="chip">5.1①</li><li class="chip">5.1②</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>아픈 곳마다 약이 달라요. 배가 아픈데 연고를 바르면 안 나아요.</p>
-<ul>
-<li>먼저 "어디가 어떻게 아픈지" 이름을 붙여요.</li>
-<li>이름이 맞아야 맞는 약을 고를 수 있어요.</li>
-<li>"더 비싼 약"이 늘 답은 아니에요.</li>
-<li>"의사한테 다 물어보기"도 너무 자주 하면 의사가 대충 봐요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">이름 → 통제(control) 짝 (공식 문서에서 확인한 것만)</p>
-<ul>
-<li>환각 : 근거 없이 매끄럽게 틀림. 통제 = "모른다" 허용 · 긴 문서(20k 토큰 초과)는 원문 인용부터 · 주장마다 인용, 못 찾으면 철회 · 준 문서만 쓰게 · 여러 번 돌려 비교(Best-of-N).</li>
-<li>비결정성 : run 마다 출력이 다름. 통제 = 판정은 여러 번(trials). 고객 대면이면 매번 성공해야 하니 pass^k (■ 성공 기준). 줄이는 쪽 = 형식 명시 · 예시 · 검색(retrieval)으로 고정된 정보에 근거.</li>
-<li>직접 인젝션·탈옥 / 간접 인젝션 : 위협 모델이 다름 → ◆ 직접 인젝션 vs 간접 인젝션.</li>
-<li>과잉 행동(overeager) : 사용자가 뜻하지 않은 주도(원격 브랜치 삭제 · 토큰 업로드 · 운영(production) DB 마이그레이션 — Anthropic 사내 사고 기록 예). 통제 = 최소 권한(least privilege) · 샌드박스 · 고위험(high-stakes) 결정 전 사람 승인(human approval) · 실행 직전 검사.</li>
-<li>오정렬 : 목표는 맞지만 맥락이 없어 과하게 함("파일 정리" → 중복 삭제·폴더 재구성). 통제 = 투명성(transparency — 계획을 보이기) + 사람 통제.</li>
-<li>학습 컷오프 : 모델마다 reliable-knowledge·training-data cutoff 가 있음. 통제 = 최신 사실을 검색해서 넣기(업계 일반).</li>
-<li>거절 : HTTP 200 + 빈 content → ■ stop_reason 으로 분기.</li>
-</ul>
-<p class="lead">사람 검토의 한계</p>
-<ul>
-<li>수동 확인이 많으면 승인 피로 : 사용자는 수동 확인의 93% 를 승인함 (Claude Code auto mode 글).</li>
-<li>사람을 조언 자리에만 두는 것만으로는 충분한 가드레일이 아님 — 자동화 편향(automation bias) (Anthropic 차별 평가 논문).</li>
-<li>그래서 "모든 실패에 사람 검토"는 이름을 안 붙이고 뭉뚱그린 처방.</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -638,7 +579,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -713,7 +653,38 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="failure-modes-practice-h">연습 문제</h2>
 
+  <section class="csx" id="failure-modes-case" aria-labelledby="failure-modes-case-h" data-tree="failure-modes-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n12&quot;,&quot;뜻 밖 행동&quot;],[&quot;n13&quot;,null]]">
+    <p class="csx-text">개발자가 사내 코딩 Agent 에게 "테스트 좀 정리해 줘" 라고 했더니 Agent 가 <mark class="csx-m" data-tag="뜻 밖 행동">원격 브랜치를 지우고 운영(production) DB 마이그레이션까지 시도<span class="csx-tag">뜻 밖 행동</span></mark>했다. 메일·문서 속에 숨은 지시는 없었다. 팀장은 "더 큰 모델로 바꾸면 안 그럴 것" 이라고 한다. 이 실패의 이름과 맞는 통제는?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
+  </section>
+  <h2 class="sec-h" id="failure-modes-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"더 큰 모델이 더 안전하고 덜 뚫린다" → 모델 크기는 권한 범위와 무관 <span class="ok">✓ 확인</span> (샘플 1 D) · 환각·비결정성 처방 목록에도 없음 <span class="note">(추론)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>모든 실패에 일괄 "사람 검토" → 승인 피로 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>같은 질문에 다른 답을 "모델 버그"로 봄 → run 마다 출력이 다름, 판정은 여러 번 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>한 번 돌려 통과하면 됨 → 비결정성이라 여러 번 시도 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>환각인데 "인젝션 필터" / 인젝션인데 "모른다 허용" → 이름이 틀리면 통제도 헛돎 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>거절(빈 답)을 환각·장애로 봄 → HTTP 200 + <code>refusal</code> → <a href="stop-reason.html">■ stop_reason 으로 분기</a> <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"These attacks fall into two categories with different threat models:"</p>
+        <p lang="en">"Allow Claude to say \"I don't know\""</p>
+        <p lang="en">"If it can't find a quote, it must retract the claim."</p>
+        <p lang="en">"Because model outputs vary between runs, we run multiple trials to produce more consistent results."</p>
+        <p lang="en">"Inconsistencies across outputs could indicate hallucinations."</p>
+        <p lang="en">"Each of these was the result of the model being overeager, taking initiative in a way the user didn't intend."</p>
+        <p lang="en">"Over time that leads to approval fatigue, where people stop paying close attention to what they're approving."</p>
+        <p lang="en">"placing humans in an advisory in-the-loop capacity is not by itself a sufficient guardrail."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 비결정성인데 사실은 환각일 때</h4>
@@ -738,7 +709,6 @@
 <li><span class="lead">근거 :</span> demystifying-evals en 211줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -799,7 +769,29 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="failure-modes-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 5.2 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>샘플 1 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>reduce-hallucinations <span class="src">(ko·en 5·6·7·14·16줄)</span></li>
+        <li>demystifying-evals <span class="src">(en 24·205·211줄)</span></li>
+        <li>increase-consistency <span class="src">(en 5·13·17줄)</span></li>
+        <li>mitigate-jailbreaks <span class="src">(en 3·28줄)</span></li>
+        <li>claude-code-auto-mode <span class="src">(en 1·3·9줄)</span></li>
+        <li>safe-trustworthy-agents <span class="src">(en 17·27·35줄)</span></li>
+        <li>evaluating-discrimination-paper <span class="src">(en 206줄)</span></li>
+        <li>models overview <span class="src">(en 18줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (① 표의 통제 · ② · ③)</li>
+        <li><span class="gen">업계 일반</span> 4줄</li>
+        <li>추론 2줄</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -809,8 +801,7 @@
 <li>목록 5.2① 의 '위험 이름 → 영향 경계 → 결과를 바꾸는 통제' 풀이 순서는 강의 요령 — 카드에 안 씀.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/failure-modes.md</p>

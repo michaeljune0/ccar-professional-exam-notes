@@ -350,18 +350,72 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ◆ 코드 vs LLM vs hybrid -->
-<article class="card t5-card" id="code-vs-llm" aria-labelledby="code-vs-llm-title">
+<!-- ◆ 코드 vs LLM vs hybrid (v3 시범 순서) -->
+<article class="card t5-card v3" id="code-vs-llm" aria-labelledby="code-vs-llm-title">
   <header class="t5-head">
     <h1 id="code-vs-llm-title"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> 코드 vs LLM vs hybrid</h1>
-    <p class="lemma-meta"><span lang="en">deterministic code vs LLM vs hybrid</span><span class="lemma-main">1.1 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">deterministic code vs LLM vs hybrid</span><span class="lemma-main">1.1 본편</span></p>
   </header>
-  <h2 class="sec-h" id="code-vs-llm-case-h">지문</h2>
-  <section class="csx" id="code-vs-llm-case" aria-labelledby="code-vs-llm-case-h" data-tree="code-vs-llm-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;규칙이 분명&quot;],[&quot;n3&quot;,null],[&quot;n6&quot;,&quot;사람 말&quot;],[&quot;n7&quot;,null]]" data-flow="code-vs-llm-flow" data-scene="0">
-    <p class="csx-text">쇼핑몰 고객이 <mark class="csx-m" data-tag="사람 말">채팅으로 "지난달 산 셔츠 두 장 중 한 장 반품하면 얼마 돌려받아요?" 라고 묻는다<span class="csx-tag">사람 말</span></mark>. 환불액은 <mark class="csx-m" data-tag="규칙이 분명">회사가 정해 둔 반품 규칙으로 계산한다<span class="csx-tag">규칙이 분명</span></mark>. Claude 에게 무엇을 맡길까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="code-vs-llm-trees-h">갈림길</h2>
+  <h2 class="sec-h" id="code-vs-llm-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>1.1 업무 문제를 Claude 해법으로</b> · D1 설계 17%<br><q lang="en">Translate business problems into Claude-based AI solutions</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>1.1① 이 일, LLM 이 꼭 있어야 하나?</b> — 코드 / LLM / 둘을 섞기(하이브리드) 중 어디에 맡기나</li>
+      <li><b>6.1① "완벽한 계약 검토기를 만들어 달라" — 아키텍트의 첫 행동은?</b> — 해법(모델·프롬프트·에이전트)보다 디스커버리 먼저</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="code-vs-llm-sum-h">한눈에</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>계산기와 친구에게 일을 나눠 맡기는 거예요.</p>
+<ul>
+<li>덧셈은 계산기가 늘 똑같이, 틀리지 않게 해요.</li>
+<li>"이 편지 화난 거야?" 는 계산기가 못 하고 친구가 알아들어요.</li>
+<li>둘이 섞인 일은 친구가 읽고, 숫자는 계산기에 넘겨요.</li>
+<li>계산기로 되는 일에 친구를 부르면 가끔 답이 달라져요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-code-vs-llm" aria-labelledby="vx-code-vs-llm-cap">
+  <div class="vx-player" data-vx-scene="code-vs-llm"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-code-vs-llm-cap">영상 — 환불 금액은 누가 계산할까 (약 55초 · 소리 없음 · 자막). 그림 속 금액과 “같은 질문 5번” 결과는 예시예요(그림용 가정, 실측 아님). <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">코드가 맡는 일</p>
+<ul>
+<li>규칙이 분명한 계산·검증·정해진 순서. 같은 입력이면 늘 같은 결과(결정론).</li>
+<li>공식 근거 두 곳 : Skills 모범 사례 "결정론적 작업은 스크립트" · "생성 코드보다 믿을 만함"(미리 써 둔 스크립트가 모델이 즉석에서 생성한 코드보다), programmatic tool calling 글 "반복·조건·변환·오류 처리를 LLM 추론(reasoning) 속이 아니라 코드에 드러나게".</li>
+<li>LLM 은 같은 입력에도 답이 달라질 수 있음(비결정). 환불 금액처럼 틀리면 안 되고 규칙이 정해진 값을 LLM 이 만들면, 맞을 때도 "왜 맞았나"를 보장 못 함.</li>
+</ul>
+<p class="lead">LLM 이 맡는 일</p>
+<ul>
+<li>지저분한 말의 뜻 해석. 규칙으로 하려면 사용자 발화의 변형마다 규칙을 짜야 함 → 공식이 "Claude 를 고를 이유"로 드는 지점.</li>
+<li>공식 고객지원 신호 : 비슷한 문의 대량 반복 · 여러 자료를 빨리 합쳐야 함 · 24시간 응대 · 성수기 급증 · 일관된 말투.</li>
+</ul>
+<p class="lead">hybrid(섞기)</p>
+<ul>
+<li>뜻은 LLM, 계산·동작은 코드. 고객지원 에이전트 글도 "환불·티켓 갱신 같은 동작은 코드로(programmatically) 처리"라고 적음.</li>
+<li>LLM 이 뽑은 값을 코드에 넘길 때는 스키마로 받음 → <a href="e2e-architecture.html">■ input → processing → output → feedback loop</a> <span class="rule-ref">· <a href="e2e-architecture.html#e2e-architecture-rule-3">규칙 ③</a></span>.</li>
+</ul>
+<p class="lead">복잡도 사다리</p>
+<ul>
+<li>가장 단순한 해법부터. 에이전트를 아예 안 만드는 것도 답.</li>
+<li>대부분은 검색(retrieval)·예시를 붙인 LLM 호출 하나로 충분 → 부족하면 워크플로 → 에이전트(1.3).</li>
+<li>복잡도는 "결과가 나아진 게 보일 때만" 늘림.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>이 칸의 답은 규칙으로 정해지나, 뜻을 읽어야 나오나?</li>
+<li>이 칸이 틀리면 누가 책임지고, 같은 입력에 같은 답이 필요한가?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="code-vs-llm-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="code-vs-llm-tree-1" aria-labelledby="code-vs-llm-tree-1-h" data-paths="n1 n2 n3 n4 n5|n1 n2 n3 n6 n7|n1 n8 n9">
     <div class="t5-fh"><h3 id="code-vs-llm-tree-1-h">누구에게 맡기나 <span class="pg">[1.1①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -420,7 +474,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="code-vs-llm-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="code-vs-llm-flow" aria-label="코드 vs LLM vs hybrid 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["고객","Claude","환불 계산 코드","고객이 받는 답"],"blocks":[],"rules":[null,null,"환불 = 단가 × 수량 − 반품 배송비 3,000원",null],"question":"누가 금액을 계산해야 할까?","scenes":[{"name":"① hybrid","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"지난달 산 셔츠 두 장 중 한 장 반품하면 얼마 돌려받아요?"}},{"kind":"move","step":"뜻","from":{"col":0},"to":1,"label":"사람 말에서 뜻만 뽑음","art":{"kind":"slip","lines":["{ 상품: \"셔츠\", 단가: 29000, 반품: 1 }"]}},{"kind":"move","step":"계산","from":{"col":1},"to":2,"label":"규칙대로 계산","art":{"kind":"slip","lines":["29,000 × 1","− 3,000 배송비","= 26,000"]}},{"kind":"move","step":"답","from":{"col":2},"to":3,"label":"","art":{"kind":"say","text":"26,000원 환불돼요."}},{"kind":"end","label":"뜻은 Claude, 계산은 코드 — 같은 질문엔 늘 26,000원"}]},{"name":"② 계산까지 LLM","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"지난달 산 셔츠 두 장 중 한 장 반품하면 얼마 돌려받아요?"}},{"kind":"move","step":"한 호출","from":{"col":0},"to":1,"label":"계산까지 한 번에 — 배송비 규칙은 안 봄","art":{"kind":"slip","lines":["\"셔츠 한 장 29,000원이니 29,000원 돌려주면 되겠다\""]}},{"kind":"skip","at":2},{"kind":"move","step":"답","from":{"col":1},"to":3,"label":"규칙대로면 26,000원","art":{"kind":"say","text":"29,000원 돌려드려요."}},{"kind":"end","label":"규칙이 정해진 계산을 비결정적인 쪽에 맡김 — 다음번엔 맞을 수도, 또 틀릴 수도"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -447,7 +501,7 @@
       </ol>
     </details>
   </figure>
-  <h2 class="sec-h" id="code-vs-llm-rep-h">반복</h2>
+  <h3 class="v3-sub" id="code-vs-llm-rep-h">반복</h3>
   <section class="rpx" id="code-vs-llm-rep" aria-labelledby="code-vs-llm-rep-h">
     <h3>같은 질문 5번 보내 보기</h3>
     <div class="rpx-runs" style="--n:5">
@@ -492,124 +546,9 @@
         <li>프레임워크는 추상화가 프롬프트·응답을 가려 디버깅이 어려움 → 먼저 API 직접 <span class="ok">✓ 확인</span></li>
       </ul>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"환불 금액 계산 + 문의 뜻 분류"를 한 번에 → 환불 금액 계산까지 LLM 한 호출에 맡김 = 규칙이 분명한 일을 비결정적인 쪽에 맡김. 계산은 코드 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"첫날부터 멀티에이전트 프레임워크" → 가장 단순한 해법부터 · 먼저 API 직접 <span class="ok">✓ 확인</span> → <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"AI 를 넣어야 발전" → 사용자는 멋진 에이전트가 아니라 늘 되는 제품을 원함 <span class="ok">✓ 확인</span> <span class="src">(Skilljar)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "LLM 은 비결정적이니 자연어 문의도 키워드·정규식 규칙으로" → 변형마다 규칙을 짜야 함. 뜻 해석은 LLM 몫 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"라우팅은 반드시 LLM 분류" → 정확하면 전통 분류 모델도 됨 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"we recommend finding the simplest solution possible, and only increasing complexity when needed. This might mean not building agentic systems at all."</p>
-        <p lang="en">"For many applications, however, optimizing single LLM calls with retrieval and in-context examples is usually enough."</p>
-        <p lang="en">"Prefer scripts for deterministic operations" <span class="src" lang="ko">(Agent Skills 모범 사례)</span></p>
-        <p lang="en">"Loops, conditionals, data transformations, and error handling are all explicit in code rather than implicit in Claude's reasoning."</p>
-        <p lang="en">"High volume of repetitive queries" · "Claude excels at handling a large number of similar questions efficiently, freeing up human agents for more complex issues."</p>
-        <p lang="en">"without generating canned responses or requiring extensive programming of permutations of user utterances"</p>
-        <p lang="en">"Users probably don't care that you've built a fancy agent - they want a product that works consistently." <span class="src">(Skilljar)</span></p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="problem-framing.html">■ 문제 정의</a></li>
-        <li><a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></li>
-        <li><a href="tool-design.html">■ 도구 설계</a></li>
-        <li><a href="e2e-architecture.html">■ input → processing → output → feedback loop</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 1.1 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>building-effective-agents <span class="src">(en 18·20·31·33·76·162·190줄)</span></li>
-        <li>customer-support-chat <span class="src">(ko 24~46·51줄, en 27·28·51줄)</span></li>
-        <li>agent-skills best-practices <span class="src">(ko 866·979줄, en 866·979줄)</span></li>
-        <li>advanced-tool-use <span class="src">(en 136줄)</span></li>
-        <li>writing-tools-for-agents <span class="src">(en 25줄)</span></li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287794">Skilljar API 287794</a></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (갈림 기준 · 함정)</li>
-        <li><span class="gen">업계 일반</span> 1줄(드문 일 → 코드)</li>
-        <li>'코드 먼저'의 공식 문장은 Skills·도구 호출 문맥 — 시스템 전체로 넓힌 건 이 카드의 해석</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">1.1①</li>
-        <li class="chip">6.1①</li>
-        <li>(<span class="note">규칙이 안정적이면 LLM 없는 코드도 선택지</span>)</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-code-vs-llm" aria-labelledby="vx-code-vs-llm-cap">
-  <div class="vx-player" data-vx-scene="code-vs-llm"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-code-vs-llm-cap">영상 — 환불 금액은 누가 계산할까 (약 55초 · 소리 없음 · 자막). 그림 속 금액과 “같은 질문 5번” 결과는 예시예요(그림용 가정, 실측 아님). <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>code-vs-llm</dd>
-  <dt>본편</dt>
-  <dd>1.1</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">1.1①</li><li class="chip">6.1①</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>계산기와 친구에게 일을 나눠 맡기는 거예요.</p>
-<ul>
-<li>덧셈은 계산기가 늘 똑같이, 틀리지 않게 해요.</li>
-<li>"이 편지 화난 거야?" 는 계산기가 못 하고 친구가 알아들어요.</li>
-<li>둘이 섞인 일은 친구가 읽고, 숫자는 계산기에 넘겨요.</li>
-<li>계산기로 되는 일에 친구를 부르면 가끔 답이 달라져요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">코드가 맡는 일</p>
-<ul>
-<li>규칙이 분명한 계산·검증·정해진 순서. 같은 입력이면 늘 같은 결과(결정론).</li>
-<li>공식 근거 두 곳 : Skills 모범 사례 "결정론적 작업은 스크립트" · "생성 코드보다 믿을 만함"(미리 써 둔 스크립트가 모델이 즉석에서 생성한 코드보다), programmatic tool calling 글 "반복·조건·변환·오류 처리를 LLM 추론(reasoning) 속이 아니라 코드에 드러나게".</li>
-<li>LLM 은 같은 입력에도 답이 달라질 수 있음(비결정). 환불 금액처럼 틀리면 안 되고 규칙이 정해진 값을 LLM 이 만들면, 맞을 때도 "왜 맞았나"를 보장 못 함.</li>
-</ul>
-<p class="lead">LLM 이 맡는 일</p>
-<ul>
-<li>지저분한 말의 뜻 해석. 규칙으로 하려면 사용자 발화의 변형마다 규칙을 짜야 함 → 공식이 "Claude 를 고를 이유"로 드는 지점.</li>
-<li>공식 고객지원 신호 : 비슷한 문의 대량 반복 · 여러 자료를 빨리 합쳐야 함 · 24시간 응대 · 성수기 급증 · 일관된 말투.</li>
-</ul>
-<p class="lead">hybrid(섞기)</p>
-<ul>
-<li>뜻은 LLM, 계산·동작은 코드. 고객지원 에이전트 글도 "환불·티켓 갱신 같은 동작은 코드로(programmatically) 처리"라고 적음.</li>
-<li>LLM 이 뽑은 값을 코드에 넘길 때는 스키마로 받음 → <a href="e2e-architecture.html">■ input → processing → output → feedback loop</a> <span class="rule-ref">· <a href="e2e-architecture.html#e2e-architecture-rule-3">규칙 ③</a></span>.</li>
-</ul>
-<p class="lead">복잡도 사다리</p>
-<ul>
-<li>가장 단순한 해법부터. 에이전트를 아예 안 만드는 것도 답.</li>
-<li>대부분은 검색(retrieval)·예시를 붙인 LLM 호출 하나로 충분 → 부족하면 워크플로 → 에이전트(1.3).</li>
-<li>복잡도는 "결과가 나아진 게 보일 때만" 늘림.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>이 칸의 답은 규칙으로 정해지나, 뜻을 읽어야 나오나?</li>
-<li>이 칸이 틀리면 누가 책임지고, 같은 입력에 같은 답이 필요한가?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -675,7 +614,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -757,7 +695,36 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="code-vs-llm-practice-h">연습 문제</h2>
 
+  <section class="csx" id="code-vs-llm-case" aria-labelledby="code-vs-llm-case-h" data-tree="code-vs-llm-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;규칙이 분명&quot;],[&quot;n3&quot;,null],[&quot;n6&quot;,&quot;사람 말&quot;],[&quot;n7&quot;,null]]" data-flow="code-vs-llm-flow" data-scene="0">
+    <p class="csx-text">쇼핑몰 고객이 <mark class="csx-m" data-tag="사람 말">채팅으로 "지난달 산 셔츠 두 장 중 한 장 반품하면 얼마 돌려받아요?" 라고 묻는다<span class="csx-tag">사람 말</span></mark>. 환불액은 <mark class="csx-m" data-tag="규칙이 분명">회사가 정해 둔 반품 규칙으로 계산한다<span class="csx-tag">규칙이 분명</span></mark>. Claude 에게 무엇을 맡길까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="code-vs-llm-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"환불 금액 계산 + 문의 뜻 분류"를 한 번에 → 환불 금액 계산까지 LLM 한 호출에 맡김 = 규칙이 분명한 일을 비결정적인 쪽에 맡김. 계산은 코드 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"첫날부터 멀티에이전트 프레임워크" → 가장 단순한 해법부터 · 먼저 API 직접 <span class="ok">✓ 확인</span> → <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"AI 를 넣어야 발전" → 사용자는 멋진 에이전트가 아니라 늘 되는 제품을 원함 <span class="ok">✓ 확인</span> <span class="src">(Skilljar)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "LLM 은 비결정적이니 자연어 문의도 키워드·정규식 규칙으로" → 변형마다 규칙을 짜야 함. 뜻 해석은 LLM 몫 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"라우팅은 반드시 LLM 분류" → 정확하면 전통 분류 모델도 됨 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"we recommend finding the simplest solution possible, and only increasing complexity when needed. This might mean not building agentic systems at all."</p>
+        <p lang="en">"For many applications, however, optimizing single LLM calls with retrieval and in-context examples is usually enough."</p>
+        <p lang="en">"Prefer scripts for deterministic operations" <span class="src" lang="ko">(Agent Skills 모범 사례)</span></p>
+        <p lang="en">"Loops, conditionals, data transformations, and error handling are all explicit in code rather than implicit in Claude's reasoning."</p>
+        <p lang="en">"High volume of repetitive queries" · "Claude excels at handling a large number of similar questions efficiently, freeing up human agents for more complex issues."</p>
+        <p lang="en">"without generating canned responses or requiring extensive programming of permutations of user utterances"</p>
+        <p lang="en">"Users probably don't care that you've built a fancy agent - they want a product that works consistently." <span class="src">(Skilljar)</span></p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 규칙이 분명한데 LLM 이 필요한 때</h4>
@@ -791,7 +758,6 @@
 <li><span class="lead">근거 :</span> building-effective-agents en 76줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -852,7 +818,33 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="code-vs-llm-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="problem-framing.html">■ 문제 정의</a></li>
+        <li><a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></li>
+        <li><a href="tool-design.html">■ 도구 설계</a></li>
+        <li><a href="e2e-architecture.html">■ input → processing → output → feedback loop</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 1.1 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>building-effective-agents <span class="src">(en 18·20·31·33·76·162·190줄)</span></li>
+        <li>customer-support-chat <span class="src">(ko 24~46·51줄, en 27·28·51줄)</span></li>
+        <li>agent-skills best-practices <span class="src">(ko 866·979줄, en 866·979줄)</span></li>
+        <li>advanced-tool-use <span class="src">(en 136줄)</span></li>
+        <li>writing-tools-for-agents <span class="src">(en 25줄)</span></li>
+        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287794">Skilljar API 287794</a></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (갈림 기준 · 함정)</li>
+        <li><span class="gen">업계 일반</span> 1줄(드문 일 → 코드)</li>
+        <li>'코드 먼저'의 공식 문장은 Skills·도구 호출 문맥 — 시스템 전체로 넓힌 건 이 카드의 해석</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -861,8 +853,7 @@
 <li>building-effective-agents 는 2024-12 글이고 머리에 "도구 환경이 많이 바뀜" 주석이 있음(en 1줄). 원칙(단순함부터)은 그대로지만 프레임워크 목록은 낡았을 수 있음.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/code-vs-llm.md</p>

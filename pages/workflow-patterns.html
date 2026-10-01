@@ -350,24 +350,72 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ 워크플로 5패턴 -->
-<article class="card t5-card" id="workflow-patterns" aria-labelledby="workflow-patterns-title">
+<!-- ■ 워크플로 5패턴 (v3 시범 순서) -->
+<article class="card t5-card v3" id="workflow-patterns" aria-labelledby="workflow-patterns-title">
   <header class="t5-head">
     <h1 id="workflow-patterns-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 워크플로 5패턴</h1>
-    <p class="lemma-meta"><span lang="en">prompt chaining · routing · parallelization · orchestrator-workers · evaluator-optimizer</span><span class="lemma-main">1.3 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">prompt chaining · routing · parallelization · orchestrator-workers · evaluator-optimizer</span><span class="lemma-main">1.3 본편</span></p>
   </header>
-  <h2 class="sec-h" id="workflow-patterns-sum-h">카드</h2>
+  <h2 class="sec-h" id="workflow-patterns-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>1.3 구조 패턴 고르기</b> · D1 설계 17%<br><q lang="en">Select appropriate architectural patterns (workflow, agentic, augmented LLM)</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>1.3② 워크플로 5패턴 중 무엇?</b> — 체이닝 / 라우팅 / 병렬(나눠 돌리기·여러 번 돌려 다수결) / 지휘자-일꾼 / 평가자-개선자 고르기</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="workflow-patterns-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>증강 LLM(검색(retrieval)·도구·메모리가 붙은 LLM) 호출을 코드로 엮는 흔한 다섯 모양. 처방이 아니라 섞고 고쳐 쓰는 틀. 복잡도는 결과가 나아질 때만 더함 <span class="ok">✓ 확인</span></p>
       <p>영어 이름 : prompt chaining(체이닝) · routing(라우팅) · parallelization(병렬 — sectioning · voting) · orchestrator-workers(지휘자-일꾼) · evaluator-optimizer(평가자-개선자) <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> 스테이지 게이트 파이프라인(prompt chaining) · L7 경로 라우팅(routing) · 맵리듀스(parallelization) · 잡 스케줄러가 작업을 쪼개 워커에 배분(orchestrator-workers) · 카나리 판정 루프(evaluator-optimizer)</p>
   </div>
-  <h2 class="sec-h" id="workflow-patterns-case-h">지문</h2>
-  <section class="csx" id="workflow-patterns-case" aria-labelledby="workflow-patterns-case-h" data-tree="workflow-patterns-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,null],[&quot;n5&quot;,null],[&quot;n8&quot;,&quot;뚜렷한 범주&quot;],[&quot;n9&quot;,null],[&quot;n10&quot;,&quot;분류 정확&quot;],[&quot;n11&quot;,null]]" data-flow="workflow-patterns-flow" data-scene="0">
-    <p class="csx-text">쇼핑몰 문의는 <mark class="csx-m" data-tag="뚜렷한 범주">일반 · 환불 · 기술 지원 세 종류로 늘 정해져 있고<span class="csx-tag">뚜렷한 범주</span></mark>, <mark class="csx-m" data-tag="분류 정확">작은 분류 호출이 종류를 거의 틀리지 않고 맞힌다<span class="csx-tag">분류 정확</span></mark>. 지금은 만능 프롬프트 하나가 다 받는데, 환불 답을 다듬을 때마다 기술 지원 답이 나빠진다. 어떤 패턴으로 바꿀까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="workflow-patterns-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>식당 주방이 주문을 처리하는 다섯 가지 방법이에요.</p>
+<ul>
+<li>한 요리를 손질 → 굽기 → 담기 순서로 넘기면 느려도 실수가 줄어요.</li>
+<li>주문서를 보고 피자는 피자 담당, 국수는 국수 담당에게 보내요.</li>
+<li>여러 요리를 여러 요리사가 동시에 만들거나, 같은 맛을 여럿이 봐요.</li>
+<li>큰 잔치 주문은 주방장이 그때 일을 나누고, 맛보는 사람이 "짜다" 하면 고쳐서 내요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-workflow-patterns" aria-labelledby="vx-workflow-patterns-cap">
+  <div class="vx-player" data-vx-scene="workflow-patterns"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-workflow-patterns-cap">영상 — 환불을 고치면 왜 기술 답이 나빠질까? (약 43초 · 소리 없음 · 자막). 답 품질 막대 값 · 다듬기 횟수 · 헷갈리는 문의는 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">모두 같은 재료</p>
+<ul>
+<li>다섯 모양 모두 "증강 LLM"(검색(retrieval)·도구·메모리가 붙은 LLM) 호출을 코드로 잇는 것. 차이는 호출을 어떻게 잇나 — 순서로, 갈래로, 동시에, orchestrator(지휘자)가, 되돌림 고리로.</li>
+</ul>
+<p class="lead">모양별로 무엇을 얻나</p>
+<ul>
+<li>prompt chaining(체이닝) : 정확도를 얻음, 지연(latency)을 냄. 각 호출이 쉬운 일 하나만 하게 되고, 사이에 코드 검사(gate)를 둘 수 있음.</li>
+<li>routing(라우팅) : 전문화를 얻음. 한 프롬프트로 모든 종류를 맞추면 한 종류를 좋게 할수록 다른 종류가 나빠짐 → 나눠서 각자 최적화. 대가 = 분류 호출 1번 + 분류가 틀리면 엉뚱한 경로.</li>
+<li>parallelization(병렬) : 나눠 돌리기는 속도를, 다수결은 신뢰도를 얻음. 고려할 게 여럿이면 하나씩 따로 보는 게 대개 나음(집중).</li>
+<li>orchestrator-workers(지휘자-일꾼) : 유연성을 얻음. 하위작업을 미리 못 정할 때 orchestrator 가 입력을 보고 나눔. 모양은 parallelization 과 비슷, 차이는 "미리 정해졌나".</li>
+<li>evaluator-optimizer(평가자-개선자) : 품질을 얻음, 호출·지연을 되풀이만큼 냄. 기준이 뚜렷하고, 피드백으로 나아지고, LLM 이 그 피드백을 줄 수 있을 때만 쓸 만함.</li>
+</ul>
+<p class="lead">고르는 순서</p>
+<ul>
+<li>하위작업을 미리 아나? 모르면 orchestrator-workers(또는 에이전트 — ◆ 워크플로 vs 에이전트).</li>
+<li>알면 : 종류가 뚜렷이 갈리나(routing) → 조각끼리 독립인가(parallelization) → 앞 출력이 다음 입력인가(prompt chaining).</li>
+<li>품질 기준이 뚜렷하면 어느 모양에든 evaluator 고리를 덧붙일 수 있음. 모양은 섞어 씀.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>이 일의 조각은 미리 정해져 있나, 입력을 봐야 정해지나?</li>
+<li>내가 얻으려는 게 정확도·전문화·속도·신뢰도·품질 중 무엇인가?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="workflow-patterns-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="workflow-patterns-tree-1" aria-labelledby="workflow-patterns-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9 n10 n11|n1 n4 n5 n8 n9 n12 n13 n14 n15|n1 n4 n5 n8 n9 n12 n13 n16 n17">
     <div class="t5-fh"><h3 id="workflow-patterns-tree-1-h">①②④ 5패턴 고르기 <span class="pg">[1.3②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -456,7 +504,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="workflow-patterns-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="workflow-patterns-flow" aria-label="워크플로 5패턴 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["입력","코드","LLM 호출들","출력"],"blocks":[],"rules":[null,null,null,null],"question":"이 입력은 어떤 모양으로 흘러갈까?","scenes":[{"name":"① routing","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"환불 요청했는데 아직 안 들어왔어요"}},{"kind":"move","step":"분류","from":{"col":0},"to":1,"label":"입력을 분류해","art":{"kind":"slip","lines":["분류 결과: \"환불\""]}},{"kind":"move","step":"보냄","from":{"col":1},"to":2,"label":"전용 후속 처리 하나로만","art":{"kind":"slip","lines":["환불 전용 프롬프트 + 도구","일반 · 기술 경로는 안 감"]}},{"kind":"move","step":"답","from":{"col":2},"to":3,"label":"","art":{"kind":"say","text":"환불은 접수됐고 영업일 3일 안에 들어와요."}},{"kind":"end","label":"입력은 한 경로로만 감 — 환불 쪽을 다듬어도 기술 지원 답은 안 건드림"}]},{"name":"② 나눠 돌리기","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"환불 요청했는데 아직 안 들어왔어요"}},{"kind":"move","step":"받음","from":{"col":0},"to":1,"label":"같은 문의를 두 호출로","art":{"kind":"slip","lines":["문의 1건 → 호출 2개"]}},{"kind":"move","step":"나눔","from":{"col":1},"to":2,"label":"독립 하위작업을 동시에","art":{"kind":"slip","lines":["호출 A: 답 쓰기","호출 B: 부적절 여부 선별"]}},{"kind":"move","step":"합침","from":{"col":2},"to":3,"label":"코드가 합침","art":{"kind":"slip","lines":["A: 답 초안","B: 문제 없음 → 보냄"]}},{"kind":"end","label":"속도 — 독립 조각을 동시에"}]},{"name":"③ prompt chaining 이면 빨라진다?","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["상품 설명 요청","응답 한도 5초"]}},{"kind":"move","step":"순서","from":{"col":1},"to":2,"label":"앞 출력을 다음 호출이 처리","art":{"kind":"slip","lines":["개요 → 기준 검사 → 본문","단계마다 2.5초"]}},{"kind":"timer","at":2,"label":"지연을 내주고"},{"kind":"move","step":"결과","from":{"col":2},"to":3,"label":"이어 붙인 시간","art":{"kind":"slip","lines":["2.5 × 3 = 7.5초","한도 5초 넘김"]}},{"kind":"end","label":"prompt chaining = 지연을 내주고 정확도를 얻음 (단계당 2.5초는 그림용 가정)"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -491,7 +539,7 @@
     </details>
   </figure>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="workflow-patterns-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
@@ -545,111 +593,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"prompt chaining 을 고르는 이유 = 비용·지연이 낮아서" → 지연을 내주고 정확도를 얻음 <span class="ok">✓ 확인</span> <span class="src">(영상 ⚠)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"단계를 쪼개면 빨라진다" → 순서대로 잇는 prompt chaining 은 지연을 냄. 빨라지는 건 독립 조각을 동시에 돌리는 나눠 돌리기 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"분류 문제에 evaluator-optimizer 루프" → 뚜렷한 범주 + 정확한 분류 = routing <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>분류가 부정확한데 routing → routing 의 전제 = 분류가 정확히 됨 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>parallelization ↔ orchestrator-workers 혼동 → 하위작업이 미리 정해졌으면 parallelization, 입력 따라 정해지면 orchestrator-workers <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>다수결을 속도 수단으로 → 다수결은 신뢰도, 속도는 나눠 돌리기 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>가드레일 검사와 주 답을 한 호출에 → 따로 병렬이 대개 나음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>평가 기준이 흐린 일에 evaluator 루프 → 뚜렷한 기준 + 두 신호가 조건 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"This workflow is ideal for situations where the task can be easily and cleanly decomposed into fixed subtasks."</p>
-        <p lang="en">"The main goal is to trade off latency for higher accuracy, by making each LLM call an easier task."</p>
-        <p lang="en">"Routing works well for complex tasks where there are distinct categories that are better handled separately, and where classification can be handled accurately, either by an LLM or a more traditional classification model/algorithm."</p>
-        <p lang="en">"Parallelization is effective when the divided subtasks can be parallelized for speed, or when multiple perspectives or attempts are needed for higher confidence results."</p>
-        <p lang="en">"This workflow is well-suited for complex tasks where you can’t predict the subtasks needed"</p>
-        <p lang="en">"subtasks aren't pre-defined, but determined by the orchestrator based on the specific input."</p>
-        <p lang="en">"This workflow is particularly effective when we have clear evaluation criteria, and when iterative refinement provides measurable value."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 1.3 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>building-effective-agents <span class="src">(en 43·55·61·65~66·70·76·80~81·85~88·94·99~103·107·113·117~118·122·128·132~133·162줄)</span></li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287800">Skilljar API 287800</a> <span class="src">(13·30~32·47~55줄)</span></li>
-        <li>287801 <span class="src">(32~35·64·73줄)</span></li>
-        <li>287804 <span class="src">(36~39줄)</span></li>
-        <li>287796 <span class="src">(33~40줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">1.3②</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-workflow-patterns" aria-labelledby="vx-workflow-patterns-cap">
-  <div class="vx-player" data-vx-scene="workflow-patterns"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-workflow-patterns-cap">영상 — 환불을 고치면 왜 기술 답이 나빠질까? (약 43초 · 소리 없음 · 자막). 답 품질 막대 값 · 다듬기 횟수 · 헷갈리는 문의는 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>workflow-patterns</dd>
-  <dt>본편</dt>
-  <dd>1.3</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">1.3②</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>식당 주방이 주문을 처리하는 다섯 가지 방법이에요.</p>
-<ul>
-<li>한 요리를 손질 → 굽기 → 담기 순서로 넘기면 느려도 실수가 줄어요.</li>
-<li>주문서를 보고 피자는 피자 담당, 국수는 국수 담당에게 보내요.</li>
-<li>여러 요리를 여러 요리사가 동시에 만들거나, 같은 맛을 여럿이 봐요.</li>
-<li>큰 잔치 주문은 주방장이 그때 일을 나누고, 맛보는 사람이 "짜다" 하면 고쳐서 내요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">모두 같은 재료</p>
-<ul>
-<li>다섯 모양 모두 "증강 LLM"(검색(retrieval)·도구·메모리가 붙은 LLM) 호출을 코드로 잇는 것. 차이는 호출을 어떻게 잇나 — 순서로, 갈래로, 동시에, orchestrator(지휘자)가, 되돌림 고리로.</li>
-</ul>
-<p class="lead">모양별로 무엇을 얻나</p>
-<ul>
-<li>prompt chaining(체이닝) : 정확도를 얻음, 지연(latency)을 냄. 각 호출이 쉬운 일 하나만 하게 되고, 사이에 코드 검사(gate)를 둘 수 있음.</li>
-<li>routing(라우팅) : 전문화를 얻음. 한 프롬프트로 모든 종류를 맞추면 한 종류를 좋게 할수록 다른 종류가 나빠짐 → 나눠서 각자 최적화. 대가 = 분류 호출 1번 + 분류가 틀리면 엉뚱한 경로.</li>
-<li>parallelization(병렬) : 나눠 돌리기는 속도를, 다수결은 신뢰도를 얻음. 고려할 게 여럿이면 하나씩 따로 보는 게 대개 나음(집중).</li>
-<li>orchestrator-workers(지휘자-일꾼) : 유연성을 얻음. 하위작업을 미리 못 정할 때 orchestrator 가 입력을 보고 나눔. 모양은 parallelization 과 비슷, 차이는 "미리 정해졌나".</li>
-<li>evaluator-optimizer(평가자-개선자) : 품질을 얻음, 호출·지연을 되풀이만큼 냄. 기준이 뚜렷하고, 피드백으로 나아지고, LLM 이 그 피드백을 줄 수 있을 때만 쓸 만함.</li>
-</ul>
-<p class="lead">고르는 순서</p>
-<ul>
-<li>하위작업을 미리 아나? 모르면 orchestrator-workers(또는 에이전트 — ◆ 워크플로 vs 에이전트).</li>
-<li>알면 : 종류가 뚜렷이 갈리나(routing) → 조각끼리 독립인가(parallelization) → 앞 출력이 다음 입력인가(prompt chaining).</li>
-<li>품질 기준이 뚜렷하면 어느 모양에든 evaluator 고리를 덧붙일 수 있음. 모양은 섞어 씀.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>이 일의 조각은 미리 정해져 있나, 입력을 봐야 정해지나?</li>
-<li>내가 얻으려는 게 정확도·전문화·속도·신뢰도·품질 중 무엇인가?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -727,7 +673,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -823,7 +768,39 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="workflow-patterns-practice-h">연습 문제</h2>
 
+  <section class="csx" id="workflow-patterns-case" aria-labelledby="workflow-patterns-case-h" data-tree="workflow-patterns-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,null],[&quot;n5&quot;,null],[&quot;n8&quot;,&quot;뚜렷한 범주&quot;],[&quot;n9&quot;,null],[&quot;n10&quot;,&quot;분류 정확&quot;],[&quot;n11&quot;,null]]" data-flow="workflow-patterns-flow" data-scene="0">
+    <p class="csx-text">쇼핑몰 문의는 <mark class="csx-m" data-tag="뚜렷한 범주">일반 · 환불 · 기술 지원 세 종류로 늘 정해져 있고<span class="csx-tag">뚜렷한 범주</span></mark>, <mark class="csx-m" data-tag="분류 정확">작은 분류 호출이 종류를 거의 틀리지 않고 맞힌다<span class="csx-tag">분류 정확</span></mark>. 지금은 만능 프롬프트 하나가 다 받는데, 환불 답을 다듬을 때마다 기술 지원 답이 나빠진다. 어떤 패턴으로 바꿀까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="workflow-patterns-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"prompt chaining 을 고르는 이유 = 비용·지연이 낮아서" → 지연을 내주고 정확도를 얻음 <span class="ok">✓ 확인</span> <span class="src">(영상 ⚠)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"단계를 쪼개면 빨라진다" → 순서대로 잇는 prompt chaining 은 지연을 냄. 빨라지는 건 독립 조각을 동시에 돌리는 나눠 돌리기 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"분류 문제에 evaluator-optimizer 루프" → 뚜렷한 범주 + 정확한 분류 = routing <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>분류가 부정확한데 routing → routing 의 전제 = 분류가 정확히 됨 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>parallelization ↔ orchestrator-workers 혼동 → 하위작업이 미리 정해졌으면 parallelization, 입력 따라 정해지면 orchestrator-workers <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>다수결을 속도 수단으로 → 다수결은 신뢰도, 속도는 나눠 돌리기 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>가드레일 검사와 주 답을 한 호출에 → 따로 병렬이 대개 나음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>평가 기준이 흐린 일에 evaluator 루프 → 뚜렷한 기준 + 두 신호가 조건 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"This workflow is ideal for situations where the task can be easily and cleanly decomposed into fixed subtasks."</p>
+        <p lang="en">"The main goal is to trade off latency for higher accuracy, by making each LLM call an easier task."</p>
+        <p lang="en">"Routing works well for complex tasks where there are distinct categories that are better handled separately, and where classification can be handled accurately, either by an LLM or a more traditional classification model/algorithm."</p>
+        <p lang="en">"Parallelization is effective when the divided subtasks can be parallelized for speed, or when multiple perspectives or attempts are needed for higher confidence results."</p>
+        <p lang="en">"This workflow is well-suited for complex tasks where you can’t predict the subtasks needed"</p>
+        <p lang="en">"subtasks aren't pre-defined, but determined by the orchestrator based on the specific input."</p>
+        <p lang="en">"This workflow is particularly effective when we have clear evaluation criteria, and when iterative refinement provides measurable value."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. prompt chaining 은 정확한데 지연 한도를 넘을 때</h4>
@@ -856,7 +833,6 @@
 <li><span class="lead">근거 :</span> building-effective-agents en 102·113줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -924,7 +900,23 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="workflow-patterns-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 1.3 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>building-effective-agents <span class="src">(en 43·55·61·65~66·70·76·80~81·85~88·94·99~103·107·113·117~118·122·128·132~133·162줄)</span></li>
+        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287800">Skilljar API 287800</a> <span class="src">(13·30~32·47~55줄)</span></li>
+        <li>287801 <span class="src">(32~35·64·73줄)</span></li>
+        <li>287804 <span class="src">(36~39줄)</span></li>
+        <li>287796 <span class="src">(33~40줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -933,8 +925,7 @@
 <li>prompt chaining·parallelization 의 실제 지연 숫자는 공식에 없음(뒤집히는 때 1 은 가정 숫자로 한 계산).</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/workflow-patterns.md</p>

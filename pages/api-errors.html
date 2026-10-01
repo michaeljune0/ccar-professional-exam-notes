@@ -350,24 +350,75 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ API 오류별 대응 -->
-<article class="card t5-card" id="api-errors" aria-labelledby="api-errors-title">
+<!-- ■ API 오류별 대응 (v3 시범 순서) -->
+<article class="card t5-card v3" id="api-errors" aria-labelledby="api-errors-title">
   <header class="t5-head">
     <h1 id="api-errors-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> API 오류별 대응</h1>
-    <p class="lemma-meta"><span lang="en">500·529·429·504 · 지출 상한 429 · request-id</span><span class="lemma-main">7.3 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">500·529·429·504 · 지출 상한 429 · request-id</span><span class="lemma-main">7.3 본편</span></p>
   </header>
-  <h2 class="sec-h" id="api-errors-sum-h">카드</h2>
+  <h2 class="sec-h" id="api-errors-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>7.3 디버깅과 운영 문제 해결</b> · D7 개발팀 7%<br><q lang="en">Support debugging and operational issue resolution</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>7.3③ API 오류가 쏟아질 때 무엇부터 보나?</b> — 오류 종류별 대응 <span class="note">(재시도할 것 / 한도를 볼 것 / 오류가 아닌 것)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="api-errors-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>API 오류 = HTTP 상태 + <code>error.type</code>(JSON). 할 일은 코드가 가름 — 500·529 = 일시 오류라 지수 백오프 재시도 · 429 = 한도(속도 또는 지출 상한) · 504 = 긴 요청은 스트리밍 · 400대 = 내 요청·키·권한을 고침 <span class="ok">✓ 확인</span></p>
       <p>모든 응답에 <code>request-id</code> 헤더(오류 본문엔 같은 값 <code>request_id</code>) → 문의·추적의 열쇠. 거절은 오류가 아님(HTTP 200) → <a href="stop-reason.html">■ stop_reason 으로 분기</a> <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> 5xx 는 백오프 재시도 + 서킷 브레이커, 429 는 스로틀·쿼터 확인, 4xx 는 클라이언트 버그 수정. 추적은 X-Request-ID 로 게이트웨이·백엔드 로그를 잇기</p>
   </div>
-  <h2 class="sec-h" id="api-errors-case-h">지문</h2>
-  <section class="csx" id="api-errors-case" aria-labelledby="api-errors-case-h" data-tree="api-errors-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n6&quot;,&quot;504&quot;],[&quot;n7&quot;,null]]" data-flow="api-errors-flow" data-scene="2">
-    <p class="csx-text">매일 밤 긴 월간 보고서를 만드는 앱이 <mark class="csx-m" data-tag="비스트리밍">큰 <code>max_tokens</code> 로 스트리밍 없이<span class="csx-tag">비스트리밍</span></mark> 요청을 보낸다. 요즘 <mark class="csx-m" data-tag="504">HTTP 504 <code>timeout_error</code><span class="csx-tag">504</span></mark> 로 자주 실패하자 개발자는 클라이언트 타임아웃 값을 더 늘리려 한다. 어떻게 고쳐야 하나?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="api-errors-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>가게에 전화했는데 안 되는 이유가 여러 가지예요.</p>
+<ul>
+<li>"지금 손님이 너무 많아요" → 조금 있다 다시 걸면 돼요 (500·529).</li>
+<li>"오늘 주문 한도를 넘었어요" → 다시 걸어도 소용없을 때가 있어요 (429).</li>
+<li>"주문서가 잘못 적혔어요" → 주문서를 고쳐야 해요 (400대).</li>
+<li>전화마다 붙는 접수 번호를 적어 두면, 나중에 가게에 물어볼 수 있어요 (request-id).</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-api-errors" aria-labelledby="vx-api-errors-cap">
+  <div class="vx-player" data-vx-scene="api-errors"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-api-errors-cap">영상 — 밤마다 504, 어떻게 고칠까? (약 43초 · 소리 없음 · 자막). 밤 4번 · 타임아웃 깃발 자리 · 끊기는 자리는 그림용 가정 · 실측 아님 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">오류는 "누구 문제인가"를 알려 줌</p>
+<ul>
+<li>5xx(500·529·504) = Anthropic 쪽 또는 요청 처리 쪽의 일시 문제 → 같은 요청을 잠시 뒤 다시 보내면 대개 풀림. 그래서 지수 백오프 재시도.</li>
+<li>429 = 내 조직의 한도 → 기다리면 풀리는 것(rate limit — 속도 제한, <code>retry-after</code> 있음)과 안 풀리는 것(티어 월 지출 상한, <code>retry-after</code> 없음)이 섞여 있음 → ■ rate limit 으로 가름.</li>
+<li>400대 = 내 요청 자체가 틀림 → 몇 번을 다시 보내도 같은 결과. 요청·키·권한을 고침.</li>
+<li>504 = 요청이 너무 오래 걸림 → 재시도보다 요청 방식을 바꿈(스트리밍·배치).</li>
+</ul>
+<p class="lead">오류가 아닌 실패가 있음</p>
+<ul>
+<li>거절은 HTTP 200 + <code>stop_reason: "refusal"</code>. 오류율 감시에 안 보임.</li>
+<li>스트리밍은 200 을 먼저 보낸 뒤 중간에 <code>error</code> 이벤트가 올 수 있음. HTTP 상태만 보면 놓침.</li>
+</ul>
+<p class="lead">재시도는 이미 누가 하고 있음</p>
+<ul>
+<li>공식 SDK 는 일시 오류를 기본 2번 재시도. Claude Code 는 기본 10번 재시도하고, 포기한 뒤에야 <code>api_error</code> 를 1번 남김.</li>
+<li>그 위에 또 재시도를 감싸면 시도 수가 곱해져 한도·비용을 더 먹음(업계 일반).</li>
+</ul>
+<p class="lead">추적 = <code>request-id</code></p>
+<ul>
+<li>모든 응답에 붙음. 오류 본문에도 같은 값. 지원 문의·로그 대조의 열쇠.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>이 실패는 기다리면 풀리나, 고쳐야 풀리나?</li>
+<li>내 감시가 이 실패를 볼 수 있나(200 인 실패 포함)?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="api-errors-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="api-errors-tree-1" aria-labelledby="api-errors-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9|n1 n10 n11|n1 n12 n13">
     <div class="t5-fh"><h3 id="api-errors-tree-1-h">①② 상태 코드로 가르기 <span class="pg">[7.3③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -436,7 +487,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="api-errors-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="api-errors-flow" aria-label="API 오류별 대응 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["앱","SDK","API"],"blocks":[],"rules":[null,"연결 오류·429·5xx 를 지수 백오프로 기본 2번",null],"question":"이 오류, 다시 보내면 될까?","scenes":[{"name":"① 500 → 백오프 → 요청 ID 로 문의","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["POST /v1/messages"]}},{"kind":"move","step":"실패","from":{"col":2},"to":1,"label":"500 `api_error`","art":{"kind":"slip","lines":["HTTP 500","type: `api_error`","request_id: req_018…"]}},{"kind":"move","step":"재시도","from":{"col":1},"to":2,"label":"지수 백오프로 기본 2번","art":{"kind":"slip","lines":["재시도 1/2 · 백오프","재시도 2/2 · 더 길게"]}},{"kind":"move","step":"문의","from":{"col":1},"to":0,"label":"계속되면 요청 ID 로 문의","art":{"kind":"slip","lines":["500 예외 · 재시도 소진","request-id: req_018…"]}},{"kind":"end","label":"Anthropic 내부 오류 — 백오프 재시도, 계속되면 요청 ID 로 문의"}]},{"name":"② 스트림 중간 오류","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["POST /v1/messages","`stream`: true"]}},{"kind":"move","step":"응답","from":{"col":2},"to":0,"label":"HTTP 200 으로 스트림 시작","art":{"kind":"slip","lines":["HTTP 200","글자가 흘러옴…"]}},{"kind":"move","step":"오류","from":{"col":2},"to":0,"label":"스트림 중간 오류 이벤트","art":{"kind":"slip","lines":["event: error","type: `overloaded_error`"]}},{"kind":"mark","step":"표시","at":{"col":0},"label":"200 만 보고 성공 처리","art":{"kind":"slip","lines":["로그: 200 · 성공","(답은 중간에 끊김)"]}},{"kind":"end","label":"200 뒤 오류는 표준 오류 처리를 안 따름 — 오류 이벤트를 따로 처리해야"}]},{"name":"③ 긴 요청 504 → 스트리밍","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["POST /v1/messages","`max_tokens`: 큰 값","`stream` 없음"]}},{"kind":"move","step":"요청","from":{"col":0},"to":2,"label":"큰 `max_tokens` · 비스트리밍","art":{"kind":"slip","lines":["응답 기다리는 중…","(연결은 유휴)"]}},{"kind":"mark","step":"끊김","at":{"col":2},"label":"유휴 연결이 끊김","art":{"kind":"slip","lines":["HTTP 504","type: `timeout_error`"]}},{"kind":"move","step":"바꿈","from":{"col":0},"to":2,"label":"스트리밍 또는 Message Batches","art":{"kind":"slip","lines":["`stream`: true","→ 조각이 계속 옴"]}},{"kind":"end","label":"긴 요청은 스트리밍으로 — 타임아웃 값만 늘리지 않음"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -472,7 +523,7 @@
     </details>
   </figure>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="api-errors-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
@@ -527,124 +578,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"피크에 실패 급증 → 모델이 불안정하니 모델 교체" → 상태 코드부터. 5xx·529 는 일시 오류(백오프), 429 는 한도 — 모델 품질 문제가 아님 <span class="gen">업계 일반</span> <span class="note">단 한도는 모델마다 따로라 다른 모델을 섞으면 429 는 덜 수 있음 <a href="rate-limits.html">■ rate limit</a> <span class="rule-ref">· <a href="rate-limits.html#rate-limits-rule-4">규칙 ④</a></span> <span class="ok">✓ 확인</span></span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"429 면 즉시 무한 재시도" → <code>retry-after</code> 보다 이르면 또 실패 · 지출 상한 429 는 계속 실패 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"500 이 계속돼도 재시도만" → 계속되면 request ID 로 문의 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"504 면 타임아웃 값만 늘림" → 긴 요청은 스트리밍 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"오류율 대시보드가 조용하니 정상" → 거절은 200 · 스트림 중간 오류는 200 뒤 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"오류 메시지 문자열로 분기" → SDK 타입 예외, 구체적인 것부터 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Claude Code <code>api_error</code> 1건 = 한 번 실패" → 재시도를 다 한 뒤 1번, 횟수는 <code>attempt</code> <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"SDK 위에 재시도 루프를 또 감쌈" → SDK 가 이미 2번 재시도, 겹치면 시도 수가 곱해짐 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"400 이니 한도는 아님" → 내가 건 지출 한도 도달도 400 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Retry the request with exponential backoff; if the error persists, contact support with the request ID."</p>
-        <p lang="en">"A tier spend-cap 429 has no <code>retry-after</code> header and keeps failing until access resumes"</p>
-        <p lang="en">"The official SDKs automatically retry transient failures (such as connection errors, rate limits, and 5xx server errors) with exponential backoff, twice by default, honoring the <code>retry-after</code> header when present."</p>
-        <p lang="en">"Consider using the streaming Messages API for long-running requests."</p>
-        <p lang="en">"an error can occur after the API returns a 200 response."</p>
-        <p lang="en">"Every API response includes a unique <code>request-id</code> header."</p>
-        <p lang="en">"Catch the SDK's typed classes rather than string-matching error messages, handling the most specific classes first."</p>
-        <p lang="en">"Refusals arrive on a successful response stream rather than as an HTTP error, so the <code>api_error</code> event doesn’t fire for them."</p>
-        <p lang="en">"Previously, 529 (<code>overloaded_error</code>) errors would occur in similar scenarios." <span class="src" lang="ko">(릴리스 노트 2025-08-11)</span></p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="rate-limits.html">■ rate limit</a></li>
-        <li><a href="stop-reason.html">■ stop_reason 으로 분기</a></li>
-        <li><a href="observability-signals.html">■ observability 세 신호</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 7.3 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>errors <span class="src">(ko·en 5~19·27~32·36·53·59~63·69~76줄)</span></li>
-        <li>streaming <span class="src">(ko 28~34줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/ko/api/rate-limits">rate-limits</a> <span class="src">(en 33·48·162줄)</span></li>
-        <li>monitoring-usage <span class="src">(en 955~956·1071~1082·1096·1663줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 500·518줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
-        <li><span class="gen">업계 일반</span> 2줄</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">7.3③</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-api-errors" aria-labelledby="vx-api-errors-cap">
-  <div class="vx-player" data-vx-scene="api-errors"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-api-errors-cap">영상 — 밤마다 504, 어떻게 고칠까? (약 43초 · 소리 없음 · 자막). 밤 4번 · 타임아웃 깃발 자리 · 끊기는 자리는 그림용 가정 · 실측 아님 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>api-errors</dd>
-  <dt>본편</dt>
-  <dd>7.3</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">7.3③</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>가게에 전화했는데 안 되는 이유가 여러 가지예요.</p>
-<ul>
-<li>"지금 손님이 너무 많아요" → 조금 있다 다시 걸면 돼요 (500·529).</li>
-<li>"오늘 주문 한도를 넘었어요" → 다시 걸어도 소용없을 때가 있어요 (429).</li>
-<li>"주문서가 잘못 적혔어요" → 주문서를 고쳐야 해요 (400대).</li>
-<li>전화마다 붙는 접수 번호를 적어 두면, 나중에 가게에 물어볼 수 있어요 (request-id).</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">오류는 "누구 문제인가"를 알려 줌</p>
-<ul>
-<li>5xx(500·529·504) = Anthropic 쪽 또는 요청 처리 쪽의 일시 문제 → 같은 요청을 잠시 뒤 다시 보내면 대개 풀림. 그래서 지수 백오프 재시도.</li>
-<li>429 = 내 조직의 한도 → 기다리면 풀리는 것(rate limit — 속도 제한, <code>retry-after</code> 있음)과 안 풀리는 것(티어 월 지출 상한, <code>retry-after</code> 없음)이 섞여 있음 → ■ rate limit 으로 가름.</li>
-<li>400대 = 내 요청 자체가 틀림 → 몇 번을 다시 보내도 같은 결과. 요청·키·권한을 고침.</li>
-<li>504 = 요청이 너무 오래 걸림 → 재시도보다 요청 방식을 바꿈(스트리밍·배치).</li>
-</ul>
-<p class="lead">오류가 아닌 실패가 있음</p>
-<ul>
-<li>거절은 HTTP 200 + <code>stop_reason: "refusal"</code>. 오류율 감시에 안 보임.</li>
-<li>스트리밍은 200 을 먼저 보낸 뒤 중간에 <code>error</code> 이벤트가 올 수 있음. HTTP 상태만 보면 놓침.</li>
-</ul>
-<p class="lead">재시도는 이미 누가 하고 있음</p>
-<ul>
-<li>공식 SDK 는 일시 오류를 기본 2번 재시도. Claude Code 는 기본 10번 재시도하고, 포기한 뒤에야 <code>api_error</code> 를 1번 남김.</li>
-<li>그 위에 또 재시도를 감싸면 시도 수가 곱해져 한도·비용을 더 먹음(업계 일반).</li>
-</ul>
-<p class="lead">추적 = <code>request-id</code></p>
-<ul>
-<li>모든 응답에 붙음. 오류 본문에도 같은 값. 지원 문의·로그 대조의 열쇠.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>이 실패는 기다리면 풀리나, 고쳐야 풀리나?</li>
-<li>내 감시가 이 실패를 볼 수 있나(200 인 실패 포함)?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -722,7 +658,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -797,7 +732,42 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="api-errors-practice-h">연습 문제</h2>
 
+  <section class="csx" id="api-errors-case" aria-labelledby="api-errors-case-h" data-tree="api-errors-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n6&quot;,&quot;504&quot;],[&quot;n7&quot;,null]]" data-flow="api-errors-flow" data-scene="2">
+    <p class="csx-text">매일 밤 긴 월간 보고서를 만드는 앱이 <mark class="csx-m" data-tag="비스트리밍">큰 <code>max_tokens</code> 로 스트리밍 없이<span class="csx-tag">비스트리밍</span></mark> 요청을 보낸다. 요즘 <mark class="csx-m" data-tag="504">HTTP 504 <code>timeout_error</code><span class="csx-tag">504</span></mark> 로 자주 실패하자 개발자는 클라이언트 타임아웃 값을 더 늘리려 한다. 어떻게 고쳐야 하나?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="api-errors-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"피크에 실패 급증 → 모델이 불안정하니 모델 교체" → 상태 코드부터. 5xx·529 는 일시 오류(백오프), 429 는 한도 — 모델 품질 문제가 아님 <span class="gen">업계 일반</span> <span class="note">단 한도는 모델마다 따로라 다른 모델을 섞으면 429 는 덜 수 있음 <a href="rate-limits.html">■ rate limit</a> <span class="rule-ref">· <a href="rate-limits.html#rate-limits-rule-4">규칙 ④</a></span> <span class="ok">✓ 확인</span></span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"429 면 즉시 무한 재시도" → <code>retry-after</code> 보다 이르면 또 실패 · 지출 상한 429 는 계속 실패 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"500 이 계속돼도 재시도만" → 계속되면 request ID 로 문의 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"504 면 타임아웃 값만 늘림" → 긴 요청은 스트리밍 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"오류율 대시보드가 조용하니 정상" → 거절은 200 · 스트림 중간 오류는 200 뒤 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"오류 메시지 문자열로 분기" → SDK 타입 예외, 구체적인 것부터 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Claude Code <code>api_error</code> 1건 = 한 번 실패" → 재시도를 다 한 뒤 1번, 횟수는 <code>attempt</code> <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"SDK 위에 재시도 루프를 또 감쌈" → SDK 가 이미 2번 재시도, 겹치면 시도 수가 곱해짐 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"400 이니 한도는 아님" → 내가 건 지출 한도 도달도 400 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Retry the request with exponential backoff; if the error persists, contact support with the request ID."</p>
+        <p lang="en">"A tier spend-cap 429 has no <code>retry-after</code> header and keeps failing until access resumes"</p>
+        <p lang="en">"The official SDKs automatically retry transient failures (such as connection errors, rate limits, and 5xx server errors) with exponential backoff, twice by default, honoring the <code>retry-after</code> header when present."</p>
+        <p lang="en">"Consider using the streaming Messages API for long-running requests."</p>
+        <p lang="en">"an error can occur after the API returns a 200 response."</p>
+        <p lang="en">"Every API response includes a unique <code>request-id</code> header."</p>
+        <p lang="en">"Catch the SDK's typed classes rather than string-matching error messages, handling the most specific classes first."</p>
+        <p lang="en">"Refusals arrive on a successful response stream rather than as an HTTP error, so the <code>api_error</code> event doesn’t fire for them."</p>
+        <p lang="en">"Previously, 529 (<code>overloaded_error</code>) errors would occur in similar scenarios." <span class="src" lang="ko">(릴리스 노트 2025-08-11)</span></p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 모델을 바꾸는 게 맞는 때</h4>
@@ -832,7 +802,6 @@
 <li><span class="lead">근거 :</span> errors en 12줄 · rate-limits en 33·48줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -907,7 +876,30 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="api-errors-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="rate-limits.html">■ rate limit</a></li>
+        <li><a href="stop-reason.html">■ stop_reason 으로 분기</a></li>
+        <li><a href="observability-signals.html">■ observability 세 신호</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 7.3 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>errors <span class="src">(ko·en 5~19·27~32·36·53·59~63·69~76줄)</span></li>
+        <li>streaming <span class="src">(ko 28~34줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/ko/api/rate-limits">rate-limits</a> <span class="src">(en 33·48·162줄)</span></li>
+        <li>monitoring-usage <span class="src">(en 955~956·1071~1082·1096·1663줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 500·518줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
+        <li><span class="gen">업계 일반</span> 2줄</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -917,8 +909,7 @@
 <li>목록의 영어 신호 두 개(500 줄 · 지출 상한 429 줄)는 원문에서 찾음 — 목록 그대로 ✓. 목록의 "Claude Code 감시도 api_error 가 아니라 api_refusal" 도 monitoring-usage en 1096줄에서 ✓.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/api-errors.md</p>

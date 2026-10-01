@@ -350,24 +350,84 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ 에이전트 권한 -->
-<article class="card t5-card" id="agent-permissions" aria-labelledby="agent-permissions-title">
+<!-- ■ 에이전트 권한 (v3 시범 순서) -->
+<article class="card t5-card v3" id="agent-permissions" aria-labelledby="agent-permissions-title">
   <header class="t5-head">
     <h1 id="agent-permissions-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 에이전트 권한</h1>
-    <p class="lemma-meta"><span lang="en">allow/ask/deny 공유 설정 · MCP 범위</span><span class="lemma-main">7.1 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">allow/ask/deny 공유 설정 · MCP 범위</span><span class="lemma-main">7.1 본편</span></p>
   </header>
-  <h2 class="sec-h" id="agent-permissions-sum-h">카드</h2>
+  <h2 class="sec-h" id="agent-permissions-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>7.1 팀 도구·환경 설정</b> · D7 개발팀 7%<br><q lang="en">Configure Claude tools and environments for teams (e.g., Claude Code)</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>7.1③ 에이전트에 줄 권한, 어디까지?</b> — 행동을 allow/ask/deny 로 나눈 공유 설정 + MCP 자격증명 최소 권한</li>
+      <li><b>7.1① 팀 규칙을 모두의 모든 세션에 똑같이 싣으려면?</b> — 개인 설정 vs 저장소에 커밋한 프로젝트 설정 vs 조직 관리형 설정</li>
+      <li><b>7.1② '반드시' 돌아야 하는 검사, 어디에 거나?</b> — 지시(CLAUDE.md) vs 훅, 그리고 어느 훅 이벤트</li>
+      <li><b>3.1① 상담원은 읽기·초안만 쓰는데 환불·삭제 도구가 붙어 있다 — 무엇을 바꾸나?</b> — 과잉 권한 줄이기 <span class="note">(도구 제거 vs 로그·확인창 vs 모델 교체)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="agent-permissions-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>Claude Code 가 도구 호출마다 규칙으로 허용(allow)·확인(ask)·거부(deny)를 정함. 규칙은 모델이 아니라 Claude Code 가 강제 — 프롬프트·CLAUDE.md 는 허용 범위를 못 바꿈 <span class="ok">✓ 확인</span></p>
       <p>팀 규칙은 커밋한 <code>.claude/settings.json</code> 에, 팀 MCP 서버는 커밋한 <code>.mcp.json</code> 에 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> IAM 정책의 명시적 Deny — 어느 정책에 Allow 가 있어도 Deny 하나가 이김</p>
   </div>
-  <h2 class="sec-h" id="agent-permissions-case-h">지문</h2>
-  <section class="csx" id="agent-permissions-case" aria-labelledby="agent-permissions-case-h" data-tree="agent-permissions-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;좁은 allow&quot;],[&quot;n3&quot;,null]]" data-flow="agent-permissions-flow" data-scene="1">
-    <p class="csx-text">팀 저장소 <code>.claude/settings.json</code> 의 deny 에 <mark class="csx-m" data-tag="넓은 deny"><code>Bash(aws *)</code><span class="csx-tag">넓은 deny</span></mark> 가 있다. 한 개발자가 S3 목록만 보려고 같은 파일의 allow 에 <mark class="csx-m" data-tag="좁은 allow"><code>Bash(aws s3 ls)</code> 를 추가<span class="csx-tag">좁은 allow</span></mark>했다 — "더 구체적인 규칙이니 이긴다" 고 믿는다. Claude 가 <code>aws s3 ls</code> 를 부르면 어떻게 되나?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="agent-permissions-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>건물 출입 규칙이에요. 경비는 목록을 정해진 순서로 봐요.</p>
+<ul>
+<li>먼저 "출입 금지" 목록을 봐요. 있으면 끝, 못 들어가요.</li>
+<li>다음 "물어보고 들여보내기" 목록을 봐요.</li>
+<li>마지막에 "그냥 통과" 목록을 봐요.</li>
+<li>규칙은 경비가 지키지, 방문객 말로 안 바뀌어요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-agent-permissions" aria-labelledby="vx-agent-permissions-cap">
+  <div class="vx-player" data-vx-scene="agent-permissions"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-agent-permissions-cap">영상 — 좁은 allow 가 deny 를 이길까? (약 43초 · 소리 없음 · 자막). 좁힌 deny 의 모양과 CLAUDE.md 쪽지 문구는 그림용 가정 · 실측 아님 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">누가 강제하나</p>
+<ul>
+<li>권한 규칙은 Claude Code(클라이언트)가 도구 호출마다 검사 → 모델이 뭐라고 하든 결과가 같음.</li>
+<li>CLAUDE.md·프롬프트는 Claude 가 <strong>무엇을 시도할지</strong>만 바꿈. 무엇이 <strong>허용되는지</strong>는 못 바꿈.</li>
+</ul>
+<p class="lead">순서가 결과를 정함</p>
+<ul>
+<li>deny → ask → allow, 첫 일치가 결정. 구체성은 순서를 못 바꿈 → 예외를 두려면 deny 를 좁히는 수밖에 없음.</li>
+<li>층도 마찬가지 : 어느 층이든 deny 면 끝. 그래서 조직은 deny 만 내려도 아래가 못 풂.</li>
+<li>능력을 <strong>주는</strong> 쪽(allow)은 신뢰가 필요하고, <strong>제한하는</strong> 쪽(deny·ask)은 바로 먹음 — 남이 커밋한 파일이 내 기계에 권한을 여는 걸 막으려고.</li>
+</ul>
+<p class="lead">deny 의 두 얼굴</p>
+<ul>
+<li>이름째 deny(<code>Bash</code>) = 도구 정의가 Claude 에게서 사라짐 → 부를 생각도 못 함. 필요 없는 도구 빼기(■ 최소 권한).</li>
+<li>패턴 deny(<code>Bash(rm *)</code>) = 도구는 보이고, 맞는 호출만 막힘.</li>
+</ul>
+<p class="lead">규칙의 한계</p>
+<ul>
+<li>Bash 규칙은 명령 <strong>글자</strong>를 봄 → 다른 표기(<code>git -C . push</code>)는 빠져나감.</li>
+<li>그래서 층을 겹침 : 권한 규칙(글자) + PreToolUse 훅(내 로직) + 샌드박스(OS 수준, 인젝션이 판단을 뚫어도 남음).</li>
+</ul>
+<p class="lead">MCP 는 "어디에 적었나"가 공유 범위</p>
+<ul>
+<li>local = 나·이 프로젝트(기본), project = <code>.mcp.json</code> 커밋 = 팀, user = 나·모든 프로젝트.</li>
+<li>비밀은 파일 밖(<code>${VAR}</code>), 또는 개인 자격증명이면 local.</li>
+<li>커밋한 서버는 대화형에서 승인을 받고 켜짐 — 클론한 저장소가 스스로 켤 수 없음.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>이 도구가 역할에 필요한가? (아니면 빼기)</li>
+<li>필요하면, 이 호출이 되돌리기 어려운가? (allow / ask / deny)</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="agent-permissions-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="agent-permissions-tree-1" aria-labelledby="agent-permissions-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9|n1 n4 n5 n10 n11">
     <div class="t5-fh"><h3 id="agent-permissions-tree-1-h">②③ 이 행동, 어느 규칙 <span class="pg">[7.1③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -442,7 +502,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="agent-permissions-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="agent-permissions-flow" aria-label="에이전트 권한 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["호출","deny","ask","allow"],"blocks":[],"rules":[null,"deny → ask → allow 순, 첫 일치가 결정",null,"`Bash(npm run *)` · `Bash(aws s3 ls)`"],"question":"규칙 셋 중 무엇을 먼저 볼까?","scenes":[{"name":"① 저위험 반복 명령","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Bash 명령","`npm run lint`"]}},{"kind":"move","step":"검사","from":{"col":0},"to":1,"label":"안 걸림","art":{"kind":"slip","lines":["`Bash(aws *)`","→ 불일치"]}},{"kind":"move","step":"검사","from":{"col":0},"to":2,"label":"안 걸림","art":{"kind":"slip","lines":["`Bash(git push *)`","→ 불일치"]}},{"kind":"move","step":"통과","from":{"col":0},"to":3,"label":"묻지 않고","art":{"kind":"slip","lines":["`Bash(npm run *)`","→ 일치 · 실행"]}},{"kind":"end","label":"allow = 묻지 않고 — 확인창 없이 lint 가 돎"}]},{"name":"② 좁은 allow 로 넓은 deny 뚫기","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Bash 명령","`aws s3 ls`"]}},{"kind":"move","step":"검사","from":{"col":0},"to":1,"label":"넓은 deny 에 걸림","art":{"kind":"slip","lines":["`Bash(aws *)`","→ 일치 · 거부"]}},{"kind":"skip","at":2},{"kind":"skip","at":3},{"kind":"end","label":"첫 일치가 deny — 좁은 allow(`Bash(aws s3 ls)`)도 넓은 deny 를 못 뚫음"}]},{"name":"③ 다른 표기로 빠져나감","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Bash 명령","`git -C . push`"]}},{"kind":"start","at":1,"label":"","art":{"kind":"slip","lines":["`Bash(git push *)`","를 deny 에 두면"]}},{"kind":"move","step":"검사","from":{"col":0},"to":1,"label":"deny 에 안 걸림","art":{"kind":"slip","lines":["`git -C . push`","→ 불일치"]}},{"kind":"end","label":"Bash 규칙은 명령 글자 매칭이라 `git -C . push` 는 안 걸림 — 내용 검사는 PreToolUse 훅"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -478,7 +538,7 @@
     </details>
   </figure>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="agent-permissions-rule-7"><span class="num" aria-hidden="true">⑦</span>
           <div class="how-body">
@@ -554,131 +614,9 @@
         </li>
       </ol>
     </details>
-    <h2>CCA-F</h2>
-      <p>봄 (2.4 MCP 스코프 local·project·user · <code>${VAR}</code> 로 토큰 분리 · 2.3 서브에이전트마다 역할에 필요한 도구만) — 여기선 allow/ask/deny 를 위험도로 나눠 팀 공유 설정에 싣는 판단과, 규칙이 어느 순서·어느 층에서 이기는지로 묻는다</p>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"권한은 두고 감사 로그로 추적" / "머지 전에 확인창 추가" → 보완 통제(control)일 뿐, 필요 없는 능력은 빼기 <span class="ok">✓ 확인</span> (공식 샘플 1 A·C) → <a href="least-privilege.html">■ 최소 권한</a></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"좁은 allow 가 넓은 deny 보다 구체적이니 이긴다" → deny 먼저 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"CLAUDE.md 에 'git push 하지 마'" → 규칙은 Claude Code 가 강제. 프롬프트는 허용 범위를 못 바꿈 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>Bash(git push *)</code> deny 면 모든 push 가 막힘" → <code>git -C . push</code> 는 안 걸림 → 훅·샌드박스 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"토큰을 <code>.mcp.json</code> 에 적어 커밋" → <code>${VAR}</code> 로 빼거나 local 범위 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"로컬에서 'don't ask again' 눌렀으니 팀 ask 가 사라진다" → 로컬 allow 는 ask 를 못 이김 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"CI 에선 사람 없으니 <code>bypassPermissions</code>" → 무인 = <code>dontAsk</code>, bypass 는 격리 환경에서만 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"클론한 저장소의 <code>.mcp.json</code> 서버는 다 믿고 자동 연결" → 대화형은 승인 필요, 커밋한 자동 승인 키는 미신뢰 폴더에서 무시 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Rules are evaluated in order: deny, then ask, then allow."</p>
-        <p lang="en">"An allow rule can’t carve an exception out of a deny rule."</p>
-        <p lang="en">"Permission rules are enforced by Claude Code, not by the model."</p>
-        <p lang="en">"If a tool is denied at any level, no other level can allow it."</p>
-        <p lang="en">"Check <code>.mcp.json</code> into version control so everyone on your team gets the same MCP tools and services."</p>
-        <p lang="en">"Use local scope for personal development servers, experimental configurations, or servers with credentials you don’t want in version control."</p>
-        <p lang="en">"Only use this mode in isolated environments like containers or VMs where Claude Code can’t cause damage." <span class="src">(bypassPermissions)</span></p>
-        <p lang="en">"Least privilege means removing capabilities the role does not require, eliminating the attack surface rather than monitoring or guarding it." <span class="src" lang="ko">(가이드 샘플 1)</span></p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 7.1 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>샘플 1 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>code.claude.com permissions <span class="src">(en 204~209·229·232·317~330·360·372·428·430·650~653·701·780·790·800줄)</span></li>
-        <li>settings <span class="src">(en 304~307·513줄)</span></li>
-        <li>mcp(en 769~783·820·840~843·869~872·885~911·1901줄) <span class="src">(2026-09-28 조회)</span></li>
-        <li>auto mode 글 <span class="src">(en 104줄)</span></li>
-        <li>Skilljar Claude Code in Action 486932</li>
-        <li>CCA-F 노트 2.3·2.4 <span class="src">(ccaf-remotion <code>content/notes/notes_ko.md</code> 414·456줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①·③~⑦)</li>
-        <li><span class="gen">업계 일반</span> 1줄(② 배치)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">7.1③</li>
-        <li class="chip">7.1①</li>
-        <li>(<a href="team-config-scopes.html">■ 팀 설정 위치</a>)</li>
-        <li class="chip">7.1② (◆ CLAUDE.md(지시) vs 훅(강제))</li>
-        <li class="chip">3.1①</li>
-        <li>(<a href="least-privilege.html">■ 최소 권한</a>)</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-agent-permissions" aria-labelledby="vx-agent-permissions-cap">
-  <div class="vx-player" data-vx-scene="agent-permissions"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-agent-permissions-cap">영상 — 좁은 allow 가 deny 를 이길까? (약 43초 · 소리 없음 · 자막). 좁힌 deny 의 모양과 CLAUDE.md 쪽지 문구는 그림용 가정 · 실측 아님 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>agent-permissions</dd>
-  <dt>본편</dt>
-  <dd>7.1</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">7.1③</li><li class="chip">7.1①</li><li class="chip">7.1②</li><li class="chip">3.1①</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>건물 출입 규칙이에요. 경비는 목록을 정해진 순서로 봐요.</p>
-<ul>
-<li>먼저 "출입 금지" 목록을 봐요. 있으면 끝, 못 들어가요.</li>
-<li>다음 "물어보고 들여보내기" 목록을 봐요.</li>
-<li>마지막에 "그냥 통과" 목록을 봐요.</li>
-<li>규칙은 경비가 지키지, 방문객 말로 안 바뀌어요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">누가 강제하나</p>
-<ul>
-<li>권한 규칙은 Claude Code(클라이언트)가 도구 호출마다 검사 → 모델이 뭐라고 하든 결과가 같음.</li>
-<li>CLAUDE.md·프롬프트는 Claude 가 <strong>무엇을 시도할지</strong>만 바꿈. 무엇이 <strong>허용되는지</strong>는 못 바꿈.</li>
-</ul>
-<p class="lead">순서가 결과를 정함</p>
-<ul>
-<li>deny → ask → allow, 첫 일치가 결정. 구체성은 순서를 못 바꿈 → 예외를 두려면 deny 를 좁히는 수밖에 없음.</li>
-<li>층도 마찬가지 : 어느 층이든 deny 면 끝. 그래서 조직은 deny 만 내려도 아래가 못 풂.</li>
-<li>능력을 <strong>주는</strong> 쪽(allow)은 신뢰가 필요하고, <strong>제한하는</strong> 쪽(deny·ask)은 바로 먹음 — 남이 커밋한 파일이 내 기계에 권한을 여는 걸 막으려고.</li>
-</ul>
-<p class="lead">deny 의 두 얼굴</p>
-<ul>
-<li>이름째 deny(<code>Bash</code>) = 도구 정의가 Claude 에게서 사라짐 → 부를 생각도 못 함. 필요 없는 도구 빼기(■ 최소 권한).</li>
-<li>패턴 deny(<code>Bash(rm *)</code>) = 도구는 보이고, 맞는 호출만 막힘.</li>
-</ul>
-<p class="lead">규칙의 한계</p>
-<ul>
-<li>Bash 규칙은 명령 <strong>글자</strong>를 봄 → 다른 표기(<code>git -C . push</code>)는 빠져나감.</li>
-<li>그래서 층을 겹침 : 권한 규칙(글자) + PreToolUse 훅(내 로직) + 샌드박스(OS 수준, 인젝션이 판단을 뚫어도 남음).</li>
-</ul>
-<p class="lead">MCP 는 "어디에 적었나"가 공유 범위</p>
-<ul>
-<li>local = 나·이 프로젝트(기본), project = <code>.mcp.json</code> 커밋 = 팀, user = 나·모든 프로젝트.</li>
-<li>비밀은 파일 밖(<code>${VAR}</code>), 또는 개인 자격증명이면 local.</li>
-<li>커밋한 서버는 대화형에서 승인을 받고 켜짐 — 클론한 저장소가 스스로 켤 수 없음.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>이 도구가 역할에 필요한가? (아니면 빼기)</li>
-<li>필요하면, 이 호출이 되돌리기 어려운가? (allow / ask / deny)</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -750,7 +688,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -839,7 +776,40 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="agent-permissions-practice-h">연습 문제</h2>
 
+  <section class="csx" id="agent-permissions-case" aria-labelledby="agent-permissions-case-h" data-tree="agent-permissions-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;좁은 allow&quot;],[&quot;n3&quot;,null]]" data-flow="agent-permissions-flow" data-scene="1">
+    <p class="csx-text">팀 저장소 <code>.claude/settings.json</code> 의 deny 에 <mark class="csx-m" data-tag="넓은 deny"><code>Bash(aws *)</code><span class="csx-tag">넓은 deny</span></mark> 가 있다. 한 개발자가 S3 목록만 보려고 같은 파일의 allow 에 <mark class="csx-m" data-tag="좁은 allow"><code>Bash(aws s3 ls)</code> 를 추가<span class="csx-tag">좁은 allow</span></mark>했다 — "더 구체적인 규칙이니 이긴다" 고 믿는다. Claude 가 <code>aws s3 ls</code> 를 부르면 어떻게 되나?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="agent-permissions-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"권한은 두고 감사 로그로 추적" / "머지 전에 확인창 추가" → 보완 통제(control)일 뿐, 필요 없는 능력은 빼기 <span class="ok">✓ 확인</span> (공식 샘플 1 A·C) → <a href="least-privilege.html">■ 최소 권한</a></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"좁은 allow 가 넓은 deny 보다 구체적이니 이긴다" → deny 먼저 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"CLAUDE.md 에 'git push 하지 마'" → 규칙은 Claude Code 가 강제. 프롬프트는 허용 범위를 못 바꿈 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>Bash(git push *)</code> deny 면 모든 push 가 막힘" → <code>git -C . push</code> 는 안 걸림 → 훅·샌드박스 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"토큰을 <code>.mcp.json</code> 에 적어 커밋" → <code>${VAR}</code> 로 빼거나 local 범위 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"로컬에서 'don't ask again' 눌렀으니 팀 ask 가 사라진다" → 로컬 allow 는 ask 를 못 이김 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"CI 에선 사람 없으니 <code>bypassPermissions</code>" → 무인 = <code>dontAsk</code>, bypass 는 격리 환경에서만 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"클론한 저장소의 <code>.mcp.json</code> 서버는 다 믿고 자동 연결" → 대화형은 승인 필요, 커밋한 자동 승인 키는 미신뢰 폴더에서 무시 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Rules are evaluated in order: deny, then ask, then allow."</p>
+        <p lang="en">"An allow rule can’t carve an exception out of a deny rule."</p>
+        <p lang="en">"Permission rules are enforced by Claude Code, not by the model."</p>
+        <p lang="en">"If a tool is denied at any level, no other level can allow it."</p>
+        <p lang="en">"Check <code>.mcp.json</code> into version control so everyone on your team gets the same MCP tools and services."</p>
+        <p lang="en">"Use local scope for personal development servers, experimental configurations, or servers with credentials you don’t want in version control."</p>
+        <p lang="en">"Only use this mode in isolated environments like containers or VMs where Claude Code can’t cause damage." <span class="src">(bypassPermissions)</span></p>
+        <p lang="en">"Least privilege means removing capabilities the role does not require, eliminating the attack surface rather than monitoring or guarding it." <span class="src" lang="ko">(가이드 샘플 1)</span></p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 샌드박스를 켜니 Bash 확인창이 사라지는 때</h4>
@@ -878,7 +848,6 @@
 <li><span class="lead">근거 :</span> permissions en 790줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -953,7 +922,28 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="agent-permissions-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>CCA-F</h3>
+      <p>봄 (2.4 MCP 스코프 local·project·user · <code>${VAR}</code> 로 토큰 분리 · 2.3 서브에이전트마다 역할에 필요한 도구만) — 여기선 allow/ask/deny 를 위험도로 나눠 팀 공유 설정에 싣는 판단과, 규칙이 어느 순서·어느 층에서 이기는지로 묻는다</p>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 7.1 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>샘플 1 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>code.claude.com permissions <span class="src">(en 204~209·229·232·317~330·360·372·428·430·650~653·701·780·790·800줄)</span></li>
+        <li>settings <span class="src">(en 304~307·513줄)</span></li>
+        <li>mcp(en 769~783·820·840~843·869~872·885~911·1901줄) <span class="src">(2026-09-28 조회)</span></li>
+        <li>auto mode 글 <span class="src">(en 104줄)</span></li>
+        <li>Skilljar Claude Code in Action 486932</li>
+        <li>CCA-F 노트 2.3·2.4 <span class="src">(ccaf-remotion <code>content/notes/notes_ko.md</code> 414·456줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①·③~⑦)</li>
+        <li><span class="gen">업계 일반</span> 1줄(② 배치)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -963,8 +953,7 @@
 <li>관리형 MCP(<code>managed-mcp.json</code>·<code>allowedMcpServers</code>·<code>deniedMcpServers</code>) 세부는 managed-mcp 문서 소관 — 이번엔 이름만 확인(mcp en 1901줄).</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/agent-permissions.md</p>

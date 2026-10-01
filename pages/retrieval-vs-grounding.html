@@ -350,18 +350,67 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ◆ 검색 실패 vs grounding 실패 -->
-<article class="card t5-card" id="retrieval-vs-grounding" aria-labelledby="retrieval-vs-grounding-title">
+<!-- ◆ 검색 실패 vs grounding 실패 (v3 시범 순서) -->
+<article class="card t5-card v3" id="retrieval-vs-grounding" aria-labelledby="retrieval-vs-grounding-title">
   <header class="t5-head">
     <h1 id="retrieval-vs-grounding-title"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> 검색 실패 vs grounding 실패</h1>
-    <p class="lemma-meta"><span lang="en">retrieval failure vs grounding failure</span><span class="lemma-main">4.4 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">retrieval failure vs grounding failure</span><span class="lemma-main">4.4 본편</span></p>
   </header>
-  <h2 class="sec-h" id="retrieval-vs-grounding-case-h">지문</h2>
-  <section class="csx" id="retrieval-vs-grounding-case" aria-labelledby="retrieval-vs-grounding-case-h" data-tree="retrieval-vs-grounding-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n6&quot;,&quot;일반 지식&quot;],[&quot;n7&quot;,null]]" data-flow="retrieval-vs-grounding-flow" data-scene="1">
-    <p class="csx-text">소파 반품 문의에 넣은 문맥 chunk(조각)에 <mark class="csx-m" data-tag="구절 있음">"가구는 배송 후 7일 안 반품" 구절이 그대로 들어 있다<span class="csx-tag">구절 있음</span></mark>. 그런데 답은 <mark class="csx-m" data-tag="일반 지식">흔한 30일 반품 규칙을 섞어<span class="csx-tag">일반 지식</span></mark> "30일 안에 반품돼요" 라고 한다. 팀원은 temperature 를 낮추자고 한다. 무엇을 할까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="retrieval-vs-grounding-trees-h">갈림길</h2>
+  <h2 class="sec-h" id="retrieval-vs-grounding-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>4.4 문제 진단</b> · D4 평가 16%<br><q lang="en">Diagnose system issues (prompt failure, hallucinations, model mismatch)</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>4.4② 정답 근거가 검색됐는데 답이 그걸 무시한다</b> — 검색 실패 vs 생성 단계(근거 충실도) 실패를 가르고 대책 고르기</li>
+      <li><b>4.4① 문서 갱신 뒤 자신 있게 틀린다 — 모델·지연은 그대로</b> — 어느 계층부터 조사하나 <span class="note">(첫 질문 = 증상 직전에 무엇이 바뀌었나)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="retrieval-vs-grounding-sum-h">한눈에</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>친구에게 책을 펼쳐 주고 질문했는데 틀리게 답했어요.</p>
+<ul>
+<li>먼저 봐요. 내가 펼쳐 준 쪽에 답이 있었나?</li>
+<li>없었다면 친구 잘못이 아니라, 쪽을 잘못 펼친 거예요.</li>
+<li>있었는데 틀렸다면, "책에 있는 말만 해" 하고 약속을 받아요.</li>
+<li>목소리를 낮추라고(설정 바꾸기) 해도 답이 맞아지진 않아요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-retrieval-vs-grounding" aria-labelledby="vx-retrieval-vs-grounding-cap">
+  <div class="vx-player" data-vx-scene="retrieval-vs-grounding"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-retrieval-vs-grounding-cap">영상 — 같은 틀린 답, 고칠 곳은 문맥이 정한다 (약 43초 · 소리 없음 · 자막). 경우 A 의 답(30일·7일)은 그림용 가정 · &quot;없는 구절엔 인용으로 못 묶는다&quot; 는 업계 일반 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">두 단계, 두 가지 실패</p>
+<ul>
+<li>RAG 는 검색(retrieval — 관련 chunk(조각)를 찾아 문맥에 넣음) → 생성(문맥을 읽고 답함) 두 단계.</li>
+<li>검색 실패 = 필요한 구절이 문맥에 없음(또는 낡은 판이 들어감). 모델은 없는 걸 못 봄.</li>
+<li>생성 실패 = 필요한 구절이 문맥에 있는데 답이 그걸 무시하거나 반대로 말함.</li>
+<li>둘을 가르는 건 "실제로 넣은 문맥"을 보는 것 하나. 여기서 갈리면 대책이 정반대가 됨.</li>
+</ul>
+<p class="lead">검색은 따로 잴 수 있음</p>
+<ul>
+<li>공식 실험은 검색만 따로 측정 : 상위 20개 chunk 에 정답 chunk 가 없는 비율(1 − recall@20).</li>
+<li>그래서 "검색이 성공했나"는 생성과 분리해 확인 가능한 질문.</li>
+</ul>
+<p class="lead">생성을 근거에 묶는 수단 (환각 줄이기 문서)</p>
+<ul>
+<li>기본 : '모른다' 허용 · 긴 문서(2만 토큰 초과)는 원문 그대로 인용 먼저 · 주장마다 인용, 못 찾으면 철회.</li>
+<li>고급 : 단계별 추론(reasoning) 검증 · Best-of-N · 반복 다듬기 · 넣어 준 문서만 쓰기.</li>
+<li>이 문서엔 temperature 가 없음. temperature 는 샘플링의 무작위를 조절할 뿐 근거에 묶는 장치가 아님. 게다가 폐기 예정 — Opus 4.6 뒤에 나온 모델은 1.0 외 값을 400 으로 거절하고, 0.0 이어도 완전히 결정적이진 않음.</li>
+</ul>
+<p class="lead">그 사이에 있는 것</p>
+<ul>
+<li>chunk 를 너무 많이 넣으면 모델이 산만해질 수 있음 → 구절은 "있는데" 묻힘. lever(손잡이)는 검색 쪽(chunk 수·리랭킹)이지만 증상은 생성 실패처럼 보임.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="retrieval-vs-grounding-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="retrieval-vs-grounding-tree-1" aria-labelledby="retrieval-vs-grounding-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9">
     <div class="t5-fh"><h3 id="retrieval-vs-grounding-tree-1-h">문맥부터 보기 <span class="pg">[4.4②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -414,7 +463,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="retrieval-vs-grounding-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="retrieval-vs-grounding-flow" aria-label="검색 실패 vs grounding 실패 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["질문","검색","문맥","모델"],"blocks":[],"rules":[null,null,"먼저 볼 것 : 필요한 구절이 실제로 들어갔나",null],"question":"필요한 구절이 문맥에 들어갔을까?","scenes":[{"name":"① 구절이 없음 → 검색을 고침","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"소파도 반품되나요?"}},{"kind":"move","step":"찾기","from":{"col":0},"to":1,"label":"관련 chunk 찾기","art":{"kind":"slip","lines":["query : 소파 반품"]}},{"kind":"move","step":"넣기","from":{"col":1},"to":2,"label":"필요한 구절이 없음","art":{"kind":"slip","lines":["chunk 1 : 의류 반품 30일","chunk 2 : 배송비 안내","(가구 조항 없음)"]}},{"kind":"mark","step":"진단","at":{"col":2},"label":"검색 실패","art":{"kind":"slip","lines":["→ 검색 쪽을 고침","chunking","BM25 · 리랭킹"]}},{"kind":"end","label":"필요한 구절이 문맥에 없으면 검색 실패 — 검색 쪽을 고침"}]},{"name":"② 있는데 무시 → 근거에 묶음","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"소파도 반품되나요?"}},{"kind":"move","step":"찾기","from":{"col":0},"to":1,"label":"관련 chunk 찾기","art":{"kind":"slip","lines":["query : 소파 반품"]}},{"kind":"move","step":"넣기","from":{"col":1},"to":2,"label":"필요한 구절이 있음","art":{"kind":"slip","lines":["chunk 3 : \"가구는","배송 후 7일 안 반품\""]}},{"kind":"move","step":"읽기","from":{"col":2},"to":3,"label":"답이 근거와 반대","art":{"kind":"say","text":"30일 안에 반품돼요."}},{"kind":"mark","step":"묶기","at":{"col":3},"label":"넣어 준 문서만 · 주장마다 인용","art":{"kind":"slip","lines":["인용 : chunk 3 \"7일\"","답 : 7일 안에 반품돼요"]}},{"kind":"end","label":"구절이 문맥에 있으면 생성 실패 — 검색은 이미 성공, 생성을 근거에 묶음"}]},{"name":"③ temperature 를 낮춤","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"소파도 반품되나요?"}},{"kind":"move","step":"찾기","from":{"col":0},"to":1,"label":"관련 chunk 찾기","art":{"kind":"slip","lines":["query : 소파 반품"]}},{"kind":"move","step":"넣기","from":{"col":1},"to":2,"label":"필요한 구절이 있음","art":{"kind":"slip","lines":["chunk 3 : \"가구는","배송 후 7일 안 반품\""]}},{"kind":"mark","step":"설정","at":{"col":3},"label":"temperature 를 낮춤","art":{"kind":"slip","lines":["temperature : 0.2","→ 400 (Opus 4.6 뒤 모델)"]}},{"kind":"end","label":"temperature 는 환각 줄이기 문서에 없는 수단 — Opus 4.6 뒤에 나온 모델은 400 으로 거절"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -471,120 +520,9 @@
         <li>구절이 없는데 "인용하게·넣어 준 문서만" → 없는 근거엔 못 묶음. 검색부터 <span class="gen">업계 일반</span></li>
       </ul>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"temperature 를 낮춘다" → 환각 줄이기 문서에 없음 · Opus 4.6 뒤에 나온 모델은 400 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>구절이 문맥에 있는데 "재임베딩·리랭킹" → 검색은 이미 성공, 생성을 근거에 묶음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>낡은 chunk 가 들어갔는데 "grounding 실패(근거 무시)"로 봄 → 낡은 chunk = indexing 문제 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"인용만 뽑게 하면 끝" → 인용을 못 찾으면 그 주장을 철회까지 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"chunk 를 많이 넣을수록 안전" → 더 넣으면 모델이 산만해질 수 있음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"더 큰 모델로 바꾸면 근거를 지킴" → 근거에 묶는 기법이 먼저 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar API 강의(2025 제작 추정)는 "사실 답·일관성엔 낮은 temperature · 0.0 = 완전 결정적" → 지금 docs 는 폐기 예정 · 0.0 이어도 완전히 결정적이진 않음</span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"For tasks involving long documents (&gt;20k tokens), ask Claude to extract word-for-word quotes first before performing its task."</p>
-        <p lang="en">"If it can't find a quote, it must retract the claim."</p>
-        <p lang="en">"Explicitly instruct Claude to only use information from provided documents and not its general knowledge."</p>
-        <p lang="en">"Inconsistencies across outputs could indicate hallucinations."</p>
-        <p lang="en">"However, more information can be distracting for models so there's a limit to this."</p>
-        <p lang="en">"Deprecated. Models released after Claude Opus 4.6 do not support setting temperature."</p>
-        <p lang="en">"Note that even with <code>temperature</code> of <code>0.0</code>, the results will not be fully deterministic."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="rag-pipeline.html">■ RAG 파이프라인</a></li>
-        <li><a href="diagnose-by-change.html">■ 변경부터 묻는 진단</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 4.4 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>샘플 3 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>docs reduce-hallucinations <span class="src">(ko·en 5~7·13~16줄)</span></li>
-        <li>messages-create <span class="src">(en 594·598·602줄)</span></li>
-        <li>prompting-best-practices <span class="src">(en 66~70줄)</span></li>
-        <li><a href="https://www.anthropic.com/engineering/contextual-retrieval">Contextual Retrieval 글</a> <span class="src">(en 105·125줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 70·168·249줄)</span></li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287728">Skilljar API 287728</a> <span class="src">(31·37~39·98줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (갈림 기준 대부분)</li>
-        <li><span class="gen">업계 일반</span> 2줄</li>
-        <li><span class="post">시험 뒤 변경</span> 1곳(Python SDK v1.0 temperature 제거)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">4.4②</li>
-        <li class="chip">4.4①</li>
-        <li>(<a href="diagnose-by-change.html">■ 변경부터 묻는 진단</a>)</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-retrieval-vs-grounding" aria-labelledby="vx-retrieval-vs-grounding-cap">
-  <div class="vx-player" data-vx-scene="retrieval-vs-grounding"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-retrieval-vs-grounding-cap">영상 — 같은 틀린 답, 고칠 곳은 문맥이 정한다 (약 43초 · 소리 없음 · 자막). 경우 A 의 답(30일·7일)은 그림용 가정 · &quot;없는 구절엔 인용으로 못 묶는다&quot; 는 업계 일반 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>retrieval-vs-grounding</dd>
-  <dt>본편</dt>
-  <dd>4.4</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">4.4②</li><li class="chip">4.4①</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>친구에게 책을 펼쳐 주고 질문했는데 틀리게 답했어요.</p>
-<ul>
-<li>먼저 봐요. 내가 펼쳐 준 쪽에 답이 있었나?</li>
-<li>없었다면 친구 잘못이 아니라, 쪽을 잘못 펼친 거예요.</li>
-<li>있었는데 틀렸다면, "책에 있는 말만 해" 하고 약속을 받아요.</li>
-<li>목소리를 낮추라고(설정 바꾸기) 해도 답이 맞아지진 않아요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">두 단계, 두 가지 실패</p>
-<ul>
-<li>RAG 는 검색(retrieval — 관련 chunk(조각)를 찾아 문맥에 넣음) → 생성(문맥을 읽고 답함) 두 단계.</li>
-<li>검색 실패 = 필요한 구절이 문맥에 없음(또는 낡은 판이 들어감). 모델은 없는 걸 못 봄.</li>
-<li>생성 실패 = 필요한 구절이 문맥에 있는데 답이 그걸 무시하거나 반대로 말함.</li>
-<li>둘을 가르는 건 "실제로 넣은 문맥"을 보는 것 하나. 여기서 갈리면 대책이 정반대가 됨.</li>
-</ul>
-<p class="lead">검색은 따로 잴 수 있음</p>
-<ul>
-<li>공식 실험은 검색만 따로 측정 : 상위 20개 chunk 에 정답 chunk 가 없는 비율(1 − recall@20).</li>
-<li>그래서 "검색이 성공했나"는 생성과 분리해 확인 가능한 질문.</li>
-</ul>
-<p class="lead">생성을 근거에 묶는 수단 (환각 줄이기 문서)</p>
-<ul>
-<li>기본 : '모른다' 허용 · 긴 문서(2만 토큰 초과)는 원문 그대로 인용 먼저 · 주장마다 인용, 못 찾으면 철회.</li>
-<li>고급 : 단계별 추론(reasoning) 검증 · Best-of-N · 반복 다듬기 · 넣어 준 문서만 쓰기.</li>
-<li>이 문서엔 temperature 가 없음. temperature 는 샘플링의 무작위를 조절할 뿐 근거에 묶는 장치가 아님. 게다가 폐기 예정 — Opus 4.6 뒤에 나온 모델은 1.0 외 값을 400 으로 거절하고, 0.0 이어도 완전히 결정적이진 않음.</li>
-</ul>
-<p class="lead">그 사이에 있는 것</p>
-<ul>
-<li>chunk 를 너무 많이 넣으면 모델이 산만해질 수 있음 → 구절은 "있는데" 묻힘. lever(손잡이)는 검색 쪽(chunk 수·리랭킹)이지만 증상은 생성 실패처럼 보임.</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -656,7 +594,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -745,7 +682,38 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="retrieval-vs-grounding-practice-h">연습 문제</h2>
 
+  <section class="csx" id="retrieval-vs-grounding-case" aria-labelledby="retrieval-vs-grounding-case-h" data-tree="retrieval-vs-grounding-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n6&quot;,&quot;일반 지식&quot;],[&quot;n7&quot;,null]]" data-flow="retrieval-vs-grounding-flow" data-scene="1">
+    <p class="csx-text">소파 반품 문의에 넣은 문맥 chunk(조각)에 <mark class="csx-m" data-tag="구절 있음">"가구는 배송 후 7일 안 반품" 구절이 그대로 들어 있다<span class="csx-tag">구절 있음</span></mark>. 그런데 답은 <mark class="csx-m" data-tag="일반 지식">흔한 30일 반품 규칙을 섞어<span class="csx-tag">일반 지식</span></mark> "30일 안에 반품돼요" 라고 한다. 팀원은 temperature 를 낮추자고 한다. 무엇을 할까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="retrieval-vs-grounding-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"temperature 를 낮춘다" → 환각 줄이기 문서에 없음 · Opus 4.6 뒤에 나온 모델은 400 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>구절이 문맥에 있는데 "재임베딩·리랭킹" → 검색은 이미 성공, 생성을 근거에 묶음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>낡은 chunk 가 들어갔는데 "grounding 실패(근거 무시)"로 봄 → 낡은 chunk = indexing 문제 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"인용만 뽑게 하면 끝" → 인용을 못 찾으면 그 주장을 철회까지 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"chunk 를 많이 넣을수록 안전" → 더 넣으면 모델이 산만해질 수 있음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"더 큰 모델로 바꾸면 근거를 지킴" → 근거에 묶는 기법이 먼저 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar API 강의(2025 제작 추정)는 "사실 답·일관성엔 낮은 temperature · 0.0 = 완전 결정적" → 지금 docs 는 폐기 예정 · 0.0 이어도 완전히 결정적이진 않음</span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"For tasks involving long documents (&gt;20k tokens), ask Claude to extract word-for-word quotes first before performing its task."</p>
+        <p lang="en">"If it can't find a quote, it must retract the claim."</p>
+        <p lang="en">"Explicitly instruct Claude to only use information from provided documents and not its general knowledge."</p>
+        <p lang="en">"Inconsistencies across outputs could indicate hallucinations."</p>
+        <p lang="en">"However, more information can be distracting for models so there's a limit to this."</p>
+        <p lang="en">"Deprecated. Models released after Claude Opus 4.6 do not support setting temperature."</p>
+        <p lang="en">"Note that even with <code>temperature</code> of <code>0.0</code>, the results will not be fully deterministic."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 구절은 있는데 25개 chunk 속에 묻힌 때</h4>
@@ -777,7 +745,6 @@
 <li><span class="lead">근거 :</span> reduce-hallucinations en 6줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -845,7 +812,32 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="retrieval-vs-grounding-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="rag-pipeline.html">■ RAG 파이프라인</a></li>
+        <li><a href="diagnose-by-change.html">■ 변경부터 묻는 진단</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 4.4 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>샘플 3 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>docs reduce-hallucinations <span class="src">(ko·en 5~7·13~16줄)</span></li>
+        <li>messages-create <span class="src">(en 594·598·602줄)</span></li>
+        <li>prompting-best-practices <span class="src">(en 66~70줄)</span></li>
+        <li><a href="https://www.anthropic.com/engineering/contextual-retrieval">Contextual Retrieval 글</a> <span class="src">(en 105·125줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 70·168·249줄)</span></li>
+        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287728">Skilljar API 287728</a> <span class="src">(31·37~39·98줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (갈림 기준 대부분)</li>
+        <li><span class="gen">업계 일반</span> 2줄</li>
+        <li><span class="post">시험 뒤 변경</span> 1곳(Python SDK v1.0 temperature 제거)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -855,8 +847,7 @@
 <li>실제로 넣은 문맥을 보려면 요청 내용을 기록해야 하는데, 기록 범위는 ■ 텔레메트리 기록 범위 쪽 판단 — 여기선 다루지 않음.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/retrieval-vs-grounding.md</p>

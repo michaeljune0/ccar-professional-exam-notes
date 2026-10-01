@@ -350,23 +350,81 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ input → processing → output → feedback loop -->
-<article class="card t5-card" id="e2e-architecture" aria-labelledby="e2e-architecture-title">
+<!-- ■ input → processing → output → feedback loop (v3 시범 순서) -->
+<article class="card t5-card v3" id="e2e-architecture" aria-labelledby="e2e-architecture-title">
   <header class="t5-head">
     <h1 id="e2e-architecture-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> input → processing → output → feedback loop</h1>
-    <p class="lemma-meta"><span lang="en">end-to-end architecture · 입력 → 처리 → 출력 → 되먹임</span><span class="lemma-main">1.2 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">end-to-end architecture · 입력 → 처리 → 출력 → 되먹임</span><span class="lemma-main">1.2 본편</span></p>
   </header>
-  <h2 class="sec-h" id="e2e-architecture-sum-h">카드</h2>
+  <h2 class="sec-h" id="e2e-architecture-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>1.2 입력부터 피드백까지 구조 설계</b> · D1 설계 17%<br><q lang="en">Design end-to-end architectures (input → processing → output → feedback loops)</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>1.2① 입력·처리·출력·되먹임, 각 칸은 무슨 일을 맡나?</b> — 단계마다 책임 나누기 <span class="note">(입력 선별 → 보강된 LLM 처리 → 모양이 정해진 출력 → 평가 결과를 되돌리는 길)</span></li>
+      <li><b>4.6② 출시 뒤 품질이 조용히 떨어진다 — 무엇을 돌리나?</b> — 운영 신호를 eval 로 되먹이는 루프</li>
+      <li><b>2.2② JSON 모양·금지 규칙을 꼭 지켜야 한다 — 프롬프트? prefill? 스키마?</b> — 유도(프롬프트) vs 강제(스키마·enum 도구·훅) · prefill 400 을 만났을 때의 수리</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="e2e-architecture-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>칸마다 맡는 일을 나눔. 입력 = 모델이 보기 전에 거름 · 처리 = 검색(retrieval)·도구·가드레일·사람 확인을 붙인 LLM(augmented LLM) · 출력 = 스키마로 받아 뒤쪽 코드가 추측 없이 씀 · feedback loop(되먹임) = 실패를 테스트 과제로 바꿔 프롬프트·설정 개선으로 되돌림 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> 알림은 오는데 사후 분석 → 런북 개선이 안 도는 팀. feedback loop 칸이 빠지면 같은 장애가 반복됨. "대시보드를 만들었으니 feedback loop 끝"이 속이는 습관</p>
   </div>
-  <h2 class="sec-h" id="e2e-architecture-case-h">지문</h2>
-  <section class="csx" id="e2e-architecture-case" aria-labelledby="e2e-architecture-case-h" data-tree="e2e-architecture-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n8&quot;,&quot;몇 주째 반복&quot;],[&quot;n9&quot;,null]]" data-flow="e2e-architecture-flow" data-scene="0">
-    <p class="csx-text">자동차 보험 고객지원 Agent 가 <mark class="csx-m" data-tag="몇 주째 반복">같은 해지 수수료 오답을 3주째 반복한다<span class="csx-tag">몇 주째 반복</span></mark>. 고객 신고는 지원 큐에 로그로 쌓이기만 하고, 입력 선별과 JSON 출력은 잘 돈다. 팀은 "더 큰 모델로 바꾸자"고 한다. 어느 칸을 고칠까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="e2e-architecture-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>식당 주방을 네 칸으로 나누는 거예요.</p>
+<ul>
+<li>입구에서 상한 재료를 먼저 골라내요(입력).</li>
+<li>요리사는 레시피·도구·맛보기를 곁에 두고 요리해요(처리).</li>
+<li>접시 모양이 정해져 있어야 서빙하는 사람이 헷갈리지 않아요(출력).</li>
+<li>손님이 남긴 음식을 보고 레시피를 고쳐야 다음엔 안 남겨요(되먹임).</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-e2e-architecture" aria-labelledby="vx-e2e-architecture-cap">
+  <div class="vx-player" data-vx-scene="e2e-architecture"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-e2e-architecture-cap">영상 — 같은 오답 3주째, 어느 칸을 고칠까? (약 43초 · 소리 없음 · 자막). 더 큰 모델·모델 업그레이드 뒤에도 50000 이 나오는 장면과 주별 신고 흐름은 regression 을 보이려는 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">입력 칸 — 모델이 보기 전에 거름</p>
+<ul>
+<li>가벼운 모델(Haiku 4.5)로 사용자 입력을 미리 분류 + 알려진 인젝션 패턴 필터. 판정은 구조화 출력으로 받아 앱이 분기.</li>
+<li>같은 선별을 도구 결과에도 적용(도구가 가져온 글도 믿을 수 없는 입력) → ■ 프롬프트 인젝션 피해 경로 끊기.</li>
+<li>선별을 주 응답과 따로 돌리는 편이 한 호출이 둘 다 하는 것보다 나음(병렬화 — 가드레일 예).</li>
+</ul>
+<p class="lead">처리 칸 — 보강된 LLM</p>
+<ul>
+<li>augmented LLM = 검색(retrieval) · 도구 · 메모리를 붙인 LLM. 모델이 검색어를 만들고 도구를 고르고 무엇을 기억할지 정함.</li>
+<li>정적 지식은 검색(RAG), 잔액·주문 같은 실시간 값은 임베딩 RAG 로 부족 → 도구.</li>
+<li>가드레일 : 환각(hallucination) 줄이기(인용·사실 확인) · 정책 교차 확인 · 권한 없는 약속 금지 · PII 제거.</li>
+<li>사람 확인 지점 : 에이전트는 체크포인트나 막힐 때 사람에게 돌아옴.</li>
+<li>루프는 앱이 쥠 : <code>stop_reason</code> 으로 다음 단계를 정함(1.2②). "You own the loop and the tools. Claude owns the reasoning." (Skilljar)</li>
+</ul>
+<p class="lead">출력 칸 — 스키마</p>
+<ul>
+<li>구조화 출력 = JSON outputs(<code>output_config.format</code>, 답의 모양) + strict tool use(<code>strict: true</code>, 도구 입력의 모양). 제약 디코딩으로 스키마 준수 보장.</li>
+<li>없으면 : 파싱 오류 · 필수 필드 누락 · 타입 불일치 · 재시도 로직.</li>
+<li>예외 셋 : <code>refusal</code>(HTTP 200, 거절이 스키마보다 우선) · <code>max_tokens</code>(잘림) · enum 대소문자(오류 없이 다르게 옴).</li>
+</ul>
+<p class="lead">feedback loop(되먹임) 칸 — 실패를 테스트로</p>
+<ul>
+<li>성공 기준(success criteria) → 평가 → 개선 사이클. 실패(사용자 신고·지원 큐)를 테스트 과제로 바꿔야 실제 사용을 반영하고 regression(회귀)을 막음.</li>
+<li>출시 전·변경마다 = 자동 eval(첫 방어선). 출시 뒤 = 운영(production) 감시(분포 변화·예상 못 한 실패) · 사용자 피드백 · 대화 기록 읽기. 한 겹이 모든 걸 못 잡음(스위스 치즈 — 구멍 난 겹을 여러 장 겹쳐 막음).</li>
+<li>운영 감시만 있으면 사후 대응 — 문제가 사용자에게 먼저 닿음.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>칸 사이에 넘어가는 것(판정 · 도구 입력 · 최종 답)이 스키마로 정해져 있나?</li>
+<li>운영에서 잡힌 실패가 다음 평가 묶음으로 들어가는 길이 있나?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="e2e-architecture-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="e2e-architecture-tree-1" aria-labelledby="e2e-architecture-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9">
     <div class="t5-fh"><h3 id="e2e-architecture-tree-1-h">①②③④ 어느 칸이 문제 <span class="pg">[1.2①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -427,7 +485,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="e2e-architecture-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="e2e-architecture-flow" aria-label="input → processing → output → feedback loop 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["입력","처리","출력","feedback loop"],"blocks":[],"rules":[null,null,"스키마로 받아 뒤쪽 코드가 추측 없이 씀","실패를 테스트 과제로 바꿔 프롬프트·설정 개선으로 되돌림"],"question":"같은 오답이 반복되면 어느 칸이 빠졌을까?","scenes":[{"name":"① 네 칸이 다 돔","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"거름","at":{"col":0},"label":"모델이 보기 전에 거름","art":{"kind":"slip","lines":["Haiku 4.5 선별","{ 안전: true,","주제: \"해지\" }"]}},{"kind":"move","step":"통과","from":{"col":0},"to":1,"label":"앱이 분기","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"보강","at":{"col":1},"label":"검색·도구·가드레일","art":{"kind":"slip","lines":["도구 :","get_contract","→ 가입 14개월째"]}},{"kind":"move","step":"스키마","from":{"col":1},"to":2,"label":"항상 파싱되는 JSON","art":{"kind":"slip","lines":["{ 수수료: 50000,","근거: \"약관 7조\"","}"]}},{"kind":"move","step":"feedback loop","from":{"col":2},"to":3,"label":"실패를 테스트 과제로","art":{"kind":"slip","lines":["신고 #812","→ 테스트 과제","\"14개월 해지","= 30,000\""]}},{"kind":"move","step":"개선","from":{"col":3},"to":1,"label":"개선으로 되돌림","art":{"kind":"slip","lines":["프롬프트 수정","eval 에 새 과제","포함해 통과"]}},{"kind":"move","step":"다시","from":{"col":1},"to":2,"label":"","art":{"kind":"slip","lines":["{ 수수료: 30000,","근거: \"약관 7조\"","}"]}},{"kind":"end","label":"실패를 테스트 과제로 바꿔야 regression 을 막음"}]},{"name":"② feedback loop 끊김","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"거름","at":{"col":0},"label":"모델이 보기 전에 거름","art":{"kind":"slip","lines":["Haiku 4.5 선별","{ 안전: true,","주제: \"해지\" }"]}},{"kind":"move","step":"통과","from":{"col":0},"to":1,"label":"앱이 분기","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"보강","at":{"col":1},"label":"검색·도구·가드레일","art":{"kind":"slip","lines":["도구 :","get_contract","→ 가입 14개월째"]}},{"kind":"move","step":"스키마","from":{"col":1},"to":2,"label":"항상 파싱되는 JSON","art":{"kind":"slip","lines":["{ 수수료: 50000,","근거: \"약관 7조\"","}"]}},{"kind":"move","step":"쌓임","from":{"col":2},"to":3,"label":"로그만 쌓임 · 과제로 안 바뀜","art":{"kind":"slip","lines":["신고 로그 3주치","같은 오답 214건","테스트 과제 0개"]}},{"kind":"end","label":"하나 고치면 다른 게 깨지는 사후 대응 루프 — 같은 오답이 계속 돎"}]},{"name":"③ 자유 문장 + 정규식","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"거름","at":{"col":0},"label":"모델이 보기 전에 거름","art":{"kind":"slip","lines":["Haiku 4.5 선별","{ 안전: true,","주제: \"해지\" }"]}},{"kind":"move","step":"통과","from":{"col":0},"to":1,"label":"앱이 분기","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"보강","at":{"col":1},"label":"검색·도구·가드레일","art":{"kind":"slip","lines":["도구 :","get_contract","→ 가입 14개월째"]}},{"kind":"move","step":"자유 문장","from":{"col":1},"to":2,"label":"파싱 오류·필수 필드 누락","art":{"kind":"slip","lines":["\"음, 3만 원쯤","될 것 같아요!\"","정규식 \\d+원","→ 못 찾음"]}},{"kind":"end","label":"뒤쪽 코드가 추측해야 함"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -471,7 +529,7 @@
     </details>
   </figure>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="e2e-architecture-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
@@ -512,126 +570,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"같은 오답이 몇 주째 → 더 큰 모델로" → feedback loop 칸이 빠진 것(로그만 쌓이고 평가 과제로 안 바뀜). 쌓인 실패를 테스트 과제로 <span class="ok">✓ 확인</span> · 모델 크기로 feedback loop 가 생기진 않음 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"출력은 자유 문장으로 받고 정규식으로 파싱" → 파싱 오류·필수 필드 누락, 뒤쪽 코드가 추측해야 함. 구조화 출력 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"assistant 메시지 prefill + stop sequence 로 JSON 만 받기" (Skilljar API 2025 강의) → 지금은 구조화 출력. prefill 은 Opus 4.6 미지원(2026-02-05) · Fable 5·Mythos 5 는 400(2026-06-09) · JSON outputs 와도 호환 안 됨 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"스키마를 걸었으니 오류 처리 필요 없음" → <code>refusal</code> · <code>max_tokens</code> 는 스키마와 안 맞을 수 있음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"대시보드가 있으니 feedback loop 끝" → 운영 감시는 사후 대응(문제가 사용자에게 먼저 닿음). 평가 없이는 하나 고치면 다른 게 깨지는 사후 대응 루프 — 잡은 실패를 테스트로 바꿔야 루프 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"실시간 잔액도 RAG 로" → 도구 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"사용자 피드백만 모으면 됨" → 드물고 심각한 쪽으로 치우침, 왜 틀렸는지 거의 안 적음 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Design end-to-end architectures (input → processing → output → feedback loops)" <span class="src" lang="ko">(가이드 목표 1.2)</span></p>
-        <p lang="en">"Structured outputs constrain Claude's responses to follow a specific schema, ensuring valid, parseable output for downstream processing."</p>
-        <p lang="en">"Use a lightweight model like Claude Haiku 4.5 to pre-screen user input before it reaches your main conversation."</p>
-        <p lang="en">"The basic building block of agentic systems is an LLM enhanced with augmentations such as retrieval, tools, and memory."</p>
-        <p lang="en">"When dealing with queries that require real-time information, such as account balances or policy details, embedding-based RAG approaches are not sufficient."</p>
-        <p lang="en">"Converting user-reported failures into test cases ensures your suite reflects actual usage"</p>
-        <p lang="en">"development accelerates as failures become test cases, test cases prevent regressions, and metrics replace guesswork."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 1.2 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>structured-outputs <span class="src">(ko 1~21·171~201·213·253~254줄, en 1·10~21·102·213·249·253~254줄)</span></li>
-        <li>mitigate-jailbreaks <span class="src">(ko 12~13·29줄, en 12~13줄)</span></li>
-        <li>building-effective-agents <span class="src">(en 43·99·137·182줄)</span></li>
-        <li>customer-support-chat <span class="src">(ko 1156·1162~1170줄, en 1156줄)</span></li>
-        <li>define-success <span class="src">(ko 1줄)</span></li>
-        <li>demystifying-evals <span class="src">(en 3·225·296·298·302·312줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 214·379·388줄)</span></li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287732">Skilljar API 287732</a></li>
-        <li>Skilljar Platform 101 486254</li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑤)</li>
-        <li><span class="gen">업계 일반</span> 1줄(모델 크기 ≠ 되먹임)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">1.2①</li>
-        <li class="chip">4.6②</li>
-        <li class="chip">2.2②</li>
-        <li>(<span class="note">스키마 · prefill 는 2.2② 쪽과 겹침</span>)</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-e2e-architecture" aria-labelledby="vx-e2e-architecture-cap">
-  <div class="vx-player" data-vx-scene="e2e-architecture"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-e2e-architecture-cap">영상 — 같은 오답 3주째, 어느 칸을 고칠까? (약 43초 · 소리 없음 · 자막). 더 큰 모델·모델 업그레이드 뒤에도 50000 이 나오는 장면과 주별 신고 흐름은 regression 을 보이려는 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>e2e-architecture</dd>
-  <dt>본편</dt>
-  <dd>1.2</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">1.2①</li><li class="chip">4.6②</li><li class="chip">2.2②</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>식당 주방을 네 칸으로 나누는 거예요.</p>
-<ul>
-<li>입구에서 상한 재료를 먼저 골라내요(입력).</li>
-<li>요리사는 레시피·도구·맛보기를 곁에 두고 요리해요(처리).</li>
-<li>접시 모양이 정해져 있어야 서빙하는 사람이 헷갈리지 않아요(출력).</li>
-<li>손님이 남긴 음식을 보고 레시피를 고쳐야 다음엔 안 남겨요(되먹임).</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">입력 칸 — 모델이 보기 전에 거름</p>
-<ul>
-<li>가벼운 모델(Haiku 4.5)로 사용자 입력을 미리 분류 + 알려진 인젝션 패턴 필터. 판정은 구조화 출력으로 받아 앱이 분기.</li>
-<li>같은 선별을 도구 결과에도 적용(도구가 가져온 글도 믿을 수 없는 입력) → ■ 프롬프트 인젝션 피해 경로 끊기.</li>
-<li>선별을 주 응답과 따로 돌리는 편이 한 호출이 둘 다 하는 것보다 나음(병렬화 — 가드레일 예).</li>
-</ul>
-<p class="lead">처리 칸 — 보강된 LLM</p>
-<ul>
-<li>augmented LLM = 검색(retrieval) · 도구 · 메모리를 붙인 LLM. 모델이 검색어를 만들고 도구를 고르고 무엇을 기억할지 정함.</li>
-<li>정적 지식은 검색(RAG), 잔액·주문 같은 실시간 값은 임베딩 RAG 로 부족 → 도구.</li>
-<li>가드레일 : 환각(hallucination) 줄이기(인용·사실 확인) · 정책 교차 확인 · 권한 없는 약속 금지 · PII 제거.</li>
-<li>사람 확인 지점 : 에이전트는 체크포인트나 막힐 때 사람에게 돌아옴.</li>
-<li>루프는 앱이 쥠 : <code>stop_reason</code> 으로 다음 단계를 정함(1.2②). "You own the loop and the tools. Claude owns the reasoning." (Skilljar)</li>
-</ul>
-<p class="lead">출력 칸 — 스키마</p>
-<ul>
-<li>구조화 출력 = JSON outputs(<code>output_config.format</code>, 답의 모양) + strict tool use(<code>strict: true</code>, 도구 입력의 모양). 제약 디코딩으로 스키마 준수 보장.</li>
-<li>없으면 : 파싱 오류 · 필수 필드 누락 · 타입 불일치 · 재시도 로직.</li>
-<li>예외 셋 : <code>refusal</code>(HTTP 200, 거절이 스키마보다 우선) · <code>max_tokens</code>(잘림) · enum 대소문자(오류 없이 다르게 옴).</li>
-</ul>
-<p class="lead">feedback loop(되먹임) 칸 — 실패를 테스트로</p>
-<ul>
-<li>성공 기준(success criteria) → 평가 → 개선 사이클. 실패(사용자 신고·지원 큐)를 테스트 과제로 바꿔야 실제 사용을 반영하고 regression(회귀)을 막음.</li>
-<li>출시 전·변경마다 = 자동 eval(첫 방어선). 출시 뒤 = 운영(production) 감시(분포 변화·예상 못 한 실패) · 사용자 피드백 · 대화 기록 읽기. 한 겹이 모든 걸 못 잡음(스위스 치즈 — 구멍 난 겹을 여러 장 겹쳐 막음).</li>
-<li>운영 감시만 있으면 사후 대응 — 문제가 사용자에게 먼저 닿음.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>칸 사이에 넘어가는 것(판정 · 도구 입력 · 최종 답)이 스키마로 정해져 있나?</li>
-<li>운영에서 잡힌 실패가 다음 평가 묶음으로 들어가는 길이 있나?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -697,7 +638,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -786,7 +726,38 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="e2e-architecture-practice-h">연습 문제</h2>
 
+  <section class="csx" id="e2e-architecture-case" aria-labelledby="e2e-architecture-case-h" data-tree="e2e-architecture-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n8&quot;,&quot;몇 주째 반복&quot;],[&quot;n9&quot;,null]]" data-flow="e2e-architecture-flow" data-scene="0">
+    <p class="csx-text">자동차 보험 고객지원 Agent 가 <mark class="csx-m" data-tag="몇 주째 반복">같은 해지 수수료 오답을 3주째 반복한다<span class="csx-tag">몇 주째 반복</span></mark>. 고객 신고는 지원 큐에 로그로 쌓이기만 하고, 입력 선별과 JSON 출력은 잘 돈다. 팀은 "더 큰 모델로 바꾸자"고 한다. 어느 칸을 고칠까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="e2e-architecture-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"같은 오답이 몇 주째 → 더 큰 모델로" → feedback loop 칸이 빠진 것(로그만 쌓이고 평가 과제로 안 바뀜). 쌓인 실패를 테스트 과제로 <span class="ok">✓ 확인</span> · 모델 크기로 feedback loop 가 생기진 않음 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"출력은 자유 문장으로 받고 정규식으로 파싱" → 파싱 오류·필수 필드 누락, 뒤쪽 코드가 추측해야 함. 구조화 출력 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"assistant 메시지 prefill + stop sequence 로 JSON 만 받기" (Skilljar API 2025 강의) → 지금은 구조화 출력. prefill 은 Opus 4.6 미지원(2026-02-05) · Fable 5·Mythos 5 는 400(2026-06-09) · JSON outputs 와도 호환 안 됨 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"스키마를 걸었으니 오류 처리 필요 없음" → <code>refusal</code> · <code>max_tokens</code> 는 스키마와 안 맞을 수 있음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"대시보드가 있으니 feedback loop 끝" → 운영 감시는 사후 대응(문제가 사용자에게 먼저 닿음). 평가 없이는 하나 고치면 다른 게 깨지는 사후 대응 루프 — 잡은 실패를 테스트로 바꿔야 루프 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"실시간 잔액도 RAG 로" → 도구 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"사용자 피드백만 모으면 됨" → 드물고 심각한 쪽으로 치우침, 왜 틀렸는지 거의 안 적음 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Design end-to-end architectures (input → processing → output → feedback loops)" <span class="src" lang="ko">(가이드 목표 1.2)</span></p>
+        <p lang="en">"Structured outputs constrain Claude's responses to follow a specific schema, ensuring valid, parseable output for downstream processing."</p>
+        <p lang="en">"Use a lightweight model like Claude Haiku 4.5 to pre-screen user input before it reaches your main conversation."</p>
+        <p lang="en">"The basic building block of agentic systems is an LLM enhanced with augmentations such as retrieval, tools, and memory."</p>
+        <p lang="en">"When dealing with queries that require real-time information, such as account balances or policy details, embedding-based RAG approaches are not sufficient."</p>
+        <p lang="en">"Converting user-reported failures into test cases ensures your suite reflects actual usage"</p>
+        <p lang="en">"development accelerates as failures become test cases, test cases prevent regressions, and metrics replace guesswork."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 입력 선별이 지연(latency)을 늘리는 때</h4>
@@ -825,7 +796,6 @@
 <li><span class="lead">근거 :</span> structured-outputs en 213·214·227줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -893,7 +863,28 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="e2e-architecture-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 1.2 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>structured-outputs <span class="src">(ko 1~21·171~201·213·253~254줄, en 1·10~21·102·213·249·253~254줄)</span></li>
+        <li>mitigate-jailbreaks <span class="src">(ko 12~13·29줄, en 12~13줄)</span></li>
+        <li>building-effective-agents <span class="src">(en 43·99·137·182줄)</span></li>
+        <li>customer-support-chat <span class="src">(ko 1156·1162~1170줄, en 1156줄)</span></li>
+        <li>define-success <span class="src">(ko 1줄)</span></li>
+        <li>demystifying-evals <span class="src">(en 3·225·296·298·302·312줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 214·379·388줄)</span></li>
+        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287732">Skilljar API 287732</a></li>
+        <li>Skilljar Platform 101 486254</li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑤)</li>
+        <li><span class="gen">업계 일반</span> 1줄(모델 크기 ≠ 되먹임)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -902,8 +893,7 @@
 <li>Skilljar Platform 101 "agent loop"(486254, 2026-06 추정) 는 1.2② 본편 재료 — 여기선 한 줄만 씀.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/e2e-architecture.md</p>

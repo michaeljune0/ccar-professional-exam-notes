@@ -350,24 +350,71 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ 가장 작은 맞는 형태 -->
-<article class="card t5-card" id="smallest-fit" aria-labelledby="smallest-fit-title">
+<!-- ■ 가장 작은 맞는 형태 (v3 시범 순서) -->
+<article class="card t5-card v3" id="smallest-fit" aria-labelledby="smallest-fit-title">
   <header class="t5-head">
     <h1 id="smallest-fit-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 가장 작은 맞는 형태</h1>
-    <p class="lemma-meta"><span lang="en">smallest fit : 확장 사다리 · 자율성 단계</span><span class="lemma-main">1.3 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">smallest fit : 확장 사다리 · 자율성 단계</span><span class="lemma-main">1.3 본편</span></p>
   </header>
-  <h2 class="sec-h" id="smallest-fit-sum-h">카드</h2>
+  <h2 class="sec-h" id="smallest-fit-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>1.3 구조 패턴 고르기</b> · D1 설계 17%<br><q lang="en">Select appropriate architectural patterns (workflow, agentic, augmented LLM)</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>1.3③ 가장 작은 맞는 형태는 어디서 멈추나?</b> — 확장 사다리(단일 보강 호출 → 라우터 → 워크플로 → 에이전트)와 자율성 단계(읽기 전용 → 사람 승인 → 높은 자율)</li>
+      <li><b>1.1① 이 일, LLM 이 꼭 있어야 하나?</b> — 코드 / LLM / 둘을 섞기(하이브리드) 중 어디에 맡기나</li>
+      <li><b>7.3② 프로덕션 장애에서 에이전트는 어디까지?</b> — 원인 조사(트리아지)와 복구 조치의 권한 경계</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="smallest-fit-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>되는 것 중 가장 단순한 형태에서 멈추는 규칙. 복잡도는 필요할 때만 올리고, 에이전트를 아예 안 만드는 것도 답 <span class="ok">✓ 확인</span></p>
       <p>에이전트형 시스템은 지연(latency)·비용을 내주고 과제 성능을 얻는 거래 → 그 거래가 맞을 때만 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> 스케일 아웃 전에 캐시·쿼리 튜닝부터. 권한은 읽기 전용 IAM 역할 → 승인형 배포 → 자동 배포 순</p>
   </div>
-  <h2 class="sec-h" id="smallest-fit-case-h">지문</h2>
-  <section class="csx" id="smallest-fit-case" aria-labelledby="smallest-fit-case-h" data-tree="smallest-fit-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;단일 호출로 됨&quot;],[&quot;n3&quot;,null]]">
-    <p class="csx-text">쇼핑몰 고객지원 문의는 대부분 배송·반품 같은 흔한 질문이다. <mark class="csx-m" data-tag="단일 호출로 됨">FAQ 검색(retrieval) 결과와 답변 예시를 붙인 호출 한 번으로 시범 평가를 통과했다<span class="csx-tag">단일 호출로 됨</span></mark>. 개발팀은 "나중에 커질 테니 첫날부터 멀티에이전트 프레임워크로 가자"고 한다. 어디서 멈출까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
-  </section>
-  <h2 class="sec-h" id="smallest-fit-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>동네 가게에 심부름 가는데 트럭을 빌릴지, 자전거를 탈지 고르는 거예요.</p>
+<ul>
+<li>우유 한 통이면 걸어가도 돼요.</li>
+<li>짐이 많아지면 그때 자전거, 그다음에 트럭이에요.</li>
+<li>트럭은 기름값도 들고 사고도 크게 나요.</li>
+<li>처음 운전하는 사람에겐 트럭 열쇠를 바로 주지 않아요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-smallest-fit" aria-labelledby="vx-smallest-fit-cap">
+  <div class="vx-player" data-vx-scene="smallest-fit"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-smallest-fit-cap">영상 — 어디서 멈출까? (약 42초 · 소리 없음 · 자막). 비용 단위 = 채팅 1회 기준 설명 값(에이전트 ≈4 · 멀티 ≈15 는 연구 글 평균, 호출 한 번 ≈1 은 추론) · ✓/✗ 판정은 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">사다리 (단순 → 복잡)</p>
+<ul>
+<li>단일 보강 호출 : LLM 한 번 + 검색(retrieval)·도구·메모리. 흔한 질문 대부분은 여기서 끝남.</li>
+<li>워크플로 : 코드가 경로를 정함. 예측 가능, 단계마다 검사 가능, 테스트 쉬움.</li>
+<li>에이전트 : 모델이 경로를 정함. 단계 수를 미리 모르는 열린 문제용. 대신 비용↑, 오류가 쌓임.</li>
+<li>멀티 에이전트 : 에이전트 하나가 못 넘는 제약이 있을 때만 (◆ 단일 vs 멀티 에이전트).</li>
+<li>한 칸 올라갈 때마다 지연(latency)·비용을 내고 성능을 얻음. 그래서 "올려서 결과가 나아졌나"를 재야 올림.</li>
+</ul>
+<p class="lead">자율성 (권한의 사다리)</p>
+<ul>
+<li>읽기·분석 → 승인 없이.</li>
+<li>바꾸는 행동 → 사람 승인 먼저.</li>
+<li>믿을 만한 반복 작업 → 지속 권한.</li>
+<li>제한적으로 시작해서 신뢰가 쌓이면 푼다. 필요 없는 권한은 승인 단계를 붙이지 말고 없앤다(■ 최소 권한).</li>
+</ul>
+<p class="lead">왜 작은 쪽부터인가</p>
+<ul>
+<li>단순할수록 디버깅·평가가 쉬움. 프레임워크·에이전트는 프롬프트와 응답을 가려 원인 찾기가 어려워짐.</li>
+<li>몇 달 들인 멀티 에이전트가 프롬프트를 고친 단일 에이전트와 같았던 사례가 공식 글에 있음.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="smallest-fit-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="smallest-fit-tree-1" aria-labelledby="smallest-fit-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9 n10 n11|n1 n4 n5 n8 n9 n12 n13">
     <div class="t5-fh"><h3 id="smallest-fit-tree-1-h">① 어디서 멈추나 <span class="pg">[1.3③]</span> <span class="pg">[1.1①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -489,115 +536,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"첫날부터 멀티에이전트 프레임워크" → 단일 보강 호출부터. 몇 달 들인 멀티가 프롬프트 개선한 단일과 같았던 사례 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"강한 모델이니 자율 에이전트가 기본 업그레이드" → 에이전트 = 지연·비용을 내주는 거래 · 오류가 쌓임. 신뢰·가드레일 만큼만 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"나중에 필요할 테니 처음부터 크게" → 결과가 눈에 띄게 나아질 때만 한 칸 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>이미 운영에 낸(출시한) 에이전트가 운영(production) 로그에서 거의 늘 같은 도구 순서로 돎 → "도구 설명·프롬프트만 다듬자" 가 아니라 한 칸 내림 : 그 순서를 워크플로로, 예외만 에이전트 <span class="note">(공식 = 복잡도는 결과를 낫게 할 때만 ✓ · 내리는 적용은 이 카드의 해석)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"프레임워크를 써야 프로덕션급" → 추상화가 프롬프트·응답을 가림. 프로덕션으로 갈수록 층을 줄여도 됨 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"목표가 맞으니 알아서 해도 됨" → '파일 정리해 줘'에 중복이라 여긴 걸 지우고 구조를 통째로 바꾼 예. 목표가 맞아도 맥락이 모자라 선을 넘음 → 바꾸는 행동 전 승인 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"라우터"를 사다리의 별도 칸으로 외움 → 공식에서 routing(라우팅)은 워크플로 패턴 중 하나 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"For many applications, however, optimizing single LLM calls with retrieval and in-context examples is usually enough."</p>
-        <p lang="en">"Start with simple prompts, optimize them with comprehensive evaluation, and add multi-step agentic systems only when simpler solutions fall short."</p>
-        <p lang="en">"We suggest that developers start by using LLM APIs directly: many patterns can be implemented in a few lines of code."</p>
-        <p lang="en">"humans should retain control over how their goals are pursued, particularly before high-stakes decisions are made."</p>
-        <p lang="en">"This lets you start restrictive and loosen permissions as trust builds"</p>
-        <p lang="en">"The general recommendation is to always focus on implementing workflows where possible, and only resort to agents when they are truly required." <span class="src">(Skilljar)</span></p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></li>
-        <li><a href="least-privilege.html">■ 최소 권한</a></li>
-        <li><a href="integration-options.html">◆ 직접 API vs Agent SDK vs CLI vs Managed Agents</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 1.3 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>building-effective-agents <span class="src">(en 18·20·31·33·39·137·145·147·162·166·174줄)</span></li>
-        <li>safe-trustworthy-agents <span class="src">(en 17·19·21·27·35줄)</span></li>
-        <li>agent-sdk-permissions <span class="src">(en 305·361줄)</span></li>
-        <li>building-multi-agent-systems <span class="src">(en 13·366줄)</span></li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287794">Skilljar API 287794</a> <span class="src">(26·27·46·53줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~③)</li>
-        <li>카드 해석 2곳(사다리 칸 이름 · "자율 = 권한" 표현 — 공식 문장 아님)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">1.3③</li>
-        <li class="chip">1.1①</li>
-        <li class="chip">7.3②</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-smallest-fit" aria-labelledby="vx-smallest-fit-cap">
-  <div class="vx-player" data-vx-scene="smallest-fit"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-smallest-fit-cap">영상 — 어디서 멈출까? (약 42초 · 소리 없음 · 자막). 비용 단위 = 채팅 1회 기준 설명 값(에이전트 ≈4 · 멀티 ≈15 는 연구 글 평균, 호출 한 번 ≈1 은 추론) · ✓/✗ 판정은 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>smallest-fit</dd>
-  <dt>본편</dt>
-  <dd>1.3</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">1.3③</li><li class="chip">1.1①</li><li class="chip">7.3②</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>동네 가게에 심부름 가는데 트럭을 빌릴지, 자전거를 탈지 고르는 거예요.</p>
-<ul>
-<li>우유 한 통이면 걸어가도 돼요.</li>
-<li>짐이 많아지면 그때 자전거, 그다음에 트럭이에요.</li>
-<li>트럭은 기름값도 들고 사고도 크게 나요.</li>
-<li>처음 운전하는 사람에겐 트럭 열쇠를 바로 주지 않아요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">사다리 (단순 → 복잡)</p>
-<ul>
-<li>단일 보강 호출 : LLM 한 번 + 검색(retrieval)·도구·메모리. 흔한 질문 대부분은 여기서 끝남.</li>
-<li>워크플로 : 코드가 경로를 정함. 예측 가능, 단계마다 검사 가능, 테스트 쉬움.</li>
-<li>에이전트 : 모델이 경로를 정함. 단계 수를 미리 모르는 열린 문제용. 대신 비용↑, 오류가 쌓임.</li>
-<li>멀티 에이전트 : 에이전트 하나가 못 넘는 제약이 있을 때만 (◆ 단일 vs 멀티 에이전트).</li>
-<li>한 칸 올라갈 때마다 지연(latency)·비용을 내고 성능을 얻음. 그래서 "올려서 결과가 나아졌나"를 재야 올림.</li>
-</ul>
-<p class="lead">자율성 (권한의 사다리)</p>
-<ul>
-<li>읽기·분석 → 승인 없이.</li>
-<li>바꾸는 행동 → 사람 승인 먼저.</li>
-<li>믿을 만한 반복 작업 → 지속 권한.</li>
-<li>제한적으로 시작해서 신뢰가 쌓이면 푼다. 필요 없는 권한은 승인 단계를 붙이지 말고 없앤다(■ 최소 권한).</li>
-</ul>
-<p class="lead">왜 작은 쪽부터인가</p>
-<ul>
-<li>단순할수록 디버깅·평가가 쉬움. 프레임워크·에이전트는 프롬프트와 응답을 가려 원인 찾기가 어려워짐.</li>
-<li>몇 달 들인 멀티 에이전트가 프롬프트를 고친 단일 에이전트와 같았던 사례가 공식 글에 있음.</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -669,7 +610,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -751,7 +691,37 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="smallest-fit-practice-h">연습 문제</h2>
 
+  <section class="csx" id="smallest-fit-case" aria-labelledby="smallest-fit-case-h" data-tree="smallest-fit-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;단일 호출로 됨&quot;],[&quot;n3&quot;,null]]">
+    <p class="csx-text">쇼핑몰 고객지원 문의는 대부분 배송·반품 같은 흔한 질문이다. <mark class="csx-m" data-tag="단일 호출로 됨">FAQ 검색(retrieval) 결과와 답변 예시를 붙인 호출 한 번으로 시범 평가를 통과했다<span class="csx-tag">단일 호출로 됨</span></mark>. 개발팀은 "나중에 커질 테니 첫날부터 멀티에이전트 프레임워크로 가자"고 한다. 어디서 멈출까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
+  </section>
+  <h2 class="sec-h" id="smallest-fit-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"첫날부터 멀티에이전트 프레임워크" → 단일 보강 호출부터. 몇 달 들인 멀티가 프롬프트 개선한 단일과 같았던 사례 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"강한 모델이니 자율 에이전트가 기본 업그레이드" → 에이전트 = 지연·비용을 내주는 거래 · 오류가 쌓임. 신뢰·가드레일 만큼만 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"나중에 필요할 테니 처음부터 크게" → 결과가 눈에 띄게 나아질 때만 한 칸 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>이미 운영에 낸(출시한) 에이전트가 운영(production) 로그에서 거의 늘 같은 도구 순서로 돎 → "도구 설명·프롬프트만 다듬자" 가 아니라 한 칸 내림 : 그 순서를 워크플로로, 예외만 에이전트 <span class="note">(공식 = 복잡도는 결과를 낫게 할 때만 ✓ · 내리는 적용은 이 카드의 해석)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"프레임워크를 써야 프로덕션급" → 추상화가 프롬프트·응답을 가림. 프로덕션으로 갈수록 층을 줄여도 됨 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"목표가 맞으니 알아서 해도 됨" → '파일 정리해 줘'에 중복이라 여긴 걸 지우고 구조를 통째로 바꾼 예. 목표가 맞아도 맥락이 모자라 선을 넘음 → 바꾸는 행동 전 승인 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"라우터"를 사다리의 별도 칸으로 외움 → 공식에서 routing(라우팅)은 워크플로 패턴 중 하나 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"For many applications, however, optimizing single LLM calls with retrieval and in-context examples is usually enough."</p>
+        <p lang="en">"Start with simple prompts, optimize them with comprehensive evaluation, and add multi-step agentic systems only when simpler solutions fall short."</p>
+        <p lang="en">"We suggest that developers start by using LLM APIs directly: many patterns can be implemented in a few lines of code."</p>
+        <p lang="en">"humans should retain control over how their goals are pursued, particularly before high-stakes decisions are made."</p>
+        <p lang="en">"This lets you start restrictive and loosen permissions as trust builds"</p>
+        <p lang="en">"The general recommendation is to always focus on implementing workflows where possible, and only resort to agents when they are truly required." <span class="src">(Skilljar)</span></p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. "흔한 질문이 대부분"인데 에이전트가 필요한 몫이 있을 때</h4>
@@ -786,7 +756,6 @@
 <li><span class="lead">근거 :</span> building-effective-agents en 31·33·174줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -854,7 +823,30 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="smallest-fit-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></li>
+        <li><a href="least-privilege.html">■ 최소 권한</a></li>
+        <li><a href="integration-options.html">◆ 직접 API vs Agent SDK vs CLI vs Managed Agents</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 1.3 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>building-effective-agents <span class="src">(en 18·20·31·33·39·137·145·147·162·166·174줄)</span></li>
+        <li>safe-trustworthy-agents <span class="src">(en 17·19·21·27·35줄)</span></li>
+        <li>agent-sdk-permissions <span class="src">(en 305·361줄)</span></li>
+        <li>building-multi-agent-systems <span class="src">(en 13·366줄)</span></li>
+        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287794">Skilljar API 287794</a> <span class="src">(26·27·46·53줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~③)</li>
+        <li>카드 해석 2곳(사다리 칸 이름 · "자율 = 권한" 표현 — 공식 문장 아님)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -864,8 +856,7 @@
 <li>building-effective-agents 는 2024-12 글이고 머리에 "도구 환경이 많이 바뀌었다"는 안내가 붙어 있음(en 1줄). 사다리 원칙은 새 글(building-multi-agent-systems en 366줄)도 같음.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/smallest-fit.md</p>

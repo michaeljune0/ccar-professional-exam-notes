@@ -350,24 +350,72 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ 시스템 프롬프트 문체 -->
-<article class="card t5-card" id="system-prompt-style" aria-labelledby="system-prompt-style-title">
+<!-- ■ 시스템 프롬프트 문체 (v3 시범 순서) -->
+<article class="card t5-card v3" id="system-prompt-style" aria-labelledby="system-prompt-style-title">
   <header class="t5-head">
     <h1 id="system-prompt-style-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 시스템 프롬프트 문체</h1>
-    <p class="lemma-meta"><span lang="en">system prompt style : 담담한 규칙 + 이유 · 역할 한 문장 · XML 칸막이</span><span class="lemma-main">2.2 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">system prompt style : 담담한 규칙 + 이유 · 역할 한 문장 · XML 칸막이</span><span class="lemma-main">2.2 본편</span></p>
   </header>
-  <h2 class="sec-h" id="system-prompt-style-sum-h">카드</h2>
+  <h2 class="sec-h" id="system-prompt-style-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>2.2 시스템 프롬프트와 가드레일</b> · D2 모델·프롬프트 13%<br><q lang="en">Design system prompts, templates, and guardrails</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>2.2① 필요 없는 상황에도 도구·스킬이 자꾸 불린다 — 시스템 프롬프트를 어떻게 고치나?</b> — 시스템 프롬프트 문체 <span class="note">(센 명령조 ↔ 담담한 규칙 + 이유 + 역할 한 문장 + XML 칸막이)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="system-prompt-style-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>시스템 프롬프트는 센 경고문이 아니라 "이럴 때 이걸 한다 + 왜" 를 담담하게 적는 곳. 역할은 한 문장, 재료(지시·맥락·예시·입력)는 XML 태그로 칸을 나눔 <span class="ok">✓ 확인</span></p>
       <p>최신 모델은 시스템 프롬프트를 더 민감하게 따름 → 옛 모델용 센 표현이 과잉 발동(overtrigger)을 부름 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> 알람 임계값. 너무 과민하게 잡으면(대문자 경고) 오탐 폭주, 너무 둔하면(모호한 지침) 놓침 — 그 사이 "알맞은 고도(right altitude)"</p>
   </div>
-  <h2 class="sec-h" id="system-prompt-style-case-h">지문</h2>
-  <section class="csx" id="system-prompt-style-case" aria-labelledby="system-prompt-style-case-h" data-tree="system-prompt-style-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;필요 없을 때도&quot;],[&quot;n3&quot;,null]]">
-    <p class="csx-text">고객지원 Agent 를 Opus 4.6 으로 옮겼더니 <mark class="csx-m" data-tag="필요 없을 때도">"안녕하세요" 인사에도 주문 조회 도구를 부른다<span class="csx-tag">필요 없을 때도</span></mark>. 시스템 프롬프트에는 옛 모델 시절 넣은 <mark class="csx-m" data-tag="센 표현">"CRITICAL: You MUST use lookup_order when…"<span class="csx-tag">센 표현</span></mark>이 그대로 있다. 팀은 "더 큰 모델로 바꾸자"고 한다. 무엇부터 고칠까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
-  </section>
-  <h2 class="sec-h" id="system-prompt-style-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>새로 온 똑똑한 직원에게 업무 쪽지를 써 주는 거예요.</p>
+<ul>
+<li>소리 지르듯 "무조건 해!" 라고 쓰면, 필요 없을 때도 해 버려요.</li>
+<li>"이럴 때 해 주세요, 왜냐하면…" 이라고 쓰면 비슷한 일도 알아서 잘해요.</li>
+<li>쪽지는 칸을 나눠 써야 뭐가 지시고 뭐가 자료인지 안 헷갈려요.</li>
+<li>그런데 어떤 직원은 쪽지를 글자 그대로만 읽어서, 범위까지 적어 줘야 해요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-system-prompt-style" aria-labelledby="vx-system-prompt-style-cap">
+  <div class="vx-player" data-vx-scene="system-prompt-style"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-system-prompt-style-cap">영상 — 인사에도 왜 주문을 조회할까? (약 43초 · 소리 없음 · 자막). 메시지 2·3번과 기록 칸 결과 · Opus 4.8 장면 결과는 그림용 가정(방향은 설명 원리의 확인 문장) <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">모델은 시스템 프롬프트의 말투 세기까지 신호로 읽음</p>
+<ul>
+<li>옛 모델은 도구를 잘 안 불러서(undertrigger) "CRITICAL: You MUST…" 로 세게 밀었음.</li>
+<li>Opus 4.5·4.6 은 이전 모델보다 시스템 프롬프트에 더 민감 → 같은 센 표현이 이제 과잉 발동(overtrigger). Claude 4.6 모델들은 더 적극적(proactive)이라 옛 모델에 필요했던 "더 부지런히" 지시에도 과잉 발동.</li>
+<li>그래서 처방 = 말투를 보통으로 ("Use this tool when…"), 막연한 기본값("If in doubt, use [tool]") 지우기, 그래도 과하면 effort 낮추기.</li>
+</ul>
+<p class="lead">방향은 모델마다 다름</p>
+<ul>
+<li>Opus 4.8 은 반대 : 도구보다 추론(reasoning)을 선호 → 도구를 더 쓰게 하려면 effort(high·xhigh) + 언제·어떻게 쓰는지 명시.</li>
+<li>Sonnet 5 는 기본으로 도구를 더 잘 부르지만 thinking 을 끄면 덜 부름 → 시스템 프롬프트에 분명한 nudge.</li>
+<li>그러니 "센 표현을 빼라" 는 규칙이 아니라 <strong>증상(과잉/과소) → 그 모델 → 처방</strong> 순서.</li>
+</ul>
+<p class="lead">이유가 일반화를 만든다</p>
+<ul>
+<li>규칙만 주면 그 문장에만 반응. 이유를 주면 목표를 알고 비슷한 경우로 넓힘 ("Claude is smart enough to generalize from the explanation.").</li>
+<li>단, Opus 4.8·Sonnet 5 는 <strong>지시의 적용 범위</strong>는 문자 그대로 읽음 — 한 항목의 지시를 다른 항목으로 조용히 넓히지 않음. 이유로 "뜻"은 넓어지지만, "어디에 적용하나"는 적어 줘야 함.</li>
+</ul>
+<p class="lead">칸막이와 고도</p>
+<ul>
+<li>지시·맥락·예시·입력이 섞이면 모델이 어디까지가 지시인지 헷갈림 → XML 태그로 칸. 형식(XML vs 마크다운 머리) 자체의 중요도는 모델이 좋아질수록 줄어듦.</li>
+<li>알맞은 고도 = if-else 하드코딩(깨지기 쉬움)과 모호한 고수준 지침(신호 없음) 사이.</li>
+<li>역할 한 문장 = 행동·어조를 사용 사례에 모음. 형식까지 보장하진 않음.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="system-prompt-style-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="system-prompt-style-tree-1" aria-labelledby="system-prompt-style-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9|n1 n4 n5 n10 n11|n1 n12 n13">
     <div class="t5-fh"><h3 id="system-prompt-style-tree-1-h">①② 도구가 엉뚱하게 불림 <span class="pg">[2.2①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -482,110 +530,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"경고를 더 세게(대문자·반복) 써서 규칙을 강조" → Opus 4.5·4.6 은 더 민감해 과잉 발동이 심해짐. 걷어내는 게 처방 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"센 표현을 걷어내면 어느 모델이든 해결" → 과소 발동(Opus 4.8)이면 반대. effort 올리기 + 언제·어떻게 쓰는지 적기 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"금지 규칙을 시스템 프롬프트에 크게 적으면 지켜짐" → 안내일 뿐 강제 아님 → <a href="guide-vs-enforce.html">◆ 안내(프롬프트) vs 강제(구성·코드)</a> · <a href="least-privilege.html">■ 최소 권한</a></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"도구가 엉뚱하게 불리니 모델을 바꿈" → 문체(①)나 도구 설명(<a href="tool-design.html">■ 도구 설계</a>)부터 <span class="gen">업계 일반</span> <span class="note">공식은 모델 교체를 처방으로 들지 않음</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"역할 문장만 넣으면 형식도 맞춰짐" → 역할은 행동·어조를 모음. 형식은 예시(<a href="few-shot-examples.html">■ few-shot 예시</a>)·스키마(<a href="structured-output.html">■ structured outputs</a>) <span class="gen">업계 일반</span> <span class="note">역할의 효과 문장은 <span class="ok">✓ 확인</span></span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar API 강의(2025 제작 추정) 예 "You are a patient math tutor. Do not directly answer…" → 역할 한 문장은 docs 와 같음. "하지 마" 문장은 docs 가 "할 것을 적기" 를 권하는 쪽</span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Where you might have said "CRITICAL: You MUST use this tool when...", you can use more normal prompting like "Use this tool when..."."</p>
-        <p lang="en">"The fix is to dial back any aggressive language."</p>
-        <p lang="en">"Claude is smart enough to generalize from the explanation."</p>
-        <p lang="en">"Setting a role in the system prompt focuses Claude's behavior and tone for your use case. Even a single sentence makes a difference"</p>
-        <p lang="en">"Wrapping each type of content in its own tag (for example, <code>&lt;instructions&gt;</code>, <code>&lt;context&gt;</code>, <code>&lt;input&gt;</code>) reduces misinterpretation."</p>
-        <p lang="en">"Claude Opus 4.8 has a tendency to favor reasoning over tool calls." <span class="src">(docs prompting-claude-opus-4-8)</span></p>
-        <p lang="en">"If you need Claude to apply an instruction broadly, state the scope explicitly" <span class="src">(docs prompting-claude-sonnet-5 · opus-4-8)</span></p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 2.2 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>prompting-best-practices <span class="src">(en-full 38~40·61~77·95~104·341~352·443·489·525~529줄 · ko 37~39·53~62·109·174·200줄)</span></li>
-        <li>effective-context-engineering <span class="src">(en 37·43·45줄)</span></li>
-        <li>prompting-claude-opus-4-8 <span class="src">(en-full 61·69줄)</span></li>
-        <li>prompting-claude-sonnet-5 <span class="src">(en-full 65·73줄)</span></li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287733">Skilljar API 287733</a></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
-        <li><span class="gen">업계 일반</span> 2줄</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">2.2①</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-system-prompt-style" aria-labelledby="vx-system-prompt-style-cap">
-  <div class="vx-player" data-vx-scene="system-prompt-style"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-system-prompt-style-cap">영상 — 인사에도 왜 주문을 조회할까? (약 43초 · 소리 없음 · 자막). 메시지 2·3번과 기록 칸 결과 · Opus 4.8 장면 결과는 그림용 가정(방향은 설명 원리의 확인 문장) <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>system-prompt-style</dd>
-  <dt>본편</dt>
-  <dd>2.2</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">2.2①</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>새로 온 똑똑한 직원에게 업무 쪽지를 써 주는 거예요.</p>
-<ul>
-<li>소리 지르듯 "무조건 해!" 라고 쓰면, 필요 없을 때도 해 버려요.</li>
-<li>"이럴 때 해 주세요, 왜냐하면…" 이라고 쓰면 비슷한 일도 알아서 잘해요.</li>
-<li>쪽지는 칸을 나눠 써야 뭐가 지시고 뭐가 자료인지 안 헷갈려요.</li>
-<li>그런데 어떤 직원은 쪽지를 글자 그대로만 읽어서, 범위까지 적어 줘야 해요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">모델은 시스템 프롬프트의 말투 세기까지 신호로 읽음</p>
-<ul>
-<li>옛 모델은 도구를 잘 안 불러서(undertrigger) "CRITICAL: You MUST…" 로 세게 밀었음.</li>
-<li>Opus 4.5·4.6 은 이전 모델보다 시스템 프롬프트에 더 민감 → 같은 센 표현이 이제 과잉 발동(overtrigger). Claude 4.6 모델들은 더 적극적(proactive)이라 옛 모델에 필요했던 "더 부지런히" 지시에도 과잉 발동.</li>
-<li>그래서 처방 = 말투를 보통으로 ("Use this tool when…"), 막연한 기본값("If in doubt, use [tool]") 지우기, 그래도 과하면 effort 낮추기.</li>
-</ul>
-<p class="lead">방향은 모델마다 다름</p>
-<ul>
-<li>Opus 4.8 은 반대 : 도구보다 추론(reasoning)을 선호 → 도구를 더 쓰게 하려면 effort(high·xhigh) + 언제·어떻게 쓰는지 명시.</li>
-<li>Sonnet 5 는 기본으로 도구를 더 잘 부르지만 thinking 을 끄면 덜 부름 → 시스템 프롬프트에 분명한 nudge.</li>
-<li>그러니 "센 표현을 빼라" 는 규칙이 아니라 <strong>증상(과잉/과소) → 그 모델 → 처방</strong> 순서.</li>
-</ul>
-<p class="lead">이유가 일반화를 만든다</p>
-<ul>
-<li>규칙만 주면 그 문장에만 반응. 이유를 주면 목표를 알고 비슷한 경우로 넓힘 ("Claude is smart enough to generalize from the explanation.").</li>
-<li>단, Opus 4.8·Sonnet 5 는 <strong>지시의 적용 범위</strong>는 문자 그대로 읽음 — 한 항목의 지시를 다른 항목으로 조용히 넓히지 않음. 이유로 "뜻"은 넓어지지만, "어디에 적용하나"는 적어 줘야 함.</li>
-</ul>
-<p class="lead">칸막이와 고도</p>
-<ul>
-<li>지시·맥락·예시·입력이 섞이면 모델이 어디까지가 지시인지 헷갈림 → XML 태그로 칸. 형식(XML vs 마크다운 머리) 자체의 중요도는 모델이 좋아질수록 줄어듦.</li>
-<li>알맞은 고도 = if-else 하드코딩(깨지기 쉬움)과 모호한 고수준 지침(신호 없음) 사이.</li>
-<li>역할 한 문장 = 행동·어조를 사용 사례에 모음. 형식까지 보장하진 않음.</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -675,7 +622,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -757,7 +703,37 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="system-prompt-style-practice-h">연습 문제</h2>
 
+  <section class="csx" id="system-prompt-style-case" aria-labelledby="system-prompt-style-case-h" data-tree="system-prompt-style-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;필요 없을 때도&quot;],[&quot;n3&quot;,null]]">
+    <p class="csx-text">고객지원 Agent 를 Opus 4.6 으로 옮겼더니 <mark class="csx-m" data-tag="필요 없을 때도">"안녕하세요" 인사에도 주문 조회 도구를 부른다<span class="csx-tag">필요 없을 때도</span></mark>. 시스템 프롬프트에는 옛 모델 시절 넣은 <mark class="csx-m" data-tag="센 표현">"CRITICAL: You MUST use lookup_order when…"<span class="csx-tag">센 표현</span></mark>이 그대로 있다. 팀은 "더 큰 모델로 바꾸자"고 한다. 무엇부터 고칠까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
+  </section>
+  <h2 class="sec-h" id="system-prompt-style-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"경고를 더 세게(대문자·반복) 써서 규칙을 강조" → Opus 4.5·4.6 은 더 민감해 과잉 발동이 심해짐. 걷어내는 게 처방 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"센 표현을 걷어내면 어느 모델이든 해결" → 과소 발동(Opus 4.8)이면 반대. effort 올리기 + 언제·어떻게 쓰는지 적기 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"금지 규칙을 시스템 프롬프트에 크게 적으면 지켜짐" → 안내일 뿐 강제 아님 → <a href="guide-vs-enforce.html">◆ 안내(프롬프트) vs 강제(구성·코드)</a> · <a href="least-privilege.html">■ 최소 권한</a></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"도구가 엉뚱하게 불리니 모델을 바꿈" → 문체(①)나 도구 설명(<a href="tool-design.html">■ 도구 설계</a>)부터 <span class="gen">업계 일반</span> <span class="note">공식은 모델 교체를 처방으로 들지 않음</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"역할 문장만 넣으면 형식도 맞춰짐" → 역할은 행동·어조를 모음. 형식은 예시(<a href="few-shot-examples.html">■ few-shot 예시</a>)·스키마(<a href="structured-output.html">■ structured outputs</a>) <span class="gen">업계 일반</span> <span class="note">역할의 효과 문장은 <span class="ok">✓ 확인</span></span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar API 강의(2025 제작 추정) 예 "You are a patient math tutor. Do not directly answer…" → 역할 한 문장은 docs 와 같음. "하지 마" 문장은 docs 가 "할 것을 적기" 를 권하는 쪽</span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Where you might have said "CRITICAL: You MUST use this tool when...", you can use more normal prompting like "Use this tool when..."."</p>
+        <p lang="en">"The fix is to dial back any aggressive language."</p>
+        <p lang="en">"Claude is smart enough to generalize from the explanation."</p>
+        <p lang="en">"Setting a role in the system prompt focuses Claude's behavior and tone for your use case. Even a single sentence makes a difference"</p>
+        <p lang="en">"Wrapping each type of content in its own tag (for example, <code>&lt;instructions&gt;</code>, <code>&lt;context&gt;</code>, <code>&lt;input&gt;</code>) reduces misinterpretation."</p>
+        <p lang="en">"Claude Opus 4.8 has a tendency to favor reasoning over tool calls." <span class="src">(docs prompting-claude-opus-4-8)</span></p>
+        <p lang="en">"If you need Claude to apply an instruction broadly, state the scope explicitly" <span class="src">(docs prompting-claude-sonnet-5 · opus-4-8)</span></p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. "센 표현을 걷어내라" 가 반대로 되는 때</h4>
@@ -790,7 +766,6 @@
 <li><span class="lead">근거 :</span> effective-context-engineering en 43줄 · prompting-best-practices en-full 95줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -865,7 +840,24 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="system-prompt-style-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 2.2 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>prompting-best-practices <span class="src">(en-full 38~40·61~77·95~104·341~352·443·489·525~529줄 · ko 37~39·53~62·109·174·200줄)</span></li>
+        <li>effective-context-engineering <span class="src">(en 37·43·45줄)</span></li>
+        <li>prompting-claude-opus-4-8 <span class="src">(en-full 61·69줄)</span></li>
+        <li>prompting-claude-sonnet-5 <span class="src">(en-full 65·73줄)</span></li>
+        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287733">Skilljar API 287733</a></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
+        <li><span class="gen">업계 일반</span> 2줄</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -875,8 +867,7 @@
 <li>"안내 vs 강제" 원문 문장("Claude treats them as context, not enforced configuration.")은 Claude Code memory 문서(en 191줄) 것 — API 시스템 프롬프트에 같은 문장이 있는지는 못 찾음. 본문은 D5 ◆ 안내(프롬프트) vs 강제(구성·코드) 몫.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/system-prompt-style.md</p>

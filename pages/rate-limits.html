@@ -350,24 +350,77 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ rate limit -->
-<article class="card t5-card" id="rate-limits" aria-labelledby="rate-limits-title">
+<!-- ■ rate limit (v3 시범 순서) -->
+<article class="card t5-card v3" id="rate-limits" aria-labelledby="rate-limits-title">
   <header class="t5-head">
     <h1 id="rate-limits-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> rate limit</h1>
-    <p class="lemma-meta"><span lang="en">rate limits : RPM · ITPM · OTPM · 429 · 헤더</span><span class="lemma-main">3.4 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">rate limits : RPM · ITPM · OTPM · 429 · 헤더</span><span class="lemma-main">3.4 본편</span></p>
   </header>
-  <h2 class="sec-h" id="rate-limits-sum-h">카드</h2>
+  <h2 class="sec-h" id="rate-limits-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>3.4 대규모 관측</b> · D3 연결 19%<br><q lang="en">Analyze observability challenges and select monitoring strategies at scale</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>3.4③ 트래픽이 늘자 429 가 난다 — 무엇을 보고, 캐싱이 도움이 되나?</b> — 속도 제한 관측·대응 <span class="note">(응답 헤더 · 캐시 인지 ITPM)</span></li>
+      <li><b>3.3② 매시 쌓인 티켓 5,000건을 15분 안에 분류해 큐로 보내야 한다 — Batch API 로 보내나?</b> — 동기 호출 vs Batch API <span class="note">(완료 시각 약속이 필요한가)</span></li>
+      <li><b>7.3③ API 오류가 쏟아질 때 무엇부터 보나?</b> — 오류 종류별 대응 <span class="note">(재시도할 것 / 한도를 볼 것 / 오류가 아닌 것)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="rate-limits-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>Messages API rate limit(속도 제한) = 모델 클래스별 분당 요청(RPM) · 분당 입력 토큰(ITPM) · 분당 출력 토큰(OTPM). 하나라도 넘으면 429 + 어느 한도인지 + <code>retry-after</code>(몇 초 기다릴지) <span class="ok">✓ 확인</span></p>
       <p>조직 단위 · 사용량 티어(Start · Build · Scale · Custom)로 정해짐 · 보장된 최소가 아니라 허용 최대치 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> API 게이트웨이 스로틀링. 토큰 버킷 · <code>X-RateLimit-Remaining</code>·<code>Retry-After</code> 헤더 · CDN 적중은 오리진 한도를 안 먹음</p>
   </div>
-  <h2 class="sec-h" id="rate-limits-case-h">지문</h2>
-  <section class="csx" id="rate-limits-case" aria-labelledby="rate-limits-case-h" data-tree="rate-limits-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;429&quot;],[&quot;n3&quot;,null],[&quot;n6&quot;,&quot;retry-after 없음&quot;],[&quot;n7&quot;,null]]" data-flow="rate-limits-flow" data-scene="2">
-    <p class="csx-text">월 중순부터 <mark class="csx-m" data-tag="429">모든 요청이 429 로 실패한다<span class="csx-tag">429</span></mark>. 응답에는 <mark class="csx-m" data-tag="retry-after 없음"><code>retry-after</code> 헤더가 없고<span class="csx-tag">retry-after 없음</span></mark> <code>error_code: enforced_spend_limit_reached</code> 가 찍혀 있다. 개발자는 SDK 재시도 횟수를 늘리자고 한다. 무엇이 문제이고 무엇을 할까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="rate-limits-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>놀이공원 입장 줄을 생각해 보세요.</p>
+<ul>
+<li>1분에 들어갈 수 있는 사람 수가 정해져 있어요.</li>
+<li>한꺼번에 몰려오면 1분 한도 안이어도 입구에서 잠깐 막혀요.</li>
+<li>입구는 "몇 초 뒤에 오세요"라고 알려 줘요.</li>
+<li>연간 회원(미리 받아 둔 표)은 줄 수를 안 세요.</li>
+<li>그런데 이번 달 예산을 다 쓰면 기다려도 다음 달까지 못 들어가요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-rate-limits" aria-labelledby="vx-rate-limits-cap">
+  <div class="vx-player" data-vx-scene="rate-limits"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-rate-limits-cap">영상 — 429, 재시도를 늘리면 풀릴까? (약 43초 · 소리 없음 · 자막). 통 수위 · 1초 이른 재시도 · 늘린 재시도 횟수는 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">세 한도 (모델 클래스별)</p>
+<ul>
+<li>RPM(분당 요청) · ITPM(분당 입력 토큰) · OTPM(분당 출력 토큰). 하나라도 넘으면 429 + 어느 한도인지 + <code>retry-after</code>.</li>
+<li>조직 단위. 사용량 티어(Start · Build · Scale · Custom)로 정해지고, 쓰다 보면 올라감. 한도는 최대치일 뿐 보장이 아님.</li>
+</ul>
+<p class="lead">토큰 버킷</p>
+<ul>
+<li>고정 간격으로 리셋되는 게 아니라 계속 채워짐 → 분당 한도가 초 단위로 걸릴 수 있음. 짧은 폭주가 한도 안에서도 429 를 냄.</li>
+</ul>
+<p class="lead">무엇을 세나</p>
+<ul>
+<li>ITPM : 캐시 안 된 입력 + 캐시 쓰기. 대부분 모델에서 캐시 읽기는 안 셈 → 캐싱이 한도를 사실상 넓힘 (<a href="caching.html">■ 프롬프트 캐싱</a> <span class="rule-ref">· <a href="caching.html#caching-rule-4">규칙 ④</a></span>).</li>
+<li>OTPM : 실제 생성한 출력만. <code>max_tokens</code> 값은 안 셈.</li>
+<li>한도는 모델마다 따로 → 다른 모델은 각자 한도까지 동시에 씀.</li>
+</ul>
+<p class="lead">429 의 두 얼굴</p>
+<ul>
+<li>rate limit 429 : <code>retry-after</code> 있음 → 기다렸다 재시도.</li>
+<li>지출 상한 429 : <code>retry-after</code> 없음 · <code>error_code: enforced_spend_limit_reached</code> → 다음 달 1일 00:00 UTC 까지 재시도해도 실패.</li>
+<li>내가 건 지출 한도는 400. API 과부하는 529(내 한도 문제 아님).</li>
+</ul>
+<p class="lead">재시도</p>
+<ul>
+<li>공식 SDK 가 연결 오류 · 429 · 5xx 를 지수 백오프로 기본 2번 자동 재시도하고 <code>retry-after</code> 를 따름.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="rate-limits-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="rate-limits-tree-1" aria-labelledby="rate-limits-tree-1-h" data-paths="n1 n2 n3 n4 n5|n1 n2 n3 n6 n7|n1 n8 n9|n1 n10 n11">
     <div class="t5-fh"><h3 id="rate-limits-tree-1-h">③⑤ 오류 가르기 <span class="pg">[3.4③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -422,7 +475,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="rate-limits-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="rate-limits-flow" aria-label="rate limit 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["앱","한도","API"],"blocks":[],"rules":[null,"버킷은 계속 채워짐(고정 간격 리셋 아님)",null],"question":"429 가 오면 늘 기다렸다 다시 보내면 될까?","scenes":[{"name":"① 짧은 폭주","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["RPM 한도 60","이번 분 20개뿐"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"짧은 폭주","art":{"kind":"slip","lines":["요청 20개가","같은 1초에"]}},{"kind":"mark","step":"거절","at":{"col":1},"label":"429 + `retry-after`","art":{"kind":"slip","lines":["429 · 요청 한도 초과","retry-after: 3"]}},{"kind":"end","label":"분당 60이 초당 1로 걸릴 수 있음 — 분당 한도 안이어도 짧은 폭주는 429"}]},{"name":"② 백오프 재시도","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["요청 20개 대기 중"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"요청","art":{"kind":"slip","lines":["POST /v1/messages"]}},{"kind":"mark","step":"거절","at":{"col":1},"label":"429 + `retry-after`","art":{"kind":"slip","lines":["429 · 요청 한도 초과","retry-after: 3"]}},{"kind":"timer","at":0,"label":"`retry-after`(몇 초 기다릴지)"},{"kind":"move","step":"재시도","from":{"col":0},"to":2,"label":"지수 백오프 · `retry-after` 를 따름","art":{"kind":"slip","lines":["3초 뒤 재요청","200 OK"]}},{"kind":"end","label":"공식 SDK 는 429 · 5xx · 연결 오류를 지수 백오프로 기본 2번 자동 재시도"}]},{"name":"③ 지출 상한 429","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["요청","9월 15일 14:00"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"요청","art":{"kind":"slip","lines":["POST /v1/messages"]}},{"kind":"mark","step":"거절","at":{"col":1},"label":"`retry-after` 없음","art":{"kind":"slip","lines":["429 · retry-after 없음","error_code: enforced_","spend_limit_reached"]}},{"kind":"move","step":"재시도","from":{"col":0},"to":1,"label":"재시도 무의미(SDK 재시도도 실패)","art":{"kind":"slip","lines":["재시도 2번","→ 또 429"]}},{"kind":"end","label":"티어 월 지출 상한 도달 — 다음 달 1일 00:00 UTC 까지 멈춤, 재시도로는 못 풂"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -458,7 +511,7 @@
     </details>
   </figure>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="rate-limits-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
@@ -514,116 +567,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"캐시 입력도 ITPM 을 똑같이 먹으니 한도 상향만" → 반대 : 대부분 모델에서 캐시 읽은 입력은 ITPM 에 안 셈 <span class="ok">✓ 확인</span> <span class="src">(■ 프롬프트 캐싱)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"429 면 무조건 재시도" → 지출 상한 429 는 재시도해도 계속 실패 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>max_tokens</code> 를 크게 잡으면 OTPM 을 미리 먹는다" → 실제 생성분만 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"분당 한도 안이면 안전" → 초 단위 폭주로도 걸림 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>529 를 내 한도 문제로 보고 상향 요청 → 과부하, 한도와 무관 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"한도만큼은 보장된다" → 최대치일 뿐 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"describing which rate limit was exceeded, along with a <code>retry-after</code> header indicating how long to wait."</p>
-        <p lang="en">"For most Claude models, only uncached input tokens count toward your ITPM rate limits."</p>
-        <p lang="en">"With effective caching, you can substantially increase your actual throughput without raising your rate limits."</p>
-        <p lang="en">"Short bursts of requests can exceed the limit and trigger rate limit errors."</p>
-        <p lang="en">"Retrying, including the SDKs' automatic retries, fails until access resumes."</p>
-        <p lang="en">"The <code>max_tokens</code> parameter does not factor into OTPM rate limit calculations"</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="caching.html">■ 프롬프트 캐싱</a></li>
-        <li><a href="batch-vs-sync.html">◆ Batch API vs 동기 호출</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 3.4 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li><a href="https://platform.claude.com/docs/ko/api/rate-limits">rate-limits</a> <span class="src">(ko 1~17·33~48·62·68·72~88·100·117·123~133·143~152·162~184줄, en 14·47·68·72·84·86줄)</span></li>
-        <li>errors <span class="src">(ko 12·15·17줄, en 12·15·17줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 181줄 — 티어 3개 통합 2026-06-26)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑦)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">3.4③</li>
-        <li class="chip">3.3②</li>
-        <li class="chip">7.3③</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-rate-limits" aria-labelledby="vx-rate-limits-cap">
-  <div class="vx-player" data-vx-scene="rate-limits"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-rate-limits-cap">영상 — 429, 재시도를 늘리면 풀릴까? (약 43초 · 소리 없음 · 자막). 통 수위 · 1초 이른 재시도 · 늘린 재시도 횟수는 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>rate-limits</dd>
-  <dt>본편</dt>
-  <dd>3.4</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">3.4③</li><li class="chip">3.3②</li><li class="chip">7.3③</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>놀이공원 입장 줄을 생각해 보세요.</p>
-<ul>
-<li>1분에 들어갈 수 있는 사람 수가 정해져 있어요.</li>
-<li>한꺼번에 몰려오면 1분 한도 안이어도 입구에서 잠깐 막혀요.</li>
-<li>입구는 "몇 초 뒤에 오세요"라고 알려 줘요.</li>
-<li>연간 회원(미리 받아 둔 표)은 줄 수를 안 세요.</li>
-<li>그런데 이번 달 예산을 다 쓰면 기다려도 다음 달까지 못 들어가요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">세 한도 (모델 클래스별)</p>
-<ul>
-<li>RPM(분당 요청) · ITPM(분당 입력 토큰) · OTPM(분당 출력 토큰). 하나라도 넘으면 429 + 어느 한도인지 + <code>retry-after</code>.</li>
-<li>조직 단위. 사용량 티어(Start · Build · Scale · Custom)로 정해지고, 쓰다 보면 올라감. 한도는 최대치일 뿐 보장이 아님.</li>
-</ul>
-<p class="lead">토큰 버킷</p>
-<ul>
-<li>고정 간격으로 리셋되는 게 아니라 계속 채워짐 → 분당 한도가 초 단위로 걸릴 수 있음. 짧은 폭주가 한도 안에서도 429 를 냄.</li>
-</ul>
-<p class="lead">무엇을 세나</p>
-<ul>
-<li>ITPM : 캐시 안 된 입력 + 캐시 쓰기. 대부분 모델에서 캐시 읽기는 안 셈 → 캐싱이 한도를 사실상 넓힘 (<a href="caching.html">■ 프롬프트 캐싱</a> <span class="rule-ref">· <a href="caching.html#caching-rule-4">규칙 ④</a></span>).</li>
-<li>OTPM : 실제 생성한 출력만. <code>max_tokens</code> 값은 안 셈.</li>
-<li>한도는 모델마다 따로 → 다른 모델은 각자 한도까지 동시에 씀.</li>
-</ul>
-<p class="lead">429 의 두 얼굴</p>
-<ul>
-<li>rate limit 429 : <code>retry-after</code> 있음 → 기다렸다 재시도.</li>
-<li>지출 상한 429 : <code>retry-after</code> 없음 · <code>error_code: enforced_spend_limit_reached</code> → 다음 달 1일 00:00 UTC 까지 재시도해도 실패.</li>
-<li>내가 건 지출 한도는 400. API 과부하는 529(내 한도 문제 아님).</li>
-</ul>
-<p class="lead">재시도</p>
-<ul>
-<li>공식 SDK 가 연결 오류 · 429 · 5xx 를 지수 백오프로 기본 2번 자동 재시도하고 <code>retry-after</code> 를 따름.</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -695,7 +641,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -777,7 +722,36 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="rate-limits-practice-h">연습 문제</h2>
 
+  <section class="csx" id="rate-limits-case" aria-labelledby="rate-limits-case-h" data-tree="rate-limits-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;429&quot;],[&quot;n3&quot;,null],[&quot;n6&quot;,&quot;retry-after 없음&quot;],[&quot;n7&quot;,null]]" data-flow="rate-limits-flow" data-scene="2">
+    <p class="csx-text">월 중순부터 <mark class="csx-m" data-tag="429">모든 요청이 429 로 실패한다<span class="csx-tag">429</span></mark>. 응답에는 <mark class="csx-m" data-tag="retry-after 없음"><code>retry-after</code> 헤더가 없고<span class="csx-tag">retry-after 없음</span></mark> <code>error_code: enforced_spend_limit_reached</code> 가 찍혀 있다. 개발자는 SDK 재시도 횟수를 늘리자고 한다. 무엇이 문제이고 무엇을 할까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="rate-limits-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"캐시 입력도 ITPM 을 똑같이 먹으니 한도 상향만" → 반대 : 대부분 모델에서 캐시 읽은 입력은 ITPM 에 안 셈 <span class="ok">✓ 확인</span> <span class="src">(■ 프롬프트 캐싱)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"429 면 무조건 재시도" → 지출 상한 429 는 재시도해도 계속 실패 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>max_tokens</code> 를 크게 잡으면 OTPM 을 미리 먹는다" → 실제 생성분만 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"분당 한도 안이면 안전" → 초 단위 폭주로도 걸림 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>529 를 내 한도 문제로 보고 상향 요청 → 과부하, 한도와 무관 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"한도만큼은 보장된다" → 최대치일 뿐 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"describing which rate limit was exceeded, along with a <code>retry-after</code> header indicating how long to wait."</p>
+        <p lang="en">"For most Claude models, only uncached input tokens count toward your ITPM rate limits."</p>
+        <p lang="en">"With effective caching, you can substantially increase your actual throughput without raising your rate limits."</p>
+        <p lang="en">"Short bursts of requests can exceed the limit and trigger rate limit errors."</p>
+        <p lang="en">"Retrying, including the SDKs' automatic retries, fails until access resumes."</p>
+        <p lang="en">"The <code>max_tokens</code> parameter does not factor into OTPM rate limit calculations"</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 캐싱이 ITPM 을 얼마나 넓히나 (새 숫자)</h4>
@@ -820,7 +794,6 @@
 <li><span class="lead">근거 :</span> rate-limits ko 123~137줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -888,7 +861,26 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="rate-limits-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="caching.html">■ 프롬프트 캐싱</a></li>
+        <li><a href="batch-vs-sync.html">◆ Batch API vs 동기 호출</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 3.4 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a href="https://platform.claude.com/docs/ko/api/rate-limits">rate-limits</a> <span class="src">(ko 1~17·33~48·62·68·72~88·100·117·123~133·143~152·162~184줄, en 14·47·68·72·84·86줄)</span></li>
+        <li>errors <span class="src">(ko 12·15·17줄, en 12·15·17줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 181줄 — 티어 3개 통합 2026-06-26)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑦)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -897,8 +889,7 @@
 <li>티어 통합(Start · Build · Scale, 2026-06-26)은 시험 가이드(2026-07) 직전 변경 — 시험이 옛 티어 이름(1~4)으로 물을 가능성(추론).</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/rate-limits.md</p>

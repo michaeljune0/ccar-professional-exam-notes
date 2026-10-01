@@ -350,25 +350,74 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ max_tokens 와 긴 출력 -->
-<article class="card t5-card" id="max-tokens" aria-labelledby="max-tokens-title">
+<!-- ■ max_tokens 와 긴 출력 (v3 시범 순서) -->
+<article class="card t5-card v3" id="max-tokens" aria-labelledby="max-tokens-title">
   <header class="t5-head">
     <h1 id="max-tokens-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> max_tokens 와 긴 출력</h1>
-    <p class="lemma-meta"><span lang="en">max_tokens · long requests · streaming · truncation</span><span class="lemma-main">4.5 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">max_tokens · long requests · streaming · truncation</span><span class="lemma-main">4.5 본편</span></p>
   </header>
-  <h2 class="sec-h" id="max-tokens-sum-h">카드</h2>
+  <h2 class="sec-h" id="max-tokens-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>4.5 토큰·지연·비용 최적화</b> · D4 평가 16%<br><q lang="en">Optimize token usage, latency, and cost-performance trade-offs</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>4.5③ 긴 출력 요청이 SDK 에서 막힌다 / 답이 중간에 잘린다</b> — max_tokens 설정과 스트리밍·배치 전환</li>
+      <li><b>3.3① 상담원이 "답 초안이 늦게 뜬다"고 한다 — 모델부터 바꾸나?</b> — 지연 손잡이 고르기 <span class="note">(스트리밍 · 캐싱 · 출력 길이 · effort · 모델 교체)</span></li>
+      <li><b>1.2② 앱은 다음 단계를 무엇으로 아나?</b> — 처리 루프를 무엇으로 제어하나 <span class="note">(stop_reason)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="max-tokens-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p><code>max_tokens</code> = 멈추기 전에 생성할 최대 토큰 수(절대 상한). 모델은 그 전에 멈출 수 있음. 요청마다 직접 정함 — API 레퍼런스에 optional 표시 없음(= 필수), 서버 기본값 없음 <span class="ok">✓ 확인</span></p>
       <p>thinking(사고) 토큰도 여기에 셈 → 한도 = thinking + 답 전체 <span class="ok">✓ 확인</span></p>
       <p>크게 잡는 것 자체는 rate limit(속도 제한) 손해 없음(OTPM 은 실제 생성 토큰만 셈). 문제는 긴 비스트리밍 요청의 연결 끊김 → 스트리밍 또는 Batch <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> 로드밸런서 idle timeout. 오래 걸리는 응답을 한 번에 받으려 하면 중간 장비가 조용히 끊음 → 청크로 흘려 받거나(스트리밍) 비동기 잡으로 맡기고 결과를 가지러 감(Batch)</p>
   </div>
-  <h2 class="sec-h" id="max-tokens-case-h">지문</h2>
-  <section class="csx" id="max-tokens-case" aria-labelledby="max-tokens-case-h" data-tree="max-tokens-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n6&quot;,&quot;잘림&quot;],[&quot;n7&quot;,null],[&quot;n8&quot;,&quot;thinking 켜짐&quot;],[&quot;n9&quot;,null]]" data-flow="max-tokens-flow" data-scene="2">
-    <p class="csx-text">고객 문의 한 줄을 라벨 하나로 분류하는데 <code>max_tokens</code> 를 300 으로 두었다. 요청은 <mark class="csx-m" data-tag="thinking 켜짐">thinking 을 켠 채로<span class="csx-tag">thinking 켜짐</span></mark> 보낸다. 가끔 응답에 라벨이 없고 <mark class="csx-m" data-tag="잘림"><code>stop_reason: "max_tokens"</code> 가 찍힌다<span class="csx-tag">잘림</span></mark>. 팀원은 모델이 라벨을 빠뜨리는 버그라며 모델을 바꾸자고 한다. 무엇을 고칠까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="max-tokens-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>편지지를 몇 장 줄지 정하는 거예요.</p>
+<ul>
+<li>장수를 너무 적게 주면 편지가 중간에 끊겨요.</li>
+<li>생각을 적는 메모도 같은 편지지를 써서, 메모가 길면 본문 쓸 자리가 없어요.</li>
+<li>아주 긴 편지는 우체부가 문 앞에서 오래 못 기다려요. 조금씩 받거나, 나중에 찾으러 가야 해요.</li>
+<li>이 쪽은 "언제 장수를 늘리고, 언제 받는 방법을 바꾸나"를 모아 둔 곳이에요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-max-tokens" aria-labelledby="vx-max-tokens-cap">
+  <div class="vx-player" data-vx-scene="max-tokens"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-max-tokens-cap">영상 — thinking도 max_tokens에 센다 (약 43초 · 소리 없음 · 자막). 실행 5번의 thinking 길이 · 잘린 횟수 · 올린 한도는 그림용 가정 · 실측 아님 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">상한이지 목표가 아님</p>
+<ul>
+<li><code>max_tokens</code> 는 "여기까지만"이라는 절대 상한. 모델은 할 말이 끝나면 먼저 멈춤.</li>
+<li>thinking(사고) 토큰과 답 텍스트가 한 예산을 같이 씀. thinking 이 길면 답이 못 나옴.</li>
+<li>상한을 크게 잡는 것 자체는 rate limit(속도 제한)에 손해가 없음 (OTPM 은 실제 생성 토큰만 셈).</li>
+</ul>
+<p class="lead">긴 요청은 받는 방법이 문제</p>
+<ul>
+<li>오래 걸리는 비스트리밍 요청은 중간 네트워크가 유휴 연결로 보고 끊을 수 있음.</li>
+<li>그래서 SDK 는 10분을 넘을 것 같은 비스트리밍 요청을 보내기 전에 막음.</li>
+<li>스트리밍 = 연결을 계속 살려 둠. Batch = 연결을 끊고 나중에 결과를 가지러 감.</li>
+</ul>
+<p class="lead">잘림은 오류가 아님</p>
+<ul>
+<li>한도에 닿으면 HTTP 200 + <code>stop_reason: "max_tokens"</code>. 앱이 이 값을 봐야 잘린 걸 알 수 있음.</li>
+<li>처리 : 한도 올리기 · 이어서 생성 · 불완전하다는 안내 붙이기. 구조화 출력은 잘리면 스키마가 깨질 수 있음.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>이 요청의 전체 출력(thinking + 답)이 한도 안에 들어가나?</li>
+<li>다 만드는 데 오래 걸리면, 연결을 살려 둘 건가(스트리밍) 나중에 가지러 갈 건가(Batch)?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="max-tokens-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="max-tokens-tree-1" aria-labelledby="max-tokens-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7 n8 n9|n1 n6 n7 n10 n11">
     <div class="t5-fh"><h3 id="max-tokens-tree-1-h">②③ 증상으로 <span class="pg">[4.5③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -423,7 +472,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="max-tokens-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="max-tokens-flow" aria-label="max_tokens 와 긴 출력 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["앱 (SDK)","네트워크","모델"],"blocks":[],"rules":[null,null,"thinking 토큰도 `max_tokens` 에 셈"],"question":"긴 답은 어떻게 받아야 끊기지 않을까?","scenes":[{"name":"① 큰 한도 + 비스트리밍","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["\"문의 3개월 치로","긴 보고서 써 줘\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"비스트리밍 + 큰 한도","art":{"kind":"slip","lines":["max_tokens : 100000","스트리밍 : 안 씀"]}},{"kind":"mark","step":"끊김","at":{"col":1},"label":"유휴 연결을 끊음","art":{"kind":"slip","lines":["오래 조용한 연결","→ 응답 없이 끊김"]}},{"kind":"end","label":"그래서 SDK 는 비스트리밍 요청이 10분 타임아웃을 넘을 것으로 예상되면 막음 → 스트리밍 또는 Batch"}]},{"name":"② 스트리밍으로 받기","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["\"문의 3개월 치로","긴 보고서 써 줘\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"`.stream()` 으로 연결 유지","art":{"kind":"slip","lines":["`.stream(…)`","max_tokens : 100000"]}},{"kind":"move","step":"전달","from":{"col":1},"to":2,"label":"스트리밍","art":{"kind":"slip","lines":["이벤트가 계속 흐름","연결이 조용하지 않음"]}},{"kind":"move","step":"응답","from":{"col":2},"to":0,"label":"이벤트를 모아 완전한 `Message`","art":{"kind":"slip","lines":["`.get_final_message()`","→ 완전한 `Message`"]}},{"kind":"end","label":"이벤트 처리가 필요 없어도 SDK 가 스트림을 모아 완전한 `Message` 로 줌"}]},{"name":"③ thinking 이 한도를 다 씀","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["문의 : \"셔츠 교환 되나요?\"","→ 라벨 하나로 분류"]}},{"kind":"move","step":"요청","from":{"col":0},"to":2,"label":"한도가 작음 · thinking 켜짐","art":{"kind":"slip","lines":["max_tokens : 300","thinking : 켜짐"]}},{"kind":"mark","step":"thinking","at":{"col":2},"label":"thinking 토큰도 한도에 셈","art":{"kind":"slip","lines":["thinking 이 300 토큰을","다 씀","라벨 쓸 자리 없음"]}},{"kind":"move","step":"응답","from":{"col":2},"to":0,"label":"텍스트 잘림 또는 없음","art":{"kind":"slip","lines":["stop_reason :","\"max_tokens\"","text : (없음)"]}},{"kind":"end","label":"한도를 올리거나 effort 를 낮춤"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -458,7 +507,7 @@
     </details>
   </figure>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="max-tokens-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
@@ -511,125 +560,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"max_tokens 기본값 = 비스트리밍 16,000 · 스트리밍 64,000 · 분류 256" → 서버 기본값 없음, 요청마다 정함. 64k 는 Opus xhigh·max 권장 출발점 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"16,000 을 넘으면 스트리밍" → SDK 기준은 토큰 수가 아니라 예상 시간 10분 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"타임아웃이 나면 타임아웃 값만 늘림" → 공식 처방은 스트리밍 · Batch · keep-alive <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"max_tokens 를 크게 잡으면 OTPM 을 더 먹음" → 실제 생성 토큰만 셈, 손해 없음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>effort 올렸더니 답이 잘림 → 모델 탓 아님. thinking 토큰도 <code>max_tokens</code> 에 셈 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>잘린 JSON 을 파서에서 억지로 고침 → <code>stop_reason</code> 보고 더 높은 <code>max_tokens</code> 로 재시도 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"max_tokens 를 낮추면 답이 알아서 짧고 완결되게 나옴" → 넘으면 잘릴 뿐, 짧게는 프롬프트로 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"The SDKs validate that your non-streaming Messages API requests are not expected to exceed a 10-minute timeout."</p>
-        <p lang="en">"Avoid setting a large <code>max_tokens</code> value without using the streaming Messages API or Message Batches API"</p>
-        <p lang="en">"This happens because thinking tokens count toward <code>max_tokens</code>, so a long thinking pass can consume the budget before the text response completes."</p>
-        <p lang="en">"Starting at 64k tokens and tuning from there is a reasonable default."</p>
-        <p lang="en">"The <code>max_tokens</code> parameter does not factor into OTPM rate limit calculations, so there is no rate limit downside to setting a higher <code>max_tokens</code> value."</p>
-        <p lang="en">"Note that our models may stop *before* reaching this maximum."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="stop-reason.html">■ stop_reason 으로 분기</a></li>
-        <li><a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
-        <li><a href="batch-vs-sync.html">◆ Batch API vs 동기 호출</a></li>
-        <li><a href="rate-limits.html">■ rate limit</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 4.5 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>messages-create <span class="src">(en 11~21·233줄)</span></li>
-        <li>errors <span class="src">(ko·en 14·67~80줄)</span></li>
-        <li>streaming <span class="src">(ko 7~11줄)</span></li>
-        <li>thinking-troubleshooting <span class="src">(ko·en 138~144줄)</span></li>
-        <li>effort <span class="src">(ko·en 35·47·59·69·87줄)</span></li>
-        <li>handling-stop-reasons <span class="src">(ko·en 10·50줄, en 129~131·169줄)</span></li>
-        <li>structured-outputs <span class="src">(ko·en 182~188줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/ko/api/rate-limits">rate-limits</a> <span class="src">(ko·en 86줄)</span></li>
-        <li>batch-processing <span class="src">(ko 39·193줄, en 197줄)</span></li>
-        <li>prompt-caching <span class="src">(en 406·464줄)</span></li>
-        <li>reduce-latency <span class="src">(ko 33·34줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 15·168·343줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
-        <li>필수 여부는 API 레퍼런스 표기(optional 없음)로 판단</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">4.5③</li>
-        <li class="chip">3.3①</li>
-        <li class="chip">1.2②</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-max-tokens" aria-labelledby="vx-max-tokens-cap">
-  <div class="vx-player" data-vx-scene="max-tokens"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-max-tokens-cap">영상 — thinking도 max_tokens에 센다 (약 43초 · 소리 없음 · 자막). 실행 5번의 thinking 길이 · 잘린 횟수 · 올린 한도는 그림용 가정 · 실측 아님 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>max-tokens</dd>
-  <dt>본편</dt>
-  <dd>4.5</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">4.5③</li><li class="chip">3.3①</li><li class="chip">1.2②</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>편지지를 몇 장 줄지 정하는 거예요.</p>
-<ul>
-<li>장수를 너무 적게 주면 편지가 중간에 끊겨요.</li>
-<li>생각을 적는 메모도 같은 편지지를 써서, 메모가 길면 본문 쓸 자리가 없어요.</li>
-<li>아주 긴 편지는 우체부가 문 앞에서 오래 못 기다려요. 조금씩 받거나, 나중에 찾으러 가야 해요.</li>
-<li>이 쪽은 "언제 장수를 늘리고, 언제 받는 방법을 바꾸나"를 모아 둔 곳이에요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">상한이지 목표가 아님</p>
-<ul>
-<li><code>max_tokens</code> 는 "여기까지만"이라는 절대 상한. 모델은 할 말이 끝나면 먼저 멈춤.</li>
-<li>thinking(사고) 토큰과 답 텍스트가 한 예산을 같이 씀. thinking 이 길면 답이 못 나옴.</li>
-<li>상한을 크게 잡는 것 자체는 rate limit(속도 제한)에 손해가 없음 (OTPM 은 실제 생성 토큰만 셈).</li>
-</ul>
-<p class="lead">긴 요청은 받는 방법이 문제</p>
-<ul>
-<li>오래 걸리는 비스트리밍 요청은 중간 네트워크가 유휴 연결로 보고 끊을 수 있음.</li>
-<li>그래서 SDK 는 10분을 넘을 것 같은 비스트리밍 요청을 보내기 전에 막음.</li>
-<li>스트리밍 = 연결을 계속 살려 둠. Batch = 연결을 끊고 나중에 결과를 가지러 감.</li>
-</ul>
-<p class="lead">잘림은 오류가 아님</p>
-<ul>
-<li>한도에 닿으면 HTTP 200 + <code>stop_reason: "max_tokens"</code>. 앱이 이 값을 봐야 잘린 걸 알 수 있음.</li>
-<li>처리 : 한도 올리기 · 이어서 생성 · 불완전하다는 안내 붙이기. 구조화 출력은 잘리면 스키마가 깨질 수 있음.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>이 요청의 전체 출력(thinking + 답)이 한도 안에 들어가나?</li>
-<li>다 만드는 데 오래 걸리면, 연결을 살려 둘 건가(스트리밍) 나중에 가지러 갈 건가(Batch)?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -725,7 +658,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -800,7 +732,37 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="max-tokens-practice-h">연습 문제</h2>
 
+  <section class="csx" id="max-tokens-case" aria-labelledby="max-tokens-case-h" data-tree="max-tokens-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n6&quot;,&quot;잘림&quot;],[&quot;n7&quot;,null],[&quot;n8&quot;,&quot;thinking 켜짐&quot;],[&quot;n9&quot;,null]]" data-flow="max-tokens-flow" data-scene="2">
+    <p class="csx-text">고객 문의 한 줄을 라벨 하나로 분류하는데 <code>max_tokens</code> 를 300 으로 두었다. 요청은 <mark class="csx-m" data-tag="thinking 켜짐">thinking 을 켠 채로<span class="csx-tag">thinking 켜짐</span></mark> 보낸다. 가끔 응답에 라벨이 없고 <mark class="csx-m" data-tag="잘림"><code>stop_reason: "max_tokens"</code> 가 찍힌다<span class="csx-tag">잘림</span></mark>. 팀원은 모델이 라벨을 빠뜨리는 버그라며 모델을 바꾸자고 한다. 무엇을 고칠까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="max-tokens-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"max_tokens 기본값 = 비스트리밍 16,000 · 스트리밍 64,000 · 분류 256" → 서버 기본값 없음, 요청마다 정함. 64k 는 Opus xhigh·max 권장 출발점 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"16,000 을 넘으면 스트리밍" → SDK 기준은 토큰 수가 아니라 예상 시간 10분 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"타임아웃이 나면 타임아웃 값만 늘림" → 공식 처방은 스트리밍 · Batch · keep-alive <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"max_tokens 를 크게 잡으면 OTPM 을 더 먹음" → 실제 생성 토큰만 셈, 손해 없음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>effort 올렸더니 답이 잘림 → 모델 탓 아님. thinking 토큰도 <code>max_tokens</code> 에 셈 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>잘린 JSON 을 파서에서 억지로 고침 → <code>stop_reason</code> 보고 더 높은 <code>max_tokens</code> 로 재시도 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"max_tokens 를 낮추면 답이 알아서 짧고 완결되게 나옴" → 넘으면 잘릴 뿐, 짧게는 프롬프트로 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"The SDKs validate that your non-streaming Messages API requests are not expected to exceed a 10-minute timeout."</p>
+        <p lang="en">"Avoid setting a large <code>max_tokens</code> value without using the streaming Messages API or Message Batches API"</p>
+        <p lang="en">"This happens because thinking tokens count toward <code>max_tokens</code>, so a long thinking pass can consume the budget before the text response completes."</p>
+        <p lang="en">"Starting at 64k tokens and tuning from there is a reasonable default."</p>
+        <p lang="en">"The <code>max_tokens</code> parameter does not factor into OTPM rate limit calculations, so there is no rate limit downside to setting a higher <code>max_tokens</code> value."</p>
+        <p lang="en">"Note that our models may stop *before* reaching this maximum."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. "짧은 답이니 한도도 작게" 가 틀리는 때</h4>
@@ -835,7 +797,6 @@
 <li><span class="lead">근거 :</span> effort en 59줄 · thinking-troubleshooting en 142줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -917,7 +878,38 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="max-tokens-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="stop-reason.html">■ stop_reason 으로 분기</a></li>
+        <li><a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
+        <li><a href="batch-vs-sync.html">◆ Batch API vs 동기 호출</a></li>
+        <li><a href="rate-limits.html">■ rate limit</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 4.5 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>messages-create <span class="src">(en 11~21·233줄)</span></li>
+        <li>errors <span class="src">(ko·en 14·67~80줄)</span></li>
+        <li>streaming <span class="src">(ko 7~11줄)</span></li>
+        <li>thinking-troubleshooting <span class="src">(ko·en 138~144줄)</span></li>
+        <li>effort <span class="src">(ko·en 35·47·59·69·87줄)</span></li>
+        <li>handling-stop-reasons <span class="src">(ko·en 10·50줄, en 129~131·169줄)</span></li>
+        <li>structured-outputs <span class="src">(ko·en 182~188줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/ko/api/rate-limits">rate-limits</a> <span class="src">(ko·en 86줄)</span></li>
+        <li>batch-processing <span class="src">(ko 39·193줄, en 197줄)</span></li>
+        <li>prompt-caching <span class="src">(en 406·464줄)</span></li>
+        <li>reduce-latency <span class="src">(ko 33·34줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 15·168·343줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
+        <li>필수 여부는 API 레퍼런스 표기(optional 없음)로 판단</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -927,8 +919,7 @@
 <li>목록 4.5③ 의 숫자(10분 · 64k)와 원문이 같았음. 목록의 "매력적인 오답" 숫자 16,000/64,000/256 은 원문에 근거 없음(영상 교정 대상 그대로).</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/max-tokens.md</p>

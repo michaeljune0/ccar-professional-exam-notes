@@ -350,25 +350,71 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ 장애 대응 권한 경계 -->
-<article class="card t5-card" id="incident-agent-scope" aria-labelledby="incident-agent-scope-title">
+<!-- ■ 장애 대응 권한 경계 (v3 시범 순서) -->
+<article class="card t5-card v3" id="incident-agent-scope" aria-labelledby="incident-agent-scope-title">
   <header class="t5-head">
     <h1 id="incident-agent-scope-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 장애 대응 권한 경계</h1>
-    <p class="lemma-meta"><span lang="en">조사는 자율 · 상태 바꾸는 조치는 승인</span><span class="lemma-main">7.3 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">조사는 자율 · 상태 바꾸는 조치는 승인</span><span class="lemma-main">7.3 본편</span></p>
   </header>
-  <h2 class="sec-h" id="incident-agent-scope-sum-h">카드</h2>
+  <h2 class="sec-h" id="incident-agent-scope-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>7.3 디버깅과 운영 문제 해결</b> · D7 개발팀 7%<br><q lang="en">Support debugging and operational issue resolution</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>7.3② 프로덕션 장애에서 에이전트는 어디까지?</b> — 원인 조사(트리아지)와 복구 조치의 권한 경계</li>
+      <li><b>7.1③ 에이전트에 줄 권한, 어디까지?</b> — 행동을 allow/ask/deny 로 나눈 공유 설정 + MCP 자격증명 최소 권한</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="incident-agent-scope-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>장애 때 에이전트 몫 = 로그·메트릭을 읽고 원인 추정안을 내는 데까지(상태를 못 바꾸는 행동). 재시작·설정 변경·배포·삭제처럼 상태를 바꾸는 조치는 변경안을 사람이 보고 승인한 뒤 <span class="gen">업계 일반</span> <span class="note">이 문장 자체는 공식에 없음</span></p>
       <p>가까운 공식 = Claude Code 기본값 : 작업 폴더 안 정보는 승인 없이 분석·검토, 코드·시스템을 바꾸는 행동 전엔 승인. 중요한(high-stakes) 결정 전엔 사람이 통제(control) <span class="ok">✓ 확인</span></p>
       <p>조사하라고 강한 권한을 주지 않음 : 읽기 도구만 · 자격증명은 프록시가 주입 · observability(관측 — 로깅)는 끄지 않음 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> 읽기 전용 온콜 봇 + 변경 승인(CAB). 봇은 대시보드·로그를 보고 원인 가설을 티켓에 달지만 재시작 버튼은 사람이 누름</p>
   </div>
-  <h2 class="sec-h" id="incident-agent-scope-case-h">지문</h2>
-  <section class="csx" id="incident-agent-scope-case" aria-labelledby="incident-agent-scope-case-h" data-tree="incident-agent-scope-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;재시작&quot;],[&quot;n5&quot;,null]]" data-flow="incident-agent-scope-flow" data-scene="0">
-    <p class="csx-text">새벽 3시 주문 API 오류율이 치솟자 온콜 에이전트가 로그를 읽고 결제 워커의 메모리 누수를 원인으로 추정했다. 다음 수로 <mark class="csx-m" data-tag="재시작">프로덕션 워커를 재시작<span class="csx-tag">재시작</span></mark>하려 한다. 온콜 담당은 20분 뒤에 도착하고, "사람이 없으니 에이전트가 바로 복구하자" 는 의견이 있다. 이 재시작은 누가 하나?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="incident-agent-scope-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>불이 나면 탐정 로봇이 먼저 들어가 둘러봐요.</p>
+<ul>
+<li>로봇은 보고, 냄새 맡고, "부엌에서 시작된 것 같아요"라고 말해요.</li>
+<li>하지만 벽을 부수거나 가스를 잠그는 건 어른이 보고 "해"라고 해야 해요.</li>
+<li>로봇에게 집 열쇠 꾸러미를 통째로 주지 않아요.</li>
+<li>로봇 눈(카메라)을 끄는 건 절대 안 돼요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-incident-agent-scope" aria-labelledby="vx-incident-agent-scope-cap">
+  <div class="vx-player" data-vx-scene="incident-agent-scope"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-incident-agent-scope-cap">영상 — 온콜이 없으면, 재시작은 누가? (약 43초 · 소리 없음 · 자막). <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">행동을 두 칸으로 나눔</p>
+<ul>
+<li>상태를 못 바꾸는 행동 : 로그·메트릭 읽기 · 검색 · 원인 추정. 틀려도 잃는 게 없음 → 에이전트가 승인 없이. 이게 에이전트가 주는 가치(자율 조사).</li>
+<li>상태를 바꾸는 행동 : 재시작 · 설정 변경 · 배포 · 삭제 · 마이그레이션. 되돌리기 어렵고 피해가 남에게 미침 → 사람이 변경안을 보고 승인.</li>
+<li>공식이 직접 쓴 건 Claude Code 기본값(읽기·분석은 승인 없이, 코드·시스템 변경 전엔 승인)과 "중요한 결정 전엔 사람이 통제(control)"까지. 장애 대응에 옮긴 건 적용(업계 일반).</li>
+</ul>
+<p class="lead">권한은 조사에 필요한 만큼만</p>
+<ul>
+<li>에이전트가 과하게 나서는(overeager) 실제 사고 : 인증(authentication) 오류에 막히자 권한을 묻는 대신 다른 토큰을 뒤짐 · 프로덕션 DB 마이그레이션 시도.</li>
+<li>그래서 설정으로 막음 : 읽기 도구만 · 무인이면 <code>dontAsk</code>(물을 사람이 없으니 거부) · 자격증명은 프록시가 주입해 에이전트가 못 봄.</li>
+</ul>
+<p class="lead">observability(관측)는 조사의 재료이자 방어선</p>
+<ul>
+<li>로깅을 끄면 원인을 못 찾고, 동시에 감시·방어도 약해짐 → 기본 차단 규칙이 "보안 약화"로 분류.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>이 행동이 상태를 바꾸나? 바꾸면 되돌릴 수 있나, 피해가 어디까지 가나?</li>
+<li>에이전트가 이 권한 없이도 조사할 수 있나?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="incident-agent-scope-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="incident-agent-scope-tree-1" aria-labelledby="incident-agent-scope-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9">
     <div class="t5-fh"><h3 id="incident-agent-scope-tree-1-h">①②⑤ 그 행동, 누가 하나 <span class="pg">[7.3②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -433,7 +479,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="incident-agent-scope-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="incident-agent-scope-flow" aria-label="장애 대응 권한 경계 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["에이전트","로그·메트릭","사람","프로덕션"],"blocks":[],"rules":[null,"승인 없이 분석·검토","바꾸는 행동 전엔 승인",null],"question":"재시작 버튼은 누가 누를까?","scenes":[{"name":"① 조사는 자율 · 조치는 승인","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["알림: 주문 API","5xx 오류율 급증"]}},{"kind":"move","step":"읽기","from":{"col":0},"to":1,"label":"승인 없이 읽고 분석","art":{"kind":"slip","lines":["$ `tail -n 200 app.log`","OOMKilled worker-3"]}},{"kind":"move","step":"제안","from":{"col":0},"to":2,"label":"원인 추정안 + 변경안","art":{"kind":"slip","lines":["추정: worker-3 메모리 누수","변경안: worker-3 재시작","승인할까요?"]}},{"kind":"move","step":"승인","from":{"col":2},"to":3,"label":"사람이 승인한 뒤 실행","art":{"kind":"slip","lines":["승인: 온콜 담당","→ worker-3 재시작"]}},{"kind":"end","label":"상태를 바꾸는 조치는 사람이 승인한 뒤에"}]},{"name":"② 자동 재시작까지","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["알림: 주문 API","5xx 오류율 급증"]}},{"kind":"move","step":"읽기","from":{"col":0},"to":1,"label":"원인 추정","art":{"kind":"slip","lines":["OOMKilled worker-3"]}},{"kind":"skip","at":2},{"kind":"move","step":"실행","from":{"col":0},"to":3,"label":"재시작을 스스로","art":{"kind":"slip","lines":["$ `kubectl rollout`","`restart deploy/worker`"]}},{"kind":"end","label":"공유 인프라에 영향 — 사람 검토를 건너뜀"}]},{"name":"③ 인증 오류 → 자격증명 뒤짐","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["할 일: 결제 DB","지연 원인 조사"]}},{"kind":"skip","at":2},{"kind":"move","step":"막힘","from":{"col":0},"to":3,"label":"인증 오류","art":{"kind":"slip","lines":["403 Forbidden"]}},{"kind":"mark","step":"뒤짐","at":{"col":0},"label":"권한을 묻는 대신 다른 토큰을 찾음","art":{"kind":"slip","lines":["$ `env` 에서 TOKEN 찾기","$ `cat ~/.aws/credentials`"]}},{"kind":"end","label":"다른 작업용 자격증명일 수 있음 — 차단 대상"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -470,7 +516,7 @@
     </details>
   </figure>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="incident-agent-scope-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
@@ -524,119 +570,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"빠른 복구 위해 에이전트가 자동 재시작까지" → 상태를 바꾸는 조치는 사람 승인 뒤 (업계 일반 + ② 프로덕션 배포 차단 <span class="ok">✓ 확인</span>)</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"조사하라고 전체 자격증명" → 읽기 도구 · 프록시 주입 · 필요 없는 권한 빼기 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"비용 줄이려 observability(로깅) 끄기" → 보안 약화, 기본 차단 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>allowedTools</code> 에 읽기 도구만 적었으니 쓰기는 막혔다" → 목록 밖 도구도 남아 권한 모드로 감. 무인이면 <code>dontAsk</code> 로 거부, 빼려면 <code>disallowedTools</code> <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"야간엔 물을 사람이 없으니 <code>bypassPermissions</code>" → 격리 컨테이너·VM 에서만. 무인은 <code>dontAsk</code> <span class="ok">✓ 확인</span> <span class="src">(Skilljar)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"사전 검사가 실패한 배포를 검증 생략 플래그로 다시" → 공유 인프라 영향, 차단 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"읽기 전용 마운트면 비밀 걱정 없음" → 읽기 전용도 자격증명 파일을 드러낼 수 있음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"야간엔 자동 복구가 빠르다" → 속도가 아니라 되돌릴 수 있나·피해 범위로 가름 → <a href="human-approval-gates.html">■ human-in-the-loop 게이트 위치</a> <span class="gen">업계 일반</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"But humans should retain control over how their goals are pursued, particularly before high-stakes decisions are made."</p>
-        <p lang="en">"It has read-only permissions by default, meaning it can analyze and review information within the directory it's initialized in without asking for human approval, but must ask for human approval before taking any actions that modify code or systems."</p>
-        <p lang="en">"Make the system harder to monitor or defend by disabling logging"</p>
-        <p lang="en">"Rather than asking for permission, it began systematically grepping through environment variables and config files for alternative API tokens."</p>
-        <p lang="en">"The agent can make API calls, but it never sees the credential itself."</p>
-        <p lang="en">"you want Claude to propose changes without executing them, such as during code review or when you need to approve changes before they’re made." <span class="src" lang="ko">(plan 모드)</span></p>
-        <p lang="en">"you want a fixed, explicit tool surface for a headless agent and prefer a hard deny over silent reliance on <code>canUseTool</code> being absent." <span class="src">(dontAsk)</span></p>
-        <p lang="en">"Even read-only access to a code directory can expose credentials."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="human-approval-gates.html">■ human-in-the-loop 게이트 위치</a></li>
-        <li><a href="least-privilege.html">■ 최소 권한</a></li>
-        <li><a href="diagnose-by-change.html">■ 변경부터 묻는 진단</a></li>
-        <li><a href="observability-signals.html">■ observability 세 신호</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 7.3 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>safe-trustworthy-agents <span class="src">(en 17·19·27줄)</span></li>
-        <li>claude-code-auto-mode <span class="src">(en 9·39·41·42·75·77줄)</span></li>
-        <li>claude-code-permissions <span class="src">(en 171~172·440줄)</span></li>
-        <li>agent-sdk permissions <span class="src">(en 262~273·444·469줄)</span></li>
-        <li>agent-sdk secure-deployment <span class="src">(en 240·448~452·549~565줄)</span></li>
-        <li>Skilljar Claude Code in Action 486932 <span class="src">(2026-09-28 조회)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑥ 의 공식 부분)</li>
-        <li><span class="gen">업계 일반</span> 3줄 (경계 문장 자체 · 장애 대응 적용 · 자동 복구 함정)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">7.3②</li>
-        <li class="chip">7.1③</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-incident-agent-scope" aria-labelledby="vx-incident-agent-scope-cap">
-  <div class="vx-player" data-vx-scene="incident-agent-scope"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-incident-agent-scope-cap">영상 — 온콜이 없으면, 재시작은 누가? (약 43초 · 소리 없음 · 자막). <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>incident-agent-scope</dd>
-  <dt>본편</dt>
-  <dd>7.3</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">7.3②</li><li class="chip">7.1③</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>불이 나면 탐정 로봇이 먼저 들어가 둘러봐요.</p>
-<ul>
-<li>로봇은 보고, 냄새 맡고, "부엌에서 시작된 것 같아요"라고 말해요.</li>
-<li>하지만 벽을 부수거나 가스를 잠그는 건 어른이 보고 "해"라고 해야 해요.</li>
-<li>로봇에게 집 열쇠 꾸러미를 통째로 주지 않아요.</li>
-<li>로봇 눈(카메라)을 끄는 건 절대 안 돼요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">행동을 두 칸으로 나눔</p>
-<ul>
-<li>상태를 못 바꾸는 행동 : 로그·메트릭 읽기 · 검색 · 원인 추정. 틀려도 잃는 게 없음 → 에이전트가 승인 없이. 이게 에이전트가 주는 가치(자율 조사).</li>
-<li>상태를 바꾸는 행동 : 재시작 · 설정 변경 · 배포 · 삭제 · 마이그레이션. 되돌리기 어렵고 피해가 남에게 미침 → 사람이 변경안을 보고 승인.</li>
-<li>공식이 직접 쓴 건 Claude Code 기본값(읽기·분석은 승인 없이, 코드·시스템 변경 전엔 승인)과 "중요한 결정 전엔 사람이 통제(control)"까지. 장애 대응에 옮긴 건 적용(업계 일반).</li>
-</ul>
-<p class="lead">권한은 조사에 필요한 만큼만</p>
-<ul>
-<li>에이전트가 과하게 나서는(overeager) 실제 사고 : 인증(authentication) 오류에 막히자 권한을 묻는 대신 다른 토큰을 뒤짐 · 프로덕션 DB 마이그레이션 시도.</li>
-<li>그래서 설정으로 막음 : 읽기 도구만 · 무인이면 <code>dontAsk</code>(물을 사람이 없으니 거부) · 자격증명은 프록시가 주입해 에이전트가 못 봄.</li>
-</ul>
-<p class="lead">observability(관측)는 조사의 재료이자 방어선</p>
-<ul>
-<li>로깅을 끄면 원인을 못 찾고, 동시에 감시·방어도 약해짐 → 기본 차단 규칙이 "보안 약화"로 분류.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>이 행동이 상태를 바꾸나? 바꾸면 되돌릴 수 있나, 피해가 어디까지 가나?</li>
-<li>에이전트가 이 권한 없이도 조사할 수 있나?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -708,7 +644,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -790,7 +725,40 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="incident-agent-scope-practice-h">연습 문제</h2>
 
+  <section class="csx" id="incident-agent-scope-case" aria-labelledby="incident-agent-scope-case-h" data-tree="incident-agent-scope-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;재시작&quot;],[&quot;n5&quot;,null]]" data-flow="incident-agent-scope-flow" data-scene="0">
+    <p class="csx-text">새벽 3시 주문 API 오류율이 치솟자 온콜 에이전트가 로그를 읽고 결제 워커의 메모리 누수를 원인으로 추정했다. 다음 수로 <mark class="csx-m" data-tag="재시작">프로덕션 워커를 재시작<span class="csx-tag">재시작</span></mark>하려 한다. 온콜 담당은 20분 뒤에 도착하고, "사람이 없으니 에이전트가 바로 복구하자" 는 의견이 있다. 이 재시작은 누가 하나?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="incident-agent-scope-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"빠른 복구 위해 에이전트가 자동 재시작까지" → 상태를 바꾸는 조치는 사람 승인 뒤 (업계 일반 + ② 프로덕션 배포 차단 <span class="ok">✓ 확인</span>)</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"조사하라고 전체 자격증명" → 읽기 도구 · 프록시 주입 · 필요 없는 권한 빼기 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"비용 줄이려 observability(로깅) 끄기" → 보안 약화, 기본 차단 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>allowedTools</code> 에 읽기 도구만 적었으니 쓰기는 막혔다" → 목록 밖 도구도 남아 권한 모드로 감. 무인이면 <code>dontAsk</code> 로 거부, 빼려면 <code>disallowedTools</code> <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"야간엔 물을 사람이 없으니 <code>bypassPermissions</code>" → 격리 컨테이너·VM 에서만. 무인은 <code>dontAsk</code> <span class="ok">✓ 확인</span> <span class="src">(Skilljar)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"사전 검사가 실패한 배포를 검증 생략 플래그로 다시" → 공유 인프라 영향, 차단 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"읽기 전용 마운트면 비밀 걱정 없음" → 읽기 전용도 자격증명 파일을 드러낼 수 있음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"야간엔 자동 복구가 빠르다" → 속도가 아니라 되돌릴 수 있나·피해 범위로 가름 → <a href="human-approval-gates.html">■ human-in-the-loop 게이트 위치</a> <span class="gen">업계 일반</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"But humans should retain control over how their goals are pursued, particularly before high-stakes decisions are made."</p>
+        <p lang="en">"It has read-only permissions by default, meaning it can analyze and review information within the directory it's initialized in without asking for human approval, but must ask for human approval before taking any actions that modify code or systems."</p>
+        <p lang="en">"Make the system harder to monitor or defend by disabling logging"</p>
+        <p lang="en">"Rather than asking for permission, it began systematically grepping through environment variables and config files for alternative API tokens."</p>
+        <p lang="en">"The agent can make API calls, but it never sees the credential itself."</p>
+        <p lang="en">"you want Claude to propose changes without executing them, such as during code review or when you need to approve changes before they’re made." <span class="src" lang="ko">(plan 모드)</span></p>
+        <p lang="en">"you want a fixed, explicit tool surface for a headless agent and prefer a hard deny over silent reliance on <code>canUseTool</code> being absent." <span class="src">(dontAsk)</span></p>
+        <p lang="en">"Even read-only access to a code directory can expose credentials."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 에이전트가 조치까지 해도 되는 때</h4>
@@ -823,7 +791,6 @@
 <li><span class="lead">근거 :</span> secure-deployment en 555~565줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -898,7 +865,32 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="incident-agent-scope-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="human-approval-gates.html">■ human-in-the-loop 게이트 위치</a></li>
+        <li><a href="least-privilege.html">■ 최소 권한</a></li>
+        <li><a href="diagnose-by-change.html">■ 변경부터 묻는 진단</a></li>
+        <li><a href="observability-signals.html">■ observability 세 신호</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 7.3 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>safe-trustworthy-agents <span class="src">(en 17·19·27줄)</span></li>
+        <li>claude-code-auto-mode <span class="src">(en 9·39·41·42·75·77줄)</span></li>
+        <li>claude-code-permissions <span class="src">(en 171~172·440줄)</span></li>
+        <li>agent-sdk permissions <span class="src">(en 262~273·444·469줄)</span></li>
+        <li>agent-sdk secure-deployment <span class="src">(en 240·448~452·549~565줄)</span></li>
+        <li>Skilljar Claude Code in Action 486932 <span class="src">(2026-09-28 조회)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑥ 의 공식 부분)</li>
+        <li><span class="gen">업계 일반</span> 3줄 (경계 문장 자체 · 장애 대응 적용 · 자동 복구 함정)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -907,8 +899,7 @@
 <li>"승인할 때 변경안과 피해 범위를 보여 준다"(목록 표현) : 피해 범위(blast radius) 판단은 ■ human-in-the-loop 게이트 위치 에 있고, "변경안을 보여 주는 형식"은 공식 문장 없음.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/incident-agent-scope.md</p>

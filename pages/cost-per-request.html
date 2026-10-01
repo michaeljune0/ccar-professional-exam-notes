@@ -350,24 +350,76 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ per-request cost -->
-<article class="card t5-card" id="cost-per-request" aria-labelledby="cost-per-request-title">
+<!-- ■ per-request cost (v3 시범 순서) -->
+<article class="card t5-card v3" id="cost-per-request" aria-labelledby="cost-per-request-title">
   <header class="t5-head">
     <h1 id="cost-per-request-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> per-request cost</h1>
-    <p class="lemma-meta"><span lang="en">cost per request : input · output 단가 · 줄이는 순서</span><span class="lemma-main">1.6 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">cost per request : input · output 단가 · 줄이는 순서</span><span class="lemma-main">1.6 본편</span></p>
   </header>
-  <h2 class="sec-h" id="cost-per-request-sum-h">카드</h2>
+  <h2 class="sec-h" id="cost-per-request-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>1.6 비즈니스 가치 축 맞추기</b> · D1 설계 17%<br><q lang="en">Align solutions to business value pillars (efficiency, transformation, productivity, cost, performance SLAs)</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>1.6③ 한 건에 얼마, 한 달에 얼마?</b> — 비용 축을 숫자로 — 요청당 비용으로 설계안 비교</li>
+      <li><b>4.5② 보기마다 다른 최적화 — 이 시나리오의 레버는 무엇 하나?</b> — 시나리오 단서 → 레버 하나 <span class="note">(캐싱 · 배치 · 라우팅/effort · 스트리밍)</span></li>
+      <li><b>2.1① 정확도가 비용보다 중요한 복잡 추론 작업, 어느 모델로 시작하나?</b> — 출발 모델 고르기 <span class="note">(효율 우선 = Haiku 4.5 에서 올림 / 능력 우선 = Opus 5.5 에서 낮춤)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="cost-per-request-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>요청 1건 값 = 입력 토큰 × 입력 단가 + 출력 토큰 × 출력 단가 (캐시 쓰기·읽기는 입력가의 배수). 한 달 값 = 건당 값 × 건수 → 설계안은 건당 값으로 비교 <span class="ok">✓ 확인</span></p>
       <p>출력 단가 = 입력의 5배 (현행 모델 전부) → 어느 쪽 토큰이 많은지부터 봄 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> 클라우드 요금. 들어오는 트래픽은 싸고 나가는 트래픽(egress)이 비쌈 → 청구서의 큰 줄부터 줄임</p>
   </div>
-  <h2 class="sec-h" id="cost-per-request-case-h">지문</h2>
-  <section class="csx" id="cost-per-request-case" aria-labelledby="cost-per-request-case-h" data-tree="cost-per-request-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n8&quot;,&quot;출력이 큼&quot;],[&quot;n9&quot;,null],[&quot;n12&quot;,&quot;급하지 않음&quot;],[&quot;n13&quot;,null]]" data-flow="cost-per-request-flow" data-scene="2">
-    <p class="csx-text">쇼핑몰이 매일 밤 Sonnet 5 로 상품 리뷰 보고서를 만든다. 요청마다 고정 지침 2,500 토큰 + 리뷰 500 토큰을 넣고 <mark class="csx-m" data-tag="출력이 큼">보고서가 5,000 토큰씩 나온다<span class="csx-tag">출력이 큼</span></mark>. <mark class="csx-m" data-tag="급하지 않음">결과는 다음 날 아침에만 보면 된다<span class="csx-tag">급하지 않음</span></mark>. 팀은 "고정 지침이 있으니 캐싱부터"라고 한다. 청구서를 가장 크게 줄이는 lever(손잡이)는?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="cost-per-request-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>택배 요금이랑 비슷해요.</p>
+<ul>
+<li>보내는 상자(입력)보다 받는 상자(출력)가 다섯 배 비싸요.</li>
+<li>매번 똑같이 넣는 포장재는 창고에 맡기면 10분의 1 값이에요.</li>
+<li>급하지 않으면 느린 배송으로 반값이에요.</li>
+<li>그러니 영수증에서 제일 큰 줄부터 줄여요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-cost-per-request" aria-labelledby="vx-cost-per-request-cap">
+  <div class="vx-player" data-vx-scene="cost-per-request"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-cost-per-request-cap">영상 — 청구서를 가장 크게 줄이는 lever는? (약 43초 · 소리 없음 · 자막). 값 = 설명 md 계산(Sonnet 5 $2/$10 · 캐시 읽기 $0.20, 백만 토큰당 · 2026-09-28 조회) · 캐시 쓰기 값은 md 계산처럼 뺌 · &#x27;만약 몇 분 안에?&#x27; 는 조건을 바꿔 본 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">값의 뼈대</p>
+<ul>
+<li>요청 1건 = 입력 토큰 × 입력가 + 출력 토큰 × 출력가. 한 달 = 건당 × 건수.</li>
+<li>출력가 = 입력가의 5배 (Haiku 4.5 $1/$5 · Sonnet 5 $2/$10 · Opus 5.5 $4/$20 · Opus 5 $5/$25, 백만 토큰당).</li>
+<li>그래서 "입력이 많은 일"과 "출력이 많은 일"은 줄이는 수단이 다름.</li>
+</ul>
+<p class="lead">수단별로 깎이는 곳</p>
+<ul>
+<li>캐싱 = 입력가에만 거는 배수. 쓰기 1.25배(5분) · 2배(1시간), 읽기 0.1배. 출력은 그대로.</li>
+<li>배치 = 입력·출력 모두 50%. 대신 끝나는 시각을 약속 안 함. 캐싱 할인과 함께 적용됨.</li>
+<li>모델 = 단가 자체를 바꿈. Opus 5.5 → Haiku 4.5 는 입력·출력 모두 4분의 1. 대신 품질이 흔들릴 수 있어 eval 로 확인.</li>
+<li>effort = 한 모델 안에서 출력 토큰(thinking(사고)·도구 호출·답)을 줄임.</li>
+</ul>
+<p class="lead">곱해지는 것 · 숨은 것</p>
+<ul>
+<li>새 토크나이저 : 같은 글이 약 30% 더 많은 토큰 → 단가표가 같아도 청구가 늘 수 있음.</li>
+<li>미국 전용 추론 1.1배 · fast mode 는 Opus 5.5 에서 2배 단가($8/$40).</li>
+<li>도구 정의 · 도구 시스템 프롬프트 · <code>tool_result</code> · 웹 검색 결과는 전부 입력 토큰. 웹 검색은 1,000회당 $10 따로.</li>
+<li>1M 창은 전 구간 같은 단가 → 긴 요청이라 할증 붙는 일은 없음(4.6 이후).</li>
+</ul>
+<p class="lead">공식 줄이는 순서</p>
+<ul>
+<li>맞는 모델 → 캐싱 → 배치(급하지 않은 일) → 사용 패턴 감시.</li>
+<li>이 순서는 목록일 뿐 지문 조건이 먼저 : 청구서의 큰 줄이 입력인가 출력인가, 몇 분 안에 답해야 하는가.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="cost-per-request-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="cost-per-request-tree-1" aria-labelledby="cost-per-request-tree-1-h" data-paths="n1 n2 n3 n4 n5|n1 n2 n3 n6 n7|n1 n8 n9 n10 n11|n1 n8 n9 n12 n13">
     <div class="t5-fh"><h3 id="cost-per-request-tree-1-h">①② 청구서의 큰 줄 <span class="pg">[1.6③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -478,7 +530,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="cost-per-request-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="cost-per-request-flow" aria-label="per-request cost 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["요청","캐시","모델","청구서"],"blocks":[{"name":"고정 앞부분","var":false},{"name":"바뀌는 입력","var":true}],"rules":[null,null,null,"입력 토큰 × 입력가 + 출력 토큰 × 출력가 (출력 = 입력의 5배)"],"question":"청구서의 큰 줄은 입력일까, 출력일까?","scenes":[{"name":"① 긴 고정 앞부분 → 캐싱","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Haiku 4.5","고정 앞부분 6,000","질문 200 · 답 300"]}},{"kind":"move","step":"요청 1","from":{"block":"고정 앞부분"},"to":1,"label":"쓰기 1.25배","art":{"kind":"slip","lines":["캐시 쓰기","6,000 × 1.25배"]}},{"kind":"mark","step":"요청 2","at":{"col":1},"label":"읽기 0.1배","art":{"kind":"slip","lines":["캐시 읽기","6,000 × $0.10/M"]}},{"kind":"move","step":"입력","from":{"block":"바뀌는 입력"},"to":2,"label":"입력 단가 그대로","art":{"kind":"slip","lines":["질문 200 × $1/M"]}},{"kind":"move","step":"청구","from":{"col":2},"to":3,"label":"출력은 입력의 5배","art":{"kind":"slip","lines":["출력 300 × $5/M","건당 $0.0077 → $0.0023"]}},{"kind":"end","label":"입력 대부분이 0.1배로 — 건당 약 70% 줄어듦 (계산)"}]},{"name":"② 짧은 입력 · 긴 출력 → 캐싱","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Sonnet 5","고정 지침 2,500","리뷰 500 · 보고서 5,000"]}},{"kind":"move","step":"캐싱","from":{"block":"고정 앞부분"},"to":1,"label":"할인은 입력가에만 붙는 배수 (출력은 그대로)","art":{"kind":"slip","lines":["캐시 읽기","2,500 × $0.20/M"]}},{"kind":"move","step":"입력","from":{"block":"바뀌는 입력"},"to":2,"label":"입력은 짧음","art":{"kind":"slip","lines":["리뷰 500 × $2/M"]}},{"kind":"move","step":"청구","from":{"col":2},"to":3,"label":"출력이 청구서 대부분","art":{"kind":"slip","lines":["출력 5,000 × $10/M = $0.05","건당 $0.056 → $0.0515"]}},{"kind":"end","label":"캐싱해도 총비용이 조금만 줄어듦 — 약 8% (계산)"}]},{"name":"③ 급하지 않은 대량 → 배치","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["밤새 보고서 1,000건","아침까지만 되면 됨"]}},{"kind":"move","step":"입력","from":{"col":0},"to":2,"label":"Batch API","art":{"kind":"slip","lines":["배치 1개 = 요청 1,000개","결과는 나중에 한꺼번에"]}},{"kind":"move","step":"청구","from":{"col":2},"to":3,"label":"입력·출력 모두 50%","art":{"kind":"slip","lines":["건당 $0.056 → $0.028"]}},{"kind":"end","label":"급하지 않은 작업은 Batch API — 캐싱 할인도 함께 받을 수 있음"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -515,7 +567,7 @@
     </details>
   </figure>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="cost-per-request-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
@@ -580,116 +632,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"과제와 상관없이 제일 작은 모델로" → 품질 위험 (샘플 2 B) <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"정책을 잘라 입력을 줄임" → 필요한 정책을 잃음 (샘플 2 A) <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>긴 출력 일에 캐싱만 → 할인은 입력가에만 붙는 배수라 출력 토큰이 청구서 대부분이면 캐싱해도 총비용이 조금만 줄어듦 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"몇 분 안에 답해야 하는데 배치로 50%" → 배치엔 분 단위 약속이 없음 (<a href="batch-vs-sync.html">◆ Batch API vs 동기 호출</a>) <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>새 모델로 옮기며 단가만 비교 → 토큰 수가 약 30% 느는 걸 놓침 <span class="ok">✓ 확인</span>. 예 Sonnet 4.6 $3/$15 → Sonnet 5 $2/$10 은 단가 33% 싸지만 토큰 1.3배면 약 13% 만 쌈 <span class="note">(계산)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>도구 정의·검색 결과를 빼고 입력을 셈 → 전부 입력 토큰 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"200k 넘는 긴 요청은 할증" → 4.6 이후는 1M 창 전체가 표준 단가 <span class="ok">✓ 확인</span> <span class="src">(옛 규칙 : 2026-02-05 릴리스 노트엔 200k 초과 할증 있었음)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Managed Agents 세션도 배치로 50%" → 배치 모드 없음 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"reducing both time-to-first-token and per-request cost without discarding required context" <span class="src" lang="ko">(가이드 샘플 2)</span></p>
-        <p lang="en">"downsizing blindly (B) risks quality" <span class="src" lang="ko">(가이드 샘플 2)</span></p>
-        <p lang="en">"Choose Haiku for simple tasks, Sonnet for most production workloads, and Opus for the most complex reasoning"</p>
-        <p lang="en">"Use the Batch API for non-time-sensitive tasks"</p>
-        <p lang="en">"This tokenizer produces approximately 30% more tokens for the same text."</p>
-        <p lang="en">"Batch API and prompt caching discounts can be combined."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 1.6 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>샘플 2 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li><a href="https://platform.claude.com/docs/ko/about-claude/pricing">pricing</a> <span class="src">(ko 15·43·79~89·95·107·117·123·131·137~153·233·298~336·342~349·401줄)</span></li>
-        <li>prompt-caching <span class="src">(ko 39~45줄 — 모델 단가표)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 15·46~47·96·168·383줄)</span></li>
-        <li>define-success <span class="src">(en-full 91~92줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
-        <li><span class="calc">계산</span> 2줄(① 출력 비중 · 함정 토크나이저 예)</li>
-        <li><span class="post">시험 뒤 변경</span> 1곳(② 최신 단가)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">1.6③</li>
-        <li class="chip">4.5②</li>
-        <li class="chip">2.1①</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-cost-per-request" aria-labelledby="vx-cost-per-request-cap">
-  <div class="vx-player" data-vx-scene="cost-per-request"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-cost-per-request-cap">영상 — 청구서를 가장 크게 줄이는 lever는? (약 43초 · 소리 없음 · 자막). 값 = 설명 md 계산(Sonnet 5 $2/$10 · 캐시 읽기 $0.20, 백만 토큰당 · 2026-09-28 조회) · 캐시 쓰기 값은 md 계산처럼 뺌 · &#x27;만약 몇 분 안에?&#x27; 는 조건을 바꿔 본 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>cost-per-request</dd>
-  <dt>본편</dt>
-  <dd>1.6</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">1.6③</li><li class="chip">4.5②</li><li class="chip">2.1①</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>택배 요금이랑 비슷해요.</p>
-<ul>
-<li>보내는 상자(입력)보다 받는 상자(출력)가 다섯 배 비싸요.</li>
-<li>매번 똑같이 넣는 포장재는 창고에 맡기면 10분의 1 값이에요.</li>
-<li>급하지 않으면 느린 배송으로 반값이에요.</li>
-<li>그러니 영수증에서 제일 큰 줄부터 줄여요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">값의 뼈대</p>
-<ul>
-<li>요청 1건 = 입력 토큰 × 입력가 + 출력 토큰 × 출력가. 한 달 = 건당 × 건수.</li>
-<li>출력가 = 입력가의 5배 (Haiku 4.5 $1/$5 · Sonnet 5 $2/$10 · Opus 5.5 $4/$20 · Opus 5 $5/$25, 백만 토큰당).</li>
-<li>그래서 "입력이 많은 일"과 "출력이 많은 일"은 줄이는 수단이 다름.</li>
-</ul>
-<p class="lead">수단별로 깎이는 곳</p>
-<ul>
-<li>캐싱 = 입력가에만 거는 배수. 쓰기 1.25배(5분) · 2배(1시간), 읽기 0.1배. 출력은 그대로.</li>
-<li>배치 = 입력·출력 모두 50%. 대신 끝나는 시각을 약속 안 함. 캐싱 할인과 함께 적용됨.</li>
-<li>모델 = 단가 자체를 바꿈. Opus 5.5 → Haiku 4.5 는 입력·출력 모두 4분의 1. 대신 품질이 흔들릴 수 있어 eval 로 확인.</li>
-<li>effort = 한 모델 안에서 출력 토큰(thinking(사고)·도구 호출·답)을 줄임.</li>
-</ul>
-<p class="lead">곱해지는 것 · 숨은 것</p>
-<ul>
-<li>새 토크나이저 : 같은 글이 약 30% 더 많은 토큰 → 단가표가 같아도 청구가 늘 수 있음.</li>
-<li>미국 전용 추론 1.1배 · fast mode 는 Opus 5.5 에서 2배 단가($8/$40).</li>
-<li>도구 정의 · 도구 시스템 프롬프트 · <code>tool_result</code> · 웹 검색 결과는 전부 입력 토큰. 웹 검색은 1,000회당 $10 따로.</li>
-<li>1M 창은 전 구간 같은 단가 → 긴 요청이라 할증 붙는 일은 없음(4.6 이후).</li>
-</ul>
-<p class="lead">공식 줄이는 순서</p>
-<ul>
-<li>맞는 모델 → 캐싱 → 배치(급하지 않은 일) → 사용 패턴 감시.</li>
-<li>이 순서는 목록일 뿐 지문 조건이 먼저 : 청구서의 큰 줄이 입력인가 출력인가, 몇 분 안에 답해야 하는가.</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -755,7 +700,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -837,7 +781,38 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="cost-per-request-practice-h">연습 문제</h2>
 
+  <section class="csx" id="cost-per-request-case" aria-labelledby="cost-per-request-case-h" data-tree="cost-per-request-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n8&quot;,&quot;출력이 큼&quot;],[&quot;n9&quot;,null],[&quot;n12&quot;,&quot;급하지 않음&quot;],[&quot;n13&quot;,null]]" data-flow="cost-per-request-flow" data-scene="2">
+    <p class="csx-text">쇼핑몰이 매일 밤 Sonnet 5 로 상품 리뷰 보고서를 만든다. 요청마다 고정 지침 2,500 토큰 + 리뷰 500 토큰을 넣고 <mark class="csx-m" data-tag="출력이 큼">보고서가 5,000 토큰씩 나온다<span class="csx-tag">출력이 큼</span></mark>. <mark class="csx-m" data-tag="급하지 않음">결과는 다음 날 아침에만 보면 된다<span class="csx-tag">급하지 않음</span></mark>. 팀은 "고정 지침이 있으니 캐싱부터"라고 한다. 청구서를 가장 크게 줄이는 lever(손잡이)는?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="cost-per-request-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"과제와 상관없이 제일 작은 모델로" → 품질 위험 (샘플 2 B) <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"정책을 잘라 입력을 줄임" → 필요한 정책을 잃음 (샘플 2 A) <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>긴 출력 일에 캐싱만 → 할인은 입력가에만 붙는 배수라 출력 토큰이 청구서 대부분이면 캐싱해도 총비용이 조금만 줄어듦 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"몇 분 안에 답해야 하는데 배치로 50%" → 배치엔 분 단위 약속이 없음 (<a href="batch-vs-sync.html">◆ Batch API vs 동기 호출</a>) <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>새 모델로 옮기며 단가만 비교 → 토큰 수가 약 30% 느는 걸 놓침 <span class="ok">✓ 확인</span>. 예 Sonnet 4.6 $3/$15 → Sonnet 5 $2/$10 은 단가 33% 싸지만 토큰 1.3배면 약 13% 만 쌈 <span class="note">(계산)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>도구 정의·검색 결과를 빼고 입력을 셈 → 전부 입력 토큰 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"200k 넘는 긴 요청은 할증" → 4.6 이후는 1M 창 전체가 표준 단가 <span class="ok">✓ 확인</span> <span class="src">(옛 규칙 : 2026-02-05 릴리스 노트엔 200k 초과 할증 있었음)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Managed Agents 세션도 배치로 50%" → 배치 모드 없음 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"reducing both time-to-first-token and per-request cost without discarding required context" <span class="src" lang="ko">(가이드 샘플 2)</span></p>
+        <p lang="en">"downsizing blindly (B) risks quality" <span class="src" lang="ko">(가이드 샘플 2)</span></p>
+        <p lang="en">"Choose Haiku for simple tasks, Sonnet for most production workloads, and Opus for the most complex reasoning"</p>
+        <p lang="en">"Use the Batch API for non-time-sensitive tasks"</p>
+        <p lang="en">"This tokenizer produces approximately 30% more tokens for the same text."</p>
+        <p lang="en">"Batch API and prompt caching discounts can be combined."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 입력이 대부분인 일 — 캐싱이 제일 큼</h4>
@@ -874,7 +849,6 @@
 <li><span class="lead">근거 :</span> 릴리스 노트 en 168·211줄 · prompt-caching ko 39줄 표</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -956,7 +930,25 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="cost-per-request-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 1.6 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>샘플 2 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a href="https://platform.claude.com/docs/ko/about-claude/pricing">pricing</a> <span class="src">(ko 15·43·79~89·95·107·117·123·131·137~153·233·298~336·342~349·401줄)</span></li>
+        <li>prompt-caching <span class="src">(ko 39~45줄 — 모델 단가표)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 15·46~47·96·168·383줄)</span></li>
+        <li>define-success <span class="src">(en-full 91~92줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
+        <li><span class="calc">계산</span> 2줄(① 출력 비중 · 함정 토크나이저 예)</li>
+        <li><span class="post">시험 뒤 변경</span> 1곳(② 최신 단가)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -967,8 +959,7 @@
 <li>Haiku 4.5 가 옛 토크나이저인지 공식 명시 없음 — "Claude 4.7 이후 = 새 토크나이저"에서 미룬 것 (뒤집히는 때 3 전제).</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/cost-per-request.md</p>

@@ -350,24 +350,70 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ 최적화 lever 하나 고르기 -->
-<article class="card t5-card" id="optimization-levers" aria-labelledby="optimization-levers-title">
+<!-- ■ 최적화 lever 하나 고르기 (v3 시범 순서) -->
+<article class="card t5-card v3" id="optimization-levers" aria-labelledby="optimization-levers-title">
   <header class="t5-head">
     <h1 id="optimization-levers-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 최적화 lever 하나 고르기</h1>
-    <p class="lemma-meta"><span lang="en">pick the one lever : caching · batch · streaming · output length · effort · routing</span><span class="lemma-main">4.5 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">pick the one lever : caching · batch · streaming · output length · effort · routing</span><span class="lemma-main">4.5 본편</span></p>
   </header>
-  <h2 class="sec-h" id="optimization-levers-sum-h">카드</h2>
+  <h2 class="sec-h" id="optimization-levers-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>4.5 토큰·지연·비용 최적화</b> · D4 평가 16%<br><q lang="en">Optimize token usage, latency, and cost-performance trade-offs</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>4.5② 보기마다 다른 최적화 — 이 시나리오의 레버는 무엇 하나?</b> — 시나리오 단서 → 레버 하나 <span class="note">(캐싱 · 배치 · 라우팅/effort · 스트리밍)</span></li>
+      <li><b>1.6③ 한 건에 얼마, 한 달에 얼마?</b> — 비용 축을 숫자로 — 요청당 비용으로 설계안 비교</li>
+      <li><b>3.3① 상담원이 "답 초안이 늦게 뜬다"고 한다 — 모델부터 바꾸나?</b> — 지연 손잡이 고르기 <span class="note">(스트리밍 · 캐싱 · 출력 길이 · effort · 모델 교체)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="optimization-levers-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>보기마다 다른 최적화가 섞여 나오면 지문이 든 제약(비용 · 지연(latency) · 처리량)과 단서(매번 같은 앞부분 · 마감 없음 · 첫 글자 기다림 · 장황)를 읽고, 그 제약을 "가장 직접" 푸는 lever(손잡이) 하나를 고름. 필요한 걸 버리는 lever 는 탈락 <span class="ok">✓ 확인</span> <span class="src">(샘플 2)</span></p>
       <p>lever 본문은 각 카드에 — 여기는 단서 → lever 짝과 탈락 기준만</p>
     <p class="t5-ana"><span class="lead">비유</span> 성능 튜닝. 병목(CPU·디스크·네트워크) 하나를 먼저 찾고 거기에 맞는 lever 만 돌림. 디스크 병목에 CPU 증설은 돈만 씀</p>
   </div>
-  <h2 class="sec-h" id="optimization-levers-case-h">지문</h2>
-  <section class="csx" id="optimization-levers-case" aria-labelledby="optimization-levers-case-h" data-tree="optimization-levers-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;같은 앞부분&quot;],[&quot;n3&quot;,null]]">
-    <p class="csx-text">고객지원 Agent 는 요청마다 <mark class="csx-m" data-tag="같은 앞부분">같은 환불·교환 정책 문서 8천 토큰을 맨 앞에 붙여<span class="csx-tag">같은 앞부분</span></mark> 보낸다. 상담원 화면의 첫 응답이 느리고 <mark class="csx-m" data-tag="지연·비용">per-request cost(요청당 비용)도 줄이라<span class="csx-tag">지연·비용</span></mark>는 요구가 왔다. 팀원은 정책 문서를 앞 1,000 토큰만 남기고 자르자고 한다. 가장 직접 푸는 lever 는?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
-  </section>
-  <h2 class="sec-h" id="optimization-levers-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>막힌 수도관을 고치는 거예요. 어디가 막혔는지 보고 그 자리만 뚫어요.</p>
+<ul>
+<li>물이 늦게 나오면 꼭지 쪽을, 물값이 많이 나오면 새는 곳을 봐요.</li>
+<li>관을 잘라서 짧게 만들면 물은 빨리 오지만 필요한 방에 물이 안 가요.</li>
+<li>두 군데가 다 문제면 한 번에 둘 다 고치는 수리가 제일 좋아요.</li>
+<li>이 쪽은 "언제 다른 수리가 더 맞나"를 모아 둔 곳이에요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-optimization-levers" aria-labelledby="vx-optimization-levers-cap">
+  <div class="vx-player" data-vx-scene="optimization-levers"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-optimization-levers-cap">영상 — 같은 앞부분이면 캐싱 하나로 (약 43초 · 소리 없음 · 자막). 막대 길이·답 글자는 그림용 가정 · 1.25배/0.1배는 5분 캐시의 앞부분 입력 배수 · 요청 5번은 5분 안 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">lever(손잡이)마다 줄이는 것이 다름</p>
+<ul>
+<li>캐싱 : 매번 같은 앞부분을 다시 안 읽음 → 첫 토큰(TTFT)과 입력 비용이 같이 줄어듦. 출력은 그대로.</li>
+<li>Batch : 급하지 않은 요청을 모아 입력·출력 모두 50% 할인. 대신 끝나는 시각 약속이 없음.</li>
+<li>스트리밍 : 첫 글자가 먼저 보여 기다림이 짧게 느껴짐. 토큰 수·총 시간은 그대로 (업계 일반).</li>
+<li>출력 줄이기 : 생성 토큰이 줄어 전체 시간과 출력 비용이 같이 줄어듦. 출력 단가 = 입력의 5배라 효과가 큼.</li>
+<li>effort : 한 모델 안에서 thinking(사고)·도구 호출·답의 토큰을 줄임. 능력 일부를 내줌.</li>
+<li>라우팅 · 멀티 모델 : 쉬운 일은 싼 모델로 → 대부분 토큰이 낮은 요율.</li>
+</ul>
+<p class="lead">"가장 직접" 의 뜻</p>
+<ul>
+<li>지문이 든 제약(예 : 지연(latency) + 비용)을 한 lever 가 다 풀면 그 lever 가 답. 한쪽만 풀면 약한 보기.</li>
+<li>필요한 걸 버려서 얻는 절감(잘라내기 · 무작정 최소 모델)은 "직접"이 아니라 품질을 내주는 거래 → 탈락.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>이 지문이 말한 제약은 무엇 무엇인가 (비용 · 지연 · 처리량 · 마감)?</li>
+<li>이 lever 는 그 제약 전부를 줄이는가, 아니면 무엇을 내주나?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="optimization-levers-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="optimization-levers-tree-1" aria-labelledby="optimization-levers-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9|n1 n10 n11|n1 n12 n13">
     <div class="t5-fh"><h3 id="optimization-levers-tree-1-h">①② 단서로 lever <span class="pg">[4.5②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -455,7 +501,7 @@
     </div>
   </section>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="optimization-levers-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
@@ -501,118 +547,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>비용 줄이려 정책을 잘라냄 / 과제 무시하고 제일 작은 모델 / 정책을 few-shot 블록으로 옮김 → 셋 다 오답 (샘플 2) <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>지연·비용 둘 다인데 "스트리밍" → 체감만, 토큰 비용 그대로 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>사람이 기다리는 일에 "배치로 50%" → 완료 시각 약속이 없음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>비용 문제에 "effort 올리기" → 토큰이 늘어 비용 증가 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>lever 를 한꺼번에 여러 개 켬 → 무엇이 먹혔는지 모름, 근거 없는 조합 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>캐싱 손익분기를 "요청 2~3회"로 외움 → 5분 캐시는 읽기 1번 · 1시간 캐시는 읽기 2번부터 이득 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"모델 교체는 항상 오답" → 아님. effort 로도 모자라고 eval 로 품질을 확인하면 맞는 답 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Ordering stable content first and enabling prompt caching lets repeated prefixes be reused, reducing both time-to-first-token and per-request cost without discarding required context." <span class="src" lang="ko">(가이드 샘플 2)</span></p>
-        <p lang="en">"Truncation (A) loses needed policy; downsizing blindly (B) risks quality; relocating to few-shot (D) does not create a cacheable, reusable prefix." <span class="src" lang="ko">(가이드 샘플 2)</span></p>
-        <p lang="en">"Tuning effort is often a better lever than switching models."</p>
-        <p lang="en">"Use the Batch API for non-time-sensitive tasks"</p>
-        <p lang="en">"Routing easy/common questions to smaller, cost-efficient models like Claude Haiku 4.5 and hard/unusual questions to more capable models"</p>
-        <p lang="en">"Once evals exist, you get baselines and regression tests for free: latency, token usage, cost per task, and error rates can be tracked on a static bank of tasks."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="caching.html">■ 프롬프트 캐싱</a></li>
-        <li><a href="batch-vs-sync.html">◆ Batch API vs 동기 호출</a></li>
-        <li><a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
-        <li><a href="cost-per-request.html">■ per-request cost</a></li>
-        <li><a href="max-tokens.html">■ max_tokens 와 긴 출력</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 4.5 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>샘플 2 <span class="src">(raw/official sample-questions-p6-7 40~47·64~67줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/ko/about-claude/pricing">pricing</a> <span class="src">(en·ko 342~349줄 · en 87·401줄)</span></li>
-        <li>choosing-a-model <span class="src">(en·ko 8·73·83줄)</span></li>
-        <li>building-effective-agents <span class="src">(en 81줄)</span></li>
-        <li>reduce-latency <span class="src">(ko 20·28·33·34·41줄)</span></li>
-        <li>effort <span class="src">(en·ko 9줄)</span></li>
-        <li>demystifying-evals <span class="src">(en 52줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~④ 짝·탈락 기준·순서)</li>
-        <li><span class="gen">업계 일반</span> 4줄(스트리밍 비용 무관 · 표로 읽는 법 · 라우팅 위험 · 한꺼번에 켜기)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">4.5②</li>
-        <li class="chip">1.6③</li>
-        <li class="chip">3.3①</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-optimization-levers" aria-labelledby="vx-optimization-levers-cap">
-  <div class="vx-player" data-vx-scene="optimization-levers"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-optimization-levers-cap">영상 — 같은 앞부분이면 캐싱 하나로 (약 43초 · 소리 없음 · 자막). 막대 길이·답 글자는 그림용 가정 · 1.25배/0.1배는 5분 캐시의 앞부분 입력 배수 · 요청 5번은 5분 안 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>optimization-levers</dd>
-  <dt>본편</dt>
-  <dd>4.5</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">4.5②</li><li class="chip">1.6③</li><li class="chip">3.3①</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>막힌 수도관을 고치는 거예요. 어디가 막혔는지 보고 그 자리만 뚫어요.</p>
-<ul>
-<li>물이 늦게 나오면 꼭지 쪽을, 물값이 많이 나오면 새는 곳을 봐요.</li>
-<li>관을 잘라서 짧게 만들면 물은 빨리 오지만 필요한 방에 물이 안 가요.</li>
-<li>두 군데가 다 문제면 한 번에 둘 다 고치는 수리가 제일 좋아요.</li>
-<li>이 쪽은 "언제 다른 수리가 더 맞나"를 모아 둔 곳이에요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">lever(손잡이)마다 줄이는 것이 다름</p>
-<ul>
-<li>캐싱 : 매번 같은 앞부분을 다시 안 읽음 → 첫 토큰(TTFT)과 입력 비용이 같이 줄어듦. 출력은 그대로.</li>
-<li>Batch : 급하지 않은 요청을 모아 입력·출력 모두 50% 할인. 대신 끝나는 시각 약속이 없음.</li>
-<li>스트리밍 : 첫 글자가 먼저 보여 기다림이 짧게 느껴짐. 토큰 수·총 시간은 그대로 (업계 일반).</li>
-<li>출력 줄이기 : 생성 토큰이 줄어 전체 시간과 출력 비용이 같이 줄어듦. 출력 단가 = 입력의 5배라 효과가 큼.</li>
-<li>effort : 한 모델 안에서 thinking(사고)·도구 호출·답의 토큰을 줄임. 능력 일부를 내줌.</li>
-<li>라우팅 · 멀티 모델 : 쉬운 일은 싼 모델로 → 대부분 토큰이 낮은 요율.</li>
-</ul>
-<p class="lead">"가장 직접" 의 뜻</p>
-<ul>
-<li>지문이 든 제약(예 : 지연(latency) + 비용)을 한 lever 가 다 풀면 그 lever 가 답. 한쪽만 풀면 약한 보기.</li>
-<li>필요한 걸 버려서 얻는 절감(잘라내기 · 무작정 최소 모델)은 "직접"이 아니라 품질을 내주는 거래 → 탈락.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>이 지문이 말한 제약은 무엇 무엇인가 (비용 · 지연 · 처리량 · 마감)?</li>
-<li>이 lever 는 그 제약 전부를 줄이는가, 아니면 무엇을 내주나?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -690,7 +627,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -772,7 +708,37 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="optimization-levers-practice-h">연습 문제</h2>
 
+  <section class="csx" id="optimization-levers-case" aria-labelledby="optimization-levers-case-h" data-tree="optimization-levers-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;같은 앞부분&quot;],[&quot;n3&quot;,null]]">
+    <p class="csx-text">고객지원 Agent 는 요청마다 <mark class="csx-m" data-tag="같은 앞부분">같은 환불·교환 정책 문서 8천 토큰을 맨 앞에 붙여<span class="csx-tag">같은 앞부분</span></mark> 보낸다. 상담원 화면의 첫 응답이 느리고 <mark class="csx-m" data-tag="지연·비용">per-request cost(요청당 비용)도 줄이라<span class="csx-tag">지연·비용</span></mark>는 요구가 왔다. 팀원은 정책 문서를 앞 1,000 토큰만 남기고 자르자고 한다. 가장 직접 푸는 lever 는?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
+  </section>
+  <h2 class="sec-h" id="optimization-levers-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>비용 줄이려 정책을 잘라냄 / 과제 무시하고 제일 작은 모델 / 정책을 few-shot 블록으로 옮김 → 셋 다 오답 (샘플 2) <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>지연·비용 둘 다인데 "스트리밍" → 체감만, 토큰 비용 그대로 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>사람이 기다리는 일에 "배치로 50%" → 완료 시각 약속이 없음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>비용 문제에 "effort 올리기" → 토큰이 늘어 비용 증가 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>lever 를 한꺼번에 여러 개 켬 → 무엇이 먹혔는지 모름, 근거 없는 조합 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>캐싱 손익분기를 "요청 2~3회"로 외움 → 5분 캐시는 읽기 1번 · 1시간 캐시는 읽기 2번부터 이득 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"모델 교체는 항상 오답" → 아님. effort 로도 모자라고 eval 로 품질을 확인하면 맞는 답 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Ordering stable content first and enabling prompt caching lets repeated prefixes be reused, reducing both time-to-first-token and per-request cost without discarding required context." <span class="src" lang="ko">(가이드 샘플 2)</span></p>
+        <p lang="en">"Truncation (A) loses needed policy; downsizing blindly (B) risks quality; relocating to few-shot (D) does not create a cacheable, reusable prefix." <span class="src" lang="ko">(가이드 샘플 2)</span></p>
+        <p lang="en">"Tuning effort is often a better lever than switching models."</p>
+        <p lang="en">"Use the Batch API for non-time-sensitive tasks"</p>
+        <p lang="en">"Routing easy/common questions to smaller, cost-efficient models like Claude Haiku 4.5 and hard/unusual questions to more capable models"</p>
+        <p lang="en">"Once evals exist, you get baselines and regression tests for free: latency, token usage, cost per task, and error rates can be tracked on a static bank of tasks."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. "lever 하나" 인데 둘을 겹치는 게 답인 때</h4>
@@ -834,7 +800,6 @@
 <li><span class="lead">근거 :</span> reduce-latency ko 41줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -923,7 +888,34 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="optimization-levers-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="caching.html">■ 프롬프트 캐싱</a></li>
+        <li><a href="batch-vs-sync.html">◆ Batch API vs 동기 호출</a></li>
+        <li><a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
+        <li><a href="cost-per-request.html">■ per-request cost</a></li>
+        <li><a href="max-tokens.html">■ max_tokens 와 긴 출력</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 4.5 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>샘플 2 <span class="src">(raw/official sample-questions-p6-7 40~47·64~67줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/ko/about-claude/pricing">pricing</a> <span class="src">(en·ko 342~349줄 · en 87·401줄)</span></li>
+        <li>choosing-a-model <span class="src">(en·ko 8·73·83줄)</span></li>
+        <li>building-effective-agents <span class="src">(en 81줄)</span></li>
+        <li>reduce-latency <span class="src">(ko 20·28·33·34·41줄)</span></li>
+        <li>effort <span class="src">(en·ko 9줄)</span></li>
+        <li>demystifying-evals <span class="src">(en 52줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~④ 짝·탈락 기준·순서)</li>
+        <li><span class="gen">업계 일반</span> 4줄(스트리밍 비용 무관 · 표로 읽는 법 · 라우팅 위험 · 한꺼번에 켜기)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -933,8 +925,7 @@
 <li>시험 시점 단가 : 가이드가 어느 모델 가격을 전제했는지 모름. 위 계산은 2026-09-28 조회값.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/optimization-levers.md</p>

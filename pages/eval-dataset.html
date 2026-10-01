@@ -350,24 +350,79 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ 첫 eval 셋 만들기 -->
-<article class="card t5-card" id="eval-dataset" aria-labelledby="eval-dataset-title">
+<!-- ■ 첫 eval 셋 만들기 (v3 시범 순서) -->
+<article class="card t5-card v3" id="eval-dataset" aria-labelledby="eval-dataset-title">
   <header class="t5-head">
     <h1 id="eval-dataset-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 첫 eval 셋 만들기</h1>
-    <p class="lemma-meta"><span lang="en">initial eval dataset : real failures · reference solution · balanced</span><span class="lemma-main">4.2 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">initial eval dataset : real failures · reference solution · balanced</span><span class="lemma-main">4.2 본편</span></p>
   </header>
-  <h2 class="sec-h" id="eval-dataset-sum-h">카드</h2>
+  <h2 class="sec-h" id="eval-dataset-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>4.2 평가 데이터·테스트 설계</b> · D4 평가 16%<br><q lang="en">Design evaluation datasets and test frameworks using mixed methodologies</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>4.2② eval 셋, 수백 개가 모일 때까지 기다릴까?</b> — 첫 평가 데이터셋 만들기 <span class="note">(크기·출처·균형·과제 품질)</span></li>
+      <li><b>4.6② 출시 뒤 품질이 조용히 떨어진다 — 무엇을 돌리나?</b> — 운영 신호를 eval 로 되먹이는 루프</li>
+      <li><b>6.3② 월간 검토에서 법무팀이 놓친 조항 사례를 들고 왔다 — 이 피드백을 어디로 보내나?</b> — 피드백 루프를 닫는 방법 <span class="note">(상태 보고 회의 vs 평가셋 편입)</span></li>
+      <li><b>6.5① 핸드오프가 끝났다 — 아키텍트가 계속 할 일 두 가지는? <span class="note">(복수 응답)</span></b> — 수명주기 5단계(디스커버리·설계·핸드오프·모니터링·반복)는 되돌아오는 루프 — 핸드오프 뒤 할 일</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="eval-dataset-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>eval 셋 = 과제(task) 모음. 과제 = 정해진 입력 + 성공 기준(success criteria) 하나. 수백 개를 기다리지 말고 실제 실패에서 뽑은 간단한 과제 20~50개로 바로 시작 <span class="ok">✓ 확인</span></p>
       <p>좋은 과제 = 전문가 둘이 각자 같은 통과/실패 판정 · 모든 grader(채점기)를 통과하는 reference solution 이 있음 · 동작이 일어나야 할 때와 안 일어나야 할 때가 둘 다 들어 있음 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> 포스트모템 액션 = 그 장애를 재현하는 regression(회귀) 테스트 추가. 커버리지를 다 갖출 때까지 CI 를 미루지 않음</p>
   </div>
-  <h2 class="sec-h" id="eval-dataset-case-h">지문</h2>
-  <section class="csx" id="eval-dataset-case" aria-labelledby="eval-dataset-case-h" data-tree="eval-dataset-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;여러 번 0%&quot;],[&quot;n5&quot;,null]]" data-flow="eval-dataset-flow" data-scene="2">
-    <p class="csx-text">고객지원 Agent 의 첫 eval 셋 30개를 지원 큐의 실제 실패에서 뽑았다. 그중 과제 하나가 <mark class="csx-m" data-tag="여러 번 0%">최신 모델로 100번 돌려도 한 번도 통과하지 못한다<span class="csx-tag">여러 번 0%</span></mark>. 팀원은 더 큰 모델로 바꾸자고 한다. 먼저 할 일은?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="eval-dataset-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>받아쓰기 연습 문제집을 처음 만드는 거예요.</p>
+<ul>
+<li>백 문제가 모일 때까지 기다리면 연습을 영영 못 해요.</li>
+<li>지난주에 틀린 단어 스무 개로 오늘 바로 시작해요.</li>
+<li>문제마다 정답을 먼저 적어 두면, 문제가 이상한지 바로 알아요.</li>
+<li>받침 있는 단어만 넣으면 받침만 잘하는 아이가 돼요. 없는 단어도 섞어요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-eval-dataset" aria-labelledby="vx-eval-dataset-cap">
+  <div class="vx-player" data-vx-scene="eval-dataset"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-eval-dataset-cap">영상 — 100번 다 실패, 모델 탓일까? (약 43초 · 소리 없음 · 자막). 과제 17·경로 두 개·100번 중 0번은 카드 예시 값 · 더 큰 모델도 0/100 과 정답 답안의 처음 저장 위치는 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">왜 작게 시작해도 되나</p>
+<ul>
+<li>초기 에이전트는 한 번 고치면 결과가 크게 바뀜(효과가 큼) → 작은 표본으로도 차이가 보임. 리서치 글 예 : 프롬프트 한 번에 30% → 80%.</li>
+<li>늦출수록 비쌈. 초기엔 제품 요구가 그대로 과제가 되지만, 늦으면 돌아가는 시스템에서 성공 기준(success criteria)을 거꾸로 캐내야 함.</li>
+</ul>
+<p class="lead">과제는 어디서</p>
+<ul>
+<li>출시 전 : 개발 중 손으로 하던 확인 · 릴리스 전 확인 · 사용자가 흔히 할 과제.</li>
+<li>운영 중 : 버그 트래커·지원 큐의 사용자 보고 실패 → 사용자 영향 순. 이러면 셋이 실제 사용을 닮음.</li>
+<li>생성도 됨(Claude 로 생성 · Skilljar 는 Haiku 권함) — 단 실사용에서 영감 받은 · 실제 데이터 기반.</li>
+</ul>
+<p class="lead">과제 품질이 곧 지표 품질</p>
+<ul>
+<li>모호한 과제는 지표에 잡음으로 들어감. 기준 = 전문가 둘이 각자 같은 판정을 내리나.</li>
+<li>reference solution = 모든 grader(채점기)를 통과하는 알려진 답. "풀 수 있다"와 "grader 가 맞게 설정됐다"를 한 번에 증명.</li>
+<li>최신 모델이 여러 번 해도 0% 면 에이전트보다 과제·grader 를 먼저 의심.</li>
+</ul>
+<p class="lead">균형 · 격리</p>
+<ul>
+<li>한쪽만 테스트하면 그쪽으로만 최적화됨(검색해야 할 때만 → 뭐든 검색). 과소 발동·과잉 발동을 둘 다 측정.</li>
+<li>시도끼리 환경을 공유하면 실패가 서로 엮이고(인프라 탓) 점수가 부풀 수 있음(앞 시도의 흔적을 봄).</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>지금 가진 실제 실패로 오늘 시작할 수 있나?</li>
+<li>이 과제가 0% 라면, 에이전트 탓인지 과제 탓인지 가를 수 있나(reference solution · 전문가 둘)?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="eval-dataset-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="eval-dataset-tree-1" aria-labelledby="eval-dataset-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9">
     <div class="t5-fh"><h3 id="eval-dataset-tree-1-h">①② 언제 · 어디서 <span class="pg">[4.2②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -438,7 +493,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="eval-dataset-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="eval-dataset-flow" aria-label="첫 eval 셋 만들기 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["지원 큐","eval 셋","에이전트","grader"],"blocks":[],"rules":[null,"과제 = 정해진 입력 + 성공 기준 하나",null,null],"question":"과제는 어디서 가져올까?","scenes":[{"name":"① 실제 실패로 시작","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["#4821 교환이 환불로 처리","#4907 배송지 변경 안 됨","… 실패 37건"]}},{"kind":"move","step":"뽑기","from":{"col":0},"to":1,"label":"실제 실패 → 과제 20~50개","art":{"kind":"slip","lines":["과제 30개 · 영향 순","01 입력 : 교환 신청","기준 : 상태 = \"교환\""]}},{"kind":"move","step":"돌리기","from":{"col":1},"to":2,"label":"과제마다 돌림","art":{"kind":"slip","lines":["01 입력","\"셔츠 교환하고 싶어요\""]}},{"kind":"move","step":"채점","from":{"col":2},"to":3,"label":"reference solution 도 통과","art":{"kind":"slip","lines":["01 : 통과","reference solution : 통과"]}},{"kind":"end","label":"수백 개를 기다리지 말고 20~50개로 바로 시작"}]},{"name":"② 한쪽만 넣음","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["\"배송 어디쯤?\" (검색 필요)","\"영업시간 몇 시?\" (아는 답)"]}},{"kind":"move","step":"뽑기","from":{"col":0},"to":1,"label":"검색해야 할 때만","art":{"kind":"slip","lines":["과제 30개","전부 \"검색해야 함\""]}},{"kind":"move","step":"돌리기","from":{"col":1},"to":2,"label":"한쪽만 = 한쪽 최적화","art":{"kind":"slip","lines":["\"영업시간?\" 에도","주문 검색 도구 호출"]}},{"kind":"end","label":"검색해야 할 때만 넣으면 거의 다 검색하는 에이전트 — 안 해야 할 때도 넣음"}]},{"name":"③ 여러 번 0%","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":1,"label":"","art":{"kind":"slip","lines":["17 설명 : \"반품 라벨을 저장해\"","(저장 경로는 안 적음)"]}},{"kind":"move","step":"돌리기","from":{"col":1},"to":2,"label":"최신 모델로 100번","art":{"kind":"slip","lines":["저장 : ./label.pdf"]}},{"kind":"move","step":"채점","from":{"col":2},"to":3,"label":"여러 번 0%","art":{"kind":"slip","lines":["기대 : /out/label.pdf","100번 중 0번 통과"]}},{"kind":"mark","step":"표시","at":{"col":3},"label":"대개 과제·grader 결함","art":{"kind":"slip","lines":["설명에 없는 경로를","grader 가 가정함"]}},{"kind":"end","label":"모델을 바꾸기 전에 과제 설명·grader 부터 확인"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -519,119 +574,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"대표성을 위해 수백 개가 모인 뒤 시작" → 20~50개로 바로 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"합성 문항 500개가 모일 때까지 eval 을 미룸" → 미루는 게 틀림. 생성 자체는 됨, 실사용 기반으로 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>쓰기 쉬운 케이스부터 → 사용자 보고 실패를 사용자 영향 순 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>여러 번 0% 가 나오자 더 큰 모델로 교체 → 대개 과제·grader 결함 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>검색해야 할 때만 테스트 → 거의 다 검색하는 에이전트 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>시도끼리 환경을 이어 씀 → 서로 엮인 실패 · 부풀린 점수 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"'golden data set' 이 공식 용어" → 공식은 reference solution (단 코드 변수 <code>golden_answer</code> 는 공식 문서에 있음) <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"In reality, 20-50 simple tasks drawn from real failures is a great start."</p>
-        <p lang="en">"Converting user-reported failures into test cases ensures your suite reflects actual usage; prioritizing by user impact helps you invest effort where it counts."</p>
-        <p lang="en">"A good task is one where two domain experts would independently reach the same pass/fail verdict."</p>
-        <p lang="en">"For each task, it’s useful to create a reference solution: a known working output that passes all graders."</p>
-        <p lang="en">"With frontier models, a 0% pass rate across many trials (i.e. 0% pass@100) is most often a signal of a broken task, not an incapable agent"</p>
-        <p lang="en">"Test both the cases where a behavior should occur and where it shouldn't. One-sided evals create one-sided optimization."</p>
-        <p lang="en">"Each trial should be “isolated” by starting from a clean environment."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 4.2 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>demystifying-evals <span class="src">(en 23~24·221~241줄)</span></li>
-        <li>docs develop-tests <span class="src">(ko·en 31~33줄 · en-full 53·114~119줄)</span></li>
-        <li>multi-agent-research-system <span class="src">(en 58줄)</span></li>
-        <li>writing-tools-for-agents <span class="src">(en 63·108줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 137줄)</span></li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287739">Skilljar API 287739</a> <span class="src">(34·36줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
-        <li><span class="post">시험 뒤 변경</span> 1곳(⑥ Workbench)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">4.2②</li>
-        <li class="chip">4.6②</li>
-        <li class="chip">6.3②</li>
-        <li class="chip">6.5①</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-eval-dataset" aria-labelledby="vx-eval-dataset-cap">
-  <div class="vx-player" data-vx-scene="eval-dataset"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-eval-dataset-cap">영상 — 100번 다 실패, 모델 탓일까? (약 43초 · 소리 없음 · 자막). 과제 17·경로 두 개·100번 중 0번은 카드 예시 값 · 더 큰 모델도 0/100 과 정답 답안의 처음 저장 위치는 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>eval-dataset</dd>
-  <dt>본편</dt>
-  <dd>4.2</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">4.2②</li><li class="chip">4.6②</li><li class="chip">6.3②</li><li class="chip">6.5①</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>받아쓰기 연습 문제집을 처음 만드는 거예요.</p>
-<ul>
-<li>백 문제가 모일 때까지 기다리면 연습을 영영 못 해요.</li>
-<li>지난주에 틀린 단어 스무 개로 오늘 바로 시작해요.</li>
-<li>문제마다 정답을 먼저 적어 두면, 문제가 이상한지 바로 알아요.</li>
-<li>받침 있는 단어만 넣으면 받침만 잘하는 아이가 돼요. 없는 단어도 섞어요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">왜 작게 시작해도 되나</p>
-<ul>
-<li>초기 에이전트는 한 번 고치면 결과가 크게 바뀜(효과가 큼) → 작은 표본으로도 차이가 보임. 리서치 글 예 : 프롬프트 한 번에 30% → 80%.</li>
-<li>늦출수록 비쌈. 초기엔 제품 요구가 그대로 과제가 되지만, 늦으면 돌아가는 시스템에서 성공 기준(success criteria)을 거꾸로 캐내야 함.</li>
-</ul>
-<p class="lead">과제는 어디서</p>
-<ul>
-<li>출시 전 : 개발 중 손으로 하던 확인 · 릴리스 전 확인 · 사용자가 흔히 할 과제.</li>
-<li>운영 중 : 버그 트래커·지원 큐의 사용자 보고 실패 → 사용자 영향 순. 이러면 셋이 실제 사용을 닮음.</li>
-<li>생성도 됨(Claude 로 생성 · Skilljar 는 Haiku 권함) — 단 실사용에서 영감 받은 · 실제 데이터 기반.</li>
-</ul>
-<p class="lead">과제 품질이 곧 지표 품질</p>
-<ul>
-<li>모호한 과제는 지표에 잡음으로 들어감. 기준 = 전문가 둘이 각자 같은 판정을 내리나.</li>
-<li>reference solution = 모든 grader(채점기)를 통과하는 알려진 답. "풀 수 있다"와 "grader 가 맞게 설정됐다"를 한 번에 증명.</li>
-<li>최신 모델이 여러 번 해도 0% 면 에이전트보다 과제·grader 를 먼저 의심.</li>
-</ul>
-<p class="lead">균형 · 격리</p>
-<ul>
-<li>한쪽만 테스트하면 그쪽으로만 최적화됨(검색해야 할 때만 → 뭐든 검색). 과소 발동·과잉 발동을 둘 다 측정.</li>
-<li>시도끼리 환경을 공유하면 실패가 서로 엮이고(인프라 탓) 점수가 부풀 수 있음(앞 시도의 흔적을 봄).</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>지금 가진 실제 실패로 오늘 시작할 수 있나?</li>
-<li>이 과제가 0% 라면, 에이전트 탓인지 과제 탓인지 가를 수 있나(reference solution · 전문가 둘)?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -703,7 +648,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -792,7 +736,38 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="eval-dataset-practice-h">연습 문제</h2>
 
+  <section class="csx" id="eval-dataset-case" aria-labelledby="eval-dataset-case-h" data-tree="eval-dataset-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;여러 번 0%&quot;],[&quot;n5&quot;,null]]" data-flow="eval-dataset-flow" data-scene="2">
+    <p class="csx-text">고객지원 Agent 의 첫 eval 셋 30개를 지원 큐의 실제 실패에서 뽑았다. 그중 과제 하나가 <mark class="csx-m" data-tag="여러 번 0%">최신 모델로 100번 돌려도 한 번도 통과하지 못한다<span class="csx-tag">여러 번 0%</span></mark>. 팀원은 더 큰 모델로 바꾸자고 한다. 먼저 할 일은?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="eval-dataset-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"대표성을 위해 수백 개가 모인 뒤 시작" → 20~50개로 바로 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"합성 문항 500개가 모일 때까지 eval 을 미룸" → 미루는 게 틀림. 생성 자체는 됨, 실사용 기반으로 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>쓰기 쉬운 케이스부터 → 사용자 보고 실패를 사용자 영향 순 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>여러 번 0% 가 나오자 더 큰 모델로 교체 → 대개 과제·grader 결함 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>검색해야 할 때만 테스트 → 거의 다 검색하는 에이전트 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>시도끼리 환경을 이어 씀 → 서로 엮인 실패 · 부풀린 점수 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"'golden data set' 이 공식 용어" → 공식은 reference solution (단 코드 변수 <code>golden_answer</code> 는 공식 문서에 있음) <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"In reality, 20-50 simple tasks drawn from real failures is a great start."</p>
+        <p lang="en">"Converting user-reported failures into test cases ensures your suite reflects actual usage; prioritizing by user impact helps you invest effort where it counts."</p>
+        <p lang="en">"A good task is one where two domain experts would independently reach the same pass/fail verdict."</p>
+        <p lang="en">"For each task, it’s useful to create a reference solution: a known working output that passes all graders."</p>
+        <p lang="en">"With frontier models, a 0% pass rate across many trials (i.e. 0% pass@100) is most often a signal of a broken task, not an incapable agent"</p>
+        <p lang="en">"Test both the cases where a behavior should occur and where it shouldn't. One-sided evals create one-sided optimization."</p>
+        <p lang="en">"Each trial should be “isolated” by starting from a clean environment."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 20~50개로는 모자란 때</h4>
@@ -825,7 +800,6 @@
 <li><span class="lead">근거 :</span> demystifying-evals en 24·199줄 → ◆ pass@k vs pass^k</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -900,7 +874,25 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="eval-dataset-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 4.2 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>demystifying-evals <span class="src">(en 23~24·221~241줄)</span></li>
+        <li>docs develop-tests <span class="src">(ko·en 31~33줄 · en-full 53·114~119줄)</span></li>
+        <li>multi-agent-research-system <span class="src">(en 58줄)</span></li>
+        <li>writing-tools-for-agents <span class="src">(en 63·108줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 137줄)</span></li>
+        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287739">Skilljar API 287739</a> <span class="src">(34·36줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
+        <li><span class="post">시험 뒤 변경</span> 1곳(⑥ Workbench)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -910,8 +902,7 @@
 <li>옛 Workbench 의 저장 eval 종료(2026-08-17, 릴리스 노트 en 137줄)가 시험(2026-07 기준)에 나오는지 모름. Console eval 도구 원문은 안 받음.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/eval-dataset.md</p>

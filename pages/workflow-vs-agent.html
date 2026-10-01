@@ -350,18 +350,71 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ◆ 워크플로 vs 에이전트 -->
-<article class="card t5-card" id="workflow-vs-agent" aria-labelledby="workflow-vs-agent-title">
+<!-- ◆ 워크플로 vs 에이전트 (v3 시범 순서) -->
+<article class="card t5-card v3" id="workflow-vs-agent" aria-labelledby="workflow-vs-agent-title">
   <header class="t5-head">
     <h1 id="workflow-vs-agent-title"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> 워크플로 vs 에이전트</h1>
-    <p class="lemma-meta"><span lang="en">workflow vs agent</span><span class="lemma-main">1.3 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">workflow vs agent</span><span class="lemma-main">1.3 본편</span></p>
   </header>
-  <h2 class="sec-h" id="workflow-vs-agent-case-h">지문</h2>
-  <section class="csx" id="workflow-vs-agent-case" aria-labelledby="workflow-vs-agent-case-h" data-tree="workflow-vs-agent-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;고정 경로&quot;],[&quot;n3&quot;,null]]" data-flow="workflow-vs-agent-flow" data-scene="0">
-    <p class="csx-text">쇼핑몰 환불 처리는 <mark class="csx-m" data-tag="고정 경로">늘 자격 확인 → 정책 확인 → 처리 → 알림 순서로 간다<span class="csx-tag">고정 경로</span></mark>. 단계마다 주문 조회 · 결제 취소 · 메일 발송 도구를 부른다. 팀은 "도구를 여러 개 부르니 에이전트로 만들자"고 한다. 무엇으로 만들까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="workflow-vs-agent-trees-h">갈림길</h2>
+  <h2 class="sec-h" id="workflow-vs-agent-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>1.3 구조 패턴 고르기</b> · D1 설계 17%<br><q lang="en">Select appropriate architectural patterns (workflow, agentic, augmented LLM)</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>1.3① 도구를 부르면 에이전트인가?</b> — 워크플로 vs 에이전트 가르기</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="workflow-vs-agent-sum-h">한눈에</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>요리책을 보고 만들지, 냉장고를 열어 보고 그때그때 정할지 고르는 거예요.</p>
+<ul>
+<li>만들 음식이 정해져 있으면 요리책 순서대로 하는 게 제일 안전해요.</li>
+<li>뭐가 들어 있을지 모르는 냉장고면 열어 보고 다음 할 일을 정해야 해요.</li>
+<li>그때그때 정하면 더 오래 걸리고, 가끔 이상한 음식이 나와요.</li>
+<li>칼을 몇 개 쓰는지는 상관없어요. 순서를 누가 정하는지가 중요해요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-workflow-vs-agent" aria-labelledby="vx-workflow-vs-agent-cap">
+  <div class="vx-player" data-vx-scene="workflow-vs-agent"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-workflow-vs-agent-cap">영상 — 다음 단계는 누가 정하나? (약 43초 · 소리 없음 · 자막). 실행 기록 3번의 내용(정책 확인 빠짐 · 한 단계 더)은 그림용 가정, 실측 아님 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">가르는 축은 하나</p>
+<ul>
+<li>다음 단계를 누가 정하나. 코드가 미리 정해 두면 워크플로, 모델이 실행 중에 정하면 에이전트.</li>
+<li>도구 호출은 둘 다 함. 워크플로 안의 각 호출도 검색(retrieval)·도구·메모리가 붙은 LLM(증강 LLM)을 씀 → "도구를 쓴다"는 가르는 기준이 아님.</li>
+</ul>
+<p class="lead">워크플로가 이기는 이유</p>
+<ul>
+<li>경로가 코드에 있음 → 중간 단계에 코드 검사(gate)를 넣을 수 있고, 매 단계가 무엇을 할지 알아서 평가·테스트가 쉬움.</li>
+<li>한 호출이 한 가지 일에 집중 → 대개 정확도가 오름.</li>
+<li>대신 유연성이 없음 : 미리 그린 입력·단계 밖의 일은 못 받음.</li>
+</ul>
+<p class="lead">에이전트가 이기는 이유</p>
+<ul>
+<li>필요한 단계 수를 미리 알 수 없는 열린 문제 : 매 걸음 도구 결과(ground truth)를 보고 다음을 정함.</li>
+<li>예상 못 한 상황에서 도구를 뜻밖의 방식으로 묶어 풀고, 필요하면 사용자에게 되물음.</li>
+<li>대신 비용↑ · 지연(latency)↑ · 오류가 쌓임 · 완료율↓ · 계측·평가가 어려움 → 모델 결정을 어느 정도 믿을 수 있어야 하고, 샌드박스 테스트·가드레일·멈춤 조건이 따라붙음.</li>
+</ul>
+<p class="lead">순서</p>
+<ul>
+<li>더 단순한 것부터 : 단일 LLM 호출 + 검색·예시로 대개 충분. 에이전트 시스템을 아예 안 만드는 것도 답.</li>
+<li>복잡도는 결과가 나아진다는 증거가 있을 때만.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>이 일의 단계를 지금 종이에 다 그릴 수 있나?</li>
+<li>못 그린다면, 모델이 정한 다음 걸음을 믿고 맡길 만한 안전장치가 있나?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="workflow-vs-agent-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="workflow-vs-agent-tree-1" aria-labelledby="workflow-vs-agent-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5">
     <div class="t5-fh"><h3 id="workflow-vs-agent-tree-1-h">더 단순한 걸로 되나 <span class="pg">[1.3①]</span> <span class="pg">[1.3③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -420,7 +473,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="workflow-vs-agent-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="workflow-vs-agent-flow" aria-label="워크플로 vs 에이전트 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["코드","모델","도구"],"blocks":[],"rules":[null,null,null],"question":"다음 단계는 누가 정할까?","scenes":[{"name":"① 워크플로","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["환불 요청 #5521","순서: 자격 → 정책 → 처리 → 알림"]}},{"kind":"move","step":"경로","from":{"col":0},"to":1,"label":"미리 정한 코드 경로","art":{"kind":"slip","lines":["1단계: 자격 확인","(순서는 코드가 정함)"]}},{"kind":"move","step":"판정","from":{"col":1},"to":0,"label":"","art":{"kind":"slip","lines":["{ 자격: true }"]}},{"kind":"mark","step":"검사","at":{"col":0},"label":"중간 단계에 코드 검사(gate)","art":{"kind":"slip","lines":["gate: 자격 = true","→ 2단계 정책 확인"]}},{"kind":"end","label":"코드가 다음 단계를 정함 — 예측 가능·일관성"}]},{"name":"② 에이전트","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"결제가 가끔 두 번 나가요, 원인 찾아 줘"}},{"kind":"move","step":"넘김","from":{"col":0},"to":1,"label":"목표와 도구만 줌","art":{"kind":"slip","lines":["목표 + 도구 목록","다음 단계는 모델이"]}},{"kind":"move","step":"결정","from":{"col":1},"to":2,"label":"모델이 스스로 도구를 정함","art":{"kind":"slip","lines":["search_logs(\"중복 결제\")"]}},{"kind":"move","step":"결과","from":{"col":2},"to":1,"label":"매 걸음 ground truth(도구 결과)","art":{"kind":"slip","lines":["로그 2건: 재시도가","결제를 한 번 더 보냄"]}},{"kind":"end","label":"필요한 단계 수를 예측하기 어려운 열린 문제"}]},{"name":"③ 도구를 부르니 에이전트?","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["환불 요청 #5521","순서: 자격 → 정책 → 처리 → 알림"]}},{"kind":"move","step":"경로","from":{"col":0},"to":1,"label":"미리 정한 코드 경로","art":{"kind":"slip","lines":["3단계: 처리","(순서는 코드가 정함)"]}},{"kind":"move","step":"호출","from":{"col":1},"to":2,"label":"도구를 여러 개 부름","art":{"kind":"slip","lines":["cancel_payment(5521)","send_mail(고객)"]}},{"kind":"end","label":"도구를 불러도 순서는 코드가 정함 — 도구 유무가 아니라 다음 단계를 누가 정하나"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -475,121 +528,9 @@
         <li>워크플로 안에서 무엇을 고르나 = <a href="workflow-patterns.html">■ 워크플로 5패턴</a> · 여러 에이전트로 갈지 = <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></li>
       </ul>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"도구를 여러 개 부르니 에이전트" → 도구 유무가 아니라 누가 다음 단계를 정하나. 워크플로 안의 호출도 도구를 씀 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>환불 처리(자격 확인 → 정책 확인 → 처리 → 알림)처럼 단계가 고정인 일에 에이전트 → 고정 경로 = 워크플로 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"고정 스키마 대량 변환에 에이전트" → 단계가 미리 그려지면 워크플로 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"강한 모델이니 자율 에이전트가 기본 업그레이드" → 복잡도는 결과가 나아질 때만 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"orchestrator-workers(지휘자-일꾼)는 모델이 하위작업을 정하니 에이전트" → 공식 분류는 워크플로 패턴 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"에이전트는 복잡한 프레임워크부터" → LLM API 직접부터, 많은 패턴이 코드 몇 줄 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"에이전트면 끝날 때까지 알아서" → 멈춤 조건(최대 반복 수) · 체크포인트 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"'에이전트' = 완전 자율만" → Anthropic 은 둘 다 agentic systems 로 묶고 구조로 가름 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Workflows are systems where LLMs and tools are orchestrated through predefined code paths."</p>
-        <p lang="en">"Agents, on the other hand, are systems where LLMs dynamically direct their own processes and tool usage, maintaining control over how they accomplish tasks."</p>
-        <p lang="en">"Agents can be used for open-ended problems where it’s difficult or impossible to predict the required number of steps, and where you can’t hardcode a fixed path."</p>
-        <p lang="en">"Agentic systems often trade latency and cost for better task performance, and you should consider when this tradeoff makes sense."</p>
-        <p lang="en">"workflows offer predictability and consistency for well-defined tasks, whereas agents are the better option when flexibility and model-driven decision-making are needed at scale."</p>
-        <p lang="en">"The autonomous nature of agents means higher costs, and the potential for compounding errors."</p>
-        <p lang="en">"The general recommendation is to always focus on implementing workflows where possible, and only resort to agents when they are truly required." <span class="src">(Skilljar)</span></p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="workflow-patterns.html">■ 워크플로 5패턴</a></li>
-        <li><a href="stop-reason.html">■ stop_reason 으로 분기</a></li>
-        <li><a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></li>
-        <li><a href="tool-design.html">■ 도구 설계</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 1.3 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>building-effective-agents <span class="src">(en 9·11·12·18·20·33·105~107·137·139·145·147·162줄)</span></li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287794">Skilljar API 287794</a> <span class="src">(13·19·25~27·45~47·53줄)</span></li>
-        <li>287796 <span class="src">(15~18줄)</span></li>
-        <li>287803 <span class="src">(9·11줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (갈림 기준 · 함정 전부)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">1.3①</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-workflow-vs-agent" aria-labelledby="vx-workflow-vs-agent-cap">
-  <div class="vx-player" data-vx-scene="workflow-vs-agent"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-workflow-vs-agent-cap">영상 — 다음 단계는 누가 정하나? (약 43초 · 소리 없음 · 자막). 실행 기록 3번의 내용(정책 확인 빠짐 · 한 단계 더)은 그림용 가정, 실측 아님 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>workflow-vs-agent</dd>
-  <dt>본편</dt>
-  <dd>1.3</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">1.3①</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>요리책을 보고 만들지, 냉장고를 열어 보고 그때그때 정할지 고르는 거예요.</p>
-<ul>
-<li>만들 음식이 정해져 있으면 요리책 순서대로 하는 게 제일 안전해요.</li>
-<li>뭐가 들어 있을지 모르는 냉장고면 열어 보고 다음 할 일을 정해야 해요.</li>
-<li>그때그때 정하면 더 오래 걸리고, 가끔 이상한 음식이 나와요.</li>
-<li>칼을 몇 개 쓰는지는 상관없어요. 순서를 누가 정하는지가 중요해요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">가르는 축은 하나</p>
-<ul>
-<li>다음 단계를 누가 정하나. 코드가 미리 정해 두면 워크플로, 모델이 실행 중에 정하면 에이전트.</li>
-<li>도구 호출은 둘 다 함. 워크플로 안의 각 호출도 검색(retrieval)·도구·메모리가 붙은 LLM(증강 LLM)을 씀 → "도구를 쓴다"는 가르는 기준이 아님.</li>
-</ul>
-<p class="lead">워크플로가 이기는 이유</p>
-<ul>
-<li>경로가 코드에 있음 → 중간 단계에 코드 검사(gate)를 넣을 수 있고, 매 단계가 무엇을 할지 알아서 평가·테스트가 쉬움.</li>
-<li>한 호출이 한 가지 일에 집중 → 대개 정확도가 오름.</li>
-<li>대신 유연성이 없음 : 미리 그린 입력·단계 밖의 일은 못 받음.</li>
-</ul>
-<p class="lead">에이전트가 이기는 이유</p>
-<ul>
-<li>필요한 단계 수를 미리 알 수 없는 열린 문제 : 매 걸음 도구 결과(ground truth)를 보고 다음을 정함.</li>
-<li>예상 못 한 상황에서 도구를 뜻밖의 방식으로 묶어 풀고, 필요하면 사용자에게 되물음.</li>
-<li>대신 비용↑ · 지연(latency)↑ · 오류가 쌓임 · 완료율↓ · 계측·평가가 어려움 → 모델 결정을 어느 정도 믿을 수 있어야 하고, 샌드박스 테스트·가드레일·멈춤 조건이 따라붙음.</li>
-</ul>
-<p class="lead">순서</p>
-<ul>
-<li>더 단순한 것부터 : 단일 LLM 호출 + 검색·예시로 대개 충분. 에이전트 시스템을 아예 안 만드는 것도 답.</li>
-<li>복잡도는 결과가 나아진다는 증거가 있을 때만.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>이 일의 단계를 지금 종이에 다 그릴 수 있나?</li>
-<li>못 그린다면, 모델이 정한 다음 걸음을 믿고 맡길 만한 안전장치가 있나?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -655,7 +596,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -730,7 +670,39 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="workflow-vs-agent-practice-h">연습 문제</h2>
 
+  <section class="csx" id="workflow-vs-agent-case" aria-labelledby="workflow-vs-agent-case-h" data-tree="workflow-vs-agent-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;고정 경로&quot;],[&quot;n3&quot;,null]]" data-flow="workflow-vs-agent-flow" data-scene="0">
+    <p class="csx-text">쇼핑몰 환불 처리는 <mark class="csx-m" data-tag="고정 경로">늘 자격 확인 → 정책 확인 → 처리 → 알림 순서로 간다<span class="csx-tag">고정 경로</span></mark>. 단계마다 주문 조회 · 결제 취소 · 메일 발송 도구를 부른다. 팀은 "도구를 여러 개 부르니 에이전트로 만들자"고 한다. 무엇으로 만들까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="workflow-vs-agent-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"도구를 여러 개 부르니 에이전트" → 도구 유무가 아니라 누가 다음 단계를 정하나. 워크플로 안의 호출도 도구를 씀 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>환불 처리(자격 확인 → 정책 확인 → 처리 → 알림)처럼 단계가 고정인 일에 에이전트 → 고정 경로 = 워크플로 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"고정 스키마 대량 변환에 에이전트" → 단계가 미리 그려지면 워크플로 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"강한 모델이니 자율 에이전트가 기본 업그레이드" → 복잡도는 결과가 나아질 때만 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"orchestrator-workers(지휘자-일꾼)는 모델이 하위작업을 정하니 에이전트" → 공식 분류는 워크플로 패턴 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"에이전트는 복잡한 프레임워크부터" → LLM API 직접부터, 많은 패턴이 코드 몇 줄 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"에이전트면 끝날 때까지 알아서" → 멈춤 조건(최대 반복 수) · 체크포인트 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"'에이전트' = 완전 자율만" → Anthropic 은 둘 다 agentic systems 로 묶고 구조로 가름 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Workflows are systems where LLMs and tools are orchestrated through predefined code paths."</p>
+        <p lang="en">"Agents, on the other hand, are systems where LLMs dynamically direct their own processes and tool usage, maintaining control over how they accomplish tasks."</p>
+        <p lang="en">"Agents can be used for open-ended problems where it’s difficult or impossible to predict the required number of steps, and where you can’t hardcode a fixed path."</p>
+        <p lang="en">"Agentic systems often trade latency and cost for better task performance, and you should consider when this tradeoff makes sense."</p>
+        <p lang="en">"workflows offer predictability and consistency for well-defined tasks, whereas agents are the better option when flexibility and model-driven decision-making are needed at scale."</p>
+        <p lang="en">"The autonomous nature of agents means higher costs, and the potential for compounding errors."</p>
+        <p lang="en">"The general recommendation is to always focus on implementing workflows where possible, and only resort to agents when they are truly required." <span class="src">(Skilljar)</span></p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 단계는 고정인데 갈래가 폭발</h4>
@@ -763,7 +735,6 @@
 <li><span class="lead">근거 :</span> Skilljar 287794 34·39·45줄 · building-effective-agents en 162줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -831,7 +802,29 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="workflow-vs-agent-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="workflow-patterns.html">■ 워크플로 5패턴</a></li>
+        <li><a href="stop-reason.html">■ stop_reason 으로 분기</a></li>
+        <li><a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></li>
+        <li><a href="tool-design.html">■ 도구 설계</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 1.3 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>building-effective-agents <span class="src">(en 9·11·12·18·20·33·105~107·137·139·145·147·162줄)</span></li>
+        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287794">Skilljar API 287794</a> <span class="src">(13·19·25~27·45~47·53줄)</span></li>
+        <li>287796 <span class="src">(15~18줄)</span></li>
+        <li>287803 <span class="src">(9·11줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (갈림 기준 · 함정 전부)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -840,8 +833,7 @@
 <li>워크플로 호출량·지연 비교 숫자는 공식에 없음(뒤집히는 때 2 전제).</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/workflow-vs-agent.md</p>

@@ -350,18 +350,68 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ◆ 단일 vs 멀티 에이전트 -->
-<article class="card t5-card" id="single-vs-multi-agent" aria-labelledby="single-vs-multi-agent-title">
+<!-- ◆ 단일 vs 멀티 에이전트 (v3 시범 순서) -->
+<article class="card t5-card v3" id="single-vs-multi-agent" aria-labelledby="single-vs-multi-agent-title">
   <header class="t5-head">
     <h1 id="single-vs-multi-agent-title"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> 단일 vs 멀티 에이전트</h1>
-    <p class="lemma-meta"><span lang="en">single agent vs multi-agent</span><span class="lemma-main">1.4 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">single agent vs multi-agent</span><span class="lemma-main">1.4 본편</span></p>
   </header>
-  <h2 class="sec-h" id="single-vs-multi-agent-case-h">지문</h2>
-  <section class="csx" id="single-vs-multi-agent-case" aria-labelledby="single-vs-multi-agent-case-h" data-tree="single-vs-multi-agent-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;맥락 공유&quot;],[&quot;n3&quot;,null]]" data-flow="single-vs-multi-agent-flow" data-scene="2">
-    <p class="csx-text">고객지원 Agent 개발팀이 환불 기능 하나를 계획 → 구현 → 테스트 순서로 만들며, 단계마다 에이전트를 하나씩 두는 멀티 에이전트 구성을 제안한다. 그런데 <mark class="csx-m" data-tag="맥락 공유">각 단계가 앞 단계의 설계와 코드를 그대로 알아야 한다<span class="csx-tag">맥락 공유</span></mark>. 이 구성은 맞나?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="single-vs-multi-agent-trees-h">갈림길</h2>
+  <h2 class="sec-h" id="single-vs-multi-agent-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>1.4 멀티 에이전트와 조율</b> · D1 설계 17%<br><q lang="en">Design multi-agent systems and orchestration strategies</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>1.4① 멀티에이전트가 값을 하는 일은?</b> — 멀티에이전트를 쓸까, 에이전트 하나(또는 워크플로)로 둘까</li>
+      <li><b>3.7③ 서로 얽힌 모듈을 고치는 코딩 작업을 에이전트 5개 병렬로 나누자는 제안 — 에이전트끼리 연결이 맞나?</b> — 멀티 에이전트(agent-to-agent)를 쓸지 — 비용·적합성</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="single-vs-multi-agent-sum-h">한눈에</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>숙제를 혼자 할지, 친구들과 나눠 할지 고르는 거예요.</p>
+<ul>
+<li>서로 다른 책을 찾아보는 숙제면 나눠서 찾는 게 빨리 넓게 찾아요.</li>
+<li>한 편의 글을 이어 쓰는 숙제면 나누면 앞뒤가 안 맞아요.</li>
+<li>나눌 때마다 서로 설명하느라 말이 많아지고 간식값도 늘어요.</li>
+<li>그래서 먼저 혼자 해 보고, 꼭 필요할 때만 나눠요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-single-vs-multi-agent" aria-labelledby="vx-single-vs-multi-agent-cap">
+  <div class="vx-player" data-vx-scene="single-vs-multi-agent"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-single-vs-multi-agent-cap">영상 — 환불 기능, 에이전트 몇 개로? (약 43초 · 소리 없음 · 자막). 토큰 블록 수와 빠지는 막대 수는 그림용 가정(카드 값은 &#x27;조율 토큰 &gt; 실제 작업&#x27; 뿐) · 검증 에이전트 = 설명 &#x27;뒤집히는 때 3&#x27; 의 테스트만 돌려 결과를 보고하는 검증 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">멀티 에이전트가 이기는 이유</p>
+<ul>
+<li>서브에이전트마다 자기 컨텍스트 창이 있음 → 넓게 뒤지고 요약만 돌려줌(압축). 관심사도 나뉨(도구 · 프롬프트 · 탐색 경로).</li>
+<li>연구 글 분석 : 성능 차이의 80% 를 토큰 사용량 하나가 설명 → 멀티는 "문제에 충분한 토큰을 쓰게 해 주는" 구조.</li>
+</ul>
+<p class="lead">지는 이유</p>
+<ul>
+<li>컨텍스트 복제 · 에이전트 간 조율 메시지 · 넘길 때 요약 → 같은 일에 단일 대비 3~10배 토큰.</li>
+<li>넘길 때마다 맥락이 빠짐("말 전달 놀이"). 에이전트가 늘수록 실패 지점·유지할 프롬프트·예측 못 할 동작도 늘어남.</li>
+<li>지금 모델은 실시간으로 서로 조율·위임(delegation)하는 데 아직 서툼.</li>
+</ul>
+<p class="lead">그래서 기준</p>
+<ul>
+<li>멀티가 풀어 주는 진짜 제약이 있나 : 컨텍스트 오염 · 병렬 · 전문화.</li>
+<li>decomposition(분해)이 컨텍스트 경계를 따르나 : 같은 맥락이 필요한 일은 한 에이전트에.</li>
+<li>검증 지점이 있나 : 전체 맥락 없이 결과만 확인할 수 있는 곳.</li>
+<li>작업 가치가 몇 배의 토큰 비용을 넘나.</li>
+</ul>
+<p class="lead">두 배수를 헷갈리지 말 것</p>
+<ul>
+<li>약 15배 = 채팅 대비 (연구 글). 에이전트는 채팅 대비 약 4배.</li>
+<li>3~10배 = 같은 일을 단일 에이전트로 할 때 대비 (claude.com 글).</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="single-vs-multi-agent-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="single-vs-multi-agent-tree-1" aria-labelledby="single-vs-multi-agent-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7 n8 n9|n1 n4 n5 n6 n7 n10 n11|n1 n4 n5 n12 n13|n1 n4 n5 n14 n15|n1 n4 n5 n16 n17 n18 n19|n1 n4 n5 n16 n17 n20 n21|n1 n4 n5 n22 n23">
     <div class="t5-fh"><h3 id="single-vs-multi-agent-tree-1-h">멀티를 쓸까 <span class="pg">[1.4①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -452,7 +502,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="single-vs-multi-agent-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="single-vs-multi-agent-flow" aria-label="단일 vs 멀티 에이전트 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["orchestrator","서브에이전트들","요약"],"blocks":[],"rules":["에이전트 하나로 먼저. 하나가 못 넘는 제약이 있을 때만 여럿",null,null],"question":"이 일을 여럿에게 쪼갤 만할까?","scenes":[{"name":"① 컨텍스트 오염","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"이 고객 최근 주문 5건 중 환불 대상 있어?"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"하위작업 토큰이 많음(1천+)","art":{"kind":"slip","lines":["주문 조회 5번","한 번에 2,500 토큰","서브 컨텍스트 창에 12,500 토큰"]}},{"kind":"move","step":"요약","from":{"col":1},"to":2,"label":"걸러 요약만 돌려줌","art":{"kind":"slip","lines":["환불 대상: 주문 #3","주 컨텍스트 창엔 90 × 5 = 450 토큰"]}},{"kind":"end","label":"주 작업엔 대부분 무관한 토큰을 걸러 냄 — 총 토큰은 늘어도 주 판단을 지킴"}]},{"name":"② 병렬","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"경쟁사 11곳 환불 정책을 비교해 줘"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"서로 독립인 방향을 동시에","art":{"kind":"slip","lines":["서브 11개","회사마다 하나씩 동시에"]}},{"kind":"move","step":"요약","from":{"col":1},"to":2,"label":"요약만 돌려줌","art":{"kind":"slip","lines":["회사별 요약 11개","11곳 빠짐없이"]}},{"kind":"end","label":"병렬의 주 이득 = 철저함 (속도가 아님)"}]},{"name":"③ 순차 단계 쪼개기","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"환불 기능 하나 만들어 줘"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"계획→구현→테스트","art":{"kind":"slip","lines":["계획 에이전트 →","구현 에이전트 →","테스트 에이전트"]}},{"kind":"move","step":"요약","from":{"col":1},"to":2,"label":"말 전달 놀이(거쳐 갈수록 내용이 빠짐)","art":{"kind":"slip","lines":["테스트: \"구현이 뭘 바꿨지?\"","조율 토큰 > 실제 작업"]}},{"kind":"end","label":"순차 단계는 컨텍스트를 공유해야 해서, 쪼개면 손해"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -506,121 +556,9 @@
       <p>멀티 가기 전에 : 도구 15~20+ 면 tool search (<a href="tool-search.html">◆ 도구 미리 싣기 vs tool search</a>) · 컨텍스트 압박이면 compaction <span class="ok">✓ 확인</span></p>
       <p>기준 두 개 주의 : 15~20+ = 멀티 에이전트 글의 "멀티로 가기 전에" 기준 · tool search 를 켜는 조건 자체는 10개 이상·정의 1만 토큰 초과 등 → <a href="tool-search.html">◆ 도구 미리 싣기 vs tool search</a> <span class="ok">✓ 확인</span></p>
     </details>
-    <h2>CCA-F</h2>
-      <p>봄 (서브에이전트 설정 · 컨텍스트 격리 동작) — 여기선 "이 일에 멀티를 쓸 만한가"를 비용 배수 · 의존도 · decomposition 경계로 물음</p>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"작업 단계가 여러 개니 멀티" → 순차 단계는 컨텍스트를 공유해야 해서, 쪼개면 손해 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"에이전트를 늘리면 결과가 자동으로 좋아진다" → 조율 비용이 이득을 넘는 게 보통. 몇 달 들인 멀티가 프롬프트 개선한 단일과 같았던 사례 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"15배는 단일 에이전트 대비" → 채팅 대비. 단일 대비는 3~10배 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"90.2% 점수에 도달" → 단일 Opus 4 대비 상대 향상, 내부 연구 eval <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"병렬이니 더 빠르다" → 총시간은 오히려 긴 경우 많음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>역할별 decomposition(분해 — 기획자·구현자·테스터·리뷰어) → 말 전달 놀이, 조율 토큰 &gt; 실제 작업 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>최신 모델은 서브에이전트를 스스로 과하게 띄움 → 언제 쓰고 말지를 시스템 프롬프트에 적음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Managed Agents "coordinator(코디네이터)가 최대 20개에 위임(delegation)" → 명단(roster)에 고유 에이전트 최대 20개, 같은 에이전트의 복사본은 여러 번 호출 가능 · 위임은 1단계만 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"multi-agent systems use about 15× more tokens than chats."</p>
-        <p lang="en">"Use subagents when tasks can run in parallel, require isolated context, or involve independent workstreams that don't need to share state."</p>
-        <p lang="en">"some domains that require all agents to share the same context or involve many dependencies between agents are not a good fit for multi-agent systems today."</p>
-        <p lang="en">"multi-agent implementations typically use 3-10x more tokens than single-agent approaches for equivalent tasks."</p>
-        <p lang="en">"Outside these situations, the coordination costs typically exceed the benefits."</p>
-        <p lang="en">"The primary benefit of parallelization is thoroughness, not speed."</p>
-        <p lang="en">"Start with the simplest approach that works, and add complexity only when evidence supports it."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="observability-signals.html">■ observability 세 신호 (위임 사슬 트레이스)</a></li>
-        <li><a href="tool-search.html">◆ 도구 미리 싣기 vs tool search</a></li>
-        <li><a href="integration-options.html">◆ 직접 API vs Agent SDK vs CLI vs Managed Agents</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 1.4 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>가이드 목표 3.7 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>multi-agent-research-system <span class="src">(en 13·17·19·21·41·44·45·50·76줄)</span></li>
-        <li>building-multi-agent-systems <span class="src">(en 13·15·23·25·35·100·144·146·154~158·224·226·236~254·366줄)</span></li>
-        <li>prompting-best-practices <span class="src">(en 391·396~397·404줄)</span></li>
-        <li>managed-agents multi-agent <span class="src">(ko 1·7·11·15~21·38·126줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 285줄 — 멀티에이전트 오케스트레이션 공개 베타 2026-05-06)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (갈림 기준 · 함정 전부)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">1.4①</li>
-        <li class="chip">3.7③</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-single-vs-multi-agent" aria-labelledby="vx-single-vs-multi-agent-cap">
-  <div class="vx-player" data-vx-scene="single-vs-multi-agent"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-single-vs-multi-agent-cap">영상 — 환불 기능, 에이전트 몇 개로? (약 43초 · 소리 없음 · 자막). 토큰 블록 수와 빠지는 막대 수는 그림용 가정(카드 값은 &#x27;조율 토큰 &gt; 실제 작업&#x27; 뿐) · 검증 에이전트 = 설명 &#x27;뒤집히는 때 3&#x27; 의 테스트만 돌려 결과를 보고하는 검증 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>single-vs-multi-agent</dd>
-  <dt>본편</dt>
-  <dd>1.4</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">1.4①</li><li class="chip">3.7③</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>숙제를 혼자 할지, 친구들과 나눠 할지 고르는 거예요.</p>
-<ul>
-<li>서로 다른 책을 찾아보는 숙제면 나눠서 찾는 게 빨리 넓게 찾아요.</li>
-<li>한 편의 글을 이어 쓰는 숙제면 나누면 앞뒤가 안 맞아요.</li>
-<li>나눌 때마다 서로 설명하느라 말이 많아지고 간식값도 늘어요.</li>
-<li>그래서 먼저 혼자 해 보고, 꼭 필요할 때만 나눠요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">멀티 에이전트가 이기는 이유</p>
-<ul>
-<li>서브에이전트마다 자기 컨텍스트 창이 있음 → 넓게 뒤지고 요약만 돌려줌(압축). 관심사도 나뉨(도구 · 프롬프트 · 탐색 경로).</li>
-<li>연구 글 분석 : 성능 차이의 80% 를 토큰 사용량 하나가 설명 → 멀티는 "문제에 충분한 토큰을 쓰게 해 주는" 구조.</li>
-</ul>
-<p class="lead">지는 이유</p>
-<ul>
-<li>컨텍스트 복제 · 에이전트 간 조율 메시지 · 넘길 때 요약 → 같은 일에 단일 대비 3~10배 토큰.</li>
-<li>넘길 때마다 맥락이 빠짐("말 전달 놀이"). 에이전트가 늘수록 실패 지점·유지할 프롬프트·예측 못 할 동작도 늘어남.</li>
-<li>지금 모델은 실시간으로 서로 조율·위임(delegation)하는 데 아직 서툼.</li>
-</ul>
-<p class="lead">그래서 기준</p>
-<ul>
-<li>멀티가 풀어 주는 진짜 제약이 있나 : 컨텍스트 오염 · 병렬 · 전문화.</li>
-<li>decomposition(분해)이 컨텍스트 경계를 따르나 : 같은 맥락이 필요한 일은 한 에이전트에.</li>
-<li>검증 지점이 있나 : 전체 맥락 없이 결과만 확인할 수 있는 곳.</li>
-<li>작업 가치가 몇 배의 토큰 비용을 넘나.</li>
-</ul>
-<p class="lead">두 배수를 헷갈리지 말 것</p>
-<ul>
-<li>약 15배 = 채팅 대비 (연구 글). 에이전트는 채팅 대비 약 4배.</li>
-<li>3~10배 = 같은 일을 단일 에이전트로 할 때 대비 (claude.com 글).</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -692,7 +630,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -774,7 +711,39 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="single-vs-multi-agent-practice-h">연습 문제</h2>
 
+  <section class="csx" id="single-vs-multi-agent-case" aria-labelledby="single-vs-multi-agent-case-h" data-tree="single-vs-multi-agent-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;맥락 공유&quot;],[&quot;n3&quot;,null]]" data-flow="single-vs-multi-agent-flow" data-scene="2">
+    <p class="csx-text">고객지원 Agent 개발팀이 환불 기능 하나를 계획 → 구현 → 테스트 순서로 만들며, 단계마다 에이전트를 하나씩 두는 멀티 에이전트 구성을 제안한다. 그런데 <mark class="csx-m" data-tag="맥락 공유">각 단계가 앞 단계의 설계와 코드를 그대로 알아야 한다<span class="csx-tag">맥락 공유</span></mark>. 이 구성은 맞나?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="single-vs-multi-agent-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"작업 단계가 여러 개니 멀티" → 순차 단계는 컨텍스트를 공유해야 해서, 쪼개면 손해 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"에이전트를 늘리면 결과가 자동으로 좋아진다" → 조율 비용이 이득을 넘는 게 보통. 몇 달 들인 멀티가 프롬프트 개선한 단일과 같았던 사례 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"15배는 단일 에이전트 대비" → 채팅 대비. 단일 대비는 3~10배 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"90.2% 점수에 도달" → 단일 Opus 4 대비 상대 향상, 내부 연구 eval <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"병렬이니 더 빠르다" → 총시간은 오히려 긴 경우 많음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>역할별 decomposition(분해 — 기획자·구현자·테스터·리뷰어) → 말 전달 놀이, 조율 토큰 &gt; 실제 작업 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>최신 모델은 서브에이전트를 스스로 과하게 띄움 → 언제 쓰고 말지를 시스템 프롬프트에 적음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Managed Agents "coordinator(코디네이터)가 최대 20개에 위임(delegation)" → 명단(roster)에 고유 에이전트 최대 20개, 같은 에이전트의 복사본은 여러 번 호출 가능 · 위임은 1단계만 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"multi-agent systems use about 15× more tokens than chats."</p>
+        <p lang="en">"Use subagents when tasks can run in parallel, require isolated context, or involve independent workstreams that don't need to share state."</p>
+        <p lang="en">"some domains that require all agents to share the same context or involve many dependencies between agents are not a good fit for multi-agent systems today."</p>
+        <p lang="en">"multi-agent implementations typically use 3-10x more tokens than single-agent approaches for equivalent tasks."</p>
+        <p lang="en">"Outside these situations, the coordination costs typically exceed the benefits."</p>
+        <p lang="en">"The primary benefit of parallelization is thoroughness, not speed."</p>
+        <p lang="en">"Start with the simplest approach that works, and add complexity only when evidence supports it."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 컨텍스트 오염이 멀티를 정당화하는 때 (비용은 오히려 늘어남)</h4>
@@ -817,7 +786,6 @@
 <li><span class="lead">근거 :</span> building-multi-agent-systems en 156·218·226줄 · ◆ 도구 미리 싣기 vs tool search</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -892,7 +860,32 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="single-vs-multi-agent-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>CCA-F</h3>
+      <p>봄 (서브에이전트 설정 · 컨텍스트 격리 동작) — 여기선 "이 일에 멀티를 쓸 만한가"를 비용 배수 · 의존도 · decomposition 경계로 물음</p>
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="observability-signals.html">■ observability 세 신호 (위임 사슬 트레이스)</a></li>
+        <li><a href="tool-search.html">◆ 도구 미리 싣기 vs tool search</a></li>
+        <li><a href="integration-options.html">◆ 직접 API vs Agent SDK vs CLI vs Managed Agents</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 1.4 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>가이드 목표 3.7 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>multi-agent-research-system <span class="src">(en 13·17·19·21·41·44·45·50·76줄)</span></li>
+        <li>building-multi-agent-systems <span class="src">(en 13·15·23·25·35·100·144·146·154~158·224·226·236~254·366줄)</span></li>
+        <li>prompting-best-practices <span class="src">(en 391·396~397·404줄)</span></li>
+        <li>managed-agents multi-agent <span class="src">(ko 1·7·11·15~21·38·126줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 285줄 — 멀티에이전트 오케스트레이션 공개 베타 2026-05-06)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (갈림 기준 · 함정 전부)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -902,8 +895,7 @@
 <li>"3~10배"는 claude.com 블로그(2025 추정, Sonnet 4.5 예제 코드), "15배"는 2025 연구 글 — 최신 모델에서 배수가 달라졌는지 공식 숫자 없음.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/single-vs-multi-agent.md</p>

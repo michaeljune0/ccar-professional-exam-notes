@@ -350,24 +350,70 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ 코딩 맡기는 흐름 -->
-<article class="card t5-card" id="coding-loop" aria-labelledby="coding-loop-title">
+<!-- ■ 코딩 맡기는 흐름 (v3 시범 순서) -->
+<article class="card t5-card v3" id="coding-loop" aria-labelledby="coding-loop-title">
   <header class="t5-head">
     <h1 id="coding-loop-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 코딩 맡기는 흐름</h1>
-    <p class="lemma-meta"><span lang="en">explore → plan → implement → commit · pass/fail check</span><span class="lemma-main">7.2 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">explore → plan → implement → commit · pass/fail check</span><span class="lemma-main">7.2 본편</span></p>
   </header>
-  <h2 class="sec-h" id="coding-loop-sum-h">카드</h2>
+  <h2 class="sec-h" id="coding-loop-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>7.2 개발 흐름 개선</b> · D7 개발팀 7%<br><q lang="en">Improve developer workflows using AI-assisted tooling</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>7.2① Claude 에게 코딩을 맡기는 흐름은?</b> — 탐색 → 계획 → 구현 → 검증 루프를 어떻게 짜나</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="coding-loop-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>Claude 에게 코딩을 맡길 땐 ⓐ 스스로 돌릴 합격/불합격 검사를 주고 ⓑ 탐색·계획을 구현과 떼어 놓음. 검사가 있으면 루프가 사람 없이 닫힘 <span class="ok">✓ 확인</span></p>
       <p>근본 제약 = 컨텍스트 창. 찰수록 앞선 지시를 잊고 실수가 늘어남 → 교정·탐색이 쌓이면 새로 시작 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> terraform plan → apply, 그리고 CI 테스트 게이트. "숙련자는 plan 없이 바로 apply" 가 속이는 습관</p>
   </div>
-  <h2 class="sec-h" id="coding-loop-case-h">지문</h2>
-  <section class="csx" id="coding-loop-case" aria-labelledby="coding-loop-case-h" data-tree="coding-loop-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;검사 있음&quot;],[&quot;n5&quot;,null],[&quot;n8&quot;,&quot;무인&quot;],[&quot;n9&quot;,null]]" data-flow="coding-loop-flow" data-scene="0">
-    <p class="csx-text">결제 모듈 리팩터링을 <mark class="csx-m" data-tag="무인">밤새 사람 없이<span class="csx-tag">무인</span></mark> Claude 에게 맡긴다. 저장소엔 <mark class="csx-m" data-tag="검사 있음"><code>npm test</code> 로 도는 테스트가 이미 있다<span class="csx-tag">검사 있음</span></mark>. 팀원은 "아침에 사람이 결과를 눈으로 확인하면 된다" 고 한다. 작업이 사람 없이 제대로 끝나게 하려면?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="coding-loop-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>숙제를 맡길 때 "다 했어?" 대신 정답지를 같이 주는 거예요.</p>
+<ul>
+<li>정답지가 있으면 혼자 맞춰 보고 고쳐요.</li>
+<li>정답지가 없으면 매번 어른이 봐 줘야 해요.</li>
+<li>큰 숙제는 먼저 계획을 세우고, 한 줄짜리는 바로 해요.</li>
+<li>같은 걸 두 번 넘게 틀리면 새 종이에 다시 시작해요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-coding-loop" aria-labelledby="vx-coding-loop-cap">
+  <div class="vx-player" data-vx-scene="coding-loop"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-coding-loop-cap">영상 — 밤새 맡긴 일, 누가 끝을 판정할까? (약 43초 · 소리 없음 · 자막). 멈춘 자리와 ②③ 의 결과 값은 그림용 가정 · 실측 아님 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">멈추는 신호</p>
+<ul>
+<li>Claude 는 일이 "끝나 보이면" 멈춤. 돌릴 검사가 없으면 그게 유일한 신호 → 사람이 검증 루프가 되고, 모든 실수가 사람이 알아챌 때까지 기다림.</li>
+<li>합격/불합격을 돌려주는 검사(테스트 · 빌드 종료 코드 · 린터 · fixture diff · 스크린샷 비교)를 주면 "일 → 검사 → 결과 읽기 → 고치기" 가 사람 없이 돎.</li>
+<li>검사를 거는 세기는 계단 : 한 프롬프트 → <code>/goal</code>(별도 평가자가 매 턴 재확인) → Stop 훅(통과할 때까지 턴 종료 차단) → 검증 서브에이전트(일한 쪽이 채점하지 않게). 계단을 오를수록 설정 비용이 늘고, 대신 사람이 덜 지켜봐도 됨.</li>
+</ul>
+<p class="lead">탐색과 실행 떼기</p>
+<ul>
+<li>곧장 코딩하면 엉뚱한 문제를 풂 → plan mode 로 먼저 읽고 계획만. 계획 단계에선 변경 없음.</li>
+<li>대신 오버헤드. 그래서 기준이 "diff 를 한 문장으로 말할 수 있나". 말할 수 있으면 범위를 이미 안다는 뜻 → 바로.</li>
+</ul>
+<p class="lead">컨텍스트가 근본 제약</p>
+<ul>
+<li>대화·읽은 파일·명령 출력이 전부 창에 쌓이고, 찰수록 앞선 지시를 잊고 실수가 늚.</li>
+<li>그래서 ⓐ 조사는 서브에이전트(요약만 돌아옴) ⓑ 관련 없는 작업 사이 <code>/clear</code> ⓒ 같은 문제 교정이 두 번을 넘으면 실패한 시도가 컨텍스트를 더럽힌 것 → 새로 시작이 대개 이김.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>Claude 가 "됐다" 를 스스로 확인할 수단이 있나?</li>
+<li>이 변경을 한 문장으로 말할 수 있나?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="coding-loop-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="coding-loop-tree-1" aria-labelledby="coding-loop-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5">
     <div class="t5-fh"><h3 id="coding-loop-tree-1-h">③④ 계획할까 <span class="pg">[7.2①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -430,7 +476,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="coding-loop-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="coding-loop-flow" aria-label="코딩 맡기는 흐름 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["사람","Claude","검사"],"blocks":[],"rules":[null,null,"테스트 · 빌드 종료 코드 · 린터"],"question":"\"다 됐다\" 는 누가 판정할까?","scenes":[{"name":"① 검사를 줌 → 루프가 닫힘","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"결제 모듈 리팩터링해 줘. `npm test` 통과까지."}},{"kind":"move","step":"맡기기","from":{"col":0},"to":1,"label":"검사 기준까지 같이","art":{"kind":"slip","lines":["할 일: 리팩터링","완료: `npm test` 통과"]}},{"kind":"move","step":"실행","from":{"col":1},"to":2,"label":"테스트를 돌림","art":{"kind":"slip","lines":["$ npm test","2 failed · 48 passed"]}},{"kind":"move","step":"읽기","from":{"col":2},"to":1,"label":"실패를 읽고 고침","art":{"kind":"slip","lines":["FAIL `refund.test.ts`","→ 고치고 다시"]}},{"kind":"move","step":"통과","from":{"col":1},"to":2,"label":"다시 돌림","art":{"kind":"slip","lines":["$ npm test","50 passed · exit 0"]}},{"kind":"end","label":"검사가 통과할 때까지 스스로 반복 — 사람이 검증 루프가 되지 않음"}]},{"name":"② 검사 없음 → 사람이 검증 루프","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"대시보드 좀 좋게 해 줘."}},{"kind":"move","step":"맡기기","from":{"col":0},"to":1,"label":"완료 기준 없음","art":{"kind":"slip","lines":["할 일: 대시보드 개선","완료: ?"]}},{"kind":"skip","at":2},{"kind":"mark","step":"멈춤","at":{"col":1},"label":"\"끝나 보임\" 이 유일한 신호","art":{"kind":"say","text":"다 된 것 같아요."}},{"kind":"move","step":"넘기기","from":{"col":1},"to":0,"label":"실수는 사람이 알아챌 때까지 남음","art":{"kind":"slip","lines":["PR #214","검사 결과: 없음"]}},{"kind":"end","label":"사람이 검증 루프가 됨 — 모든 실수가 사람이 알아챌 때까지 기다림"}]},{"name":"③ 같은 문제 교정 반복","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"날짜 형식 또 틀렸어."}},{"kind":"move","step":"교정","from":{"col":0},"to":1,"label":"같은 문제 세 번째","art":{"kind":"slip","lines":["교정 1: 날짜 형식","교정 2: 날짜 형식","교정 3: 날짜 형식"]}},{"kind":"mark","step":"쌓임","at":{"col":1},"label":"컨텍스트가 실패한 시도로 어지러움","art":{"kind":"slip","lines":["시도 A 실패","시도 B 실패","교정 ×3 …"]}},{"kind":"end","label":"두 번 넘게 교정했으면 `/clear` 후 배운 걸 넣은 더 구체적 프롬프트로"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -467,7 +513,7 @@
     </details>
   </figure>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="coding-loop-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
@@ -520,113 +566,9 @@
         </li>
       </ol>
     </details>
-    <h2>CCA-F</h2>
-      <p>봄 (3.4 계획 모드 vs 직접 실행 — diff 한 문장이면 직접 · 3.5 반복 개선 — 예시·검사로 루프 닫기, 두 번 넘게 교정하면 <code>/clear</code>) — 여기선 팀이 일을 맡기는 흐름으로 묻나 : 검사를 어디에 얼마나 세게 거나(프롬프트 · <code>/goal</code> · Stop 훅 · 검증 서브에이전트), 무인 실행을 무엇으로 끝내나</p>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"사람이 매번 결과를 눈으로 확인" → 사람이 검증 루프가 됨. 검사를 줌 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"모든 작업을 plan mode 로" → 작은 수정엔 오버헤드. diff 한 문장이면 건너뜀 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"대시보드 좀 좋게" 한 줄 → 스크린샷을 붙이고 결과 스크린샷과 비교·차이 나열 후 고치게 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"빌드 실패 → 오류를 억눌러 통과" → 근본 원인을 고치고 빌드 성공까지 확인 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"같은 세션에서 계속 교정" → 두 번 넘으면 <code>/clear</code> 후 새로 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Claude 요약이 '완료'라서 완료" → 증거(테스트 출력·명령 결과)를 봄 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"탐색으로 컨텍스트가 차니 plan mode" → plan mode 는 쓰기를 막는 것. 컨텍스트 보호는 서브에이전트 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "계획은 늘 건너뛴다 · 막연한 프롬프트는 늘 오답" → 탐색적 작업은 계획 없이 · 막연한 질문이 맞을 때도 있음 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Give Claude something that produces a pass or fail, and the loop closes on its own."</p>
-        <p lang="en">"Without a check it can run, “looks done” is the only signal available, and you become the verification loop"</p>
-        <p lang="en">"Separate research and planning from implementation to avoid solving the wrong problem."</p>
-        <p lang="en">"If you could describe the diff in one sentence, skip the plan."</p>
-        <p lang="en">"If you’ve corrected Claude more than twice on the same issue in one session, the context is cluttered with failed approaches."</p>
-        <p lang="en">"Have Claude show evidence rather than asserting success"</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="ai-code-review.html">■ AI 코드 리뷰</a></li>
-        <li><a href="automation-surfaces.html">■ 자동화 surface 고르기</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 7.2 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>best-practices <span class="src">(en 169·181~196·206~265·279~288·552·576~581·609~618·806~809·821줄, 2026-09-28 조회)</span></li>
-        <li>common-workflows <span class="src">(en 743·749줄)</span></li>
-        <li>Skilljar cci 486938 <span class="src">(무인 실행 검증)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">7.2①</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-coding-loop" aria-labelledby="vx-coding-loop-cap">
-  <div class="vx-player" data-vx-scene="coding-loop"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-coding-loop-cap">영상 — 밤새 맡긴 일, 누가 끝을 판정할까? (약 43초 · 소리 없음 · 자막). 멈춘 자리와 ②③ 의 결과 값은 그림용 가정 · 실측 아님 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>coding-loop</dd>
-  <dt>본편</dt>
-  <dd>7.2</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">7.2①</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>숙제를 맡길 때 "다 했어?" 대신 정답지를 같이 주는 거예요.</p>
-<ul>
-<li>정답지가 있으면 혼자 맞춰 보고 고쳐요.</li>
-<li>정답지가 없으면 매번 어른이 봐 줘야 해요.</li>
-<li>큰 숙제는 먼저 계획을 세우고, 한 줄짜리는 바로 해요.</li>
-<li>같은 걸 두 번 넘게 틀리면 새 종이에 다시 시작해요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">멈추는 신호</p>
-<ul>
-<li>Claude 는 일이 "끝나 보이면" 멈춤. 돌릴 검사가 없으면 그게 유일한 신호 → 사람이 검증 루프가 되고, 모든 실수가 사람이 알아챌 때까지 기다림.</li>
-<li>합격/불합격을 돌려주는 검사(테스트 · 빌드 종료 코드 · 린터 · fixture diff · 스크린샷 비교)를 주면 "일 → 검사 → 결과 읽기 → 고치기" 가 사람 없이 돎.</li>
-<li>검사를 거는 세기는 계단 : 한 프롬프트 → <code>/goal</code>(별도 평가자가 매 턴 재확인) → Stop 훅(통과할 때까지 턴 종료 차단) → 검증 서브에이전트(일한 쪽이 채점하지 않게). 계단을 오를수록 설정 비용이 늘고, 대신 사람이 덜 지켜봐도 됨.</li>
-</ul>
-<p class="lead">탐색과 실행 떼기</p>
-<ul>
-<li>곧장 코딩하면 엉뚱한 문제를 풂 → plan mode 로 먼저 읽고 계획만. 계획 단계에선 변경 없음.</li>
-<li>대신 오버헤드. 그래서 기준이 "diff 를 한 문장으로 말할 수 있나". 말할 수 있으면 범위를 이미 안다는 뜻 → 바로.</li>
-</ul>
-<p class="lead">컨텍스트가 근본 제약</p>
-<ul>
-<li>대화·읽은 파일·명령 출력이 전부 창에 쌓이고, 찰수록 앞선 지시를 잊고 실수가 늚.</li>
-<li>그래서 ⓐ 조사는 서브에이전트(요약만 돌아옴) ⓑ 관련 없는 작업 사이 <code>/clear</code> ⓒ 같은 문제 교정이 두 번을 넘으면 실패한 시도가 컨텍스트를 더럽힌 것 → 새로 시작이 대개 이김.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>Claude 가 "됐다" 를 스스로 확인할 수단이 있나?</li>
-<li>이 변경을 한 문장으로 말할 수 있나?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -698,7 +640,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -773,7 +714,38 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="coding-loop-practice-h">연습 문제</h2>
 
+  <section class="csx" id="coding-loop-case" aria-labelledby="coding-loop-case-h" data-tree="coding-loop-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;검사 있음&quot;],[&quot;n5&quot;,null],[&quot;n8&quot;,&quot;무인&quot;],[&quot;n9&quot;,null]]" data-flow="coding-loop-flow" data-scene="0">
+    <p class="csx-text">결제 모듈 리팩터링을 <mark class="csx-m" data-tag="무인">밤새 사람 없이<span class="csx-tag">무인</span></mark> Claude 에게 맡긴다. 저장소엔 <mark class="csx-m" data-tag="검사 있음"><code>npm test</code> 로 도는 테스트가 이미 있다<span class="csx-tag">검사 있음</span></mark>. 팀원은 "아침에 사람이 결과를 눈으로 확인하면 된다" 고 한다. 작업이 사람 없이 제대로 끝나게 하려면?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="coding-loop-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"사람이 매번 결과를 눈으로 확인" → 사람이 검증 루프가 됨. 검사를 줌 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"모든 작업을 plan mode 로" → 작은 수정엔 오버헤드. diff 한 문장이면 건너뜀 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"대시보드 좀 좋게" 한 줄 → 스크린샷을 붙이고 결과 스크린샷과 비교·차이 나열 후 고치게 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"빌드 실패 → 오류를 억눌러 통과" → 근본 원인을 고치고 빌드 성공까지 확인 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"같은 세션에서 계속 교정" → 두 번 넘으면 <code>/clear</code> 후 새로 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Claude 요약이 '완료'라서 완료" → 증거(테스트 출력·명령 결과)를 봄 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"탐색으로 컨텍스트가 차니 plan mode" → plan mode 는 쓰기를 막는 것. 컨텍스트 보호는 서브에이전트 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "계획은 늘 건너뛴다 · 막연한 프롬프트는 늘 오답" → 탐색적 작업은 계획 없이 · 막연한 질문이 맞을 때도 있음 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Give Claude something that produces a pass or fail, and the loop closes on its own."</p>
+        <p lang="en">"Without a check it can run, “looks done” is the only signal available, and you become the verification loop"</p>
+        <p lang="en">"Separate research and planning from implementation to avoid solving the wrong problem."</p>
+        <p lang="en">"If you could describe the diff in one sentence, skip the plan."</p>
+        <p lang="en">"If you’ve corrected Claude more than twice on the same issue in one session, the context is cluttered with failed approaches."</p>
+        <p lang="en">"Have Claude show evidence rather than asserting success"</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 계획은 늘 좋은 것? — 작은 수정이면 뒤집힘</h4>
@@ -802,7 +774,6 @@
 <li><span class="lead">등급 :</span> <span class="ok">✓ 확인</span> (best-practices en 192~196줄). Stop 훅의 연속 차단 상한 수치는 미열람 → 미해결 2.</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -877,7 +848,28 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="coding-loop-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>CCA-F</h3>
+      <p>봄 (3.4 계획 모드 vs 직접 실행 — diff 한 문장이면 직접 · 3.5 반복 개선 — 예시·검사로 루프 닫기, 두 번 넘게 교정하면 <code>/clear</code>) — 여기선 팀이 일을 맡기는 흐름으로 묻나 : 검사를 어디에 얼마나 세게 거나(프롬프트 · <code>/goal</code> · Stop 훅 · 검증 서브에이전트), 무인 실행을 무엇으로 끝내나</p>
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="ai-code-review.html">■ AI 코드 리뷰</a></li>
+        <li><a href="automation-surfaces.html">■ 자동화 surface 고르기</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 7.2 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>best-practices <span class="src">(en 169·181~196·206~265·279~288·552·576~581·609~618·806~809·821줄, 2026-09-28 조회)</span></li>
+        <li>common-workflows <span class="src">(en 743·749줄)</span></li>
+        <li>Skilljar cci 486938 <span class="src">(무인 실행 검증)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -886,8 +878,7 @@
 <li>권한 기본값 문장("v2.1.283 이상은 auto mode 가 기본", best-practices en 367줄)은 버전 조건 — 시험 시점(v1.0 가이드) 값과 다를 수 있어 카드에 안 넣음. Claude Code 버전별 날짜는 조회 안 함.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/coding-loop.md</p>

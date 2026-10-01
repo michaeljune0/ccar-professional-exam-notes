@@ -350,18 +350,66 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ◆ 직접 API vs Agent SDK vs CLI vs Managed Agents -->
-<article class="card t5-card" id="integration-options" aria-labelledby="integration-options-title">
+<!-- ◆ 직접 API vs Agent SDK vs CLI vs Managed Agents (v3 시범 순서) -->
+<article class="card t5-card v3" id="integration-options" aria-labelledby="integration-options-title">
   <header class="t5-head">
     <h1 id="integration-options-title"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> 직접 API vs Agent SDK vs CLI vs Managed Agents</h1>
-    <p class="lemma-meta"><span lang="en">direct API · Agent SDK · CLI -p · Managed Agents</span><span class="lemma-main">3.7 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">direct API · Agent SDK · CLI -p · Managed Agents</span><span class="lemma-main">3.7 본편</span></p>
   </header>
-  <h2 class="sec-h" id="integration-options-case-h">지문</h2>
-  <section class="csx" id="integration-options-case" aria-labelledby="integration-options-case-h" data-tree="integration-options-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;안 만들고 싶음&quot;],[&quot;n3&quot;,null],[&quot;n6&quot;,&quot;BAA 필수&quot;],[&quot;n7&quot;,null]]">
-    <p class="csx-text">운영 인력이 2명뿐인 병원이 <mark class="csx-m" data-tag="안 만들고 싶음">에이전트 루프·샌드박스는 직접 만들고 싶지 않다<span class="csx-tag">안 만들고 싶음</span></mark>며, 환자 메시지를 분류하고 답장 초안을 쓰는 장기 실행 에이전트를 원한다. 계약상 <mark class="csx-m" data-tag="BAA 필수">HIPAA BAA 적용이 필수<span class="csx-tag">BAA 필수</span></mark>다. 어떤 방식으로 붙일까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
-  </section>
-  <h2 class="sec-h" id="integration-options-trees-h">갈림길</h2>
+  <h2 class="sec-h" id="integration-options-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>3.7 연결 방식 고르기</b> · D3 연결 19%<br><q lang="en">Evaluate connection protocols and select the appropriate integration mechanism (MCP, API/CLI, agent-to-agent)</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>3.7② 작은 플랫폼팀이 고객지원 에이전트를 띄운다 — 직접 API · Agent SDK · CLI(-p) · Managed Agents 중 무엇?</b> — 연동 방식 고르기 <span class="note">(도구 루프·인프라를 누가 소유하나)</span></li>
+      <li><b>3.7③ 서로 얽힌 모듈을 고치는 코딩 작업을 에이전트 5개 병렬로 나누자는 제안 — 에이전트끼리 연결이 맞나?</b> — 멀티 에이전트(agent-to-agent)를 쓸지 — 비용·적합성</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="integration-options-sum-h">한눈에</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>밥을 직접 해 먹을지, 밀키트를 살지, 식당에 갈지 고르는 거예요.</p>
+<ul>
+<li>직접 하면 마음대로지만 설거지도 내 몫이에요(직접 API).</li>
+<li>밀키트는 재료·순서가 다 들어 있고 내 부엌에서 해요(Agent SDK).</li>
+<li>식당은 요리사가 다 해 주지만 메뉴 규칙을 따라야 해요(Managed Agents).</li>
+<li>식당이 "주문 기록을 안 남기는" 약속은 아직 못 해요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-integration-options" aria-labelledby="vx-integration-options-cap">
+  <div class="vx-player" data-vx-scene="integration-options"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-integration-options-cap">영상 — 맡기면 편한데, BAA 가 필수라면 (약 42초 · 소리 없음 · 자막). <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">네 가지는 "누가 무엇을 돌리나"로 갈림</p>
+<ul>
+<li>직접 API : 모델 호출만 받음. 도구 루프(부르고·결과 넣고·다시 부르기)를 내가 짬. SDK tool runner(베타)가 루프를 대신 돌려 줄 수도.</li>
+<li>Agent SDK : Claude Code 의 내장 도구·권한·세션·훅·서브에이전트·MCP 를 라이브러리로. 루프는 들어 있고, <strong>프로세스는 내가 운영</strong>.</li>
+<li>CLI <code>-p</code> : 같은 루프를 명령 한 줄로. 스크립트·CI/CD·Python·TS 밖 언어의 하위 프로세스.</li>
+<li>Managed Agents : 루프·도구 실행·샌드박스를 Anthropic 이 호스팅. 세션·기록·샌드박스 상태가 서버에 남음(상태 유지 설계).</li>
+</ul>
+<p class="lead">단순함이 먼저</p>
+<ul>
+<li>공식은 "가장 단순한 해법부터, 필요할 때만 복잡하게". 많은 패턴이 API 직접 호출 몇 줄. 에이전트 자체가 필요 없을 수도.</li>
+<li>프레임워크는 추상화 층이 프롬프트·응답을 가려 디버깅이 어려워짐.</li>
+</ul>
+<p class="lead">상태 유지의 대가</p>
+<ul>
+<li>Managed Agents 는 서버에 세션을 저장 → ZDR·HIPAA BAA 대상이 아님. 규정 요구가 있으면 여기서 갈림.</li>
+<li>자체 호스팅 샌드박스는 "실행 위치"를 우리 인프라로 옮기는 것(규정 준수·데이터 상주용). ZDR 적격을 바꾼다는 문장은 없음.</li>
+</ul>
+<p class="lead">MCP 는 연결 규격이지 보안 결정이 아님</p>
+<ul>
+<li>MCP 규격 스스로 "프로토콜 수준에서 보안 원칙을 강제할 수 없다, 구현자가 해야 한다"고 적음.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="integration-options-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="integration-options-tree-1" aria-labelledby="integration-options-tree-1-h" data-paths="n1 n2 n3 n4 n5|n1 n2 n3 n6 n7|n1 n8 n9">
     <div class="t5-fh"><h3 id="integration-options-tree-1-h">루프를 누가 <span class="pg">[3.7②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -437,120 +485,9 @@
         <li>CLI <code>-p</code> 주의 : <code>--bare</code> 없이 돌리면 그 폴더의 <code>.claude/settings.json</code> 훅·<code>.mcp.json</code> 서버가 신뢰 확인창 없이 돔 → CI·스크립트는 <code>--bare</code> 권장 <span class="ok">✓ 확인</span></li>
       </ul>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"MCP 표준을 쓰니 보안·규정 검토는 끝났다" → 프로토콜은 강제 못 함 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"추상화 프레임워크부터 깐다" → API 직접부터 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"운영 인력 없는 작은 팀이 Agent SDK 로 직접 호스팅" → 프로세스 운영이 우리 몫. "최소 인프라"는 공식이 Managed Agents 에 붙인 조건 <span class="ok">✓ 확인</span> <span class="src">(단 ZDR·BAA 필요하면 Managed Agents 탈락)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Managed Agents 면 ZDR 도 해결" → 대상 아님 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Agent SDK 제품에 claude.ai 로그인을 붙여 출시" → 사전 승인 없인 안 됨, API 키 인증(authentication) <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"integration continuum" 은 강의가 만든 이름 — 공식 용어 아님 <span class="note">(목록 메모)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"좁은 연동 경계가 중요하면 직접 API" → 공식 기준 없음. 공식 근거는 단순성 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"에이전트끼리 연결(agent-to-agent)이 더 고급" → 적합성·비용 판단은 <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Embed Claude Code’s agent in your own Python or TypeScript application, in a process you operate"</p>
-        <p lang="en">"You write the tool loop yourself, or let the client SDK’s beta tool runner drive it."</p>
-        <p lang="en">"A hosted agent harness that runs the agent loop, with sessions in an Anthropic-managed cloud sandbox or a self-hosted sandbox on your own infrastructure."</p>
-        <p lang="en">"It’s available as a CLI for scripts and CI/CD"</p>
-        <p lang="en">"We suggest that developers start by using LLM APIs directly: many patterns can be implemented in a few lines of code."</p>
-        <p lang="en">"While MCP itself cannot enforce these security principles at the protocol level, implementors SHOULD:"</p>
-        <p lang="en">"Managed Agents is not currently eligible for Zero Data Retention or HIPAA Business Associate Agreement (BAA) coverage."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="mcp-connector.html">■ MCP connector</a></li>
-        <li><a href="least-privilege.html">■ 최소 권한</a></li>
-        <li><a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 3.7 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>agent-sdk overview <span class="src">(en 181·191~200·233줄)</span></li>
-        <li>headless <span class="src">(en 158·194·210줄)</span></li>
-        <li>managed-agents overview <span class="src">(ko 3~8·29·46~55·78줄 · en 6·50~53·78줄)</span></li>
-        <li>building-effective-agents <span class="src">(en 18·31·33줄)</span></li>
-        <li>MCP spec 2025-11-25 <span class="src">(en 190~224줄)</span></li>
-        <li>Skilljar MCP 296689</li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span></li>
-        <li>추론 1줄</li>
-        <li><span class="gen">업계 일반</span> 1줄</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">3.7②</li>
-        <li class="chip">3.7③</li>
-        <li>(<a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a>)</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-integration-options" aria-labelledby="vx-integration-options-cap">
-  <div class="vx-player" data-vx-scene="integration-options"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-integration-options-cap">영상 — 맡기면 편한데, BAA 가 필수라면 (약 42초 · 소리 없음 · 자막). <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>integration-options</dd>
-  <dt>본편</dt>
-  <dd>3.7</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">3.7②</li><li class="chip">3.7③</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>밥을 직접 해 먹을지, 밀키트를 살지, 식당에 갈지 고르는 거예요.</p>
-<ul>
-<li>직접 하면 마음대로지만 설거지도 내 몫이에요(직접 API).</li>
-<li>밀키트는 재료·순서가 다 들어 있고 내 부엌에서 해요(Agent SDK).</li>
-<li>식당은 요리사가 다 해 주지만 메뉴 규칙을 따라야 해요(Managed Agents).</li>
-<li>식당이 "주문 기록을 안 남기는" 약속은 아직 못 해요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">네 가지는 "누가 무엇을 돌리나"로 갈림</p>
-<ul>
-<li>직접 API : 모델 호출만 받음. 도구 루프(부르고·결과 넣고·다시 부르기)를 내가 짬. SDK tool runner(베타)가 루프를 대신 돌려 줄 수도.</li>
-<li>Agent SDK : Claude Code 의 내장 도구·권한·세션·훅·서브에이전트·MCP 를 라이브러리로. 루프는 들어 있고, <strong>프로세스는 내가 운영</strong>.</li>
-<li>CLI <code>-p</code> : 같은 루프를 명령 한 줄로. 스크립트·CI/CD·Python·TS 밖 언어의 하위 프로세스.</li>
-<li>Managed Agents : 루프·도구 실행·샌드박스를 Anthropic 이 호스팅. 세션·기록·샌드박스 상태가 서버에 남음(상태 유지 설계).</li>
-</ul>
-<p class="lead">단순함이 먼저</p>
-<ul>
-<li>공식은 "가장 단순한 해법부터, 필요할 때만 복잡하게". 많은 패턴이 API 직접 호출 몇 줄. 에이전트 자체가 필요 없을 수도.</li>
-<li>프레임워크는 추상화 층이 프롬프트·응답을 가려 디버깅이 어려워짐.</li>
-</ul>
-<p class="lead">상태 유지의 대가</p>
-<ul>
-<li>Managed Agents 는 서버에 세션을 저장 → ZDR·HIPAA BAA 대상이 아님. 규정 요구가 있으면 여기서 갈림.</li>
-<li>자체 호스팅 샌드박스는 "실행 위치"를 우리 인프라로 옮기는 것(규정 준수·데이터 상주용). ZDR 적격을 바꾼다는 문장은 없음.</li>
-</ul>
-<p class="lead">MCP 는 연결 규격이지 보안 결정이 아님</p>
-<ul>
-<li>MCP 규격 스스로 "프로토콜 수준에서 보안 원칙을 강제할 수 없다, 구현자가 해야 한다"고 적음.</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -616,7 +553,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -698,7 +634,39 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="integration-options-practice-h">연습 문제</h2>
 
+  <section class="csx" id="integration-options-case" aria-labelledby="integration-options-case-h" data-tree="integration-options-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;안 만들고 싶음&quot;],[&quot;n3&quot;,null],[&quot;n6&quot;,&quot;BAA 필수&quot;],[&quot;n7&quot;,null]]">
+    <p class="csx-text">운영 인력이 2명뿐인 병원이 <mark class="csx-m" data-tag="안 만들고 싶음">에이전트 루프·샌드박스는 직접 만들고 싶지 않다<span class="csx-tag">안 만들고 싶음</span></mark>며, 환자 메시지를 분류하고 답장 초안을 쓰는 장기 실행 에이전트를 원한다. 계약상 <mark class="csx-m" data-tag="BAA 필수">HIPAA BAA 적용이 필수<span class="csx-tag">BAA 필수</span></mark>다. 어떤 방식으로 붙일까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
+  </section>
+  <h2 class="sec-h" id="integration-options-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"MCP 표준을 쓰니 보안·규정 검토는 끝났다" → 프로토콜은 강제 못 함 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"추상화 프레임워크부터 깐다" → API 직접부터 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"운영 인력 없는 작은 팀이 Agent SDK 로 직접 호스팅" → 프로세스 운영이 우리 몫. "최소 인프라"는 공식이 Managed Agents 에 붙인 조건 <span class="ok">✓ 확인</span> <span class="src">(단 ZDR·BAA 필요하면 Managed Agents 탈락)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Managed Agents 면 ZDR 도 해결" → 대상 아님 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Agent SDK 제품에 claude.ai 로그인을 붙여 출시" → 사전 승인 없인 안 됨, API 키 인증(authentication) <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"integration continuum" 은 강의가 만든 이름 — 공식 용어 아님 <span class="note">(목록 메모)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"좁은 연동 경계가 중요하면 직접 API" → 공식 기준 없음. 공식 근거는 단순성 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"에이전트끼리 연결(agent-to-agent)이 더 고급" → 적합성·비용 판단은 <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Embed Claude Code’s agent in your own Python or TypeScript application, in a process you operate"</p>
+        <p lang="en">"You write the tool loop yourself, or let the client SDK’s beta tool runner drive it."</p>
+        <p lang="en">"A hosted agent harness that runs the agent loop, with sessions in an Anthropic-managed cloud sandbox or a self-hosted sandbox on your own infrastructure."</p>
+        <p lang="en">"It’s available as a CLI for scripts and CI/CD"</p>
+        <p lang="en">"We suggest that developers start by using LLM APIs directly: many patterns can be implemented in a few lines of code."</p>
+        <p lang="en">"While MCP itself cannot enforce these security principles at the protocol level, implementors SHOULD:"</p>
+        <p lang="en">"Managed Agents is not currently eligible for Zero Data Retention or HIPAA Business Associate Agreement (BAA) coverage."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 작은 팀인데 Managed Agents 가 안 되는 때</h4>
@@ -730,7 +698,6 @@
 <li><span class="lead">근거 :</span> managed-agents en 52·78줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -798,7 +765,32 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="integration-options-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="mcp-connector.html">■ MCP connector</a></li>
+        <li><a href="least-privilege.html">■ 최소 권한</a></li>
+        <li><a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 3.7 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>agent-sdk overview <span class="src">(en 181·191~200·233줄)</span></li>
+        <li>headless <span class="src">(en 158·194·210줄)</span></li>
+        <li>managed-agents overview <span class="src">(ko 3~8·29·46~55·78줄 · en 6·50~53·78줄)</span></li>
+        <li>building-effective-agents <span class="src">(en 18·31·33줄)</span></li>
+        <li>MCP spec 2025-11-25 <span class="src">(en 190~224줄)</span></li>
+        <li>Skilljar MCP 296689</li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span></li>
+        <li>추론 1줄</li>
+        <li><span class="gen">업계 일반</span> 1줄</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -807,8 +799,7 @@
 <li>3.7③(에이전트끼리 연결)의 비용·적합성(토큰 4배·15배 등)은 ◆ 단일 vs 멀티 에이전트 카드 몫이라 여기서 확인하지 않음.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/integration-options.md</p>

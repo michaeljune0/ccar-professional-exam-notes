@@ -350,24 +350,71 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ 에이전트 상태·실패·배포 -->
-<article class="card t5-card" id="agent-resilience" aria-labelledby="agent-resilience-title">
+<!-- ■ 에이전트 상태·실패·배포 (v3 시범 순서) -->
+<article class="card t5-card v3" id="agent-resilience" aria-labelledby="agent-resilience-title">
   <header class="t5-head">
     <h1 id="agent-resilience-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 에이전트 상태·실패·배포</h1>
-    <p class="lemma-meta"><span lang="en">stateful agents : 재개 · 동기/비동기 · 옛판·새판 함께</span><span class="lemma-main">1.4 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">stateful agents : 재개 · 동기/비동기 · 옛판·새판 함께</span><span class="lemma-main">1.4 본편</span></p>
   </header>
-  <h2 class="sec-h" id="agent-resilience-sum-h">카드</h2>
+  <h2 class="sec-h" id="agent-resilience-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>1.4 멀티 에이전트와 조율</b> · D1 설계 17%<br><q lang="en">Design multi-agent systems and orchestration strategies</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>1.4③ 일꾼 하나가 멈추면 전체는?</b> — 상태·실패 전파·배포를 어떻게 다루나</li>
+      <li><b>2.4② 긴 에이전트 작업에서 창이 차오른다 — 무엇을 남기고 무엇을 밖으로 빼나?</b> — 컨텍스트 관리 수단 <span class="note">(사전 로드 vs 그때 가져오기 · 컴팩션 · 구조화 메모 · 서브에이전트 요약)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="agent-resilience-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>에이전트는 오래 돌며 많은 도구 호출에 걸쳐 상태를 들고 감 → 작은 실패도 치명적이고 오류가 쌓임. 그래서 실패·실행 방식·배포를 상태 있는 시스템으로 다룸 <span class="ok">✓ 확인</span></p>
       <p>작은 변경도 큰 행동 변화로 번짐 → 시제품과 프로덕션의 거리가 생각보다 멂 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> Step Functions 재시도·체크포인트 · 옛 버전과 새 버전을 함께 두고 트래픽을 옮기는 배포. "파드 재시작이면 복구 끝" 은 상태 있는 작업의 진행분을 날림</p>
   </div>
-  <h2 class="sec-h" id="agent-resilience-case-h">지문</h2>
-  <section class="csx" id="agent-resilience-case" aria-labelledby="agent-resilience-case-h" data-tree="agent-resilience-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n10&quot;,&quot;중간에 끊김&quot;],[&quot;n11&quot;,null],[&quot;n12&quot;,&quot;같은 곳&quot;],[&quot;n13&quot;,null]]" data-flow="agent-resilience-flow" data-scene="0">
-    <p class="csx-text">고객지원 Agent 의 3시간짜리 환불 오류 원인 조사가 <mark class="csx-m" data-tag="중간에 끊김">2시간 40분째에 작업 서버 재부팅으로 끊겼다<span class="csx-tag">중간에 끊김</span></mark>. 운영팀은 "깨끗하게 처음부터 다시 돌리자"고 한다. 재부팅된 서버는 <mark class="csx-m" data-tag="같은 곳">같은 머신이라 세션 기록이 그대로 남아 있다<span class="csx-tag">같은 곳</span></mark>. 어떻게 이어 갈까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="agent-resilience-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>긴 퍼즐을 맞추다가 잠깐 넘어졌을 때를 생각해 봐요.</p>
+<ul>
+<li>다 쏟고 처음부터 다시 하면 너무 아까워요.</li>
+<li>그래서 중간중간 사진을 찍어 두고, 거기서 다시 시작해요.</li>
+<li>친구 모두가 한 명을 기다리면, 그 친구가 늦을 때 다 같이 멈춰요.</li>
+<li>퍼즐 판을 바꿀 땐, 맞추던 친구 것은 그대로 두고 새 친구부터 새 판을 줘요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-agent-resilience" aria-labelledby="vx-agent-resilience-cap">
+  <div class="vx-player" data-vx-scene="agent-resilience"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-agent-resilience-cap">영상 — 끊긴 조사, 어떻게 이어 갈까? (약 43초 · 소리 없음 · 자막). 끊기는 시점을 옮겨 보는 장면은 그림용 가정 · 25분 간격·2시간 30분 저장·10분은 설명의 계산 예 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">왜 상태가 문제인가</p>
+<ul>
+<li>에이전트는 수십~수백 번 도구를 부르며 상태를 쌓음. 한 걸음이 틀리면 뒤 경로가 통째로 달라짐 → 오류가 쌓임.</li>
+<li>처음부터 다시 = 쌓은 진행분을 버림 + 비용·시간을 다시 냄. 그래서 "멈춘 곳에서 재개".</li>
+</ul>
+<p class="lead">두 겹의 안전장치</p>
+<ul>
+<li>결정론적 쪽 : 재시도(SDK 기본 2번, 지수 백오프) · 정기 체크포인트 · 세션 저장(resume).</li>
+<li>모델 쪽 : 도구가 실패했다고 알려 주면 모델이 다른 길을 찾음. 오류 메시지는 고칠 점이 보이게.</li>
+<li>재시도로 안 풀리는 실패가 있음(월 지출 한도 429) — 종류를 가려야 함.</li>
+</ul>
+<p class="lead">동기 vs 비동기</p>
+<ul>
+<li>동기 : 묶음 단위로 기다림 → 조율 단순. 대신 가장 느린 subagent(일꾼)가 전체 속도를 정하고, 도중에 방향을 못 바꿈.</li>
+<li>비동기 : 끝나는 대로 다음으로 → 병렬성↑. 대신 결과를 맞추고 상태를 일관되게 두고 오류가 번지지 않게 하는 일이 생김.</li>
+</ul>
+<p class="lead">배포</p>
+<ul>
+<li>돌고 있는 에이전트는 "어느 판의 프롬프트·도구"를 전제로 계획을 세워 둠. 중간에 판이 바뀌면 깨짐.</li>
+<li>옛 판·새 판을 함께 두고 새 트래픽만 새 판으로 → 도는 것은 옛 판에서 끝남.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="agent-resilience-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="agent-resilience-tree-1" aria-labelledby="agent-resilience-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9|n1 n10 n11 n12 n13|n1 n10 n11 n14 n15">
     <div class="t5-fh"><h3 id="agent-resilience-tree-1-h">① 멈추면 <span class="pg">[1.4③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -438,7 +485,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="agent-resilience-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="agent-resilience-flow" aria-label="에이전트 상태·실패·배포 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["orchestrator","subagents","체크포인트"],"blocks":[],"rules":[null,null,"결정론적 안전장치 (재시도 로직 · 정기 체크포인트)"],"question":"끊기면 어디서부터 다시 할까?","scenes":[{"name":"① 멈춘 곳에서 재개","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"환불 오류 원인을 찾아 줘 (단계 9개)"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"단계를 나눠 맡김","art":{"kind":"slip","lines":["단계 1~9","subagent 3개"]}},{"kind":"move","step":"저장","from":{"col":1},"to":2,"label":"정기 체크포인트","art":{"kind":"slip","lines":["2:30 저장","끝난 단계 7 · 남은 단계 2"]}},{"kind":"mark","step":"실패","at":{"col":1},"label":"도구 실패를 모델에 알림","art":{"kind":"slip","lines":["tool_result: 검색 시간 초과","재시도 가능 · 부분 결과 있음"]}},{"kind":"move","step":"재개","from":{"col":2},"to":1,"label":"멈춘 곳에서 재개","art":{"kind":"slip","lines":["resume: 세션 ID","2:30 저장분부터 → 10분만 다시"]}},{"kind":"end","label":"결정론적 안전장치 + 모델 지능을 함께 — 다시 할 양 = 마지막 체크포인트 뒤만"}]},{"name":"② 처음부터 재시작","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"환불 오류 원인을 찾아 줘 (단계 9개)"}},{"kind":"skip","at":2},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"단계를 나눠 맡김","art":{"kind":"slip","lines":["단계 1~9","subagent 3개"]}},{"kind":"mark","step":"실패","at":{"col":1},"label":"검색 시간 초과","art":{"kind":"slip","lines":["2:40 오류","search timeout"]}},{"kind":"move","step":"재시작","from":{"col":0},"to":1,"label":"처음부터 재시작","art":{"kind":"slip","lines":["단계 1/9 부터 다시","다시 할 양 2시간 40분"]}},{"kind":"end","label":"재시작은 비싸고 사용자를 짜증나게 함"}]},{"name":"③ 동기 대기","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"환불 오류 원인을 찾아 줘 (단계 9개)"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"묶음이 다 끝날 때까지 기다림","art":{"kind":"slip","lines":["subagent 4개","70초 · 85초 · 95초 · 8분"]}},{"kind":"timer","at":1,"label":"검색 시간 초과"},{"kind":"move","step":"대기","from":{"col":1},"to":0,"label":"셋은 끝났는데 기다림","art":{"kind":"slip","lines":["도착 3/4 · 95초에 끝남","남은 1개 때문에 8분 대기"]}},{"kind":"end","label":"subagent 하나 때문에 전체가 막힘"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -514,123 +561,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>subagent 하나가 검색 시간 초과 → "실패하면 전체를 처음부터 다시" → 멈춘 곳에서 재개 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"전부 비동기로 바꾸면 무조건 빨라진다" → 결과 조율 · 상태 일관성 · 오류 전파 비용 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"재시도 로직만 넣으면 끝" → 결정론적 안전장치 + 도구 실패를 모델에 알림. 지출 한도 429 는 재시도해도 계속 실패 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"resume·fork 하면 파일 변경도 되돌아간다" → 세션·fork 는 대화만. 파일은 file checkpointing <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"새 판을 한꺼번에 배포" → 돌던 에이전트가 깨짐 → 옛 판·새 판 함께 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"코디네이터가 참조 에이전트의 최신 판을 자동으로 씀" → 스냅샷 판에 고정 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"원인 찾으려 대화 내용을 전부 기록" → 결정 패턴·상호작용 구조를 관측(프라이버시) → <a href="telemetry-scope.html">■ 텔레메트리 기록 범위</a> <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Managed Agents 세션 예산 : 예산에 닿으면 <code>budget_reached</code> 로 일시 정지, 예산을 바꾸면 재개 · 스레드마다 따로 정지 <span class="post">시험 뒤 변경</span> <span class="note">2026-08-07</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Agents are stateful and errors compound."</p>
-        <p lang="en">"Instead, we built systems that can resume from where the agent was when the errors occurred."</p>
-        <p lang="en">"letting the agent know when a tool is failing and letting it adapt works surprisingly well."</p>
-        <p lang="en">"We combine the adaptability of AI agents built on Claude with deterministic safeguards like retry logic and regular checkpoints."</p>
-        <p lang="en">"Synchronous execution creates bottlenecks."</p>
-        <p lang="en">"by gradually shifting traffic from old to new versions while keeping both running simultaneously."</p>
-        <p lang="en">"Capture the results you need (analysis output, decisions, file diffs) as application state and pass them into a fresh session’s prompt."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="observability-signals.html">■ observability 세 신호</a></li>
-        <li><a href="telemetry-scope.html">■ 텔레메트리 기록 범위</a></li>
-        <li><a href="rate-limits.html">■ rate limit</a></li>
-        <li><a href="tool-design.html">■ 도구 설계</a></li>
-        <li><a href="orchestrator-delegation.html">■ orchestrator-worker 위임</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 1.4 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>multi-agent-research-system <span class="src">(en 68·70·72·74·76·80·98줄)</span></li>
-        <li>agent-sdk-sessions <span class="src">(en 186·203~207·217~220·423·486·594~597줄)</span></li>
-        <li>agent-sdk-subagents <span class="src">(en 221·366줄)</span></li>
-        <li>managed-agents overview <span class="src">(en 78줄)</span></li>
-        <li>managed-agents multi-agent <span class="src">(ko 36·124·126줄)</span></li>
-        <li>errors <span class="src">(en 12·17줄)</span></li>
-        <li>writing-tools-for-agents <span class="src">(en 185줄)</span></li>
-        <li>prompting-best-practices <span class="src">(en 323·341줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 100줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~③ 전부)</li>
-        <li><span class="post">시험 뒤 변경</span> 1곳(세션 예산)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">1.4③</li>
-        <li class="chip">2.4②</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-agent-resilience" aria-labelledby="vx-agent-resilience-cap">
-  <div class="vx-player" data-vx-scene="agent-resilience"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-agent-resilience-cap">영상 — 끊긴 조사, 어떻게 이어 갈까? (약 43초 · 소리 없음 · 자막). 끊기는 시점을 옮겨 보는 장면은 그림용 가정 · 25분 간격·2시간 30분 저장·10분은 설명의 계산 예 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>agent-resilience</dd>
-  <dt>본편</dt>
-  <dd>1.4</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">1.4③</li><li class="chip">2.4②</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>긴 퍼즐을 맞추다가 잠깐 넘어졌을 때를 생각해 봐요.</p>
-<ul>
-<li>다 쏟고 처음부터 다시 하면 너무 아까워요.</li>
-<li>그래서 중간중간 사진을 찍어 두고, 거기서 다시 시작해요.</li>
-<li>친구 모두가 한 명을 기다리면, 그 친구가 늦을 때 다 같이 멈춰요.</li>
-<li>퍼즐 판을 바꿀 땐, 맞추던 친구 것은 그대로 두고 새 친구부터 새 판을 줘요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">왜 상태가 문제인가</p>
-<ul>
-<li>에이전트는 수십~수백 번 도구를 부르며 상태를 쌓음. 한 걸음이 틀리면 뒤 경로가 통째로 달라짐 → 오류가 쌓임.</li>
-<li>처음부터 다시 = 쌓은 진행분을 버림 + 비용·시간을 다시 냄. 그래서 "멈춘 곳에서 재개".</li>
-</ul>
-<p class="lead">두 겹의 안전장치</p>
-<ul>
-<li>결정론적 쪽 : 재시도(SDK 기본 2번, 지수 백오프) · 정기 체크포인트 · 세션 저장(resume).</li>
-<li>모델 쪽 : 도구가 실패했다고 알려 주면 모델이 다른 길을 찾음. 오류 메시지는 고칠 점이 보이게.</li>
-<li>재시도로 안 풀리는 실패가 있음(월 지출 한도 429) — 종류를 가려야 함.</li>
-</ul>
-<p class="lead">동기 vs 비동기</p>
-<ul>
-<li>동기 : 묶음 단위로 기다림 → 조율 단순. 대신 가장 느린 subagent(일꾼)가 전체 속도를 정하고, 도중에 방향을 못 바꿈.</li>
-<li>비동기 : 끝나는 대로 다음으로 → 병렬성↑. 대신 결과를 맞추고 상태를 일관되게 두고 오류가 번지지 않게 하는 일이 생김.</li>
-</ul>
-<p class="lead">배포</p>
-<ul>
-<li>돌고 있는 에이전트는 "어느 판의 프롬프트·도구"를 전제로 계획을 세워 둠. 중간에 판이 바뀌면 깨짐.</li>
-<li>옛 판·새 판을 함께 두고 새 트래픽만 새 판으로 → 도는 것은 옛 판에서 끝남.</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -708,7 +641,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -790,7 +722,39 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="agent-resilience-practice-h">연습 문제</h2>
 
+  <section class="csx" id="agent-resilience-case" aria-labelledby="agent-resilience-case-h" data-tree="agent-resilience-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n10&quot;,&quot;중간에 끊김&quot;],[&quot;n11&quot;,null],[&quot;n12&quot;,&quot;같은 곳&quot;],[&quot;n13&quot;,null]]" data-flow="agent-resilience-flow" data-scene="0">
+    <p class="csx-text">고객지원 Agent 의 3시간짜리 환불 오류 원인 조사가 <mark class="csx-m" data-tag="중간에 끊김">2시간 40분째에 작업 서버 재부팅으로 끊겼다<span class="csx-tag">중간에 끊김</span></mark>. 운영팀은 "깨끗하게 처음부터 다시 돌리자"고 한다. 재부팅된 서버는 <mark class="csx-m" data-tag="같은 곳">같은 머신이라 세션 기록이 그대로 남아 있다<span class="csx-tag">같은 곳</span></mark>. 어떻게 이어 갈까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="agent-resilience-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>subagent 하나가 검색 시간 초과 → "실패하면 전체를 처음부터 다시" → 멈춘 곳에서 재개 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"전부 비동기로 바꾸면 무조건 빨라진다" → 결과 조율 · 상태 일관성 · 오류 전파 비용 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"재시도 로직만 넣으면 끝" → 결정론적 안전장치 + 도구 실패를 모델에 알림. 지출 한도 429 는 재시도해도 계속 실패 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"resume·fork 하면 파일 변경도 되돌아간다" → 세션·fork 는 대화만. 파일은 file checkpointing <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"새 판을 한꺼번에 배포" → 돌던 에이전트가 깨짐 → 옛 판·새 판 함께 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"코디네이터가 참조 에이전트의 최신 판을 자동으로 씀" → 스냅샷 판에 고정 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"원인 찾으려 대화 내용을 전부 기록" → 결정 패턴·상호작용 구조를 관측(프라이버시) → <a href="telemetry-scope.html">■ 텔레메트리 기록 범위</a> <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Managed Agents 세션 예산 : 예산에 닿으면 <code>budget_reached</code> 로 일시 정지, 예산을 바꾸면 재개 · 스레드마다 따로 정지 <span class="post">시험 뒤 변경</span> <span class="note">2026-08-07</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Agents are stateful and errors compound."</p>
+        <p lang="en">"Instead, we built systems that can resume from where the agent was when the errors occurred."</p>
+        <p lang="en">"letting the agent know when a tool is failing and letting it adapt works surprisingly well."</p>
+        <p lang="en">"We combine the adaptability of AI agents built on Claude with deterministic safeguards like retry logic and regular checkpoints."</p>
+        <p lang="en">"Synchronous execution creates bottlenecks."</p>
+        <p lang="en">"by gradually shifting traffic from old to new versions while keeping both running simultaneously."</p>
+        <p lang="en">"Capture the results you need (analysis output, decisions, file diffs) as application state and pass them into a fresh session’s prompt."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 처음부터 다시가 맞는 때</h4>
@@ -832,7 +796,6 @@
 <li><span class="lead">근거 :</span> multi-agent-research-system en 70줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -907,7 +870,36 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="agent-resilience-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="observability-signals.html">■ observability 세 신호</a></li>
+        <li><a href="telemetry-scope.html">■ 텔레메트리 기록 범위</a></li>
+        <li><a href="rate-limits.html">■ rate limit</a></li>
+        <li><a href="tool-design.html">■ 도구 설계</a></li>
+        <li><a href="orchestrator-delegation.html">■ orchestrator-worker 위임</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 1.4 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>multi-agent-research-system <span class="src">(en 68·70·72·74·76·80·98줄)</span></li>
+        <li>agent-sdk-sessions <span class="src">(en 186·203~207·217~220·423·486·594~597줄)</span></li>
+        <li>agent-sdk-subagents <span class="src">(en 221·366줄)</span></li>
+        <li>managed-agents overview <span class="src">(en 78줄)</span></li>
+        <li>managed-agents multi-agent <span class="src">(ko 36·124·126줄)</span></li>
+        <li>errors <span class="src">(en 12·17줄)</span></li>
+        <li>writing-tools-for-agents <span class="src">(en 185줄)</span></li>
+        <li>prompting-best-practices <span class="src">(en 323·341줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 100줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~③ 전부)</li>
+        <li><span class="post">시험 뒤 변경</span> 1곳(세션 예산)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -917,8 +909,7 @@
 <li>세션 예산(<code>budget_reached</code>)은 2026-08-07 추가 — 시험 뒤 변경.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/agent-resilience.md</p>

@@ -350,24 +350,75 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ stop_reason 으로 분기 -->
-<article class="card t5-card" id="stop-reason" aria-labelledby="stop-reason-title">
+<!-- ■ stop_reason 으로 분기 (v3 시범 순서) -->
+<article class="card t5-card v3" id="stop-reason" aria-labelledby="stop-reason-title">
   <header class="t5-head">
     <h1 id="stop-reason-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> stop_reason 으로 분기</h1>
-    <p class="lemma-meta"><span lang="en">refusal 포함</span><span class="lemma-main">1.2 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">refusal 포함</span><span class="lemma-main">1.2 본편</span></p>
   </header>
-  <h2 class="sec-h" id="stop-reason-sum-h">카드</h2>
+  <h2 class="sec-h" id="stop-reason-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>1.2 입력부터 피드백까지 구조 설계</b> · D1 설계 17%<br><q lang="en">Design end-to-end architectures (input → processing → output → feedback loops)</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>1.2② 앱은 다음 단계를 무엇으로 아나?</b> — 처리 루프를 무엇으로 제어하나 <span class="note">(stop_reason)</span></li>
+      <li><b>5.2② HTTP 200 인데 content 가 비었다 — 어떻게 처리하나?</b> — stop_reason 으로 분기하고 거절을 처리하기</li>
+      <li><b>4.6③ 5xx 오류율은 0 인데 "답이 비었다" 는 신고가 는다</b> — 거절(refusal)을 따로 계측하기</li>
+      <li><b>7.3③ API 오류가 쏟아질 때 무엇부터 보나?</b> — 오류 종류별 대응 <span class="note">(재시도할 것 / 한도를 볼 것 / 오류가 아닌 것)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="stop-reason-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>모든 응답에 <code>stop_reason</code> = Claude 가 왜 멈췄나. 앱은 HTTP 상태가 아니라 이 값으로 다음 걸음(그대로 씀 · 이어감 · 재시도 · 다른 모델로 폴백)을 정함 <span class="ok">✓ 확인</span></p>
       <p>stop_reason 은 성공 응답 본문의 일부. 오류(4xx·5xx)는 요청 처리 실패로 따로 옴 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> 컨테이너 종료 코드(0 정상 · 137 OOM). "끝났다"만 보고 코드를 안 보면 OOM 을 놓침</p>
   </div>
-  <h2 class="sec-h" id="stop-reason-case-h">지문</h2>
-  <section class="csx" id="stop-reason-case" aria-labelledby="stop-reason-case-h" data-tree="stop-reason-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n6&quot;,&quot;refusal&quot;],[&quot;n7&quot;,null],[&quot;n10&quot;,null],[&quot;n11&quot;,null],[&quot;n14&quot;,&quot;모든 플랫폼&quot;],[&quot;n15&quot;,null]]" data-flow="stop-reason-flow" data-scene="1">
-    <p class="csx-text">고객지원 채팅 앱이 Anthropic SDK 로 Opus 5.5 를 부르고, <mark class="csx-m" data-tag="모든 플랫폼">Claude API 말고 다른 클라우드 플랫폼에도 같은 앱을 올린다<span class="csx-tag">모든 플랫폼</span></mark>. 어떤 문의에 <mark class="csx-m" data-tag="refusal">HTTP 200 인데 <code>stop_reason</code> 이 <code>"refusal"</code> 이고 content 가 빈 응답<span class="csx-tag">refusal</span></mark>이 왔다. 담당자는 "같은 요청을 같은 모델로 한 번 더 보내자"고 한다. 어떻게 처리할까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="stop-reason-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>택배 기사가 문 앞에 쪽지를 붙이고 가는 것과 같아요.</p>
+<ul>
+<li>"배달 끝" 쪽지면 상자를 열면 돼요.</li>
+<li>"도장이 필요해요" 쪽지면 도장을 찍어 돌려줘야 다음 배달이 와요.</li>
+<li>"이 물건은 못 싣습니다" 쪽지가 붙어도 초인종은 똑같이 울려요.</li>
+<li>그래서 초인종 소리만 듣지 말고 쪽지를 꼭 읽어야 해요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-stop-reason" aria-labelledby="vx-stop-reason-cap">
+  <div class="vx-player" data-vx-scene="stop-reason"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-stop-reason-cap">영상 — 200 이 왔는데, 성공일까? (약 43초 · 소리 없음 · 자막). 응답 5건·거절 2건·재시도 3번은 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">왜 따로 있나</p>
+<ul>
+<li>오류(4xx·5xx) = 요청 처리가 실패함. stop_reason = 처리는 성공, 생성이 왜 멈췄는지. 둘은 다른 칸이라 HTTP 상태만 보면 stop_reason 이 말하는 걸 전부 놓침.</li>
+<li>앱이 할 다음 걸음은 네 갈래 : 그대로 씀 · 이어감(tool_use · pause_turn · max_tokens) · 잘렸다고 표시 · 다른 모델로 재시도(refusal).</li>
+</ul>
+<p class="lead">이어가는 세 값의 차이</p>
+<ul>
+<li><code>tool_use</code> : 내 도구를 기다림 → 내가 tool_result 를 보냄. 그 메시지엔 tool_result 만(뒤에 텍스트 붙이면 턴이 끝남).</li>
+<li><code>pause_turn</code> : 서버 도구(웹 검색 등) 루프가 반복 한도(기본 10회)에 걸림 → 받은 assistant 콘텐츠를 그대로 돌려보냄. 내 도구가 기다리는 중이면 절대 pause_turn 이 아니라 tool_use.</li>
+<li><code>max_tokens</code> : 내가 준 출력 한도에 걸림 → 한도를 올리거나 이어서 생성. <code>model_context_window_exceeded</code> 는 창 자체를 채운 것 → 잘린 것으로 처리.</li>
+</ul>
+<p class="lead">거절이 까다로운 이유</p>
+<ul>
+<li>안전 분류기(Fable 5.1 · Fable 5 · Opus 5.5 · Opus 5)가 막으면 HTTP 200 + <code>stop_reason: "refusal"</code> + 빈 <code>content</code>. 오류가 아니라서 오류율·5xx 감시가 못 봄.</li>
+<li>같은 모델은 대개 또 거절 → 다른 모델로 보내면 대개 답이 나옴. 그래서 처방 = 폴백.</li>
+<li><code>stop_details.category</code> 는 분야 이름일 뿐 null 이 정상 값일 수 있음 → 분기 기준은 <code>stop_reason</code> 그 자체.</li>
+<li>폴백은 "요청의 속성" — 폴백을 안 단 경로(재시도 핸들러 · 백그라운드 워커 · 서브에이전트 호출)는 보호가 빠짐.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>앱이 다음 걸음을 무엇으로 정하나 — HTTP 상태인가, stop_reason 인가?</li>
+<li>거절이 나면 누가 보고, 어디로 다시 보내나?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="stop-reason-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="stop-reason-tree-1" aria-labelledby="stop-reason-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9|n1 n10 n11|n1 n12 n13|n1 n14 n15">
     <div class="t5-fh"><h3 id="stop-reason-tree-1-h">① 값별 할 일 <span class="pg">[1.2②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -472,7 +523,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="stop-reason-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="stop-reason-flow" aria-label="stop_reason 으로 분기 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["앱","주 모델","폴백 모델","도구"],"blocks":[],"rules":["HTTP 상태가 아니라 `stop_reason` 으로 다음 걸음을 정함",null,null,null],"question":"앱은 무엇을 보고 다음 걸음을 정할까?","scenes":[{"name":"① tool_use 루프","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"주문 #1042 어디쯤 왔어요?"}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"","art":{"kind":"slip","lines":["user: 주문 #1042 어디쯤?","tools: [get_order]"]}},{"kind":"move","step":"멈춤","from":{"col":1},"to":0,"label":"`tool_use`","art":{"kind":"slip","lines":["stop_reason: \"tool_use\"","get_order(1042)"]}},{"kind":"move","step":"실행","from":{"col":0},"to":3,"label":"도구를 실행하고","art":{"kind":"slip","lines":["get_order(1042)"]}},{"kind":"move","step":"결과","from":{"col":3},"to":0,"label":"","art":{"kind":"slip","lines":["상태: \"배송 중\""]}},{"kind":"move","step":"이어가기","from":{"col":0},"to":1,"label":"tool_result 만 담은 user 메시지","art":{"kind":"slip","lines":["tool_result:","상태: \"배송 중\""]}},{"kind":"move","step":"답","from":{"col":1},"to":0,"label":"`end_turn` 이면 끝","art":{"kind":"slip","lines":["stop_reason: \"end_turn\"","\"지금 배송 중이에요\""]}},{"kind":"end","label":"tool_use 면 실행하고 결과를 넣어 다시, end_turn 이면 끝"}]},{"name":"② 거절 → 다른 모델","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"(고객 문의 한 건)"}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"","art":{"kind":"slip","lines":["model: Opus 5.5","messages: 고객 문의"]}},{"kind":"move","step":"멈춤","from":{"col":1},"to":0,"label":"HTTP 200 + refusal","art":{"kind":"slip","lines":["HTTP 200","stop_reason: \"refusal\"","content: []"]}},{"kind":"move","step":"재시도","from":{"col":0},"to":2,"label":"같은 요청을 다른 모델로","art":{"kind":"slip","lines":["같은 messages","→ 폴백 모델"]}},{"kind":"move","step":"답","from":{"col":2},"to":0,"label":"","art":{"kind":"slip","lines":["stop_reason: \"end_turn\"","content: 답 본문"]}},{"kind":"end","label":"폴백 뒤 대화는 폴백 모델에 계속"}]},{"name":"③ 200 이니 성공","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"(고객 문의 한 건)"}},{"kind":"skip","at":2},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"","art":{"kind":"slip","lines":["model: Opus 5.5","messages: 고객 문의"]}},{"kind":"move","step":"멈춤","from":{"col":1},"to":0,"label":"HTTP 200 + refusal","art":{"kind":"slip","lines":["HTTP 200","stop_reason: \"refusal\"","content: []"]}},{"kind":"mark","step":"표시","at":{"col":0},"label":"빈 답을 성공으로 보여 줌","art":{"kind":"slip","lines":["화면: 빈 답","5xx 알림: 0건"]}},{"kind":"end","label":"오류율·5xx 감시엔 안 보임"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -513,7 +564,7 @@
     </details>
   </figure>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="stop-reason-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
@@ -589,118 +640,9 @@
         </li>
       </ol>
     </details>
-    <h2>CCA-F</h2>
-      <p>봄 (에이전트 루프 — tool_use 면 한 번 더, end_turn 이면 끝 · 완료를 assistant 문장으로 판정 X) — 여기선 7값 전부의 처리와 거절(HTTP 200)을 설계·감시·폴백 경로 관점에서 물음</p>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"HTTP 상태 코드로 실패·거절을 잡음" → 거절은 HTTP 200 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"5xx 알림 임계값을 낮춤" → 거절은 5xx 가 아님, 따로 셈 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>stop_details.category</code> 로 거절을 분기" → category 는 null 일 수 있음, <code>stop_reason</code> 으로 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"같은 요청을 같은 모델로 재시도" → 대개 또 거절, 다른 모델로 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"refusal = 끝, 빈 답 그대로 사용자에게" → 다른 모델로 대개 답을 얻음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>stop_reason 을 5개로만 알아 '컨텍스트 창이 가득 차 멈춤' 보기를 버림 → 7개, <code>model_context_window_exceeded</code> 있음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>pause_turn</code> = 오류, 새 요청으로" → 받은 assistant 콘텐츠를 그대로 보내 이어감 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"폴백을 켜면 429·5xx 도 다른 모델로" → 안전 분류기 거절만 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>tool_result 와 같은 메시지에 추가 지시 텍스트 → 턴이 끝남, 별도 user 메시지로 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Every Messages API response includes a <code>stop_reason</code> field that tells you why Claude stopped generating."</p>
-        <p lang="en">"Run the tool and return the result."</p>
-        <p lang="en">"Safety classifiers return this stop reason as a normal HTTP 200 response, not an error."</p>
-        <p lang="en">"Re-sending a refused request to the same model usually earns another refusal."</p>
-        <p lang="en">"A refusal is an HTTP 200, so monitoring built on error rates or 5xx responses never sees it."</p>
-        <p lang="en">"Only a safety classifier decline triggers the fallback."</p>
-        <p lang="en">"Check for <code>stop_reason</code> equal to <code>"refusal"</code> directly."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 1.2 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>docs handling-stop-reasons <span class="src">(ko·en 1·7~15·19·82·97·103·107~117·121·131·141~151·155~159줄)</span></li>
-        <li>refusals-and-fallback <span class="src">(ko·en 1·12·18·40~56·62·64·74~78·96·113·236·252·258~260·268~274줄)</span></li>
-        <li>monitoring-usage <span class="src">(en 1096줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 5·124·212·240·452줄)</span></li>
-        <li>Skilljar Platform 101 486254 <span class="src">(21·107줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑦)</li>
-        <li><span class="post">시험 뒤 변경</span> 2곳(⑤ `"default"` 모드 · ⑦ 거절 청구 재개)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">1.2②</li>
-        <li class="chip">5.2②</li>
-        <li class="chip">4.6③</li>
-        <li class="chip">7.3③</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-stop-reason" aria-labelledby="vx-stop-reason-cap">
-  <div class="vx-player" data-vx-scene="stop-reason"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-stop-reason-cap">영상 — 200 이 왔는데, 성공일까? (약 43초 · 소리 없음 · 자막). 응답 5건·거절 2건·재시도 3번은 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>stop-reason</dd>
-  <dt>본편</dt>
-  <dd>1.2</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">1.2②</li><li class="chip">5.2②</li><li class="chip">4.6③</li><li class="chip">7.3③</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>택배 기사가 문 앞에 쪽지를 붙이고 가는 것과 같아요.</p>
-<ul>
-<li>"배달 끝" 쪽지면 상자를 열면 돼요.</li>
-<li>"도장이 필요해요" 쪽지면 도장을 찍어 돌려줘야 다음 배달이 와요.</li>
-<li>"이 물건은 못 싣습니다" 쪽지가 붙어도 초인종은 똑같이 울려요.</li>
-<li>그래서 초인종 소리만 듣지 말고 쪽지를 꼭 읽어야 해요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">왜 따로 있나</p>
-<ul>
-<li>오류(4xx·5xx) = 요청 처리가 실패함. stop_reason = 처리는 성공, 생성이 왜 멈췄는지. 둘은 다른 칸이라 HTTP 상태만 보면 stop_reason 이 말하는 걸 전부 놓침.</li>
-<li>앱이 할 다음 걸음은 네 갈래 : 그대로 씀 · 이어감(tool_use · pause_turn · max_tokens) · 잘렸다고 표시 · 다른 모델로 재시도(refusal).</li>
-</ul>
-<p class="lead">이어가는 세 값의 차이</p>
-<ul>
-<li><code>tool_use</code> : 내 도구를 기다림 → 내가 tool_result 를 보냄. 그 메시지엔 tool_result 만(뒤에 텍스트 붙이면 턴이 끝남).</li>
-<li><code>pause_turn</code> : 서버 도구(웹 검색 등) 루프가 반복 한도(기본 10회)에 걸림 → 받은 assistant 콘텐츠를 그대로 돌려보냄. 내 도구가 기다리는 중이면 절대 pause_turn 이 아니라 tool_use.</li>
-<li><code>max_tokens</code> : 내가 준 출력 한도에 걸림 → 한도를 올리거나 이어서 생성. <code>model_context_window_exceeded</code> 는 창 자체를 채운 것 → 잘린 것으로 처리.</li>
-</ul>
-<p class="lead">거절이 까다로운 이유</p>
-<ul>
-<li>안전 분류기(Fable 5.1 · Fable 5 · Opus 5.5 · Opus 5)가 막으면 HTTP 200 + <code>stop_reason: "refusal"</code> + 빈 <code>content</code>. 오류가 아니라서 오류율·5xx 감시가 못 봄.</li>
-<li>같은 모델은 대개 또 거절 → 다른 모델로 보내면 대개 답이 나옴. 그래서 처방 = 폴백.</li>
-<li><code>stop_details.category</code> 는 분야 이름일 뿐 null 이 정상 값일 수 있음 → 분기 기준은 <code>stop_reason</code> 그 자체.</li>
-<li>폴백은 "요청의 속성" — 폴백을 안 단 경로(재시도 핸들러 · 백그라운드 워커 · 서브에이전트 호출)는 보호가 빠짐.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>앱이 다음 걸음을 무엇으로 정하나 — HTTP 상태인가, stop_reason 인가?</li>
-<li>거절이 나면 누가 보고, 어디로 다시 보내나?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -784,7 +726,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -880,7 +821,40 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="stop-reason-practice-h">연습 문제</h2>
 
+  <section class="csx" id="stop-reason-case" aria-labelledby="stop-reason-case-h" data-tree="stop-reason-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n6&quot;,&quot;refusal&quot;],[&quot;n7&quot;,null],[&quot;n10&quot;,null],[&quot;n11&quot;,null],[&quot;n14&quot;,&quot;모든 플랫폼&quot;],[&quot;n15&quot;,null]]" data-flow="stop-reason-flow" data-scene="1">
+    <p class="csx-text">고객지원 채팅 앱이 Anthropic SDK 로 Opus 5.5 를 부르고, <mark class="csx-m" data-tag="모든 플랫폼">Claude API 말고 다른 클라우드 플랫폼에도 같은 앱을 올린다<span class="csx-tag">모든 플랫폼</span></mark>. 어떤 문의에 <mark class="csx-m" data-tag="refusal">HTTP 200 인데 <code>stop_reason</code> 이 <code>"refusal"</code> 이고 content 가 빈 응답<span class="csx-tag">refusal</span></mark>이 왔다. 담당자는 "같은 요청을 같은 모델로 한 번 더 보내자"고 한다. 어떻게 처리할까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="stop-reason-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"HTTP 상태 코드로 실패·거절을 잡음" → 거절은 HTTP 200 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"5xx 알림 임계값을 낮춤" → 거절은 5xx 가 아님, 따로 셈 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>stop_details.category</code> 로 거절을 분기" → category 는 null 일 수 있음, <code>stop_reason</code> 으로 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"같은 요청을 같은 모델로 재시도" → 대개 또 거절, 다른 모델로 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"refusal = 끝, 빈 답 그대로 사용자에게" → 다른 모델로 대개 답을 얻음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>stop_reason 을 5개로만 알아 '컨텍스트 창이 가득 차 멈춤' 보기를 버림 → 7개, <code>model_context_window_exceeded</code> 있음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>pause_turn</code> = 오류, 새 요청으로" → 받은 assistant 콘텐츠를 그대로 보내 이어감 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"폴백을 켜면 429·5xx 도 다른 모델로" → 안전 분류기 거절만 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>tool_result 와 같은 메시지에 추가 지시 텍스트 → 턴이 끝남, 별도 user 메시지로 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Every Messages API response includes a <code>stop_reason</code> field that tells you why Claude stopped generating."</p>
+        <p lang="en">"Run the tool and return the result."</p>
+        <p lang="en">"Safety classifiers return this stop reason as a normal HTTP 200 response, not an error."</p>
+        <p lang="en">"Re-sending a refused request to the same model usually earns another refusal."</p>
+        <p lang="en">"A refusal is an HTTP 200, so monitoring built on error rates or 5xx responses never sees it."</p>
+        <p lang="en">"Only a safety classifier decline triggers the fallback."</p>
+        <p lang="en">"Check for <code>stop_reason</code> equal to <code>"refusal"</code> directly."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. "출력 전 거절은 공짜"가 분류 따라 뒤집힘</h4>
@@ -913,7 +887,6 @@
 <li><span class="lead">근거 :</span> handling-stop-reasons en 10·121·169줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -1002,7 +975,26 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="stop-reason-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>CCA-F</h3>
+      <p>봄 (에이전트 루프 — tool_use 면 한 번 더, end_turn 이면 끝 · 완료를 assistant 문장으로 판정 X) — 여기선 7값 전부의 처리와 거절(HTTP 200)을 설계·감시·폴백 경로 관점에서 물음</p>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 1.2 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>docs handling-stop-reasons <span class="src">(ko·en 1·7~15·19·82·97·103·107~117·121·131·141~151·155~159줄)</span></li>
+        <li>refusals-and-fallback <span class="src">(ko·en 1·12·18·40~56·62·64·74~78·96·113·236·252·258~260·268~274줄)</span></li>
+        <li>monitoring-usage <span class="src">(en 1096줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 5·124·212·240·452줄)</span></li>
+        <li>Skilljar Platform 101 486254 <span class="src">(21·107줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑦)</li>
+        <li><span class="post">시험 뒤 변경</span> 2곳(⑤ `"default"` 모드 · ⑦ 거절 청구 재개)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -1013,8 +1005,7 @@
 <li>handling-stop-reasons 의 코드 예시(항상 확인 · pause_turn 재시도 · 이어서 생성)는 받은 파일에서 코드 블록이 빠져 있음(en 127·135·165줄 뒤가 빈 절).</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/stop-reason.md</p>

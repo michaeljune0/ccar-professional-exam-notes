@@ -350,24 +350,76 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ trade-off 전달 -->
-<article class="card t5-card" id="tradeoff-communication" aria-labelledby="tradeoff-communication-title">
+<!-- ■ trade-off 전달 (v3 시범 순서) -->
+<article class="card t5-card v3" id="tradeoff-communication" aria-labelledby="tradeoff-communication-title">
   <header class="t5-head">
     <h1 id="tradeoff-communication-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> trade-off 전달</h1>
-    <p class="lemma-meta"><span lang="en">communicating trade-offs : 근거 붙은 선택지 → 책임자 결정 · effort 조정안 포함 · 안전은 선택지가 아니라 경계</span><span class="lemma-main">6.2 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">communicating trade-offs : 근거 붙은 선택지 → 책임자 결정 · effort 조정안 포함 · 안전은 선택지가 아니라 경계</span><span class="lemma-main">6.2 본편</span></p>
   </header>
-  <h2 class="sec-h" id="tradeoff-communication-sum-h">카드</h2>
+  <h2 class="sec-h" id="tradeoff-communication-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>6.2 결정과 절충 전달</b> · D6 사람·문서 14%<br><q lang="en">Communicate architectural decisions and trade-offs</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>6.2① 실행 가능한 설계가 둘 — 아키텍트가 골라 통보할까, 책임자가 고르게 할까?</b> — 절충 전달 방식 <span class="note">(평가 근거 붙은 선택지 공개 → 책임자 결정)</span></li>
+      <li><b>6.2② 상담 에이전트에 환불·계정 삭제 권한까지 달라는 요구 — 확인창을 붙일까, 뺄까?</b> — 큰 자율성 요구의 첫 수 <span class="note">(권한 필요성 확인 → 불필요하면 제거 → 필요하면 위험 비례 통제)</span></li>
+      <li><b>2.1② 품질이 조금 모자라거나 비용이 남는다 — 모델을 바꿀까, effort 를 바꿀까?</b> — 조절 수단 순서 <span class="note">(effort → 모델 교체 → 섞인 요청은 모델 조합·라우팅)</span></li>
+      <li><b>6.3① "AI 답변이 항상 정확하다고 계약서에 넣어 달라" — 무엇을 약속하나?</b> — 기대치 맞추기 <span class="note">(100% 대신 측정된 SLO + 사람 안전망)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="tradeoff-communication-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>실행 가능한 설계가 여럿이면 아키텍트가 조용히 골라 통보하지 않음. 선택지마다 같은 평가셋의 품질·지연(latency)·비용을 붙여 보여 주고, 가치·위험 판단은 책임자(business owner)가 함 <span class="gen">업계 일반</span> <span class="note">공식 문서 없음</span></p>
       <p>근거 만드는 법은 공식 : 쓰임새 전용 평가셋으로 실제 프롬프트·데이터를 돌려 모델끼리 비교하고 성능·비용 trade-off(절충)를 따짐. 좋은 평가셋이 가장 중요한 단계 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> 변경 요청(CAB)에 대안 2~3개 + 벤치마크·롤백 비용을 붙여 올림. 인스턴스 교체안만 있고 튜닝안이 없으면 빠진 선택지</p>
   </div>
-  <h2 class="sec-h" id="tradeoff-communication-case-h">지문</h2>
-  <section class="csx" id="tradeoff-communication-case" aria-labelledby="tradeoff-communication-case-h" data-tree="tradeoff-communication-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;교체안만&quot;],[&quot;n3&quot;,null]]">
-    <p class="csx-text">고객지원 Agent 비용을 줄이려고 아키텍트가 책임자에게 올릴 선택지 표를 만든다. 표에는 <mark class="csx-m" data-tag="교체안만">"Opus 5.5 유지" 와 "Sonnet 5 로 교체" 두 줄뿐<span class="csx-tag">교체안만</span></mark>이다. 팀은 "Sonnet 5 가 절반 값이니 그걸로 통보하자"고 한다. 표에서 먼저 고칠 것은?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
-  </section>
-  <h2 class="sec-h" id="tradeoff-communication-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>이사할 집이 두 곳일 때, 중개인이 몰래 계약하지 않고 표를 보여 주는 거예요.</p>
+<ul>
+<li>표에는 월세·출근 시간·방 크기가 나란히 적혀 있어요.</li>
+<li>어느 쪽이 좋은지는 살 사람이 정해요.</li>
+<li>방 크기만 다른 집 말고, 같은 집을 조금 고쳐 쓰는 방안도 표에 넣어요.</li>
+<li>불이 나면 못 나가는 집은 아예 표에 안 올려요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-tradeoff-communication" aria-labelledby="vx-tradeoff-communication-cap">
+  <div class="vx-player" data-vx-scene="tradeoff-communication"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-tradeoff-communication-cap">영상 — 절반 값이면 골라서 통보할까? (약 43초 · 소리 없음 · 자막). 월 비용·오류율 +1.5%p·수습 $5·월 2만 건은 설명 뒤집히는 때 1 의 계산(전제는 가정, 토크나이저 30% 는 뺀 하한값 $1,900) · 조정 안의 값은 비워 둠 — 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">누가 정하나</p>
+<ul>
+<li>"품질 조금 손해 vs 비용 절반" 은 기술 문제가 아니라 사업 판단. 품질 손해가 어떤 고객·매출에 닿는지는 책임자가 더 잘 알고 있음 (업계 일반).</li>
+<li>아키텍트의 몫 = 선택지를 같은 잣대로 재서 나란히 놓는 것. 조용히 골라 통보하면 책임자는 무엇을 포기했는지 모름.</li>
+</ul>
+<p class="lead">근거는 같은 평가셋으로</p>
+<ul>
+<li>공식 순서 : 쓰임새 전용 벤치마크 테스트 → 실제 프롬프트·데이터 → 정확도·품질·엣지 케이스 비교 → 성능·비용 trade-off(절충).</li>
+<li>eval 이 있으면 지연(latency)·토큰·과제당 비용·오류율을 같은 과제 묶음에서 측정 → 선택지끼리 비교가 공정해짐.</li>
+</ul>
+<p class="lead">선택지 공간은 모델 교체보다 넓음</p>
+<ul>
+<li>effort : 한 모델 안에서 지능 ↔ 지연·비용을 맞바꾸는 lever(손잡이). 공식은 "모델 바꾸기보다 나은 경우가 많다".</li>
+<li>섞기 : 싼 모델이 대부분을 하고 어려운 것만 프런티어 모델로.</li>
+<li>모델 교체 : effort 를 끝까지 올려도 모자랄 때.</li>
+</ul>
+<p class="lead">안전은 선택지 축이 아니라 바닥</p>
+<ul>
+<li>넘으면 안 되는 선(PII 노출·규정 위반)은 모든 선택지가 먼저 통과해야 할 조건. 그걸 깎는 안은 "싼 선택지"가 아니라 자격 없는 안 (업계 일반).</li>
+</ul>
+<p class="lead">권한 요구도 같은 틀</p>
+<ul>
+<li>먼저 필요성 → 필요 없으면 빼기(공식 샘플 1) → 필요하면 위험 크기만큼 통제(control). 위험은 "환각(hallucination)된 환불 = 돈이 나감"처럼 책임자가 아는 말로.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="tradeoff-communication-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="tradeoff-communication-tree-1" aria-labelledby="tradeoff-communication-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9|n1 n4 n5 n10 n11">
     <div class="t5-fh"><h3 id="tradeoff-communication-tree-1-h">① 누가 고르나 <span class="pg">[6.2①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -471,125 +523,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>비싼 쪽이나 싼 쪽을 조용히 골라 기정사실로 통보 → 근거 붙여 책임자가 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"어느 설계가 나은지 모델에게 판단을 맡긴다" → 설계 판단을 모델에게 맡기지 않음 <span class="gen">업계 일반</span> <span class="note">목록 오답</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>선택지를 모델 교체로만 구성 → effort 조정안 누락 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>공개 벤치마크 순위·감으로 비교 → 쓰임새 전용 평가셋 + 실제 프롬프트·데이터 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"위험을 알리고, 도구는 둔 채 실행 전 확인 단계" → 필요 없는 권한이면 빼기가 먼저 (가이드 샘플 문항 1 의 보기 C 와 같은 모양) <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"PII 노출이 조금 늘지만 절반 값" 을 선택지로 올림 → 안전은 선택지가 아니라 경계 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"일정을 지키려고 통제는 출시 뒤에 · 평가를 줄여서 · 승인 관문을 잠시 빼고 · 프롬프트 지시로 임시 통제" → 통제는 고정, 선택지는 연기·범위 축소·기간 연장·인력·승인된 정책 변경 <span class="gen">업계 일반</span> · 프롬프트 지시는 권고 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "확인창·사람 검토 보기는 항상 오답" → 필요해서 남긴 강한 권한엔 위험 등급별 사람 검토 <span class="ok">✓ 확인</span> <span class="src">(<a href="least-privilege.html">■ 최소 권한</a> <span class="rule-ref">· <a href="least-privilege.html#least-privilege-rule-5">규칙 ⑤</a></span>)</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Tuning effort is often a better lever than switching models."</p>
-        <p lang="en">"specific to your use case - having a good evaluation set is the most important step in the process."</p>
-        <p lang="en">"Weigh performance and cost tradeoffs."</p>
-        <p lang="en">"The choice of model depends on the trade-offs between cost, accuracy, and response time."</p>
-        <p lang="en">"Evals can also become the highest-bandwidth communication channel between product and research teams, defining metrics researchers can optimize against."</p>
-        <p lang="en">"Least privilege means removing capabilities the role does not require, eliminating the attack surface rather than monitoring or guarding it." <span class="src" lang="ko">(가이드 샘플 1)</span></p>
-        <p lang="en">"Creating multiple risk levels allows you to adjust the aggressiveness of your moderation."</p>
-        <p lang="en">"Practice architectural decision-making: model selection, integration protocols, and security trade-offs" <span class="src" lang="ko">(가이드 7절 — 원문 줄바꿈 이어 붙임)</span></p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 6.2 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>가이드 7절 <span class="src">(19~20줄)</span></li>
-        <li>샘플 1 <span class="src">(60~63줄)</span></li>
-        <li>choosing-a-model <span class="src">(ko 8·39~40·73~79·83줄, en 8·73·79줄)</span></li>
-        <li>effort <span class="src">(en 1·47줄)</span></li>
-        <li>customer-support-chat <span class="src">(en-full 188줄)</span></li>
-        <li>demystifying-evals <span class="src">(en 52줄)</span></li>
-        <li>content-moderation <span class="src">(en-full 884줄)</span></li>
-        <li>reduce-hallucinations <span class="src">(en 1줄)</span></li>
-        <li>prompt-caching <span class="src">(ko 39줄 표)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 13·15줄)</span></li>
-        <li>Claude Code best-practices <span class="src">(en 406줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (근거 만드는 법 · ② · ④ 빼기·위험 등급)</li>
-        <li><span class="gen">업계 일반</span> 7줄(책임자 결정 · 우세안 · 모델에게 안 맡김 · 백분위 · 안전 경계 · 압박 때 선택지 · 비즈니스 번역)</li>
-        <li><span class="post">시험 뒤 변경</span> 1곳(Opus 5.5 가격)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">6.2①</li>
-        <li class="chip">6.2②</li>
-        <li>(<span class="note"><a href="least-privilege.html">■ 최소 권한</a> 이 본편</span>)</li>
-        <li class="chip">2.1②</li>
-        <li class="chip">6.3①</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-tradeoff-communication" aria-labelledby="vx-tradeoff-communication-cap">
-  <div class="vx-player" data-vx-scene="tradeoff-communication"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-tradeoff-communication-cap">영상 — 절반 값이면 골라서 통보할까? (약 43초 · 소리 없음 · 자막). 월 비용·오류율 +1.5%p·수습 $5·월 2만 건은 설명 뒤집히는 때 1 의 계산(전제는 가정, 토크나이저 30% 는 뺀 하한값 $1,900) · 조정 안의 값은 비워 둠 — 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>tradeoff-communication</dd>
-  <dt>본편</dt>
-  <dd>6.2</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">6.2①</li><li class="chip">6.2②</li><li class="chip">2.1②</li><li class="chip">6.3①</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>이사할 집이 두 곳일 때, 중개인이 몰래 계약하지 않고 표를 보여 주는 거예요.</p>
-<ul>
-<li>표에는 월세·출근 시간·방 크기가 나란히 적혀 있어요.</li>
-<li>어느 쪽이 좋은지는 살 사람이 정해요.</li>
-<li>방 크기만 다른 집 말고, 같은 집을 조금 고쳐 쓰는 방안도 표에 넣어요.</li>
-<li>불이 나면 못 나가는 집은 아예 표에 안 올려요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">누가 정하나</p>
-<ul>
-<li>"품질 조금 손해 vs 비용 절반" 은 기술 문제가 아니라 사업 판단. 품질 손해가 어떤 고객·매출에 닿는지는 책임자가 더 잘 알고 있음 (업계 일반).</li>
-<li>아키텍트의 몫 = 선택지를 같은 잣대로 재서 나란히 놓는 것. 조용히 골라 통보하면 책임자는 무엇을 포기했는지 모름.</li>
-</ul>
-<p class="lead">근거는 같은 평가셋으로</p>
-<ul>
-<li>공식 순서 : 쓰임새 전용 벤치마크 테스트 → 실제 프롬프트·데이터 → 정확도·품질·엣지 케이스 비교 → 성능·비용 trade-off(절충).</li>
-<li>eval 이 있으면 지연(latency)·토큰·과제당 비용·오류율을 같은 과제 묶음에서 측정 → 선택지끼리 비교가 공정해짐.</li>
-</ul>
-<p class="lead">선택지 공간은 모델 교체보다 넓음</p>
-<ul>
-<li>effort : 한 모델 안에서 지능 ↔ 지연·비용을 맞바꾸는 lever(손잡이). 공식은 "모델 바꾸기보다 나은 경우가 많다".</li>
-<li>섞기 : 싼 모델이 대부분을 하고 어려운 것만 프런티어 모델로.</li>
-<li>모델 교체 : effort 를 끝까지 올려도 모자랄 때.</li>
-</ul>
-<p class="lead">안전은 선택지 축이 아니라 바닥</p>
-<ul>
-<li>넘으면 안 되는 선(PII 노출·규정 위반)은 모든 선택지가 먼저 통과해야 할 조건. 그걸 깎는 안은 "싼 선택지"가 아니라 자격 없는 안 (업계 일반).</li>
-</ul>
-<p class="lead">권한 요구도 같은 틀</p>
-<ul>
-<li>먼저 필요성 → 필요 없으면 빼기(공식 샘플 1) → 필요하면 위험 크기만큼 통제(control). 위험은 "환각(hallucination)된 환불 = 돈이 나감"처럼 책임자가 아는 말로.</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -655,7 +591,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -737,7 +672,40 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="tradeoff-communication-practice-h">연습 문제</h2>
 
+  <section class="csx" id="tradeoff-communication-case" aria-labelledby="tradeoff-communication-case-h" data-tree="tradeoff-communication-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;교체안만&quot;],[&quot;n3&quot;,null]]">
+    <p class="csx-text">고객지원 Agent 비용을 줄이려고 아키텍트가 책임자에게 올릴 선택지 표를 만든다. 표에는 <mark class="csx-m" data-tag="교체안만">"Opus 5.5 유지" 와 "Sonnet 5 로 교체" 두 줄뿐<span class="csx-tag">교체안만</span></mark>이다. 팀은 "Sonnet 5 가 절반 값이니 그걸로 통보하자"고 한다. 표에서 먼저 고칠 것은?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
+  </section>
+  <h2 class="sec-h" id="tradeoff-communication-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>비싼 쪽이나 싼 쪽을 조용히 골라 기정사실로 통보 → 근거 붙여 책임자가 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"어느 설계가 나은지 모델에게 판단을 맡긴다" → 설계 판단을 모델에게 맡기지 않음 <span class="gen">업계 일반</span> <span class="note">목록 오답</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>선택지를 모델 교체로만 구성 → effort 조정안 누락 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>공개 벤치마크 순위·감으로 비교 → 쓰임새 전용 평가셋 + 실제 프롬프트·데이터 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"위험을 알리고, 도구는 둔 채 실행 전 확인 단계" → 필요 없는 권한이면 빼기가 먼저 (가이드 샘플 문항 1 의 보기 C 와 같은 모양) <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"PII 노출이 조금 늘지만 절반 값" 을 선택지로 올림 → 안전은 선택지가 아니라 경계 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"일정을 지키려고 통제는 출시 뒤에 · 평가를 줄여서 · 승인 관문을 잠시 빼고 · 프롬프트 지시로 임시 통제" → 통제는 고정, 선택지는 연기·범위 축소·기간 연장·인력·승인된 정책 변경 <span class="gen">업계 일반</span> · 프롬프트 지시는 권고 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "확인창·사람 검토 보기는 항상 오답" → 필요해서 남긴 강한 권한엔 위험 등급별 사람 검토 <span class="ok">✓ 확인</span> <span class="src">(<a href="least-privilege.html">■ 최소 권한</a> <span class="rule-ref">· <a href="least-privilege.html#least-privilege-rule-5">규칙 ⑤</a></span>)</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Tuning effort is often a better lever than switching models."</p>
+        <p lang="en">"specific to your use case - having a good evaluation set is the most important step in the process."</p>
+        <p lang="en">"Weigh performance and cost tradeoffs."</p>
+        <p lang="en">"The choice of model depends on the trade-offs between cost, accuracy, and response time."</p>
+        <p lang="en">"Evals can also become the highest-bandwidth communication channel between product and research teams, defining metrics researchers can optimize against."</p>
+        <p lang="en">"Least privilege means removing capabilities the role does not require, eliminating the attack surface rather than monitoring or guarding it." <span class="src" lang="ko">(가이드 샘플 1)</span></p>
+        <p lang="en">"Creating multiple risk levels allows you to adjust the aggressiveness of your moderation."</p>
+        <p lang="en">"Practice architectural decision-making: model selection, integration protocols, and security trade-offs" <span class="src" lang="ko">(가이드 7절 — 원문 줄바꿈 이어 붙임)</span></p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 싼 안이 오히려 비싼 때</h4>
@@ -778,7 +746,6 @@
 <li><span class="lead">근거 :</span> content-moderation en-full 884줄 · 샘플 1 → ■ moderation 위험 등급 · ■ human-in-the-loop 게이트 위치</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -853,7 +820,31 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="tradeoff-communication-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 6.2 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>가이드 7절 <span class="src">(19~20줄)</span></li>
+        <li>샘플 1 <span class="src">(60~63줄)</span></li>
+        <li>choosing-a-model <span class="src">(ko 8·39~40·73~79·83줄, en 8·73·79줄)</span></li>
+        <li>effort <span class="src">(en 1·47줄)</span></li>
+        <li>customer-support-chat <span class="src">(en-full 188줄)</span></li>
+        <li>demystifying-evals <span class="src">(en 52줄)</span></li>
+        <li>content-moderation <span class="src">(en-full 884줄)</span></li>
+        <li>reduce-hallucinations <span class="src">(en 1줄)</span></li>
+        <li>prompt-caching <span class="src">(ko 39줄 표)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 13·15줄)</span></li>
+        <li>Claude Code best-practices <span class="src">(en 406줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (근거 만드는 법 · ② · ④ 빼기·위험 등급)</li>
+        <li><span class="gen">업계 일반</span> 7줄(책임자 결정 · 우세안 · 모델에게 안 맡김 · 백분위 · 안전 경계 · 압박 때 선택지 · 비즈니스 번역)</li>
+        <li><span class="post">시험 뒤 변경</span> 1곳(Opus 5.5 가격)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -865,8 +856,7 @@
 <li>Skilljar 는 이번에 보지 않음 — 받아 둔 Skilljar 30개 파일 제목 중 trade-off 전달 주제 없음(<code>ls ccarp/raw/skilljar</code> · 제외 = 받지 않은 과정·강의).</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/tradeoff-communication.md</p>

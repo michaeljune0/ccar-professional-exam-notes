@@ -350,24 +350,76 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ 검증 층 -->
-<article class="card t5-card" id="eval-layers" aria-labelledby="eval-layers-title">
+<!-- ■ 검증 층 (v3 시범 순서) -->
+<article class="card t5-card v3" id="eval-layers" aria-labelledby="eval-layers-title">
   <header class="t5-head">
     <h1 id="eval-layers-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 검증 층</h1>
-    <p class="lemma-meta"><span lang="en">automated evals · production monitoring · A/B testing · user feedback · transcript review · human studies</span><span class="lemma-main">4.3 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">automated evals · production monitoring · A/B testing · user feedback · transcript review · human studies</span><span class="lemma-main">4.3 본편</span></p>
   </header>
-  <h2 class="sec-h" id="eval-layers-sum-h">카드</h2>
+  <h2 class="sec-h" id="eval-layers-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>4.3 A/B 테스트와 반복 개선</b> · D4 평가 16%<br><q lang="en">Conduct A/B testing and iterative improvements</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>4.3① 오프라인 eval 은 통과 — A/B 테스트는 언제 쓰나? <span class="note">(빈 목표)</span></b> — 검증 층 고르기 <span class="note">(자동 eval · A/B · 운영 모니터링 · 사람 검토)</span></li>
+      <li><b>4.6② 출시 뒤 품질이 조용히 떨어진다 — 무엇을 돌리나?</b> — 운영 신호를 eval 로 되먹이는 루프</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="eval-layers-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>에이전트 성능을 아는 방법 6층 = 자동 eval · 운영(production) 모니터링 · A/B · 사용자 피드백 · transcript 직접 읽기 · 체계적 사람 평가. 어느 한 층도 전부 못 잡음 → 겹쳐 씀. 한 층에서 샌 실패를 다른 층이 잡음(스위스 치즈 모델) <span class="ok">✓ 확인</span></p>
       <p>층마다 시점이 다름 : 자동 eval = 출시 전·CI · 운영 모니터링 = 출시 뒤 · A/B = 트래픽이 충분할 때 큰 변경 · 피드백·transcript = 늘 · 사람 평가 = grader(채점기) 보정·주관적 출력 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> 배포 파이프라인. CI 테스트 → 카나리 → 운영 모니터링. CI 가 초록이어도 카나리를 보고, 카나리 몇 분 보고 전체 배포하지 않음</p>
   </div>
-  <h2 class="sec-h" id="eval-layers-case-h">지문</h2>
-  <section class="csx" id="eval-layers-case" aria-labelledby="eval-layers-case-h" data-tree="eval-layers-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n6&quot;,&quot;몇 시간치&quot;],[&quot;n7&quot;,null]]" data-flow="eval-layers-flow" data-scene="1">
-    <p class="csx-text">하루 2만 건 문의를 받는 고객지원 챗봇에 새 응답 흐름을 A/B 로 걸었다. <mark class="csx-m" data-tag="몇 시간치">시작 3시간 만에<span class="csx-tag">몇 시간치</span></mark> 새 쪽의 과제 완료율이 4%p 높게 나오자 팀장은 트래픽도 충분하니 바로 전체 배포하자고 한다. 지금 판단은?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="eval-layers-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>구멍 난 치즈 여러 장을 겹쳐 놓는 거예요.</p>
+<ul>
+<li>한 장만 있으면 구멍으로 벌레가 빠져나가요.</li>
+<li>여러 장을 겹치면 구멍 자리가 달라서 벌레가 걸려요.</li>
+<li>치즈마다 잘 막는 곳과 늦게 막는 곳이 달라요.</li>
+<li>이 쪽은 "언제 어느 치즈를 먼저 대나"를 모아 둔 곳이에요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-eval-layers" aria-labelledby="vx-eval-layers-cap">
+  <div class="vx-player" data-vx-scene="eval-layers"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-eval-layers-cap">영상 — 3시간치 A/B, 믿고 배포할까? (약 42초 · 소리 없음 · 자막). 시간 축 점 값·눈금 간격은 그림용 가정 · 약 118일은 계산값(설명 뒤집히는 때 1) <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">층 6개 = 무엇으로 아는가가 다 다름</p>
+<ul>
+<li>자동 eval : 실사용자 없이 코드로 과제를 돌려 채점. 빠르고 재현되고 커밋마다 돌릴 수 있음. 대신 과제가 실사용과 어긋나면 "통과"가 거짓 확신이 됨.</li>
+<li>운영 모니터링 : 실제 시스템의 지표·오류. 진짜 사용자 행동을 봄. 대신 문제가 사용자에게 먼저 닿은 뒤에야 알게 됨(사후 대응) · 채점할 정답이 없음.</li>
+<li>A/B : 실사용 트래픽을 나눠 두 판을 비교. 유지율·과제 완료율 같은 진짜 결과를 재고 교란을 통제(control)함. 대신 유의성(우연이 아니라고 볼 만큼 표본이 쌓임)까지 수일~수주 · 트래픽이 충분해야 함 · 이미 배포한 변경만 시험 · 왜 움직였는지는 transcript 를 읽어야 알 수 있음.</li>
+<li>사용자 피드백 : 엄지 아래·버그 신고. 예상 못 한 문제를 실제 예시와 함께 줌. 대신 드물고, 내고 싶은 사람만 내고, 심한 문제 쪽으로 쏠리고, 이유를 잘 안 적음.</li>
+<li>transcript 직접 읽기 : 사람이 대화를 읽음. failure modes(실패 유형) 감각·미묘한 품질을 잡음. 대신 규모를 못 키우고(사람 수만큼만) 정성 신호뿐.</li>
+<li>체계적 사람 평가 : 훈련된 평가자 여럿이 구조화해 채점. 최고 품질 판정 · LLM-as-judge(LLM 채점기)를 맞추는 기준. 대신 비싸고 느려 자주 못 돌림.</li>
+</ul>
+<p class="lead">왜 겹치나</p>
+<ul>
+<li>층마다 구멍(못 보는 것)이 다름 → 한 층에서 샌 실패를 다른 층이 잡음. 스위스 치즈 모델.</li>
+<li>시점도 다름 : 출시 전엔 자동 eval · 사람 평가뿐, 출시 뒤에 운영(production) 모니터링 · 피드백이 생기고, 트래픽이 쌓여야 A/B 가 됨.</li>
+<li>가장 잘하는 팀의 기본 조합 = 자동 eval(빠른 반복) + 운영 모니터링(실제 결과) + 주기적 사람 검토(보정).</li>
+</ul>
+<p class="lead">A/B 라는 말이 공식 문서 두 편에 세 뜻으로 나옴</p>
+<ul>
+<li>demystifying-evals 표 : 실사용 트래픽으로 두 판 비교(이 카드의 A/B).</li>
+<li>같은 글 사람 grader(채점기) 표 : 방법 목록에 A/B testing 이 들어 있음 → 사람의 선택으로 채점하는 방식으로도 분류.</li>
+<li>define-success : "기준 모델이나 이전 판과 성능 비교" 라는 넓은 뜻의 정량 방법. → 지문이 A/B 를 어느 뜻으로 쓰는지 먼저 봄.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>지금 출시 전인가 뒤인가, 트래픽은 충분한가?</li>
+<li>이 층이 못 보는 것(구멍)을 어느 층이 막고 있나?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="eval-layers-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="eval-layers-tree-1" aria-labelledby="eval-layers-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9|n1 n10 n11|n1 n12 n13">
     <div class="t5-fh"><h3 id="eval-layers-tree-1-h">①③ 어느 층으로 확인 <span class="pg">[4.3①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -426,7 +478,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="eval-layers-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="eval-layers-flow" aria-label="검증 층 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["변경","자동 eval","A/B","운영"],"blocks":[],"rules":[null,null,"트래픽이 충분할 때 큰 변경 · 유의성(우연이 아니라고 볼 만큼 표본이 쌓임)까지 수일~수주",null],"question":"어느 층이 무엇을 잡을까?","scenes":[{"name":"① 층을 차례로","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["새 응답 흐름 v2","(큰 변경)"]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"커밋마다 · 사용자 영향 없음","art":{"kind":"slip","lines":["과제 40개 : 통과","regression 없음"]}},{"kind":"move","step":"넘김","from":{"col":1},"to":2,"label":"트래픽이 충분할 때 큰 변경","art":{"kind":"slip","lines":["A 50% : 기존","B 50% : v2"]}},{"kind":"timer","at":2,"label":"유의성까지 수일~수주"},{"kind":"move","step":"넘김","from":{"col":2},"to":3,"label":"출시 뒤 분포 변화·예상 못 한 실패","art":{"kind":"slip","lines":["2주 뒤 B 채택 · 전체 배포","이제 운영 모니터링"]}},{"kind":"end","label":"한 층에서 샌 실패를 다른 층이 잡음"}]},{"name":"② 몇 시간치 A/B 로 결론","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["새 응답 흐름 v2"]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"오프라인 통과","art":{"kind":"slip","lines":["과제 40개 : 통과"]}},{"kind":"move","step":"넘김","from":{"col":1},"to":2,"label":"하루 2만 건을 반반","art":{"kind":"slip","lines":["A 50% · B 50%"]}},{"kind":"timer","at":2,"label":"유의성까지 수일~수주"},{"kind":"mark","step":"결론","at":{"col":2},"label":"3시간 만에 결론","art":{"kind":"slip","lines":["3시간째 완료율","A 70% · B 74%","→ \"전체 배포하자\""]}},{"kind":"end","label":"몇 시간치로는 유의성까지 못 감 — 아직 결론 못 냄"}]},{"name":"③ 자동 eval 만 믿음","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["새 응답 흐름 v2","(큰 변경)"]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"오프라인 통과","art":{"kind":"slip","lines":["과제 40개 : 95%"]}},{"kind":"skip","at":2},{"kind":"move","step":"새어 나감","from":{"col":1},"to":3,"label":"실사용과 어긋나면 거짓 확신","art":{"kind":"say","text":"새 상품은 왜 교환이 안 돼요?"}},{"kind":"end","label":"오프라인 통과만 믿고 내보내면 실패를 사용자가 먼저 겪음 — 운영 모니터링은 사후 대응"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -502,119 +554,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"오프라인 eval 통과했으니 A/B·운영 확인은 불필요" → 자동 eval 은 실사용 패턴과 어긋나면 거짓 확신 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"A/B 가 있으니 오프라인 eval 은 생략" → A/B 는 배포한 변경만 시험 · 수일~수주. 자동 eval 은 커밋마다 · 사용자 영향 없음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"몇 시간치 A/B 가 좋으니 전체 배포" → 몇 시간치로는 유의성까지 못 감 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"새 버전이 더 나은지 카나리로 확인" → 카나리 = 일부에 내보내고 오류를 봄<span class="gen">업계 일반</span> <span class="note">공식 문서에 카나리 없음</span>. "두 변형 중 어느 쪽이 실사용에서 나은가" 는 변형끼리 실사용 결과를 비교 · 교란 통제 = A/B <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"사용자 불만(엄지 아래)을 주 탐지 수단으로" → 드물고 쏠림 · 사용자가 문제를 잡게 두면 사용자가 피해를 봄 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"운영 대시보드가 멀쩡하니 품질도 OK" → 운영 모니터링은 사후 대응 — 사용자가 먼저 겪음 · 채점할 정답이 없음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"중요하니 변경마다 체계적 사람 평가" → 비싸고 느려 자주 못 돌림. grader 보정·주관적 출력에만 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"한 층만 제대로 하면 된다" → 어느 한 층도 전부 못 잡음 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Like the Swiss Cheese Model from safety engineering, no single evaluation layer catches every issue."</p>
-        <p lang="en">"A/B testing validates significant changes once you have sufficient traffic."</p>
-        <p lang="en">"Slow; days or weeks to reach significance and requires sufficient traffic"</p>
-        <p lang="en">"Production monitoring kicks in post-launch to detect distribution drift and unanticipated real-world failures."</p>
-        <p lang="en">"Can create false confidence if it doesn’t match real usage patterns"</p>
-        <p lang="en">"Reserve systematic human studies for calibrating LLM graders or evaluating subjective outputs where human consensus serves as the reference standard."</p>
-        <p lang="en">"The most effective teams combine these methods: automated evals for fast iteration, production monitoring for ground truth, and periodic human review for calibration."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="eval-driven-iteration.html">■ 변경마다 eval 다시</a></li>
-        <li><a href="production-feedback-loop.html">■ 운영 → eval feedback loop</a></li>
-        <li><a href="llm-judge.html">■ LLM-as-judge 설계</a></li>
-        <li><a href="observability-signals.html">■ observability 세 신호</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 4.3 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>demystifying-evals 글 <span class="src">(en 42·289·293~302·306·308줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①② · ③ 조건과 기간)</li>
-        <li><span class="gen">업계 일반</span> 2줄(트래픽 적을 때 대안 · A/B 통계 세부)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">4.3①</li>
-        <li class="chip">4.6②</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-eval-layers" aria-labelledby="vx-eval-layers-cap">
-  <div class="vx-player" data-vx-scene="eval-layers"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-eval-layers-cap">영상 — 3시간치 A/B, 믿고 배포할까? (약 42초 · 소리 없음 · 자막). 시간 축 점 값·눈금 간격은 그림용 가정 · 약 118일은 계산값(설명 뒤집히는 때 1) <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>eval-layers</dd>
-  <dt>본편</dt>
-  <dd>4.3</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">4.3①</li><li class="chip">4.6②</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>구멍 난 치즈 여러 장을 겹쳐 놓는 거예요.</p>
-<ul>
-<li>한 장만 있으면 구멍으로 벌레가 빠져나가요.</li>
-<li>여러 장을 겹치면 구멍 자리가 달라서 벌레가 걸려요.</li>
-<li>치즈마다 잘 막는 곳과 늦게 막는 곳이 달라요.</li>
-<li>이 쪽은 "언제 어느 치즈를 먼저 대나"를 모아 둔 곳이에요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">층 6개 = 무엇으로 아는가가 다 다름</p>
-<ul>
-<li>자동 eval : 실사용자 없이 코드로 과제를 돌려 채점. 빠르고 재현되고 커밋마다 돌릴 수 있음. 대신 과제가 실사용과 어긋나면 "통과"가 거짓 확신이 됨.</li>
-<li>운영 모니터링 : 실제 시스템의 지표·오류. 진짜 사용자 행동을 봄. 대신 문제가 사용자에게 먼저 닿은 뒤에야 알게 됨(사후 대응) · 채점할 정답이 없음.</li>
-<li>A/B : 실사용 트래픽을 나눠 두 판을 비교. 유지율·과제 완료율 같은 진짜 결과를 재고 교란을 통제(control)함. 대신 유의성(우연이 아니라고 볼 만큼 표본이 쌓임)까지 수일~수주 · 트래픽이 충분해야 함 · 이미 배포한 변경만 시험 · 왜 움직였는지는 transcript 를 읽어야 알 수 있음.</li>
-<li>사용자 피드백 : 엄지 아래·버그 신고. 예상 못 한 문제를 실제 예시와 함께 줌. 대신 드물고, 내고 싶은 사람만 내고, 심한 문제 쪽으로 쏠리고, 이유를 잘 안 적음.</li>
-<li>transcript 직접 읽기 : 사람이 대화를 읽음. failure modes(실패 유형) 감각·미묘한 품질을 잡음. 대신 규모를 못 키우고(사람 수만큼만) 정성 신호뿐.</li>
-<li>체계적 사람 평가 : 훈련된 평가자 여럿이 구조화해 채점. 최고 품질 판정 · LLM-as-judge(LLM 채점기)를 맞추는 기준. 대신 비싸고 느려 자주 못 돌림.</li>
-</ul>
-<p class="lead">왜 겹치나</p>
-<ul>
-<li>층마다 구멍(못 보는 것)이 다름 → 한 층에서 샌 실패를 다른 층이 잡음. 스위스 치즈 모델.</li>
-<li>시점도 다름 : 출시 전엔 자동 eval · 사람 평가뿐, 출시 뒤에 운영(production) 모니터링 · 피드백이 생기고, 트래픽이 쌓여야 A/B 가 됨.</li>
-<li>가장 잘하는 팀의 기본 조합 = 자동 eval(빠른 반복) + 운영 모니터링(실제 결과) + 주기적 사람 검토(보정).</li>
-</ul>
-<p class="lead">A/B 라는 말이 공식 문서 두 편에 세 뜻으로 나옴</p>
-<ul>
-<li>demystifying-evals 표 : 실사용 트래픽으로 두 판 비교(이 카드의 A/B).</li>
-<li>같은 글 사람 grader(채점기) 표 : 방법 목록에 A/B testing 이 들어 있음 → 사람의 선택으로 채점하는 방식으로도 분류.</li>
-<li>define-success : "기준 모델이나 이전 판과 성능 비교" 라는 넓은 뜻의 정량 방법. → 지문이 A/B 를 어느 뜻으로 쓰는지 먼저 봄.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>지금 출시 전인가 뒤인가, 트래픽은 충분한가?</li>
-<li>이 층이 못 보는 것(구멍)을 어느 층이 막고 있나?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -680,7 +622,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -762,7 +703,39 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="eval-layers-practice-h">연습 문제</h2>
 
+  <section class="csx" id="eval-layers-case" aria-labelledby="eval-layers-case-h" data-tree="eval-layers-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n6&quot;,&quot;몇 시간치&quot;],[&quot;n7&quot;,null]]" data-flow="eval-layers-flow" data-scene="1">
+    <p class="csx-text">하루 2만 건 문의를 받는 고객지원 챗봇에 새 응답 흐름을 A/B 로 걸었다. <mark class="csx-m" data-tag="몇 시간치">시작 3시간 만에<span class="csx-tag">몇 시간치</span></mark> 새 쪽의 과제 완료율이 4%p 높게 나오자 팀장은 트래픽도 충분하니 바로 전체 배포하자고 한다. 지금 판단은?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="eval-layers-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"오프라인 eval 통과했으니 A/B·운영 확인은 불필요" → 자동 eval 은 실사용 패턴과 어긋나면 거짓 확신 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"A/B 가 있으니 오프라인 eval 은 생략" → A/B 는 배포한 변경만 시험 · 수일~수주. 자동 eval 은 커밋마다 · 사용자 영향 없음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"몇 시간치 A/B 가 좋으니 전체 배포" → 몇 시간치로는 유의성까지 못 감 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"새 버전이 더 나은지 카나리로 확인" → 카나리 = 일부에 내보내고 오류를 봄<span class="gen">업계 일반</span> <span class="note">공식 문서에 카나리 없음</span>. "두 변형 중 어느 쪽이 실사용에서 나은가" 는 변형끼리 실사용 결과를 비교 · 교란 통제 = A/B <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"사용자 불만(엄지 아래)을 주 탐지 수단으로" → 드물고 쏠림 · 사용자가 문제를 잡게 두면 사용자가 피해를 봄 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"운영 대시보드가 멀쩡하니 품질도 OK" → 운영 모니터링은 사후 대응 — 사용자가 먼저 겪음 · 채점할 정답이 없음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"중요하니 변경마다 체계적 사람 평가" → 비싸고 느려 자주 못 돌림. grader 보정·주관적 출력에만 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"한 층만 제대로 하면 된다" → 어느 한 층도 전부 못 잡음 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Like the Swiss Cheese Model from safety engineering, no single evaluation layer catches every issue."</p>
+        <p lang="en">"A/B testing validates significant changes once you have sufficient traffic."</p>
+        <p lang="en">"Slow; days or weeks to reach significance and requires sufficient traffic"</p>
+        <p lang="en">"Production monitoring kicks in post-launch to detect distribution drift and unanticipated real-world failures."</p>
+        <p lang="en">"Can create false confidence if it doesn’t match real usage patterns"</p>
+        <p lang="en">"Reserve systematic human studies for calibrating LLM graders or evaluating subjective outputs where human consensus serves as the reference standard."</p>
+        <p lang="en">"The most effective teams combine these methods: automated evals for fast iteration, production monitoring for ground truth, and periodic human review for calibration."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 트래픽이 적은 사내 도구 — A/B 가 사실상 안 되는 때</h4>
@@ -796,7 +769,6 @@
 <li><span class="lead">근거 :</span> en 300·302줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -871,7 +843,27 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="eval-layers-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="eval-driven-iteration.html">■ 변경마다 eval 다시</a></li>
+        <li><a href="production-feedback-loop.html">■ 운영 → eval feedback loop</a></li>
+        <li><a href="llm-judge.html">■ LLM-as-judge 설계</a></li>
+        <li><a href="observability-signals.html">■ observability 세 신호</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 4.3 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>demystifying-evals 글 <span class="src">(en 42·289·293~302·306·308줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①② · ③ 조건과 기간)</li>
+        <li><span class="gen">업계 일반</span> 2줄(트래픽 적을 때 대안 · A/B 통계 세부)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -880,8 +872,7 @@
 <li>목록 4.3① 의 "공식 표 6층" · 영어 신호 3문장은 원문에서 모두 찾음(en 289·297·302·306줄) — 고친 곳 없음. 목록 "영상은 3층만" 은 영상을 보지 않아 확인 안 함.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/eval-layers.md</p>

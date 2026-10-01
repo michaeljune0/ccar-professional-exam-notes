@@ -350,25 +350,79 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ handoff 패키지 -->
-<article class="card t5-card" id="handoff-package" aria-labelledby="handoff-package-title">
+<!-- ■ handoff 패키지 (v3 시범 순서) -->
+<article class="card t5-card v3" id="handoff-package" aria-labelledby="handoff-package-title">
   <header class="t5-head">
     <h1 id="handoff-package-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> handoff 패키지</h1>
-    <p class="lemma-meta"><span lang="en">handoff package : 증상별 런북 · 소유자 딸린 알림 · 버전 목록 · 되돌리기 · 받는 팀의 복구 연습으로 완료</span><span class="lemma-main">6.4 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">handoff package : 증상별 런북 · 소유자 딸린 알림 · 버전 목록 · 되돌리기 · 받는 팀의 복구 연습으로 완료</span><span class="lemma-main">6.4 본편</span></p>
   </header>
-  <h2 class="sec-h" id="handoff-package-sum-h">카드</h2>
+  <h2 class="sec-h" id="handoff-package-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>6.4 구조 문서화</b> · D6 사람·문서 14%<br><q lang="en">Document architectures and provide implementation guidance</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>6.5① 핸드오프가 끝났다 — 아키텍트가 계속 할 일 두 가지는? <span class="note">(복수 응답)</span></b> — 수명주기 5단계(디스커버리·설계·핸드오프·모니터링·반복)는 되돌아오는 루프 — 핸드오프 뒤 할 일</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="handoff-package-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>handoff(인계)가 넘기는 건 시스템이 아니라 운영 능력 — 증상별 런북 · 런북에 묶인 알림 · 이름 있는 소유자 · 버전 목록 · 되돌리기(rollback) 절차. "끝" 판정은 보낸 쪽이 아니라 받는 팀이 복구 연습으로 함 <span class="gen">업계 일반</span> <span class="note">패키지 목록·완료 판정은 Anthropic 문서 없음</span></p>
       <p>공식에서 가장 가까운 것 : eval 셋은 명확한 소유권이 있어야 쓸모 · 도메인 전문가·제품팀이 eval 을 직접 돌림 <span class="ok">✓ 확인</span> · 에이전트 시스템 = 프롬프트·도구·실행 로직이 얽힌 상태 덩어리 <span class="ok">✓ 확인</span> · 모델 ID = 고정 판 <span class="ok">✓ 확인</span> <span class="src">(좁은 문맥 — handoff 패키지로 넓힌 건 해석)</span></p>
       <p>짓는 팀에게 주는 문서(인터페이스·도구 계약)는 <a href="implementation-guide.html">■ 구현 가이드</a>, "왜" 는 <a href="adr-package.html">■ ADR·아키텍처 패키지</a>, handoff 뒤 아키텍트가 계속 할 일은 <a href="lifecycle-loop.html">■ lifecycle 루프</a>. 여기는 운영 팀에게 넘기는 묶음과 "넘김 완료" 판정</p>
     <p class="t5-ana"><span class="lead">비유</span> 운영 이관 체크리스트 — 알람마다 런북 링크 · 온콜 로테이션 · 배포 버전 표 · 롤백 버튼 · 게임데이(일부러 장애 내 보기) 통과. "위키에 다 올렸어요" 가 속이는 습관</p>
   </div>
-  <h2 class="sec-h" id="handoff-package-case-h">지문</h2>
-  <section class="csx" id="handoff-package-case" aria-labelledby="handoff-package-case-h" data-tree="handoff-package-tree-3" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,null],[&quot;n5&quot;,null],[&quot;n6&quot;,[&quot;문서 발송&quot;,&quot;혼자 복구 0회&quot;]],[&quot;n7&quot;,null]]" data-flow="handoff-package-flow" data-scene="0">
-    <p class="csx-text">고객지원 Agent 를 만든 아키텍트가 다음 달 다른 프로젝트로 옮긴다. 인계 문서는 <mark class="csx-m" data-tag="컴포넌트별">주문 API · 프롬프트 · 검색 부품마다 한 장씩 쓴 42쪽 설명서<span class="csx-tag">컴포넌트별</span></mark>이고, 아키텍트는 <mark class="csx-m" data-tag="문서 발송">"문서를 보냈고 내가 사인했으니 handoff 끝"<span class="csx-tag">문서 발송</span></mark>이라고 한다. 운영팀 on-call 은 <mark class="csx-m" data-tag="혼자 복구 0회">아직 한 번도 혼자 장애를 복구해 본 적이 없다<span class="csx-tag">혼자 복구 0회</span></mark>. 넘김이 끝났다고 봐도 될까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="handoff-package-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>가게 주인이 이사 가면서 새 점장에게 가게를 넘기는 거예요.</p>
+<ul>
+<li>열쇠만 주고 가면, 냉장고가 멈춘 밤에 새 점장은 무엇부터 할지 몰라요.</li>
+<li>그래서 "냉장고 소리가 이상하면 → 이걸 보고 → 이렇게" 쪽지를 증상마다 붙여요.</li>
+<li>쪽지마다 "안 되면 누구에게 전화" 도 적어요.</li>
+<li>마지막으로 새 점장이 혼자 문을 열고, 일부러 꺼 둔 냉장고를 혼자 고쳐 봐요.</li>
+<li>그게 되면 넘긴 거예요. 쪽지를 건넨 순간이 아니라요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-handoff-package" aria-labelledby="vx-handoff-package-cap">
+  <div class="vx-player" data-vx-scene="handoff-package"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-handoff-package-cap">영상 — 넘김 끝은 받는 팀이 판정 (약 43초 · 소리 없음 · 자막). 밤 번호 · 같은 장애 호출 3번 · 첫 연습에서 막힘은 그림용 가정 · 실측 아님 — 42쪽 · 부품별 장 · 03:10 환불액 0원 · 몇 장을 보지? · R-2 · 주문 API 끊김 · 되돌림 v6 · 18분 복구 · 아키텍트 0회는 카드 흐름 값, 넘긴 지 3주 · 답이 영어로만은 설명 &#x27;뒤집히는 때 2&#x27; 값, 완료 판정·복구 연습 기준은 업계 일반(공식 문서 없음) <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">넘기는 것 = 운영 능력 (업계 일반)</p>
+<ul>
+<li>시스템(코드·자격증명)은 돌아가게 하는 재료일 뿐. 받는 팀이 새벽에 혼자 알아차리고 · 확인하고 · 고치고 · 되돌릴 수 있어야 넘긴 것.</li>
+<li>그래서 묶음 = 증상별 런북 · 런북에 묶인 알림 · 이름 있는 소유자 · 결정 근거 · eval 셋 · 버전 목록 · 되돌리기 절차 · on-call.</li>
+<li>공식 조각 : eval 셋은 살아 있는 산출물이라 명확한 소유권이 있어야 쓸모. 도메인 전문가·제품팀이 과제를 기여하고 직접 돌림 (demystifying-evals en 273·275줄).</li>
+</ul>
+<p class="lead">왜 증상별인가 (업계 일반)</p>
+<ul>
+<li>새벽 on-call 은 "주문 API 가 고장" 이 아니라 "고객에게 환불액 0원이 안내됨" 을 먼저 봄. 부품 이름은 원인을 찾은 뒤에야 알게 됨.</li>
+<li>부품마다 장을 붙인 설명서는 "어느 장을 펼치지?" 에서 시간을 씀.</li>
+</ul>
+<p class="lead">왜 받는 팀이 판정하나 (업계 일반)</p>
+<ul>
+<li>보낸 쪽이 "다 적었다" 고 느끼는 것과, 받는 쪽이 혼자 해내는 것은 다름.</li>
+<li>공식 조각 : 같은 명세를 읽은 엔지니어 둘이 엣지 케이스를 다르게 읽음 (demystifying-evals en 48줄) → 문서만으론 기대가 안 전해짐. 명세 문맥이라 handoff 로 넓힌 건 해석.</li>
+<li>넘긴 뒤 같은 장애로 아키텍트가 또 불리면, 그게 지식이 안 넘어갔다는 신호.</li>
+</ul>
+<p class="lead">왜 버전 목록인가</p>
+<ul>
+<li>에이전트 시스템 = 프롬프트·도구·실행 로직이 얽힌 상태 덩어리 (multi-agent-research-system en 74줄) → 모델만 적으면 무엇이 돌고 있는지 모름.</li>
+<li>모델 ID 는 고정 판 — 같은 ID 면 가중치·구성이 안 바뀜. 단 이 보장은 ID 에만, 4.6 이전 일부 모델의 alias 는 아님 (model-ids-and-versions en 1·63줄).</li>
+<li>기록과 실제가 어긋났으면 모델 사용 감사(Console Usage → Export → API 키·모델별 CSV)로 아직 옛 모델을 쓰는 곳부터 찾음 (model-deprecations en 40~46줄).</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>아키텍트가 연락이 안 되는 새벽에, on-call 이 이 묶음만으로 혼자 복구하나?</li>
+<li>묶음에 적힌 판이 지금 실제로 돌고 있는 판과 같은가?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="handoff-package-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="handoff-package-tree-1" aria-labelledby="handoff-package-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9|n1 n4 n5 n10 n11">
     <div class="t5-fh"><h3 id="handoff-package-tree-1-h">①⑤ 무엇을 넘기나 <span class="pg">[6.4]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -455,7 +509,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="handoff-package-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="handoff-package-flow" aria-label="handoff 패키지 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["아키텍트","handoff 패키지","복구 연습","on-call"],"blocks":[],"rules":[null,null,"일부러 심은 장애를 on-call 이 혼자 복구",null],"question":"이 묶음으로 새벽 장애를 혼자 풀 수 있을까?","scenes":[{"name":"① 증상별 런북 + 복구 연습","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["모델 ID","프롬프트 v7","도구 4개"]}},{"kind":"move","step":"묶음","from":{"col":0},"to":1,"label":"증상별 런북 + 버전 목록","art":{"kind":"slip","lines":["R-2 환불액 0원","확인: 주문 API","되돌림: v6"]}},{"kind":"move","step":"연습","from":{"col":1},"to":2,"label":"일부러 심은 장애","art":{"kind":"slip","lines":["심은 장애:","주문 API 끊김"]}},{"kind":"move","step":"복구","from":{"col":2},"to":3,"label":"혼자 복구","art":{"kind":"slip","lines":["R-2 대로","18분 복구","아키텍트 0회"]}},{"kind":"end","label":"완료 판정은 받는 팀이 — 아키텍트 없이 복구"}]},{"name":"② 문서 발송으로 끝","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["코드 · 자격증명","데모 영상"]}},{"kind":"move","step":"묶음","from":{"col":0},"to":1,"label":"부품마다 트러블슈팅 장","art":{"kind":"slip","lines":["1장 주문 API","2장 프롬프트","3장 검색"]}},{"kind":"skip","at":2},{"kind":"move","step":"장애","from":{"col":1},"to":3,"label":"증상에서 시작 ≠","art":{"kind":"slip","lines":["03:10","\"환불액 0원\"","몇 장을 보지?"]}},{"kind":"move","step":"호출","from":{"col":3},"to":0,"label":"같은 장애로 또 호출","art":{"kind":"say","text":"또 전화드려요."}},{"kind":"end","label":"같은 장애로 아키텍트가 또 호출되면 지식 이전 실패"}]},{"name":"③ 기록과 실제가 다름 → 목록부터","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["문서: v3","실제: 기록 없는","수정 11번"]}},{"kind":"move","step":"목록","from":{"col":0},"to":1,"label":"실제 돌고 있는 것부터","art":{"kind":"slip","lines":["Usage → Export","키·모델별 CSV","옛 모델 1곳"]}},{"kind":"mark","step":"버전화","at":{"col":1},"label":"버전 목록부터","art":{"kind":"slip","lines":["프롬프트 v14","= 지금 운영판"]}},{"kind":"end","label":"실제 돌고 있는 것을 먼저 목록·버전화 — 런북은 그 뒤"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -538,137 +592,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"코드 · 자격증명 · 데모 영상 · 빌드 채팅 로그를 넘겼으니 handoff 끝" → 운영 능력(런북 · 알림 · 소유자 · 버전 목록 · 되돌리기)이 빠짐 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"런북은 부품마다 트러블슈팅 장을 붙임" → 증상별. 새벽 on-call 은 증상에서 시작 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"문서를 보냈고 아키텍트가 사인했으니 완료" → 완료 판정은 받는 팀이, 복구 연습으로 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"같은 장애로 또 호출됐으니 아키텍트가 빨리 고치는 스크립트를 짜 준다" → 의존이 굳음. 경로를 런북에 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"기록과 실제가 달라도 문서 기준으로 런북부터" → 실제 돌고 있는 것을 먼저 목록·버전화 <span class="gen">업계 일반</span> · 모델 사용 감사 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"버전 목록엔 모델 이름(alias)만" → 고정 보장은 모델 ID 에만 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"런북 초안은 있는데 소유자는 나중에" → 살아 있는 산출물은 명확한 소유권이 있어야 쓸모 <span class="ok">✓ 확인</span> <span class="src">(eval 셋 문맥 — 넓힌 건 해석)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"감사관에겐 정책 문서면 충분" → 통제마다 소유자 + 지금 보여 줄 수 있는 증거 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "handoff 했으니 아키텍트는 이제 손 뗌" → 복구는 팀이 혼자, 모니터링·반복은 계속 → <a href="lifecycle-loop.html">■ lifecycle 루프</a> <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Document architectures and provide implementation guidance" <span class="src" lang="ko">(가이드 목표 6.4)</span></p>
-        <p lang="en">"Support lifecycle phases (discovery, design, handoff, monitoring, iteration)" <span class="src" lang="ko">(가이드 목표 6.5)</span></p>
-        <p lang="en">"An eval suite is a living artifact that needs ongoing attention and clear ownership to remain useful."</p>
-        <p lang="en">"…and run the evaluations themselves."</p>
-        <p lang="en">"Agent systems are highly stateful webs of prompts, tools, and execution logic that run almost continuously."</p>
-        <p lang="en">"Each Claude model ID identifies a pinned version of the model."</p>
-        <p lang="en">"This guarantee covers model IDs, not the convenience aliases that the Claude API accepts for some earlier models"</p>
-        <p lang="en">"This audit will help you locate any instances where your application is still using deprecated models"</p>
-        <p lang="en">"…periodically to remove outdated or conflicting instructions."</p>
-        <p lang="en">"Two engineers reading the same initial spec could come away with different interpretations on how the AI should handle edge cases."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="implementation-guide.html">■ 구현 가이드</a></li>
-        <li><a href="adr-package.html">■ ADR·아키텍처 패키지</a></li>
-        <li><a href="lifecycle-loop.html">■ lifecycle 루프</a></li>
-        <li><a href="feedback-loop-governance.html">■ feedback loop 책임 표</a></li>
-        <li><a href="observability-signals.html">■ observability 세 신호</a></li>
-        <li><a href="agent-resilience.html">■ 에이전트 상태·실패·배포</a></li>
-        <li><a href="telemetry-scope.html">■ 텔레메트리 기록 범위</a></li>
-        <li><a href="audience-briefing.html">■ 청중별 브리핑</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 6.4 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>가이드 목표 6.5 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>demystifying-evals <span class="src">(en 48·273·275줄)</span></li>
-        <li>multi-agent-research-system <span class="src">(en 74줄)</span></li>
-        <li>model-ids-and-versions <span class="src">(en 1·63·67줄)</span></li>
-        <li>model-deprecations-full <span class="src">(en 40~46줄)</span></li>
-        <li>claude-code-memory <span class="src">(en 271줄)</span></li>
-        <li>agent-sdk-observability <span class="src">(en 399줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (어떻게 ✓ 7줄 = 공식 조각 — ① eval 셋 소유권·직접 돌림 · ① 프롬프트·도구도 판 · ① 모델 ID 고정·alias 예외 · ③ 명세 해석이 갈림 · ④ 모델 사용 감사 · ④ 문서 주기 검토 · ⑤ 사용자별 감사 기록)</li>
-        <li><span class="gen">업계 일반</span> 13줄(어떻게 기준 — 패키지 목록 · 미완 목록 · 서비스 소유자 1명 · 되돌리기 절차 · 증상별 런북 · 부품별 장이 안 되는 이유 · 알림마다 런북·소유자 · 받는 팀 판정 · 아키텍트 없이 복구 · 또 호출 → 런북 · 목록 먼저 · 독자 셋 · 보여 줄 수 없는 통제)</li>
-        <li>해석 7곳(handoff 로 넓힘 · 버전 목록에 프롬프트·도구 · 명세 → handoff · 받는 팀이 eval 을 돌림 · 감사 → 인벤토리 · CLAUDE.md → 런북 갱신 · 감사 기록 → 감사 증거)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">6.4</li>
-        <li class="chip">6.5①</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-handoff-package" aria-labelledby="vx-handoff-package-cap">
-  <div class="vx-player" data-vx-scene="handoff-package"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-handoff-package-cap">영상 — 넘김 끝은 받는 팀이 판정 (약 43초 · 소리 없음 · 자막). 밤 번호 · 같은 장애 호출 3번 · 첫 연습에서 막힘은 그림용 가정 · 실측 아님 — 42쪽 · 부품별 장 · 03:10 환불액 0원 · 몇 장을 보지? · R-2 · 주문 API 끊김 · 되돌림 v6 · 18분 복구 · 아키텍트 0회는 카드 흐름 값, 넘긴 지 3주 · 답이 영어로만은 설명 &#x27;뒤집히는 때 2&#x27; 값, 완료 판정·복구 연습 기준은 업계 일반(공식 문서 없음) <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>handoff-package</dd>
-  <dt>본편</dt>
-  <dd>6.4</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">6.4</li><li class="chip">6.5①</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-30</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>가게 주인이 이사 가면서 새 점장에게 가게를 넘기는 거예요.</p>
-<ul>
-<li>열쇠만 주고 가면, 냉장고가 멈춘 밤에 새 점장은 무엇부터 할지 몰라요.</li>
-<li>그래서 "냉장고 소리가 이상하면 → 이걸 보고 → 이렇게" 쪽지를 증상마다 붙여요.</li>
-<li>쪽지마다 "안 되면 누구에게 전화" 도 적어요.</li>
-<li>마지막으로 새 점장이 혼자 문을 열고, 일부러 꺼 둔 냉장고를 혼자 고쳐 봐요.</li>
-<li>그게 되면 넘긴 거예요. 쪽지를 건넨 순간이 아니라요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">넘기는 것 = 운영 능력 (업계 일반)</p>
-<ul>
-<li>시스템(코드·자격증명)은 돌아가게 하는 재료일 뿐. 받는 팀이 새벽에 혼자 알아차리고 · 확인하고 · 고치고 · 되돌릴 수 있어야 넘긴 것.</li>
-<li>그래서 묶음 = 증상별 런북 · 런북에 묶인 알림 · 이름 있는 소유자 · 결정 근거 · eval 셋 · 버전 목록 · 되돌리기 절차 · on-call.</li>
-<li>공식 조각 : eval 셋은 살아 있는 산출물이라 명확한 소유권이 있어야 쓸모. 도메인 전문가·제품팀이 과제를 기여하고 직접 돌림 (demystifying-evals en 273·275줄).</li>
-</ul>
-<p class="lead">왜 증상별인가 (업계 일반)</p>
-<ul>
-<li>새벽 on-call 은 "주문 API 가 고장" 이 아니라 "고객에게 환불액 0원이 안내됨" 을 먼저 봄. 부품 이름은 원인을 찾은 뒤에야 알게 됨.</li>
-<li>부품마다 장을 붙인 설명서는 "어느 장을 펼치지?" 에서 시간을 씀.</li>
-</ul>
-<p class="lead">왜 받는 팀이 판정하나 (업계 일반)</p>
-<ul>
-<li>보낸 쪽이 "다 적었다" 고 느끼는 것과, 받는 쪽이 혼자 해내는 것은 다름.</li>
-<li>공식 조각 : 같은 명세를 읽은 엔지니어 둘이 엣지 케이스를 다르게 읽음 (demystifying-evals en 48줄) → 문서만으론 기대가 안 전해짐. 명세 문맥이라 handoff 로 넓힌 건 해석.</li>
-<li>넘긴 뒤 같은 장애로 아키텍트가 또 불리면, 그게 지식이 안 넘어갔다는 신호.</li>
-</ul>
-<p class="lead">왜 버전 목록인가</p>
-<ul>
-<li>에이전트 시스템 = 프롬프트·도구·실행 로직이 얽힌 상태 덩어리 (multi-agent-research-system en 74줄) → 모델만 적으면 무엇이 돌고 있는지 모름.</li>
-<li>모델 ID 는 고정 판 — 같은 ID 면 가중치·구성이 안 바뀜. 단 이 보장은 ID 에만, 4.6 이전 일부 모델의 alias 는 아님 (model-ids-and-versions en 1·63줄).</li>
-<li>기록과 실제가 어긋났으면 모델 사용 감사(Console Usage → Export → API 키·모델별 CSV)로 아직 옛 모델을 쓰는 곳부터 찾음 (model-deprecations en 40~46줄).</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>아키텍트가 연락이 안 되는 새벽에, on-call 이 이 묶음만으로 혼자 복구하나?</li>
-<li>묶음에 적힌 판이 지금 실제로 돌고 있는 판과 같은가?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -740,7 +666,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -822,7 +747,43 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="handoff-package-practice-h">연습 문제</h2>
 
+  <section class="csx" id="handoff-package-case" aria-labelledby="handoff-package-case-h" data-tree="handoff-package-tree-3" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,null],[&quot;n5&quot;,null],[&quot;n6&quot;,[&quot;문서 발송&quot;,&quot;혼자 복구 0회&quot;]],[&quot;n7&quot;,null]]" data-flow="handoff-package-flow" data-scene="0">
+    <p class="csx-text">고객지원 Agent 를 만든 아키텍트가 다음 달 다른 프로젝트로 옮긴다. 인계 문서는 <mark class="csx-m" data-tag="컴포넌트별">주문 API · 프롬프트 · 검색 부품마다 한 장씩 쓴 42쪽 설명서<span class="csx-tag">컴포넌트별</span></mark>이고, 아키텍트는 <mark class="csx-m" data-tag="문서 발송">"문서를 보냈고 내가 사인했으니 handoff 끝"<span class="csx-tag">문서 발송</span></mark>이라고 한다. 운영팀 on-call 은 <mark class="csx-m" data-tag="혼자 복구 0회">아직 한 번도 혼자 장애를 복구해 본 적이 없다<span class="csx-tag">혼자 복구 0회</span></mark>. 넘김이 끝났다고 봐도 될까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="handoff-package-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"코드 · 자격증명 · 데모 영상 · 빌드 채팅 로그를 넘겼으니 handoff 끝" → 운영 능력(런북 · 알림 · 소유자 · 버전 목록 · 되돌리기)이 빠짐 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"런북은 부품마다 트러블슈팅 장을 붙임" → 증상별. 새벽 on-call 은 증상에서 시작 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"문서를 보냈고 아키텍트가 사인했으니 완료" → 완료 판정은 받는 팀이, 복구 연습으로 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"같은 장애로 또 호출됐으니 아키텍트가 빨리 고치는 스크립트를 짜 준다" → 의존이 굳음. 경로를 런북에 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"기록과 실제가 달라도 문서 기준으로 런북부터" → 실제 돌고 있는 것을 먼저 목록·버전화 <span class="gen">업계 일반</span> · 모델 사용 감사 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"버전 목록엔 모델 이름(alias)만" → 고정 보장은 모델 ID 에만 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"런북 초안은 있는데 소유자는 나중에" → 살아 있는 산출물은 명확한 소유권이 있어야 쓸모 <span class="ok">✓ 확인</span> <span class="src">(eval 셋 문맥 — 넓힌 건 해석)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"감사관에겐 정책 문서면 충분" → 통제마다 소유자 + 지금 보여 줄 수 있는 증거 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "handoff 했으니 아키텍트는 이제 손 뗌" → 복구는 팀이 혼자, 모니터링·반복은 계속 → <a href="lifecycle-loop.html">■ lifecycle 루프</a> <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Document architectures and provide implementation guidance" <span class="src" lang="ko">(가이드 목표 6.4)</span></p>
+        <p lang="en">"Support lifecycle phases (discovery, design, handoff, monitoring, iteration)" <span class="src" lang="ko">(가이드 목표 6.5)</span></p>
+        <p lang="en">"An eval suite is a living artifact that needs ongoing attention and clear ownership to remain useful."</p>
+        <p lang="en">"…and run the evaluations themselves."</p>
+        <p lang="en">"Agent systems are highly stateful webs of prompts, tools, and execution logic that run almost continuously."</p>
+        <p lang="en">"Each Claude model ID identifies a pinned version of the model."</p>
+        <p lang="en">"This guarantee covers model IDs, not the convenience aliases that the Claude API accepts for some earlier models"</p>
+        <p lang="en">"This audit will help you locate any instances where your application is still using deprecated models"</p>
+        <p lang="en">"…periodically to remove outdated or conflicting instructions."</p>
+        <p lang="en">"Two engineers reading the same initial spec could come away with different interpretations on how the AI should handle edge cases."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 부품별 장이 맞는 때</h4>
@@ -861,7 +822,6 @@
 <li><span class="lead">근거 :</span> 공식 문장 없음.</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -943,7 +903,38 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="handoff-package-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="implementation-guide.html">■ 구현 가이드</a></li>
+        <li><a href="adr-package.html">■ ADR·아키텍처 패키지</a></li>
+        <li><a href="lifecycle-loop.html">■ lifecycle 루프</a></li>
+        <li><a href="feedback-loop-governance.html">■ feedback loop 책임 표</a></li>
+        <li><a href="observability-signals.html">■ observability 세 신호</a></li>
+        <li><a href="agent-resilience.html">■ 에이전트 상태·실패·배포</a></li>
+        <li><a href="telemetry-scope.html">■ 텔레메트리 기록 범위</a></li>
+        <li><a href="audience-briefing.html">■ 청중별 브리핑</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 6.4 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>가이드 목표 6.5 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>demystifying-evals <span class="src">(en 48·273·275줄)</span></li>
+        <li>multi-agent-research-system <span class="src">(en 74줄)</span></li>
+        <li>model-ids-and-versions <span class="src">(en 1·63·67줄)</span></li>
+        <li>model-deprecations-full <span class="src">(en 40~46줄)</span></li>
+        <li>claude-code-memory <span class="src">(en 271줄)</span></li>
+        <li>agent-sdk-observability <span class="src">(en 399줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (어떻게 ✓ 7줄 = 공식 조각 — ① eval 셋 소유권·직접 돌림 · ① 프롬프트·도구도 판 · ① 모델 ID 고정·alias 예외 · ③ 명세 해석이 갈림 · ④ 모델 사용 감사 · ④ 문서 주기 검토 · ⑤ 사용자별 감사 기록)</li>
+        <li><span class="gen">업계 일반</span> 13줄(어떻게 기준 — 패키지 목록 · 미완 목록 · 서비스 소유자 1명 · 되돌리기 절차 · 증상별 런북 · 부품별 장이 안 되는 이유 · 알림마다 런북·소유자 · 받는 팀 판정 · 아키텍트 없이 복구 · 또 호출 → 런북 · 목록 먼저 · 독자 셋 · 보여 줄 수 없는 통제)</li>
+        <li>해석 7곳(handoff 로 넓힘 · 버전 목록에 프롬프트·도구 · 명세 → handoff · 받는 팀이 eval 을 돌림 · 감사 → 인벤토리 · CLAUDE.md → 런북 갱신 · 감사 기록 → 감사 증거)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -954,8 +945,7 @@
 <li>서비스 전체 소유자 한 명 · 공유 지표 · 심각도 규칙 (후보 절 규칙 6) : 공식 문장 없음.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/handoff-package.md</p>

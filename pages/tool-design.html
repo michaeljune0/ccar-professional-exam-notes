@@ -350,23 +350,69 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ 도구 설계 -->
-<article class="card t5-card" id="tool-design" aria-labelledby="tool-design-title">
+<!-- ■ 도구 설계 (v3 시범 순서) -->
+<article class="card t5-card v3" id="tool-design" aria-labelledby="tool-design-title">
   <header class="t5-head">
     <h1 id="tool-design-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 도구 설계</h1>
-    <p class="lemma-meta"><span lang="en">tool design — 작업 단위 통합 · 네임스페이스</span><span class="lemma-main">3.1 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">tool design — 작업 단위 통합 · 네임스페이스</span><span class="lemma-main">3.1 본편</span></p>
   </header>
-  <h2 class="sec-h" id="tool-design-sum-h">카드</h2>
+  <h2 class="sec-h" id="tool-design-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>3.1 도구·에이전트 과잉 설정</b> · D3 연결 19%<br><q lang="en">Evaluate tool/agent configuration for capability bloat</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>3.1② CRM API 20개를 도구 20개로 그대로 붙였더니 비슷한 도구를 번갈아 잘못 부른다 — 더 쪼개나, 합치나?</b> — 도구 모양 정하기 <span class="note">(엔드포인트 1:1 노출 vs 실제 작업 단위로 통합)</span></li>
+      <li><b>3.8② 도구 15개·정의 합계 약 1만 2천 토큰, 매 요청에 쓰는 건 3개 — 30~50개가 안 되는데 tool search 를 켜나?</b> — 도구 정의 미리 다 싣기 vs tool search(필요할 때 불러오기)</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="tool-design-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>도구는 API 엔드포인트를 그대로 감싸는 게 아니라 에이전트가 실제로 하는 **업무 단위**로 만듦. 도구가 많고 겹칠수록 고르기가 흔들리고 정의가 컨텍스트를 먹음 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> kubectl 명령 10개를 매번 조합하게 두지 말고 업무 단위 deploy.sh 하나로</p>
   </div>
-  <h2 class="sec-h" id="tool-design-case-h">지문</h2>
-  <section class="csx" id="tool-design-case" aria-labelledby="tool-design-case-h" data-tree="tool-design-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;겹치는 도구&quot;],[&quot;n5&quot;,null],[&quot;n8&quot;,&quot;합치면 적음&quot;],[&quot;n9&quot;,null]]">
-    <p class="csx-text">상담 에이전트에 CRM API 엔드포인트마다 도구를 하나씩, 24개를 붙였다. <code>get_customer_by_id</code> · <code>list_transactions</code> · <code>list_notes</code> 처럼 <mark class="csx-m" data-tag="겹치는 도구">비슷한 도구를 번갈아 잘못 부른다<span class="csx-tag">겹치는 도구</span></mark>. 실제 상담 업무 단위로 묶으면 <mark class="csx-m" data-tag="합치면 적음">8개쯤으로 줄어든다<span class="csx-tag">합치면 적음</span></mark>. 팀은 도구를 더 쪼개고 설명을 길게 쓰자고 한다. 무엇을 할까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
-  </section>
-  <h2 class="sec-h" id="tool-design-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>공구함에 드라이버가 스무 개 있으면 맞는 걸 고르다 틀려요.</p>
+<ul>
+<li>자주 하는 일마다 "그 일 하는 공구" 하나면 편해요.</li>
+<li>공구마다 이름표를 붙이면 헷갈리지 않아요.</li>
+<li>이름표에 "언제 쓰고 언제 안 쓰는지"도 적어요.</li>
+<li>공구가 너무 많으면 필요할 때 꺼내 오는 방법을 써요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-tool-design" aria-labelledby="vx-tool-design-cap">
+  <div class="vx-player" data-vx-scene="tool-design"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-tool-design-cap">영상 — 왜 엉뚱한 도구를 부를까? (약 43초 · 소리 없음 · 자막). 고객 문의 문구 · 헛집는 도구와 순서 · 쪼갠 뒤 칸 수 · 읽을 몫 막대 길이는 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">에이전트는 사람 개발자가 아님</p>
+<ul>
+<li>개발자용 API 는 엔드포인트가 잘게 나뉘어도 괜찮음 — 코드는 목록 전체를 공짜로 훑음.</li>
+<li>에이전트는 컨텍스트가 한정. <code>list_contacts</code> 가 전부 돌려주면 토큰마다 읽어야 함 → 낭비. 그래서 "찾기" 도구가 나음.</li>
+<li>에이전트는 도구 이름·설명을 읽고 고름. 도구가 많고 겹칠수록 고르기가 흔들림. 30~50개 넘으면 떨어짐.</li>
+</ul>
+<p class="lead">합치기가 두 가지를 줄임</p>
+<ul>
+<li>도구 개수·설명 길이(= 컨텍스트) 가 줄고, 여러 단계 호출의 중간 결과를 에이전트 컨텍스트가 아니라 도구 안에서 처리.</li>
+<li>공식 말 : 도구 이름이 일의 자연스러운 나눔을 따르면 실수 위험이 줄어듦.</li>
+</ul>
+<p class="lead">경계 긋기</p>
+<ul>
+<li>합쳐도 서비스가 여럿이면 이름이 겹침(search 가 셋) → 서비스·자원 접두사.</li>
+<li>설명은 신입에게 설명하듯. 언제 <strong>안</strong> 쓰는지, 무엇을 <strong>안</strong> 돌려주는지까지.</li>
+</ul>
+<p class="lead">응답이 곧 다음 컨텍스트</p>
+<ul>
+<li>도구 응답이 그대로 다음 턴 입력 → 긴 응답은 비용·혼란. 쓸모 큰 정보(high signal) 필드만 · 페이지 · 자르기 · 짧게/길게 선택.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="tool-design-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="tool-design-tree-1" aria-labelledby="tool-design-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9">
     <div class="t5-fh"><h3 id="tool-design-tree-1-h">①②③⑤ 헷갈리는 도구 <span class="pg">[3.1②]</span> <span class="pg">[3.8②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -426,7 +472,7 @@
     </div>
   </section>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="tool-design-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
@@ -472,111 +518,9 @@
         </li>
       </ol>
     </details>
-    <h2>CCA-F</h2>
-      <p>봄 — CCA-F 는 "설명이 겹쳐 엉뚱한 도구가 불림 → 개명 + 경계 문장"(설명 고치기)을 물었음. 여기선 **도구 모양 자체**(엔드포인트 1:1 vs 업무 단위 통합)를 설계 판단으로 묻고, 오답은 "더 쪼개기"</p>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"비슷한 도구를 번갈아 잘못 부른다 → 엔드포인트마다 더 쪼개고 설명을 길게" → 도구가 늘면 더 헷갈림. 합치기 + 네임스페이스 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"작게 쪼갤수록 재사용·권한 관리에 좋다(유닉스 철학)" → 에이전트는 컨텍스트가 한정. 전부 돌려주는 list_* 는 낭비 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"모든 걸 하는 mega tool 하나" → 공식은 "목적이 뚜렷한 도구를 업무 단위로"까지. 하나로 몰기 근거 없음 <span class="note">(목록 영상 요령 — 공식 근거 없음)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"더 큰 모델로 바꾸면 덜 헷갈림" → 고르기는 이름·설명을 보고 함. 경계부터 <span class="gen">업계 일반</span> <span class="note">CCA-F 노트 2.1 같은 함정</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar 는 "hyper-specialized 말고 reasonably abstract 한(bash·read 같은 범용) 도구"를 권함 → 합치기와 반대 같지만 둘 다 "엔드포인트마다 좁은 도구 금지". 열린 과제(코딩) = 조합 가능한 범용 도구, 정해진 업무 = 업무 단위 도구 <span class="note">(가르는 해석은 업계 일반)</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"More tools don’t always lead to better outcomes."</p>
-        <p lang="en">"Instead of implementing a <code>list_users</code>, <code>list_events</code>, and <code>create_event</code> tools, consider implementing a <code>schedule_event</code> tool which finds availability and schedules an event."</p>
-        <p lang="en">"Too many tools or overlapping tools can also distract agents from pursuing efficient strategies."</p>
-        <p lang="en">"Namespacing (grouping related tools under common prefixes) can help delineate boundaries between lots of tools"</p>
-        <p lang="en">"Consolidate related operations into fewer tools." <span class="src">(docs define-tools)</span></p>
-        <p lang="en">"Claude's ability to pick the right tool degrades once you exceed 30–50 available tools." <span class="src">(docs tool-search)</span></p>
-        <p lang="en">"The key insight for building effective agents is providing reasonably abstract tools rather than hyper-specialized ones." <span class="src">(Skilljar)</span></p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 3.1 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>writing-tools-for-agents <span class="src">(en 118~146·150~154·175·183~185·209줄)</span></li>
-        <li>define-tools <span class="src">(ko 37~44줄 · en 37~45줄)</span></li>
-        <li>tool-search-tool <span class="src">(en 6줄)</span></li>
-        <li>mcp-connector <span class="src">(en 355줄)</span></li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287803">Skilljar API 287803</a></li>
-        <li>CCA-F 노트 2.1 <span class="src">(ccaf-remotion <code>content/notes/notes_ko.md</code> 313줄~)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
-        <li><span class="gen">업계 일반</span> 3줄</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">3.1②</li>
-        <li class="chip">3.8②</li>
-        <li>(<a href="tool-search.html">◆ 도구 미리 싣기 vs tool search</a>)</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-tool-design" aria-labelledby="vx-tool-design-cap">
-  <div class="vx-player" data-vx-scene="tool-design"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-tool-design-cap">영상 — 왜 엉뚱한 도구를 부를까? (약 43초 · 소리 없음 · 자막). 고객 문의 문구 · 헛집는 도구와 순서 · 쪼갠 뒤 칸 수 · 읽을 몫 막대 길이는 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>tool-design</dd>
-  <dt>본편</dt>
-  <dd>3.1</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">3.1②</li><li class="chip">3.8②</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>공구함에 드라이버가 스무 개 있으면 맞는 걸 고르다 틀려요.</p>
-<ul>
-<li>자주 하는 일마다 "그 일 하는 공구" 하나면 편해요.</li>
-<li>공구마다 이름표를 붙이면 헷갈리지 않아요.</li>
-<li>이름표에 "언제 쓰고 언제 안 쓰는지"도 적어요.</li>
-<li>공구가 너무 많으면 필요할 때 꺼내 오는 방법을 써요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">에이전트는 사람 개발자가 아님</p>
-<ul>
-<li>개발자용 API 는 엔드포인트가 잘게 나뉘어도 괜찮음 — 코드는 목록 전체를 공짜로 훑음.</li>
-<li>에이전트는 컨텍스트가 한정. <code>list_contacts</code> 가 전부 돌려주면 토큰마다 읽어야 함 → 낭비. 그래서 "찾기" 도구가 나음.</li>
-<li>에이전트는 도구 이름·설명을 읽고 고름. 도구가 많고 겹칠수록 고르기가 흔들림. 30~50개 넘으면 떨어짐.</li>
-</ul>
-<p class="lead">합치기가 두 가지를 줄임</p>
-<ul>
-<li>도구 개수·설명 길이(= 컨텍스트) 가 줄고, 여러 단계 호출의 중간 결과를 에이전트 컨텍스트가 아니라 도구 안에서 처리.</li>
-<li>공식 말 : 도구 이름이 일의 자연스러운 나눔을 따르면 실수 위험이 줄어듦.</li>
-</ul>
-<p class="lead">경계 긋기</p>
-<ul>
-<li>합쳐도 서비스가 여럿이면 이름이 겹침(search 가 셋) → 서비스·자원 접두사.</li>
-<li>설명은 신입에게 설명하듯. 언제 <strong>안</strong> 쓰는지, 무엇을 <strong>안</strong> 돌려주는지까지.</li>
-</ul>
-<p class="lead">응답이 곧 다음 컨텍스트</p>
-<ul>
-<li>도구 응답이 그대로 다음 턴 입력 → 긴 응답은 비용·혼란. 쓸모 큰 정보(high signal) 필드만 · 페이지 · 자르기 · 짧게/길게 선택.</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -642,7 +586,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -717,7 +660,36 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="tool-design-practice-h">연습 문제</h2>
 
+  <section class="csx" id="tool-design-case" aria-labelledby="tool-design-case-h" data-tree="tool-design-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;겹치는 도구&quot;],[&quot;n5&quot;,null],[&quot;n8&quot;,&quot;합치면 적음&quot;],[&quot;n9&quot;,null]]">
+    <p class="csx-text">상담 에이전트에 CRM API 엔드포인트마다 도구를 하나씩, 24개를 붙였다. <code>get_customer_by_id</code> · <code>list_transactions</code> · <code>list_notes</code> 처럼 <mark class="csx-m" data-tag="겹치는 도구">비슷한 도구를 번갈아 잘못 부른다<span class="csx-tag">겹치는 도구</span></mark>. 실제 상담 업무 단위로 묶으면 <mark class="csx-m" data-tag="합치면 적음">8개쯤으로 줄어든다<span class="csx-tag">합치면 적음</span></mark>. 팀은 도구를 더 쪼개고 설명을 길게 쓰자고 한다. 무엇을 할까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
+  </section>
+  <h2 class="sec-h" id="tool-design-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"비슷한 도구를 번갈아 잘못 부른다 → 엔드포인트마다 더 쪼개고 설명을 길게" → 도구가 늘면 더 헷갈림. 합치기 + 네임스페이스 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"작게 쪼갤수록 재사용·권한 관리에 좋다(유닉스 철학)" → 에이전트는 컨텍스트가 한정. 전부 돌려주는 list_* 는 낭비 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"모든 걸 하는 mega tool 하나" → 공식은 "목적이 뚜렷한 도구를 업무 단위로"까지. 하나로 몰기 근거 없음 <span class="note">(목록 영상 요령 — 공식 근거 없음)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"더 큰 모델로 바꾸면 덜 헷갈림" → 고르기는 이름·설명을 보고 함. 경계부터 <span class="gen">업계 일반</span> <span class="note">CCA-F 노트 2.1 같은 함정</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar 는 "hyper-specialized 말고 reasonably abstract 한(bash·read 같은 범용) 도구"를 권함 → 합치기와 반대 같지만 둘 다 "엔드포인트마다 좁은 도구 금지". 열린 과제(코딩) = 조합 가능한 범용 도구, 정해진 업무 = 업무 단위 도구 <span class="note">(가르는 해석은 업계 일반)</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"More tools don’t always lead to better outcomes."</p>
+        <p lang="en">"Instead of implementing a <code>list_users</code>, <code>list_events</code>, and <code>create_event</code> tools, consider implementing a <code>schedule_event</code> tool which finds availability and schedules an event."</p>
+        <p lang="en">"Too many tools or overlapping tools can also distract agents from pursuing efficient strategies."</p>
+        <p lang="en">"Namespacing (grouping related tools under common prefixes) can help delineate boundaries between lots of tools"</p>
+        <p lang="en">"Consolidate related operations into fewer tools." <span class="src">(docs define-tools)</span></p>
+        <p lang="en">"Claude's ability to pick the right tool degrades once you exceed 30–50 available tools." <span class="src">(docs tool-search)</span></p>
+        <p lang="en">"The key insight for building effective agents is providing reasonably abstract tools rather than hyper-specialized ones." <span class="src">(Skilljar)</span></p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 합치기가 최소 권한(least privilege)과 부딪히는 때</h4>
@@ -750,7 +722,6 @@
 <li><span class="lead">근거 :</span> writing-tools en 100·211줄 · define-tools en 37·42줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -818,7 +789,27 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="tool-design-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>CCA-F</h3>
+      <p>봄 — CCA-F 는 "설명이 겹쳐 엉뚱한 도구가 불림 → 개명 + 경계 문장"(설명 고치기)을 물었음. 여기선 **도구 모양 자체**(엔드포인트 1:1 vs 업무 단위 통합)를 설계 판단으로 묻고, 오답은 "더 쪼개기"</p>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 3.1 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>writing-tools-for-agents <span class="src">(en 118~146·150~154·175·183~185·209줄)</span></li>
+        <li>define-tools <span class="src">(ko 37~44줄 · en 37~45줄)</span></li>
+        <li>tool-search-tool <span class="src">(en 6줄)</span></li>
+        <li>mcp-connector <span class="src">(en 355줄)</span></li>
+        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287803">Skilljar API 287803</a></li>
+        <li>CCA-F 노트 2.1 <span class="src">(ccaf-remotion <code>content/notes/notes_ko.md</code> 313줄~)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
+        <li><span class="gen">업계 일반</span> 3줄</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -827,8 +818,7 @@
 <li>접두 vs 접미 네임스페이스 중 무엇이 나은지는 공식이 "모델마다 다름, eval 로"라고만 함 — 시험이 한쪽을 정답으로 박으면 근거가 약함.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/tool-design.md</p>

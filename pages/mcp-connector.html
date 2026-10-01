@@ -350,24 +350,66 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ MCP connector -->
-<article class="card t5-card" id="mcp-connector" aria-labelledby="mcp-connector-title">
+<!-- ■ MCP connector (v3 시범 순서) -->
+<article class="card t5-card v3" id="mcp-connector" aria-labelledby="mcp-connector-title">
   <header class="t5-head">
     <h1 id="mcp-connector-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> MCP connector</h1>
-    <p class="lemma-meta"><span lang="en">한계 4가지</span><span class="lemma-main">3.7 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">한계 4가지</span><span class="lemma-main">3.7 본편</span></p>
   </header>
-  <h2 class="sec-h" id="mcp-connector-sum-h">카드</h2>
+  <h2 class="sec-h" id="mcp-connector-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>3.7 연결 방식 고르기</b> · D3 연결 19%<br><q lang="en">Evaluate connection protocols and select the appropriate integration mechanism (MCP, API/CLI, agent-to-agent)</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>3.7① ZDR 계약 고객용 에이전트에 사내 원격 MCP 서버의 도구·prompts 를 Messages API 로 바로 붙이려 한다 — MCP connector 로 되나?</b> — MCP connector vs 우리 쪽 클라이언트가 MCP 를 맡는 구현</li>
+      <li><b>3.2① 같은 머신의 stdio MCP 서버와 원격 HTTP MCP 서버를 함께 붙인다 — 자격증명을 각각 어떻게 주나?</b> — 전송 방식별 인증 고르기</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="mcp-connector-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>Messages API 요청에 <code>mcp_servers</code> 를 넣으면 API 가 원격 MCP 서버에 붙어 도구를 부름 — 우리가 MCP 클라이언트를 안 짜도 됨. 베타(헤더 <code>mcp-client-2025-11-20</code>) <span class="ok">✓ 확인</span></p>
       <p>MCP 서버의 세 요소 = tools(모델이 부름) · resources(앱이 가져옴) · prompts(사용자가 누름) — connector 는 첫째만 <span class="note">(Skilljar)</span></p>
     <p class="t5-ana"><span class="lead">비유</span> GitHub-hosted runner — 관리형이라 편하지만 공개망만 닿고 옵션이 좁음. 사내망·규정 요구면 self-hosted runner(= 우리 쪽 클라이언트)</p>
   </div>
-  <h2 class="sec-h" id="mcp-connector-case-h">지문</h2>
-  <section class="csx" id="mcp-connector-case" aria-labelledby="mcp-connector-case-h" data-tree="mcp-connector-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n8&quot;,&quot;ZDR 계약&quot;],[&quot;n9&quot;,null]]" data-flow="mcp-connector-flow" data-scene="2">
-    <p class="csx-text">고객사가 <mark class="csx-m" data-tag="공개 서버">공개 HTTPS 로 열린 배송 조회 MCP 서버<span class="csx-tag">공개 서버</span></mark>의 도구 3개만 쓰려 한다. 다만 이 고객사는 <mark class="csx-m" data-tag="ZDR 계약">Anthropic 과 ZDR 계약을 맺고 있다<span class="csx-tag">ZDR 계약</span></mark>. 코드를 가장 적게 쓰려고 요청에 <code>mcp_servers</code> 를 넣자는 제안이 나왔다. 어떻게 연결할까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="mcp-connector-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>택배 회사가 "집 앞까지 가져다줄게요" 하는데, 큰길가 집만 가요.</p>
+<ul>
+<li>큰길가(공개 인터넷) 집이면 제일 편해요.</li>
+<li>골목 안(사내망·내 컴퓨터) 집은 직접 가지러 가야 해요.</li>
+<li>물건 중 "상자"만 날라 주고 "편지·사진"은 안 날라요.</li>
+<li>택배 기록을 지워 주는 약속(ZDR)도 안 돼요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-mcp-connector" aria-labelledby="vx-mcp-connector-cap">
+  <div class="vx-player" data-vx-scene="mcp-connector"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-mcp-connector-cap">영상 — 요청에 서버 주소만 적으면 될까? (약 43초 · 소리 없음 · 자막). &#x27;Anthropic 쪽 기록&#x27; 칸은 표준 보존을 그린 그림 · 호출 1번은 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">누가 MCP 클라이언트인가</p>
+<ul>
+<li>connector = Anthropic API 쪽이 MCP 클라이언트 역할. 우리는 요청에 서버 URL 만 적음 → 코드 가장 적음.</li>
+<li>그래서 API 가 닿을 수 있는 곳만 됨 : 공개 HTTPS. 우리 머신의 stdio 프로세스·방화벽 안 서버는 못 닿음.</li>
+<li>데이터가 Anthropic 을 거쳐 MCP 서버와 오감 → 도구 정의·결과가 표준 보존 정책을 따름 → ZDR 대상 아님.</li>
+</ul>
+<p class="lead">기능 범위</p>
+<ul>
+<li>MCP 서버 요소 셋 : tools(모델이 부름) · resources(앱이 가져와 컨텍스트에) · prompts(사용자가 고르는 틀). connector 는 tools 만.</li>
+<li>resources·prompts 는 앱·사용자가 쓰는 요소라, 앱 쪽에 클라이언트가 있어야 자연스러움.</li>
+</ul>
+<p class="lead">대안 = 우리 쪽 클라이언트</p>
+<ul>
+<li>우리 앱이 MCP SDK 로 서버에 직접 연결 → SDK 도우미로 MCP 도구·프롬프트·리소스를 Claude API 형식으로 변환. 로컬·사내망·prompts·resources·ZDR 전부 우리 통제(control).</li>
+<li>대가 = 연결 코드와 운영을 우리가 짐.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="mcp-connector-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="mcp-connector-tree-1" aria-labelledby="mcp-connector-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9|n1 n10 n11|n1 n12 n13">
     <div class="t5-fh"><h3 id="mcp-connector-tree-1-h">①②⑤ connector 로 되나 <span class="pg">[3.7①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -420,7 +462,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="mcp-connector-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="mcp-connector-flow" aria-label="MCP connector 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["우리 앱","Claude API","MCP 서버"],"blocks":[],"rules":[null,null,null],"question":"MCP 연결은 누가 맡아야 할까?","scenes":[{"name":"① connector","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"주문 A-1024 배송 어디쯤이에요?"}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"`mcp_servers` · `mcp_toolset`","art":{"kind":"slip","lines":["mcp_servers:","url: https://mcp.ship…","tools: mcp_toolset"]}},{"kind":"move","step":"도구 호출","from":{"col":1},"to":2,"label":"공개 HTTP · `https://`","art":{"kind":"slip","lines":["tools/call","track_order(A-1024)"]}},{"kind":"end","label":"API 가 원격 MCP 서버에 붙어 도구를 부름 — 우리는 MCP 클라이언트를 안 짬"}]},{"name":"② 로컬 stdio 서버","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"사내 CRM 에서 / 이 고객 찾아 줘"}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"`mcp_servers`","art":{"kind":"slip","lines":["mcp_servers:","로컬 stdio 서버 crm"]}},{"kind":"move","step":"도구 호출","from":{"col":1},"to":2,"label":"로컬 stdio 직접 불가","art":{"kind":"slip","lines":["닿지 못함","공개 https:// 만"]}},{"kind":"end","label":"한계가 하나라도 걸리면 우리 쪽 클라이언트가 MCP 연결을 맡음"}]},{"name":"③ 우리 쪽 클라이언트","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"주문 A-1024 배송 어디쯤이에요?"}},{"kind":"move","step":"연결","from":{"col":0},"to":2,"label":"MCP SDK 로 직접 연결","art":{"kind":"slip","lines":["tools/list →","track_order 외 2개"]}},{"kind":"mark","step":"변환","at":{"col":0},"label":"변환 도우미 `mcpTools`","art":{"kind":"slip","lines":["mcpTools(목록) →","Claude `tools` 형식"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"tool runner","art":{"kind":"slip","lines":["tools: [track_order …]","mcp_servers 없음"]}},{"kind":"end","label":"로컬 서버·prompts·resources·ZDR·연결 제어가 걸리면 클라이언트 도우미로 우리가 연결"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -453,7 +495,7 @@
     </details>
   </figure>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="mcp-connector-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
@@ -502,104 +544,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"connector 로 로컬 stdio 서버도 연결" → 로컬 stdio 직접 불가, 서버는 HTTP 로 공개 노출 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"connector 에서 resources·prompts 도 쓴다" → MCP 기능 중 도구 호출만 (resources·prompts 없음) <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"관리형이니 ZDR 도 알아서 맞는다" → 대상 아님 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>반대로 넓힌 "클라우드 플랫폼에선 전부 불가" → Foundry·Claude Platform on AWS 는 beta. 안 되는 건 Bedrock·Google Cloud <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"사내망 서버는 connector 로 절대 못 붙임" → tunnels 프리뷰가 있음 <span class="ok">✓ 확인</span> <span class="src">(단 프리뷰)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"그럼 Managed Agents 로 돌리면 ZDR 해결" → Managed Agents 도 ZDR·HIPAA BAA 대상 아님 <span class="ok">✓ 확인</span> → <a href="integration-options.html">◆ 직접 API vs Agent SDK vs CLI vs Managed Agents</a></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"규제 고객이면 클라이언트 측" 은 공식 문장이 아니라 ① 표에서 나오는 추론 <span class="note">(목록 메모와 같음)</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Of the feature set of the MCP specification, only tool calls are currently supported."</p>
-        <p lang="en">"The server must be publicly exposed through HTTP (supports both Streamable HTTP and SSE transports). Local STDIO servers cannot be connected directly."</p>
-        <p lang="en">"The MCP connector is not covered by ZDR arrangements."</p>
-        <p lang="en">"Use the client-side helpers when you need local servers, prompts, resources, or more control over the connection with the base SDK."</p>
-        <p lang="en">"Denylisting write or destructive tools is recommended when building read-only assistants"</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 3.7 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>mcp-connector <span class="src">(ko 20~23·51~56·147~186·359·396~415·435·439줄 · en 22~23·171·439줄 · md 원본 en-mcp-connector-source 6~14·1194줄)</span></li>
-        <li>mcp-tunnels overview <span class="src">(en 1·12·100줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 18·262·569줄)</span></li>
-        <li>Skilljar MCP 296691</li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~④·⑥)</li>
-        <li><span class="post">시험 뒤 변경</span> 1곳</li>
-        <li>추론 2줄</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">3.7①</li>
-        <li class="chip">3.2①</li>
-        <li>(<span class="note">connector 인증</span>)</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-mcp-connector" aria-labelledby="vx-mcp-connector-cap">
-  <div class="vx-player" data-vx-scene="mcp-connector"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-mcp-connector-cap">영상 — 요청에 서버 주소만 적으면 될까? (약 43초 · 소리 없음 · 자막). &#x27;Anthropic 쪽 기록&#x27; 칸은 표준 보존을 그린 그림 · 호출 1번은 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>mcp-connector</dd>
-  <dt>본편</dt>
-  <dd>3.7</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">3.7①</li><li class="chip">3.2①</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>택배 회사가 "집 앞까지 가져다줄게요" 하는데, 큰길가 집만 가요.</p>
-<ul>
-<li>큰길가(공개 인터넷) 집이면 제일 편해요.</li>
-<li>골목 안(사내망·내 컴퓨터) 집은 직접 가지러 가야 해요.</li>
-<li>물건 중 "상자"만 날라 주고 "편지·사진"은 안 날라요.</li>
-<li>택배 기록을 지워 주는 약속(ZDR)도 안 돼요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">누가 MCP 클라이언트인가</p>
-<ul>
-<li>connector = Anthropic API 쪽이 MCP 클라이언트 역할. 우리는 요청에 서버 URL 만 적음 → 코드 가장 적음.</li>
-<li>그래서 API 가 닿을 수 있는 곳만 됨 : 공개 HTTPS. 우리 머신의 stdio 프로세스·방화벽 안 서버는 못 닿음.</li>
-<li>데이터가 Anthropic 을 거쳐 MCP 서버와 오감 → 도구 정의·결과가 표준 보존 정책을 따름 → ZDR 대상 아님.</li>
-</ul>
-<p class="lead">기능 범위</p>
-<ul>
-<li>MCP 서버 요소 셋 : tools(모델이 부름) · resources(앱이 가져와 컨텍스트에) · prompts(사용자가 고르는 틀). connector 는 tools 만.</li>
-<li>resources·prompts 는 앱·사용자가 쓰는 요소라, 앱 쪽에 클라이언트가 있어야 자연스러움.</li>
-</ul>
-<p class="lead">대안 = 우리 쪽 클라이언트</p>
-<ul>
-<li>우리 앱이 MCP SDK 로 서버에 직접 연결 → SDK 도우미로 MCP 도구·프롬프트·리소스를 Claude API 형식으로 변환. 로컬·사내망·prompts·resources·ZDR 전부 우리 통제(control).</li>
-<li>대가 = 연결 코드와 운영을 우리가 짐.</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -671,7 +618,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -753,7 +699,36 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="mcp-connector-practice-h">연습 문제</h2>
 
+  <section class="csx" id="mcp-connector-case" aria-labelledby="mcp-connector-case-h" data-tree="mcp-connector-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n8&quot;,&quot;ZDR 계약&quot;],[&quot;n9&quot;,null]]" data-flow="mcp-connector-flow" data-scene="2">
+    <p class="csx-text">고객사가 <mark class="csx-m" data-tag="공개 서버">공개 HTTPS 로 열린 배송 조회 MCP 서버<span class="csx-tag">공개 서버</span></mark>의 도구 3개만 쓰려 한다. 다만 이 고객사는 <mark class="csx-m" data-tag="ZDR 계약">Anthropic 과 ZDR 계약을 맺고 있다<span class="csx-tag">ZDR 계약</span></mark>. 코드를 가장 적게 쓰려고 요청에 <code>mcp_servers</code> 를 넣자는 제안이 나왔다. 어떻게 연결할까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="mcp-connector-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"connector 로 로컬 stdio 서버도 연결" → 로컬 stdio 직접 불가, 서버는 HTTP 로 공개 노출 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"connector 에서 resources·prompts 도 쓴다" → MCP 기능 중 도구 호출만 (resources·prompts 없음) <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"관리형이니 ZDR 도 알아서 맞는다" → 대상 아님 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>반대로 넓힌 "클라우드 플랫폼에선 전부 불가" → Foundry·Claude Platform on AWS 는 beta. 안 되는 건 Bedrock·Google Cloud <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"사내망 서버는 connector 로 절대 못 붙임" → tunnels 프리뷰가 있음 <span class="ok">✓ 확인</span> <span class="src">(단 프리뷰)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"그럼 Managed Agents 로 돌리면 ZDR 해결" → Managed Agents 도 ZDR·HIPAA BAA 대상 아님 <span class="ok">✓ 확인</span> → <a href="integration-options.html">◆ 직접 API vs Agent SDK vs CLI vs Managed Agents</a></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"규제 고객이면 클라이언트 측" 은 공식 문장이 아니라 ① 표에서 나오는 추론 <span class="note">(목록 메모와 같음)</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Of the feature set of the MCP specification, only tool calls are currently supported."</p>
+        <p lang="en">"The server must be publicly exposed through HTTP (supports both Streamable HTTP and SSE transports). Local STDIO servers cannot be connected directly."</p>
+        <p lang="en">"The MCP connector is not covered by ZDR arrangements."</p>
+        <p lang="en">"Use the client-side helpers when you need local servers, prompts, resources, or more control over the connection with the base SDK."</p>
+        <p lang="en">"Denylisting write or destructive tools is recommended when building read-only assistants"</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 사내망인데 connector 가 되는 때</h4>
@@ -786,7 +761,6 @@
 <li><span class="lead">근거 :</span> mcp-connector en 261·283줄 · 릴리스 노트 en 18줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -854,7 +828,24 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="mcp-connector-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 3.7 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>mcp-connector <span class="src">(ko 20~23·51~56·147~186·359·396~415·435·439줄 · en 22~23·171·439줄 · md 원본 en-mcp-connector-source 6~14·1194줄)</span></li>
+        <li>mcp-tunnels overview <span class="src">(en 1·12·100줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 18·262·569줄)</span></li>
+        <li>Skilljar MCP 296691</li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~④·⑥)</li>
+        <li><span class="post">시험 뒤 변경</span> 1곳</li>
+        <li>추론 2줄</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -863,8 +854,7 @@
 <li>목록의 "헤더 mcp-client-2025-11-20 현행 · 2025-04-04 폐기 · 새 헤더 mcp-client-2026-09-15" 확인됨. 단 새 헤더는 "Claude API 에서 사용 가능"(en 261줄)이라 다른 플랫폼에서 되는지는 미확인.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/mcp-connector.md</p>

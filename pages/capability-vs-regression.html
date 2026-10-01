@@ -350,18 +350,81 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ◆ capability eval vs regression eval -->
-<article class="card t5-card" id="capability-vs-regression" aria-labelledby="capability-vs-regression-title">
+<!-- ◆ capability eval vs regression eval (v3 시범 순서) -->
+<article class="card t5-card v3" id="capability-vs-regression" aria-labelledby="capability-vs-regression-title">
   <header class="t5-head">
     <h1 id="capability-vs-regression-title"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> capability eval vs regression eval</h1>
-    <p class="lemma-meta"><span lang="en">capability vs regression evals</span><span class="lemma-main">4.3 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">capability vs regression evals</span><span class="lemma-main">4.3 본편</span></p>
   </header>
-  <h2 class="sec-h" id="capability-vs-regression-case-h">지문</h2>
-  <section class="csx" id="capability-vs-regression-case" aria-labelledby="capability-vs-regression-case-h" data-tree="capability-vs-regression-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;하던 일&quot;],[&quot;n3&quot;,null]]" data-flow="capability-vs-regression-flow" data-scene="0">
-    <p class="csx-text">고객지원 Agent 팀이 <mark class="csx-m" data-tag="하던 일">환불·배송 조회처럼 이미 잘하던 과제<span class="csx-tag">하던 일</span></mark>를 모은 suite 가 이번 주에도 100% 통과했다. 한 팀원이 "100% 면 알려 주는 게 없으니 과제를 전부 더 어렵게 바꾸자" 고 한다. 이 suite 를 어떻게 할까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="capability-vs-regression-trees-h">갈림길</h2>
+  <h2 class="sec-h" id="capability-vs-regression-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>4.3 A/B 테스트와 반복 개선</b> · D4 평가 16%<br><q lang="en">Conduct A/B testing and iterative improvements</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>4.3② 회귀 suite 가 100% 통과 — 더 어렵게 바꿀까?</b> — 능력(capability) eval 과 회귀(regression) eval 을 다르게 운영</li>
+      <li><b>4.2② eval 셋, 수백 개가 모일 때까지 기다릴까?</b> — 첫 평가 데이터셋 만들기 <span class="note">(크기·출처·균형·과제 품질)</span></li>
+      <li><b>4.3③ 프롬프트 한 줄·모델 버전을 바꿨다 — 무엇을 다시 돌리나?</b> — 반복 개선 루프 <span class="note">(변경 = 시스템 변경, eval 통과 뒤 배포)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="capability-vs-regression-sum-h">한눈에</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>키 재기 벽과 체온계를 떠올려 보세요.</p>
+<ul>
+<li>키 재기 벽은 아직 못 닿은 높은 곳에 눈금이 있어야 쓸모가 있어요.</li>
+<li>체온계는 늘 "정상"이 나오는 게 좋은 거예요. 갑자기 높으면 어디가 아픈 거죠.</li>
+<li>벽 꼭대기까지 다 자라면, 그 벽은 체온계처럼 "여전히 괜찮나" 보는 데 써요.</li>
+<li>이 쪽은 "100% 가 나왔을 때 좋은 건지 나쁜 건지" 가르는 법이에요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-capability-vs-regression" aria-labelledby="vx-capability-vs-regression-cap">
+  <div class="vx-player" data-vx-scene="capability-vs-regression"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-capability-vs-regression-cap">영상 — 100% 인 suite, 더 어렵게 바꿀까? (약 43초 · 소리 없음 · 자막). 지난 주 점 개수와 어렵게 바꾼 뒤 점수(28/80·25/80)는 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">두 suite 는 묻는 질문이 다름</p>
+<ul>
+<li>capability(능력, "quality") eval = "이 에이전트가 무엇을 잘하나?" → 에이전트가 힘들어하는 과제를 겨눠 낮은 통과율에서 출발. 오를 언덕(hill to climb — 통과율을 올려 갈 여지).</li>
+<li>regression(회귀) eval = "하던 걸 여전히 다 하나?" → 거의 100% 가 정상. 점수가 떨어짐 = 뭔가 깨짐 = 뒷걸음 신호.</li>
+</ul>
+<p class="lead">그래서 같은 100% 가 뜻이 반대</p>
+<ul>
+<li>regression 100% = 건강함. 계속 돌림.</li>
+<li>capability 100% = 포화(saturation). 뒷걸음(regression)은 잡아 주지만 더 나아졌는지는 알려 주지 않음.</li>
+</ul>
+<p class="lead">졸업(graduate)</p>
+<ul>
+<li>출시·최적화 뒤 통과율이 높아진 capability 과제는 regression suite 로 옮겨 계속 돌림 → drift 를 잡음.</li>
+<li>같은 과제가 "할 수는 있나?"에서 "여전히 믿고 할 수 있나?"로 뜻이 바뀜.</li>
+<li>capability 쪽에는 더 어려운 과제·새 eval 을 채움(Qodo 는 한 번에 푸는 코딩 eval 이 긴 과제의 향상을 못 잡자 새 에이전트 eval 틀을 만듦).</li>
+</ul>
+<p class="lead">포화가 속이는 방식</p>
+<ul>
+<li>포화에 가까우면 가장 어려운 과제만 남아 진척이 느려 보임 → 큰 capability 향상이 작은 점수 오름으로 보임.</li>
+</ul>
+<p class="lead">점수를 그대로 믿지 않음</p>
+<ul>
+<li>점수가 안 오를 때 : 에이전트 탓인지 eval 탓(채점 버그·모호한 과제·하네스 제약)인지 transcript 를 읽어 먼저 확인.</li>
+<li>실례 : CORE-Bench 에서 Opus 4.5 가 처음 42% → 채점이 "96.124991…" 를 기대해 "96.12" 를 틀림 처리하는 등 문제를 고친 뒤 95%.</li>
+</ul>
+<p class="lead">두 suite 를 같이 돌림</p>
+<ul>
+<li>capability 언덕을 오르는 동안 regression 도 같이 → 바꾼 것이 다른 곳을 깨지 않았는지.</li>
+<li>Descript 는 품질 벤치마크용·regression 용 두 suite 를 따로 정기적으로 돌림.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>이 suite 는 "잘하나"를 묻나, "여전히 하나"를 묻나?</li>
+<li>점수 변화가 에이전트 때문인가, eval 때문인가?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="capability-vs-regression-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="capability-vs-regression-tree-1" aria-labelledby="capability-vs-regression-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5">
     <div class="t5-fh"><h3 id="capability-vs-regression-tree-1-h">100% 가 나왔다 <span class="pg">[4.3②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -406,7 +469,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="capability-vs-regression-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="capability-vs-regression-flow" aria-label="capability eval vs regression eval 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["변경","capability suite","regression suite"],"blocks":[],"rules":[null,"낮은 통과율에서 출발 — 오를 언덕(통과율을 올려 갈 여지)","거의 100% 가 정상 · 떨어지면 뭔가 깨짐"],"question":"100% 는 어느 suite 에서 좋은 소식일까?","scenes":[{"name":"① 언덕 오르고 졸업","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["프롬프트 v7","+ 교환 규정 3단계 안내"]}},{"kind":"mark","step":"출발","at":{"col":1},"label":"낮은 통과율에서 출발","art":{"kind":"slip","lines":["교환 과제 20개","v6 : 6/20 (30%)"]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"언덕을 오르는 중","art":{"kind":"slip","lines":["v7 : 19/20 (95%)"]}},{"kind":"move","step":"돌림","from":{"col":0},"to":2,"label":"다른 곳이 안 깨졌나","art":{"kind":"slip","lines":["환불·배송 과제 60개","v7 : 60/60"]}},{"kind":"move","step":"졸업","from":{"col":1},"to":2,"label":"통과율 높아진 과제 → regression 으로","art":{"kind":"slip","lines":["교환 과제 20개 합류","regression suite 80개"]}},{"kind":"end","label":"\"할 수 있나?\" 가 \"여전히 믿고 할 수 있나?\" 로 바뀜"}]},{"name":"② regression 이 떨어짐","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["프롬프트 v8","말투 문장 수정"]}},{"kind":"move","step":"돌림","from":{"col":0},"to":2,"label":"거의 100% 가 정상인데","art":{"kind":"slip","lines":["v7 : 80/80","v8 : 71/80 (89%)"]}},{"kind":"mark","step":"떨어짐","at":{"col":2},"label":"떨어지면 뭔가 깨짐","art":{"kind":"slip","lines":["실패 9개 : 전부 환불 과제"]}},{"kind":"end","label":"regression 이 떨어지면 뭔가 깨짐 — 무엇이 바뀌었나부터"}]},{"name":"③ capability 100% 인데 그대로","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["프롬프트 v9"]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"이미 100%","art":{"kind":"slip","lines":["v8 : 20/20","v9 : 20/20"]}},{"kind":"mark","step":"멈춤","at":{"col":1},"label":"개선 신호 없음","art":{"kind":"slip","lines":["v9 가 나아졌나?","점수로는 알 수 없음"]}},{"kind":"end","label":"100% 인 capability suite 는 개선 신호가 없음 → regression 으로 졸업, capability 쪽엔 더 어려운 과제·새 eval"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -463,127 +526,9 @@
       <p>capability 가 여러 번 해도 0% → 0% pass@100 은 대개 과제 자체의 결함. 과제·grader(채점기) 의심 (<a href="eval-dataset.html">■ 첫 eval 셋 만들기</a>) <span class="ok">✓ 확인</span></p>
       <p>한 번 돌린 점수는 흔들림 → 여러 번 시도(trial) (<a href="pass-at-k.html">◆ pass@k vs pass^k</a>) <span class="ok">✓ 확인</span></p>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"100% 통과한 suite 는 신호가 없으니 전부 더 어렵게" → regression 은 거의 100% 가 정상. 더 어렵게 하는 건 capability suite 만 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"포화된 capability eval 은 버림" → regression suite 로 졸업시켜 계속 돌림 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"capability eval 통과율이 낮으니 실패작" → capability 는 낮은 통과율에서 출발이 정상 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"regression suite 도 낮은 통과율로 어렵게 짜야 변별력" → regression 은 거의 100% 가 정상, 떨어짐 자체가 신호 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"capability 점수가 안 오르니 모델부터 교체" → transcript 먼저. eval 탓일 수 있음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"포화 근처 +2%p 는 작은 향상" → 큰 향상이 작은 점수 오름으로 보일 수 있음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"capability 언덕만 오르면 됨" → regression 도 같이 돌림 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Capability or “quality” evals ask, “What can this agent do well?” They should start at a low pass rate, targeting tasks the agent struggles with and giving teams a hill to climb."</p>
-        <p lang="en">"Regression evals ask, “Does the agent still handle all the tasks it used to?” and should have a nearly 100% pass rate."</p>
-        <p lang="en">"As teams hill-climb on capability evals, it’s important to also run regression evals to make sure changes don’t cause issues elsewhere."</p>
-        <p lang="en">"capability evals with high pass rates can “graduate” to become a regression suite that is run continuously to catch any drift."</p>
-        <p lang="en">"An eval at 100% tracks regressions but provides no signal for improvement."</p>
-        <p lang="en">"This can make results deceptive, as large capability improvements appear as small increases in scores."</p>
-        <p lang="en">"When scores don’t climb, we need confidence that it’s due to agent performance and not the eval."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="eval-driven-iteration.html">■ 변경마다 eval 다시</a></li>
-        <li><a href="eval-dataset.html">■ 첫 eval 셋 만들기</a></li>
-        <li><a href="pass-at-k.html">◆ pass@k vs pass^k</a></li>
-        <li><a href="diagnose-by-change.html">■ 변경부터 묻는 진단</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 4.3 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>demystifying-evals 글 <span class="src">(en 24·46·84~88·231·261~269·279·314줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (갈림 기준 · 점수 읽기 전부)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">4.3②</li>
-        <li class="chip">4.2②</li>
-        <li class="chip">4.3③</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-capability-vs-regression" aria-labelledby="vx-capability-vs-regression-cap">
-  <div class="vx-player" data-vx-scene="capability-vs-regression"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-capability-vs-regression-cap">영상 — 100% 인 suite, 더 어렵게 바꿀까? (약 43초 · 소리 없음 · 자막). 지난 주 점 개수와 어렵게 바꾼 뒤 점수(28/80·25/80)는 그림용 가정 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>capability-vs-regression</dd>
-  <dt>본편</dt>
-  <dd>4.3</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">4.3②</li><li class="chip">4.2②</li><li class="chip">4.3③</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>키 재기 벽과 체온계를 떠올려 보세요.</p>
-<ul>
-<li>키 재기 벽은 아직 못 닿은 높은 곳에 눈금이 있어야 쓸모가 있어요.</li>
-<li>체온계는 늘 "정상"이 나오는 게 좋은 거예요. 갑자기 높으면 어디가 아픈 거죠.</li>
-<li>벽 꼭대기까지 다 자라면, 그 벽은 체온계처럼 "여전히 괜찮나" 보는 데 써요.</li>
-<li>이 쪽은 "100% 가 나왔을 때 좋은 건지 나쁜 건지" 가르는 법이에요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">두 suite 는 묻는 질문이 다름</p>
-<ul>
-<li>capability(능력, "quality") eval = "이 에이전트가 무엇을 잘하나?" → 에이전트가 힘들어하는 과제를 겨눠 낮은 통과율에서 출발. 오를 언덕(hill to climb — 통과율을 올려 갈 여지).</li>
-<li>regression(회귀) eval = "하던 걸 여전히 다 하나?" → 거의 100% 가 정상. 점수가 떨어짐 = 뭔가 깨짐 = 뒷걸음 신호.</li>
-</ul>
-<p class="lead">그래서 같은 100% 가 뜻이 반대</p>
-<ul>
-<li>regression 100% = 건강함. 계속 돌림.</li>
-<li>capability 100% = 포화(saturation). 뒷걸음(regression)은 잡아 주지만 더 나아졌는지는 알려 주지 않음.</li>
-</ul>
-<p class="lead">졸업(graduate)</p>
-<ul>
-<li>출시·최적화 뒤 통과율이 높아진 capability 과제는 regression suite 로 옮겨 계속 돌림 → drift 를 잡음.</li>
-<li>같은 과제가 "할 수는 있나?"에서 "여전히 믿고 할 수 있나?"로 뜻이 바뀜.</li>
-<li>capability 쪽에는 더 어려운 과제·새 eval 을 채움(Qodo 는 한 번에 푸는 코딩 eval 이 긴 과제의 향상을 못 잡자 새 에이전트 eval 틀을 만듦).</li>
-</ul>
-<p class="lead">포화가 속이는 방식</p>
-<ul>
-<li>포화에 가까우면 가장 어려운 과제만 남아 진척이 느려 보임 → 큰 capability 향상이 작은 점수 오름으로 보임.</li>
-</ul>
-<p class="lead">점수를 그대로 믿지 않음</p>
-<ul>
-<li>점수가 안 오를 때 : 에이전트 탓인지 eval 탓(채점 버그·모호한 과제·하네스 제약)인지 transcript 를 읽어 먼저 확인.</li>
-<li>실례 : CORE-Bench 에서 Opus 4.5 가 처음 42% → 채점이 "96.124991…" 를 기대해 "96.12" 를 틀림 처리하는 등 문제를 고친 뒤 95%.</li>
-</ul>
-<p class="lead">두 suite 를 같이 돌림</p>
-<ul>
-<li>capability 언덕을 오르는 동안 regression 도 같이 → 바꾼 것이 다른 곳을 깨지 않았는지.</li>
-<li>Descript 는 품질 벤치마크용·regression 용 두 suite 를 따로 정기적으로 돌림.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>이 suite 는 "잘하나"를 묻나, "여전히 하나"를 묻나?</li>
-<li>점수 변화가 에이전트 때문인가, eval 때문인가?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -649,7 +594,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -724,7 +668,38 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="capability-vs-regression-practice-h">연습 문제</h2>
 
+  <section class="csx" id="capability-vs-regression-case" aria-labelledby="capability-vs-regression-case-h" data-tree="capability-vs-regression-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;하던 일&quot;],[&quot;n3&quot;,null]]" data-flow="capability-vs-regression-flow" data-scene="0">
+    <p class="csx-text">고객지원 Agent 팀이 <mark class="csx-m" data-tag="하던 일">환불·배송 조회처럼 이미 잘하던 과제<span class="csx-tag">하던 일</span></mark>를 모은 suite 가 이번 주에도 100% 통과했다. 한 팀원이 "100% 면 알려 주는 게 없으니 과제를 전부 더 어렵게 바꾸자" 고 한다. 이 suite 를 어떻게 할까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="capability-vs-regression-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"100% 통과한 suite 는 신호가 없으니 전부 더 어렵게" → regression 은 거의 100% 가 정상. 더 어렵게 하는 건 capability suite 만 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"포화된 capability eval 은 버림" → regression suite 로 졸업시켜 계속 돌림 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"capability eval 통과율이 낮으니 실패작" → capability 는 낮은 통과율에서 출발이 정상 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"regression suite 도 낮은 통과율로 어렵게 짜야 변별력" → regression 은 거의 100% 가 정상, 떨어짐 자체가 신호 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"capability 점수가 안 오르니 모델부터 교체" → transcript 먼저. eval 탓일 수 있음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"포화 근처 +2%p 는 작은 향상" → 큰 향상이 작은 점수 오름으로 보일 수 있음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"capability 언덕만 오르면 됨" → regression 도 같이 돌림 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Capability or “quality” evals ask, “What can this agent do well?” They should start at a low pass rate, targeting tasks the agent struggles with and giving teams a hill to climb."</p>
+        <p lang="en">"Regression evals ask, “Does the agent still handle all the tasks it used to?” and should have a nearly 100% pass rate."</p>
+        <p lang="en">"As teams hill-climb on capability evals, it’s important to also run regression evals to make sure changes don’t cause issues elsewhere."</p>
+        <p lang="en">"capability evals with high pass rates can “graduate” to become a regression suite that is run continuously to catch any drift."</p>
+        <p lang="en">"An eval at 100% tracks regressions but provides no signal for improvement."</p>
+        <p lang="en">"This can make results deceptive, as large capability improvements appear as small increases in scores."</p>
+        <p lang="en">"When scores don’t climb, we need confidence that it’s due to agent performance and not the eval."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. regression 이 떨어졌는데 "깨짐"이 아닐 수 있는 때</h4>
@@ -759,7 +734,6 @@
 <li><span class="lead">근거 :</span> en 86·267줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -834,7 +808,26 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="capability-vs-regression-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="eval-driven-iteration.html">■ 변경마다 eval 다시</a></li>
+        <li><a href="eval-dataset.html">■ 첫 eval 셋 만들기</a></li>
+        <li><a href="pass-at-k.html">◆ pass@k vs pass^k</a></li>
+        <li><a href="diagnose-by-change.html">■ 변경부터 묻는 진단</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 4.3 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>demystifying-evals 글 <span class="src">(en 24·46·84~88·231·261~269·279·314줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (갈림 기준 · 점수 읽기 전부)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -843,8 +836,7 @@
 <li>목록 4.3② 의 규칙·영어 신호 2문장은 원문에서 찾음(en 86·267줄) — 고친 곳 없음. 영상 "P9 [17:48] 요령" 은 영상을 보지 않아 확인 안 함.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/capability-vs-regression.md</p>

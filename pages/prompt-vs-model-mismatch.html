@@ -350,18 +350,69 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ◆ prompt failure vs model mismatch -->
-<article class="card t5-card" id="prompt-vs-model-mismatch" aria-labelledby="prompt-vs-model-mismatch-title">
+<!-- ◆ prompt failure vs model mismatch (v3 시범 순서) -->
+<article class="card t5-card v3" id="prompt-vs-model-mismatch" aria-labelledby="prompt-vs-model-mismatch-title">
   <header class="t5-head">
     <h1 id="prompt-vs-model-mismatch-title"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> prompt failure vs model mismatch</h1>
-    <p class="lemma-meta"><span lang="en">prompt failure vs model mismatch</span><span class="lemma-main">4.4 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">prompt failure vs model mismatch</span><span class="lemma-main">4.4 본편</span></p>
   </header>
-  <h2 class="sec-h" id="prompt-vs-model-mismatch-case-h">지문</h2>
-  <section class="csx" id="prompt-vs-model-mismatch-case" aria-labelledby="prompt-vs-model-mismatch-case-h" data-tree="prompt-vs-model-mismatch-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;매번 재현&quot;],[&quot;n3&quot;,null],[&quot;n6&quot;,&quot;끝까지 씀&quot;],[&quot;n7&quot;,null]]" data-flow="prompt-vs-model-mismatch-flow" data-scene="0">
-    <p class="csx-text">주문 확인 메일에서 JSON 을 뽑는데, <mark class="csx-m" data-tag="매번 재현">같은 메일을 넣으면 매번<span class="csx-tag">매번 재현</span></mark> <code>delivery_date</code> 필드가 빠진다. 응답은 <mark class="csx-m" data-tag="끝까지 씀"><code>stop_reason: "end_turn"</code> 으로 끝난다<span class="csx-tag">끝까지 씀</span></mark>. 팀원은 더 큰 모델로 바꾸자고 한다. 먼저 할 일은?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="prompt-vs-model-mismatch-trees-h">갈림길</h2>
+  <h2 class="sec-h" id="prompt-vs-model-mismatch-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>4.4 문제 진단</b> · D4 평가 16%<br><q lang="en">Diagnose system issues (prompt failure, hallucinations, model mismatch)</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>4.4③ 형식이 매번 깨진다 vs 더 강한 설정에서만 풀린다</b> — prompt failure vs model mismatch 가르기</li>
+      <li><b>2.1② 품질이 조금 모자라거나 비용이 남는다 — 모델을 바꿀까, effort 를 바꿀까?</b> — 조절 수단 순서 <span class="note">(effort → 모델 교체 → 섞인 요청은 모델 조합·라우팅)</span></li>
+      <li><b>3.3① 상담원이 "답 초안이 늦게 뜬다"고 한다 — 모델부터 바꾸나?</b> — 지연 손잡이 고르기 <span class="note">(스트리밍 · 캐싱 · 출력 길이 · effort · 모델 교체)</span></li>
+      <li><b>6.2① 실행 가능한 설계가 둘 — 아키텍트가 골라 통보할까, 책임자가 고르게 할까?</b> — 절충 전달 방식 <span class="note">(평가 근거 붙은 선택지 공개 → 책임자 결정)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="prompt-vs-model-mismatch-sum-h">한눈에</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>심부름을 시켰는데 일이 잘못됐어요.</p>
+<ul>
+<li>매번 같은 곳에서 틀린다면, 내 설명이 헷갈렸던 거예요. 설명을 고쳐요.</li>
+<li>쉬운 건 잘하는데 어려운 것만 틀린다면, 먼저 "천천히 잘 생각해" 하고 시간을 더 줘요.</li>
+<li>시간을 충분히 줘도 못 한다면, 그때 더 잘하는 사람에게 맡겨요.</li>
+<li>종이가 모자라 중간에 멈췄다면, 설명도 사람도 아니고 종이를 더 줘요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-prompt-vs-model-mismatch" aria-labelledby="vx-prompt-vs-model-mismatch-cap">
+  <div class="vx-player" data-vx-scene="prompt-vs-model-mismatch"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-prompt-vs-model-mismatch-cap">영상 — 필드가 빠지면 모델을 바꿀까? (약 42초 · 소리 없음 · 자막). 반복 판의 누락·채움·끊김 칸과 항목당 35 토큰은 그림용 가정 — 실측 아님 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">세 층의 lever(손잡이)</p>
+<ul>
+<li>프롬프트(지시·형식·예시) → 모델 안 lever(effort) → 모델 자체(교체). 앞의 것이 싸고 빠름.</li>
+<li>공식 순서 : 모델 바꾸기 전 effort 조정이 흔히 더 나은 lever. xhigh·max 로도 eval 이 모자랄 때만 상위 모델. 업그레이드는 특정 능력 격차가 있을 때만.</li>
+</ul>
+<p class="lead">prompt failure(프롬프트 실패)의 모양</p>
+<ul>
+<li>같은 입력에서 같은 식으로 깨짐 = 지시·형식이 모자란 것 (재현된다는 판별 틀은 업계 일반).</li>
+<li>대책 : 출력 형식 정확히 지정 · 원하는 출력 예시(추상 지시보다 효과적) · 복잡하면 체이닝.</li>
+<li>형식 보장이 필요하면 structured outputs — 제약된 디코딩으로 필수 필드·타입까지 보장. 공식 스스로 "잘 짠 프롬프트로도 필수 필드 누락은 생길 수 있다"고 함 → 프롬프트만으로 100% 는 아님.</li>
+</ul>
+<p class="lead">model mismatch(모델 부적합)의 모양</p>
+<ul>
+<li>문맥·프롬프트가 맞는데 어려운 문제만 틀림 = 추론(reasoning) 양·능력이 모자람.</li>
+<li>Opus 4.7 안내 : 얕은 추론이면 프롬프트로 우회하지 말고 effort 를 올림.</li>
+<li>반대 mismatch : 쉬운 일에 너무 큰 모델·높은 effort = 비용·지연(latency) 낭비. max 는 구조화 출력에서 과도한 thinking(사고)으로 이어질 수도 있음.</li>
+</ul>
+<p class="lead">둘 다 아닌 것</p>
+<ul>
+<li>끊긴 JSON(<code>stop_reason: "max_tokens"</code>) = 출력 한도. 형식·모델 문제가 아님.</li>
+<li>prefill 400 = 4.6 이후 모델이 prefill 을 안 받는 것. 형식 대책이 막힌 것이지 모델 능력 문제가 아님.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="prompt-vs-model-mismatch-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="prompt-vs-model-mismatch-tree-1" aria-labelledby="prompt-vs-model-mismatch-tree-1-h" data-paths="n1 n2 n3 n4 n5|n1 n2 n3 n6 n7|n1 n8 n9">
     <div class="t5-fh"><h3 id="prompt-vs-model-mismatch-tree-1-h">어디서 깨지나 <span class="pg">[4.4③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -424,7 +475,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="prompt-vs-model-mismatch-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="prompt-vs-model-mismatch-flow" aria-label="prompt failure vs model mismatch 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["앱","모델","출력"],"blocks":[],"rules":[null,null,null],"question":"같은 입력이면 매번 같은 자리에서 깨질까?","scenes":[{"name":"① 같은 입력에서 매번 깨짐 → 프롬프트","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["주문 메일 #4821","\"JSON 으로 뽑아 줘\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"같은 입력","art":{"kind":"slip","lines":["같은 메일 #4821","5번째 요청"]}},{"kind":"move","step":"출력","from":{"col":1},"to":2,"label":"필수 필드 누락이 매번","art":{"kind":"slip","lines":["{\"order_id\":\"4821\"}","delivery_date 없음","stop_reason : end_turn"]}},{"kind":"mark","step":"고침","at":{"col":0},"label":"출력 형식 지정 · 원하는 출력 예시","art":{"kind":"slip","lines":["형식 : order_id,","delivery_date 필수","+ 출력 예시 1개"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"형식을 정한 요청","art":{"kind":"slip","lines":["같은 메일 #4821","+ 형식 · 예시"]}},{"kind":"move","step":"출력","from":{"col":1},"to":2,"label":"필드가 다 채워짐","art":{"kind":"slip","lines":["{\"order_id\":\"4821\",","\"delivery_date\":","\"10-02\"}"]}},{"kind":"end","label":"같은 입력에서 매번 재현되는 형식 오류 = prompt failure — 모델 교체 아님"}]},{"name":"② 어려운 문제만 실패 → effort 먼저","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["환불 + 교환 + 쿠폰이","겹친 어려운 문의만 틀림"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"문맥·프롬프트는 맞음","art":{"kind":"slip","lines":["문맥 · 프롬프트 OK","effort : 기본값"]}},{"kind":"mark","step":"올림","at":{"col":1},"label":"effort 를 올림","art":{"kind":"slip","lines":["effort 를 올려","eval 다시 (xhigh·max 까지)"]}},{"kind":"move","step":"출력","from":{"col":1},"to":2,"label":"eval 로 다시 측정","art":{"kind":"slip","lines":["어려운 문의 eval","effort 올린 뒤 재측정"]}},{"kind":"end","label":"effort 를 올려도(xhigh·max) eval 이 모자랄 때만 상위 모델"}]},{"name":"③ prefill 로 형식 고정","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["주문 메일 #4821","\"JSON 으로 뽑아 줘\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"마지막 assistant 턴 prefill","art":{"kind":"slip","lines":["messages 끝 :","role : \"assistant\"","content : \"{\""]}},{"kind":"move","step":"거절","from":{"col":1},"to":0,"label":"4.6 이후 모델은 거절","art":{"kind":"slip","lines":["400","invalid_request_error"]}},{"kind":"end","label":"4.6 이후 모델은 prefill 을 안 받음 → structured outputs · 시스템 프롬프트 지시 · `output_config.format`"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -459,7 +510,7 @@
       </ol>
     </details>
   </figure>
-  <h2 class="sec-h" id="prompt-vs-model-mismatch-rep-h">반복</h2>
+  <h3 class="v3-sub" id="prompt-vs-model-mismatch-rep-h">반복</h3>
   <section class="rpx" id="prompt-vs-model-mismatch-rep" aria-labelledby="prompt-vs-model-mismatch-rep-h">
     <h3>같은 주문 메일을 5번 보내 보기</h3>
     <div class="rpx-runs" style="--n:5">
@@ -503,123 +554,9 @@
         <li>"더 강한 모델·effort 에서만 풀리면 model mismatch" 이라는 판별 틀 자체 <span class="gen">업계 일반</span> <span class="note">공식 문장 없음</span></li>
       </ul>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"가장 큰 모델 + effort max 를 기본값으로" → max 는 가장 어려운 문제용, 대부분 비용만 크게 늚 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"prefill 로 형식 고정" → 4.6 이후 모델은 400 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>형식이 매번 깨지는데 모델부터 교체 → 업그레이드는 특정 능력 격차가 있을 때만. 재현되는 형식 오류는 형식 지정·예시부터 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>JSON 끊김을 프롬프트 탓으로 → <code>stop_reason: "max_tokens"</code>, 더 큰 <code>max_tokens</code> <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>얕은 추론에 "생각 깊게 하라"는 문구만 덧댐 → effort 를 올림(지연(latency) 때문에 낮게 둬야 할 때만 문구 추가) <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>모델을 옮긴 뒤 얕아짐을 "모델이 약함"으로 → effort 기본값부터 <span class="ok">✓ 확인</span> → <a href="diagnose-by-change.html">■ 변경부터 묻는 진단</a></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>increase-consistency 문서는 지금도 "Prefill Claude's response" 를 권함 → 4.6 이후 모델엔 안 맞음. 오류·프롬프팅 문서가 400 이라 함 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar API 강의(2025 제작 추정) "prefill + stop sequence 로 깨끗한 JSON" → 4.6 이후 모델은 400</span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Provide examples of your desired output. This is more effective than abstract instructions."</p>
-        <p lang="en">"Tuning effort is often a better lever than switching models."</p>
-        <p lang="en">"If you observe shallow reasoning on complex problems with Claude Opus 4.7, raise effort rather than prompting around it."</p>
-        <p lang="en">"Reserve for frontier problems. On most workloads <code>max</code> adds significant cost for relatively small quality gains"</p>
-        <p lang="en">"Sending a request with a prefilled last assistant message to any of these models returns a 400 <code>invalid_request_error</code>"</p>
-        <p lang="en">"Retry with a higher <code>max_tokens</code> value to get the complete structured output"</p>
-        <p lang="en">"Upgrade only if necessary for specific capability gaps."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="stop-reason.html">■ stop_reason 으로 분기</a></li>
-        <li><a href="diagnose-by-change.html">■ 변경부터 묻는 진단</a></li>
-        <li><a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 4.4 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>docs increase-consistency <span class="src">(ko·en 5·9·13·21줄)</span></li>
-        <li>structured-outputs <span class="src">(ko·en 1·4·10~20·182~188·254줄)</span></li>
-        <li>errors <span class="src">(ko·en 86·98줄)</span></li>
-        <li>prompting-best-practices <span class="src">(en 166줄)</span></li>
-        <li>choosing-a-model <span class="src">(ko·en 8·23·39·40·73줄)</span></li>
-        <li>effort <span class="src">(ko·en 83·85줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 214·379줄)</span></li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287732">Skilljar API 287732</a> <span class="src">(33~51줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (갈림 기준 대부분)</li>
-        <li><span class="gen">업계 일반</span> 1줄(판별 틀)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">4.4③</li>
-        <li class="chip">2.1②</li>
-        <li class="chip">3.3①</li>
-        <li class="chip">6.2①</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-prompt-vs-model-mismatch" aria-labelledby="vx-prompt-vs-model-mismatch-cap">
-  <div class="vx-player" data-vx-scene="prompt-vs-model-mismatch"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-prompt-vs-model-mismatch-cap">영상 — 필드가 빠지면 모델을 바꿀까? (약 42초 · 소리 없음 · 자막). 반복 판의 누락·채움·끊김 칸과 항목당 35 토큰은 그림용 가정 — 실측 아님 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>prompt-vs-model-mismatch</dd>
-  <dt>본편</dt>
-  <dd>4.4</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">4.4③</li><li class="chip">2.1②</li><li class="chip">3.3①</li><li class="chip">6.2①</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>심부름을 시켰는데 일이 잘못됐어요.</p>
-<ul>
-<li>매번 같은 곳에서 틀린다면, 내 설명이 헷갈렸던 거예요. 설명을 고쳐요.</li>
-<li>쉬운 건 잘하는데 어려운 것만 틀린다면, 먼저 "천천히 잘 생각해" 하고 시간을 더 줘요.</li>
-<li>시간을 충분히 줘도 못 한다면, 그때 더 잘하는 사람에게 맡겨요.</li>
-<li>종이가 모자라 중간에 멈췄다면, 설명도 사람도 아니고 종이를 더 줘요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">세 층의 lever(손잡이)</p>
-<ul>
-<li>프롬프트(지시·형식·예시) → 모델 안 lever(effort) → 모델 자체(교체). 앞의 것이 싸고 빠름.</li>
-<li>공식 순서 : 모델 바꾸기 전 effort 조정이 흔히 더 나은 lever. xhigh·max 로도 eval 이 모자랄 때만 상위 모델. 업그레이드는 특정 능력 격차가 있을 때만.</li>
-</ul>
-<p class="lead">prompt failure(프롬프트 실패)의 모양</p>
-<ul>
-<li>같은 입력에서 같은 식으로 깨짐 = 지시·형식이 모자란 것 (재현된다는 판별 틀은 업계 일반).</li>
-<li>대책 : 출력 형식 정확히 지정 · 원하는 출력 예시(추상 지시보다 효과적) · 복잡하면 체이닝.</li>
-<li>형식 보장이 필요하면 structured outputs — 제약된 디코딩으로 필수 필드·타입까지 보장. 공식 스스로 "잘 짠 프롬프트로도 필수 필드 누락은 생길 수 있다"고 함 → 프롬프트만으로 100% 는 아님.</li>
-</ul>
-<p class="lead">model mismatch(모델 부적합)의 모양</p>
-<ul>
-<li>문맥·프롬프트가 맞는데 어려운 문제만 틀림 = 추론(reasoning) 양·능력이 모자람.</li>
-<li>Opus 4.7 안내 : 얕은 추론이면 프롬프트로 우회하지 말고 effort 를 올림.</li>
-<li>반대 mismatch : 쉬운 일에 너무 큰 모델·높은 effort = 비용·지연(latency) 낭비. max 는 구조화 출력에서 과도한 thinking(사고)으로 이어질 수도 있음.</li>
-</ul>
-<p class="lead">둘 다 아닌 것</p>
-<ul>
-<li>끊긴 JSON(<code>stop_reason: "max_tokens"</code>) = 출력 한도. 형식·모델 문제가 아님.</li>
-<li>prefill 400 = 4.6 이후 모델이 prefill 을 안 받는 것. 형식 대책이 막힌 것이지 모델 능력 문제가 아님.</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -697,7 +634,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -786,7 +722,39 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="prompt-vs-model-mismatch-practice-h">연습 문제</h2>
 
+  <section class="csx" id="prompt-vs-model-mismatch-case" aria-labelledby="prompt-vs-model-mismatch-case-h" data-tree="prompt-vs-model-mismatch-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;매번 재현&quot;],[&quot;n3&quot;,null],[&quot;n6&quot;,&quot;끝까지 씀&quot;],[&quot;n7&quot;,null]]" data-flow="prompt-vs-model-mismatch-flow" data-scene="0">
+    <p class="csx-text">주문 확인 메일에서 JSON 을 뽑는데, <mark class="csx-m" data-tag="매번 재현">같은 메일을 넣으면 매번<span class="csx-tag">매번 재현</span></mark> <code>delivery_date</code> 필드가 빠진다. 응답은 <mark class="csx-m" data-tag="끝까지 씀"><code>stop_reason: "end_turn"</code> 으로 끝난다<span class="csx-tag">끝까지 씀</span></mark>. 팀원은 더 큰 모델로 바꾸자고 한다. 먼저 할 일은?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="prompt-vs-model-mismatch-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"가장 큰 모델 + effort max 를 기본값으로" → max 는 가장 어려운 문제용, 대부분 비용만 크게 늚 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"prefill 로 형식 고정" → 4.6 이후 모델은 400 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>형식이 매번 깨지는데 모델부터 교체 → 업그레이드는 특정 능력 격차가 있을 때만. 재현되는 형식 오류는 형식 지정·예시부터 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>JSON 끊김을 프롬프트 탓으로 → <code>stop_reason: "max_tokens"</code>, 더 큰 <code>max_tokens</code> <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>얕은 추론에 "생각 깊게 하라"는 문구만 덧댐 → effort 를 올림(지연(latency) 때문에 낮게 둬야 할 때만 문구 추가) <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>모델을 옮긴 뒤 얕아짐을 "모델이 약함"으로 → effort 기본값부터 <span class="ok">✓ 확인</span> → <a href="diagnose-by-change.html">■ 변경부터 묻는 진단</a></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>increase-consistency 문서는 지금도 "Prefill Claude's response" 를 권함 → 4.6 이후 모델엔 안 맞음. 오류·프롬프팅 문서가 400 이라 함 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar API 강의(2025 제작 추정) "prefill + stop sequence 로 깨끗한 JSON" → 4.6 이후 모델은 400</span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Provide examples of your desired output. This is more effective than abstract instructions."</p>
+        <p lang="en">"Tuning effort is often a better lever than switching models."</p>
+        <p lang="en">"If you observe shallow reasoning on complex problems with Claude Opus 4.7, raise effort rather than prompting around it."</p>
+        <p lang="en">"Reserve for frontier problems. On most workloads <code>max</code> adds significant cost for relatively small quality gains"</p>
+        <p lang="en">"Sending a request with a prefilled last assistant message to any of these models returns a 400 <code>invalid_request_error</code>"</p>
+        <p lang="en">"Retry with a higher <code>max_tokens</code> value to get the complete structured output"</p>
+        <p lang="en">"Upgrade only if necessary for specific capability gaps."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 형식이 매번 깨지는데 프롬프트 탓이 아닌 때 — 출력 한도</h4>
@@ -827,7 +795,6 @@
 <li><span class="lead">근거 :</span> choosing-a-model en 18~30·39줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -895,7 +862,33 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="prompt-vs-model-mismatch-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="stop-reason.html">■ stop_reason 으로 분기</a></li>
+        <li><a href="diagnose-by-change.html">■ 변경부터 묻는 진단</a></li>
+        <li><a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 4.4 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>docs increase-consistency <span class="src">(ko·en 5·9·13·21줄)</span></li>
+        <li>structured-outputs <span class="src">(ko·en 1·4·10~20·182~188·254줄)</span></li>
+        <li>errors <span class="src">(ko·en 86·98줄)</span></li>
+        <li>prompting-best-practices <span class="src">(en 166줄)</span></li>
+        <li>choosing-a-model <span class="src">(ko·en 8·23·39·40·73줄)</span></li>
+        <li>effort <span class="src">(ko·en 83·85줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 214·379줄)</span></li>
+        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287732">Skilljar API 287732</a> <span class="src">(33~51줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (갈림 기준 대부분)</li>
+        <li><span class="gen">업계 일반</span> 1줄(판별 틀)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -905,8 +898,7 @@
 <li>목록 4.4③ 의 "prefill 은 4.6 이후 모델에서 400" 은 원문과 같음(errors en 86줄) ✓. 목록의 effort 기본값 "대부분 high, Opus 5.5 는 medium (2026-09-27 조회)" 도 effort en 9줄과 같음.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/prompt-vs-model-mismatch.md</p>

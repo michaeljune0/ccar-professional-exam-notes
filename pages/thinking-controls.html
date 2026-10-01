@@ -350,24 +350,78 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ 모델별 thinking 제어 -->
-<article class="card t5-card" id="thinking-controls" aria-labelledby="thinking-controls-title">
+<!-- ■ 모델별 thinking 제어 (v3 시범 순서) -->
+<article class="card t5-card v3" id="thinking-controls" aria-labelledby="thinking-controls-title">
   <header class="t5-head">
     <h1 id="thinking-controls-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 모델별 thinking 제어</h1>
-    <p class="lemma-meta"><span lang="en">adaptive + effort vs budget_tokens · 400 조건</span><span class="lemma-main">2.3 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">adaptive + effort vs budget_tokens · 400 조건</span><span class="lemma-main">2.3 본편</span></p>
   </header>
-  <h2 class="sec-h" id="thinking-controls-sum-h">카드</h2>
+  <h2 class="sec-h" id="thinking-controls-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>2.3 프롬프트 기법</b> · D2 모델·프롬프트 13%<br><q lang="en">Apply prompt engineering techniques (zero-shot, few-shot, chain-of-thought)</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>2.3③ 사고 깊이·비용을 제한하라 — budget_tokens 인가 effort 인가?</b> — 문항의 모델 이름을 보고 사고 제어 방식 고르기</li>
+      <li><b>2.3② 여러 단계 추론이 필요하다 — "step by step" 문구? thinking? 체이닝?</b> — CoT(한 요청 안에서 사고) vs 프롬프트 체이닝(여러 호출로 쪼개기)</li>
+      <li><b>2.5② 캐싱을 켰는데 cache_read_input_tokens 가 계속 0 — 가장 먼저 의심할 곳은?</b> — 캐시 미적중 원인 진단 순서</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="thinking-controls-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>thinking(사고) lever(손잡이)는 모델마다 다름 → 문항의 모델 이름을 먼저 봄. 새 방식 = <code>thinking: {type: "adaptive"}</code> + <code>output_config.effort</code>(Claude 가 thinking 할지·얼마나 할지 정함) · 옛 방식 = <code>thinking: {type: "enabled", budget_tokens: N}</code>(수동 extended thinking). 모델이 안 받는 설정은 400 <span class="ok">✓ 확인</span></p>
       <p>지출의 엄격한 상한은 어느 방식이든 <code>max_tokens</code>(thinking + 답 합계). effort 는 유연한 지침, budget_tokens 는 목표치 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> Kubernetes apiVersion. 버전마다 받는 필드가 다름 → 매니페스트에 적힌 버전의 스펙으로 판단. 그 버전에 없는 필드를 넣으면 API 서버가 거부</p>
   </div>
-  <h2 class="sec-h" id="thinking-controls-case-h">지문</h2>
-  <section class="csx" id="thinking-controls-case" aria-labelledby="thinking-controls-case-h" data-tree="thinking-controls-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;Haiku 4.5&quot;],[&quot;n3&quot;,null],[&quot;n6&quot;,&quot;Haiku 4.5&quot;],[&quot;n7&quot;,null]]" data-flow="thinking-controls-flow" data-scene="0">
-    <p class="csx-text"><mark class="csx-m" data-tag="Haiku 4.5">Haiku 4.5<span class="csx-tag">Haiku 4.5</span></mark> 로 도는 티켓 분류기에 thinking 을 켜려 한다. 팀원은 <mark class="csx-m" data-tag="새 방식">"budget_tokens 는 낡았으니 adaptive + effort 로"<span class="csx-tag">새 방식</span></mark> 쓰자고 한다. 어떤 설정이어야 요청이 통할까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="thinking-controls-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>자동차마다 속도 조절 장치가 달라요.</p>
+<ul>
+<li>옛날 차는 "최대 몇 km 까지"를 손으로 정해요.</li>
+<li>새 차는 "천천히 / 보통 / 빨리" 버튼만 있어요.</li>
+<li>옛날 차에 버튼을 찾으면 없고, 새 차에 손잡이를 끼우면 안 들어가요.</li>
+<li>그래서 먼저 차 이름표(모델 이름)를 봐요.</li>
+<li>어느 차든 연료통 크기(<code>max_tokens</code>)가 진짜 끝이에요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-thinking-controls" aria-labelledby="vx-thinking-controls-cap">
+  <div class="vx-player" data-vx-scene="thinking-controls"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-thinking-controls-cap">영상 — 사고 설정은 모델이 정한다 (약 43초 · 소리 없음 · 자막). 카드 꼭지·홈 모양은 &#x27;모델이 받는 설정&#x27;을 그린 그림용 비유 · 4.6 세대(두 방식 다 받음)·effort·max_tokens 는 다루지 않음 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">두 방식</p>
+<ul>
+<li>옛 방식 = 수동 extended thinking(확장 사고) <code>thinking: {type: "enabled", budget_tokens: N}</code>. 사람이 thinking 예산을 정함. 고정 예산이면 매 요청 thinking.</li>
+<li>새 방식 = <code>thinking: {type: "adaptive"}</code> + <code>output_config.effort</code>. 모델이 요청마다 thinking 할지·얼마나 할지 정함. effort 는 그 성향을 미는 유연한 지침.</li>
+<li>세대 경계 : 4.5 이하 = 옛 방식만 · 4.6 = 둘 다(옛 방식은 지원 중단) · 4.7 이후 = 새 방식만. 안 받는 쪽을 보내면 400.</li>
+</ul>
+<p class="lead">effort 가 하는 일</p>
+<ul>
+<li>thinking 만이 아니라 답 글·도구 호출까지 모든 출력 토큰에 걸림 → thinking 이 꺼져도 작동.</li>
+<li>단 thinking 깊이의 주 lever(손잡이)인 건 adaptive 모드에서만. extended thinking 전용 모델에서 effort 를 바꿔도 thinking 은 그대로(그 모델들은 대부분 effort 자체가 없음 — Opus 4.5 만 예외).</li>
+</ul>
+<p class="lead">상한은 하나뿐</p>
+<ul>
+<li><code>max_tokens</code> = thinking + 답 합계의 엄격한 한도. 넘어서 생성하지 않음.</li>
+<li>budget_tokens = 목표치(예산보다 훨씬 일찍 멈출 수 있음). effort = 토큰 수 보장 안 함.</li>
+<li>도구 루프는 요청마다 <code>max_tokens</code> 가 따로라 턴 전체는 못 묶음.</li>
+</ul>
+<p class="lead">설정은 프롬프트의 일부</p>
+<ul>
+<li>thinking 모드·budget_tokens·effort 값은 프롬프트 안에 렌더링됨 → 바꾸면 캐시 앞부분이 달라져 메시지 캐시가 깨짐.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>문항의 모델은 어느 세대인가? (받는 필드가 정해짐)</li>
+<li>원하는 게 엄격한 상한인가, 평균을 낮추는 것인가, 깊이를 올리는 것인가?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="thinking-controls-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="thinking-controls-tree-1" aria-labelledby="thinking-controls-tree-1-h" data-paths="n1 n2 n3 n4 n5|n1 n2 n3 n6 n7|n1 n8 n9|n1 n10 n11">
     <div class="t5-fh"><h3 id="thinking-controls-tree-1-h">①②③ 모델로 가르기 <span class="pg">[2.3③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -456,7 +510,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="thinking-controls-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="thinking-controls-flow" aria-label="모델별 thinking 제어 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["요청","API 검사","모델"],"blocks":[],"rules":[null,"모델이 안 받는 설정은 400",null],"question":"이 설정은 검사를 통과할까?","scenes":[{"name":"① Haiku 4.5 + budget_tokens","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["model: Haiku 4.5","type: \"enabled\"","budget_tokens: 2048","max_tokens: 4096"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"`enabled` + budget_tokens","art":{"kind":"slip","lines":["Haiku 4.5 = enabled 만","통과"]}},{"kind":"move","step":"통과","from":{"col":1},"to":2,"label":"extended thinking 만 되는 모델","art":{"kind":"slip","lines":["[thinking] 배송 지연 언급","답: 라벨 \"배송\""]}},{"kind":"end","label":"4.5 이하는 extended thinking 이 유일한 모드"}]},{"name":"② Opus 5.5 + budget_tokens","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["model: Opus 5.5","type: \"enabled\"","budget_tokens: 2048"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"`enabled` + budget_tokens","art":{"kind":"slip","lines":["Opus 5.5 = adaptive 만"]}},{"kind":"mark","step":"거부","at":{"col":1},"label":"400 ≠","art":{"kind":"slip","lines":["HTTP 400"]}},{"kind":"skip","at":2},{"kind":"end","label":"4.7 이후는 adaptive + effort"}]},{"name":"③ Haiku 4.5 + adaptive","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["model: Haiku 4.5","type: \"adaptive\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"`adaptive`","art":{"kind":"slip","lines":["Haiku 4.5 = enabled 만"]}},{"kind":"mark","step":"거부","at":{"col":1},"label":"400 ≠","art":{"kind":"slip","lines":["HTTP 400"]}},{"kind":"skip","at":2},{"kind":"end","label":"extended thinking 만 되는 모델은 adaptive 가 400"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -491,7 +545,7 @@
     </details>
   </figure>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="thinking-controls-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
@@ -565,136 +619,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"budget_tokens 는 낡았으니 무조건 adaptive + effort 로" → Haiku 4.5·Sonnet 4.5·Opus 4.5 는 adaptive 가 400. 모델 이름 먼저 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"budget_tokens 보기는 무조건 지운다" → 4.6 은 지원 중단이지만 요청은 성공, 4.5 이하는 유일한 모드 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"budget_tokens = thinking 비용의 엄격한 상한" → 목표치. 엄격한 상한은 max_tokens <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Haiku 4.5 에서 effort 로 thinking 을 줄인다" → effort 는 Opus 4.5 만. Haiku 4.5 는 budget_tokens <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"effort 는 thinking 전용이라 thinking 끄면 소용없음" → 모든 출력 토큰에 걸림 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"effort 에 adaptive 를 넣는다" → adaptive 는 thinking 모드 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Opus 5.5 에서 thinking 을 꺼서 비용을 줄인다" → 못 끔(400). effort ↓ <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"effort 를 안 주면 어디서나 high" → Opus 5.5 는 medium <span class="post">시험 뒤 변경</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"display omitted 로 숨기면 thinking 비용도 준다" → 지연만 줄고 비용은 그대로 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar(2025 제작) "thinking budget = thinking 에 쓸 최대 토큰" · 코드 키 <code>budget</code> → 지금 docs 는 <code>budget_tokens</code>, 목표치이지 엄격한 상한 아님 <span class="note">(Skilljar)</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"On Claude 4.7 and later models, setting <code>budget_tokens</code> returns a 400 error."</p>
-        <p lang="en">"On Claude 4.5 and earlier models that support thinking, extended thinking is the only available thinking mode."</p>
-        <p lang="en">"Extended thinking (<code>thinking.type: \"enabled\"</code> with <code>budget_tokens</code>) is deprecated on the Claude 4.6 models (requests using it still succeed)."</p>
-        <p lang="en">"effort is the primary thinking lever only in adaptive mode."</p>
-        <p lang="en">"Effort is soft guidance. <code>max_tokens</code> is a strict limit."</p>
-        <p lang="en">"The budget is a target rather than a strict cap."</p>
-        <p lang="en">"Most Claude models default to high effort, spending as many tokens as needed for excellent results; Claude Opus 5.5 defaults to medium."</p>
-        <p lang="en">"Manual mode remains useful when your workload requires predictable latency or precise control over thinking costs."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="thinking-vs-chaining.html">◆ 한 요청 안 thinking vs 여러 호출 체이닝</a></li>
-        <li><a href="effort-vs-model.html">◆ effort 조정 vs 모델 교체</a></li>
-        <li><a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
-        <li><a href="caching.html">■ 프롬프트 캐싱</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 2.3 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>thinking-troubleshooting <span class="src">(ko/en 5~34·80~90·116~118·142~160줄)</span></li>
-        <li>thinking <span class="src">(ko/en 5·39~41·61~65·76·79·101·177~186·192·248·448~452줄)</span></li>
-        <li>extended-thinking <span class="src">(ko/en 1·15~32·49·99~106·136줄)</span></li>
-        <li>effort <span class="src">(en-2026-09-28 9·11~29·47·57·126~136·160줄 / ko 9·25~26·47·130줄)</span></li>
-        <li>thinking-steering-and-cost <span class="src">(en 115~127·139~146줄)</span></li>
-        <li>prompting-best-practices <span class="src">(en 255·283줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 15~16·46·50·120~122·168·380줄)</span></li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287773">Skilljar API 287773</a> <span class="src">(63·71줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
-        <li>Skilljar 1줄</li>
-        <li><span class="post">시험 뒤 변경</span> 3곳(새 모델 3종 출시 · Opus 5.5 기본 medium · 메시지별 effort)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">2.3③</li>
-        <li class="chip">2.3②</li>
-        <li>(<span class="note">끌 수 있나</span>)</li>
-        <li class="chip">4.5</li>
-        <li>(<span class="note">비용 상한</span>)</li>
-        <li class="chip">2.5②</li>
-        <li>(<span class="note">캐시 무효화</span>)</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-thinking-controls" aria-labelledby="vx-thinking-controls-cap">
-  <div class="vx-player" data-vx-scene="thinking-controls"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-thinking-controls-cap">영상 — 사고 설정은 모델이 정한다 (약 43초 · 소리 없음 · 자막). 카드 꼭지·홈 모양은 &#x27;모델이 받는 설정&#x27;을 그린 그림용 비유 · 4.6 세대(두 방식 다 받음)·effort·max_tokens 는 다루지 않음 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>thinking-controls</dd>
-  <dt>본편</dt>
-  <dd>2.3</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">2.3③</li><li class="chip">2.3②</li><li class="chip">4.5</li><li class="chip">2.5②</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>자동차마다 속도 조절 장치가 달라요.</p>
-<ul>
-<li>옛날 차는 "최대 몇 km 까지"를 손으로 정해요.</li>
-<li>새 차는 "천천히 / 보통 / 빨리" 버튼만 있어요.</li>
-<li>옛날 차에 버튼을 찾으면 없고, 새 차에 손잡이를 끼우면 안 들어가요.</li>
-<li>그래서 먼저 차 이름표(모델 이름)를 봐요.</li>
-<li>어느 차든 연료통 크기(<code>max_tokens</code>)가 진짜 끝이에요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">두 방식</p>
-<ul>
-<li>옛 방식 = 수동 extended thinking(확장 사고) <code>thinking: {type: "enabled", budget_tokens: N}</code>. 사람이 thinking 예산을 정함. 고정 예산이면 매 요청 thinking.</li>
-<li>새 방식 = <code>thinking: {type: "adaptive"}</code> + <code>output_config.effort</code>. 모델이 요청마다 thinking 할지·얼마나 할지 정함. effort 는 그 성향을 미는 유연한 지침.</li>
-<li>세대 경계 : 4.5 이하 = 옛 방식만 · 4.6 = 둘 다(옛 방식은 지원 중단) · 4.7 이후 = 새 방식만. 안 받는 쪽을 보내면 400.</li>
-</ul>
-<p class="lead">effort 가 하는 일</p>
-<ul>
-<li>thinking 만이 아니라 답 글·도구 호출까지 모든 출력 토큰에 걸림 → thinking 이 꺼져도 작동.</li>
-<li>단 thinking 깊이의 주 lever(손잡이)인 건 adaptive 모드에서만. extended thinking 전용 모델에서 effort 를 바꿔도 thinking 은 그대로(그 모델들은 대부분 effort 자체가 없음 — Opus 4.5 만 예외).</li>
-</ul>
-<p class="lead">상한은 하나뿐</p>
-<ul>
-<li><code>max_tokens</code> = thinking + 답 합계의 엄격한 한도. 넘어서 생성하지 않음.</li>
-<li>budget_tokens = 목표치(예산보다 훨씬 일찍 멈출 수 있음). effort = 토큰 수 보장 안 함.</li>
-<li>도구 루프는 요청마다 <code>max_tokens</code> 가 따로라 턴 전체는 못 묶음.</li>
-</ul>
-<p class="lead">설정은 프롬프트의 일부</p>
-<ul>
-<li>thinking 모드·budget_tokens·effort 값은 프롬프트 안에 렌더링됨 → 바꾸면 캐시 앞부분이 달라져 메시지 캐시가 깨짐.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>문항의 모델은 어느 세대인가? (받는 필드가 정해짐)</li>
-<li>원하는 게 엄격한 상한인가, 평균을 낮추는 것인가, 깊이를 올리는 것인가?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -778,7 +705,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -874,7 +800,42 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="thinking-controls-practice-h">연습 문제</h2>
 
+  <section class="csx" id="thinking-controls-case" aria-labelledby="thinking-controls-case-h" data-tree="thinking-controls-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;Haiku 4.5&quot;],[&quot;n3&quot;,null],[&quot;n6&quot;,&quot;Haiku 4.5&quot;],[&quot;n7&quot;,null]]" data-flow="thinking-controls-flow" data-scene="0">
+    <p class="csx-text"><mark class="csx-m" data-tag="Haiku 4.5">Haiku 4.5<span class="csx-tag">Haiku 4.5</span></mark> 로 도는 티켓 분류기에 thinking 을 켜려 한다. 팀원은 <mark class="csx-m" data-tag="새 방식">"budget_tokens 는 낡았으니 adaptive + effort 로"<span class="csx-tag">새 방식</span></mark> 쓰자고 한다. 어떤 설정이어야 요청이 통할까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="thinking-controls-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"budget_tokens 는 낡았으니 무조건 adaptive + effort 로" → Haiku 4.5·Sonnet 4.5·Opus 4.5 는 adaptive 가 400. 모델 이름 먼저 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"budget_tokens 보기는 무조건 지운다" → 4.6 은 지원 중단이지만 요청은 성공, 4.5 이하는 유일한 모드 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"budget_tokens = thinking 비용의 엄격한 상한" → 목표치. 엄격한 상한은 max_tokens <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Haiku 4.5 에서 effort 로 thinking 을 줄인다" → effort 는 Opus 4.5 만. Haiku 4.5 는 budget_tokens <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"effort 는 thinking 전용이라 thinking 끄면 소용없음" → 모든 출력 토큰에 걸림 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"effort 에 adaptive 를 넣는다" → adaptive 는 thinking 모드 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Opus 5.5 에서 thinking 을 꺼서 비용을 줄인다" → 못 끔(400). effort ↓ <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"effort 를 안 주면 어디서나 high" → Opus 5.5 는 medium <span class="post">시험 뒤 변경</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"display omitted 로 숨기면 thinking 비용도 준다" → 지연만 줄고 비용은 그대로 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar(2025 제작) "thinking budget = thinking 에 쓸 최대 토큰" · 코드 키 <code>budget</code> → 지금 docs 는 <code>budget_tokens</code>, 목표치이지 엄격한 상한 아님 <span class="note">(Skilljar)</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"On Claude 4.7 and later models, setting <code>budget_tokens</code> returns a 400 error."</p>
+        <p lang="en">"On Claude 4.5 and earlier models that support thinking, extended thinking is the only available thinking mode."</p>
+        <p lang="en">"Extended thinking (<code>thinking.type: \"enabled\"</code> with <code>budget_tokens</code>) is deprecated on the Claude 4.6 models (requests using it still succeed)."</p>
+        <p lang="en">"effort is the primary thinking lever only in adaptive mode."</p>
+        <p lang="en">"Effort is soft guidance. <code>max_tokens</code> is a strict limit."</p>
+        <p lang="en">"The budget is a target rather than a strict cap."</p>
+        <p lang="en">"Most Claude models default to high effort, spending as many tokens as needed for excellent results; Claude Opus 5.5 defaults to medium."</p>
+        <p lang="en">"Manual mode remains useful when your workload requires predictable latency or precise control over thinking costs."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. Haiku 4.5 대량 분류기의 "thinking 비용 상한" — 켜지 않는 게 가장 싼 상한</h4>
@@ -910,7 +871,6 @@
 <li><span class="lead">근거 :</span> extended-thinking en 25줄 · prompting-best-practices en 255줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -992,7 +952,35 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="thinking-controls-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="thinking-vs-chaining.html">◆ 한 요청 안 thinking vs 여러 호출 체이닝</a></li>
+        <li><a href="effort-vs-model.html">◆ effort 조정 vs 모델 교체</a></li>
+        <li><a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
+        <li><a href="caching.html">■ 프롬프트 캐싱</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 2.3 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>thinking-troubleshooting <span class="src">(ko/en 5~34·80~90·116~118·142~160줄)</span></li>
+        <li>thinking <span class="src">(ko/en 5·39~41·61~65·76·79·101·177~186·192·248·448~452줄)</span></li>
+        <li>extended-thinking <span class="src">(ko/en 1·15~32·49·99~106·136줄)</span></li>
+        <li>effort <span class="src">(en-2026-09-28 9·11~29·47·57·126~136·160줄 / ko 9·25~26·47·130줄)</span></li>
+        <li>thinking-steering-and-cost <span class="src">(en 115~127·139~146줄)</span></li>
+        <li>prompting-best-practices <span class="src">(en 255·283줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 15~16·46·50·120~122·168·380줄)</span></li>
+        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287773">Skilljar API 287773</a> <span class="src">(63·71줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
+        <li>Skilljar 1줄</li>
+        <li><span class="post">시험 뒤 변경</span> 3곳(새 모델 3종 출시 · Opus 5.5 기본 medium · 메시지별 effort)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -1002,8 +990,7 @@
 <li>Skilljar 287773(2025 제작)은 코드 키를 <code>budget</code> 로 적음(71줄) · "thinking budget = 최대 토큰"(63줄) → 지금 docs 는 <code>budget_tokens</code>, 목표치.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/thinking-controls.md</p>

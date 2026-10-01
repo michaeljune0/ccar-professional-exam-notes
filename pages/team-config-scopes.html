@@ -350,24 +350,73 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ 팀 설정 위치 -->
-<article class="card t5-card" id="team-config-scopes" aria-labelledby="team-config-scopes-title">
+<!-- ■ 팀 설정 위치 (v3 시범 순서) -->
+<article class="card t5-card v3" id="team-config-scopes" aria-labelledby="team-config-scopes-title">
   <header class="t5-head">
     <h1 id="team-config-scopes-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 팀 설정 위치</h1>
-    <p class="lemma-meta"><span lang="en">settings scopes · CLAUDE.md 층 · 우선순위</span><span class="lemma-main">7.1 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">settings scopes · CLAUDE.md 층 · 우선순위</span><span class="lemma-main">7.1 본편</span></p>
   </header>
-  <h2 class="sec-h" id="team-config-scopes-sum-h">카드</h2>
+  <h2 class="sec-h" id="team-config-scopes-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>7.1 팀 도구·환경 설정</b> · D7 개발팀 7%<br><q lang="en">Configure Claude tools and environments for teams (e.g., Claude Code)</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>7.1① 팀 규칙을 모두의 모든 세션에 똑같이 싣으려면?</b> — 개인 설정 vs 저장소에 커밋한 프로젝트 설정 vs 조직 관리형 설정</li>
+      <li><b>7.1② '반드시' 돌아야 하는 검사, 어디에 거나?</b> — 지시(CLAUDE.md) vs 훅, 그리고 어느 훅 이벤트</li>
+      <li><b>7.1③ 에이전트에 줄 권한, 어디까지?</b> — 행동을 allow/ask/deny 로 나눈 공유 설정 + MCP 자격증명 최소 권한</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="team-config-scopes-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>누구에게 먹일지 = 어느 파일에 적나. 팀 규칙은 저장소에 커밋한 프로젝트 파일, 내 취향은 사용자·로컬 파일, 조직이 못 끄게 할 것은 관리형(managed) <span class="ok">✓ 확인</span></p>
       <p>설정(settings.json)과 지시(CLAUDE.md)는 합쳐지는 방식이 다름 : 설정 값 = 높은 층이 이김 · CLAUDE.md = 덮지 않고 이어 붙임 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> 개인 dotfiles(~/.bashrc) vs 저장소에 커밋한 .editorconfig·CI 설정 vs AWS 조직 SCP(아래 계정이 못 풂)</p>
   </div>
-  <h2 class="sec-h" id="team-config-scopes-case-h">지문</h2>
-  <section class="csx" id="team-config-scopes-case" aria-labelledby="team-config-scopes-case-h" data-tree="team-config-scopes-tree-3" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;permissions.allow&quot;],[&quot;n3&quot;,null]]">
-    <p class="csx-text">개발자 12명이 쓰는 저장소에서 <code>npm run *</code> 을 묻지 않게 하려고 <mark class="csx-m" data-tag="permissions.allow"><code>.claude/settings.json</code> 의 <code>permissions.allow</code> 에<span class="csx-tag">permissions.allow</span></mark> 규칙을 커밋했다. 그런데 <mark class="csx-m" data-tag="새 클론">어제 클론한<span class="csx-tag">새 클론</span></mark> 3명만 계속 확인창을 받는다. 한 명은 "파일이 틀렸으니 각자 사용자 설정에 다시 적자" 고 한다. 원인은 무엇인가?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
-  </section>
-  <h2 class="sec-h" id="team-config-scopes-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>공지를 어디에 붙이느냐가 누가 보느냐를 정해요.</p>
+<ul>
+<li>내 수첩에 적으면 나만 봐요.</li>
+<li>팀 게시판에 붙이면 팀 모두가 봐요.</li>
+<li>회사 정문 규정은 아무도 떼지 못해요.</li>
+<li>같은 칸에 두 공지가 부딪히면 윗선 공지가 이겨요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-team-config-scopes" aria-labelledby="vx-team-config-scopes-cap">
+  <div class="vx-player" data-vx-scene="team-config-scopes"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-team-config-scopes-cap">영상 — 커밋한 규칙, 왜 3명만 묻나? (약 43초 · 소리 없음 · 자막). <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">파일 위치 = 적용 대상</p>
+<ul>
+<li>설정·지시는 내용이 아니라 <strong>어느 파일에 있나</strong>로 누구에게 먹는지가 정해짐.</li>
+<li>팀에 가는 통로는 저장소 하나 → 커밋한 프로젝트 파일만 클론한 사람에게 감. 사용자 파일(<code>~/.claude/…</code>)은 내 기계 밖으로 안 나감.</li>
+<li>조직은 저장소 밖에서 관리형(managed)으로 내려보냄 → 개인·프로젝트 파일이 못 덮음.</li>
+</ul>
+<p class="lead">두 시스템, 합치는 법이 다름</p>
+<ul>
+<li>settings.json : 같은 키면 높은 층 하나가 이김(관리형 &gt; 명령줄 &gt; 로컬 &gt; 공유 프로젝트 &gt; 사용자). 목록 키는 층마다 합침.</li>
+<li>CLAUDE.md : 이기고 지는 게 없음. 다 이어 붙여 모델에게 보여 줌 → 충돌하면 모델이 아무거나 고를 수 있음. 그리고 애초에 강제가 아님(◆ CLAUDE.md(지시) vs 훅(강제)).</li>
+</ul>
+<p class="lead">커밋해도 바로 안 먹는 까닭</p>
+<ul>
+<li>능력을 <strong>주는</strong> 키(<code>permissions.allow</code>·<code>additionalDirectories</code>·대부분 <code>env</code>)는 남이 커밋한 파일이 내 기계에 권한을 여는 것이라, 팀원마다 폴더를 신뢰해야 켜짐.</li>
+<li><strong>제한만</strong> 하는 키(<code>deny</code>·<code>ask</code>)는 위험이 없어 바로 먹음.</li>
+<li>일부 키는 저장소 파일에선 아예 무시(예 <code>defaultMode</code> 의 <code>auto</code>·<code>bypassPermissions</code>) — 저장소가 내 세션의 안전장치를 끄지 못하게.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>이 규칙을 누가 받아야 하나 — 나, 팀, 조직?</li>
+<li>받는 사람이 끌 수 있어도 되나?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="team-config-scopes-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="team-config-scopes-tree-1" aria-labelledby="team-config-scopes-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9">
     <div class="t5-fh"><h3 id="team-config-scopes-tree-1-h">①②④ 누구에게 먹이나 <span class="pg">[7.1①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -487,115 +536,9 @@
         </li>
       </ol>
     </details>
-    <h2>CCA-F</h2>
-      <p>봄 (3.1 CLAUDE.md 4층 · "새 팀원만 규칙을 못 받는다" = 사용자 층에 적음 → 프로젝트 층으로 커밋) — 여기선 settings.json 범위·우선순위·신뢰 대기·관리형 강제까지 넓혀, 여러 명 팀과 조직 정책을 어디에 싣나를 운영 설계로 묻는다</p>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"각자 개인 메모리(<code>~/.claude/CLAUDE.md</code>)·프롬프트에 팀 규칙 추가" → 내 기계에만 있음. 팀 = 프로젝트 파일 커밋 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"더 큰 모델이면 팀 규칙을 알아서 지킨다" → 모델은 안 실린 규칙을 모름. 어디에 적었나의 문제 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>@import</code> 로 쪼개면 컨텍스트가 준다" → 시작할 때 다 로드 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"사용자 설정이 프로젝트 설정을 이긴다" → 반대. 공유 프로젝트 &gt; 사용자 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>--settings</code> 로 관리형 값을 덮는다" → 관리형은 명령줄로도 못 덮음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"조직 보안 규칙을 관리형 CLAUDE.md 에만 적음" → 행동 지침일 뿐. 막으려면 관리형 settings <code>permissions.deny</code> <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"팀 <code>.claude/settings.json</code> 에 <code>defaultMode: bypassPermissions</code> 커밋" → 저장소 파일에선 안 먹음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"위키·README 에 적어 두면 다 본다" → Claude 가 읽는 파일이 아님 <span class="gen">업계 일반</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Commit <code>.claude/settings.json</code> so everyone who clones the repository gets the same permissions, hooks, and plugins."</p>
-        <p lang="en">"When the same key appears in more than one place, Claude Code uses the value from the highest level that sets it."</p>
-        <p lang="en">"Nothing you set overrides them: a key you pass with <code>--settings</code> doesn’t override the same managed key"</p>
-        <p lang="en">"All discovered files are concatenated into context rather than overriding each other."</p>
-        <p lang="en">"This file cannot be excluded by individual settings." <span class="src" lang="ko">(관리형 CLAUDE.md)</span></p>
-        <p lang="en">"Use settings for technical enforcement and CLAUDE.md for behavioral guidance"</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 7.1 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>code.claude.com settings <span class="src">(en 168~173·216·226·229·377~383·393·427·470·501~503·513·524~536줄)</span></li>
-        <li>memory <span class="src">(en 240~243·281·307·453·473·497~509줄)</span></li>
-        <li>skills <span class="src">(en 305줄)</span></li>
-        <li>mcp(en 820줄) <span class="src">(2026-09-28 조회)</span></li>
-        <li>CCA-F 노트 3.1 <span class="src">(ccaf-remotion <code>content/notes/notes_ko.md</code> 546줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
-        <li><span class="gen">업계 일반</span> 2줄(함정)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">7.1①</li>
-        <li class="chip">7.1② (◆ CLAUDE.md(지시) vs 훅(강제))</li>
-        <li class="chip">7.1③</li>
-        <li>(<a href="agent-permissions.html">■ 에이전트 권한</a>)</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-team-config-scopes" aria-labelledby="vx-team-config-scopes-cap">
-  <div class="vx-player" data-vx-scene="team-config-scopes"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-team-config-scopes-cap">영상 — 커밋한 규칙, 왜 3명만 묻나? (약 43초 · 소리 없음 · 자막). <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>team-config-scopes</dd>
-  <dt>본편</dt>
-  <dd>7.1</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">7.1①</li><li class="chip">7.1②</li><li class="chip">7.1③</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>공지를 어디에 붙이느냐가 누가 보느냐를 정해요.</p>
-<ul>
-<li>내 수첩에 적으면 나만 봐요.</li>
-<li>팀 게시판에 붙이면 팀 모두가 봐요.</li>
-<li>회사 정문 규정은 아무도 떼지 못해요.</li>
-<li>같은 칸에 두 공지가 부딪히면 윗선 공지가 이겨요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">파일 위치 = 적용 대상</p>
-<ul>
-<li>설정·지시는 내용이 아니라 <strong>어느 파일에 있나</strong>로 누구에게 먹는지가 정해짐.</li>
-<li>팀에 가는 통로는 저장소 하나 → 커밋한 프로젝트 파일만 클론한 사람에게 감. 사용자 파일(<code>~/.claude/…</code>)은 내 기계 밖으로 안 나감.</li>
-<li>조직은 저장소 밖에서 관리형(managed)으로 내려보냄 → 개인·프로젝트 파일이 못 덮음.</li>
-</ul>
-<p class="lead">두 시스템, 합치는 법이 다름</p>
-<ul>
-<li>settings.json : 같은 키면 높은 층 하나가 이김(관리형 &gt; 명령줄 &gt; 로컬 &gt; 공유 프로젝트 &gt; 사용자). 목록 키는 층마다 합침.</li>
-<li>CLAUDE.md : 이기고 지는 게 없음. 다 이어 붙여 모델에게 보여 줌 → 충돌하면 모델이 아무거나 고를 수 있음. 그리고 애초에 강제가 아님(◆ CLAUDE.md(지시) vs 훅(강제)).</li>
-</ul>
-<p class="lead">커밋해도 바로 안 먹는 까닭</p>
-<ul>
-<li>능력을 <strong>주는</strong> 키(<code>permissions.allow</code>·<code>additionalDirectories</code>·대부분 <code>env</code>)는 남이 커밋한 파일이 내 기계에 권한을 여는 것이라, 팀원마다 폴더를 신뢰해야 켜짐.</li>
-<li><strong>제한만</strong> 하는 키(<code>deny</code>·<code>ask</code>)는 위험이 없어 바로 먹음.</li>
-<li>일부 키는 저장소 파일에선 아예 무시(예 <code>defaultMode</code> 의 <code>auto</code>·<code>bypassPermissions</code>) — 저장소가 내 세션의 안전장치를 끄지 못하게.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>이 규칙을 누가 받아야 하나 — 나, 팀, 조직?</li>
-<li>받는 사람이 끌 수 있어도 되나?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -661,7 +604,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -743,7 +685,38 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="team-config-scopes-practice-h">연습 문제</h2>
 
+  <section class="csx" id="team-config-scopes-case" aria-labelledby="team-config-scopes-case-h" data-tree="team-config-scopes-tree-3" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;permissions.allow&quot;],[&quot;n3&quot;,null]]">
+    <p class="csx-text">개발자 12명이 쓰는 저장소에서 <code>npm run *</code> 을 묻지 않게 하려고 <mark class="csx-m" data-tag="permissions.allow"><code>.claude/settings.json</code> 의 <code>permissions.allow</code> 에<span class="csx-tag">permissions.allow</span></mark> 규칙을 커밋했다. 그런데 <mark class="csx-m" data-tag="새 클론">어제 클론한<span class="csx-tag">새 클론</span></mark> 3명만 계속 확인창을 받는다. 한 명은 "파일이 틀렸으니 각자 사용자 설정에 다시 적자" 고 한다. 원인은 무엇인가?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
+  </section>
+  <h2 class="sec-h" id="team-config-scopes-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"각자 개인 메모리(<code>~/.claude/CLAUDE.md</code>)·프롬프트에 팀 규칙 추가" → 내 기계에만 있음. 팀 = 프로젝트 파일 커밋 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"더 큰 모델이면 팀 규칙을 알아서 지킨다" → 모델은 안 실린 규칙을 모름. 어디에 적었나의 문제 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>@import</code> 로 쪼개면 컨텍스트가 준다" → 시작할 때 다 로드 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"사용자 설정이 프로젝트 설정을 이긴다" → 반대. 공유 프로젝트 &gt; 사용자 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>--settings</code> 로 관리형 값을 덮는다" → 관리형은 명령줄로도 못 덮음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"조직 보안 규칙을 관리형 CLAUDE.md 에만 적음" → 행동 지침일 뿐. 막으려면 관리형 settings <code>permissions.deny</code> <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"팀 <code>.claude/settings.json</code> 에 <code>defaultMode: bypassPermissions</code> 커밋" → 저장소 파일에선 안 먹음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"위키·README 에 적어 두면 다 본다" → Claude 가 읽는 파일이 아님 <span class="gen">업계 일반</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Commit <code>.claude/settings.json</code> so everyone who clones the repository gets the same permissions, hooks, and plugins."</p>
+        <p lang="en">"When the same key appears in more than one place, Claude Code uses the value from the highest level that sets it."</p>
+        <p lang="en">"Nothing you set overrides them: a key you pass with <code>--settings</code> doesn’t override the same managed key"</p>
+        <p lang="en">"All discovered files are concatenated into context rather than overriding each other."</p>
+        <p lang="en">"This file cannot be excluded by individual settings." <span class="src" lang="ko">(관리형 CLAUDE.md)</span></p>
+        <p lang="en">"Use settings for technical enforcement and CLAUDE.md for behavioral guidance"</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 개인 값이 팀 값을 이기는 때</h4>
@@ -785,7 +758,6 @@
 <li><span class="lead">근거 :</span> memory en 307·453줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -867,7 +839,26 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="team-config-scopes-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>CCA-F</h3>
+      <p>봄 (3.1 CLAUDE.md 4층 · "새 팀원만 규칙을 못 받는다" = 사용자 층에 적음 → 프로젝트 층으로 커밋) — 여기선 settings.json 범위·우선순위·신뢰 대기·관리형 강제까지 넓혀, 여러 명 팀과 조직 정책을 어디에 싣나를 운영 설계로 묻는다</p>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 7.1 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>code.claude.com settings <span class="src">(en 168~173·216·226·229·377~383·393·427·470·501~503·513·524~536줄)</span></li>
+        <li>memory <span class="src">(en 240~243·281·307·453·473·497~509줄)</span></li>
+        <li>skills <span class="src">(en 305줄)</span></li>
+        <li>mcp(en 820줄) <span class="src">(2026-09-28 조회)</span></li>
+        <li>CCA-F 노트 3.1 <span class="src">(ccaf-remotion <code>content/notes/notes_ko.md</code> 546줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
+        <li><span class="gen">업계 일반</span> 2줄(함정)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -877,8 +868,7 @@
 <li>버전 조건 : <code>bypassPermissions</code> 가 저장소 파일에서 무효가 된 건 v2.1.257 부터(settings en 470줄). 이게 시험(2026-07) 뒤인지는 Claude Code 변경 기록을 안 받아 미확인 — 시험은 옛 동작으로 물을 수도 있음(추론).</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/team-config-scopes.md</p>

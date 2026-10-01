@@ -350,18 +350,65 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ◆ Batch API vs 동기 호출 -->
-<article class="card t5-card" id="batch-vs-sync" aria-labelledby="batch-vs-sync-title">
+<!-- ◆ Batch API vs 동기 호출 (v3 시범 순서) -->
+<article class="card t5-card v3" id="batch-vs-sync" aria-labelledby="batch-vs-sync-title">
   <header class="t5-head">
     <h1 id="batch-vs-sync-title"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> Batch API vs 동기 호출</h1>
-    <p class="lemma-meta"><span lang="en">Message Batches vs synchronous calls</span><span class="lemma-main">4.5 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">Message Batches vs synchronous calls</span><span class="lemma-main">4.5 본편</span></p>
   </header>
-  <h2 class="sec-h" id="batch-vs-sync-case-h">지문</h2>
-  <section class="csx" id="batch-vs-sync-case" aria-labelledby="batch-vs-sync-case-h" data-tree="batch-vs-sync-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;15분 마감&quot;],[&quot;n3&quot;,null],[&quot;n4&quot;,&quot;비용 압박&quot;],[&quot;n5&quot;,null]]" data-flow="batch-vs-sync-flow" data-scene="1">
-    <p class="csx-text">쇼핑몰이 밤사이 쌓인 문의 3,000건을 유형별로 분류해 <mark class="csx-m" data-tag="15분 마감">아침 8시 30분에 넣고 8시 45분까지 상담원 화면에 올려야<span class="csx-tag">15분 마감</span></mark> 한다. 팀장은 "몇 분 늦어도 되는 대량 작업이니 싸게 가자" 며 <mark class="csx-m" data-tag="비용 압박">비용도 줄이라<span class="csx-tag">비용 압박</span></mark>고 한다. 어떻게 보낼까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="batch-vs-sync-trees-h">갈림길</h2>
+  <h2 class="sec-h" id="batch-vs-sync-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>4.5 토큰·지연·비용 최적화</b> · D4 평가 16%<br><q lang="en">Optimize token usage, latency, and cost-performance trade-offs</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>4.5① 급하지 않은 문서 50만 건 — 비용을 가장 직접 줄이는 것은?</b> — Batch API vs 스트리밍·effort·max_tokens</li>
+      <li><b>3.3② 매시 쌓인 티켓 5,000건을 15분 안에 분류해 큐로 보내야 한다 — Batch API 로 보내나?</b> — 동기 호출 vs Batch API <span class="note">(완료 시각 약속이 필요한가)</span></li>
+      <li><b>1.6③ 한 건에 얼마, 한 달에 얼마?</b> — 비용 축을 숫자로 — 요청당 비용으로 설계안 비교</li>
+      <li><b>4.5② 보기마다 다른 최적화 — 이 시나리오의 레버는 무엇 하나?</b> — 시나리오 단서 → 레버 하나 <span class="note">(캐싱 · 배치 · 라우팅/effort · 스트리밍)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="batch-vs-sync-sum-h">한눈에</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>택배를 빠른 배송으로 보낼지, 묶음 배송으로 보낼지 고르는 거예요.</p>
+<ul>
+<li>묶음 배송은 반값이지만 언제 도착할지 딱 정해 주지 않아요.</li>
+<li>보통은 금방 오지만, 늦으면 하루까지 걸리고 그래도 안 되면 돌아와요.</li>
+<li>오늘 몇 분 안에 받아야 하는 물건이면 빠른 배송이에요.</li>
+<li>내일 아침에만 있으면 되는 물건이면 묶음 배송이 이득이에요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-batch-vs-sync" aria-labelledby="vx-batch-vs-sync-cap">
+  <div class="vx-player" data-vx-scene="batch-vs-sync"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-batch-vs-sync-cap">영상 — 배치냐 동기냐, 마감이 가른다 (약 41초 · 소리 없음 · 자막). 도착 시각(평일 닷새)과 동기 처리 시각은 그림용 가정 · 실측 아님 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">배치 (Message Batches API)</p>
+<ul>
+<li>요청을 한꺼번에 제출 → 비동기로 요청마다 따로 처리 → 상태를 폴링해 결과 파일을 받음.</li>
+<li>값 : 입력·출력 모두 표준가의 50%. 처리량도 늘어남.</li>
+<li>대가 : 끝나는 시각을 약속하지 않음. "대부분 1시간 안"은 관찰이지 약속이 아님. 24시간 안에 못 끝나면 만료.</li>
+<li>수요가 몰리면 느려지고 만료가 늘 수 있음 — 즉 바쁠 때 더 늦어질 수 있음.</li>
+</ul>
+<p class="lead">동기 호출 (Messages API)</p>
+<ul>
+<li>요청마다 바로 응답. 지연(latency)을 줄이는 lever(손잡이 — 캐싱 · effort · 모델 · 스트리밍 · fast mode)를 다 쓸 수 있음.</li>
+<li>값은 표준가.</li>
+</ul>
+<p class="lead">둘을 가르는 질문</p>
+<ul>
+<li>결과를 기다리는 게 사람·다음 단계인가, 아니면 나중에 볼 사람인가?</li>
+<li>마감이 분 단위인가, 시간·하루 단위인가?</li>
+<li>비용 절감이 50%만큼 중요한가?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="batch-vs-sync-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="batch-vs-sync-tree-1" aria-labelledby="batch-vs-sync-tree-1-h" data-paths="n1 n2 n3 n4 n5|n1 n2 n3 n6 n7|n1 n8 n9">
     <div class="t5-fh"><h3 id="batch-vs-sync-tree-1-h">배치 써도 되나 <span class="pg">[4.5①]</span> <span class="pg">[3.3②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -412,7 +459,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="batch-vs-sync-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="batch-vs-sync-flow" aria-label="Batch API vs 동기 호출 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["요청 묶음","Batch 큐","결과"],"blocks":[{"name":"비전","var":false},{"name":"도구","var":false},{"name":"멀티턴","var":false},{"name":"thinking","var":false}],"rules":[null,"대부분 1시간 안, 약속은 아님 · 24시간 안에 못 끝나면 만료",null],"question":"이 묶음, 언제까지 받아야 하지?","scenes":[{"name":"① 마감 없는 대량","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["지난달 상담 8만 건","분류 · 다음 주 회의용"]}},{"kind":"move","step":"보냄","from":{"col":0},"to":1,"label":"입력·출력 모두 50% 할인","art":{"kind":"slip","lines":["requests : 8만 개","{custom_id:\"c-00001\"}","…"]}},{"kind":"timer","at":1,"label":"대부분 1시간 안, 약속은 아님"},{"kind":"move","step":"결과","from":{"col":1},"to":2,"label":"순서 없이 옴 → `custom_id` 로 짝 맞춤","art":{"kind":"slip","lines":["c-51207 : 배송","c-00003 : 환불","c-20981 : 교환"]}},{"kind":"end","label":"즉시 응답 필요 없음 · 대량 · 비용 우선 → Batch"}]},{"name":"② 15분 마감","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["밤사이 문의 3,000건","08:30 넣음 · 08:45 필요"]}},{"kind":"move","step":"보냄","from":{"col":0},"to":1,"label":"입력·출력 모두 50% 할인","art":{"kind":"slip","lines":["요청 3,000개 접수","끝나는 시각 : 약속 없음"]}},{"kind":"timer","at":1,"label":"분 단위 약속이 없음"},{"kind":"mark","step":"마감","at":{"col":2},"label":"15분 안 완료를 약속 못 함","art":{"kind":"slip","lines":["08:45 마감","끝났다는 보장 없음"]}},{"kind":"end","label":"15분 마감이면 동기 호출 — 배치엔 분 단위 약속이 없음"}]},{"name":"③ 24시간 넘김","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["상담 기록 8만 건","월 09:00 넣음"]}},{"kind":"move","step":"보냄","from":{"col":0},"to":1,"label":"입력·출력 모두 50% 할인","art":{"kind":"slip","lines":["requests : 8만 개"]}},{"kind":"timer","at":1,"label":"24시간 안에 못 끝나면 만료"},{"kind":"move","step":"만료","from":{"col":1},"to":2,"label":"만료된 요청은 과금 안 함","art":{"kind":"slip","lines":["화 09:00 만료","못 끝낸 요청 : 과금 0"]}},{"kind":"end","label":"24시간 안에 못 끝난 요청은 만료 — 만료된 요청은 과금 안 함"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -474,116 +521,9 @@
         <li>Managed Agents 세션엔 배치 모드 없음 (상태 유지·대화형) <span class="ok">✓ 확인</span></li>
       </ul>
     </details>
-    <h2>CCA-F</h2>
-      <p>봄 (Message Batches 구현 동작 — 50% · 24시간 · custom_id) — 여기선 마감 시각(SLA) · 비용 압박 · 데이터 보존을 한 지문에 섞어 "배치를 써도 되나"를 설계 판단으로 물음</p>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"분 단위 지연(latency)은 괜찮은 대량 작업이니 배치로 50%" → 분 단위 약속이 없음. 15분 마감이면 동기 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"배치는 몇 분이면 끝난다" → 대부분 1시간, 최대 24시간 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>비용 줄이려 스트리밍 · effort 올리기 → 스트리밍은 체감용이라 토큰 비용과 무관<span class="gen">업계 일반</span> · effort 를 올리면 토큰이 늘어 비용 증가 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"배치로 보내면 지연도 준다" → 반대. 배치는 비용·처리량을 얻고 완료 시각을 내주는 거래 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>배치에서 캐시 적중을 100% 로 잡고 비용 계산 → 적중은 보장 없음(되는 만큼) <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>긴 출력(300k, 베타) 한 건은 1시간 넘게 걸릴 수 있음 → 24시간 창 안에서 계획 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"This approach is well-suited to tasks that do not require immediate responses, with most batches finishing in less than 1 hour while reducing costs by 50% and increasing throughput."</p>
-        <p lang="en">"Batches expire if processing does not complete within 24 hours."</p>
-        <p lang="en">"A Message Batch is limited to either 100,000 Message requests or 256 MB in size, whichever is reached first."</p>
-        <p lang="en">"The Batch API allows asynchronous processing of large volumes of requests with a 50% discount on both input and output tokens."</p>
-        <p lang="en">"cache hits are provided on a best-effort basis."</p>
-        <p lang="en">"Use the Batch API for non-time-sensitive tasks"</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
-        <li><a href="caching.html">■ 프롬프트 캐싱</a></li>
-        <li><a href="rate-limits.html">■ rate limit</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 4.5 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>가이드 목표 3.3 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>가이드 목표 1.6 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>batch-processing <span class="src">(ko 1~6·12·33~39·47~64·68·128·171~176·197·204·218·227줄, en 12·33·34·68·171줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/ko/about-claude/pricing">pricing</a> <span class="src">(ko 117·123·306·346~349줄, en 123·348줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/ko/api/rate-limits">rate-limits</a> <span class="src">(ko 100줄)</span></li>
-        <li>effort <span class="src">(ko 9줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (갈림 기준 · 규격 전부)</li>
-        <li><span class="gen">업계 일반</span> 1줄(스트리밍 비용 무관)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">4.5①</li>
-        <li class="chip">3.3②</li>
-        <li class="chip">1.6③</li>
-        <li class="chip">4.5②</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-batch-vs-sync" aria-labelledby="vx-batch-vs-sync-cap">
-  <div class="vx-player" data-vx-scene="batch-vs-sync"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-batch-vs-sync-cap">영상 — 배치냐 동기냐, 마감이 가른다 (약 41초 · 소리 없음 · 자막). 도착 시각(평일 닷새)과 동기 처리 시각은 그림용 가정 · 실측 아님 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>batch-vs-sync</dd>
-  <dt>본편</dt>
-  <dd>4.5</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">4.5①</li><li class="chip">3.3②</li><li class="chip">1.6③</li><li class="chip">4.5②</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>택배를 빠른 배송으로 보낼지, 묶음 배송으로 보낼지 고르는 거예요.</p>
-<ul>
-<li>묶음 배송은 반값이지만 언제 도착할지 딱 정해 주지 않아요.</li>
-<li>보통은 금방 오지만, 늦으면 하루까지 걸리고 그래도 안 되면 돌아와요.</li>
-<li>오늘 몇 분 안에 받아야 하는 물건이면 빠른 배송이에요.</li>
-<li>내일 아침에만 있으면 되는 물건이면 묶음 배송이 이득이에요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">배치 (Message Batches API)</p>
-<ul>
-<li>요청을 한꺼번에 제출 → 비동기로 요청마다 따로 처리 → 상태를 폴링해 결과 파일을 받음.</li>
-<li>값 : 입력·출력 모두 표준가의 50%. 처리량도 늘어남.</li>
-<li>대가 : 끝나는 시각을 약속하지 않음. "대부분 1시간 안"은 관찰이지 약속이 아님. 24시간 안에 못 끝나면 만료.</li>
-<li>수요가 몰리면 느려지고 만료가 늘 수 있음 — 즉 바쁠 때 더 늦어질 수 있음.</li>
-</ul>
-<p class="lead">동기 호출 (Messages API)</p>
-<ul>
-<li>요청마다 바로 응답. 지연(latency)을 줄이는 lever(손잡이 — 캐싱 · effort · 모델 · 스트리밍 · fast mode)를 다 쓸 수 있음.</li>
-<li>값은 표준가.</li>
-</ul>
-<p class="lead">둘을 가르는 질문</p>
-<ul>
-<li>결과를 기다리는 게 사람·다음 단계인가, 아니면 나중에 볼 사람인가?</li>
-<li>마감이 분 단위인가, 시간·하루 단위인가?</li>
-<li>비용 절감이 50%만큼 중요한가?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -655,7 +595,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -737,7 +676,36 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="batch-vs-sync-practice-h">연습 문제</h2>
 
+  <section class="csx" id="batch-vs-sync-case" aria-labelledby="batch-vs-sync-case-h" data-tree="batch-vs-sync-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;15분 마감&quot;],[&quot;n3&quot;,null],[&quot;n4&quot;,&quot;비용 압박&quot;],[&quot;n5&quot;,null]]" data-flow="batch-vs-sync-flow" data-scene="1">
+    <p class="csx-text">쇼핑몰이 밤사이 쌓인 문의 3,000건을 유형별로 분류해 <mark class="csx-m" data-tag="15분 마감">아침 8시 30분에 넣고 8시 45분까지 상담원 화면에 올려야<span class="csx-tag">15분 마감</span></mark> 한다. 팀장은 "몇 분 늦어도 되는 대량 작업이니 싸게 가자" 며 <mark class="csx-m" data-tag="비용 압박">비용도 줄이라<span class="csx-tag">비용 압박</span></mark>고 한다. 어떻게 보낼까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="batch-vs-sync-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"분 단위 지연(latency)은 괜찮은 대량 작업이니 배치로 50%" → 분 단위 약속이 없음. 15분 마감이면 동기 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"배치는 몇 분이면 끝난다" → 대부분 1시간, 최대 24시간 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>비용 줄이려 스트리밍 · effort 올리기 → 스트리밍은 체감용이라 토큰 비용과 무관<span class="gen">업계 일반</span> · effort 를 올리면 토큰이 늘어 비용 증가 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"배치로 보내면 지연도 준다" → 반대. 배치는 비용·처리량을 얻고 완료 시각을 내주는 거래 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>배치에서 캐시 적중을 100% 로 잡고 비용 계산 → 적중은 보장 없음(되는 만큼) <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>긴 출력(300k, 베타) 한 건은 1시간 넘게 걸릴 수 있음 → 24시간 창 안에서 계획 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"This approach is well-suited to tasks that do not require immediate responses, with most batches finishing in less than 1 hour while reducing costs by 50% and increasing throughput."</p>
+        <p lang="en">"Batches expire if processing does not complete within 24 hours."</p>
+        <p lang="en">"A Message Batch is limited to either 100,000 Message requests or 256 MB in size, whichever is reached first."</p>
+        <p lang="en">"The Batch API allows asynchronous processing of large volumes of requests with a 50% discount on both input and output tokens."</p>
+        <p lang="en">"cache hits are provided on a best-effort basis."</p>
+        <p lang="en">"Use the Batch API for non-time-sensitive tasks"</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 대량인데 마감이 분 단위인 때 (동기로 처리량 맞추기)</h4>
@@ -782,7 +750,6 @@
 <li><span class="lead">근거 :</span> batch-processing en 12·34줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -857,7 +824,33 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="batch-vs-sync-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>CCA-F</h3>
+      <p>봄 (Message Batches 구현 동작 — 50% · 24시간 · custom_id) — 여기선 마감 시각(SLA) · 비용 압박 · 데이터 보존을 한 지문에 섞어 "배치를 써도 되나"를 설계 판단으로 물음</p>
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
+        <li><a href="caching.html">■ 프롬프트 캐싱</a></li>
+        <li><a href="rate-limits.html">■ rate limit</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 4.5 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>가이드 목표 3.3 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>가이드 목표 1.6 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>batch-processing <span class="src">(ko 1~6·12·33~39·47~64·68·128·171~176·197·204·218·227줄, en 12·33·34·68·171줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/ko/about-claude/pricing">pricing</a> <span class="src">(ko 117·123·306·346~349줄, en 123·348줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/ko/api/rate-limits">rate-limits</a> <span class="src">(ko 100줄)</span></li>
+        <li>effort <span class="src">(ko 9줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (갈림 기준 · 규격 전부)</li>
+        <li><span class="gen">업계 일반</span> 1줄(스트리밍 비용 무관)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -867,8 +860,7 @@
 <li>배치 할인과 캐싱 할인을 같이 받을 때의 정확한 배수 계산 : pricing ko 89줄("배수는 Batch API 할인 … 과 중첩")까지만 봄. 적중률이 범위라 확정 계산은 안 함.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/batch-vs-sync.md</p>

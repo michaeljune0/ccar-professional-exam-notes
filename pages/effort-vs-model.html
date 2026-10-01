@@ -350,18 +350,76 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ◆ effort 조정 vs 모델 교체 -->
-<article class="card t5-card" id="effort-vs-model" aria-labelledby="effort-vs-model-title">
+<!-- ◆ effort 조정 vs 모델 교체 (v3 시범 순서) -->
+<article class="card t5-card v3" id="effort-vs-model" aria-labelledby="effort-vs-model-title">
   <header class="t5-head">
     <h1 id="effort-vs-model-title"><span class="sym" role="img" aria-label="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나" title="비교 카드 — 둘 중 뭘 고르나, 무엇으로 갈리나">◆</span> effort 조정 vs 모델 교체</h1>
-    <p class="lemma-meta"><span lang="en">effort sweep vs model switch · 섞인 요청은 조합·라우팅</span><span class="lemma-main">2.1 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">effort sweep vs model switch · 섞인 요청은 조합·라우팅</span><span class="lemma-main">2.1 본편</span></p>
   </header>
-  <h2 class="sec-h" id="effort-vs-model-case-h">지문</h2>
-  <section class="csx" id="effort-vs-model-case" aria-labelledby="effort-vs-model-case-h" data-tree="effort-vs-model-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;난이도 섞임&quot;],[&quot;n5&quot;,null],[&quot;n6&quot;,&quot;분류 정확&quot;],[&quot;n7&quot;,null]]" data-flow="effort-vs-model-flow" data-scene="0">
-    <p class="csx-text">고객지원 챗봇 문의는 <mark class="csx-m" data-tag="난이도 섞임">대부분 "비밀번호 재설정" 같은 쉬운 질문이고, 일부만 약관 해석 같은 어려운 질문<span class="csx-tag">난이도 섞임</span></mark>이다. <mark class="csx-m" data-tag="분류 정확">분류기는 둘을 정확히 가른다<span class="csx-tag">분류 정확</span></mark>. 팀은 "싼 실행자에 최상위 모델을 자문가로 붙이자"고 한다. 어떤 구성이 맞을까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="effort-vs-model-trees-h">갈림길</h2>
+  <h2 class="sec-h" id="effort-vs-model-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>2.1 모델 고르기</b> · D2 모델·프롬프트 13%<br><q lang="en">Select appropriate Claude models based on trade-offs</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>2.1② 품질이 조금 모자라거나 비용이 남는다 — 모델을 바꿀까, effort 를 바꿀까?</b> — 조절 수단 순서 <span class="note">(effort → 모델 교체 → 섞인 요청은 모델 조합·라우팅)</span></li>
+      <li><b>3.3① 상담원이 "답 초안이 늦게 뜬다"고 한다 — 모델부터 바꾸나?</b> — 지연 손잡이 고르기 <span class="note">(스트리밍 · 캐싱 · 출력 길이 · effort · 모델 교체)</span></li>
+      <li><b>4.5② 보기마다 다른 최적화 — 이 시나리오의 레버는 무엇 하나?</b> — 시나리오 단서 → 레버 하나 <span class="note">(캐싱 · 배치 · 라우팅/effort · 스트리밍)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="effort-vs-model-sum-h">한눈에</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>자전거로 언덕을 못 오르면 자전거를 새로 사기 전에 기어부터 바꿔 봐요.</p>
+<ul>
+<li>기어를 바꾸는 건 공짜고 금방 해 볼 수 있어요.</li>
+<li>기어를 다 바꿔도 안 되면 그때 더 좋은 자전거를 사요.</li>
+<li>길 대부분이 평지고 언덕이 가끔이면, 언덕에서만 힘센 친구에게 밀어 달라고 해요.</li>
+<li>그런데 친구를 불러야 할 때 안 부르면 소용없어요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-effort-vs-model" aria-labelledby="vx-effort-vs-model-cap">
+  <div class="vx-player" data-vx-scene="effort-vs-model"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-effort-vs-model-cap">영상 — 모델 바꾸기 전에 effort 부터? (약 43초 · 소리 없음 · 자막). 문의 수(10건 = 쉬움 9·어려움 1)·단계별 비용 비율(0.4·0.8·1.0)·막대 길이·모델 한계 벽·④ 결과는 그림용 가정 — 방향은 설명 md 원리·뒤집히는 때 4(연구·지식 작업 측정)를 따름 · 아래 모델 비용 = 한 일 × 단가 절반(계산 · 그림용 가정) <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">effort 가 하는 일</p>
+<ul>
+<li>한 모델 안에서 지능 ↔ 지연(latency)·비용을 맞바꾸는 lever(손잡이). 요청의 <code>output_config.effort</code> (2026-09-28 조회).</li>
+<li>모든 출력 토큰에 걸림 : 텍스트 · 도구 호출 · thinking(사고). 낮추면 도구 호출도 적고 짧아짐. adaptive thinking 에선 얼마나 자주·깊게 생각할지도 정함.</li>
+<li>비용은 모델이 하는 일(thinking·도구 호출·자기 검증)에 비례하고, 정확도는 과제가 필요로 하는 만큼만 오름 → 모델 한계 아래에서 높은 effort 는 과제가 안 쓰는 깊이에 비용을 치름.</li>
+</ul>
+<p class="lead">왜 effort 가 먼저인가</p>
+<ul>
+<li>가장 싼 실험이고, 대부분의 워크로드는 여기서 끝남.</li>
+<li>공식 측정에서 "기본 설정 모델 하나보다 싸 보였던 다중 모델 구성"이 같은 모델을 낮은 effort 로 돌린 것보다 비쌌음. 한 벤치마크에선 <code>low</code> 가 Sonnet 5 worker(일꾼)를 둔 orchestrator(지휘자) 구성과 같은 점수를 29% 싸게 냄 → "effort 낮추기가 구조 변경을 이김".</li>
+</ul>
+<p class="lead">곡선 모양은 워크로드마다 다름 (Anthropic 내부 측정, 방향성)</p>
+<ul>
+<li>연구·지식 작업 : 거의 평평. <code>low</code> 는 1~3점 손해에 과제당 비용 3분의 1~절반 절감(원래 비용의 절반~3분의 2 만 듦), <code>medium</code> 은 기본과 같은 정확도에 비용 70~87%.</li>
+<li>긴 코딩 : 가파름. Opus 5.5 는 <code>high</code> 대비 <code>medium</code>(기본) 약 −2.5점 · 비용 약 70%, <code>low</code> 약 −8점 · 비용 약 3분의 1(약 3분의 2 절감), <code>xhigh</code> 약 +1.4점 · 2.5배.</li>
+<li>그래서 과제 설명만으론 어느 쪽인지 모름 → 2~3단계를 자기 트래픽 표본으로 재고, 단계마다 세션을 따로 (중간에 바꾸면 캐시가 깨져 비교가 흐려짐).</li>
+</ul>
+<p class="lead">모델 조합은 "섞임"이 있을 때만</p>
+<ul>
+<li>쉬운 일과 어려운 일이 섞여 있으면 : 프런티어 지능은 어려운 곳에만, 대부분의 토큰은 싼 모델 단가로.</li>
+<li>섞임이 없으면(난이도가 고름 · 한 줄기 의존 체인) : 잘 맞춘 모델 하나가 대개 나음.</li>
+<li>두 전략 (누가 루프를 쥐나)</li>
+<li>자문가(advisor) : 싼 실행자가 루프, 막히면 최상위에 물음. 이득은 "모델 격차"와 "실행자가 실제로 묻는 비율(자문 비율)"이 정함.</li>
+<li>
+<p class="lead">orchestrator : 최상위가 루프, 계획·분배·합침. worker 가 대량 탐색을 흡수. 넘길 대량 작업(독립 조각 · 창 하나 초과)이 있어야 쓸 만함.</p>
+</li>
+<li>
+<p>routing(라우팅) : 입력을 분류해 쉬운 질문은 작은 모델, 어려운 질문은 강한 모델로. 뚜렷한 범주 + 정확한 분류가 조건 (■ 워크플로 5패턴).</p>
+</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="effort-vs-model-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="effort-vs-model-tree-1" aria-labelledby="effort-vs-model-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7 n8 n9|n1 n4 n5 n6 n7 n10 n11|n1 n4 n5 n12 n13 n14 n15|n1 n4 n5 n12 n13 n16 n17 n18 n19|n1 n4 n5 n12 n13 n16 n17 n20 n21">
     <div class="t5-fh"><h3 id="effort-vs-model-tree-1-h">먼저 effort <span class="pg">[2.1②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -448,7 +506,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="effort-vs-model-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="effort-vs-model-flow" aria-label="effort 조정 vs 모델 교체 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["요청","라우터","싼 모델","최상위 모델"],"blocks":[],"rules":[null,null,null,null],"question":"어느 모델이 답해야 할까?","scenes":[{"name":"① 섞인 요청 → routing","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["질문 1: 비밀번호 재설정은?","질문 2: 약관 7조 위약금","이사 가면 면제돼요?"]}},{"kind":"move","step":"분류","from":{"col":0},"to":1,"label":"쉬운·어려운 질문으로 분류","art":{"kind":"slip","lines":["질문 1 = 쉬움","질문 2 = 어려움"]}},{"kind":"move","step":"쉬움","from":{"col":1},"to":2,"label":"대부분의 토큰을 싼 단가로","art":{"kind":"say","text":"설정 > 보안에서 재설정하세요."}},{"kind":"move","step":"어려움","from":{"col":1},"to":3,"label":"프런티어 지능은 중요한 곳에만","art":{"kind":"say","text":"7조 2항에 따라 이사는 면제 사유예요."}},{"kind":"end","label":"입력 종류가 뚜렷이 갈리고 분류가 정확할 때"}]},{"name":"② 자문가(advisor)","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["과제: 결제 모듈 버그 수정","20단계짜리 한 줄기"]}},{"kind":"move","step":"실행","from":{"col":0},"to":2,"label":"싼 실행자가 루프를 돎","art":{"kind":"slip","lines":["1~12단계 완료","13단계: 락 순서가 애매"]}},{"kind":"move","step":"자문","from":{"col":2},"to":3,"label":"어려운 결정만 물음","art":{"kind":"say","text":"락은 주문 먼저, 결제는 그다음."}},{"kind":"end","label":"최상위 모델 비용은 자문할 때만 듦"}]},{"name":"③ 실행자 effort 를 낮춤 → 자문 끊김","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["과제: 결제 모듈 버그 수정","20단계짜리 한 줄기"]}},{"kind":"move","step":"실행","from":{"col":0},"to":2,"label":"`low` effort","art":{"kind":"slip","lines":["effort: \"low\"","13단계 그냥 진행"]}},{"kind":"mark","step":"자문","at":{"col":2},"label":"막힌 걸 못 알아챔 ≠","art":{"kind":"slip","lines":["자문 요청 0번","13단계 락 순서 틀림"]}},{"kind":"skip","at":3},{"kind":"end","label":"실행자 혼자보다 점수가 낮아질 수 있음"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -508,132 +566,9 @@
         <li>캐시 쓰는 대화 중간에 요청 단위(top-level) effort 를 바꾸면 캐시가 깨짐 → 워크로드 단위로 바꾸거나 메시지별 effort(베타). 속도용 effort = <a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
       </ul>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Opus 에서 Sonnet 으로 통째로 내림" → effort 낮추기를 건너뜀. 먼저 지금 모델에서 effort sweep <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"모자라니 바로 Fable 로 올림" → 한 단계 위 모델을 <code>low</code> effort 로 · Opus 5.5 는 <code>xhigh</code>·<code>max</code> 가 먼저 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"조합(자문가·orchestrator)이 모델 하나보다 항상 쌈" → 같은 모델을 낮은 effort 로 돌린 게 더 쌌던 경우가 많음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"사내 Q&amp;A 에 자문가를 붙인다" → 계획할 게 없는 단발 Q&amp;A 엔 안 맞음. 쉬운/어려운 질문이 뚜렷이 갈리면 routing <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>자문가를 붙이고 실행자 effort 를 낮춤 → 막힌 걸 못 알아채 자문이 끊기고 실행자 혼자보다 점수가 낮아질 수 있음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Opus 5 설정을 그대로 Opus 5.5 로 → effort 를 생략하면 기본 <code>medium</code> 이라 한 단계 낮게 돎. 옛 설정을 옮기지 말고 effort sweep 다시 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Haiku 4.5 문항에 "effort 를 낮춘다" → 미지원 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"어려운 일이니 무조건 high" → 어려워도 effort 가 점수를 못 올리는 워크로드가 있음. 곡선을 재 봐야 알 수 있음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span><code>adaptive</code> 를 effort 값으로 → thinking 모드이지 effort 단계가 아님 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Tuning effort is often a better lever than switching models."</p>
-        <p lang="en">"Multi-model strategies pair a lower-cost model with a frontier model so that most tokens are billed at the lower rate."</p>
-        <p lang="en">"If you lowered effort, restore it; otherwise try the next tier up at <code>low</code> effort"</p>
-        <p lang="en">"Sweep effort on your current model first."</p>
-        <p lang="en">"a single well-tuned model is usually the better choice"</p>
-        <p lang="en">"It fits poorly when every turn genuinely needs frontier capability, when there is nothing to plan (single-turn Q&amp;A)"</p>
-        <p lang="en">"Hard work does not automatically need high effort."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="model-selection.html">■ 출발 모델 고르기</a></li>
-        <li><a href="workflow-patterns.html">■ 워크플로 5패턴</a></li>
-        <li><a href="orchestrator-delegation.html">■ orchestrator-worker 위임</a></li>
-        <li><a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 2.1 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>choosing-a-model <span class="src">(en-2026-09-28 8·40·83줄, ko 같은 줄)</span></li>
-        <li>effort <span class="src">(en-2026-09-28 5·9·11~17·21~27·47·126·136~140·159~160줄, ko 같은 줄)</span></li>
-        <li>models overview <span class="src">(en-2026-09-28-full 35줄)</span></li>
-        <li>optimizing-cost-intelligence <span class="src">(en·ko 22·25·27·276·284·286·290·300·453·457~460·464·474·490·492·496·522·532~533줄)</span></li>
-        <li>building-effective-agents <span class="src">(en 76·81줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 15·321줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (effort 먼저 · 품질·비용 방향 · 실패 재실행 · 조합 3모양 · 섞이지 않으면 하나 · effort 값)</li>
-        <li><span class="gen">업계 일반</span> 1줄(Haiku 4.5 에서 다른 손잡이)</li>
-        <li><span class="post">시험 뒤 변경</span> 1곳(Opus 5.5 기본 medium)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">2.1②</li>
-        <li class="chip">3.3①</li>
-        <li>(<a href="latency-levers.html">■ 지연 줄이기 lever</a>)</li>
-        <li class="chip">4.5②</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-effort-vs-model" aria-labelledby="vx-effort-vs-model-cap">
-  <div class="vx-player" data-vx-scene="effort-vs-model"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-effort-vs-model-cap">영상 — 모델 바꾸기 전에 effort 부터? (약 43초 · 소리 없음 · 자막). 문의 수(10건 = 쉬움 9·어려움 1)·단계별 비용 비율(0.4·0.8·1.0)·막대 길이·모델 한계 벽·④ 결과는 그림용 가정 — 방향은 설명 md 원리·뒤집히는 때 4(연구·지식 작업 측정)를 따름 · 아래 모델 비용 = 한 일 × 단가 절반(계산 · 그림용 가정) <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>effort-vs-model</dd>
-  <dt>본편</dt>
-  <dd>2.1</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">2.1②</li><li class="chip">3.3①</li><li class="chip">4.5②</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>자전거로 언덕을 못 오르면 자전거를 새로 사기 전에 기어부터 바꿔 봐요.</p>
-<ul>
-<li>기어를 바꾸는 건 공짜고 금방 해 볼 수 있어요.</li>
-<li>기어를 다 바꿔도 안 되면 그때 더 좋은 자전거를 사요.</li>
-<li>길 대부분이 평지고 언덕이 가끔이면, 언덕에서만 힘센 친구에게 밀어 달라고 해요.</li>
-<li>그런데 친구를 불러야 할 때 안 부르면 소용없어요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">effort 가 하는 일</p>
-<ul>
-<li>한 모델 안에서 지능 ↔ 지연(latency)·비용을 맞바꾸는 lever(손잡이). 요청의 <code>output_config.effort</code> (2026-09-28 조회).</li>
-<li>모든 출력 토큰에 걸림 : 텍스트 · 도구 호출 · thinking(사고). 낮추면 도구 호출도 적고 짧아짐. adaptive thinking 에선 얼마나 자주·깊게 생각할지도 정함.</li>
-<li>비용은 모델이 하는 일(thinking·도구 호출·자기 검증)에 비례하고, 정확도는 과제가 필요로 하는 만큼만 오름 → 모델 한계 아래에서 높은 effort 는 과제가 안 쓰는 깊이에 비용을 치름.</li>
-</ul>
-<p class="lead">왜 effort 가 먼저인가</p>
-<ul>
-<li>가장 싼 실험이고, 대부분의 워크로드는 여기서 끝남.</li>
-<li>공식 측정에서 "기본 설정 모델 하나보다 싸 보였던 다중 모델 구성"이 같은 모델을 낮은 effort 로 돌린 것보다 비쌌음. 한 벤치마크에선 <code>low</code> 가 Sonnet 5 worker(일꾼)를 둔 orchestrator(지휘자) 구성과 같은 점수를 29% 싸게 냄 → "effort 낮추기가 구조 변경을 이김".</li>
-</ul>
-<p class="lead">곡선 모양은 워크로드마다 다름 (Anthropic 내부 측정, 방향성)</p>
-<ul>
-<li>연구·지식 작업 : 거의 평평. <code>low</code> 는 1~3점 손해에 과제당 비용 3분의 1~절반 절감(원래 비용의 절반~3분의 2 만 듦), <code>medium</code> 은 기본과 같은 정확도에 비용 70~87%.</li>
-<li>긴 코딩 : 가파름. Opus 5.5 는 <code>high</code> 대비 <code>medium</code>(기본) 약 −2.5점 · 비용 약 70%, <code>low</code> 약 −8점 · 비용 약 3분의 1(약 3분의 2 절감), <code>xhigh</code> 약 +1.4점 · 2.5배.</li>
-<li>그래서 과제 설명만으론 어느 쪽인지 모름 → 2~3단계를 자기 트래픽 표본으로 재고, 단계마다 세션을 따로 (중간에 바꾸면 캐시가 깨져 비교가 흐려짐).</li>
-</ul>
-<p class="lead">모델 조합은 "섞임"이 있을 때만</p>
-<ul>
-<li>쉬운 일과 어려운 일이 섞여 있으면 : 프런티어 지능은 어려운 곳에만, 대부분의 토큰은 싼 모델 단가로.</li>
-<li>섞임이 없으면(난이도가 고름 · 한 줄기 의존 체인) : 잘 맞춘 모델 하나가 대개 나음.</li>
-<li>두 전략 (누가 루프를 쥐나)</li>
-<li>자문가(advisor) : 싼 실행자가 루프, 막히면 최상위에 물음. 이득은 "모델 격차"와 "실행자가 실제로 묻는 비율(자문 비율)"이 정함.</li>
-<li>
-<p class="lead">orchestrator : 최상위가 루프, 계획·분배·합침. worker 가 대량 탐색을 흡수. 넘길 대량 작업(독립 조각 · 창 하나 초과)이 있어야 쓸 만함.</p>
-</li>
-<li>
-<p>routing(라우팅) : 입력을 분류해 쉬운 질문은 작은 모델, 어려운 질문은 강한 모델로. 뚜렷한 범주 + 정확한 분류가 조건 (■ 워크플로 5패턴).</p>
-</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -711,7 +646,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -793,7 +727,40 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="effort-vs-model-practice-h">연습 문제</h2>
 
+  <section class="csx" id="effort-vs-model-case" aria-labelledby="effort-vs-model-case-h" data-tree="effort-vs-model-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;난이도 섞임&quot;],[&quot;n5&quot;,null],[&quot;n6&quot;,&quot;분류 정확&quot;],[&quot;n7&quot;,null]]" data-flow="effort-vs-model-flow" data-scene="0">
+    <p class="csx-text">고객지원 챗봇 문의는 <mark class="csx-m" data-tag="난이도 섞임">대부분 "비밀번호 재설정" 같은 쉬운 질문이고, 일부만 약관 해석 같은 어려운 질문<span class="csx-tag">난이도 섞임</span></mark>이다. <mark class="csx-m" data-tag="분류 정확">분류기는 둘을 정확히 가른다<span class="csx-tag">분류 정확</span></mark>. 팀은 "싼 실행자에 최상위 모델을 자문가로 붙이자"고 한다. 어떤 구성이 맞을까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="effort-vs-model-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Opus 에서 Sonnet 으로 통째로 내림" → effort 낮추기를 건너뜀. 먼저 지금 모델에서 effort sweep <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"모자라니 바로 Fable 로 올림" → 한 단계 위 모델을 <code>low</code> effort 로 · Opus 5.5 는 <code>xhigh</code>·<code>max</code> 가 먼저 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"조합(자문가·orchestrator)이 모델 하나보다 항상 쌈" → 같은 모델을 낮은 effort 로 돌린 게 더 쌌던 경우가 많음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"사내 Q&amp;A 에 자문가를 붙인다" → 계획할 게 없는 단발 Q&amp;A 엔 안 맞음. 쉬운/어려운 질문이 뚜렷이 갈리면 routing <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>자문가를 붙이고 실행자 effort 를 낮춤 → 막힌 걸 못 알아채 자문이 끊기고 실행자 혼자보다 점수가 낮아질 수 있음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Opus 5 설정을 그대로 Opus 5.5 로 → effort 를 생략하면 기본 <code>medium</code> 이라 한 단계 낮게 돎. 옛 설정을 옮기지 말고 effort sweep 다시 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Haiku 4.5 문항에 "effort 를 낮춘다" → 미지원 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"어려운 일이니 무조건 high" → 어려워도 effort 가 점수를 못 올리는 워크로드가 있음. 곡선을 재 봐야 알 수 있음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span><code>adaptive</code> 를 effort 값으로 → thinking 모드이지 effort 단계가 아님 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Tuning effort is often a better lever than switching models."</p>
+        <p lang="en">"Multi-model strategies pair a lower-cost model with a frontier model so that most tokens are billed at the lower rate."</p>
+        <p lang="en">"If you lowered effort, restore it; otherwise try the next tier up at <code>low</code> effort"</p>
+        <p lang="en">"Sweep effort on your current model first."</p>
+        <p lang="en">"a single well-tuned model is usually the better choice"</p>
+        <p lang="en">"It fits poorly when every turn genuinely needs frontier capability, when there is nothing to plan (single-turn Q&amp;A)"</p>
+        <p lang="en">"Hard work does not automatically need high effort."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 조합이 effort 낮추기를 이기는 때 — 창 하나를 넘는 입력</h4>
@@ -835,7 +802,6 @@
 <li><span class="lead">근거 :</span> optimizing 119줄 · effort 136~152줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -910,7 +876,33 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="effort-vs-model-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="model-selection.html">■ 출발 모델 고르기</a></li>
+        <li><a href="workflow-patterns.html">■ 워크플로 5패턴</a></li>
+        <li><a href="orchestrator-delegation.html">■ orchestrator-worker 위임</a></li>
+        <li><a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 2.1 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>choosing-a-model <span class="src">(en-2026-09-28 8·40·83줄, ko 같은 줄)</span></li>
+        <li>effort <span class="src">(en-2026-09-28 5·9·11~17·21~27·47·126·136~140·159~160줄, ko 같은 줄)</span></li>
+        <li>models overview <span class="src">(en-2026-09-28-full 35줄)</span></li>
+        <li>optimizing-cost-intelligence <span class="src">(en·ko 22·25·27·276·284·286·290·300·453·457~460·464·474·490·492·496·522·532~533줄)</span></li>
+        <li>building-effective-agents <span class="src">(en 76·81줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 15·321줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (effort 먼저 · 품질·비용 방향 · 실패 재실행 · 조합 3모양 · 섞이지 않으면 하나 · effort 값)</li>
+        <li><span class="gen">업계 일반</span> 1줄(Haiku 4.5 에서 다른 손잡이)</li>
+        <li><span class="post">시험 뒤 변경</span> 1곳(Opus 5.5 기본 medium)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -922,8 +914,7 @@
 <li>목록 영어 신호 2개("Tuning effort…" · "Multi-model strategies…")는 원문에서 모두 찾음 — 못 찾은 인용 없음.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/effort-vs-model.md</p>

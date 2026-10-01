@@ -350,24 +350,71 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ 자동화 surface 고르기 -->
-<article class="card t5-card" id="automation-surfaces" aria-labelledby="automation-surfaces-title">
+<!-- ■ 자동화 surface 고르기 (v3 시범 순서) -->
+<article class="card t5-card v3" id="automation-surfaces" aria-labelledby="automation-surfaces-title">
   <header class="t5-head">
     <h1 id="automation-surfaces-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 자동화 surface 고르기</h1>
-    <p class="lemma-meta"><span lang="en">Claude Code · `claude -p` · GitHub Actions · Agent SDK · Managed Agents</span><span class="lemma-main">7.2 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">Claude Code · `claude -p` · GitHub Actions · Agent SDK · Managed Agents</span><span class="lemma-main">7.2 본편</span></p>
   </header>
-  <h2 class="sec-h" id="automation-surfaces-sum-h">카드</h2>
+  <h2 class="sec-h" id="automation-surfaces-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>7.2 개발 흐름 개선</b> · D7 개발팀 7%<br><q lang="en">Improve developer workflows using AI-assisted tooling</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>7.2② 반복 작업 자동화, 어느 표면에 올리나?</b> — Claude Code(대화형) / claude -p(CI·스크립트) / GitHub Actions / Agent SDK / Managed Agents</li>
+      <li><b>7.2③ AI 코드 리뷰, 무엇을 보고시키고 어떻게 넓히나?</b> — 리뷰 지시(전부 보고 → 뒤에서 거르기)와 도입 확대 방식</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="automation-surfaces-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>개발팀 반복 작업을 어디에 올리나. 엔진은 같음(Claude Code 의 도구·루프 — GitHub Action 도 Agent SDK 위에 만든 것) → 가르는 건 **무엇이 부르나(사람·CI 단계·저장소 이벤트·내 앱·예약) · 누가 돌리나** <span class="ok">✓ 확인</span></p>
       <p>연동 방식 일반 판단(누가 루프를 돌리나 · ZDR)은 <a href="integration-options.html">◆ 직접 API vs Agent SDK vs CLI vs Managed Agents</a>. 여기는 팀 반복 작업 관점</p>
     <p class="t5-ana"><span class="lead">비유</span> 로컬 cron(CLI) vs CI 러너(GitHub Actions) vs 앱 내장 라이브러리(Agent SDK) vs 매니지드 서비스(Lambda·Fargate). "직접 운영해야 통제(control)된다" 가 속이는 습관</p>
   </div>
-  <h2 class="sec-h" id="automation-surfaces-case-h">지문</h2>
-  <section class="csx" id="automation-surfaces-case" aria-labelledby="automation-surfaces-case-h" data-tree="automation-surfaces-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;무인&quot;],[&quot;n5&quot;,null],[&quot;n8&quot;,&quot;CI 단계&quot;],[&quot;n9&quot;,null]]">
-    <p class="csx-text">사내 <mark class="csx-m" data-tag="CI 단계">Jenkins 빌드 파이프라인의 한 단계로<span class="csx-tag">CI 단계</span></mark>, 바뀐 파일의 문서 주석을 Claude 가 점검하게 하려 한다. <mark class="csx-m" data-tag="무인">사람은 결과만 받아 본다<span class="csx-tag">무인</span></mark>. 한 팀원은 "자동화면 Agent SDK 로 서버를 따로 만들자" 고 한다. 어느 surface(표면)에 올릴까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
-  </section>
-  <h2 class="sec-h" id="automation-surfaces-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>같은 로봇 한 대를 어디에 둘지 고르는 거예요.</p>
+<ul>
+<li>내 책상 옆에 두면 말로 시켜요 (대화형).</li>
+<li>공장 컨베이어에 두면 물건이 올 때마다 일해요 (CI · GitHub).</li>
+<li>우리 가게 안에 넣으면 손님 일을 해요 (내 앱).</li>
+<li>로봇 회사에 맡기면 관리는 그쪽이 해요 (관리형).</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-automation-surfaces" aria-labelledby="vx-automation-surfaces-cap">
+  <div class="vx-player" data-vx-scene="automation-surfaces"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-automation-surfaces-cap">영상 — CI 단계의 점검, 어디에 올릴까? (약 43초 · 소리 없음 · 자막). 빌드 3번과 &#x27;내 제품 기능이 되면&#x27; 은 그림용 가정 · 실측 아님 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">엔진은 하나</p>
+<ul>
+<li>Agent SDK = Claude Code 와 같은 도구·루프·컨텍스트 관리. CLI(<code>-p</code>)는 스크립트·CI 용 같은 엔진, GitHub Action 도 SDK 위에 만든 것.</li>
+<li>그래서 "어느 게 더 똑똑하나" 가 아니라 <strong>무엇이 부르나 · 누가 돌리나 · 자격증명이 어디 사나</strong> 로 가름.</li>
+</ul>
+<p class="lead">세 축</p>
+<ul>
+<li>부르는 것 : 사람(대화) · CI 단계/스크립트 · 저장소 이벤트(PR·이슈·<code>@claude</code>) · 예약(cron) · 내 제품 코드.</li>
+<li>돌리는 곳 : 내 터미널 · 내 파이프라인 · GitHub 호스트 러너 · Anthropic 인프라(Code Review · Routines · Managed Agents).</li>
+<li>자격증명 : CI·<code>--bare</code> 는 <code>ANTHROPIC_API_KEY</code> 환경변수 · Actions 는 GitHub Secrets · SDK 제품은 API 키 인증(authentication, claude.ai 로그인 제공은 사전 승인 없인 안 됨).</li>
+</ul>
+<p class="lead">무인이면 달라지는 것</p>
+<ul>
+<li>되물을 사람이 없음 → 프롬프트에 성공 모습·결과 처리를 적고, 도구는 <code>--allowedTools</code> 로 딱 필요한 만큼, 답할 사람이 없는 권한 요청은 거절되게(<code>dontAsk</code> · <code>--permission-prompts none</code>).</li>
+<li>같은 결과가 필요함 → <code>--bare</code> 로 기계마다 다른 훅·MCP·CLAUDE.md 를 끊음. 대신 팀 규칙도 끊기니 플래그로 다시 넣음.</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>이 작업을 무엇이 부르나(사람 · CI · 저장소 이벤트 · 예약 · 제품)?</li>
+<li>서버·프로세스를 누가 운영하나(우리 · GitHub · Anthropic)?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="automation-surfaces-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="automation-surfaces-tree-1" aria-labelledby="automation-surfaces-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9|n1 n4 n5 n10 n11|n1 n4 n5 n12 n13|n1 n4 n5 n14 n15">
     <div class="t5-fh"><h3 id="automation-surfaces-tree-1-h">① 무엇이 부르나 <span class="pg">[7.2②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -457,7 +504,7 @@
     </div>
   </section>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="automation-surfaces-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
@@ -521,124 +568,9 @@
         </li>
       </ol>
     </details>
-    <h2>CCA-F</h2>
-      <p>봄 (3.6 CI/CD 에서 Claude Code — <code>-p</code> 비대화형 · <code>--output-format json</code> + <code>--json-schema</code> · 세션 격리 리뷰) — 여기선 같은 반복 작업을 어느 surface(CLI · Actions · 관리형 Code Review · Routines · Agent SDK · Managed Agents)에 올리고, 키·권한·비용을 어떻게 묶나로 묻나</p>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"surface 는 셋 · 자동화면 무조건 Agent SDK" → 공식 비교표는 Agent SDK · CLI · Client SDK · Managed Agents 넷, 개발팀 반복 작업엔 GitHub Actions · Code Review · Routines 도 있음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"서버 두기 싫은데 PR 리뷰·아침 요약 → Agent SDK 로 직접 호스팅" → GitHub Actions(GitHub 호스트 러너) · Code Review · Routines <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"워크플로 파일에 API 키를 직접" → GitHub Secrets <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"CI 에 <code>--bare</code> 를 붙여도 팀 CLAUDE.md 규칙은 따름" → 안 읽음. 필요한 맥락은 플래그로 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"외부 PR 리뷰 CI 는 저장소에 커밋된 <code>.claude</code> 규칙이 지켜 줌" → 그 파일을 PR 이 바꿀 수 있음. 남이 쓴 저장소면 <code>--bare</code> 로 시작 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"아침 보고서 cron 에 넉넉히 쓰기 권한까지" → 워크플로 권한·도구는 필요한 만큼만 <span class="ok">✓ 확인</span> <span class="src">(Skilljar : 보고서면 읽기 전용)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>prompt</code> 만 주면 Claude 가 알아서 GitHub 을 읽음" → automation 모드 plain prompt 는 <code>--allowedTools</code> 로 줄 때까지 도구 없음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar cci 486935 는 "<code>-p</code> 가 훅·skill·MCP·CLAUDE.md 자동 로드를 건너뜀" → docs 는 **<code>--bare</code>** 가 건너뜀, <code>-p</code> 만으로는 대화형과 같은 맥락을 로드 <span class="note">(docs 가 이김)</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Use <code>claude -p "prompt"</code> in CI, pre-commit hooks, or scripts."</p>
-        <p lang="en">"Bare mode is useful for CI and scripts where you need the same result on every machine."</p>
-        <p lang="en">"Tasks tied to repo events like opened PRs, or cron schedules that should live alongside your workflow config."</p>
-        <p lang="en">"Never commit API keys or OAuth tokens directly to your repository."</p>
-        <p lang="en">"Have Anthropic host the agent, configured through the Claude API"</p>
-        <p lang="en">"Do interactive development or run one-off tasks from a terminal"</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="integration-options.html">◆ 직접 API vs Agent SDK vs CLI vs Managed Agents</a></li>
-        <li><a href="ai-code-review.html">■ AI 코드 리뷰</a></li>
-        <li><a href="least-privilege.html">■ 최소 권한</a></li>
-        <li><a href="coding-loop.html">■ 코딩 맡기는 흐름</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 7.2 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>best-practices <span class="src">(en 666~681·718~743줄)</span></li>
-        <li>headless <span class="src">(en 158~164·194~210·253·269·313·467~470·485줄)</span></li>
-        <li>github-actions <span class="src">(en 180~183·195~210·245·323~336·410·441·451·501~503·513~522줄)</span></li>
-        <li>common-workflows <span class="src">(en 639~648줄)</span></li>
-        <li>agent-sdk overview <span class="src">(en 191~200줄)</span></li>
-        <li>managed-agents overview <span class="src">(ko 6·50~55줄)</span></li>
-        <li>code-review <span class="src">(en 181·183줄)</span></li>
-        <li>permissions <span class="src">(en 841·843줄)</span></li>
-        <li>Skilljar cci 486935·486936 — 전부 2026-09-28 조회</li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑤)</li>
-        <li>Skilljar 교정 1곳</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">7.2②</li>
-        <li class="chip">7.2③</li>
-        <li>(<a href="ai-code-review.html">■ AI 코드 리뷰</a>)</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-automation-surfaces" aria-labelledby="vx-automation-surfaces-cap">
-  <div class="vx-player" data-vx-scene="automation-surfaces"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-automation-surfaces-cap">영상 — CI 단계의 점검, 어디에 올릴까? (약 43초 · 소리 없음 · 자막). 빌드 3번과 &#x27;내 제품 기능이 되면&#x27; 은 그림용 가정 · 실측 아님 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>automation-surfaces</dd>
-  <dt>본편</dt>
-  <dd>7.2</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">7.2②</li><li class="chip">7.2③</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>같은 로봇 한 대를 어디에 둘지 고르는 거예요.</p>
-<ul>
-<li>내 책상 옆에 두면 말로 시켜요 (대화형).</li>
-<li>공장 컨베이어에 두면 물건이 올 때마다 일해요 (CI · GitHub).</li>
-<li>우리 가게 안에 넣으면 손님 일을 해요 (내 앱).</li>
-<li>로봇 회사에 맡기면 관리는 그쪽이 해요 (관리형).</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">엔진은 하나</p>
-<ul>
-<li>Agent SDK = Claude Code 와 같은 도구·루프·컨텍스트 관리. CLI(<code>-p</code>)는 스크립트·CI 용 같은 엔진, GitHub Action 도 SDK 위에 만든 것.</li>
-<li>그래서 "어느 게 더 똑똑하나" 가 아니라 <strong>무엇이 부르나 · 누가 돌리나 · 자격증명이 어디 사나</strong> 로 가름.</li>
-</ul>
-<p class="lead">세 축</p>
-<ul>
-<li>부르는 것 : 사람(대화) · CI 단계/스크립트 · 저장소 이벤트(PR·이슈·<code>@claude</code>) · 예약(cron) · 내 제품 코드.</li>
-<li>돌리는 곳 : 내 터미널 · 내 파이프라인 · GitHub 호스트 러너 · Anthropic 인프라(Code Review · Routines · Managed Agents).</li>
-<li>자격증명 : CI·<code>--bare</code> 는 <code>ANTHROPIC_API_KEY</code> 환경변수 · Actions 는 GitHub Secrets · SDK 제품은 API 키 인증(authentication, claude.ai 로그인 제공은 사전 승인 없인 안 됨).</li>
-</ul>
-<p class="lead">무인이면 달라지는 것</p>
-<ul>
-<li>되물을 사람이 없음 → 프롬프트에 성공 모습·결과 처리를 적고, 도구는 <code>--allowedTools</code> 로 딱 필요한 만큼, 답할 사람이 없는 권한 요청은 거절되게(<code>dontAsk</code> · <code>--permission-prompts none</code>).</li>
-<li>같은 결과가 필요함 → <code>--bare</code> 로 기계마다 다른 훅·MCP·CLAUDE.md 를 끊음. 대신 팀 규칙도 끊기니 플래그로 다시 넣음.</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>이 작업을 무엇이 부르나(사람 · CI · 저장소 이벤트 · 예약 · 제품)?</li>
-<li>서버·프로세스를 누가 운영하나(우리 · GitHub · Anthropic)?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -722,7 +654,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -804,7 +735,38 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="automation-surfaces-practice-h">연습 문제</h2>
 
+  <section class="csx" id="automation-surfaces-case" aria-labelledby="automation-surfaces-case-h" data-tree="automation-surfaces-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;무인&quot;],[&quot;n5&quot;,null],[&quot;n8&quot;,&quot;CI 단계&quot;],[&quot;n9&quot;,null]]">
+    <p class="csx-text">사내 <mark class="csx-m" data-tag="CI 단계">Jenkins 빌드 파이프라인의 한 단계로<span class="csx-tag">CI 단계</span></mark>, 바뀐 파일의 문서 주석을 Claude 가 점검하게 하려 한다. <mark class="csx-m" data-tag="무인">사람은 결과만 받아 본다<span class="csx-tag">무인</span></mark>. 한 팀원은 "자동화면 Agent SDK 로 서버를 따로 만들자" 고 한다. 어느 surface(표면)에 올릴까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
+  </section>
+  <h2 class="sec-h" id="automation-surfaces-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"surface 는 셋 · 자동화면 무조건 Agent SDK" → 공식 비교표는 Agent SDK · CLI · Client SDK · Managed Agents 넷, 개발팀 반복 작업엔 GitHub Actions · Code Review · Routines 도 있음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"서버 두기 싫은데 PR 리뷰·아침 요약 → Agent SDK 로 직접 호스팅" → GitHub Actions(GitHub 호스트 러너) · Code Review · Routines <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"워크플로 파일에 API 키를 직접" → GitHub Secrets <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"CI 에 <code>--bare</code> 를 붙여도 팀 CLAUDE.md 규칙은 따름" → 안 읽음. 필요한 맥락은 플래그로 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"외부 PR 리뷰 CI 는 저장소에 커밋된 <code>.claude</code> 규칙이 지켜 줌" → 그 파일을 PR 이 바꿀 수 있음. 남이 쓴 저장소면 <code>--bare</code> 로 시작 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"아침 보고서 cron 에 넉넉히 쓰기 권한까지" → 워크플로 권한·도구는 필요한 만큼만 <span class="ok">✓ 확인</span> <span class="src">(Skilljar : 보고서면 읽기 전용)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>prompt</code> 만 주면 Claude 가 알아서 GitHub 을 읽음" → automation 모드 plain prompt 는 <code>--allowedTools</code> 로 줄 때까지 도구 없음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar cci 486935 는 "<code>-p</code> 가 훅·skill·MCP·CLAUDE.md 자동 로드를 건너뜀" → docs 는 **<code>--bare</code>** 가 건너뜀, <code>-p</code> 만으로는 대화형과 같은 맥락을 로드 <span class="note">(docs 가 이김)</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Use <code>claude -p "prompt"</code> in CI, pre-commit hooks, or scripts."</p>
+        <p lang="en">"Bare mode is useful for CI and scripts where you need the same result on every machine."</p>
+        <p lang="en">"Tasks tied to repo events like opened PRs, or cron schedules that should live alongside your workflow config."</p>
+        <p lang="en">"Never commit API keys or OAuth tokens directly to your repository."</p>
+        <p lang="en">"Have Anthropic host the agent, configured through the Claude API"</p>
+        <p lang="en">"Do interactive development or run one-off tasks from a terminal"</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. "PR 리뷰 = 관리형 Code Review" 가 안 될 때</h4>
@@ -836,7 +798,6 @@
 <li><span class="lead">근거 :</span> agent-sdk overview en 195·198·233줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -911,7 +872,37 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="automation-surfaces-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>CCA-F</h3>
+      <p>봄 (3.6 CI/CD 에서 Claude Code — <code>-p</code> 비대화형 · <code>--output-format json</code> + <code>--json-schema</code> · 세션 격리 리뷰) — 여기선 같은 반복 작업을 어느 surface(CLI · Actions · 관리형 Code Review · Routines · Agent SDK · Managed Agents)에 올리고, 키·권한·비용을 어떻게 묶나로 묻나</p>
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="integration-options.html">◆ 직접 API vs Agent SDK vs CLI vs Managed Agents</a></li>
+        <li><a href="ai-code-review.html">■ AI 코드 리뷰</a></li>
+        <li><a href="least-privilege.html">■ 최소 권한</a></li>
+        <li><a href="coding-loop.html">■ 코딩 맡기는 흐름</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 7.2 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>best-practices <span class="src">(en 666~681·718~743줄)</span></li>
+        <li>headless <span class="src">(en 158~164·194~210·253·269·313·467~470·485줄)</span></li>
+        <li>github-actions <span class="src">(en 180~183·195~210·245·323~336·410·441·451·501~503·513~522줄)</span></li>
+        <li>common-workflows <span class="src">(en 639~648줄)</span></li>
+        <li>agent-sdk overview <span class="src">(en 191~200줄)</span></li>
+        <li>managed-agents overview <span class="src">(ko 6·50~55줄)</span></li>
+        <li>code-review <span class="src">(en 181·183줄)</span></li>
+        <li>permissions <span class="src">(en 841·843줄)</span></li>
+        <li>Skilljar cci 486935·486936 — 전부 2026-09-28 조회</li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑤)</li>
+        <li>Skilljar 교정 1곳</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -922,8 +913,7 @@
 <li><code>--bare</code> 가 <code>-p</code> 기본값이 되는 시점은 "future release" 로만 적혀 있음 (headless en 210줄) — 시험·현재 어느 쪽 기본인지 흔들릴 수 있음.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/automation-surfaces.md</p>

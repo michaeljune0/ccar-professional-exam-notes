@@ -350,23 +350,76 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ 지연 줄이기 lever -->
-<article class="card t5-card" id="latency-levers" aria-labelledby="latency-levers-title">
+<!-- ■ 지연 줄이기 lever (v3 시범 순서) -->
+<article class="card t5-card v3" id="latency-levers" aria-labelledby="latency-levers-title">
   <header class="t5-head">
     <h1 id="latency-levers-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 지연 줄이기 lever</h1>
-    <p class="lemma-meta"><span lang="en">latency levers : streaming · caching · output length · effort · model</span><span class="lemma-main">3.3 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">latency levers : streaming · caching · output length · effort · model</span><span class="lemma-main">3.3 본편</span></p>
   </header>
-  <h2 class="sec-h" id="latency-levers-sum-h">카드</h2>
+  <h2 class="sec-h" id="latency-levers-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>3.3 정확도와 지연 절충</b> · D3 연결 19%<br><q lang="en">Evaluate accuracy-latency trade-offs and justify configuration decisions</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>3.3① 상담원이 "답 초안이 늦게 뜬다"고 한다 — 모델부터 바꾸나?</b> — 지연 손잡이 고르기 <span class="note">(스트리밍 · 캐싱 · 출력 길이 · effort · 모델 교체)</span></li>
+      <li><b>4.1② 첫 토큰은 빨라졌는데 "여전히 느리다"고 한다</b> — 지연 지표 고르기 <span class="note">(TTFT vs 응답 완료까지)</span></li>
+      <li><b>4.5② 보기마다 다른 최적화 — 이 시나리오의 레버는 무엇 하나?</b> — 시나리오 단서 → 레버 하나 <span class="note">(캐싱 · 배치 · 라우팅/effort · 스트리밍)</span></li>
+      <li><b>2.1② 품질이 조금 모자라거나 비용이 남는다 — 모델을 바꿀까, effort 를 바꿀까?</b> — 조절 수단 순서 <span class="note">(effort → 모델 교체 → 섞인 요청은 모델 조합·라우팅)</span></li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="latency-levers-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>"느리다"를 먼저 가름 — 첫 글자까지(TTFT, time to first token) vs 다 받기까지(전체 시간). lever(손잡이) = 스트리밍 · 캐싱 · 출력 길이 · effort · 모델(교체 · fast mode). 품질은 지켜야 하니 eval 로 확인하며 돌림 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> 웹 응답 튜닝. chunked 전송(첫 바이트만 빨라짐) · CDN 캐시(오리진 안 감) · 응답 크기 줄이기 · 워커 설정 튜닝 · 인스턴스 타입 교체는 확인 뒤</p>
   </div>
-  <h2 class="sec-h" id="latency-levers-case-h">지문</h2>
-  <section class="csx" id="latency-levers-case" aria-labelledby="latency-levers-case-h" data-tree="latency-levers-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n8&quot;,&quot;첫 글자 빠름&quot;],[&quot;n9&quot;,null],[&quot;n10&quot;,&quot;장황&quot;],[&quot;n11&quot;,null]]" data-flow="latency-levers-flow" data-scene="2">
-    <p class="csx-text">상담 요약 기능에서 <mark class="csx-m" data-tag="첫 글자 빠름">첫 글자는 1초 안에 뜨는데<span class="csx-tag">첫 글자 빠름</span></mark> 전체 답이 끝나기까지 20초가 걸린다. 답을 보면 <mark class="csx-m" data-tag="장황">같은 말을 되풀이하며 장황하다<span class="csx-tag">장황</span></mark>. 팀은 스트리밍을 켜자고 한다. 먼저 돌릴 lever 는?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="latency-levers-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>식당에서 음식이 늦게 나온다고 할 때를 생각해 보세요.</p>
+<ul>
+<li>물과 반찬을 먼저 내주면 덜 기다린 것처럼 느껴져요.</li>
+<li>매번 쓰는 재료를 미리 손질해 두면 첫 접시가 빨리 나와요.</li>
+<li>양을 줄이거나 조리를 간단히 하면 다 나오는 시간이 줄어요.</li>
+<li>요리사를 바꾸는 건 맛이 그대로인지 먼저 맛본 뒤에 해요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-latency-levers" aria-labelledby="vx-latency-levers-cap">
+  <div class="vx-player" data-vx-scene="latency-levers"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-latency-levers-cap">영상 — 다 받기까지 20초, 무엇부터 돌릴까? (약 44초 · 소리 없음 · 자막). 막대 길이(토큰 수 비례)와 &#x27;한꺼번에 보이는 앱&#x27; 은 그림용 가정 · 0.8초·20초·900→250 토큰은 카드 값 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">지연(latency)은 두 가지</p>
+<ul>
+<li>첫 글자까지(TTFT) : 요청 보내고 첫 토큰이 나올 때까지. 입력 처리 시간이 큰 몫을 차지.</li>
+<li>다 받기까지 : TTFT + 출력 토큰을 다 생성하는 시간. 출력이 길수록 김.</li>
+<li>공식 : 처리·생성할 토큰이 적을수록 응답이 빠름.</li>
+</ul>
+<p class="lead">lever(손잡이)마다 건드리는 곳</p>
+<ul>
+<li>스트리밍 : 생성은 그대로, 오는 대로 보여 줌 → 체감만 줄임.</li>
+<li>캐싱 : 매번 같은 앞부분 처리를 건너뜀 → TTFT · 입력 비용을 줄임. 출력 시간은 안 건드림.</li>
+<li>출력 길이 : 생성할 토큰 수 자체를 줄임 → 전체 시간.</li>
+<li>effort : 한 모델 안에서 thinking(사고)·도구 호출·텍스트 토큰 양을 줄임 → 전체 시간 · 비용. 대신 지능이 조금 내려감.</li>
+<li>모델 : 더 빠른 모델(Haiku 4.5) 또는 fast mode(같은 Opus, 출력 속도 최대 2.5배, 비쌈).</li>
+</ul>
+<p class="lead">왜 "모델부터"가 약한 답인가</p>
+<ul>
+<li>공식 지연 문서는 모델 선택을 가장 직접적인 방법 중 하나로 든다. 그러니 모델 교체 자체가 틀린 건 아님.</li>
+<li>다만 "effort 조정이 모델 교체보다 나은 경우가 많다"는 것도 공식이고, 과제 무시한 축소는 품질 위험(샘플 2).</li>
+<li>그래서 시험 답의 모양 = "증상을 가르고, 품질을 지키는 가장 싼 lever 부터, 모델 교체는 eval 로 확인하고".</li>
+</ul>
+<p class="lead">핵심 질문 두 개</p>
+<ul>
+<li>느린 게 첫 글자인가, 다 받기까지인가?</li>
+<li>이 lever 를 돌리면 품질이 떨어지나 — 떨어진다면 eval 로 확인했나?</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="latency-levers-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="latency-levers-tree-1" aria-labelledby="latency-levers-tree-1-h" data-paths="n1 n2 n3 n4 n5|n1 n2 n3 n6 n7|n1 n8 n9 n10 n11|n1 n8 n9 n12 n13">
     <div class="t5-fh"><h3 id="latency-levers-tree-1-h">①②③⑥ 어느 느림 <span class="pg">[3.3①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
@@ -429,7 +482,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="latency-levers-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="latency-levers-flow" aria-label="지연 줄이기 lever 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["요청","모델","화면"],"blocks":[],"rules":[null,null,null],"question":"스트리밍을 켜면 다 받는 시간도 줄까?","scenes":[{"name":"① 스트리밍 → 첫 글자","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["stream: true","\"이 상담 요약해 줘\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"스트리밍","art":{"kind":"slip","lines":["출력 생성 시작"]}},{"kind":"move","step":"첫 글자","from":{"col":1},"to":2,"label":"출력이 오는 대로 보여 줌","art":{"kind":"slip","lines":["0.8초: \"고객은 배송…\""]}},{"kind":"end","label":"첫 글자가 바로 떠서 체감 반응성을 크게 올림"}]},{"name":"② 스트리밍 → 전체 시간","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["stream: true","\"이 상담 요약해 줘\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"스트리밍","art":{"kind":"slip","lines":["출력 생성 시작"]}},{"kind":"move","step":"첫 글자","from":{"col":1},"to":2,"label":"오는 대로 보여 줌","art":{"kind":"slip","lines":["0.8초: \"고객은 배송…\""]}},{"kind":"move","step":"전체","from":{"col":1},"to":2,"label":"총 생성 시간은 그대로 (업계 일반)","art":{"kind":"slip","lines":["20초: 900 토큰째","마지막 글자"]}},{"kind":"end","label":"스트리밍은 체감만 — 생성할 토큰 수가 같아 다 받는 시간은 안 줄어듦"}]},{"name":"③ 출력 줄이기 → 전체 시간","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["\"3줄로 짧게 요약해\"","max_tokens: 300"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"\"짧게 답해\" + `max_tokens` 상한","art":{"kind":"slip","lines":["출력 생성 시작"]}},{"kind":"move","step":"전체","from":{"col":1},"to":2,"label":"생성할 토큰이 줄어듦","art":{"kind":"slip","lines":["250 토큰째","마지막 글자"]}},{"kind":"end","label":"전체 시간이 문제면 토큰 줄이기"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -509,119 +562,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>과제 무시하고 제일 작은 모델로 → 오답 (샘플 2 B) <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"스트리밍을 켜면 전체 처리 시간이 준다" → 체감만 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"effort 낮추면 답이 짧아진다" → thinking 양만 줄어듦, 길이는 프롬프트로 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>캐시 쓰는 대화 중간에 요청 수준(top-level) effort 값을 바꿈 → 캐시 무효화. 워크로드 단위로 바꾸거나 메시지별 effort(베타) <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"모델 교체는 항상 오답" → 아님. 공식 지연 문서는 모델 선택을 첫 방법으로 듦. eval 로 품질을 확인하면 맞는 답 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>fast mode 를 배치에 → 안 됨, 동기 지연용 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Tuning effort is often a better lever than switching models."</p>
-        <p lang="en">"This can significantly improve the perceived responsiveness of your application"</p>
-        <p lang="en">"reducing both time-to-first-token and per-request cost without discarding required context" <span class="src" lang="ko">(가이드 샘플 2)</span></p>
-        <p lang="en">"downsizing blindly (B) risks quality" <span class="src" lang="ko">(가이드 샘플 2)</span></p>
-        <p lang="en">"Effort controls thinking volume, not visible response length"</p>
-        <p lang="en">"When latency matters or tasks are straightforward, low effort can significantly reduce response times and costs."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 3.3 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>샘플 2 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>reduce-latency <span class="src">(ko 10·20~22·28~35·41줄, en 41줄)</span></li>
-        <li>choosing-a-model <span class="src">(ko 6·8·18~30·69~79줄, en 8줄)</span></li>
-        <li>effort <span class="src">(ko 9·11~17·53·157·160줄, en 53·157줄)</span></li>
-        <li>prompt-caching <span class="src">(ko 314·402줄)</span></li>
-        <li>batch-processing <span class="src">(ko 63줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 15·17줄)</span></li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287734">Skilljar API 287734</a></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑤)</li>
-        <li><span class="gen">업계 일반</span> 2줄(스트리밍 총시간 · ⑥ 순서)</li>
-        <li><span class="post">시험 뒤 변경</span> 1곳(Opus 5.5 기본 medium)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">3.3①</li>
-        <li class="chip">4.1②</li>
-        <li class="chip">4.5②</li>
-        <li class="chip">2.1②</li>
-        <li>(<span class="note">effort 본편</span>)</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-latency-levers" aria-labelledby="vx-latency-levers-cap">
-  <div class="vx-player" data-vx-scene="latency-levers"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-latency-levers-cap">영상 — 다 받기까지 20초, 무엇부터 돌릴까? (약 44초 · 소리 없음 · 자막). 막대 길이(토큰 수 비례)와 &#x27;한꺼번에 보이는 앱&#x27; 은 그림용 가정 · 0.8초·20초·900→250 토큰은 카드 값 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>latency-levers</dd>
-  <dt>본편</dt>
-  <dd>3.3</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">3.3①</li><li class="chip">4.1②</li><li class="chip">4.5②</li><li class="chip">2.1②</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>식당에서 음식이 늦게 나온다고 할 때를 생각해 보세요.</p>
-<ul>
-<li>물과 반찬을 먼저 내주면 덜 기다린 것처럼 느껴져요.</li>
-<li>매번 쓰는 재료를 미리 손질해 두면 첫 접시가 빨리 나와요.</li>
-<li>양을 줄이거나 조리를 간단히 하면 다 나오는 시간이 줄어요.</li>
-<li>요리사를 바꾸는 건 맛이 그대로인지 먼저 맛본 뒤에 해요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">지연(latency)은 두 가지</p>
-<ul>
-<li>첫 글자까지(TTFT) : 요청 보내고 첫 토큰이 나올 때까지. 입력 처리 시간이 큰 몫을 차지.</li>
-<li>다 받기까지 : TTFT + 출력 토큰을 다 생성하는 시간. 출력이 길수록 김.</li>
-<li>공식 : 처리·생성할 토큰이 적을수록 응답이 빠름.</li>
-</ul>
-<p class="lead">lever(손잡이)마다 건드리는 곳</p>
-<ul>
-<li>스트리밍 : 생성은 그대로, 오는 대로 보여 줌 → 체감만 줄임.</li>
-<li>캐싱 : 매번 같은 앞부분 처리를 건너뜀 → TTFT · 입력 비용을 줄임. 출력 시간은 안 건드림.</li>
-<li>출력 길이 : 생성할 토큰 수 자체를 줄임 → 전체 시간.</li>
-<li>effort : 한 모델 안에서 thinking(사고)·도구 호출·텍스트 토큰 양을 줄임 → 전체 시간 · 비용. 대신 지능이 조금 내려감.</li>
-<li>모델 : 더 빠른 모델(Haiku 4.5) 또는 fast mode(같은 Opus, 출력 속도 최대 2.5배, 비쌈).</li>
-</ul>
-<p class="lead">왜 "모델부터"가 약한 답인가</p>
-<ul>
-<li>공식 지연 문서는 모델 선택을 가장 직접적인 방법 중 하나로 든다. 그러니 모델 교체 자체가 틀린 건 아님.</li>
-<li>다만 "effort 조정이 모델 교체보다 나은 경우가 많다"는 것도 공식이고, 과제 무시한 축소는 품질 위험(샘플 2).</li>
-<li>그래서 시험 답의 모양 = "증상을 가르고, 품질을 지키는 가장 싼 lever 부터, 모델 교체는 eval 로 확인하고".</li>
-</ul>
-<p class="lead">핵심 질문 두 개</p>
-<ul>
-<li>느린 게 첫 글자인가, 다 받기까지인가?</li>
-<li>이 lever 를 돌리면 품질이 떨어지나 — 떨어진다면 eval 로 확인했나?</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -699,7 +642,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -788,7 +730,36 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="latency-levers-practice-h">연습 문제</h2>
 
+  <section class="csx" id="latency-levers-case" aria-labelledby="latency-levers-case-h" data-tree="latency-levers-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n8&quot;,&quot;첫 글자 빠름&quot;],[&quot;n9&quot;,null],[&quot;n10&quot;,&quot;장황&quot;],[&quot;n11&quot;,null]]" data-flow="latency-levers-flow" data-scene="2">
+    <p class="csx-text">상담 요약 기능에서 <mark class="csx-m" data-tag="첫 글자 빠름">첫 글자는 1초 안에 뜨는데<span class="csx-tag">첫 글자 빠름</span></mark> 전체 답이 끝나기까지 20초가 걸린다. 답을 보면 <mark class="csx-m" data-tag="장황">같은 말을 되풀이하며 장황하다<span class="csx-tag">장황</span></mark>. 팀은 스트리밍을 켜자고 한다. 먼저 돌릴 lever 는?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="latency-levers-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>과제 무시하고 제일 작은 모델로 → 오답 (샘플 2 B) <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"스트리밍을 켜면 전체 처리 시간이 준다" → 체감만 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"effort 낮추면 답이 짧아진다" → thinking 양만 줄어듦, 길이는 프롬프트로 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>캐시 쓰는 대화 중간에 요청 수준(top-level) effort 값을 바꿈 → 캐시 무효화. 워크로드 단위로 바꾸거나 메시지별 effort(베타) <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"모델 교체는 항상 오답" → 아님. 공식 지연 문서는 모델 선택을 첫 방법으로 듦. eval 로 품질을 확인하면 맞는 답 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>fast mode 를 배치에 → 안 됨, 동기 지연용 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Tuning effort is often a better lever than switching models."</p>
+        <p lang="en">"This can significantly improve the perceived responsiveness of your application"</p>
+        <p lang="en">"reducing both time-to-first-token and per-request cost without discarding required context" <span class="src" lang="ko">(가이드 샘플 2)</span></p>
+        <p lang="en">"downsizing blindly (B) risks quality" <span class="src" lang="ko">(가이드 샘플 2)</span></p>
+        <p lang="en">"Effort controls thinking volume, not visible response length"</p>
+        <p lang="en">"When latency matters or tasks are straightforward, low effort can significantly reduce response times and costs."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 스트리밍이 답이 아닌 때</h4>
@@ -831,7 +802,6 @@
 <li><span class="lead">근거 :</span> effort ko 9·47·156줄 · 릴리스 노트 en 15줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -906,7 +876,28 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="latency-levers-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 3.3 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>샘플 2 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>reduce-latency <span class="src">(ko 10·20~22·28~35·41줄, en 41줄)</span></li>
+        <li>choosing-a-model <span class="src">(ko 6·8·18~30·69~79줄, en 8줄)</span></li>
+        <li>effort <span class="src">(ko 9·11~17·53·157·160줄, en 53·157줄)</span></li>
+        <li>prompt-caching <span class="src">(ko 314·402줄)</span></li>
+        <li>batch-processing <span class="src">(ko 63줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 15·17줄)</span></li>
+        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287734">Skilljar API 287734</a></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑤)</li>
+        <li><span class="gen">업계 일반</span> 2줄(스트리밍 총시간 · ⑥ 순서)</li>
+        <li><span class="post">시험 뒤 변경</span> 1곳(Opus 5.5 기본 medium)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -916,8 +907,7 @@
 <li>공식 지연 문서(reduce-latency)는 캐싱·effort 를 지연 방법으로 들지 않음. 캐싱의 지연 효과는 샘플 2 해설·캐싱 문서, effort 는 effort·모델 선택 문서가 근거.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/latency-levers.md</p>

@@ -350,24 +350,67 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ MCP 인증·인가 -->
-<article class="card t5-card" id="mcp-auth" aria-labelledby="mcp-auth-title">
+<!-- ■ MCP 인증·인가 (v3 시범 순서) -->
+<article class="card t5-card v3" id="mcp-auth" aria-labelledby="mcp-auth-title">
   <header class="t5-head">
     <h1 id="mcp-auth-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> MCP 인증·인가</h1>
-    <p class="lemma-meta"><span lang="en">MCP authentication/authorization</span><span class="lemma-main">3.2 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">MCP authentication/authorization</span><span class="lemma-main">3.2 본편</span></p>
   </header>
-  <h2 class="sec-h" id="mcp-auth-sum-h">카드</h2>
+  <h2 class="sec-h" id="mcp-auth-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>3.2 인증·권한 빈틈</b> · D3 연결 19%<br><q lang="en">Analyze authentication and authorization requirements to identify security gaps</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>3.2① 같은 머신의 stdio MCP 서버와 원격 HTTP MCP 서버를 함께 붙인다 — 자격증명을 각각 어떻게 주나?</b> — 전송 방식별 인증 고르기</li>
+      <li><b>3.2② 사내 MCP 서버가 받은 사용자 토큰을 Salesforce API 호출에 그대로 붙인다 — 무엇이 빈틈인가?</b> — 토큰 경계 <span class="note">(audience 검증 · 그대로 넘기기 금지)</span></li>
+      <li><b>7.1③ 에이전트에 줄 권한, 어디까지?</b> — 행동을 allow/ask/deny 로 나눈 공유 설정 + MCP 자격증명 최소 권한</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="mcp-auth-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>MCP 에서 인가(authorization)는 **선택(OPTIONAL)**. 붙인다면 전송 방식이 방법을 정함 — stdio 는 환경에서 자격증명, HTTP 는 OAuth 2.1 기반 규격 <span class="ok">✓ 확인</span></p>
       <p>HTTP 인가에서 MCP 서버 = OAuth resource server, MCP 클라이언트 = OAuth client, 토큰 발급 = authorization server <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> 같은 파드 사이드카는 마운트된 시크릿·환경변수, 외부 API 는 OIDC/OAuth 토큰. 게이트웨이가 받은 JWT 를 제3자 API 에 재사용하지 않음</p>
   </div>
-  <h2 class="sec-h" id="mcp-auth-case-h">지문</h2>
-  <section class="csx" id="mcp-auth-case" aria-labelledby="mcp-auth-case-h" data-tree="mcp-auth-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n10&quot;,&quot;업스트림 호출&quot;],[&quot;n11&quot;,null]]" data-flow="mcp-auth-flow" data-scene="0">
-    <p class="csx-text">사내 MCP 서버(Streamable HTTP)가 상담원 앱이 보낸 액세스 토큰을 검사한 뒤, <mark class="csx-m" data-tag="업스트림 호출">뒤에서 Salesforce API 를 불러 고객 기록을 가져온다<span class="csx-tag">업스트림 호출</span></mark>. 개발자는 "받은 토큰을 그대로 넘기면 사용자 권한이 유지돼 안전하다"고 한다. Salesforce 호출에는 어떤 토큰을 쓸까?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="mcp-auth-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>놀이공원 손목 띠는 그 놀이공원에서만 써요.</p>
+<ul>
+<li>집 안 방끼리는 띠 없이 열쇠를 서랍에 두고 써요(로컬).</li>
+<li>밖에 나갈 땐 입구에서 띠를 받아요(원격).</li>
+<li>옆 놀이공원 입구에 내 띠를 내밀면 안 돼요 — 거기서 새 띠를 받아요.</li>
+<li>처음엔 작은 띠만 받고, 큰 놀이기구 앞에서 더 받아요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-mcp-auth" aria-labelledby="vx-mcp-auth-cap">
+  <div class="vx-player" data-vx-scene="mcp-auth"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-mcp-auth-cap">영상 — Salesforce 엔 어떤 토큰을 낼까? (약 43초 · 소리 없음 · 자막). 호출 3번·기록부 칸·한도 횟수·&#x27;주워 온 토큰&#x27;은 그림용 가정 · 화면의 &#x27;대상:&#x27; 은 토큰의 aud 칸 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">인가(authorization)는 선택, 붙이면 전송이 방법을 정함</p>
+<ul>
+<li>stdio 서버는 클라이언트가 띄운 같은 머신의 자식 프로세스 → 네트워크 경계가 없음. 자격증명은 환경(환경 변수)으로 주면 됨. OAuth 규격을 따르지 말라고(SHOULD NOT) 적혀 있음.</li>
+<li>HTTP 서버는 네트워크 너머 → OAuth 2.1. MCP 서버 = resource server(토큰 검사), 클라이언트 = OAuth client(토큰 받아 옴), authorization server = 토큰 발급.</li>
+<li>인가 자체가 OPTIONAL — 인증(authentication) 없는 공개 서버도 규격 위반은 아님.</li>
+</ul>
+<p class="lead">토큰은 한 곳 전용 (audience)</p>
+<ul>
+<li>클라이언트는 토큰을 받을 때 <code>resource</code> 파라미터로 "이 서버용"을 박음.</li>
+<li>서버는 자기용이 아닌 토큰은 거부. 그래야 다른 서비스용 토큰을 주워 와 재사용하는 공격이 막힘.</li>
+<li>서버가 뒤에서 제3자 API 를 부르면, 서버는 그 API 의 OAuth client 가 되어 <strong>새 토큰</strong>을 받음. 받은 토큰을 그대로 넘기면(passthrough) 업스트림이 "MCP 서버가 검증했겠지"라고 믿어 버림 → 통제(control)·감사·신뢰 경계가 다 깨짐.</li>
+</ul>
+<p class="lead">scope 는 점진 승격</p>
+<ul>
+<li>처음엔 읽기 수준 최소 scope. 권한이 더 필요한 작업을 처음 하려 할 때 서버가 <code>WWW-Authenticate</code> 로 필요한 scope 를 알려 주고 그때 올림.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="mcp-auth-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="mcp-auth-tree-1" aria-labelledby="mcp-auth-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7">
     <div class="t5-fh"><h3 id="mcp-auth-tree-1-h">① 전송으로 가르기 <span class="pg">[3.2①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -434,7 +477,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="mcp-auth-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="mcp-auth-flow" aria-label="MCP 인증·인가 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["MCP 클라이언트","MCP 서버","업스트림"],"blocks":[{"name":"액세스 토큰","var":true}],"rules":[null,"자기 앞으로 발급된(audience 에 자기가 든) 토큰만",null],"question":"서버가 받은 토큰을 업스트림에 내밀어도 될까?","scenes":[{"name":"① 따로 발급","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["토큰 요청","resource=","https://mcp.shop.example"]}},{"kind":"move","step":"요청","from":{"block":"액세스 토큰"},"to":1,"label":"`resource`(RFC 8707)로 대상을 박음","art":{"kind":"slip","lines":["Authorization:","Bearer eyJ…","aud: mcp.shop.example"]}},{"kind":"mark","step":"검사","at":{"col":1},"label":"audience 에 자기가 든 토큰만","art":{"kind":"slip","lines":["aud 일치 → 받음"]}},{"kind":"move","step":"업스트림 호출","from":{"col":1},"to":2,"label":"따로 발급받은 토큰","art":{"kind":"slip","lines":["Authorization:","Bearer sf_9x…","(Salesforce 가 발급)"]}},{"kind":"end","label":"서버가 그쪽의 OAuth client 가 되어 따로 발급받은 토큰으로 부름"}]},{"name":"② 그대로 넘기기","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["토큰 요청","resource=","https://mcp.shop.example"]}},{"kind":"move","step":"요청","from":{"block":"액세스 토큰"},"to":1,"label":"받은 토큰","art":{"kind":"slip","lines":["Authorization:","Bearer eyJ…","aud: mcp.shop.example"]}},{"kind":"mark","step":"검사","at":{"col":1},"label":"audience 에 자기가 든 토큰만","art":{"kind":"slip","lines":["aud 일치 → 받음"]}},{"kind":"move","step":"넘기기","from":{"col":1},"to":2,"label":"그대로 넘김(passthrough)","art":{"kind":"slip","lines":["Authorization:","Bearer eyJ…","(받은 그 토큰)"]}},{"kind":"end","label":"받은 토큰을 그대로 넘기면 업스트림의 rate limit·요청 검증이 우회되고 로그에 누가 불렀는지 안 남음"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -463,7 +506,7 @@
     </details>
   </figure>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="mcp-auth-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
@@ -519,105 +562,9 @@
         </li>
       </ol>
     </details>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"stdio 서버에도 OAuth 2.1 흐름을 붙인다" → 규격은 SHOULD NOT, 환경에서 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"원격 MCP 는 반드시(MUST) OAuth" → 인가 자체가 OPTIONAL, HTTP 면 SHOULD <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"로컬 프로세스는 API 키 경계" (영상 표현) → 공식은 "환경에서 자격증명" <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"토큰을 그대로 넘기면 사용자 권한이 유지돼 오히려 안전(SSO 처럼)" → 명시 금지 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>용어 : 규격의 'Confused Deputy' 절은 좁게는 정적 client ID 를 쓰는 프록시 서버의 동의 문제(동적 등록 클라이언트마다 사용자 동의 필수). 토큰 그대로 넘기기는 별도 항목 — 다만 규격은 그것도 confused deputy 를 부를 수 있다고 적음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"scope 를 한 번에 넉넉히 받아 동의창을 줄인다" → 과한 scope 는 피해 반경↑, 동의 포기도 부름. 점진 승격 <span class="ok">✓ 확인</span></span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Authorization is OPTIONAL for MCP implementations."</p>
-        <p lang="en">"Implementations using an STDIO transport SHOULD NOT follow this specification, and instead retrieve credentials from the environment."</p>
-        <p lang="en">"Implementations using an HTTP-based transport SHOULD conform to this specification."</p>
-        <p lang="en">"MCP servers MUST only accept tokens specifically intended for themselves and MUST reject tokens that do not include them in the audience claim"</p>
-        <p lang="en">"The MCP server MUST NOT pass through the token it received from the MCP client."</p>
-        <p lang="en">"Token passthrough is explicitly forbidden in the authorization specification"</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 3.2 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>MCP authorization 2025-11-25 <span class="src">(en 163~166·191·434~437·482~490·507·610·632·708·719~721줄)</span></li>
-        <li>MCP security best practices <span class="src">(en 282~314·674~719줄)</span></li>
-        <li>mcp-connector <span class="src">(en 359줄 · ko 359줄)</span></li>
-        <li>API overview <span class="src">(en 35~38줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 293줄)</span></li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
-        <li>고침 1곳(API 키 헤더 — 목록은 <code>x-api-key</code> 로만 적었음)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">3.2①</li>
-        <li class="chip">3.2②</li>
-        <li class="chip">7.1③</li>
-        <li>(<span class="note">MCP 자격증명</span>)</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-mcp-auth" aria-labelledby="vx-mcp-auth-cap">
-  <div class="vx-player" data-vx-scene="mcp-auth"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-mcp-auth-cap">영상 — Salesforce 엔 어떤 토큰을 낼까? (약 43초 · 소리 없음 · 자막). 호출 3번·기록부 칸·한도 횟수·&#x27;주워 온 토큰&#x27;은 그림용 가정 · 화면의 &#x27;대상:&#x27; 은 토큰의 aud 칸 <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>mcp-auth</dd>
-  <dt>본편</dt>
-  <dd>3.2</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">3.2①</li><li class="chip">3.2②</li><li class="chip">7.1③</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>놀이공원 손목 띠는 그 놀이공원에서만 써요.</p>
-<ul>
-<li>집 안 방끼리는 띠 없이 열쇠를 서랍에 두고 써요(로컬).</li>
-<li>밖에 나갈 땐 입구에서 띠를 받아요(원격).</li>
-<li>옆 놀이공원 입구에 내 띠를 내밀면 안 돼요 — 거기서 새 띠를 받아요.</li>
-<li>처음엔 작은 띠만 받고, 큰 놀이기구 앞에서 더 받아요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">인가(authorization)는 선택, 붙이면 전송이 방법을 정함</p>
-<ul>
-<li>stdio 서버는 클라이언트가 띄운 같은 머신의 자식 프로세스 → 네트워크 경계가 없음. 자격증명은 환경(환경 변수)으로 주면 됨. OAuth 규격을 따르지 말라고(SHOULD NOT) 적혀 있음.</li>
-<li>HTTP 서버는 네트워크 너머 → OAuth 2.1. MCP 서버 = resource server(토큰 검사), 클라이언트 = OAuth client(토큰 받아 옴), authorization server = 토큰 발급.</li>
-<li>인가 자체가 OPTIONAL — 인증(authentication) 없는 공개 서버도 규격 위반은 아님.</li>
-</ul>
-<p class="lead">토큰은 한 곳 전용 (audience)</p>
-<ul>
-<li>클라이언트는 토큰을 받을 때 <code>resource</code> 파라미터로 "이 서버용"을 박음.</li>
-<li>서버는 자기용이 아닌 토큰은 거부. 그래야 다른 서비스용 토큰을 주워 와 재사용하는 공격이 막힘.</li>
-<li>서버가 뒤에서 제3자 API 를 부르면, 서버는 그 API 의 OAuth client 가 되어 <strong>새 토큰</strong>을 받음. 받은 토큰을 그대로 넘기면(passthrough) 업스트림이 "MCP 서버가 검증했겠지"라고 믿어 버림 → 통제(control)·감사·신뢰 경계가 다 깨짐.</li>
-</ul>
-<p class="lead">scope 는 점진 승격</p>
-<ul>
-<li>처음엔 읽기 수준 최소 scope. 권한이 더 필요한 작업을 처음 하려 할 때 서버가 <code>WWW-Authenticate</code> 로 필요한 scope 를 알려 주고 그때 올림.</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -689,7 +636,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -764,7 +710,36 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="mcp-auth-practice-h">연습 문제</h2>
 
+  <section class="csx" id="mcp-auth-case" aria-labelledby="mcp-auth-case-h" data-tree="mcp-auth-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n10&quot;,&quot;업스트림 호출&quot;],[&quot;n11&quot;,null]]" data-flow="mcp-auth-flow" data-scene="0">
+    <p class="csx-text">사내 MCP 서버(Streamable HTTP)가 상담원 앱이 보낸 액세스 토큰을 검사한 뒤, <mark class="csx-m" data-tag="업스트림 호출">뒤에서 Salesforce API 를 불러 고객 기록을 가져온다<span class="csx-tag">업스트림 호출</span></mark>. 개발자는 "받은 토큰을 그대로 넘기면 사용자 권한이 유지돼 안전하다"고 한다. Salesforce 호출에는 어떤 토큰을 쓸까?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="mcp-auth-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"stdio 서버에도 OAuth 2.1 흐름을 붙인다" → 규격은 SHOULD NOT, 환경에서 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"원격 MCP 는 반드시(MUST) OAuth" → 인가 자체가 OPTIONAL, HTTP 면 SHOULD <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"로컬 프로세스는 API 키 경계" (영상 표현) → 공식은 "환경에서 자격증명" <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"토큰을 그대로 넘기면 사용자 권한이 유지돼 오히려 안전(SSO 처럼)" → 명시 금지 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>용어 : 규격의 'Confused Deputy' 절은 좁게는 정적 client ID 를 쓰는 프록시 서버의 동의 문제(동적 등록 클라이언트마다 사용자 동의 필수). 토큰 그대로 넘기기는 별도 항목 — 다만 규격은 그것도 confused deputy 를 부를 수 있다고 적음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"scope 를 한 번에 넉넉히 받아 동의창을 줄인다" → 과한 scope 는 피해 반경↑, 동의 포기도 부름. 점진 승격 <span class="ok">✓ 확인</span></span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Authorization is OPTIONAL for MCP implementations."</p>
+        <p lang="en">"Implementations using an STDIO transport SHOULD NOT follow this specification, and instead retrieve credentials from the environment."</p>
+        <p lang="en">"Implementations using an HTTP-based transport SHOULD conform to this specification."</p>
+        <p lang="en">"MCP servers MUST only accept tokens specifically intended for themselves and MUST reject tokens that do not include them in the audience claim"</p>
+        <p lang="en">"The MCP server MUST NOT pass through the token it received from the MCP client."</p>
+        <p lang="en">"Token passthrough is explicitly forbidden in the authorization specification"</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. "원격이니 OAuth 필수"가 틀리는 때</h4>
@@ -796,7 +771,6 @@
 <li><span class="lead">근거 :</span> security best practices en 696~720줄</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -864,7 +838,24 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="mcp-auth-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 3.2 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>MCP authorization 2025-11-25 <span class="src">(en 163~166·191·434~437·482~490·507·610·632·708·719~721줄)</span></li>
+        <li>MCP security best practices <span class="src">(en 282~314·674~719줄)</span></li>
+        <li>mcp-connector <span class="src">(en 359줄 · ko 359줄)</span></li>
+        <li>API overview <span class="src">(en 35~38줄)</span></li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 293줄)</span></li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
+        <li>고침 1곳(API 키 헤더 — 목록은 <code>x-api-key</code> 로만 적었음)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -873,8 +864,7 @@
 <li>목록의 "'lethal trifecta'·'Confused Deputy' 용어 주의"는 원문과 맞음 — confused deputy 절 = 정적 client ID 프록시의 동의 문제(authorization en 708줄), passthrough = 별도 항목이지만 confused deputy 를 부를 수 있다고 적음(en 720줄).</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/mcp-auth.md</p>

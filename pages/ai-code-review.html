@@ -350,24 +350,74 @@
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
-<!-- ■ AI 코드 리뷰 -->
-<article class="card t5-card" id="ai-code-review" aria-labelledby="ai-code-review-title">
+<!-- ■ AI 코드 리뷰 (v3 시범 순서) -->
+<article class="card t5-card v3" id="ai-code-review" aria-labelledby="ai-code-review-title">
   <header class="t5-head">
     <h1 id="ai-code-review-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> AI 코드 리뷰</h1>
-    <p class="lemma-meta"><span lang="en">find everything → filter later · fresh context · pilot → expand</span><span class="lemma-main">7.2 본편</span><a class="explain-link" href="#explain">아래 설명 보기</a></p>
+    <p class="lemma-meta"><span lang="en">find everything → filter later · fresh context · pilot → expand</span><span class="lemma-main">7.2 본편</span></p>
   </header>
-  <h2 class="sec-h" id="ai-code-review-sum-h">카드</h2>
+  <h2 class="sec-h" id="ai-code-review-why-h">왜 배우나 — 시험이 요구하는 것</h2>
+  <div class="t5-sum v3-why">
+    <p><span class="lead">시험 목표</span> <b>7.2 개발 흐름 개선</b> · D7 개발팀 7%<br><q lang="en">Improve developer workflows using AI-assisted tooling</q></p>
+    <p class="lead">이 개념으로 푸는 판단 (할 수 있어야 하는 것)</p>
+    <ul>
+      <li><b>7.2③ AI 코드 리뷰, 무엇을 보고시키고 어떻게 넓히나?</b> — 리뷰 지시(전부 보고 → 뒤에서 거르기)와 도입 확대 방식</li>
+    </ul>
+  </div>
+  <h2 class="sec-h" id="ai-code-review-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>찾기와 거르기를 뗀다. 찾는 단계는 불확실·저심각도까지 전부 보고(커버리지), 거르기(검증 · 중복 제거 · 순위)는 뒤 단계 <span class="ok">✓ 확인</span></p>
       <p>리뷰는 코드를 만든 컨텍스트가 아니라 새 컨텍스트가 함 → 방금 쓴 코드에 치우치지 않음 <span class="ok">✓ 확인</span></p>
     <p class="t5-ana"><span class="lead">비유</span> 알림 튜닝(Alertmanager). 수집은 전부 하고 라우팅 규칙으로 페이징만 거름. "알림 줄이려면 수집 임계치를 올린다" 가 속이는 습관 — 놓치는 장애가 늚</p>
   </div>
-  <h2 class="sec-h" id="ai-code-review-case-h">지문</h2>
-  <section class="csx" id="ai-code-review-case" aria-labelledby="ai-code-review-case-h" data-tree="ai-code-review-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;뒤 거르기&quot;],[&quot;n3&quot;,null]]" data-flow="ai-code-review-flow" data-scene="0">
-    <p class="csx-text">결제팀 리뷰 파이프라인은 찾기 에이전트 뒤에 <mark class="csx-m" data-tag="뒤 거르기">검증 · 중복 제거 · 심각도 순위를 매기는 단계<span class="csx-tag">뒤 거르기</span></mark> 가 따로 있다. "PR 코멘트가 너무 많다" 는 불평에 팀장은 찾기 프롬프트에 "only report high-severity issues" 를 넣자고 한다. 찾기 에이전트에게는 무엇을 지시해야 하나?</p>
-    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
-  </section>
-  <h2 class="sec-h" id="ai-code-review-trees-h">갈림길</h2>
+<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
+<h3 id="eli5-h">ELI5</h3>
+<p>물고기를 잡을 때 촘촘한 그물로 다 건진 다음, 배 위에서 골라내는 거예요.</p>
+<ul>
+<li>그물코를 처음부터 크게 하면 작은 물고기는 빠져나가요.</li>
+<li>그러면 "요즘 고기가 없네" 하고 착각해요.</li>
+<li>고르는 일은 배 위에서, 다른 사람이 하면 더 공정해요.</li>
+<li>바다 전체에 한꺼번에 그물을 던지기 전에, 몇 군데서 먼저 해 봐요.</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="explain-h">개념 설명</h2>
+<!-- vx:figure -->
+<figure class="vx" id="vx-ai-code-review" aria-labelledby="vx-ai-code-review-cap">
+  <div class="vx-player" data-vx-scene="ai-code-review"></div>
+  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
+  <figcaption class="vx-cap" id="vx-ai-code-review-cap">영상 — 코멘트가 많으면 어디서 거를까? (약 43초 · 소리 없음 · 자막). <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
+</figure>
+<!-- /vx:figure -->
+<section class="ex-sec" id="principle" aria-labelledby="principle-h">
+<h3 id="principle-h">원리</h3>
+<p class="lead">찾기와 거르기는 다른 일</p>
+<ul>
+<li>찾기의 목표 = 커버리지(재현율). 거르기의 목표 = 정밀도. 한 프롬프트에 둘을 섞으면 모델이 거르기 기준을 찾기에 적용함.</li>
+<li>Opus 4.8 은 지시를 글자 그대로 따르는 쪽(prompting-claude-opus-4-8 en 55줄) → "고심각도만" · "보수적으로" 가 있으면 버그를 찾아 놓고도 기준 아래라 판단한 건 보고 안 함. 조사 깊이는 같은데 보고만 줄어 → 정밀도는 오르고 재현율이 떨어짐. 모델이 약해진 게 아니라 하네스 효과.</li>
+<li>처방 : 찾기는 전부 보고 + 발견마다 신뢰도·추정 심각도 → 뒤 단계(검증 · 중복 제거 · 순위)가 거름. 뒤 단계가 없으면 판정선을 구체적으로.</li>
+</ul>
+<p class="lead">새 컨텍스트</p>
+<ul>
+<li>코드를 만든 세션은 "왜 그렇게 짰나" 를 들고 있어 자기 코드에 치우침. 새 세션·서브에이전트는 diff 와 넘겨받은 기준만 보고 제 기준으로 평가.</li>
+</ul>
+<p class="lead">"전부 보고" vs "정확성만 표시" — 충돌 아님</p>
+<ul>
+<li>찾기 단계(뒤에 필터가 있음) → 전부 보고.</li>
+<li>리뷰 결과를 바로 구현자가 받아 고침(필터 없음) → 정확성·명시 요구에 영향 주는 공백만 표시, 나머지는 선택. 안 그러면 과설계.</li>
+<li>즉 "보고 기준" 은 <strong>그 출력을 다음에 누가 받나</strong> 로 정함. (두 공식 문장을 이어 읽은 해석 — 업계 일반)</li>
+</ul>
+<p class="lead">관리형 Code Review = 위 구조의 제품판</p>
+<ul>
+<li>종류별 에이전트 병렬 찾기 → 실제 코드 동작과 대조하는 검증 → 중복 제거 → 심각도 순위 → 인라인 코멘트. 승인·차단은 안 함(사람 몫).</li>
+<li>기본은 정확성. <code>REVIEW.md</code> 로 심각도·nit 상한·건너뛸 경로·검증 기준을 저장소마다 조정.</li>
+</ul>
+<p class="lead">넓히기</p>
+<ul>
+<li>Owner 가 저장소를 골라 넣고 나중에 추가 · 저장소별 on/off · 트리거 3가지(1회 / 매 push / Manual). 비용은 리뷰 수에 비례 → 트리거와 저장소 수가 비용 lever(손잡이).</li>
+</ul>
+</section>
+  <h2 class="sec-h" id="ai-code-review-rules-h">규칙과 판단</h2>
+  <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="ai-code-review-tree-1" aria-labelledby="ai-code-review-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5">
     <div class="t5-fh"><h3 id="ai-code-review-tree-1-h">①② 보고 지시 <span class="pg">[7.2③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
@@ -420,7 +470,7 @@
       </div>
     </div>
   </section>
-  <h2 class="sec-h" id="ai-code-review-flow-h">흐름</h2>
+  <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="ai-code-review-flow" aria-label="AI 코드 리뷰 흐름 그림">
     <script type="application/json" class="fl-data">{"cols":["작성","찾기","거르기","PR"],"blocks":[],"rules":[null,"찾기의 일은 커버리지","검증 · 중복 제거 · 순위",null],"question":"지적은 어디서 걸러야 할까?","scenes":[{"name":"① 전부 보고 → 뒤에서 거르기","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["diff: `retry.ts` +12 −3"]}},{"kind":"move","step":"넘기기","from":{"col":0},"to":1,"label":"diff 와 넘겨받은 기준만","art":{"kind":"slip","lines":["diff + 기준: 정확성","(만든 추론은 안 감)"]}},{"kind":"move","step":"찾기","from":{"col":1},"to":2,"label":"전부 보고 + 신뢰도·심각도","art":{"kind":"slip","lines":["#1 무한 재시도 · 높음 · 0.9","#2 타임아웃 누락 · 중간 · 0.6","#3 #1 과 같음 · 0.4","#4 변수명 · 낮음 · 0.3"]}},{"kind":"move","step":"거르기","from":{"col":2},"to":3,"label":"검증 · 중복 제거 · 순위","art":{"kind":"slip","lines":["Important #1 무한 재시도","Important #2 타임아웃 누락","Nit #4 변수명","#3 중복 → 뺌"]}},{"kind":"end","label":"커버리지는 찾기에서, 거르기는 뒤 단계에서 — #2 도 PR 에 남음"}]},{"name":"② 찾기에 \"고심각도만\"","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["diff: `retry.ts` +12 −3"]}},{"kind":"move","step":"넘기기","from":{"col":0},"to":1,"label":"기준에 \"고심각도만\"","art":{"kind":"slip","lines":["diff + 기준:","\"only report","high-severity issues\""]}},{"kind":"mark","step":"찾기","at":{"col":1},"label":"기준 아래는 보고 안 함","art":{"kind":"slip","lines":["조사: 4건 찾음","보고: #1 만"]}},{"kind":"move","step":"넘기기","from":{"col":1},"to":2,"label":"보고가 줄어듦","art":{"kind":"slip","lines":["#1 무한 재시도 · 높음"]}},{"kind":"move","step":"거르기","from":{"col":2},"to":3,"label":"거를 것이 1건뿐","art":{"kind":"slip","lines":["Important #1 무한 재시도"]}},{"kind":"end","label":"정밀도는 오르고 재현율은 떨어짐 — #2 타임아웃 누락은 PR 에 없음"}]},{"name":"③ 만든 세션이 자기 리뷰","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["diff: `retry.ts` +12 −3","+ 방금 쓴 추론"]}},{"kind":"mark","step":"리뷰","at":{"col":0},"label":"방금 쓴 코드에 치우침","art":{"kind":"say","text":"제가 쓴 대로 잘 동작해요."}},{"kind":"skip","at":1},{"kind":"end","label":"새 컨텍스트(다른 세션·서브에이전트)가 리뷰해야 방금 쓴 코드에 치우치지 않음"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
@@ -457,7 +507,7 @@
     </details>
   </figure>
   <div class="t5-rest">
-    <h2>나머지 규칙</h2>
+    <h3>나머지 규칙</h3>
       <ol class="how">
         <li id="ai-code-review-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
@@ -500,121 +550,9 @@
         </li>
       </ol>
     </details>
-    <h2>CCA-F</h2>
-      <p>봄 (4.6 다중 인스턴스·다중 패스 리뷰 — 만든 쪽에게 채점을 안 맡김 · 4.1 명시적 기준으로 거짓 양성 줄이기 — '보수적으로' 같은 말은 기준이 아님) — 여기선 팀이 리뷰봇을 운영하며 "지적이 많다" 불만에 어디서 거르나(찾기 vs 뒤 단계), 어떻게 넓히나(저장소 · 트리거 · 비용)로 묻나</p>
-    <h2>함정</h2>
-      <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"지적이 많다 → 찾기 프롬프트를 '고심각도만'으로" → 재현율이 떨어짐. 거르기는 뒤 단계에서 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"'중요한 것만' 보고" → 두루뭉술한 말. 판정선을 구체적으로 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"코드를 쓴 세션에 '스스로 다시 검토해'" → 방금 쓴 코드에 치우침. 새 컨텍스트 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"리뷰어 지적은 전부 고친다" → 과설계. 정확성·명시된 요구만 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Code Review 로 머지를 막는다" → 승인·차단 안 함. 게이트는 내 CI 가 check run 출력을 읽어서 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"새 모델로 바꿨더니 지적이 줄었다 → 모델 퇴보" → 옛 모델용 '보수적' 지시를 더 충실히 따른 하네스 효과일 가능성 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"전사에 한 번에 켠다" → 저장소를 골라 넣고 추가 (업계 일반 + 비용 <span class="ok">✓ 확인</span>)</span></li>
-      </ul>
-    <h2>신호</h2>
-      <div class="sheet">
-        <p lang="en">"Report every issue you find, including ones you are uncertain about or consider low-severity."</p>
-        <p lang="en">"Do not filter for importance or confidence at this stage - a separate verification step will do that."</p>
-        <p lang="en">"be concrete about where the bar is rather than using qualitative terms like "important""</p>
-        <p lang="en">"A fresh context improves code review since Claude won’t be biased toward code it just wrote."</p>
-        <p lang="en">"Tell the reviewer to flag only gaps that affect correctness or the stated requirements, and treat the rest as optional."</p>
-        <p lang="en">"a verification step checks candidates against actual code behavior to filter out false positives."</p>
-      </div>
-    <div class="t5-meta2">
-    <div>
-    <h2>개념</h2>
-      <ul class="plain">
-        <li><a href="coding-loop.html">■ 코딩 맡기는 흐름</a></li>
-        <li><a href="automation-surfaces.html">■ 자동화 surface 고르기</a></li>
-        <li><a href="grader-choice.html">■ grader 고르기</a></li>
-        <li><a href="workflow-patterns.html">■ 워크플로 5패턴</a></li>
-      </ul>
-    <h2>출처</h2>
-      <ul class="plain">
-        <li>가이드 목표 7.2 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>prompting-claude-opus-4-8 <span class="src">(en 128~142줄 · ko 128~142줄)</span></li>
-        <li>best-practices <span class="src">(en 700~708·773~787줄)</span></li>
-        <li>code-review <span class="src">(en 181~183·200·210~215·245·262·272·296·302~308·357~359·389·469·579줄)</span></li>
-        <li>github-actions <span class="src">(en 181·410·441줄)</span></li>
-        <li>Skilljar cci 486936 — 전부 2026-09-28 조회</li>
-      </ul>
-    </div>
-    <div>
-    <h2>상태</h2>
-      <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑤ · ⑥ 손잡이·비용)</li>
-        <li><span class="gen">업계 일반</span> 1줄(⑥ 시범 순서)</li>
-      </ul>
-    <h2>쓰는 쪽</h2>
-      <ul class="chips">
-        <li class="chip">7.2③</li>
-      </ul>
-    </div>
-    </div>
   </div>
-</article>
-
-<section class="ex-part" id="explain" aria-labelledby="explain-h">
-<h2 id="explain-h">설명 — 문제 만들 재료</h2>
-<!-- vx:figure -->
-<figure class="vx" id="vx-ai-code-review" aria-labelledby="vx-ai-code-review-cap">
-  <div class="vx-player" data-vx-scene="ai-code-review"></div>
-  <noscript><p class="vx-cap">스크립트가 꺼져 있어 영상을 그리지 못해요. 아래 글이 같은 내용이에요.</p></noscript>
-  <figcaption class="vx-cap" id="vx-ai-code-review-cap">영상 — 코멘트가 많으면 어디서 거를까? (약 43초 · 소리 없음 · 자막). <span class="vx-hint">작은 화면에서는 전체화면(⛶)으로 보세요.</span></figcaption>
-</figure>
-<!-- /vx:figure -->
-<dl class="def meta">
-  <dt>카드</dt>
-  <dd>ai-code-review</dd>
-  <dt>본편</dt>
-  <dd>7.2</dd>
-  <dt>쓰는 쪽</dt>
-  <dd><ul class="chips"><li class="chip">7.2③</li></ul></dd>
-  <dt>조회일</dt>
-  <dd>2026-09-28</dd>
-</dl>
-
-<section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
-<h3 id="eli5-h">ELI5</h3>
-<p>물고기를 잡을 때 촘촘한 그물로 다 건진 다음, 배 위에서 골라내는 거예요.</p>
-<ul>
-<li>그물코를 처음부터 크게 하면 작은 물고기는 빠져나가요.</li>
-<li>그러면 "요즘 고기가 없네" 하고 착각해요.</li>
-<li>고르는 일은 배 위에서, 다른 사람이 하면 더 공정해요.</li>
-<li>바다 전체에 한꺼번에 그물을 던지기 전에, 몇 군데서 먼저 해 봐요.</li>
-</ul>
-</section>
-
-<section class="ex-sec" id="principle" aria-labelledby="principle-h">
-<h3 id="principle-h">원리</h3>
-<p class="lead">찾기와 거르기는 다른 일</p>
-<ul>
-<li>찾기의 목표 = 커버리지(재현율). 거르기의 목표 = 정밀도. 한 프롬프트에 둘을 섞으면 모델이 거르기 기준을 찾기에 적용함.</li>
-<li>Opus 4.8 은 지시를 글자 그대로 따르는 쪽(prompting-claude-opus-4-8 en 55줄) → "고심각도만" · "보수적으로" 가 있으면 버그를 찾아 놓고도 기준 아래라 판단한 건 보고 안 함. 조사 깊이는 같은데 보고만 줄어 → 정밀도는 오르고 재현율이 떨어짐. 모델이 약해진 게 아니라 하네스 효과.</li>
-<li>처방 : 찾기는 전부 보고 + 발견마다 신뢰도·추정 심각도 → 뒤 단계(검증 · 중복 제거 · 순위)가 거름. 뒤 단계가 없으면 판정선을 구체적으로.</li>
-</ul>
-<p class="lead">새 컨텍스트</p>
-<ul>
-<li>코드를 만든 세션은 "왜 그렇게 짰나" 를 들고 있어 자기 코드에 치우침. 새 세션·서브에이전트는 diff 와 넘겨받은 기준만 보고 제 기준으로 평가.</li>
-</ul>
-<p class="lead">"전부 보고" vs "정확성만 표시" — 충돌 아님</p>
-<ul>
-<li>찾기 단계(뒤에 필터가 있음) → 전부 보고.</li>
-<li>리뷰 결과를 바로 구현자가 받아 고침(필터 없음) → 정확성·명시 요구에 영향 주는 공백만 표시, 나머지는 선택. 안 그러면 과설계.</li>
-<li>즉 "보고 기준" 은 <strong>그 출력을 다음에 누가 받나</strong> 로 정함. (두 공식 문장을 이어 읽은 해석 — 업계 일반)</li>
-</ul>
-<p class="lead">관리형 Code Review = 위 구조의 제품판</p>
-<ul>
-<li>종류별 에이전트 병렬 찾기 → 실제 코드 동작과 대조하는 검증 → 중복 제거 → 심각도 순위 → 인라인 코멘트. 승인·차단은 안 함(사람 몫).</li>
-<li>기본은 정확성. <code>REVIEW.md</code> 로 심각도·nit 상한·건너뛸 경로·검증 기준을 저장소마다 조정.</li>
-</ul>
-<p class="lead">넓히기</p>
-<ul>
-<li>Owner 가 저장소를 골라 넣고 나중에 추가 · 저장소별 on/off · 트리거 3가지(1회 / 매 push / Manual). 비용은 리뷰 수에 비례 → 트리거와 저장소 수가 비용 lever(손잡이).</li>
-</ul>
-</section>
-
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -686,7 +624,6 @@
 </table>
 </div>
 </section>
-
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -768,7 +705,37 @@
 </table>
 </div>
 </section>
+  </details>
+  <h2 class="sec-h" id="ai-code-review-practice-h">연습 문제</h2>
 
+  <section class="csx" id="ai-code-review-case" aria-labelledby="ai-code-review-case-h" data-tree="ai-code-review-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;뒤 거르기&quot;],[&quot;n3&quot;,null]]" data-flow="ai-code-review-flow" data-scene="0">
+    <p class="csx-text">결제팀 리뷰 파이프라인은 찾기 에이전트 뒤에 <mark class="csx-m" data-tag="뒤 거르기">검증 · 중복 제거 · 심각도 순위를 매기는 단계<span class="csx-tag">뒤 거르기</span></mark> 가 따로 있다. "PR 코멘트가 너무 많다" 는 불평에 팀장은 찾기 프롬프트에 "only report high-severity issues" 를 넣자고 한다. 찾기 에이전트에게는 무엇을 지시해야 하나?</p>
+    <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
+  </section>
+  <h2 class="sec-h" id="ai-code-review-exam-h">시험 대비</h2>
+  <div class="t5-rest">
+    <h3>함정</h3>
+      <ul class="traps">
+        <li><span class="neq" aria-hidden="true">≠</span><span>"지적이 많다 → 찾기 프롬프트를 '고심각도만'으로" → 재현율이 떨어짐. 거르기는 뒤 단계에서 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"'중요한 것만' 보고" → 두루뭉술한 말. 판정선을 구체적으로 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"코드를 쓴 세션에 '스스로 다시 검토해'" → 방금 쓴 코드에 치우침. 새 컨텍스트 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"리뷰어 지적은 전부 고친다" → 과설계. 정확성·명시된 요구만 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Code Review 로 머지를 막는다" → 승인·차단 안 함. 게이트는 내 CI 가 check run 출력을 읽어서 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"새 모델로 바꿨더니 지적이 줄었다 → 모델 퇴보" → 옛 모델용 '보수적' 지시를 더 충실히 따른 하네스 효과일 가능성 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"전사에 한 번에 켠다" → 저장소를 골라 넣고 추가 (업계 일반 + 비용 <span class="ok">✓ 확인</span>)</span></li>
+      </ul>
+    <h3>신호</h3>
+      <div class="sheet">
+        <p lang="en">"Report every issue you find, including ones you are uncertain about or consider low-severity."</p>
+        <p lang="en">"Do not filter for importance or confidence at this stage - a separate verification step will do that."</p>
+        <p lang="en">"be concrete about where the bar is rather than using qualitative terms like "important""</p>
+        <p lang="en">"A fresh context improves code review since Claude won’t be biased toward code it just wrote."</p>
+        <p lang="en">"Tell the reviewer to flag only gaps that affect correctness or the stated requirements, and treat the rest as optional."</p>
+        <p lang="en">"a verification step checks candidates against actual code behavior to filter out false positives."</p>
+      </div>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. "전부 보고" 가 오히려 틀릴 때</h4>
@@ -802,7 +769,6 @@
 <li><span class="lead">근거 :</span> best-practices en 700·777줄 · Skilljar cci 486938 ("The less you watched, the more you verify.")</li>
 </ul>
 </section>
-
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
@@ -884,7 +850,33 @@
 </table>
 </div>
 </section>
-
+  </details>
+  <h2 class="sec-h" id="ai-code-review-ref-h">참고</h2>
+  <div class="t5-rest">
+    <h3>CCA-F</h3>
+      <p>봄 (4.6 다중 인스턴스·다중 패스 리뷰 — 만든 쪽에게 채점을 안 맡김 · 4.1 명시적 기준으로 거짓 양성 줄이기 — '보수적으로' 같은 말은 기준이 아님) — 여기선 팀이 리뷰봇을 운영하며 "지적이 많다" 불만에 어디서 거르나(찾기 vs 뒤 단계), 어떻게 넓히나(저장소 · 트리거 · 비용)로 묻나</p>
+    <h3>개념</h3>
+      <ul class="plain">
+        <li><a href="coding-loop.html">■ 코딩 맡기는 흐름</a></li>
+        <li><a href="automation-surfaces.html">■ 자동화 surface 고르기</a></li>
+        <li><a href="grader-choice.html">■ grader 고르기</a></li>
+        <li><a href="workflow-patterns.html">■ 워크플로 5패턴</a></li>
+      </ul>
+    <h3>출처</h3>
+      <ul class="plain">
+        <li>가이드 목표 7.2 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li>prompting-claude-opus-4-8 <span class="src">(en 128~142줄 · ko 128~142줄)</span></li>
+        <li>best-practices <span class="src">(en 700~708·773~787줄)</span></li>
+        <li>code-review <span class="src">(en 181~183·200·210~215·245·262·272·296·302~308·357~359·389·469·579줄)</span></li>
+        <li>github-actions <span class="src">(en 181·410·441줄)</span></li>
+        <li>Skilljar cci 486936 — 전부 2026-09-28 조회</li>
+      </ul>
+    <h3>상태</h3>
+      <ul class="plain">
+        <li><span class="ok">✓ 확인</span> (①~⑤ · ⑥ 손잡이·비용)</li>
+        <li><span class="gen">업계 일반</span> 1줄(⑥ 시범 순서)</li>
+      </ul>
+  </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
@@ -894,8 +886,7 @@
 <li>목록 영상 근거(Part 16 [10:58]·[12:00])는 유튜브 원문 미대조.</li>
 </ol>
 </section>
-
-</section>
+</article>
 
 <footer>
   <p>카드 원본 = concepts/cards/ai-code-review.md</p>
