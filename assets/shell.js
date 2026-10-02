@@ -6,7 +6,8 @@
  * 서랍 : 열면 본문 · 맨 아래 띠 · 사이트 이름에 inert → 초점은 목록과 여닫기 버튼 안에서만 돈다.
  *        Esc · 바깥 누르기 · 버튼으로 닫고 초점은 버튼으로 돌려준다. 넓은 화면의 목록 닫기는 그 화면 폭에서만 기억.
  * 목록 폭 (900px 이상) : 오른쪽 경계 손잡이(.side-resize, role=separator)를 끌면 <html> 의 --side-w 가 바뀌어
- *        목록 폭 · 본문 왼쪽 여백 · 맨 아래 띠가 같이 움직인다. 범위 240 ~ min(640, 창 폭 절반), 두 번 누르기 = 420,
+ *        목록 폭 · 본문 왼쪽 여백 · 맨 아래 띠가 같이 움직인다. 범위 240 ~ min(640, 창 폭 절반), 두 번 누르기 = 300
+ *        (기본 폭 = concepts.css --side-w 와 같게),
  *        ← → = 16px. 저장 = localStorage 'ccarp-concepts-side-w' (쪽을 옮겨도 유지). 첫 그림 전 적용은 build-concepts.py 의
  *        SIDE_W_HEAD 인라인 스크립트 — 키 · 범위를 같이 고친다. 900px 미만(서랍)은 기본 폭 그대로.
  *        (문서 : MDN Element.setPointerCapture — 끌기 중 포인터가 손잡이 밖으로 나가도 pointermove 를 받음 · touch-action:none,
@@ -165,7 +166,7 @@
 
   // ---------------------------------------------------------------- 목록 폭 (900px 이상)
   const W_KEY = 'ccarp-concepts-side-w';
-  const W_DEF = 420;
+  const W_DEF = 300;
   const W_MIN = 240;
   const W_CAP = 640;
   const W_STEP = 16;

@@ -347,7 +347,7 @@
     </li>
   </ul>
 </nav>
-<div class="side-resize" role="separator" aria-orientation="vertical" aria-controls="site-nav" aria-label="목차 폭" aria-valuenow="420" aria-valuemin="240" aria-valuemax="640" tabindex="0" title="끌어서 목차 폭 바꾸기 · 두 번 누르면 처음 폭 · ← → 키로 16px 씩"></div>
+<div class="side-resize" role="separator" aria-orientation="vertical" aria-controls="site-nav" aria-label="목차 폭" aria-valuenow="300" aria-valuemin="240" aria-valuemax="640" tabindex="0" title="끌어서 목차 폭 바꾸기 · 두 번 누르면 처음 폭 · ← → 키로 16px 씩"></div>
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
@@ -356,6 +356,7 @@
   <header class="t5-head">
     <h1 id="api-errors-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> API 오류별 대응</h1>
     <p class="lemma-meta"><span lang="en">500·529·429·504 · 지출 상한 429 · request-id</span><span class="lemma-main">7.3 본편</span></p>
+    <p class="mark-note">표시가 없는 문장은 공식 문서에서 확인한 내용이에요. 다른 표시는 <a href="../contents.html#howto">읽는 법</a></p>
   </header>
   <h2 class="sec-h" id="api-errors-why-h">왜 배우나 — 시험이 요구하는 것</h2>
   <div class="t5-sum v3-why">
@@ -367,8 +368,8 @@
   </div>
   <h2 class="sec-h" id="api-errors-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>API 오류 = HTTP 상태 + <code>error.type</code>(JSON). 할 일은 코드가 가름 — 500·529 = 일시 오류라 지수 백오프 재시도 · 429 = 한도(속도 또는 지출 상한) · 504 = 긴 요청은 스트리밍 · 400대 = 내 요청·키·권한을 고침 <span class="ok">✓ 확인</span></p>
-      <p>모든 응답에 <code>request-id</code> 헤더(오류 본문엔 같은 값 <code>request_id</code>) → 문의·추적의 열쇠. 거절은 오류가 아님(HTTP 200) → <a href="stop-reason.html">■ stop_reason 으로 분기</a> <span class="ok">✓ 확인</span></p>
+      <p>API 오류 = HTTP 상태 + <code>error.type</code>(JSON). 할 일은 코드가 가름 — 500·529 = 일시 오류라 지수 백오프 재시도 · 429 = 한도(속도 또는 지출 상한) · 504 = 긴 요청은 스트리밍 · 400대 = 내 요청·키·권한을 고침</p>
+      <p>모든 응답에 <code>request-id</code> 헤더(오류 본문엔 같은 값 <code>request_id</code>) → 문의·추적의 열쇠. 거절은 오류가 아님(HTTP 200) → <a href="stop-reason.html">■ stop_reason 으로 분기</a></p>
     <p class="t5-ana"><span class="lead">비유</span> 5xx 는 백오프 재시도 + 서킷 브레이커, 429 는 스로틀·쿼터 확인, 4xx 는 클라이언트 버그 수정. 추적은 X-Request-ID 로 게이트웨이·백엔드 로그를 잇기</p>
   </div>
   <figure class="v3-img">
@@ -436,15 +437,15 @@
       <div class="t5-fork" style="--n:6">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>500 <code>api_error</code></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">백오프 재시도</p><p>계속되면 request ID 와 함께 지원팀 문의 <span class="ok">✓ 확인</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">백오프 재시도</p><p>계속되면 request ID 와 함께 지원팀 문의</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>529 <code>overloaded_error</code></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">일시 과부하</p><p>내 한도 문제 아님 → 백오프 재시도 <span class="ok">✓ 확인</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">일시 과부하</p><p>내 한도 문제 아님 → 백오프 재시도</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>504 <code>timeout_error</code></span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">긴 요청</p><p>스트리밍 Messages API · Message Batches <span class="ok">✓ 확인</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">긴 요청</p><p>스트리밍 Messages API · Message Batches</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>429 <code>rate_limit_error</code></span>
@@ -452,7 +453,7 @@
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>400 · 401 · 403 · 404 · 413</span>
-          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">요청을 고침</p><p>형식·키·권한·경로·크기. SDK 가 자동 재시도하는 일시 오류(연결·429·5xx)가 아님 · 400 = 재시도 안 되는 오류 <span class="ok">✓ 확인</span> · 내가 건 지출 한도 도달도 400 → 한도 올리기 <span class="ok">✓ 확인</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">요청을 고침</p><p>형식·키·권한·경로·크기. SDK 가 자동 재시도하는 일시 오류(연결·429·5xx)가 아님 · 400 = 재시도 안 되는 오류 · 내가 건 지출 한도 도달도 400 → 한도 올리기</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>200 인데 답이 이상</span>
@@ -468,11 +469,11 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>content 비어 있음 · <code>refusal</code></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">거절</p><p>HTTP 200 + <code>stop_reason: "refusal"</code> <span class="ok">✓ 확인</span> → <a href="stop-reason.html">■ stop_reason 으로 분기</a></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">거절</p><p>HTTP 200 + <code>stop_reason: "refusal"</code> → <a href="stop-reason.html">■ stop_reason 으로 분기</a></p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>스트림 중간 <code>error</code> 이벤트</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">스트림 오류 처리</p><p>200 뒤 오류는 표준 오류 처리를 안 따름 → 오류 이벤트를 따로 처리 <span class="ok">✓ 확인</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">스트림 오류 처리</p><p>200 뒤 오류는 표준 오류 처리를 안 따름 → 오류 이벤트를 따로 처리</p></div>
         </div>
       </div>
     </div>
@@ -484,15 +485,15 @@
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>공식 SDK</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">이미 재시도함</p><p>연결 오류·429·5xx 를 지수 백오프로 기본 2번 · <code>retry-after</code> 따름 · <code>max_retries</code> <span class="ok">✓ 확인</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">이미 재시도함</p><p>연결 오류·429·5xx 를 지수 백오프로 기본 2번 · <code>retry-after</code> 따름 · <code>max_retries</code></p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>Claude Code</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">포기한 뒤 1번 기록</p><p><code>api_error</code> 는 재시도를 다 한 뒤 1번 · <code>attempt</code> 11 = 일시 오류로 소진(기본 10번) <span class="ok">✓ 확인</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">포기한 뒤 1번 기록</p><p><code>api_error</code> 는 재시도를 다 한 뒤 1번 · <code>attempt</code> 11 = 일시 오류로 소진(기본 10번)</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>어디서든, 문의·추적할 때</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>request-id</code></p><p>모든 응답 헤더 · 오류 본문 <code>request_id</code> <span class="ok">✓ 확인</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>request-id</code></p><p>모든 응답 헤더 · 오류 본문 <code>request_id</code></p></div>
         </div>
       </div>
     </div>
@@ -537,7 +538,7 @@
       <ol class="how">
         <li id="api-errors-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
-            <p><span class="lead">긴 요청 :</span> 스트리밍·배치 없이 큰 <code>max_tokens</code> 는 피함 — 일부 네트워크가 유휴 연결을 끊어 응답 없이 실패·시간 초과. 배치는 결과를 폴링해 네트워크 위험을 덜어 줌 · SDK 는 비스트리밍 요청이 10분 시간 초과를 넘을지 검증하고 TCP keep-alive 를 켬 <span class="ok">✓ 확인</span> <span class="pg">[7.3③]</span></p>
+            <p><span class="lead">긴 요청 :</span> 스트리밍·배치 없이 큰 <code>max_tokens</code> 는 피함 — 일부 네트워크가 유휴 연결을 끊어 응답 없이 실패·시간 초과. 배치는 결과를 폴링해 네트워크 위험을 덜어 줌 · SDK 는 비스트리밍 요청이 10분 시간 초과를 넘을지 검증하고 TCP keep-alive 를 켬 <span class="pg">[7.3③]</span></p>
           </div>
         </li>
       </ol>
@@ -546,44 +547,46 @@
       <ol class="how">
         <li id="api-errors-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p class="lead">코드 → 뜻 → 할 일 <span class="ok">✓ 확인</span> (2026-09-28 조회) <span class="pg">[7.3③]</span></p>
-            <table>
-              <thead><tr><th scope="col">코드 <code>type</code></th><th scope="col">뜻</th><th scope="col">할 일</th></tr></thead>
-              <tbody>
-                <tr><td>500 <code>api_error</code></td><td>Anthropic 내부의 예기치 않은 오류</td><td>지수 백오프 재시도 → 계속되면 request ID 와 함께 지원팀 문의</td></tr>
-                <tr><td>529 <code>overloaded_error</code></td><td>API 일시 과부하</td><td>백오프 재시도 <span class="note">(내 한도 문제 아님 → ■ rate limit)</span></td></tr>
-                <tr><td>504 <code>timeout_error</code></td><td>처리 중 시간 초과</td><td>긴 요청은 스트리밍 Messages API</td></tr>
-                <tr><td>429 <code>rate_limit_error</code></td><td>rate limit · 티어 월 지출 상한 · Claude Code 워크스페이스 지출 한도</td><td>지출 상한 429 는 <code>retry-after</code> 없음, 풀릴 때까지 계속 실패 → 가르기는 <a href="rate-limits.html">■ rate limit</a> <span class="rule-ref">· <a href="rate-limits.html#rate-limits-rule-5">규칙 ⑤</a></span></td></tr>
-                <tr><td>400 <code>invalid_request_error</code></td><td>요청 형식·내용 문제 · 내가 건 지출 한도 도달도 400</td><td>요청을 고침 · 한도 올리기</td></tr>
-                <tr><td>401 · 403</td><td>키 문제(형식·취소·만료) · 키에 그 리소스 권한 없음</td><td>키·워크스페이스 설정 확인</td></tr>
-                <tr><td>413 <code>request_too_large</code></td><td>크기 초과 <span class="note">(Messages 32 MB · Batch 256 MB)</span></td><td>요청을 줄임</td></tr>
-                <tr><td>409 <code>conflict_error</code></td><td>리소스 현재 상태와 충돌</td><td>충돌을 풀고 재시도</td></tr>
+            <p class="lead">코드 → 뜻 → 할 일 (2026-09-28 조회) <span class="pg">[7.3③]</span></p>
+            <div class="tscroll" role="region" aria-label="표" tabindex="0">
+            <table class="t-stack" role="table">
+              <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">코드 <code>type</code></th><th scope="col" role="columnheader">뜻</th><th scope="col" role="columnheader">할 일</th></tr></thead>
+              <tbody role="rowgroup">
+                <tr role="row"><td data-label="코드 type" role="cell">500 <code>api_error</code></td><td data-label="뜻" role="cell">Anthropic 내부의 예기치 않은 오류</td><td data-label="할 일" role="cell">지수 백오프 재시도 → 계속되면 request ID 와 함께 지원팀 문의</td></tr>
+                <tr role="row"><td data-label="코드 type" role="cell">529 <code>overloaded_error</code></td><td data-label="뜻" role="cell">API 일시 과부하</td><td data-label="할 일" role="cell">백오프 재시도 <span class="note">(내 한도 문제 아님 → ■ rate limit)</span></td></tr>
+                <tr role="row"><td data-label="코드 type" role="cell">504 <code>timeout_error</code></td><td data-label="뜻" role="cell">처리 중 시간 초과</td><td data-label="할 일" role="cell">긴 요청은 스트리밍 Messages API</td></tr>
+                <tr role="row"><td data-label="코드 type" role="cell">429 <code>rate_limit_error</code></td><td data-label="뜻" role="cell">rate limit · 티어 월 지출 상한 · Claude Code 워크스페이스 지출 한도</td><td data-label="할 일" role="cell">지출 상한 429 는 <code>retry-after</code> 없음, 풀릴 때까지 계속 실패 → 가르기는 <a href="rate-limits.html">■ rate limit</a> <span class="rule-ref">· <a href="rate-limits.html#rate-limits-rule-5">규칙 ⑤</a></span></td></tr>
+                <tr role="row"><td data-label="코드 type" role="cell">400 <code>invalid_request_error</code></td><td data-label="뜻" role="cell">요청 형식·내용 문제 · 내가 건 지출 한도 도달도 400</td><td data-label="할 일" role="cell">요청을 고침 · 한도 올리기</td></tr>
+                <tr role="row"><td data-label="코드 type" role="cell">401 · 403</td><td data-label="뜻" role="cell">키 문제(형식·취소·만료) · 키에 그 리소스 권한 없음</td><td data-label="할 일" role="cell">키·워크스페이스 설정 확인</td></tr>
+                <tr role="row"><td data-label="코드 type" role="cell">413 <code>request_too_large</code></td><td data-label="뜻" role="cell">크기 초과 <span class="note">(Messages 32 MB · Batch 256 MB)</span></td><td data-label="할 일" role="cell">요청을 줄임</td></tr>
+                <tr role="row"><td data-label="코드 type" role="cell">409 <code>conflict_error</code></td><td data-label="뜻" role="cell">리소스 현재 상태와 충돌</td><td data-label="할 일" role="cell">충돌을 풀고 재시도</td></tr>
               </tbody>
             </table>
+            </div>
           </div>
         </li>
         <li id="api-errors-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p>사용량이 갑자기 치솟으면 529 대신 429 가 날 수 있음 — 가속 한도(acceleration limits) (2025-08-11 릴리스 노트) <span class="ok">✓ 확인</span>. 짧은 폭주 = <a href="rate-limits.html">■ rate limit</a> <span class="rule-ref">· <a href="rate-limits.html#rate-limits-rule-1">규칙 ①</a></span> <span class="pg">[7.3③]</span></p>
+            <p>사용량이 갑자기 치솟으면 529 대신 429 가 날 수 있음 — 가속 한도(acceleration limits) (2025-08-11 릴리스 노트). 짧은 폭주 = <a href="rate-limits.html">■ rate limit</a> <span class="rule-ref">· <a href="rate-limits.html#rate-limits-rule-1">규칙 ①</a></span> <span class="pg">[7.3③]</span></p>
           </div>
         </li>
         <li id="api-errors-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p>재시도는 SDK 가 이미 함 : 공식 SDK = 연결 오류·rate limit(속도 제한)·5xx 를 지수 백오프로 기본 2번, <code>retry-after</code> 있으면 따름, <code>max_retries</code> 로 조정·끄기 <span class="ok">✓ 확인</span>. 오류는 SDK 의 타입 예외로 잡음 — 메시지 문자열 매칭 X, 가장 구체적인 클래스부터 <span class="ok">✓ 확인</span> <span class="pg">[7.3③]</span></p>
-            <p>Claude Code 는 내부에서 재시도(<code>CLAUDE_CODE_MAX_RETRIES</code> 기본 10 · 상한 15)하고 포기한 뒤에만 <code>claude_code.api_error</code> 1번 → <code>attempt</code> 11 = 일시 오류로 재시도 소진, 더 작으면 400 같은 재시도 안 되는 오류 · 회복 여부는 같은 <code>session.id</code> 에 뒤이은 <code>api_request</code> 가 있나로 <span class="ok">✓ 확인</span> <span class="src">(2026-09-28 조회)</span></p>
+            <p>재시도는 SDK 가 이미 함 : 공식 SDK = 연결 오류·rate limit(속도 제한)·5xx 를 지수 백오프로 기본 2번, <code>retry-after</code> 있으면 따름, <code>max_retries</code> 로 조정·끄기. 오류는 SDK 의 타입 예외로 잡음 — 메시지 문자열 매칭 X, 가장 구체적인 클래스부터 <span class="pg">[7.3③]</span></p>
+            <p>Claude Code 는 내부에서 재시도(<code>CLAUDE_CODE_MAX_RETRIES</code> 기본 10 · 상한 15)하고 포기한 뒤에만 <code>claude_code.api_error</code> 1번 → <code>attempt</code> 11 = 일시 오류로 재시도 소진, 더 작으면 400 같은 재시도 안 되는 오류 · 회복 여부는 같은 <code>session.id</code> 에 뒤이은 <code>api_request</code> 가 있나로 <span class="src">(2026-09-28 조회)</span></p>
           </div>
         </li>
         <li id="api-errors-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p><span class="lead">오류가 아닌 것 :</span> 거절 = HTTP 200 + <code>stop_reason: "refusal"</code> → 오류 집계·<code>api_error</code> 에 안 잡힘, Claude Code 는 <code>claude_code.api_refusal</code> 이벤트 <span class="ok">✓ 확인</span> → <a href="stop-reason.html">■ stop_reason 으로 분기</a> <span class="pg">[7.3③]</span> <span class="pg">[4.6③]</span></p>
-            <p>스트리밍은 200 뒤에도 오류가 옴 : <code>event: error</code> 안의 <code>overloaded_error</code> = 비스트리밍의 529. 표준 오류 처리를 안 따름 <span class="ok">✓ 확인</span></p>
+            <p><span class="lead">오류가 아닌 것 :</span> 거절 = HTTP 200 + <code>stop_reason: "refusal"</code> → 오류 집계·<code>api_error</code> 에 안 잡힘, Claude Code 는 <code>claude_code.api_refusal</code> 이벤트 → <a href="stop-reason.html">■ stop_reason 으로 분기</a> <span class="pg">[7.3③]</span> <span class="pg">[4.6③]</span></p>
+            <p>스트리밍은 200 뒤에도 오류가 옴 : <code>event: error</code> 안의 <code>overloaded_error</code> = 비스트리밍의 529. 표준 오류 처리를 안 따름</p>
           </div>
         </li>
         <li id="api-errors-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">추적 :</span> 모든 응답에 <code>request-id</code> 헤더(예 <code>req_018…</code>), 오류 본문엔 같은 값 <code>request_id</code> (2025-08-19~) <span class="ok">✓ 확인</span>. Python·TypeScript SDK = <code>_request_id</code> 속성 · 다른 헤더는 <code>with_raw_response</code> <span class="ok">✓ 확인</span> <span class="pg">[7.3③]</span></p>
-            <p>Claude Platform on AWS = ID 두 개 : <code>x-amzn-requestid</code>(CloudTrail 조회용) · <code>request-id</code>(Anthropic 지원 티켓용) <span class="ok">✓ 확인</span></p>
-            <p>Claude Code 텔레메트리의 <code>request_id</code> 도 같은 값 · 타임아웃처럼 서버 ID 가 안 생긴 실패는 <code>client_request_id</code> <span class="ok">✓ 확인</span></p>
+            <p><span class="lead">추적 :</span> 모든 응답에 <code>request-id</code> 헤더(예 <code>req_018…</code>), 오류 본문엔 같은 값 <code>request_id</code> (2025-08-19~). Python·TypeScript SDK = <code>_request_id</code> 속성 · 다른 헤더는 <code>with_raw_response</code> <span class="pg">[7.3③]</span></p>
+            <p>Claude Platform on AWS = ID 두 개 : <code>x-amzn-requestid</code>(CloudTrail 조회용) · <code>request-id</code>(Anthropic 지원 티켓용)</p>
+            <p>Claude Code 텔레메트리의 <code>request_id</code> 도 같은 값 · 타임아웃처럼 서버 ID 가 안 생긴 실패는 <code>client_request_id</code></p>
           </div>
         </li>
       </ol>
@@ -594,151 +597,38 @@
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
 <div class="tscroll" role="region" aria-label="표" tabindex="0">
-<table>
-<thead>
-<tr>
-<th scope="col">조건</th>
-<th scope="col">답</th>
-<th scope="col">등급</th>
-<th scope="col">근거</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>500 <code>api_error</code></td>
-<td>지수 백오프 재시도, 계속되면 request ID 로 지원팀 문의</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>errors en 13줄 "Retry the request with exponential backoff; if the error persists, contact support with the request ID."</td>
-</tr>
-<tr>
-<td>529 <code>overloaded_error</code></td>
-<td>일시 과부하 → 백오프 재시도</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>errors en 15·17줄 (SDK 가 5xx 를 재시도)</td>
-</tr>
-<tr>
-<td>504 <code>timeout_error</code></td>
-<td>긴 요청은 스트리밍 Messages API</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>errors en 14줄 · 69~76줄</td>
-</tr>
-<tr>
-<td>429 · <code>retry-after</code> 없음 · <code>enforced_spend_limit_reached</code></td>
-<td>티어 지출 상한 — 재시도 무의미, 상향 요청</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>errors en 12줄 · rate-limits en 33·48줄</td>
-</tr>
-<tr>
-<td>429 · <code>retry-after</code> 있음</td>
-<td>그 시간 뒤 재시도 (이르면 또 실패)</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>rate-limits en 162줄</td>
-</tr>
-<tr>
-<td>400 · 내 지출 한도 도달</td>
-<td>400 으로 옴 → 한도 올리기</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>errors en 5줄</td>
-</tr>
-<tr>
-<td>오류 처리 코드</td>
-<td>SDK 타입 예외를 구체적인 것부터 (문자열 매칭 X)</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>errors en 53줄</td>
-</tr>
-<tr>
-<td>200 인데 빈 답</td>
-<td>거절 — 오류 아님 → ■ stop_reason 으로 분기</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>monitoring-usage en 1096줄</td>
-</tr>
-<tr>
-<td>스트리밍 200 뒤 오류</td>
-<td>오류 이벤트를 따로 처리</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>errors en 19줄 · streaming ko 28~34줄</td>
-</tr>
-<tr>
-<td>문의·추적</td>
-<td><code>request-id</code> 헤더 · 본문 <code>request_id</code></td>
-<td><span class="ok">✓ 확인</span></td>
-<td>errors en 36·59줄</td>
-</tr>
-</tbody>
+<table class="t-stack" role="table">
+  <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
+  <tbody role="rowgroup">
+    <tr role="row"><td data-label="조건" role="cell">500 <code>api_error</code></td><td data-label="답" role="cell">지수 백오프 재시도, 계속되면 request ID 로 지원팀 문의</td><td data-label="근거" role="cell">errors "Retry the request with exponential backoff; if the error persists, contact support with the request ID."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">529 <code>overloaded_error</code></td><td data-label="답" role="cell">일시 과부하 → 백오프 재시도</td><td data-label="근거" role="cell">errors (SDK 가 5xx 를 재시도)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">504 <code>timeout_error</code></td><td data-label="답" role="cell">긴 요청은 스트리밍 Messages API</td><td data-label="근거" role="cell">errors</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">429 · <code>retry-after</code> 없음 · <code>enforced_spend_limit_reached</code></td><td data-label="답" role="cell">티어 지출 상한 — 재시도 무의미, 상향 요청</td><td data-label="근거" role="cell">errors · rate-limits</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">429 · <code>retry-after</code> 있음</td><td data-label="답" role="cell">그 시간 뒤 재시도 (이르면 또 실패)</td><td data-label="근거" role="cell">rate-limits</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">400 · 내 지출 한도 도달</td><td data-label="답" role="cell">400 으로 옴 → 한도 올리기</td><td data-label="근거" role="cell">errors</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">오류 처리 코드</td><td data-label="답" role="cell">SDK 타입 예외를 구체적인 것부터 (문자열 매칭 X)</td><td data-label="근거" role="cell">errors</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">200 인데 빈 답</td><td data-label="답" role="cell">거절 — 오류 아님 → ■ stop_reason 으로 분기</td><td data-label="근거" role="cell">monitoring-usage</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">스트리밍 200 뒤 오류</td><td data-label="답" role="cell">오류 이벤트를 따로 처리</td><td data-label="근거" role="cell">errors · streaming</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">문의·추적</td><td data-label="답" role="cell"><code>request-id</code> 헤더 · 본문 <code>request_id</code></td><td data-label="근거" role="cell">errors</td></tr>
+  </tbody>
 </table>
 </div>
 </section>
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
-<div class="tscroll" role="region" aria-label="표" tabindex="0">
-<table>
-<thead>
-<tr>
-<th scope="col">변수</th>
-<th scope="col">값</th>
-<th scope="col">답 쪽</th>
-<th scope="col">등급</th>
-<th scope="col">근거</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>호출 경로</td>
-<td>공식 SDK</td>
-<td>일시 오류는 이미 2번 재시도 · <code>max_retries</code> 로 조정</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>errors en 17줄</td>
-</tr>
-<tr>
-<td>호출 경로</td>
-<td>Claude Code</td>
-<td>기본 10번 재시도 후 <code>api_error</code> 1건 · <code>attempt</code> 로 횟수</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>monitoring-usage en 1663줄</td>
-</tr>
-<tr>
-<td>호출 경로</td>
-<td>직접 HTTP</td>
-<td>백오프를 직접 짬</td>
-<td><span class="gen">업계 일반</span></td>
-<td>—</td>
-</tr>
-<tr>
-<td>사용량 모양</td>
-<td>갑자기 치솟음</td>
-<td>529 대신 429(가속 한도)일 수 있음</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>릴리스 노트 en 518줄 (2025-08-11)</td>
-</tr>
-<tr>
-<td>사용량 모양</td>
-<td>월말 누적</td>
-<td>지출 상한 429 → 다음 달 1일 00:00 UTC 까지 멈춤</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>rate-limits en 33줄</td>
-</tr>
-<tr>
-<td>요청 길이</td>
-<td>큰 <code>max_tokens</code> · 비스트리밍</td>
-<td>스트리밍 또는 배치</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>errors en 69~72줄</td>
-</tr>
-<tr>
-<td>플랫폼</td>
-<td>Claude Platform on AWS</td>
-<td>ID 두 개 — CloudTrail 은 <code>x-amzn-requestid</code>, 지원 티켓은 <code>request-id</code></td>
-<td><span class="ok">✓ 확인</span></td>
-<td>errors en 61줄</td>
-</tr>
-<tr>
-<td>응답 모양</td>
-<td>스트리밍</td>
-<td>HTTP 상태만으론 부족</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>errors en 19줄</td>
-</tr>
-</tbody>
+<div class="tscroll t-wide" role="region" aria-label="표" tabindex="0">
+<table class="t-stack" role="table">
+  <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
+  <tbody role="rowgroup">
+    <tr role="row"><td data-label="변수" role="cell">호출 경로</td><td data-label="값" role="cell">공식 SDK</td><td data-label="답 쪽" role="cell">일시 오류는 이미 2번 재시도 · <code>max_retries</code> 로 조정</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">errors</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">호출 경로</td><td data-label="값" role="cell">Claude Code</td><td data-label="답 쪽" role="cell">기본 10번 재시도 후 <code>api_error</code> 1건 · <code>attempt</code> 로 횟수</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">monitoring-usage</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">호출 경로</td><td data-label="값" role="cell">직접 HTTP</td><td data-label="답 쪽" role="cell">백오프를 직접 짬</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">사용량 모양</td><td data-label="값" role="cell">갑자기 치솟음</td><td data-label="답 쪽" role="cell">529 대신 429(가속 한도)일 수 있음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">릴리스 노트 (2025-08-11)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">사용량 모양</td><td data-label="값" role="cell">월말 누적</td><td data-label="답 쪽" role="cell">지출 상한 429 → 다음 달 1일 00:00 UTC 까지 멈춤</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">rate-limits</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">요청 길이</td><td data-label="값" role="cell">큰 <code>max_tokens</code> · 비스트리밍</td><td data-label="답 쪽" role="cell">스트리밍 또는 배치</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">errors</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">플랫폼</td><td data-label="값" role="cell">Claude Platform on AWS</td><td data-label="답 쪽" role="cell">ID 두 개 — CloudTrail 은 <code>x-amzn-requestid</code>, 지원 티켓은 <code>request-id</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">errors</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">응답 모양</td><td data-label="값" role="cell">스트리밍</td><td data-label="답 쪽" role="cell">HTTP 상태만으론 부족</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">errors</td></tr>
+  </tbody>
 </table>
 </div>
 </section>
@@ -753,15 +643,15 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"피크에 실패 급증 → 모델이 불안정하니 모델 교체" → 상태 코드부터. 5xx·529 는 일시 오류(백오프), 429 는 한도 — 모델 품질 문제가 아님 <span class="gen">업계 일반</span> <span class="note">단 한도는 모델마다 따로라 다른 모델을 섞으면 429 는 덜 수 있음 <a href="rate-limits.html">■ rate limit</a> <span class="rule-ref">· <a href="rate-limits.html#rate-limits-rule-4">규칙 ④</a></span> <span class="ok">✓ 확인</span></span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"429 면 즉시 무한 재시도" → <code>retry-after</code> 보다 이르면 또 실패 · 지출 상한 429 는 계속 실패 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"500 이 계속돼도 재시도만" → 계속되면 request ID 로 문의 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"504 면 타임아웃 값만 늘림" → 긴 요청은 스트리밍 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"오류율 대시보드가 조용하니 정상" → 거절은 200 · 스트림 중간 오류는 200 뒤 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"오류 메시지 문자열로 분기" → SDK 타입 예외, 구체적인 것부터 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Claude Code <code>api_error</code> 1건 = 한 번 실패" → 재시도를 다 한 뒤 1번, 횟수는 <code>attempt</code> <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"피크에 실패 급증 → 모델이 불안정하니 모델 교체" → 상태 코드부터. 5xx·529 는 일시 오류(백오프), 429 는 한도 — 모델 품질 문제가 아님 <span class="gen">업계 일반</span> <span class="note">단 한도는 모델마다 따로라 다른 모델을 섞으면 429 는 덜 수 있음 <a href="rate-limits.html">■ rate limit</a> <span class="rule-ref">· <a href="rate-limits.html#rate-limits-rule-4">규칙 ④</a></span></span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"429 면 즉시 무한 재시도" → <code>retry-after</code> 보다 이르면 또 실패 · 지출 상한 429 는 계속 실패</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"500 이 계속돼도 재시도만" → 계속되면 request ID 로 문의</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"504 면 타임아웃 값만 늘림" → 긴 요청은 스트리밍</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"오류율 대시보드가 조용하니 정상" → 거절은 200 · 스트림 중간 오류는 200 뒤</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"오류 메시지 문자열로 분기" → SDK 타입 예외, 구체적인 것부터</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Claude Code <code>api_error</code> 1건 = 한 번 실패" → 재시도를 다 한 뒤 1번, 횟수는 <code>attempt</code></span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"SDK 위에 재시도 루프를 또 감쌈" → SDK 가 이미 2번 재시도, 겹치면 시도 수가 곱해짐 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"400 이니 한도는 아님" → 내가 건 지출 한도 도달도 400 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"400 이니 한도는 아님" → 내가 건 지출 한도 도달도 400</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -784,7 +674,7 @@
 <ul>
 <li><span class="lead">조건 :</span> 오류가 한 모델의 429 에 몰려 있음, 또는 200 인데 <code>refusal</code> 로 빈 답.</li>
 <li><span class="lead">판단 :</span> "모델 교체 = 엉뚱한 계층"은 5xx·529 일 때 이야기. rate limit 은 모델마다 따로라 다른 모델을 섞으면 그 모델의 한도까지 더 씀(<a href="rate-limits.html">■ rate limit</a> <span class="rule-ref">· <a href="rate-limits.html#rate-limits-rule-4">규칙 ④</a></span>). 거절은 같은 모델에 다시 보내면 대개 또 거절 → 다른 모델로(<a href="stop-reason.html">■ stop_reason 으로 분기</a> <span class="rule-ref">· <a href="stop-reason.html#stop-reason-rule-3">규칙 ③</a></span>).</li>
-<li><span class="lead">등급 :</span> <span class="ok">✓ 확인</span></li>
+
 <li><span class="lead">근거 :</span> rate-limits 카드 ④ · stop-reason 카드 ③</li>
 <li>그래도 첫 수는 상태 코드·<code>stop_reason</code> 확인 — 그걸 안 보고 "불안정하니 교체"는 오답 쪽.</li>
 </ul>
@@ -794,95 +684,39 @@
 <li><span class="lead">계산 :</span> 앱 1회 호출 = SDK 가 최대 3번 시도(1 + 2). 앱이 최대 5번 호출(1 + 4) → 요청 하나가 최대 15번 API 를 두드림.</li>
 <li><span class="lead">판단 :</span> 과부하·rate limit 상황에서 시도가 곱해지면 회복을 늦춤. SDK 의 <code>max_retries</code> 를 조정하거나 겹친 재시도를 걷어 냄.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (SDK 기본 2번은 확인 · "회복을 늦춤"은 업계 일반)</li>
-<li><span class="lead">근거 :</span> errors en 17줄</li>
+<li><span class="lead">근거 :</span> errors</li>
 </ul>
 <h4>3. Claude Code 의 <code>api_error</code> 1건</h4>
 <ul>
 <li><span class="lead">조건 :</span> 텔레메트리에 <code>claude_code.api_error</code> 가 1건, <code>attempt</code> = 11.</li>
 <li><span class="lead">판단 :</span> 1번 실패가 아니라 일시 오류로 11번(첫 시도 + 기본 10번 재시도) 다 해 보고 포기한 것. <code>attempt</code> 가 1~2 처럼 작으면 400 같은 재시도 안 되는 오류이거나 자체 재시도 예산이 작은 원인(예 AWS·Google Cloud 자격증명 로드 실패는 최대 2번).</li>
 <li><span class="lead">회복 여부 :</span> 같은 <code>session.id</code> 에서 그 오류 뒤에 <code>api_request</code> 가 이어지나로 봄.</li>
-<li><span class="lead">등급 :</span> <span class="ok">✓ 확인</span></li>
-<li><span class="lead">근거 :</span> monitoring-usage en 1663줄</li>
+
+<li><span class="lead">근거 :</span> monitoring-usage</li>
 </ul>
 <h4>4. 429 인데 기다려도 안 풀리는 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 월 중순부터 모든 요청이 429, 헤더에 <code>retry-after</code> 가 없음.</li>
 <li><span class="lead">판단 :</span> rate limit 이 아니라 티어 월 지출 상한. <code>error.details.error_code</code> = <code>enforced_spend_limit_reached</code>. SDK 재시도도 계속 실패 → 상향 요청.</li>
-<li><span class="lead">등급 :</span> <span class="ok">✓ 확인</span></li>
-<li><span class="lead">근거 :</span> errors en 12줄 · rate-limits en 33·48줄</li>
+
+<li><span class="lead">근거 :</span> errors · rate-limits</li>
 </ul>
 </section>
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
-<div class="tscroll" role="region" aria-label="표" tabindex="0">
-<table>
-<thead>
-<tr>
-<th scope="col">오답</th>
-<th scope="col">왜 끌리나</th>
-<th scope="col">왜 틀리나</th>
-<th scope="col">등급</th>
-<th scope="col">근거</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>"피크에 실패가 급증하니 모델이 불안정 — 모델 교체"</td>
-<td>실패가 모델 호출에서 나니 모델 탓 같음</td>
-<td>상태 코드부터. 5xx·529 는 일시 오류, 429 는 한도. 엉뚱한 계층 수정 (단 뒤집히는 때 1)</td>
-<td><span class="gen">업계 일반</span> + 확인</td>
-<td>errors en 12~15줄</td>
-</tr>
-<tr>
-<td>"429 에 즉시·무한 재시도"</td>
-<td>재시도가 기본 대응 같음</td>
-<td><code>retry-after</code> 보다 이르면 또 실패, 지출 상한 429 는 계속 실패</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>rate-limits en 162줄 · errors en 12줄</td>
-</tr>
-<tr>
-<td>"500 이 계속돼도 재시도 횟수만 늘림"</td>
-<td>언젠간 될 것 같음</td>
-<td>계속되면 request ID 로 문의</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>errors en 13줄</td>
-</tr>
-<tr>
-<td>"504 면 타임아웃 값만 늘림"</td>
-<td>설정 한 줄로 끝남</td>
-<td>긴 요청은 스트리밍·배치. 네트워크가 유휴 연결을 끊음</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>errors en 14·69~72줄</td>
-</tr>
-<tr>
-<td>"오류율(5xx) 대시보드가 조용하니 정상"</td>
-<td>오류가 없어 보임</td>
-<td>거절은 200, 스트림 중간 오류는 200 뒤</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>monitoring-usage en 1096줄 · errors en 19줄</td>
-</tr>
-<tr>
-<td>"오류 메시지 문자열로 분기"</td>
-<td>메시지에 이유가 적혀 있음</td>
-<td>SDK 타입 예외를 구체적인 것부터. <code>type</code> 값은 늘어날 수 있음</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>errors en 49·53줄</td>
-</tr>
-<tr>
-<td>"400 이니 한도 문제는 아님"</td>
-<td>한도 = 429 로 외움</td>
-<td>내가 건 지출 한도 도달은 400</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>errors en 5줄</td>
-</tr>
-<tr>
-<td>"SDK 위에 재시도 루프를 또 감싸 안정성 확보"</td>
-<td>겹겹이 방어 같음</td>
-<td>SDK 가 이미 2번. 겹치면 시도 수가 곱해짐</td>
-<td><span class="calc">계산</span></td>
-<td>뒤집히는 때 2</td>
-</tr>
-</tbody>
+<div class="tscroll t-wide" role="region" aria-label="표" tabindex="0">
+<table class="t-stack" role="table">
+  <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
+  <tbody role="rowgroup">
+    <tr role="row"><td data-label="오답" role="cell">"피크에 실패가 급증하니 모델이 불안정 — 모델 교체"</td><td data-label="왜 끌리나" role="cell">실패가 모델 호출에서 나니 모델 탓 같음</td><td data-label="왜 틀리나" role="cell">상태 코드부터. 5xx·529 는 일시 오류, 429 는 한도. 엉뚱한 계층 수정 (단 뒤집히는 때 1)</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> + 확인</td><td data-label="근거" role="cell">errors</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"429 에 즉시·무한 재시도"</td><td data-label="왜 끌리나" role="cell">재시도가 기본 대응 같음</td><td data-label="왜 틀리나" role="cell"><code>retry-after</code> 보다 이르면 또 실패, 지출 상한 429 는 계속 실패</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">rate-limits · errors</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"500 이 계속돼도 재시도 횟수만 늘림"</td><td data-label="왜 끌리나" role="cell">언젠간 될 것 같음</td><td data-label="왜 틀리나" role="cell">계속되면 request ID 로 문의</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">errors</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"504 면 타임아웃 값만 늘림"</td><td data-label="왜 끌리나" role="cell">설정 한 줄로 끝남</td><td data-label="왜 틀리나" role="cell">긴 요청은 스트리밍·배치. 네트워크가 유휴 연결을 끊음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">errors</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"오류율(5xx) 대시보드가 조용하니 정상"</td><td data-label="왜 끌리나" role="cell">오류가 없어 보임</td><td data-label="왜 틀리나" role="cell">거절은 200, 스트림 중간 오류는 200 뒤</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">monitoring-usage · errors</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"오류 메시지 문자열로 분기"</td><td data-label="왜 끌리나" role="cell">메시지에 이유가 적혀 있음</td><td data-label="왜 틀리나" role="cell">SDK 타입 예외를 구체적인 것부터. <code>type</code> 값은 늘어날 수 있음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">errors</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"400 이니 한도 문제는 아님"</td><td data-label="왜 끌리나" role="cell">한도 = 429 로 외움</td><td data-label="왜 틀리나" role="cell">내가 건 지출 한도 도달은 400</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">errors</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"SDK 위에 재시도 루프를 또 감싸 안정성 확보"</td><td data-label="왜 끌리나" role="cell">겹겹이 방어 같음</td><td data-label="왜 틀리나" role="cell">SDK 가 이미 2번. 겹치면 시도 수가 곱해짐</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
+  </tbody>
 </table>
 </div>
 </section>
@@ -898,15 +732,14 @@
     <h3>출처</h3>
       <ul class="plain">
         <li>가이드 목표 7.3 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>errors <span class="src">(ko·en 5~19·27~32·36·53·59~63·69~76줄)</span></li>
-        <li>streaming <span class="src">(ko 28~34줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/ko/api/rate-limits">rate-limits</a> <span class="src">(en 33·48·162줄)</span></li>
-        <li>monitoring-usage <span class="src">(en 955~956·1071~1082·1096·1663줄)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a> <span class="src">(en 500·518줄)</span></li>
+        <li>errors</li>
+        <li>streaming</li>
+        <li><a href="https://platform.claude.com/docs/ko/api/rate-limits">rate-limits</a></li>
+        <li>monitoring-usage</li>
+        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a></li>
       </ul>
     <h3>상태</h3>
       <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~⑥)</li>
         <li><span class="gen">업계 일반</span> 2줄</li>
       </ul>
   </div>
@@ -916,7 +749,7 @@
 <li>목록 7.3③ 의 "529 overloaded = 일시 과부하" 뒤 처방 : errors 문서의 529 줄엔 처방 문장이 없음. "백오프 재시도"는 SDK 가 5xx 를 재시도한다는 17줄과 ■ rate limit 카드에서 가져옴.</li>
 <li>가속 한도(acceleration limits) : 2025-08-11 릴리스 노트에만 있고 지금 rate-limits 문서엔 이 단어가 없음(검색어 <code>acceleration</code>). 지금 문서의 가까운 문장 = "Short bursts of requests can exceed the limit"(■ rate limit).</li>
 <li>408·409 를 SDK 가 자동 재시도하는지 : errors 문서는 "such as connection errors, rate limits, and 5xx" 예시만. 409 는 "충돌을 풀고 재시도"만 확인.</li>
-<li>목록의 영어 신호 두 개(500 줄 · 지출 상한 429 줄)는 원문에서 찾음 — 목록 그대로 ✓. 목록의 "Claude Code 감시도 api_error 가 아니라 api_refusal" 도 monitoring-usage en 1096줄에서 ✓.</li>
+<li>목록의 영어 신호 두 개(500 줄 · 지출 상한 429 줄)는 원문에서 찾음 — 목록 그대로 ✓. 목록의 "Claude Code 감시도 api_error 가 아니라 api_refusal" 도 monitoring-usage에서 ✓.</li>
 </ol>
 </section>
 </article>

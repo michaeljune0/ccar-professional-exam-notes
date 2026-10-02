@@ -1,7 +1,7 @@
 /* CCAR-P 개념 카드 공용 스타일 — 목차 · 개념 쪽(카드 + 설명) · 시험 소개 쪽 · 예전 주소 안내 (build-concepts.py 가 링크한다)
- * 틀 : 맨 위 띠 60px(오른쪽 끝 = 테마 선택) · 왼쪽 목록 420px(900px 이상에서 끌어서 240 ~ min(640, 창 폭 절반), 나무 =
- *      도메인 → 목표 → 개념) · 본문 글 폭 687px(본문 칸 가운데) · 넓은 그림 최대 1280px(글 칸과 같은 가운데 축)
- *      · 맨 아래 띠 56px. 900px 미만이면 목록 = 서랍 (shell.js) */
+ * 틀 : 맨 위 띠 60px(오른쪽 끝 = 테마 선택) · 왼쪽 목록 300px(900px 이상에서 끌어서 240 ~ min(640, 창 폭 절반), 나무 =
+ *      도메인 → 목표 → 개념) · 본문 글 폭 최대 840px(본문 칸 가운데, 좁으면 칸만큼) · 넓은 그림 최대 1280px · 넓은 표 최대
+ *      1152px(둘 다 글 칸과 같은 가운데 축) · 맨 아래 띠 56px. 900px 미만이면 목록 = 서랍 (shell.js) */
 :root {
   --paper: #FAF9F5;      /* 본문 · 띠 바탕 */
   --side: #F0EEE6;       /* 왼쪽 목록 바탕 */
@@ -28,9 +28,10 @@
   --serif: "Noto Serif KR", "Nanum Myeongjo", "AppleMyungjo", "Batang", serif;
   --sans: "IBM Plex Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
-  --measure: 687px;
+  --measure: 840px;      /* 글 칸 최대 폭 (2026-10-03 687 고정 → 화면 폭 따라 최대 840) */
   --wide: 1280px;        /* 넓힌 그림(흐름 · 영상 · 갈림길 · 반복) 최대 폭 = 영상 원본 폭 */
-  --side-w: 420px;       /* 목록 폭 — shell.js · <head> 인라인 스크립트가 <html> 에 끌어서 바꾼 값을 덮어씀 (900px 이상만) */
+  --wide-table: 1152px;  /* 넓힌 표(.tscroll.t-wide) 최대 폭 */
+  --side-w: 300px;       /* 목록 폭 — shell.js · <head> 인라인 스크립트가 <html> 에 끌어서 바꾼 값을 덮어씀 (900px 이상만) */
   --top-h: 60px;
   --bottom-h: 56px;
   color-scheme: light dark;
@@ -107,7 +108,7 @@
   --serif: "IBM Plex Mono", "IBM Plex Sans KR", ui-monospace, Consolas, monospace;
   --sans: "IBM Plex Mono", "IBM Plex Sans KR", ui-monospace, Consolas, monospace;
 }
-/* 큰 글자 : 흑백 대비를 높이고 글자를 1.2배 (아래 '큰 글자 테마' 절). 글 폭은 687 → 760px 만 — 한 줄 글자 수는 오히려 줄어
+/* 큰 글자 : 흑백 대비를 높이고 글자를 1.2배 (아래 '큰 글자 테마' 절). 글 폭은 840 → 920px 만 — 한 줄 글자 수는 오히려 줄어
    줄이 길어지지 않는다 */
 :root[data-theme="large"] {
   color-scheme: light;
@@ -118,7 +119,7 @@
   --sheet: #ffffff; --btn: #000000; --btn-ink: #ffffff; --slip: #f7f7f7; --slip-edge: #8a8a8a;
   --display: "IBM Plex Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
   --serif: "IBM Plex Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
-  --measure: 760px;
+  --measure: 920px;
 }
 /* 설명 절 영상의 판정 색 — 번들(mount.tsx)이 :root(0,1,0)에 초록/빨강을 주입하므로 특이도 (0,2,0) 으로 모든 테마 · 자동을
    덮어 이 쪽의 ✓ 파랑 · ≠ 주황 토큰을 그대로 쓴다 (적록색약 — 2026-10-01 사용자 결정, 번들 재빌드 없음) */
@@ -288,8 +289,16 @@ p.st-dh { margin: 0; padding: 8px 8px 0 calc(1.1em + 8px); color: var(--ink2); }
   }
   /* 넓힌 그림 안의 글 줄도 --measure 까지 */
   .fl :is(.flx-note, .flx-verdict, .fl-alt), .vx-cap, .rpx > :is(h3, p, ul), .rpx-sim > p { max-width: var(--measure); }
+  /* 넓은 표 (build-concepts.py table_html 이 칸 수 · 글자 수로 .t-wide 를 붙임) : 그림과 같은 계산, 최대 --wide-table.
+     감싸개의 부모가 글 칸보다 안쪽에서 시작하면(어떻게 ① 줄 = 번호 칸 1.6em) --tw-in 만큼 왼쪽을 더 당겨 가운데 축을 맞춘다.
+     폭을 정해 두므로 오른쪽 여백은 계산에서 빠진다 (넘친 제약 — 왼쪽 → 오른쪽 글에선 margin-right 를 무시) */
+  .shell main .tscroll.t-wide {
+    width: min(var(--wide-table), 100cqi); max-width: none;
+    margin-left: calc((min(var(--measure), 100cqi) - min(var(--wide-table), 100cqi)) / 2 - var(--tw-in, 0px));
+  }
 }
-/* 900~1099px : 목록 420px 옆 본문이 좁아 좌우 여백만 줄임 (72 → 40) */
+.how-body { --tw-in: 1.6em; }
+/* 900~1099px : 목록 300px 옆 본문이 아직 좁아(900 에서 글 칸 456px) 좌우 여백만 줄임 (72 → 40) */
 @media (min-width: 900px) and (max-width: 1099px) {
   .shell:not(.side-closed) main { padding-left: 40px; padding-right: 40px; }
   .shell:not(.side-closed) .bb-in { padding: 0 40px; }
@@ -378,6 +387,11 @@ ol.goals { list-style: none; margin: 0; padding: 0; }
 .lemma-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; margin-top: 6px; color: var(--muted); font-family: var(--sans); font-size: 16px; line-height: 1.5; }
 .lemma-main { font-size: 14px; color: var(--ink); border: 1px solid var(--ink); padding: 0 0.45em; line-height: 1.6; }
 .explain-link { font-size: 14px; }
+/* 제목 아래 한 줄 : 확인 표시를 빼서 생긴 빈자리의 뜻 (build-concepts.py MARK_NOTE) */
+.mark-note { margin-top: 4px; color: var(--muted); font-family: var(--sans); font-size: 14px; line-height: 1.5; }
+.mark-note a { color: var(--muted); }
+/* 읽는 법 범례 '표시 없음' (= 확인) — 딱지가 없다는 뜻이라 테두리 없이 글자만 */
+.nomark { color: var(--muted); font-family: var(--sans); font-size: 14px; line-height: 1.5; white-space: nowrap; }
 .t5-sum > * + * { margin-top: 10px; }
 .t5-ana { color: var(--muted); }
 .t5-ana .lead { color: var(--ink); margin-right: 0.4em; font-family: var(--sans); }
@@ -418,7 +432,13 @@ ul.dash { margin: 6px 0 0; padding-left: 1.2em; }
 ul.dash > li + li { margin-top: 4px; }
 
 table { border-collapse: collapse; width: 100%; font-size: 18px; line-height: 28px; }
-th, td { text-align: left; vertical-align: top; padding: 6px 12px 6px 0; border-bottom: 1px solid var(--rule); }
+/* 칸 안 줄바꿈 = 띄어쓰기에서만 (keep-all — 한글 낱말 가운데서 안 끊음). 긴 영어 토큰(파일명 · 주소)만 넘칠 때 끊되, body 의
+   anywhere 를 break-word 로 덮는다 : anywhere 는 끊을 자리를 min-content 에 넣어 자동 표 배치가 칸을 글자 1~2개 폭까지
+   줄였고, break-word 는 min-content 에 안 넣는다 (문서 : MDN overflow-wrap · MDN word-break keep-all) */
+th, td { text-align: left; vertical-align: top; padding: 6px 12px 6px 0; border-bottom: 1px solid var(--rule);
+  word-break: keep-all; overflow-wrap: break-word; }
+/* 설명 쪽 표 '등급' 칸 : 예외 표지 + 덧붙임 괄호가 든 칸이라 자동 배치가 가장 좁게 잡아 괄호가 4줄 넘게 꺾였다 → 최소 폭 */
+td[data-label="등급"] { min-width: 8.5em; }
 thead th { color: var(--muted); font-family: var(--sans); font-size: 15px; font-weight: 600; border-bottom: 1px solid var(--ink); }
 .t-narrow td:nth-child(1), .t-narrow td:nth-child(2) { white-space: nowrap; }
 
@@ -491,8 +511,32 @@ dl.meta { row-gap: 2px; font-family: var(--sans); font-size: 15px; line-height: 
 .ex-sec > h3 + h4 { margin-top: 0; }
 .eli5, .xg-want { border: 1px solid var(--rule); background: var(--sheet); padding: 16px 20px; }
 .eli5 > h3 { margin-bottom: 8px; }
-.tscroll { max-width: 100%; overflow-x: auto; }
+/* 표 감싸개 (모든 표 — build-concepts.py table_html) = 크기 질의 컨테이너 : 표가 쓸 수 있는 폭으로 모양을 고른다 (화면 폭 아님 —
+   목록 · 여백 · 넓힘에 따라 같은 화면에서도 달라서). 문서 : MDN CSS container queries (container-type inline-size · @container) */
+.tscroll { container-type: inline-size; max-width: 100%; overflow-x: auto; }
 .tscroll:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+/* 표가 쓸 폭 < 600px : 머리 있는 표(.t-stack)는 행 = 카드 1장, 칸마다 칸 이름(td data-label)을 앞에 붙인다. 머리 없는 표는
+   그대로 가로 스크롤. 머리 줄은 눈에서만 숨긴다 (낭독기는 ARIA 표 역할 + 머리 칸으로 그대로 읽음 — table_html). 칸 이름 글자는
+   대체 글 ""(content 의 / 뒤)로 낭독에서 빼서 머리 칸과 두 번 읽히지 않게 (지원 안 하는 브라우저는 앞 줄 선언을 씀) */
+@container (max-width: 599px) {
+  table.t-stack, table.t-stack > tbody, table.t-stack > tbody > tr, table.t-stack > tbody > tr > :is(td, th) { display: block; width: auto; }
+  /* 눈에서만 숨김 : contain:paint 로 1px 상자 밖을 잘라(쪽 가로 넘침에도 안 들어감) clip-path 로 가린다 — overflow:hidden 을
+     쓰지 않아 검사기(check-concept-pages)가 '잘린 내용'으로 잡지 않는다 */
+  table.t-stack > thead { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; contain: paint; clip-path: inset(50%); border: 0; }
+  table.t-stack > tbody > tr { padding: 10px 14px 12px; border: 1px solid var(--rule); background: var(--sheet); }
+  table.t-stack > tbody > tr + tr { margin-top: 10px; }
+  table.t-stack > tbody > tr > :is(td, th) { padding: 0; border: 0; white-space: normal; }
+  table.t-stack > tbody > tr > * + * { margin-top: 8px; }
+  table.t-stack > tbody > tr > td:empty { display: none; }
+  table.t-stack.t-narrow td { white-space: normal; }
+  table.t-stack td[data-label]::before {
+    content: attr(data-label); content: attr(data-label) / "";
+    display: block; font-family: var(--sans); font-size: 14px; font-weight: 600; line-height: 1.5; color: var(--muted);
+  }
+  /* 시험 소개 · 출처 표의 행 머리(th scope=row) = 카드의 머리 */
+  table.t-stack > tbody > tr > th[scope="row"] { font-family: var(--sans); font-size: 17px; font-weight: 600; color: var(--ink2);
+    padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+}
 
 /* ---------- 시험 소개 쪽 (pages/about-exam.html) : 영어 원문 인용 → 바로 아래 한글 풀이 ---------- */
 .xg-link { margin-top: 6px; font-family: var(--sans); font-size: 16px; line-height: 1.6; }
@@ -786,9 +830,9 @@ dl.meta { row-gap: 2px; font-family: var(--sans); font-size: 15px; line-height: 
   .flx-lane, .flx-arrow, .flx-ask, .csx-m, .rpx-fill { transition: none; }
 }
 
-/* 폭 < 700px : 설명 쪽 표는 표만 가로 스크롤 */
+/* 폭 < 700px : 카드로 안 쌓이는 표(머리 없음)는 표만 가로 스크롤 */
 @media (max-width: 699px) {
-  .tscroll > table { min-width: 640px; }
+  .tscroll > table:not(.t-stack) { min-width: 640px; }
 }
 /* 폭 < 600px : 항목 이름을 내용 위로, 눈금자 구역 이름은 아래 범례로 */
 @media (max-width: 599px) {
@@ -811,7 +855,7 @@ dl.meta { row-gap: 2px; font-family: var(--sans); font-size: 15px; line-height: 
 .vx-hint { display: none; }
 @media (max-width: 700px) { .vx-hint { display: inline; } }
 
-/* ---------- 큰 글자 테마 : 글자 약 1.2배 (px 로 박힌 곳만 덮음 — 칸 폭 · 그림 배치는 그대로, 글 폭 = 위 --measure 760) ---------- */
+/* ---------- 큰 글자 테마 : 글자 약 1.2배 (px 로 박힌 곳만 덮음 — 칸 폭 · 그림 배치는 그대로, 글 폭 = 위 --measure 920) ---------- */
 :root[data-theme="large"] body { font-size: 24px; line-height: 37px; }
 :root[data-theme="large"] :is(h1, h2, .shell main h2, .t5-orig > summary) { font-size: 28px; }
 :root[data-theme="large"] :is(h3, h4) { font-size: 23px; }
@@ -819,7 +863,8 @@ dl.meta { row-gap: 2px; font-family: var(--sans); font-size: 15px; line-height: 
 :root[data-theme="large"] .st-dh { font-size: 21px; }
 :root[data-theme="large"] .st-gh { font-size: 19px; }
 :root[data-theme="large"] .st-cnt { font-size: 15px; }
-:root[data-theme="large"] :is(.gen, .post, .calc, .open, .infer, .pg, .chip, .lemma-main, .explain-link, .goal-ko) { font-size: 17px; }
+:root[data-theme="large"] :is(.gen, .post, .calc, .open, .infer, .nomark, .mark-note, .pg, .chip, .lemma-main, .explain-link, .goal-ko) { font-size: 17px; }
+:root[data-theme="large"] table.t-stack td[data-label]::before { font-size: 17px; }
 :root[data-theme="large"] :is(.lemma-meta, .dom-weight, .soon, .xg-link, .xg-calc, .bb-prev, .nav-toggle, .theme-pick) { font-size: 18px; }
 :root[data-theme="large"] .goal :is(h3, h4) { font-size: 21px; }
 :root[data-theme="large"] table { font-size: 21px; line-height: 33px; }

@@ -347,7 +347,7 @@
     </li>
   </ul>
 </nav>
-<div class="side-resize" role="separator" aria-orientation="vertical" aria-controls="site-nav" aria-label="목차 폭" aria-valuenow="420" aria-valuemin="240" aria-valuemax="640" tabindex="0" title="끌어서 목차 폭 바꾸기 · 두 번 누르면 처음 폭 · ← → 키로 16px 씩"></div>
+<div class="side-resize" role="separator" aria-orientation="vertical" aria-controls="site-nav" aria-label="목차 폭" aria-valuenow="300" aria-valuemin="240" aria-valuemax="640" tabindex="0" title="끌어서 목차 폭 바꾸기 · 두 번 누르면 처음 폭 · ← → 키로 16px 씩"></div>
 <main class="main" id="content" tabindex="-1" data-shell-outside>
 <div class="col">
 
@@ -356,6 +356,7 @@
   <header class="t5-head">
     <h1 id="observability-signals-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> observability 세 신호</h1>
     <p class="lemma-meta"><span lang="en">metrics · log events · traces</span><span class="lemma-main">3.4 본편</span></p>
+    <p class="mark-note">표시가 없는 문장은 공식 문서에서 확인한 내용이에요. 다른 표시는 <a href="../contents.html#howto">읽는 법</a></p>
   </header>
   <h2 class="sec-h" id="observability-signals-why-h">왜 배우나 — 시험이 요구하는 것</h2>
   <div class="t5-sum v3-why">
@@ -368,10 +369,10 @@
   </div>
   <h2 class="sec-h" id="observability-signals-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>에이전트 텔레메트리는 서로 독립인 세 신호. 켜는 스위치·내보내는 곳이 따로라 필요한 것만 켬 <span class="ok">✓ 확인</span> <span class="src">(Claude Code · Agent SDK 기준. 직접 API 앱은 같은 틀로 내가 계측 — 업계 일반)</span></p>
+      <p>에이전트 텔레메트리는 서로 독립인 세 신호. 켜는 스위치·내보내는 곳이 따로라 필요한 것만 켬 <span class="src">(Claude Code · Agent SDK 기준. 직접 API 앱은 같은 틀로 내가 계측 — 업계 일반)</span></p>
       <p>메트릭 = 카운터(토큰 · 비용 · 세션 · 코드 줄 · 도구 결정) → 대시보드 · 추세 · 알림. "무엇이 움직였나"</p>
       <p>로그 이벤트 = 프롬프트 · API 요청 · API 오류 · 도구 결과마다 구조화 기록 → 감사 · 검색</p>
-      <p>트레이스 = 한 턴(interaction) 아래 모델 요청 · 도구 호출 · hook span → "이 실행의 어느 단계가 느린가" (베타) <span class="ok">✓ 확인</span></p>
+      <p>트레이스 = 한 턴(interaction) 아래 모델 요청 · 도구 호출 · hook span → "이 실행의 어느 단계가 느린가" (베타)</p>
     <p class="t5-ana"><span class="lead">비유</span> Prometheus(메트릭) · 액세스 로그(이벤트) · X-Ray/Jaeger 분산 추적(트레이스)</p>
   </div>
   <figure class="v3-img">
@@ -434,15 +435,15 @@
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>무엇이 움직였나</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">메트릭</p><p>카운터(토큰 · 비용 · 세션 · 코드 줄 · 도구 결정) → 대시보드 · 추세 · 알림 <span class="ok">✓ 확인</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">메트릭</p><p>카운터(토큰 · 비용 · 세션 · 코드 줄 · 도구 결정) → 대시보드 · 추세 · 알림</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>어느 단계가 느린가</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">트레이스</p><p><code>claude_code.interaction</code> 루트 아래 <code>claude_code.llm_request</code>(모델명·지연(latency)·토큰) · <code>claude_code.tool</code>(권한 대기 span + 실행 span) <span class="ok">✓ 확인</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">트레이스</p><p><code>claude_code.interaction</code> 루트 아래 <code>claude_code.llm_request</code>(모델명·지연(latency)·토큰) · <code>claude_code.tool</code>(권한 대기 span + 실행 span)</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>감사·검색</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">로그 이벤트</p><p>프롬프트 · API 요청 · API 오류 · 도구 결과마다 구조화 기록 <span class="ok">✓ 확인</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">로그 이벤트</p><p>프롬프트 · API 요청 · API 오류 · 도구 결과마다 구조화 기록</p></div>
         </div>
       </div>
     </div>
@@ -454,11 +455,11 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>Claude Code 메트릭 <span class="note">(<code>claude_code.cost.usage</code>)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">근사치</p><p>비용(USD)은 근사치, 청구 정본은 Console 등 제공자 <span class="ok">✓ 확인</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">근사치</p><p>비용(USD)은 근사치, 청구 정본은 Console 등 제공자</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>표준 OTel GenAI 지표</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">비용은 없음</p><p>비용은 Claude Code 고유 지표(<code>claude_code.cost.usage</code>) <span class="ok">✓ 확인</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">비용은 없음</p><p>비용은 Claude Code 고유 지표(<code>claude_code.cost.usage</code>)</p></div>
         </div>
       </div>
     </div>
@@ -470,7 +471,7 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>트레이스만</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">베타 변수</p><p>트레이스는 <code>CLAUDE_CODE_ENHANCED_TELEMETRY_BETA=1</code> 도 <span class="ok">✓ 확인</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">베타 변수</p><p>트레이스는 <code>CLAUDE_CODE_ENHANCED_TELEMETRY_BETA=1</code> 도</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>전부</span>
@@ -478,15 +479,15 @@
           <div class="t5-fork" style="--n:3">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(변수 자체를 안 켬)</span></span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">켜기</p><p><code>CLAUDE_CODE_ENABLE_TELEMETRY=1</code> + 신호별 exporter <span class="ok">✓ 확인</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">켜기</p><p><code>CLAUDE_CODE_ENABLE_TELEMETRY=1</code> + 신호별 exporter</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>켰는데 exporter 없음</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">아무것도 안 나감</p><p>exporter 를 하나도 안 고르면 켜도 아무것도 안 나감 <span class="ok">✓ 확인</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">아무것도 안 나감</p><p>exporter 를 하나도 안 고르면 켜도 아무것도 안 나감</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>예 <span class="note">(둘 다)</span></span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">조용한 실패</p><p>내보내기 실패는 조용함(에이전트는 정상, 데이터만 버림) → 진단은 <code>CLAUDE_CODE_OTEL_DIAG_STDERR=1</code> <span class="ok">✓ 확인</span> · 프로세스가 죽으면 버퍼에 남은 건 유실 <span class="ok">✓ 확인</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">조용한 실패</p><p>내보내기 실패는 조용함(에이전트는 정상, 데이터만 버림) → 진단은 <code>CLAUDE_CODE_OTEL_DIAG_STDERR=1</code> · 프로세스가 죽으면 버퍼에 남은 건 유실</p></div>
             </div>
           </div>
         </div>
@@ -544,27 +545,27 @@
       <ol class="how">
         <li id="observability-signals-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p>일부 실행만 느림 · 모델인지 도구인지 모름 → 트레이스. <code>claude_code.interaction</code> 루트 아래 <code>claude_code.llm_request</code>(모델명·지연·토큰) · <code>claude_code.tool</code>(권한 대기 span + 실행 span) <span class="ok">✓ 확인</span> <span class="pg">[3.4①]</span></p>
-            <p>서브에이전트의 span 은 부모의 <code>claude_code.tool</code> span 아래 붙음 → 위임(delegation) 사슬이 한 트레이스 <span class="ok">✓ 확인</span></p>
-            <p>여러 호출을 한 줄로 보려면 <code>session.id</code> 로 거름 · 내 앱 트레이스 안에 넣으려면 W3C trace context(<code>TRACEPARENT</code>)가 자동 전파(SDK · <code>claude -p</code> 만, 대화형 CLI 는 무시) <span class="ok">✓ 확인</span></p>
+            <p>일부 실행만 느림 · 모델인지 도구인지 모름 → 트레이스. <code>claude_code.interaction</code> 루트 아래 <code>claude_code.llm_request</code>(모델명·지연·토큰) · <code>claude_code.tool</code>(권한 대기 span + 실행 span) <span class="pg">[3.4①]</span></p>
+            <p>서브에이전트의 span 은 부모의 <code>claude_code.tool</code> span 아래 붙음 → 위임(delegation) 사슬이 한 트레이스</p>
+            <p>여러 호출을 한 줄로 보려면 <code>session.id</code> 로 거름 · 내 앱 트레이스 안에 넣으려면 W3C trace context(<code>TRACEPARENT</code>)가 자동 전파(SDK · <code>claude -p</code> 만, 대화형 CLI 는 무시)</p>
           </div>
         </li>
         <li id="observability-signals-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p>추세 · 비용 알림 → 메트릭. 토큰은 종류·사용자·팀·모델별로 쪼개 봄. 비용(USD)은 근사치, 청구 정본은 Console 등 제공자 <span class="ok">✓ 확인</span> <span class="pg">[4.6①]</span></p>
+            <p>추세 · 비용 알림 → 메트릭. 토큰은 종류·사용자·팀·모델별로 쪼개 봄. 비용(USD)은 근사치, 청구 정본은 Console 등 제공자 <span class="pg">[4.6①]</span></p>
           </div>
         </li>
         <li id="observability-signals-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p>표준 OTel GenAI 지표(semconv v1.37.0) = 토큰 사용량 · 작업 시간 · 서버 요청 시간 · 출력 토큰당 시간 · TTFT. 비용은 없음 → 비용은 Claude Code 고유 지표(<code>claude_code.cost.usage</code>) <span class="ok">✓ 확인</span></p>
+            <p>표준 OTel GenAI 지표(semconv v1.37.0) = 토큰 사용량 · 작업 시간 · 서버 요청 시간 · 출력 토큰당 시간 · TTFT. 비용은 없음 → 비용은 Claude Code 고유 지표(<code>claude_code.cost.usage</code>)</p>
           </div>
         </li>
         <li id="observability-signals-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p><span class="lead">켜기 :</span> <code>CLAUDE_CODE_ENABLE_TELEMETRY=1</code> + 신호별 exporter. 트레이스는 <code>CLAUDE_CODE_ENHANCED_TELEMETRY_BETA=1</code> 도 <span class="ok">✓ 확인</span></p>
-            <p>exporter 를 하나도 안 고르면 켜도 아무것도 안 나감 · 베타 플래그는 트레이스에만 필요(메트릭·이벤트는 없어도 됨) <span class="ok">✓ 확인</span></p>
-            <p>내보내기 실패는 조용함(에이전트는 정상, 데이터만 버림) → 수집기에 실제로 들어오는지 확인, 진단은 <code>CLAUDE_CODE_OTEL_DIAG_STDERR=1</code> <span class="ok">✓ 확인</span></p>
-            <p><span class="lead">기본 주기 :</span> 메트릭 60초 · 트레이스·로그 5초. 프로세스가 죽으면 버퍼에 남은 건 유실 <span class="ok">✓ 확인</span></p>
+            <p><span class="lead">켜기 :</span> <code>CLAUDE_CODE_ENABLE_TELEMETRY=1</code> + 신호별 exporter. 트레이스는 <code>CLAUDE_CODE_ENHANCED_TELEMETRY_BETA=1</code> 도</p>
+            <p>exporter 를 하나도 안 고르면 켜도 아무것도 안 나감 · 베타 플래그는 트레이스에만 필요(메트릭·이벤트는 없어도 됨)</p>
+            <p>내보내기 실패는 조용함(에이전트는 정상, 데이터만 버림) → 수집기에 실제로 들어오는지 확인, 진단은 <code>CLAUDE_CODE_OTEL_DIAG_STDERR=1</code></p>
+            <p><span class="lead">기본 주기 :</span> 메트릭 60초 · 트레이스·로그 5초. 프로세스가 죽으면 버퍼에 남은 건 유실</p>
           </div>
         </li>
       </ol>
@@ -574,140 +575,37 @@
     <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
-<div class="tscroll" role="region" aria-label="표" tabindex="0">
-<table>
-<thead>
-<tr>
-<th scope="col">조건</th>
-<th scope="col">답</th>
-<th scope="col">등급</th>
-<th scope="col">근거</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>일부 세션만 느림 · 모델인지 도구인지 모름</td>
-<td>트레이스 (interaction 아래 llm_request · tool span)</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>monitoring-usage en 418줄 · agent-sdk/observability en 315~320줄</td>
-</tr>
-<tr>
-<td>서브에이전트까지 포함한 위임 사슬을 보고 싶음</td>
-<td>트레이스 — 서브 span 이 부모 tool span 아래</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>agent-sdk/observability en 320줄</td>
-</tr>
-<tr>
-<td>비용·토큰 추세, 어느 모델·팀인지</td>
-<td>메트릭 (<code>claude_code.token.usage</code> · <code>claude_code.cost.usage</code>)</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>monitoring-usage en 801~802·1619줄</td>
-</tr>
-<tr>
-<td>청구 금액이 정확해야 함</td>
-<td>제공자(Console 등) 청구 데이터</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>monitoring-usage en 1637줄 "Cost metrics are approximations."</td>
-</tr>
-<tr>
-<td>표준 OTel GenAI 지표만으로 비용까지</td>
-<td>안 됨 — 표준 다섯 지표에 비용 없음</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>OTel semconv v1.37.0 gen-ai-metrics en 28·119·209·295·370줄</td>
-</tr>
-<tr>
-<td>누가 어떤 도구를 불렀나</td>
-<td>로그 이벤트 (→ ■ 텔레메트리 기록 범위)</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>agent-sdk/observability en 205·399줄</td>
-</tr>
-<tr>
-<td>텔레메트리를 켰는데 수집기에 안 들어옴</td>
-<td>진단 변수로 exporter 오류 확인 (기본은 조용히 버림)</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>agent-sdk/observability en 275줄</td>
-</tr>
-<tr>
-<td>에이전트 실행을 앱 트레이스 안에</td>
-<td>W3C trace context 자동 전파 (SDK · <code>claude -p</code>)</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>agent-sdk/observability en 332줄</td>
-</tr>
-</tbody>
+<div class="tscroll t-wide" role="region" aria-label="표" tabindex="0">
+<table class="t-stack" role="table">
+  <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
+  <tbody role="rowgroup">
+    <tr role="row"><td data-label="조건" role="cell">일부 세션만 느림 · 모델인지 도구인지 모름</td><td data-label="답" role="cell">트레이스 (interaction 아래 llm_request · tool span)</td><td data-label="근거" role="cell">monitoring-usage · agent-sdk/observability</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">서브에이전트까지 포함한 위임 사슬을 보고 싶음</td><td data-label="답" role="cell">트레이스 — 서브 span 이 부모 tool span 아래</td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">비용·토큰 추세, 어느 모델·팀인지</td><td data-label="답" role="cell">메트릭 (<code>claude_code.token.usage</code> · <code>claude_code.cost.usage</code>)</td><td data-label="근거" role="cell">monitoring-usage</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">청구 금액이 정확해야 함</td><td data-label="답" role="cell">제공자(Console 등) 청구 데이터</td><td data-label="근거" role="cell">monitoring-usage "Cost metrics are approximations."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">표준 OTel GenAI 지표만으로 비용까지</td><td data-label="답" role="cell">안 됨 — 표준 다섯 지표에 비용 없음</td><td data-label="근거" role="cell">OTel semconv v1.37.0 gen-ai-metrics</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">누가 어떤 도구를 불렀나</td><td data-label="답" role="cell">로그 이벤트 (→ ■ 텔레메트리 기록 범위)</td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">텔레메트리를 켰는데 수집기에 안 들어옴</td><td data-label="답" role="cell">진단 변수로 exporter 오류 확인 (기본은 조용히 버림)</td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">에이전트 실행을 앱 트레이스 안에</td><td data-label="답" role="cell">W3C trace context 자동 전파 (SDK · <code>claude -p</code>)</td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
+  </tbody>
 </table>
 </div>
 </section>
 <section class="ex-sec" id="variables" aria-labelledby="variables-h">
 <h3 id="variables-h">상황 변수</h3>
-<div class="tscroll" role="region" aria-label="표" tabindex="0">
-<table>
-<thead>
-<tr>
-<th scope="col">변수</th>
-<th scope="col">값</th>
-<th scope="col">답 쪽</th>
-<th scope="col">등급</th>
-<th scope="col">근거</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>질문 모양</td>
-<td>"얼마나 · 언제부터 늘었나"</td>
-<td>메트릭</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>agent-sdk/observability en 204줄</td>
-</tr>
-<tr>
-<td>질문 모양</td>
-<td>"이 실행의 어디가 느린가"</td>
-<td>트레이스</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>agent-sdk/observability en 315줄</td>
-</tr>
-<tr>
-<td>질문 모양</td>
-<td>"누가 무엇을 했나"</td>
-<td>로그 이벤트</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>monitoring-usage en 1688줄</td>
-</tr>
-<tr>
-<td>트레이스 스위치</td>
-<td>안 켬 (<code>CLAUDE_CODE_ENHANCED_TELEMETRY_BETA</code>)</td>
-<td>span 없음 → 메트릭·이벤트만</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>agent-sdk/observability en 206·226줄</td>
-</tr>
-<tr>
-<td>실행 방식</td>
-<td>대화형 CLI</td>
-<td>들어오는 <code>TRACEPARENT</code> 무시</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>agent-sdk/observability en 332줄</td>
-</tr>
-<tr>
-<td>작업 길이</td>
-<td>메트릭 주기(60초)보다 짧음</td>
-<td>종료 flush 에 기댐, 강제 종료면 유실</td>
-<td><span class="calc">계산</span></td>
-<td>뒤집히는 때 3</td>
-</tr>
-<tr>
-<td>에이전트 여러 개가 한 수집기</td>
-<td><code>service.name</code> · resource attribute 로 구분</td>
-<td>확인</td>
-<td>agent-sdk/observability en 342줄</td>
-<td></td>
-</tr>
-<tr>
-<td>앱 형태</td>
-<td>Claude Code·SDK 가 아닌 직접 API 앱</td>
-<td>같은 세 신호 틀로 내가 계측</td>
-<td><span class="gen">업계 일반</span></td>
-<td>—</td>
-</tr>
-</tbody>
+<div class="tscroll t-wide" role="region" aria-label="표" tabindex="0">
+<table class="t-stack" role="table">
+  <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
+  <tbody role="rowgroup">
+    <tr role="row"><td data-label="변수" role="cell">질문 모양</td><td data-label="값" role="cell">"얼마나 · 언제부터 늘었나"</td><td data-label="답 쪽" role="cell">메트릭</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">질문 모양</td><td data-label="값" role="cell">"이 실행의 어디가 느린가"</td><td data-label="답 쪽" role="cell">트레이스</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">질문 모양</td><td data-label="값" role="cell">"누가 무엇을 했나"</td><td data-label="답 쪽" role="cell">로그 이벤트</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">monitoring-usage</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">트레이스 스위치</td><td data-label="값" role="cell">안 켬 (<code>CLAUDE_CODE_ENHANCED_TELEMETRY_BETA</code>)</td><td data-label="답 쪽" role="cell">span 없음 → 메트릭·이벤트만</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">실행 방식</td><td data-label="값" role="cell">대화형 CLI</td><td data-label="답 쪽" role="cell">들어오는 <code>TRACEPARENT</code> 무시</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">작업 길이</td><td data-label="값" role="cell">메트릭 주기(60초)보다 짧음</td><td data-label="답 쪽" role="cell">종료 flush 에 기댐, 강제 종료면 유실</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">에이전트 여러 개가 한 수집기</td><td data-label="값" role="cell"><code>service.name</code> · resource attribute 로 구분</td><td data-label="답 쪽" role="cell">확인</td><td data-label="등급" role="cell">agent-sdk/observability</td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">앱 형태</td><td data-label="값" role="cell">Claude Code·SDK 가 아닌 직접 API 앱</td><td data-label="답 쪽" role="cell">같은 세 신호 틀로 내가 계측</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+  </tbody>
 </table>
 </div>
 </section>
@@ -722,11 +620,11 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"p99 대시보드(메트릭)를 보면 원인이 나온다" → 메트릭은 무엇이 움직였는지까지, 어느 단계인지는 트레이스 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"OTel GenAI 표준 지표로 토큰·비용·지연을 한 번에" → 표준엔 비용 없음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>비용 메트릭을 청구 근거로 씀 → 근사치 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"대시보드에 아무것도 안 뜨니 문제 없음" → 내보내기 실패가 조용히 삼켰을 수 있음 <span class="ok">✓ 확인</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>트레이스를 정식 기능으로 가정 → 베타, span 이름·속성이 바뀔 수 있음 <span class="ok">✓ 확인</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"p99 대시보드(메트릭)를 보면 원인이 나온다" → 메트릭은 무엇이 움직였는지까지, 어느 단계인지는 트레이스</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"OTel GenAI 표준 지표로 토큰·비용·지연을 한 번에" → 표준엔 비용 없음</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>비용 메트릭을 청구 근거로 씀 → 근사치</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"대시보드에 아무것도 안 뜨니 문제 없음" → 내보내기 실패가 조용히 삼켰을 수 있음</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>트레이스를 정식 기능으로 가정 → 베타, span 이름·속성이 바뀔 수 있음</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -745,15 +643,15 @@
 <ul>
 <li><span class="lead">조건 :</span> "지난주보다 토큰 비용이 30% 늘었다 — 어느 팀·어느 모델인가".</li>
 <li><span class="lead">판단 :</span> 한 실행의 순서가 아니라 집계를 묻는 것 → 메트릭을 팀·모델로 쪼갬. 트레이스는 원인 실행을 찾은 다음 단계.</li>
-<li><span class="lead">등급 :</span> <span class="ok">✓ 확인</span></li>
-<li><span class="lead">근거 :</span> monitoring-usage en 1619줄 (type · user · team · model 로 분해)</li>
+
+<li><span class="lead">근거 :</span> monitoring-usage (type · user · team · model 로 분해)</li>
 </ul>
 <h4>2. 트레이스를 골랐는데 span 이 안 보이는 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 트레이스 exporter 만 설정하고 베타 스위치를 안 켬, 또는 대화형 CLI 세션에서 앱의 <code>TRACEPARENT</code> 를 기대함.</li>
 <li><span class="lead">판단 :</span> 트레이스는 <code>CLAUDE_CODE_ENHANCED_TELEMETRY_BETA=1</code> 이 필요, 대화형 CLI 는 들어오는 trace context 를 무시. "트레이스가 답"인 지문에서도 설정 전제가 빠지면 보기가 틀릴 수 있음.</li>
-<li><span class="lead">등급 :</span> <span class="ok">✓ 확인</span></li>
-<li><span class="lead">근거 :</span> agent-sdk/observability en 206·226·332줄</li>
+
+<li><span class="lead">근거 :</span> agent-sdk/observability</li>
 </ul>
 <h4>3. 짧은 작업의 메트릭이 비는 때</h4>
 <ul>
@@ -761,73 +659,29 @@
 <li><span class="lead">계산 :</span> 메트릭 기본 주기 60초 &gt; 작업 20초 → 첫 주기 전에 끝남. 정상 종료면 flush 를 시도하지만 짧은 시간 제한이 있고, 강제 종료면 버퍼가 통째로 유실.</li>
 <li><span class="lead">처방 :</span> 내보내기 주기를 낮춤 (예 <code>OTEL_TRACES_EXPORT_INTERVAL</code> 1000ms 류) · 정상 종료.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (60초 · 5초 · 유실 규칙은 확인)</li>
-<li><span class="lead">근거 :</span> agent-sdk/observability en 287줄</li>
+<li><span class="lead">근거 :</span> agent-sdk/observability</li>
 </ul>
 <h4>4. "아무것도 안 뜬다 = 문제 없음"이 틀리는 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 대시보드에 오류 0, 트레이스 0.</li>
 <li><span class="lead">판단 :</span> exporter 오류는 기본적으로 조용히 버려짐. 먼저 수집기에 알려진 이벤트 하나가 들어오는지(양성 대조) 확인.</li>
-<li><span class="lead">등급 :</span> <span class="ok">✓ 확인</span></li>
-<li><span class="lead">근거 :</span> agent-sdk/observability en 275줄</li>
+
+<li><span class="lead">근거 :</span> agent-sdk/observability</li>
 </ul>
 </section>
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
 <h3 id="distractors-h">오답 재료</h3>
-<div class="tscroll" role="region" aria-label="표" tabindex="0">
-<table>
-<thead>
-<tr>
-<th scope="col">오답</th>
-<th scope="col">왜 끌리나</th>
-<th scope="col">왜 틀리나</th>
-<th scope="col">등급</th>
-<th scope="col">근거</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>"토큰·지연(latency) 대시보드(메트릭) p99 를 보면 원인이 나온다"</td>
-<td>p99 가 튄 게 보이니까</td>
-<td>메트릭은 무엇이 움직였는지까지. 어느 단계인지는 트레이스</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>agent-sdk/observability en 204~206·315줄</td>
-</tr>
-<tr>
-<td>"OTel GenAI 표준 지표 세트로 토큰·비용·지연을 한 번에"</td>
-<td>표준이면 다 있을 것 같음</td>
-<td>표준 v1.37.0 에 비용 지표 없음</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>OTel semconv v1.37.0 gen-ai-metrics</td>
-</tr>
-<tr>
-<td>"비용 메트릭을 청구 대사에 쓴다"</td>
-<td>USD 단위로 나오니까</td>
-<td>근사치. 청구 정본은 제공자</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>monitoring-usage en 1637줄</td>
-</tr>
-<tr>
-<td>"알림 임계값을 더 촘촘히 하면 원인을 안다"</td>
-<td>빨리 알면 빨리 고침</td>
-<td>알림은 무엇이 움직였는지만. 원인은 실행 추적</td>
-<td><span class="gen">업계 일반</span></td>
-<td>목록 4.6① 매력적인 오답</td>
-</tr>
-<tr>
-<td>"로그를 다 남기면 트레이스는 필요 없다"</td>
-<td>로그에 다 있을 것 같음</td>
-<td>이벤트는 건별 기록, 단계 간 부모-자식·시간 관계는 트레이스</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>monitoring-usage en 418줄</td>
-</tr>
-<tr>
-<td>"서브에이전트 호출은 별도 트레이스로 흩어진다"</td>
-<td>다른 에이전트니까</td>
-<td>부모 tool span 아래 붙어 한 트레이스</td>
-<td><span class="ok">✓ 확인</span></td>
-<td>agent-sdk/observability en 320줄</td>
-</tr>
-</tbody>
+<div class="tscroll t-wide" role="region" aria-label="표" tabindex="0">
+<table class="t-stack" role="table">
+  <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
+  <tbody role="rowgroup">
+    <tr role="row"><td data-label="오답" role="cell">"토큰·지연(latency) 대시보드(메트릭) p99 를 보면 원인이 나온다"</td><td data-label="왜 끌리나" role="cell">p99 가 튄 게 보이니까</td><td data-label="왜 틀리나" role="cell">메트릭은 무엇이 움직였는지까지. 어느 단계인지는 트레이스</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"OTel GenAI 표준 지표 세트로 토큰·비용·지연을 한 번에"</td><td data-label="왜 끌리나" role="cell">표준이면 다 있을 것 같음</td><td data-label="왜 틀리나" role="cell">표준 v1.37.0 에 비용 지표 없음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">OTel semconv v1.37.0 gen-ai-metrics</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"비용 메트릭을 청구 대사에 쓴다"</td><td data-label="왜 끌리나" role="cell">USD 단위로 나오니까</td><td data-label="왜 틀리나" role="cell">근사치. 청구 정본은 제공자</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">monitoring-usage</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"알림 임계값을 더 촘촘히 하면 원인을 안다"</td><td data-label="왜 끌리나" role="cell">빨리 알면 빨리 고침</td><td data-label="왜 틀리나" role="cell">알림은 무엇이 움직였는지만. 원인은 실행 추적</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 4.6① 매력적인 오답</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"로그를 다 남기면 트레이스는 필요 없다"</td><td data-label="왜 끌리나" role="cell">로그에 다 있을 것 같음</td><td data-label="왜 틀리나" role="cell">이벤트는 건별 기록, 단계 간 부모-자식·시간 관계는 트레이스</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">monitoring-usage</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"서브에이전트 호출은 별도 트레이스로 흩어진다"</td><td data-label="왜 끌리나" role="cell">다른 에이전트니까</td><td data-label="왜 틀리나" role="cell">부모 tool span 아래 붙어 한 트레이스</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
+  </tbody>
 </table>
 </div>
 </section>
@@ -838,14 +692,13 @@
       <ul class="plain">
         <li>가이드 목표 3.4 <span class="src">공식 시험 가이드 v1.0</span></li>
         <li>가이드 목표 4.6 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>agent-sdk/observability <span class="src">(en 197·200~206·218·226·275·287·315~322·332줄)</span></li>
-        <li>monitoring-usage <span class="src">(en 418·795~804·1619·1637줄)</span></li>
-        <li>OTel semconv v1.37.0 gen-ai-metrics <span class="src">(en 28~42·119~127·209~217·295~303·370~378줄)</span></li>
-        <li>multi-agent-research-system <span class="src">(en 72줄)</span></li>
+        <li>agent-sdk/observability</li>
+        <li>monitoring-usage</li>
+        <li>OTel semconv v1.37.0 gen-ai-metrics</li>
+        <li>multi-agent-research-system</li>
       </ul>
     <h3>상태</h3>
       <ul class="plain">
-        <li><span class="ok">✓ 확인</span> (①~④)</li>
         <li><span class="gen">업계 일반</span> 1줄(직접 API 앱 계측)</li>
       </ul>
   </div>
@@ -854,7 +707,7 @@
 <ol>
 <li>OTel GenAI semconv 는 v1.37.0 만 확인. 더 새 판에 비용 지표가 생겼는지는 안 봄 (목록 3.4① 도 "새 저장소 최신 판은 근거 확인 필요").</li>
 <li>직접 Messages API 로 만든 앱의 observability(관측 : 요청 ID · usage 필드 기록 등)는 받은 원문 밖 — 업계 일반으로만 둠.</li>
-<li>Managed Agents 는 Console 세션 뷰어(타임라인 · 도구별 통계 · 스레드별 활동)가 있음 (릴리스 노트 en 83줄) — 이 카드의 OTel 세 신호와 관계는 원문을 안 받아 미확인.</li>
+<li>Managed Agents 는 Console 세션 뷰어(타임라인 · 도구별 통계 · 스레드별 활동)가 있음 (릴리스 노트) — 이 카드의 OTel 세 신호와 관계는 원문을 안 받아 미확인.</li>
 <li>조직 비용 분해(Usage &amp; Cost Admin API)는 목록 4.6① 소재 — 원문 안 받음, 4.6 카드 몫.</li>
 </ol>
 </section>
