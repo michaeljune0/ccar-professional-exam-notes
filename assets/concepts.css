@@ -61,7 +61,7 @@
   }
 }
 /* 테마 5개 (맨 위 띠 선택 상자 → <html data-theme> · shell.js / build-concepts.py THEME_HEAD). 없음 = 자동(위 두 블록).
- * 원본 = CCA-F 학습 노트 사이트 ccaf-remotion/src/themes.css 의 같은 이름 테마 — 바탕 · 칸 · 글자 · 선 값을 이 쪽 토큰에 짝지음.
+ * 원본 = CCA-F 학습 노트 사이트 themes.css 의 같은 이름 테마 — 바탕 · 칸 · 글자 · 선 값을 이 쪽 토큰에 짝지음.
  * 판정 색은 원본의 ok(초록) · bad(빨강)를 쓰지 않는다 : ✓ = 파랑 계열(--flow) · ≠ = 주황 계열(--amber) (적록색약 — 파랑/주황은
  * 구분되는 축). 글자 짝 대비 4.5 이상 (ink · muted · flow · amber-ink × paper · side · sheet · slip · sky · amber-bg).
  * 특이도 (0,2,0) 이 위 :root(0,1,0) · 영상 번들이 주입하는 :root { --vx-* } 보다 높아 자동 밝음/어둠을 덮는다.
@@ -281,7 +281,8 @@ p.st-dh { margin: 0; padding: 8px 8px 0 calc(1.1em + 8px); color: var(--ink2); }
      main = 크기 질의 컨테이너 (문서 : MDN container query length units — cqi = 가장 가까운 조상 질의 컨테이너 inline 크기의 1%).
      세로 나무(is-deep)는 글 줄이 길어져 넓히지 않는다 */
   .shell main { container: shell-main / inline-size; }
-  .shell main :is(figure.fl, figure.vx, .rpx, .tree:has(> .tree-body:not(.is-deep))) {
+  .shell main figure.v3-img { --wide: 1200px; }  /* 정리 그림 원본 폭 — 그보다 늘리면 흐려짐 */
+  .shell main :is(figure.fl, figure.vx, figure.v3-img, .rpx, .tree:has(> .tree-body:not(.is-deep))) {
     width: min(var(--wide), 100cqi); max-width: none;
     margin-inline: calc((min(var(--measure), 100cqi) - min(var(--wide), 100cqi)) / 2);
   }
@@ -382,8 +383,20 @@ ol.goals { list-style: none; margin: 0; padding: 0; }
 .t5-ana .lead { color: var(--ink); margin-right: 0.4em; font-family: var(--sans); }
 /* v3 비유 그림 (images/<id>.webp) — 폭은 글 칸에 맞추고 비율 유지 */
 .v3-img { margin: 14px 0 6px; }
-.v3-img img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border: 1px solid var(--rule); border-radius: 6px; }
-.v3-img figcaption { margin-top: 6px; font-family: var(--sans); font-size: 14px; color: var(--muted); }
+.v3-img img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; background: #fff; border: 1px solid var(--rule); border-radius: 6px; }
+.v3-img figcaption { max-width: var(--measure); margin: 6px auto 0; font-family: var(--sans); font-size: 14px; color: var(--muted); }
+.v3-zoom { display: block; cursor: zoom-in; }
+/* 크게 보기 (concepts.js) — 화면 가득, 그림은 원본 비율 그대로 */
+/* 폭 = 100% (fixed 의 기준 = 스크롤바 뺀 화면) — 100vw 는 스크롤바 폭만큼 넘쳐 그림이 치우침 */
+dialog.v3-lightbox { width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 12px; border: 0;
+  background: rgba(0, 0, 0, 0.88); cursor: zoom-out; }
+dialog.v3-lightbox::backdrop { background: rgba(0, 0, 0, 0.6); }
+dialog.v3-lightbox img { display: block; width: 100%; height: 100%; object-fit: contain; }
+/* 닫기 단추 = 진한 바탕 — 흰 그림 위에 겹쳐도 보이게. 글자 크기는 본문을 따름(큰 글자 테마에서 같이 커짐) */
+dialog.v3-lightbox .v3-close { position: fixed; top: 10px; right: 14px; padding: 4px 12px; border: 1px solid #fff; border-radius: 6px;
+  background: rgba(20, 20, 19, 0.85); color: #fff; font: inherit; font-family: var(--sans); cursor: pointer; }
+dialog.v3-lightbox .v3-close:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+html.v3-lightbox-open { overflow: hidden; }
 
 dl.def {
   display: grid; grid-template-columns: 5em minmax(0, 1fr);

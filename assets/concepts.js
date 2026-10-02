@@ -955,3 +955,33 @@
     bodies.forEach((b) => tro.observe(b));
   }
 })();
+
+/* 정리 그림 크게 보기 — <a class="v3-zoom"> 를 누르면 <dialog> 로 화면 가득. 다시 누름 · Esc · 닫기 단추로 닫힘.
+   <dialog> 가 없는 브라우저는 링크 그대로(그림 파일 열림) */
+(() => {
+  const links = document.querySelectorAll('a.v3-zoom');
+  if (!links.length || typeof HTMLDialogElement !== 'function') return;
+  const dlg = document.createElement('dialog');
+  dlg.className = 'v3-lightbox';
+  dlg.setAttribute('aria-label', '그림 크게 보기');
+  const img = document.createElement('img');
+  const close = document.createElement('button');
+  close.type = 'button';
+  close.className = 'v3-close';
+  close.textContent = '닫기 ✕';
+  dlg.append(img, close);
+  document.body.append(dlg);
+  dlg.addEventListener('click', () => dlg.close());
+  // 열린 동안 뒤 쪽 스크롤 잠금 — 닫으면 보던 자리 그대로
+  dlg.addEventListener('close', () => { img.removeAttribute('src'); document.documentElement.classList.remove('v3-lightbox-open'); });
+  links.forEach((a) => a.addEventListener('click', (e) => {
+    if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;  // 새 탭·새 창 열기는 브라우저에 맡김
+    e.preventDefault();
+    document.documentElement.classList.add('v3-lightbox-open');
+    const small = a.querySelector('img');
+    img.src = a.href;
+    img.alt = small ? small.alt : '';
+    dlg.showModal();
+    close.focus();
+  }));
+})();
