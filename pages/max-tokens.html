@@ -580,19 +580,19 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">큰 <code>max_tokens</code> 요청</td><td data-label="답" role="cell">스트리밍 또는 Batch 로</td><td data-label="근거" role="cell">errors "Avoid setting a large <code>max_tokens</code> value without using the streaming Messages API or Message Batches API"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">비스트리밍이 10분을 넘을 것으로 예상</td><td data-label="답" role="cell">SDK 가 막음 → 스트리밍</td><td data-label="근거" role="cell">errors · streaming(큰 <code>max_tokens</code> 면 SDK 가 스트리밍 요구)</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">이벤트를 하나씩 처리할 필요 없음</td><td data-label="답" role="cell"><code>.stream()</code> + 최종 메시지 받기</td><td data-label="근거" role="cell">streaming · errors</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">504 <code>timeout_error</code></td><td data-label="답" role="cell">긴 요청은 스트리밍</td><td data-label="근거" role="cell">errors</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">연결이 불안한 네트워크 · 결과를 나중에 받아도 됨</td><td data-label="답" role="cell">Batch (폴링)</td><td data-label="근거" role="cell">errors</td></tr>
-    <tr role="row"><td data-label="조건" role="cell"><code>stop_reason: "max_tokens"</code></td><td data-label="답" role="cell">한도 올리기 또는 이어서 생성 · 불완전하다는 안내 붙이기</td><td data-label="근거" role="cell">handling-stop-reasons</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">thinking 켜짐 + <code>max_tokens</code> 로 멈춤 · 텍스트 잘림/없음</td><td data-label="답" role="cell">한도 올리기 또는 effort 낮추기</td><td data-label="근거" role="cell">thinking-troubleshooting "thinking tokens count toward <code>max_tokens</code>"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">구조화 출력이 잘림</td><td data-label="답" role="cell">더 높은 <code>max_tokens</code> 로 재시도</td><td data-label="근거" role="cell">structured-outputs</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Opus 5·4.8·4.7 을 xhigh·max 로</td><td data-label="답" role="cell">64k 에서 시작해 조정</td><td data-label="근거" role="cell">effort "Starting at 64k tokens and tuning from there is a reasonable default."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">높은 effort (Fable 5.1 · Opus 5.5)</td><td data-label="답" role="cell">크게 — thinking + 답 전체의 엄격한 한도</td><td data-label="근거" role="cell">effort</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">입력 크기를 모르고 최대로 받고 싶음</td><td data-label="답" role="cell">창 끝까지 두고 <code>model_context_window_exceeded</code> 로 멈춤</td><td data-label="근거" role="cell">handling-stop-reasons</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">한 턴에 128k 넘게</td><td data-label="답" role="cell">Batch + <code>output-300k-2026-03-24</code> 베타</td><td data-label="근거" role="cell">batch-processing</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">한도를 크게 잡으면 rate limit 이 걱정</td><td data-label="답" role="cell">손해 없음</td><td data-label="근거" role="cell">rate-limits</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">큰 <code>max_tokens</code> 요청</td><td data-label="답" role="cell">스트리밍 또는 Batch 로</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a> "Avoid setting a large <code>max_tokens</code> value without using the streaming Messages API or Message Batches API"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">비스트리밍이 10분을 넘을 것으로 예상</td><td data-label="답" role="cell">SDK 가 막음 → 스트리밍</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/streaming" lang="en" rel="noopener">streaming</a>(큰 <code>max_tokens</code> 면 SDK 가 스트리밍 요구)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">이벤트를 하나씩 처리할 필요 없음</td><td data-label="답" role="cell"><code>.stream()</code> + 최종 메시지 받기</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/streaming" lang="en" rel="noopener">streaming</a> · <a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">504 <code>timeout_error</code></td><td data-label="답" role="cell">긴 요청은 스트리밍</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">연결이 불안한 네트워크 · 결과를 나중에 받아도 됨</td><td data-label="답" role="cell">Batch (폴링)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell"><code>stop_reason: "max_tokens"</code></td><td data-label="답" role="cell">한도 올리기 또는 이어서 생성 · 불완전하다는 안내 붙이기</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">thinking 켜짐 + <code>max_tokens</code> 로 멈춤 · 텍스트 잘림/없음</td><td data-label="답" role="cell">한도 올리기 또는 effort 낮추기</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a> "thinking tokens count toward <code>max_tokens</code>"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">구조화 출력이 잘림</td><td data-label="답" role="cell">더 높은 <code>max_tokens</code> 로 재시도</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Opus 5·4.8·4.7 을 xhigh·max 로</td><td data-label="답" role="cell">64k 에서 시작해 조정</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> "Starting at 64k tokens and tuning from there is a reasonable default."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">높은 effort (Fable 5.1 · Opus 5.5)</td><td data-label="답" role="cell">크게 — thinking + 답 전체의 엄격한 한도</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">입력 크기를 모르고 최대로 받고 싶음</td><td data-label="답" role="cell">창 끝까지 두고 <code>model_context_window_exceeded</code> 로 멈춤</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">한 턴에 128k 넘게</td><td data-label="답" role="cell">Batch + <code>output-300k-2026-03-24</code> 베타</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">한도를 크게 잡으면 rate limit 이 걱정</td><td data-label="답" role="cell">손해 없음</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/rate-limits" lang="en" rel="noopener">rate-limits</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -604,13 +604,13 @@
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
     <tr role="row"><td data-label="변수" role="cell">호출 방식</td><td data-label="값" role="cell">비스트리밍 + 긴 생성</td><td data-label="답 쪽" role="cell">SDK 가 막음 → 스트리밍</td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">호출 방식</td><td data-label="값" role="cell">Batch</td><td data-label="답 쪽" role="cell">연결 끊김 걱정 없음 · 결과 폴링 · 완료 시각 약속 없음</td><td data-label="근거" role="cell">errors · ◆ Batch API vs 동기 호출</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">thinking</td><td data-label="값" role="cell">켜짐 (Sonnet 5 는 기본으로 adaptive thinking 켜짐 · Opus 5.5 는 끌 수 없음)</td><td data-label="답 쪽" role="cell">한도를 thinking 분량까지 크게</td><td data-label="근거" role="cell">릴리스 노트 · effort</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">호출 방식</td><td data-label="값" role="cell">Batch</td><td data-label="답 쪽" role="cell">연결 끊김 걱정 없음 · 결과 폴링 · 완료 시각 약속 없음</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a> · ◆ Batch API vs 동기 호출</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">thinking</td><td data-label="값" role="cell">켜짐 (Sonnet 5 는 기본으로 adaptive thinking 켜짐 · Opus 5.5 는 끌 수 없음)</td><td data-label="답 쪽" role="cell">한도를 thinking 분량까지 크게</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">effort</td><td data-label="값" role="cell">xhigh·max</td><td data-label="답 쪽" role="cell">64k 출발 (Opus 5·4.8·4.7)</td><td data-label="근거" role="cell">판단 규칙 9</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">출력 길이</td><td data-label="값" role="cell">128k 초과</td><td data-label="답 쪽" role="cell">Batch 300k 베타 또는 이어서 생성</td><td data-label="근거" role="cell">판단 규칙 12 · handling-stop-reasons</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">출력 길이</td><td data-label="값" role="cell">128k 초과</td><td data-label="답 쪽" role="cell">Batch 300k 베타 또는 이어서 생성</td><td data-label="근거" role="cell">판단 규칙 12 · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">사람이 기다림</td><td data-label="값" role="cell">예</td><td data-label="답 쪽" role="cell">Batch 탈락 → 스트리밍</td><td data-label="근거" role="cell">◆ Batch API vs 동기 호출</td></tr>
     <tr role="row"><td data-label="변수" role="cell">출력 형식</td><td data-label="값" role="cell">JSON 스키마</td><td data-label="답 쪽" role="cell">잘리면 스키마 깨짐 → 재시도</td><td data-label="근거" role="cell">판단 규칙 8</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">답 길이를 줄이고 싶음</td><td data-label="값" role="cell">예</td><td data-label="답 쪽" role="cell">프롬프트로 "짧게" · 한도는 넘치면 자르기만</td><td data-label="근거" role="cell">reduce-latency · messages-create</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">답 길이를 줄이고 싶음</td><td data-label="값" role="cell">예</td><td data-label="답 쪽" role="cell">프롬프트로 "짧게" · 한도는 넘치면 자르기만</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a> · <a class="src-link" href="https://platform.claude.com/docs/en/api/messages/create" lang="en" rel="noopener">messages-create</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -644,6 +644,10 @@
         <p lang="en">"Note that our models may stop *before* reaching this maximum."</p>
       </div>
   </div>
+  <figure class="v3-img">
+    <a class="v3-zoom" href="../images/max-tokens-flip.webp"><img src="../images/max-tokens-flip.webp" alt="긴 응답은 보통 스트리밍으로 받지만, 마감 없는 대량은 Batch, 128k 를 넘는 출력은 Batch + 300k 베타, thinking 이 켜진 짧은 분류는 한도를 thinking 분량까지 올린다는 그림." loading="lazy" decoding="async"></a>
+    <figcaption>그림으로 보기 <span class="note">(AI 생성 · Codex · 누르면 크게)</span> — 자세한 조건은 아래 '더 깊이'에 있어요</figcaption>
+  </figure>
   <details class="t5-orig v3-more">
     <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
@@ -686,15 +690,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"max_tokens 기본값은 비스트리밍 16,000 · 스트리밍 64,000 · 분류 256"</td><td data-label="왜 끌리나" role="cell">영상이 그렇게 가르침</td><td data-label="왜 틀리나" role="cell">서버 기본값 없음, 요청마다 정함. 64k 는 Opus xhigh·max 의 권장 출발점</td><td data-label="근거" role="cell">messages-create(optional 표시 없음) · effort</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"출력이 16,000 을 넘으면 스트리밍으로"</td><td data-label="왜 끌리나" role="cell">숫자 기준이 외우기 쉬움</td><td data-label="왜 틀리나" role="cell">SDK 기준은 예상 시간 10분</td><td data-label="근거" role="cell">errors</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"타임아웃이 나면 클라이언트 타임아웃 값만 늘림"</td><td data-label="왜 끌리나" role="cell">가장 손쉬움</td><td data-label="왜 틀리나" role="cell">중간 네트워크가 유휴 연결을 끊음 → 스트리밍 · Batch · keep-alive</td><td data-label="근거" role="cell">errors</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"max_tokens 를 크게 잡으면 OTPM 한도를 더 먹음"</td><td data-label="왜 끌리나" role="cell">예약하는 값처럼 보임</td><td data-label="왜 틀리나" role="cell">실제 생성 토큰만 셈</td><td data-label="근거" role="cell">rate-limits</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"effort 를 올리자 답이 잘림 → 모델 품질 문제, 모델 교체"</td><td data-label="왜 끌리나" role="cell">증상이 설정 변경 직후라 모델 탓 같음</td><td data-label="왜 틀리나" role="cell">thinking 토큰도 <code>max_tokens</code> 에 셈 → 한도 ↑ 또는 effort ↓</td><td data-label="근거" role="cell">thinking-troubleshooting</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"잘린 JSON 은 파서에서 닫는 괄호를 붙여 살림"</td><td data-label="왜 끌리나" role="cell">재요청 비용 아까움</td><td data-label="왜 틀리나" role="cell">불완전해 스키마가 안 맞을 수 있음 → 더 높은 한도로 재시도</td><td data-label="근거" role="cell">structured-outputs</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"max_tokens 를 낮추면 답이 짧고 완결되게 나옴"</td><td data-label="왜 끌리나" role="cell">상한 = 목표 길이로 착각</td><td data-label="왜 틀리나" role="cell">넘으면 자를 뿐. 짧게는 프롬프트로</td><td data-label="근거" role="cell">messages-create · reduce-latency</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"max_tokens 기본값은 비스트리밍 16,000 · 스트리밍 64,000 · 분류 256"</td><td data-label="왜 끌리나" role="cell">영상이 그렇게 가르침</td><td data-label="왜 틀리나" role="cell">서버 기본값 없음, 요청마다 정함. 64k 는 Opus xhigh·max 의 권장 출발점</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/messages/create" lang="en" rel="noopener">messages-create</a>(optional 표시 없음) · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"출력이 16,000 을 넘으면 스트리밍으로"</td><td data-label="왜 끌리나" role="cell">숫자 기준이 외우기 쉬움</td><td data-label="왜 틀리나" role="cell">SDK 기준은 예상 시간 10분</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"타임아웃이 나면 클라이언트 타임아웃 값만 늘림"</td><td data-label="왜 끌리나" role="cell">가장 손쉬움</td><td data-label="왜 틀리나" role="cell">중간 네트워크가 유휴 연결을 끊음 → 스트리밍 · Batch · keep-alive</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"max_tokens 를 크게 잡으면 OTPM 한도를 더 먹음"</td><td data-label="왜 끌리나" role="cell">예약하는 값처럼 보임</td><td data-label="왜 틀리나" role="cell">실제 생성 토큰만 셈</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/rate-limits" lang="en" rel="noopener">rate-limits</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"effort 를 올리자 답이 잘림 → 모델 품질 문제, 모델 교체"</td><td data-label="왜 끌리나" role="cell">증상이 설정 변경 직후라 모델 탓 같음</td><td data-label="왜 틀리나" role="cell">thinking 토큰도 <code>max_tokens</code> 에 셈 → 한도 ↑ 또는 effort ↓</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"잘린 JSON 은 파서에서 닫는 괄호를 붙여 살림"</td><td data-label="왜 끌리나" role="cell">재요청 비용 아까움</td><td data-label="왜 틀리나" role="cell">불완전해 스키마가 안 맞을 수 있음 → 더 높은 한도로 재시도</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"max_tokens 를 낮추면 답이 짧고 완결되게 나옴"</td><td data-label="왜 끌리나" role="cell">상한 = 목표 길이로 착각</td><td data-label="왜 틀리나" role="cell">넘으면 자를 뿐. 짧게는 프롬프트로</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/messages/create" lang="en" rel="noopener">messages-create</a> · <a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"긴 출력이니 Batch 로 — 상담원이 기다려도"</td><td data-label="왜 끌리나" role="cell">50% 할인 · 300k 상한</td><td data-label="왜 틀리나" role="cell">완료 시각 약속 없음</td><td data-label="근거" role="cell">◆ Batch API vs 동기 호출</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"배치 안에서 <code>max_tokens: 0</code> 으로 캐시 데우기"</td><td data-label="왜 끌리나" role="cell">캐시 데우기 기능을 알고 있음</td><td data-label="왜 틀리나" role="cell">배치에선 안 됨</td><td data-label="근거" role="cell">batch-processing · prompt-caching</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"배치 안에서 <code>max_tokens: 0</code> 으로 캐시 데우기"</td><td data-label="왜 끌리나" role="cell">캐시 데우기 기능을 알고 있음</td><td data-label="왜 틀리나" role="cell">배치에선 안 됨</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -711,19 +715,19 @@
       </ul>
     <h3>출처</h3>
       <ul class="plain">
-        <li>가이드 목표 4.5 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>messages-create</li>
-        <li>errors</li>
-        <li>streaming</li>
-        <li>thinking-troubleshooting</li>
-        <li>effort</li>
-        <li>handling-stop-reasons</li>
-        <li>structured-outputs</li>
-        <li><a href="https://platform.claude.com/docs/ko/api/rate-limits">rate-limits</a></li>
-        <li>batch-processing</li>
-        <li>prompt-caching</li>
-        <li>reduce-latency</li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a></li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 4.5</a> <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/api/messages/create" lang="en" rel="noopener">messages-create</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/streaming" lang="en" rel="noopener">streaming</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/api/rate-limits" lang="en" rel="noopener">rate-limits</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></li>
       </ul>
     <h3>상태</h3>
       <ul class="plain">

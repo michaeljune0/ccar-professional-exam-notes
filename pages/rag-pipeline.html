@@ -372,8 +372,8 @@
   </div>
   <h2 class="sec-h" id="rag-pipeline-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>지식을 미리 chunk(조각)로 나눠 index(색인)해 두고, 질문마다 관련 chunk 만 찾아 프롬프트에 붙임. 미리 하는 일 = chunking → 임베딩 + BM25 index / 질문 때 = 두 검색(retrieval) → rank fusion 으로 합치고 중복 제거 → (리랭킹) → top-K 를 프롬프트에</p>
-      <p>full context(통째 넣기)로 할지 RAG 할지(크기 판단)는 <a href="rag-vs-full.html">◆ RAG vs full context</a>. 검색 방식 고르기는 <a href="retrieval-shape.html">◆ 임베딩 vs BM25 vs hybrid</a></p>
+      <p>지식을 미리 chunk 로 나눠 index(색인)해 두고, 질문마다 관련 chunk 만 찾아 프롬프트에 붙임. 미리 하는 일 = chunking → 임베딩 + BM25 index / 질문 때 = 두 검색(retrieval) → rank fusion 으로 합치고 중복 제거 → (리랭킹) → top-K 를 프롬프트에</p>
+      <p>full context(문서 전체를 넣기)로 할지 RAG 할지(크기 판단)는 <a href="rag-vs-full.html">◆ RAG vs full context</a>. 검색 방식 고르기는 <a href="retrieval-shape.html">◆ 임베딩 vs BM25 vs hybrid</a></p>
     <p class="t5-ana"><span class="lead">비유</span> 로그 파이프라인. 수집할 때 host·service 라벨을 붙여 index 해 두고(문맥 없는 줄은 못 찾음), 조회할 때 넓게 뽑은 뒤 정밀 필터</p>
   </div>
   <figure class="v3-img">
@@ -403,7 +403,7 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">미리 하는 일 (indexing · 색인)</p>
 <ul>
-<li>문서를 chunk(조각)로 자름. 보통 수백 토큰 이하. 크기·경계·겹침이 검색(retrieval) 성능을 바꿈.</li>
+<li>문서를 chunk 로 자름. 보통 수백 토큰 이하. 크기·경계·겹침이 검색(retrieval) 성능을 바꿈.</li>
 <li>chunk 마다 임베딩(뜻을 숫자로)과 BM25 index(단어 일치)를 만듦.</li>
 <li>약점 : chunk 만 보면 "어느 회사 몇 분기 얘기"인지 빠짐 → 검색에서 빗나감.</li>
 <li>처방 : Contextual Retrieval. 문서 전체와 chunk 를 Claude 에 주고 "이 chunk 가 문서 어디인지" 50~100토큰 설명을 받아 chunk 앞에 붙인 뒤 두 index 에 넣음. 문서는 캐시에 한 번 올려 두고 chunk 마다 재사용해 비용이 적음.</li>
@@ -414,7 +414,7 @@
 <li>1차로 넓게 뽑고(실험 150개) 리랭커로 다시 점수를 매겨 상위 몇 개(실험 20개)만 모델에 넣음.</li>
 <li>리랭킹은 단계를 하나 더해 지연(latency)이 조금 늘지만, 모델이 읽을 양이 줄어 생성 쪽 비용·지연은 줄어듦.</li>
 </ul>
-<p class="lead">저장 쪽 lever(손잡이)</p>
+<p class="lead">저장 쪽 lever(조절 수단)</p>
 <ul>
 <li>임베딩 값의 정밀도를 낮추면(int8 4배, binary 32배) 저장·메모리·비용이 줄고 정확도를 조금 내줌.</li>
 <li>차원을 줄여도(1024 → 256) 같은 거래.</li>
@@ -612,7 +612,7 @@
         <li id="rag-pipeline-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
             <p><span class="lead">저장이 커지면 양자화 :</span> float32 → int8 = 저장·메모리·비용 4배 ↓, binary = 32배 ↓ (<code>output_dtype</code>). 기본 float 가 정확도 최고 → 줄인 만큼 정확도를 내줌 <span class="pg">[3.3③]</span></p>
-            <p>차원 줄이기(1024 → 256 등, Matryoshka 앞부분만 남기기)도 같은 lever(손잡이) · 줄이기 전 검색 eval 로 확인 <span class="gen">업계 일반</span></p>
+            <p>차원 줄이기(1024 → 256 등, Matryoshka 앞부분만 남기기)도 같은 lever(조절 수단) · 줄이기 전 검색 eval 로 확인 <span class="gen">업계 일반</span></p>
           </div>
         </li>
       </ol>
@@ -626,14 +626,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">chunk 크기·겹침을 정해야 함</td><td data-label="답" role="cell">외운 숫자 말고 내 데이터 검색 eval 로 정함</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">contextual-retrieval "usually no more than a few hundred tokens" · "The choice of chunk size, chunk boundary, and chunk overlap can affect retrieval performance"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">chunk 크기·겹침을 정해야 함</td><td data-label="답" role="cell">외운 숫자 말고 내 데이터 검색 eval 로 정함</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "usually no more than a few hundred tokens" · "The choice of chunk size, chunk boundary, and chunk overlap can affect retrieval performance"</td></tr>
     <tr role="row"><td data-label="조건" role="cell">chunking 방식을 고름</td><td data-label="답" role="cell">서식 보장 → 구조 기준 · 대부분 문서 → 문장 기준 · 아무 문서나(코드 포함) → 크기 기준 + 겹침</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Skilljar 287776 "Choosing Your Strategy"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">chunk 만 봐선 어느 문서 얘기인지 모름</td><td data-label="답" role="cell">Contextual Retrieval (chunk 별 설명을 앞에 붙여 임베딩·BM25 양쪽에)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">contextual-retrieval</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">맞는 chunk 가 후보엔 있는데 순위가 낮음</td><td data-label="답" role="cell">리랭킹 추가</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">contextual-retrieval "Reranking is better than no reranking"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">리랭킹 뒤 p95 지연이 목표를 넘음</td><td data-label="답" role="cell">리랭킹 개수를 줄이며 실험 (빼지 않음)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">contextual-retrieval "There is an inherent trade-off between reranking more chunks … vs. reranking fewer for lower latency and cost."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">검색용으로 임베딩</td><td data-label="답" role="cell">문서 = <code>input_type="document"</code>, 질문 = <code>"query"</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">embeddings 전체본 "Do not omit <code>input_type</code>"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">벡터 저장·메모리가 부담</td><td data-label="답" role="cell">int8(4배) · binary(32배) 양자화, 또는 차원 줄이기 — 정확도 대가를 eval 로 확인</td><td data-label="등급" role="cell"><span class="note">(eval 부분은 업계 일반)</span></td><td data-label="근거" role="cell">embeddings 전체본</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">임베딩 공급자 고르기</td><td data-label="답" role="cell">여러 공급자를 내 사례로 평가 (Anthropic 자체 모델 없음)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">embeddings 전체본</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">chunk 만 봐선 어느 문서 얘기인지 모름</td><td data-label="답" role="cell">Contextual Retrieval (chunk 별 설명을 앞에 붙여 임베딩·BM25 양쪽에)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">맞는 chunk 가 후보엔 있는데 순위가 낮음</td><td data-label="답" role="cell">리랭킹 추가</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "Reranking is better than no reranking"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">리랭킹 뒤 p95 지연이 목표를 넘음</td><td data-label="답" role="cell">리랭킹 개수를 줄이며 실험 (빼지 않음)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "There is an inherent trade-off between reranking more chunks … vs. reranking fewer for lower latency and cost."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">검색용으로 임베딩</td><td data-label="답" role="cell">문서 = <code>input_type="document"</code>, 질문 = <code>"query"</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본 "Do not omit <code>input_type</code>"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">벡터 저장·메모리가 부담</td><td data-label="답" role="cell">int8(4배) · binary(32배) 양자화, 또는 차원 줄이기 — 정확도 대가를 eval 로 확인</td><td data-label="등급" role="cell"><span class="note">(eval 부분은 업계 일반)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">임베딩 공급자 고르기</td><td data-label="답" role="cell">여러 공급자를 내 사례로 평가 (Anthropic 자체 모델 없음)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본</td></tr>
   </tbody>
 </table>
 </div>
@@ -644,7 +644,7 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">지식 크기</td><td data-label="값" role="cell">20만 토큰 미만</td><td data-label="답 쪽" role="cell">RAG 없이 full context(통째 넣기) + 캐싱</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">◆ RAG vs full context (본편)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">지식 크기</td><td data-label="값" role="cell">20만 토큰 미만</td><td data-label="답 쪽" role="cell">RAG 없이 full context(문서 전체를 넣기) + 캐싱</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">◆ RAG vs full context (본편)</td></tr>
     <tr role="row"><td data-label="변수" role="cell">chunk 의 자기완결성</td><td data-label="값" role="cell">chunk 하나로 주어·시점이 다 보임(FAQ 한 항목 등)</td><td data-label="답 쪽" role="cell">맥락 붙이기 이득이 작을 수 있음</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">공식은 "모든 조합에서 개선"이라고만 함</td></tr>
     <tr role="row"><td data-label="변수" role="cell">chunk 의 자기완결성</td><td data-label="값" role="cell">"그 회사는 3% 성장" 식으로 대명사·생략이 많음</td><td data-label="답 쪽" role="cell">Contextual Retrieval 이득 큼</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
     <tr role="row"><td data-label="변수" role="cell">질문 모양</td><td data-label="값" role="cell">고유 ID·에러 코드</td><td data-label="답 쪽" role="cell">BM25 를 더함</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">◆ 임베딩 vs BM25 vs hybrid</td></tr>
@@ -688,6 +688,10 @@
         <p lang="en">"there's no single "best" chunking strategy." <span class="src">(Skilljar)</span></p>
       </div>
   </div>
+  <figure class="v3-img">
+    <a class="v3-zoom" href="../images/rag-pipeline-flip.webp"><img src="../images/rag-pipeline-flip.webp" alt="RAG 는 보통 문맥 붙인 chunk·hybrid 검색·리랭킹이지만, 리랭킹이 지연을 넘기면 개수를 줄이고, 벡터가 메모리를 넘으면 양자화하며, 넣는 chunk 수는 실험으로 정한다는 그림." loading="lazy" decoding="async"></a>
+    <figcaption>그림으로 보기 <span class="note">(AI 생성 · Codex · 누르면 크게)</span> — 자세한 조건은 아래 '더 깊이'에 있어요</figcaption>
+  </figure>
   <details class="t5-orig v3-more">
     <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
@@ -744,9 +748,9 @@
     <tr role="row"><td data-label="오답" role="cell">"지연 때문에 리랭킹을 빼고 임베딩만"</td><td data-label="왜 끌리나" role="cell">단계를 없애면 빨라 보임</td><td data-label="왜 틀리나" role="cell">공식은 개수 조절을 권함. 리랭킹은 없는 것보다 나음</td><td data-label="근거" role="cell"></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"정확도 단계는 많을수록 좋으니 후보를 더 늘림"</td><td data-label="왜 끌리나" role="cell">더 보면 더 찾을 것 같음</td><td data-label="왜 틀리나" role="cell">리랭킹을 늘리면 지연·비용이 늘고, 모델에 넣는 chunk 가 많으면 산만해짐</td><td data-label="근거" role="cell"></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"chunk 앞에 문서 요약을 붙이면 됨"</td><td data-label="왜 끌리나" role="cell">문맥을 더한다는 점이 비슷함</td><td data-label="왜 틀리나" role="cell">공식 실험에서 이득 매우 작음. 붙이는 건 chunk 별 설명</td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"질문도 문서처럼 임베딩 (input_type 생략)"</td><td data-label="왜 끌리나" role="cell">같은 모델이면 같게 넣을 것 같음</td><td data-label="왜 틀리나" role="cell">생략·None 금지. 질의·문서 구분이 검색 품질을 올림</td><td data-label="근거" role="cell">embeddings 전체본</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Anthropic 공식 권장 임베딩 = Voyage"</td><td data-label="왜 끌리나" role="cell">문서가 Voyage 예시로 채워짐</td><td data-label="왜 틀리나" role="cell">Voyage 는 '공급자 하나'. 여러 공급자를 평가하라</td><td data-label="근거" role="cell">embeddings 전체본</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"양자화는 정확도 손실 없는 공짜 절감"</td><td data-label="왜 끌리나" role="cell">4배·32배가 커 보임</td><td data-label="왜 틀리나" role="cell">정확도가 가장 높은 건 기본 float</td><td data-label="근거" role="cell">embeddings 전체본</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"질문도 문서처럼 임베딩 (input_type 생략)"</td><td data-label="왜 끌리나" role="cell">같은 모델이면 같게 넣을 것 같음</td><td data-label="왜 틀리나" role="cell">생략·None 금지. 질의·문서 구분이 검색 품질을 올림</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Anthropic 공식 권장 임베딩 = Voyage"</td><td data-label="왜 끌리나" role="cell">문서가 Voyage 예시로 채워짐</td><td data-label="왜 틀리나" role="cell">Voyage 는 '공급자 하나'. 여러 공급자를 평가하라</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"양자화는 정확도 손실 없는 공짜 절감"</td><td data-label="왜 끌리나" role="cell">4배·32배가 커 보임</td><td data-label="왜 틀리나" role="cell">정확도가 가장 높은 건 기본 float</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본</td></tr>
   </tbody>
 </table>
 </div>
@@ -756,11 +760,11 @@
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
-        <li>가이드 목표 3.5 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>가이드 목표 3.3 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li><a href="https://www.anthropic.com/engineering/contextual-retrieval">Contextual Retrieval 글</a></li>
-        <li>embeddings</li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287776">Skilljar API 287776</a></li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 3.5</a> <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 3.3</a> <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" rel="noopener">Contextual Retrieval 글</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a></li>
+        <li>Skilljar API 287776</li>
         <li>287759</li>
       </ul>
     <h3>상태</h3>

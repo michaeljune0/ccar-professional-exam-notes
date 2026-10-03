@@ -371,7 +371,7 @@
   <div class="t5-sum">
       <p>장애 때 에이전트 몫 = 로그·메트릭을 읽고 원인 추정안을 내는 데까지(상태를 못 바꾸는 행동). 재시작·설정 변경·배포·삭제처럼 상태를 바꾸는 조치는 변경안을 사람이 보고 승인한 뒤 <span class="gen">업계 일반</span> <span class="note">이 문장 자체는 공식에 없음</span></p>
       <p>가까운 공식 = Claude Code 기본값 : 작업 폴더 안 정보는 승인 없이 분석·검토, 코드·시스템을 바꾸는 행동 전엔 승인. 중요한(high-stakes) 결정 전엔 사람이 통제(control)</p>
-      <p>조사하라고 강한 권한을 주지 않음 : 읽기 도구만 · 자격증명은 프록시가 주입 · observability(관측 — 로깅)는 끄지 않음</p>
+      <p>조사하라고 강한 권한을 주지 않음 : 읽기 도구만 · 자격증명은 프록시가 주입 · observability(관측 가능성 — 로깅)는 끄지 않음</p>
     <p class="t5-ana"><span class="lead">비유</span> 읽기 전용 온콜 봇 + 변경 승인(CAB). 봇은 대시보드·로그를 보고 원인 가설을 티켓에 달지만 재시작 버튼은 사람이 누름</p>
   </div>
   <figure class="v3-img">
@@ -410,7 +410,7 @@
 <li>에이전트가 과하게 나서는(overeager) 실제 사고 : 인증(authentication) 오류에 막히자 권한을 묻는 대신 다른 토큰을 뒤짐 · 프로덕션 DB 마이그레이션 시도.</li>
 <li>그래서 설정으로 막음 : 읽기 도구만 · 무인이면 <code>dontAsk</code>(물을 사람이 없으니 거부) · 자격증명은 프록시가 주입해 에이전트가 못 봄.</li>
 </ul>
-<p class="lead">observability(관측)는 조사의 재료이자 방어선</p>
+<p class="lead">observability(관측 가능성)는 조사의 재료이자 방어선</p>
 <ul>
 <li>로깅을 끄면 원인을 못 찾고, 동시에 감시·방어도 약해짐 → 기본 차단 규칙이 "보안 약화"로 분류.</li>
 </ul>
@@ -555,7 +555,7 @@
         </li>
         <li id="incident-agent-scope-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p class="lead">lever(손잡이) (Claude Code · Agent SDK) <span class="pg">[7.3②]</span> <span class="pg">[7.1③]</span></p>
+            <p class="lead">lever(조절 수단) (Claude Code · Agent SDK) <span class="pg">[7.3②]</span> <span class="pg">[7.1③]</span></p>
             <div class="tscroll" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">상황</th><th scope="col" role="columnheader">설정</th></tr></thead>
@@ -578,7 +578,7 @@
         </li>
         <li id="incident-agent-scope-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">관측은 끄지 않음 :</span> 로깅 끄기 = 감시·방어를 어렵게 하는 보안 약화, 기본 차단. 조사용이라도 외부 서비스 공유(Gist)는 유출로 차단. 좁히기는 "무엇이 바뀌었나"부터 → <a href="diagnose-by-change.html">■ 변경부터 묻는 진단</a> · 신호 → <a href="observability-signals.html">■ observability 세 신호</a> <span class="pg">[7.3②]</span></p>
+            <p>observability 는 끄지 않음 : 로깅 끄기 = 감시·방어를 어렵게 하는 보안 약화, 기본 차단. 조사용이라도 외부 서비스 공유(Gist)는 유출로 차단. 좁히기는 "무엇이 바뀌었나"부터 → <a href="diagnose-by-change.html">■ 변경부터 묻는 진단</a> · 신호 → <a href="observability-signals.html">■ observability 세 신호</a> <span class="pg">[7.3②]</span></p>
           </div>
         </li>
       </ol>
@@ -592,14 +592,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">읽기·분석·원인 추정</td><td data-label="답" role="cell">에이전트가 승인 없이</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">safe-trustworthy-agents "can analyze and review information … without asking for human approval"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">읽기·분석·원인 추정</td><td data-label="답" role="cell">에이전트가 승인 없이</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents" lang="en" rel="noopener">safe-trustworthy-agents</a> "can analyze and review information … without asking for human approval"</td></tr>
     <tr role="row"><td data-label="조건" role="cell">코드·시스템을 바꾸는 행동</td><td data-label="답" role="cell">사람 승인 뒤</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">같은 줄 "must ask for human approval before taking any actions that modify code or systems"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">중요한 결정 (구독 취소 같은)</td><td data-label="답" role="cell">사람이 먼저 승인</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">safe-trustworthy-agents</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">프로덕션 배포 · 안전 검사 건너뛰기 · 로깅 끄기</td><td data-label="답" role="cell">기본 차단</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">claude-code-auto-mode</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">인증 오류 → 다른 토큰 탐색</td><td data-label="답" role="cell">차단 · 사람에게 권한 요청</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">claude-code-auto-mode</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">사람이 보며 조사</td><td data-label="답" role="cell"><code>plan</code> 모드 (편집은 자동 승인 안 됨)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">agent-sdk permissions</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">무인 조사 에이전트</td><td data-label="답" role="cell">읽기 도구 <code>allowedTools</code> + <code>dontAsk</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">agent-sdk permissions</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">자격증명이 필요한 호출</td><td data-label="답" role="cell">경계 밖 프록시가 주입</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">secure-deployment</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">중요한 결정 (구독 취소 같은)</td><td data-label="답" role="cell">사람이 먼저 승인</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents" lang="en" rel="noopener">safe-trustworthy-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">프로덕션 배포 · 안전 검사 건너뛰기 · 로깅 끄기</td><td data-label="답" role="cell">기본 차단</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/auto-mode-config" lang="en" rel="noopener">claude-code-auto-mode</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">인증 오류 → 다른 토큰 탐색</td><td data-label="답" role="cell">차단 · 사람에게 권한 요청</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/auto-mode-config" lang="en" rel="noopener">claude-code-auto-mode</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">사람이 보며 조사</td><td data-label="답" role="cell"><code>plan</code> 모드 (편집은 자동 승인 안 됨)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk permissions</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">무인 조사 에이전트</td><td data-label="답" role="cell">읽기 도구 <code>allowedTools</code> + <code>dontAsk</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk permissions</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">자격증명이 필요한 호출</td><td data-label="답" role="cell">경계 밖 프록시가 주입</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/secure-deployment" lang="en" rel="noopener">secure-deployment</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">장애 대응 = 조사 자율 · 조치 승인</td><td data-label="답" role="cell">위 규칙들의 적용</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">문장 자체는 공식에 없음 (미해결 1)</td></tr>
   </tbody>
 </table>
@@ -611,14 +611,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">행동 종류</td><td data-label="값" role="cell">읽기 전용 명령(<code>tail</code>·<code>grep</code>·읽기 git)</td><td data-label="답 쪽" role="cell">프롬프트 없이</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">claude-code-permissions</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">행동 종류</td><td data-label="값" role="cell">읽기 전용 명령(<code>tail</code>·<code>grep</code>·읽기 git)</td><td data-label="답 쪽" role="cell">프롬프트 없이</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">claude-code-permissions</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">행동 종류</td><td data-label="값" role="cell">재시작·배포·삭제</td><td data-label="답 쪽" role="cell">변경안 + 승인</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> + 확인</td><td data-label="근거" role="cell">판단 규칙 2·4</td></tr>
     <tr role="row"><td data-label="변수" role="cell">되돌림</td><td data-label="값" role="cell">프로젝트 안 파일 편집(버전 관리로 검토)</td><td data-label="답 쪽" role="cell">자동도 가능</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a href="human-approval-gates.html">■ human-in-the-loop 게이트 위치</a> <span class="rule-ref">· <a href="human-approval-gates.html#human-approval-gates-rule-2">규칙 ②</a></span></td></tr>
     <tr role="row"><td data-label="변수" role="cell">사람 유무</td><td data-label="값" role="cell">옆에 있음</td><td data-label="답 쪽" role="cell"><code>plan</code> 또는 수동 승인</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 6</td></tr>
     <tr role="row"><td data-label="변수" role="cell">사람 유무</td><td data-label="값" role="cell">없음(야간·CI)</td><td data-label="답 쪽" role="cell"><code>dontAsk</code> — 변경은 거부되고 멈춤</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Skilljar 486932 "Don't ask is the right move whenever no human is around to approve prompts"</td></tr>
     <tr role="row"><td data-label="변수" role="cell">격리</td><td data-label="값" role="cell">격리 컨테이너·VM</td><td data-label="답 쪽" role="cell">그때만 <code>bypassPermissions</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Skilljar 486932</td></tr>
     <tr role="row"><td data-label="변수" role="cell">자격증명</td><td data-label="값" role="cell">에이전트 환경에 키를 둠</td><td data-label="답 쪽" role="cell">프록시 주입으로 바꿈</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 8</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">반복 조치</td><td data-label="값" role="cell">믿는 반복 작업</td><td data-label="답 쪽" role="cell">사람이 지속 권한을 줄 수 있음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">safe-trustworthy-agents "Users can grant persistent permissions for routine tasks they trust Claude to handle."</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">반복 조치</td><td data-label="값" role="cell">믿는 반복 작업</td><td data-label="답 쪽" role="cell">사람이 지속 권한을 줄 수 있음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents" lang="en" rel="noopener">safe-trustworthy-agents</a> "Users can grant persistent permissions for routine tasks they trust Claude to handle."</td></tr>
     <tr role="row"><td data-label="변수" role="cell">원인 단서</td><td data-label="값" role="cell">직전 변경 있음</td><td data-label="답 쪽" role="cell">■ 변경부터 묻는 진단</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">그 카드</td></tr>
   </tbody>
 </table>
@@ -656,6 +656,10 @@
         <p lang="en">"Even read-only access to a code directory can expose credentials."</p>
       </div>
   </div>
+  <figure class="v3-img">
+    <a class="v3-zoom" href="../images/incident-agent-scope-flip.webp"><img src="../images/incident-agent-scope-flip.webp" alt="장애 때 보통 조사는 자율, 조치는 승인이지만, 되돌릴 수 있는 반복 조치는 허용 목록으로 자동, 새벽엔 그대로 dontAsk 로 거부, 조사 목적이어도 상태를 바꾸면 조치다." loading="lazy" decoding="async"></a>
+    <figcaption>그림으로 보기 <span class="note">(AI 생성 · Codex · 누르면 크게)</span> — 자세한 조건은 아래 '더 깊이'에 있어요</figcaption>
+  </figure>
   <details class="t5-orig v3-more">
     <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
@@ -697,13 +701,13 @@
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
     <tr role="row"><td data-label="오답" role="cell">"에이전트가 자동 재시작까지 해서 복구 시간을 줄임"</td><td data-label="왜 끌리나" role="cell">야간 복구가 빨라 보임</td><td data-label="왜 틀리나" role="cell">상태를 바꾸는 조치는 사람 승인 뒤. 프로덕션 배포는 기본 차단 예</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> + 확인</td><td data-label="근거" role="cell">auto-mode</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"조사하라고 전체 자격증명(관리자 키)을 줌"</td><td data-label="왜 끌리나" role="cell">막힘 없이 다 볼 수 있음</td><td data-label="왜 틀리나" role="cell">필요 없는 권한. 자격증명은 프록시 주입 · 읽기 도구만</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">secure-deployment · ■ 최소 권한</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"조사하라고 전체 자격증명(관리자 키)을 줌"</td><td data-label="왜 끌리나" role="cell">막힘 없이 다 볼 수 있음</td><td data-label="왜 틀리나" role="cell">필요 없는 권한. 자격증명은 프록시 주입 · 읽기 도구만</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/secure-deployment" lang="en" rel="noopener">secure-deployment</a> · ■ 최소 권한</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"비용 줄이려 observability(로그) 끄기"</td><td data-label="왜 끌리나" role="cell">비용이 바로 줄어 보임</td><td data-label="왜 틀리나" role="cell">로깅 끄기 = 보안 약화, 원인도 못 찾음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">auto-mode</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"야간엔 물을 사람이 없으니 권한 확인을 전부 끔"</td><td data-label="왜 끌리나" role="cell">파이프라인이 안 멈춤</td><td data-label="왜 틀리나" role="cell">전부 끄기는 격리 컨테이너·VM 에서만. 무인은 <code>dontAsk</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Skilljar 486932</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"<code>allowedTools</code> 에 읽기 도구만 넣었으니 쓰기는 불가"</td><td data-label="왜 끌리나" role="cell">허용 목록처럼 보임</td><td data-label="왜 틀리나" role="cell">목록 밖 도구도 남음 → <code>dontAsk</code> 로 거부하거나 <code>disallowedTools</code> 로 뺌</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">agent-sdk permissions</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"모든 조사 명령에도 사람 승인"</td><td data-label="왜 끌리나" role="cell">가장 안전해 보임</td><td data-label="왜 틀리나" role="cell">읽기는 승인 없이가 공식 기본. 매번 승인은 승인 피로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">safe-trustworthy-agents · ■ human-in-the-loop 게이트 위치</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"<code>allowedTools</code> 에 읽기 도구만 넣었으니 쓰기는 불가"</td><td data-label="왜 끌리나" role="cell">허용 목록처럼 보임</td><td data-label="왜 틀리나" role="cell">목록 밖 도구도 남음 → <code>dontAsk</code> 로 거부하거나 <code>disallowedTools</code> 로 뺌</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk permissions</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모든 조사 명령에도 사람 승인"</td><td data-label="왜 끌리나" role="cell">가장 안전해 보임</td><td data-label="왜 틀리나" role="cell">읽기는 승인 없이가 공식 기본. 매번 승인은 승인 피로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents" lang="en" rel="noopener">safe-trustworthy-agents</a> · ■ human-in-the-loop 게이트 위치</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"에이전트가 인증 오류에 막히면 다른 토큰을 찾아 계속"</td><td data-label="왜 끌리나" role="cell">일을 끝내려는 성실함</td><td data-label="왜 틀리나" role="cell">다른 작업용 자격증명일 수 있음 → 차단, 권한은 사람에게 물음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">auto-mode</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"더 큰 모델이면 권한을 넓혀도 됨"</td><td data-label="왜 끌리나" role="cell">판단이 좋아 보임</td><td data-label="왜 틀리나" role="cell">모델 크기는 권한 범위와 무관</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">■ 최소 권한 (가이드 샘플 1 D)</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"더 큰 모델이면 권한을 넓혀도 됨"</td><td data-label="왜 끌리나" role="cell">판단이 좋아 보임</td><td data-label="왜 틀리나" role="cell">모델 크기는 권한 범위와 무관</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">■ 최소 권한 (<a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> D)</td></tr>
   </tbody>
 </table>
 </div>
@@ -720,12 +724,12 @@
       </ul>
     <h3>출처</h3>
       <ul class="plain">
-        <li>가이드 목표 7.3 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>safe-trustworthy-agents</li>
-        <li>claude-code-auto-mode</li>
-        <li>claude-code-permissions</li>
-        <li>agent-sdk permissions</li>
-        <li>agent-sdk secure-deployment</li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 7.3</a> <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents" lang="en" rel="noopener">safe-trustworthy-agents</a></li>
+        <li><a class="src-link" href="https://code.claude.com/docs/en/auto-mode-config" lang="en" rel="noopener">claude-code-auto-mode</a></li>
+        <li><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">claude-code-permissions</a></li>
+        <li><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk permissions</a></li>
+        <li><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/secure-deployment" lang="en" rel="noopener">agent-sdk secure-deployment</a></li>
         <li>Skilljar Claude Code in Action 486932 <span class="src">(2026-09-28 조회)</span></li>
       </ul>
     <h3>상태</h3>

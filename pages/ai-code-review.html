@@ -420,7 +420,7 @@
 </ul>
 <p class="lead">넓히기</p>
 <ul>
-<li>Owner 가 저장소를 골라 넣고 나중에 추가 · 저장소별 on/off · 트리거 3가지(1회 / 매 push / Manual). 비용은 리뷰 수에 비례 → 트리거와 저장소 수가 비용 lever(손잡이).</li>
+<li>Owner 가 저장소를 골라 넣고 나중에 추가 · 저장소별 on/off · 트리거 3가지(1회 / 매 push / Manual). 비용은 리뷰 수에 비례 → 트리거와 저장소 수가 비용 lever(조절 수단).</li>
 </ul>
 </section>
   <h2 class="sec-h" id="ai-code-review-rules-h">규칙과 판단</h2>
@@ -570,15 +570,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">찾기 단계 뒤에 검증·중복 제거·순위가 있음</td><td data-label="답" role="cell">불확실·저심각도까지 전부 보고 + 신뢰도·추정 심각도</td><td data-label="근거" role="cell">prompting-claude-opus-4-8 "Report every issue you find, including ones you are uncertain about or consider low-severity."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">한 번에 거르기를 원함</td><td data-label="답" role="cell">'중요한' 대신 판정선을 구체적으로</td><td data-label="근거" role="cell">prompting-claude-opus-4-8 "be concrete about where the bar is rather than using qualitative terms like "important""</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">리뷰 프롬프트를 고침</td><td data-label="답" role="cell">eval·테스트 케이스 일부로 재현율·F1 확인</td><td data-label="근거" role="cell">prompting-claude-opus-4-8</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">방금 쓴 코드를 리뷰</td><td data-label="답" role="cell">다른 세션·서브에이전트(새 컨텍스트)</td><td data-label="근거" role="cell">best-practices "A fresh context improves code review since Claude won’t be biased toward code it just wrote."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">리뷰어 지적을 받아 고칠 차례</td><td data-label="답" role="cell">정확성·명시 요구에 영향 주는 것만, 나머지는 선택</td><td data-label="근거" role="cell">best-practices</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">PR 마다 자동 리뷰, 워크플로 유지 안 함</td><td data-label="답" role="cell">관리형 Code Review</td><td data-label="근거" role="cell">code-review · github-actions</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">저장소마다 기준이 다름(문서·설정·프로토타입)</td><td data-label="답" role="cell"><code>REVIEW.md</code> 로 심각도 재정의·nit 상한·건너뛸 경로</td><td data-label="근거" role="cell">code-review</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">리뷰로 머지를 막고 싶음</td><td data-label="답" role="cell">check run 출력을 내 CI 가 읽어 게이트</td><td data-label="근거" role="cell">code-review</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">트래픽 큰 저장소</td><td data-label="답" role="cell">Manual 트리거(<code>@claude review</code>)로 골라 리뷰</td><td data-label="근거" role="cell">code-review</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">찾기 단계 뒤에 검증·중복 제거·순위가 있음</td><td data-label="답" role="cell">불확실·저심각도까지 전부 보고 + 신뢰도·추정 심각도</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8" lang="en" rel="noopener">prompting-claude-opus-4-8</a> "Report every issue you find, including ones you are uncertain about or consider low-severity."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">한 번에 거르기를 원함</td><td data-label="답" role="cell">'중요한' 대신 판정선을 구체적으로</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8" lang="en" rel="noopener">prompting-claude-opus-4-8</a> "be concrete about where the bar is rather than using qualitative terms like "important""</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">리뷰 프롬프트를 고침</td><td data-label="답" role="cell">eval·테스트 케이스 일부로 재현율·F1 확인</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8" lang="en" rel="noopener">prompting-claude-opus-4-8</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">방금 쓴 코드를 리뷰</td><td data-label="답" role="cell">다른 세션·서브에이전트(새 컨텍스트)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a> "A fresh context improves code review since Claude won’t be biased toward code it just wrote."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">리뷰어 지적을 받아 고칠 차례</td><td data-label="답" role="cell">정확성·명시 요구에 영향 주는 것만, 나머지는 선택</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">PR 마다 자동 리뷰, 워크플로 유지 안 함</td><td data-label="답" role="cell">관리형 Code Review</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/code-review" lang="en" rel="noopener">code-review</a> · <a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">저장소마다 기준이 다름(문서·설정·프로토타입)</td><td data-label="답" role="cell"><code>REVIEW.md</code> 로 심각도 재정의·nit 상한·건너뛸 경로</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/code-review" lang="en" rel="noopener">code-review</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">리뷰로 머지를 막고 싶음</td><td data-label="답" role="cell">check run 출력을 내 CI 가 읽어 게이트</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/code-review" lang="en" rel="noopener">code-review</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">트래픽 큰 저장소</td><td data-label="답" role="cell">Manual 트리거(<code>@claude review</code>)로 골라 리뷰</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/code-review" lang="en" rel="noopener">code-review</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -589,15 +589,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">뒤 단계</td><td data-label="값" role="cell">있음</td><td data-label="답 쪽" role="cell">찾기는 커버리지</td><td data-label="근거" role="cell">prompting-claude-opus-4-8</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">뒤 단계</td><td data-label="값" role="cell">없음 · 결과가 곧장 사람에게</td><td data-label="답 쪽" role="cell">구체적 판정선 · nit 개수 상한</td><td data-label="근거" role="cell">prompting-claude-opus-4-8 · code-review</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">옛 모델용 하네스에 새 모델</td><td data-label="답 쪽" role="cell">재현율이 처음엔 낮아 보일 수 있음 → 보수적 문구 걷어냄</td><td data-label="근거" role="cell">prompting-claude-opus-4-8</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">로컬 <code>/code-review</code> effort</td><td data-label="값" role="cell"><code>low</code>·<code>medium</code></td><td data-label="답 쪽" role="cell">확신 높은 것만(거짓 양성↓)</td><td data-label="근거" role="cell">code-review</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">로컬 <code>/code-review</code> effort</td><td data-label="값" role="cell"><code>high</code>~<code>max</code></td><td data-label="답 쪽" role="cell">커버리지↑ · 덜 확실한 것도</td><td data-label="근거" role="cell">code-review</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">트리거</td><td data-label="값" role="cell">매 push</td><td data-label="답 쪽" role="cell">리뷰 수 = push 수 → 가장 비쌈</td><td data-label="근거" role="cell">code-review</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">트리거</td><td data-label="값" role="cell">PR 생성 1회 · Manual</td><td data-label="답 쪽" role="cell">비용 작음 · Manual 은 요청한 것만</td><td data-label="근거" role="cell">code-review</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">조직</td><td data-label="값" role="cell">ZDR 켬 · Team·Enterprise 아님</td><td data-label="답 쪽" role="cell">관리형 Code Review 불가 → Actions 워크플로 · 로컬 <code>/code-review</code></td><td data-label="근거" role="cell">code-review · github-actions</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">규칙 위치</td><td data-label="값" role="cell"><code>CLAUDE.md</code> 에만</td><td data-label="답 쪽" role="cell">관리형 리뷰는 위반을 nit 로만 · 로컬 <code>/code-review</code> 는 <code>REVIEW.md</code> 를 안 읽음</td><td data-label="근거" role="cell">code-review</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">뒤 단계</td><td data-label="값" role="cell">있음</td><td data-label="답 쪽" role="cell">찾기는 커버리지</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8" lang="en" rel="noopener">prompting-claude-opus-4-8</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">뒤 단계</td><td data-label="값" role="cell">없음 · 결과가 곧장 사람에게</td><td data-label="답 쪽" role="cell">구체적 판정선 · nit 개수 상한</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8" lang="en" rel="noopener">prompting-claude-opus-4-8</a> · <a class="src-link" href="https://code.claude.com/docs/en/code-review" lang="en" rel="noopener">code-review</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">옛 모델용 하네스에 새 모델</td><td data-label="답 쪽" role="cell">재현율이 처음엔 낮아 보일 수 있음 → 보수적 문구 걷어냄</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8" lang="en" rel="noopener">prompting-claude-opus-4-8</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">로컬 <code>/code-review</code> effort</td><td data-label="값" role="cell"><code>low</code>·<code>medium</code></td><td data-label="답 쪽" role="cell">확신 높은 것만(거짓 양성↓)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/code-review" lang="en" rel="noopener">code-review</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">로컬 <code>/code-review</code> effort</td><td data-label="값" role="cell"><code>high</code>~<code>max</code></td><td data-label="답 쪽" role="cell">커버리지↑ · 덜 확실한 것도</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/code-review" lang="en" rel="noopener">code-review</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">트리거</td><td data-label="값" role="cell">매 push</td><td data-label="답 쪽" role="cell">리뷰 수 = push 수 → 가장 비쌈</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/code-review" lang="en" rel="noopener">code-review</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">트리거</td><td data-label="값" role="cell">PR 생성 1회 · Manual</td><td data-label="답 쪽" role="cell">비용 작음 · Manual 은 요청한 것만</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/code-review" lang="en" rel="noopener">code-review</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">조직</td><td data-label="값" role="cell">ZDR 켬 · Team·Enterprise 아님</td><td data-label="답 쪽" role="cell">관리형 Code Review 불가 → Actions 워크플로 · 로컬 <code>/code-review</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/code-review" lang="en" rel="noopener">code-review</a> · <a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">규칙 위치</td><td data-label="값" role="cell"><code>CLAUDE.md</code> 에만</td><td data-label="답 쪽" role="cell">관리형 리뷰는 위반을 nit 로만 · 로컬 <code>/code-review</code> 는 <code>REVIEW.md</code> 를 안 읽음</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/code-review" lang="en" rel="noopener">code-review</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -631,6 +631,10 @@
         <p lang="en">"a verification step checks candidates against actual code behavior to filter out false positives."</p>
       </div>
   </div>
+  <figure class="v3-img">
+    <a class="v3-zoom" href="../images/ai-code-review-flip.webp"><img src="../images/ai-code-review-flip.webp" alt="AI 리뷰는 보통 전부 찾고 뒤에서 거르지만, 뒤 필터가 없으면 판정선과 nit 상한, 지적이 줄면 보수적 문구부터 걷고, 지켜본 작은 수정은 같은 세션 확인도 된다." loading="lazy" decoding="async"></a>
+    <figcaption>그림으로 보기 <span class="note">(AI 생성 · Codex · 누르면 크게)</span> — 자세한 조건은 아래 '더 깊이'에 있어요</figcaption>
+  </figure>
   <details class="t5-orig v3-more">
     <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
@@ -672,15 +676,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"지적이 많으니 '고심각도만 보고' 로 바꿈"</td><td data-label="왜 끌리나" role="cell">알림 수가 바로 줌</td><td data-label="왜 틀리나" role="cell">찾아 놓고 안 보고함 → 재현율 하락. 거르기는 뒤 단계에서</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">prompting-claude-opus-4-8</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"'보수적으로' 같은 말은 아무 효과가 없다"</td><td data-label="왜 끌리나" role="cell">막연한 말이라 무시될 것 같음</td><td data-label="왜 틀리나" role="cell">효과가 있음 — 보고를 줄여 정밀도↑·재현율↓. 효과의 방향이 문제</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">prompting-claude-opus-4-8</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"'중요한 것만' 으로 한 번에 거름"</td><td data-label="왜 끌리나" role="cell">짧고 명확해 보임</td><td data-label="왜 틀리나" role="cell">두루뭉술한 말. 판정선을 구체적으로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">prompting-claude-opus-4-8</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"쓴 세션에 '스스로 다시 검토해'"</td><td data-label="왜 끌리나" role="cell">맥락을 가장 잘 알고 있음</td><td data-label="왜 틀리나" role="cell">자기 코드에 치우침. 새 컨텍스트</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">best-practices</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"리뷰어 지적을 전부 고침"</td><td data-label="왜 끌리나" role="cell">꼼꼼해 보임</td><td data-label="왜 틀리나" role="cell">과설계(추상화·방어 코드·불가능한 경우 테스트)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">best-practices</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Code Review 로 머지를 차단"</td><td data-label="왜 끌리나" role="cell">리뷰 = 게이트로 생각</td><td data-label="왜 틀리나" role="cell">승인·차단 안 함, check run 은 늘 neutral. 게이트는 내 CI 가</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">code-review</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"새 모델이 버그를 덜 찾으니 되돌림"</td><td data-label="왜 끌리나" role="cell">수치가 떨어짐</td><td data-label="왜 틀리나" role="cell">하네스 효과일 가능성. 보수적 문구 먼저 걷어냄</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">prompting-claude-opus-4-8</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"지적이 많으니 '고심각도만 보고' 로 바꿈"</td><td data-label="왜 끌리나" role="cell">알림 수가 바로 줌</td><td data-label="왜 틀리나" role="cell">찾아 놓고 안 보고함 → 재현율 하락. 거르기는 뒤 단계에서</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8" lang="en" rel="noopener">prompting-claude-opus-4-8</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"'보수적으로' 같은 말은 아무 효과가 없다"</td><td data-label="왜 끌리나" role="cell">막연한 말이라 무시될 것 같음</td><td data-label="왜 틀리나" role="cell">효과가 있음 — 보고를 줄여 정밀도↑·재현율↓. 효과의 방향이 문제</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8" lang="en" rel="noopener">prompting-claude-opus-4-8</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"'중요한 것만' 으로 한 번에 거름"</td><td data-label="왜 끌리나" role="cell">짧고 명확해 보임</td><td data-label="왜 틀리나" role="cell">두루뭉술한 말. 판정선을 구체적으로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8" lang="en" rel="noopener">prompting-claude-opus-4-8</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"쓴 세션에 '스스로 다시 검토해'"</td><td data-label="왜 끌리나" role="cell">맥락을 가장 잘 알고 있음</td><td data-label="왜 틀리나" role="cell">자기 코드에 치우침. 새 컨텍스트</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"리뷰어 지적을 전부 고침"</td><td data-label="왜 끌리나" role="cell">꼼꼼해 보임</td><td data-label="왜 틀리나" role="cell">과설계(추상화·방어 코드·불가능한 경우 테스트)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Code Review 로 머지를 차단"</td><td data-label="왜 끌리나" role="cell">리뷰 = 게이트로 생각</td><td data-label="왜 틀리나" role="cell">승인·차단 안 함, check run 은 늘 neutral. 게이트는 내 CI 가</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/code-review" lang="en" rel="noopener">code-review</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"새 모델이 버그를 덜 찾으니 되돌림"</td><td data-label="왜 끌리나" role="cell">수치가 떨어짐</td><td data-label="왜 틀리나" role="cell">하네스 효과일 가능성. 보수적 문구 먼저 걷어냄</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8" lang="en" rel="noopener">prompting-claude-opus-4-8</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"전사 저장소에 매 push 트리거로 한 번에"</td><td data-label="왜 끌리나" role="cell">빨리 효과를 봄</td><td data-label="왜 틀리나" role="cell">리뷰 수 = push 수라 비용이 곱으로 늚. 골라 넣고 추가</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"팀 리뷰 규칙은 CLAUDE.md 에 길게"</td><td data-label="왜 끌리나" role="cell">늘 읽히는 파일</td><td data-label="왜 틀리나" role="cell">관리형 리뷰는 CLAUDE.md 위반을 nit 로만 봄 · 리뷰 전용 규칙은 <code>REVIEW.md</code> 가 더 확실히 닿음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">code-review</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"팀 리뷰 규칙은 CLAUDE.md 에 길게"</td><td data-label="왜 끌리나" role="cell">늘 읽히는 파일</td><td data-label="왜 틀리나" role="cell">관리형 리뷰는 CLAUDE.md 위반을 nit 로만 봄 · 리뷰 전용 규칙은 <code>REVIEW.md</code> 가 더 확실히 닿음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/code-review" lang="en" rel="noopener">code-review</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -699,11 +703,11 @@
       </ul>
     <h3>출처</h3>
       <ul class="plain">
-        <li>가이드 목표 7.2 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>prompting-claude-opus-4-8</li>
-        <li>best-practices</li>
-        <li>code-review</li>
-        <li>github-actions</li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 7.2</a> <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8" lang="en" rel="noopener">prompting-claude-opus-4-8</a></li>
+        <li><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a></li>
+        <li><a class="src-link" href="https://code.claude.com/docs/en/code-review" lang="en" rel="noopener">code-review</a></li>
+        <li><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a></li>
         <li>Skilljar cci 486936 — 전부 2026-09-28 조회</li>
       </ul>
     <h3>상태</h3>

@@ -376,7 +376,7 @@
     <p class="t5-ana"><span class="lead">비유</span> 변경 요청(CAB)에 대안 2~3개 + 벤치마크·롤백 비용을 붙여 올림. 인스턴스 교체안만 있고 튜닝안이 없으면 빠진 선택지</p>
   </div>
   <figure class="v3-img">
-    <a class="v3-zoom" href="../images/tradeoff-communication.webp"><img src="../images/tradeoff-communication.webp" alt="effort 조정·모델 교체·모델 섞기 선택지마다 같은 평가셋의 품질·지연·비용을 붙여 책임자가 고르게 하고, 아키텍트가 혼자 골라 통보하지 않는 그림" loading="lazy" decoding="async"></a>
+    <a class="v3-zoom" href="../images/tradeoff-communication.webp"><img src="../images/tradeoff-communication.webp" alt="effort 조정·모델 교체·모델 조합 선택지마다 같은 평가셋의 품질·지연·비용을 붙여 책임자가 고르게 하고, 아키텍트가 혼자 골라 통보하지 않는 그림" loading="lazy" decoding="async"></a>
     <figcaption>그림으로 보기 <span class="note">(AI 생성 · Codex · 누르면 크게)</span></figcaption>
   </figure>
 <section class="ex-sec eli5" id="eli5" aria-labelledby="eli5-h">
@@ -412,8 +412,8 @@
 </ul>
 <p class="lead">선택지 공간은 모델 교체보다 넓음</p>
 <ul>
-<li>effort : 한 모델 안에서 지능 ↔ 지연·비용을 맞바꾸는 lever(손잡이). 공식은 "모델 바꾸기보다 나은 경우가 많다".</li>
-<li>섞기 : 싼 모델이 대부분을 하고 어려운 것만 프런티어 모델로.</li>
+<li>effort : 한 모델 안에서 지능 ↔ 지연·비용을 맞바꾸는 lever(조절 수단). 공식은 "모델 바꾸기보다 나은 경우가 많다".</li>
+<li>모델 조합 : 싼 모델이 대부분을 하고 어려운 것만 프런티어 모델로.</li>
 <li>모델 교체 : effort 를 끝까지 올려도 모자랄 때.</li>
 </ul>
 <p class="lead">안전은 선택지 축이 아니라 바닥</p>
@@ -513,7 +513,7 @@
         <li id="tradeoff-communication-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
             <p><span class="lead">선택지 구성 :</span> 같은 모델 + effort 조정안부터. effort = 한 모델 안에서 지능 ↔ 지연·비용을 맞바꿈. effort 조정이 모델 교체보다 나은 경우가 많음 · 자기 eval 로 effort 를 훑어 봄(sweep) → <a href="latency-levers.html">■ 지연 줄이기 lever</a> <span class="pg">[6.2①]</span> <span class="pg">[2.1②]</span></p>
-            <p>세 번째 모양 = 모델 섞기 : 싼 모델 + 프런티어 모델 (실행자가 어려운 결정만 어드바이저로 · orchestrator(지휘자)가 대량 작업을 싼 worker(일꾼)에게) — 목록 6.2① 의 선택지 B(Sonnet + 라우팅)가 이 모양</p>
+            <p>세 번째 모양 = 모델 조합 : 싼 모델 + 프런티어 모델 (실행자가 어려운 결정만 어드바이저로 · orchestrator 가 대량 작업을 싼 worker 에게) — 목록 6.2① 의 선택지 B(Sonnet + 라우팅)가 이 모양</p>
             <p>effort 를 <code>xhigh</code>·<code>max</code> 까지 올려도 eval 이 모자라면 그때 모델 교체(Fable 5.1)</p>
             <p><span class="lead">가격 :</span> Sonnet 5 $2/$10 = Opus 5.5 $4/$20 의 50% (2026-09-28 조회 · Opus 5.5 = 2026-09-22 출시, 시험 뒤 변경) · 목록의 "비용 40%" 는 Opus 5 $5/$25 대비</p>
           </div>
@@ -544,13 +544,13 @@
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
     <tr role="row"><td data-label="조건" role="cell">실행 가능한 설계가 둘 이상, 축마다 우열이 갈림</td><td data-label="답" role="cell">선택지마다 같은 평가셋의 품질·지연·비용을 붙여 보여 주고 책임자가 결정</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">공식 문장 없음</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">선택지 근거를 무엇으로</td><td data-label="답" role="cell">쓰임새 전용 평가셋 + 실제 프롬프트·데이터 → 정확도·품질·엣지 케이스 → 성능·비용 trade-off</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">choosing-a-model</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">선택지가 모델 교체뿐</td><td data-label="답" role="cell">같은 모델 + effort 조정안을 넣음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">choosing-a-model "Tuning effort is often a better lever than switching models."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">effort 를 <code>xhigh</code>·<code>max</code> 까지 올려도 eval 모자람</td><td data-label="답" role="cell">그때 모델 교체(Fable 5.1)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">choosing-a-model</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">싼 모델 + 비싼 모델을 같이</td><td data-label="답" role="cell">섞기(실행자-어드바이저 · orchestrator-worker(지휘자-일꾼))도 선택지</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">choosing-a-model</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">선택지 근거를 무엇으로</td><td data-label="답" role="cell">쓰임새 전용 평가셋 + 실제 프롬프트·데이터 → 정확도·품질·엣지 케이스 → 성능·비용 trade-off</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">선택지가 모델 교체뿐</td><td data-label="답" role="cell">같은 모델 + effort 조정안을 넣음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a> "Tuning effort is often a better lever than switching models."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">effort 를 <code>xhigh</code>·<code>max</code> 까지 올려도 eval 모자람</td><td data-label="답" role="cell">그때 모델 교체(Fable 5.1)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">싼 모델 + 비싼 모델을 같이</td><td data-label="답" role="cell">모델 조합(실행자-어드바이저 · orchestrator-worker)도 선택지</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">한 안이 안전 요건을 깎음</td><td data-label="답" role="cell">선택지에서 뺌 (경계)</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">필요 없는 권한 요구</td><td data-label="답" role="cell">도구 자체를 뺌</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">가이드 샘플 1 정답 B</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">필요한 강한 권한</td><td data-label="답" role="cell">위험 등급별 통제(고위험(high-risk) 자동 차단 · 중위험 누적 → 사람)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">content-moderation en-full (moderation 문맥 — 권한으로 넓힌 건 해석)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">필요 없는 권한 요구</td><td data-label="답" role="cell">도구 자체를 뺌</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> 정답 B</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">필요한 강한 권한</td><td data-label="답" role="cell">위험 등급별 통제(고위험(high-risk) 자동 차단 · 중위험 누적 → 사람)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/content-moderation" lang="en" rel="noopener">content-moderation</a> en-full (moderation 문맥 — 권한으로 넓힌 건 해석)</td></tr>
   </tbody>
 </table>
 </div>
@@ -565,9 +565,9 @@
     <tr role="row"><td data-label="변수" role="cell">우열</td><td data-label="값" role="cell">품질 vs 비용이 갈림</td><td data-label="답 쪽" role="cell">책임자 결정</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
     <tr role="row"><td data-label="변수" role="cell">오류 한 건의 값</td><td data-label="값" role="cell">큼 (사람 수습·금전 손실)</td><td data-label="답 쪽" role="cell">비싼·강한 안 쪽</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
     <tr role="row"><td data-label="변수" role="cell">오류 한 건의 값</td><td data-label="값" role="cell">작음 · 트래픽 큼</td><td data-label="답 쪽" role="cell">싼 안·effort 낮추기 쪽</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">품질 부족 원인</td><td data-label="값" role="cell">thinking(사고) 양 부족</td><td data-label="답 쪽" role="cell">effort 올리기 먼저</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">choosing-a-model</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델 세대</td><td data-label="값" role="cell">Sonnet 5 로 옮김</td><td data-label="답 쪽" role="cell">같은 글이 토큰 약 30% 더 → 단가 비교에 반영</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">릴리스 노트</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델 세대</td><td data-label="값" role="cell">Opus 5.5 로 옮김</td><td data-label="답 쪽" role="cell">기본 effort = <code>medium</code> → 이전 설정 옮기지 말고 eval 로 다시 훑기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">effort · 시험 뒤 변경(2026-09-22)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">품질 부족 원인</td><td data-label="값" role="cell">thinking(사고) 양 부족</td><td data-label="답 쪽" role="cell">effort 올리기 먼저</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델 세대</td><td data-label="값" role="cell">Sonnet 5 로 옮김</td><td data-label="답 쪽" role="cell">같은 글이 토큰 약 30% 더 → 단가 비교에 반영</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델 세대</td><td data-label="값" role="cell">Opus 5.5 로 옮김</td><td data-label="답 쪽" role="cell">기본 effort = <code>medium</code> → 이전 설정 옮기지 말고 eval 로 다시 훑기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> · 시험 뒤 변경(2026-09-22)</td></tr>
     <tr role="row"><td data-label="변수" role="cell">요청 내용</td><td data-label="값" role="cell">PII 노출이 늘어나는 안</td><td data-label="답 쪽" role="cell">선택지 아님</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 6</td></tr>
     <tr role="row"><td data-label="변수" role="cell">권한</td><td data-label="값" role="cell">역할에 안 쓰임</td><td data-label="답 쪽" role="cell">빼기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">샘플 1</td></tr>
   </tbody>
@@ -601,11 +601,15 @@
         <p lang="en">"Weigh performance and cost tradeoffs."</p>
         <p lang="en">"The choice of model depends on the trade-offs between cost, accuracy, and response time."</p>
         <p lang="en">"Evals can also become the highest-bandwidth communication channel between product and research teams, defining metrics researchers can optimize against."</p>
-        <p lang="en">"Least privilege means removing capabilities the role does not require, eliminating the attack surface rather than monitoring or guarding it." <span class="src" lang="ko">(가이드 샘플 1)</span></p>
+        <p lang="en">"Least privilege means removing capabilities the role does not require, eliminating the attack surface rather than monitoring or guarding it." <span class="src" lang="ko">(<a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a>)</span></p>
         <p lang="en">"Creating multiple risk levels allows you to adjust the aggressiveness of your moderation."</p>
-        <p lang="en">"Practice architectural decision-making: model selection, integration protocols, and security trade-offs" <span class="src" lang="ko">(가이드 7절 — 원문 줄바꿈 이어 붙임)</span></p>
+        <p lang="en">"Practice architectural decision-making: model selection, integration protocols, and security trade-offs" <span class="src" lang="ko">(<a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 7절</a> — 원문 줄바꿈 이어 붙임)</span></p>
       </div>
   </div>
+  <figure class="v3-img">
+    <a class="v3-zoom" href="../images/tradeoff-communication-flip.webp"><img src="../images/tradeoff-communication-flip.webp" alt="보통은 책임자가 고르지만, 한 안이 모든 축에서 나으면 넘길 것이 없고, effort 를 다 올려도 모자라면 모델 교체, 필요한 권한엔 위험 크기별 검토를 둔다." loading="lazy" decoding="async"></a>
+    <figcaption>그림으로 보기 <span class="note">(AI 생성 · Codex · 누르면 크게)</span> — 자세한 조건은 아래 '더 깊이'에 있어요</figcaption>
+  </figure>
   <details class="t5-orig v3-more">
     <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
@@ -644,7 +648,7 @@
 <ul>
 <li><span class="lead">조건 :</span> "알아서 환불까지" 가 사업상 정말 필요(역할에 환불이 들어감).</li>
 <li><span class="lead">판단 :</span> 빼기가 아니라 위험 크기에 맞춘 통제 — 큰 금액·드문 경우는 사람 검토, 작은 것은 자동. 샘플 1 이 "빼기"인 건 역할에 필요 없었기 때문.</li>
-<li><span class="lead">등급 :</span> <span class="note">(위험 등급 원리는 moderation(검열) 문맥) + 업계 일반(권한에 적용)</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(위험 등급 원리는 moderation(유해 콘텐츠 검토) 문맥) + 업계 일반(권한에 적용)</span></li>
 <li><span class="lead">근거 :</span> content-moderation en-full · 샘플 1 → ■ moderation 위험 등급 · ■ human-in-the-loop 게이트 위치</li>
 </ul>
 </section>
@@ -656,11 +660,11 @@
   <tbody role="rowgroup">
     <tr role="row"><td data-label="오답" role="cell">비싼 쪽(또는 싼 쪽)을 골라 기정사실로 통보</td><td data-label="왜 끌리나" role="cell">전문가가 알아서 정하는 게 빨라 보임</td><td data-label="왜 틀리나" role="cell">가치·위험 판단은 책임자. 무엇을 포기했는지 보여야 함</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"어느 설계가 나은지 모델에게 판단을 맡긴다"</td><td data-label="왜 끌리나" role="cell">AI 시스템이니 AI 에게</td><td data-label="왜 틀리나" role="cell">설계 판단을 모델에게 맡기지 않음. 근거는 평가셋 수치</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.2① 오답</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">선택지를 Opus vs Sonnet 교체로만 구성</td><td data-label="왜 끌리나" role="cell">모델이 제일 큰 lever 같음</td><td data-label="왜 틀리나" role="cell">effort 조정이 모델 교체보다 나은 경우가 많음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">choosing-a-model</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">공개 벤치마크 순위로 비교</td><td data-label="왜 끌리나" role="cell">객관적 숫자 같음</td><td data-label="왜 틀리나" role="cell">쓰임새 전용 평가셋 + 실제 프롬프트·데이터</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">choosing-a-model</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"위험을 알리고, 도구는 둔 채 실행 전 확인 단계"</td><td data-label="왜 끌리나" role="cell">위험도 알리고 기능도 줌</td><td data-label="왜 틀리나" role="cell">필요 없는 권한이면 빼기가 먼저. 확인창은 보완 통제</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">가이드 샘플 1 해설</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">선택지를 Opus vs Sonnet 교체로만 구성</td><td data-label="왜 끌리나" role="cell">모델이 제일 큰 lever 같음</td><td data-label="왜 틀리나" role="cell">effort 조정이 모델 교체보다 나은 경우가 많음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">공개 벤치마크 순위로 비교</td><td data-label="왜 끌리나" role="cell">객관적 숫자 같음</td><td data-label="왜 틀리나" role="cell">쓰임새 전용 평가셋 + 실제 프롬프트·데이터</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"위험을 알리고, 도구는 둔 채 실행 전 확인 단계"</td><td data-label="왜 끌리나" role="cell">위험도 알리고 기능도 줌</td><td data-label="왜 틀리나" role="cell">필요 없는 권한이면 빼기가 먼저. 확인창은 보완 통제</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> 해설</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"PII 노출이 조금 늘지만 절반 값" 을 선택지로</td><td data-label="왜 끌리나" role="cell">trade-off 를 투명하게 보여 주는 것 같음</td><td data-label="왜 틀리나" role="cell">안전 요건은 trade-off 축이 아니라 바닥</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Opus 가 약 2배, Sonnet 은 품질 2% 이내·비용 40%" 를 사실로</td><td data-label="왜 끌리나" role="cell">구체 숫자라 믿음이 감</td><td data-label="왜 틀리나" role="cell">가상 수치. 조회값은 Sonnet 5 = Opus 5.5 의 50%(Opus 5 대비 40%)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">prompt-caching 표</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Opus 가 약 2배, Sonnet 은 품질 2% 이내·비용 40%" 를 사실로</td><td data-label="왜 끌리나" role="cell">구체 숫자라 믿음이 감</td><td data-label="왜 틀리나" role="cell">가상 수치. 조회값은 Sonnet 5 = Opus 5.5 의 50%(Opus 5 대비 40%)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a> 표</td></tr>
     <tr role="row"><td data-label="오답" role="cell">반대 함정 : "확인창 보기는 항상 오답"</td><td data-label="왜 끌리나" role="cell">샘플 1 을 외움</td><td data-label="왜 틀리나" role="cell">필요해서 남긴 강한 권한엔 위험 등급별 사람 검토</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">뒤집히는 때 4</td></tr>
   </tbody>
 </table>
@@ -671,18 +675,18 @@
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
-        <li>가이드 목표 6.2 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>가이드 7절</li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 6.2</a> <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 7절</a></li>
         <li>샘플 1</li>
-        <li>choosing-a-model</li>
-        <li>effort</li>
-        <li>customer-support-chat <span class="src">(en-full)</span></li>
-        <li>demystifying-evals</li>
-        <li>content-moderation <span class="src">(en-full)</span></li>
-        <li>reduce-hallucinations</li>
-        <li>prompt-caching <span class="src">( 표)</span></li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a></li>
-        <li>Claude Code best-practices</li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a> <span class="src">(en-full)</span></li>
+        <li><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/content-moderation" lang="en" rel="noopener">content-moderation</a> <span class="src">(en-full)</span></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a> <span class="src">( 표)</span></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></li>
+        <li><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">Claude Code best-practices</a></li>
       </ul>
     <h3>상태</h3>
       <ul class="plain">

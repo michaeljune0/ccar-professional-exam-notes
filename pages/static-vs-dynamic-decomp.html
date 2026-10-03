@@ -399,9 +399,9 @@
 <li>나눠 돌리기(sectioning) : 서로 독립인 하위작업을 병렬로 돌린 뒤 코드가 모음. 조각끼리 독립이어야 성립.</li>
 <li>routing(라우팅) : 입력을 분류해 전문 경로로 보냄. 입력이 다양해 보여도 유형 목록이 정해져 있으면 여기서 끝남.</li>
 </ul>
-<p class="lead">dynamic decomposition(동적 분해) — orchestrator(지휘자)가 입력을 보고 나눔</p>
+<p class="lead">dynamic decomposition(동적 분해) — orchestrator 가 입력을 보고 나눔</p>
 <ul>
-<li>orchestrator-workers(지휘자-일꾼) : 중앙 LLM 이 입력을 보고 하위작업을 정하고, worker LLM 에 맡기고, 결과를 합침.</li>
+<li>orchestrator-workers : 중앙 LLM 이 입력을 보고 하위작업을 정하고, worker LLM 에 맡기고, 결과를 합침.</li>
 <li>나눠 돌리기와 모양이 같음. 차이는 하위작업이 미리 정해졌느냐(정적) 입력이 정하느냐(동적) 하나.</li>
 <li>여전히 공식 글에선 "워크플로" 칸에 들어감. 에이전트는 그다음 칸.</li>
 </ul>
@@ -534,7 +534,7 @@
             <li>서로 독립 → 나눠 돌리기(sectioning — parallelization 의 한 변형) 뒤 코드가 모음. 안전 조건 = 조각끼리 독립</li>
           </ul>
         </li>
-        <li>입력마다 다름 → dynamic decomposition(동적 분해) = orchestrator-workers(지휘자-일꾼). orchestrator LLM 이 입력을 보고 나누고 맡기고 합침. 예 : 코딩에서 고칠 파일 수·내용이 작업마다 다름</li>
+        <li>입력마다 다름 → dynamic decomposition(동적 분해) = orchestrator-workers. orchestrator LLM 이 입력을 보고 나누고 맡기고 합침. 예 : 코딩에서 고칠 파일 수·내용이 작업마다 다름</li>
         <li>단계 수도 예측 못 함 · 경로를 미리 정해 둘 수 없음 → 에이전트 (열린 문제). 자율 = 비용↑ · 오류 누적 → 샌드박스 시험·가드레일. 멀티로 갈지는 <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></li>
         <li>나눠 돌리기 vs orchestrator-workers : 모양은 비슷, 차이는 유연성 — 하위작업이 미리 정해졌나(정적) orchestrator 가 입력을 보고 정하나(동적)</li>
         <li>되는 곳은 워크플로, 에이전트는 정말 필요할 때만 <span class="src">(Skilljar)</span></li>
@@ -550,7 +550,7 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">단일 호출 + 검색 + 예시로 충분</td><td data-label="답" role="cell">쪼개지 않음</td><td data-label="근거" role="cell">building-effective-agents "optimizing single LLM calls with retrieval and in-context examples is usually enough"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">단일 호출 + 검색 + 예시로 충분</td><td data-label="답" role="cell">쪼개지 않음</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a> "optimizing single LLM calls with retrieval and in-context examples is usually enough"</td></tr>
     <tr role="row"><td data-label="조건" role="cell">하위작업이 고정 · 순서 의존</td><td data-label="답" role="cell">prompt chaining (gate 선택)</td><td data-label="근거" role="cell"> "easily and cleanly decomposed into fixed subtasks"</td></tr>
     <tr role="row"><td data-label="조건" role="cell">하위작업이 고정 · 서로 독립</td><td data-label="답" role="cell">나눠 돌리기(sectioning — parallelization 의 한 변형)</td><td data-label="근거" role="cell"> "Breaking a task into independent subtasks run in parallel."</td></tr>
     <tr role="row"><td data-label="조건" role="cell">유형이 몇 가지로 정해져 있고 분류가 정확</td><td data-label="답" role="cell">routing (정적)</td><td data-label="근거" role="cell"> "distinct categories that are better handled separately, and where classification can be handled accurately"</td></tr>
@@ -584,7 +584,7 @@
   <h2 class="sec-h" id="static-vs-dynamic-decomp-practice-h">연습 문제</h2>
 
   <section class="csx" id="static-vs-dynamic-decomp-case" aria-labelledby="static-vs-dynamic-decomp-case-h" data-tree="static-vs-dynamic-decomp-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;늘 같은 목록&quot;],[&quot;n3&quot;,null],[&quot;n6&quot;,&quot;서로 독립&quot;],[&quot;n7&quot;,null]]" data-flow="static-vs-dynamic-decomp-flow" data-scene="0">
-    <p class="csx-text">고객지원 티켓이 들어올 때마다 <mark class="csx-m" data-tag="늘 같은 목록">의도 분류 · 감정 · 요약 세 판정을 늘 똑같이<span class="csx-tag">늘 같은 목록</span></mark> 해야 한다. <mark class="csx-m" data-tag="서로 독립">세 판정은 서로의 결과를 쓰지 않는다<span class="csx-tag">서로 독립</span></mark>. 팀은 "하위작업이 여러 개니 orchestrator(지휘자) LLM 이 나누게 하자"고 한다. 어떻게 쪼갤까?</p>
+    <p class="csx-text">고객지원 티켓이 들어올 때마다 <mark class="csx-m" data-tag="늘 같은 목록">의도 분류 · 감정 · 요약 세 판정을 늘 똑같이<span class="csx-tag">늘 같은 목록</span></mark> 해야 한다. <mark class="csx-m" data-tag="서로 독립">세 판정은 서로의 결과를 쓰지 않는다<span class="csx-tag">서로 독립</span></mark>. 팀은 "하위작업이 여러 개니 orchestrator LLM 이 나누게 하자"고 한다. 어떻게 쪼갤까?</p>
     <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
   </section>
   <h2 class="sec-h" id="static-vs-dynamic-decomp-exam-h">시험 대비</h2>
@@ -610,6 +610,10 @@
         <p lang="en">"always focus on implementing workflows where possible, and only resort to agents when they are truly required." <span class="src">(Skilljar)</span></p>
       </div>
   </div>
+  <figure class="v3-img">
+    <a class="v3-zoom" href="../images/static-vs-dynamic-decomp-flip.webp"><img src="../images/static-vs-dynamic-decomp-flip.webp" alt="보통은 목록을 미리 적으면 정적 분해고, 입력마다 경로가 달라도 목록이 고정이면 routing, 고정 목록이라도 서로 의존하면 chaining, 고칠 파일 수가 매번 다르면 동적이되 멀티까진 아니다." loading="lazy" decoding="async"></a>
+    <figcaption>그림으로 보기 <span class="note">(AI 생성 · Codex · 누르면 크게)</span> — 자세한 조건은 아래 '더 깊이'에 있어요</figcaption>
+  </figure>
   <details class="t5-orig v3-more">
     <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
@@ -624,7 +628,7 @@
 <h4>2. 고정 목록인데 병렬이 깨지는 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 티켓 한 건에 "환불 가능 판정"과 "답장 초안"을 나눠 병렬로 돌림.</li>
-<li><span class="lead">판단 :</span> 답장 초안이 환불 판정 결과를 알아야 함 → 독립이 아님 → sectioning(나눠 돌리기)이 아니라 prompt chaining(판정 → 초안). 목록이 고정이라는 것만으로 병렬이 되진 않음.</li>
+<li><span class="lead">판단 :</span> 답장 초안이 환불 판정 결과를 알아야 함 → 독립이 아님 → sectioning(작업을 나눠 병렬 실행)이 아니라 prompt chaining(판정 → 초안). 목록이 고정이라는 것만으로 병렬이 되진 않음.</li>
 <li><span class="lead">등급 :</span> <span class="note">(독립 조건 · prompt chaining 정의) — 이 예시 자체는 새로 만든 것</span></li>
 <li><span class="lead">근거 :</span></li>
 </ul>
@@ -672,13 +676,13 @@
       </ul>
     <h3>출처</h3>
       <ul class="plain">
-        <li>가이드 목표 1.5 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>building-effective-agents</li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287794">Skilljar API 287794</a></li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.5</a> <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></li>
+        <li>Skilljar API 287794</li>
       </ul>
     <h3>상태</h3>
       <ul class="plain">
-        <li><span class="gen">업계 일반</span> 1줄 (지휘자 호출 추가 비용)</li>
+        <li><span class="gen">업계 일반</span> 1줄 (orchestrator 호출 추가 비용)</li>
       </ul>
   </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">

@@ -406,7 +406,7 @@
 <ul>
 <li>프롬프트 · 응답 · 도구 인자 · 도구 결과 · API 원문 JSON 을 각각 변수로 켬.</li>
 <li>API 원문 JSON 을 켜면 프롬프트·도구 인자·도구 결과 셋을 다 켠 것과 같음(대화 이력 전체가 들어감, thinking(사고) 내용은 가려짐).</li>
-<li>켜는 조건은 하나 : observability(관측) 파이프라인이 그 데이터를 저장하도록 승인됐는가.</li>
+<li>켜는 조건은 하나 : observability(관측 가능성) 파이프라인이 그 데이터를 저장하도록 승인됐는가.</li>
 </ul>
 <p class="lead">누가 했나 = 최종 사용자 귀속</p>
 <ul>
@@ -436,7 +436,7 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">기본 off</p><p>켜는 조건 = observability(관측) 파이프라인이 그 데이터를 저장해도 된다고 승인됐을 때만</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">기본 off</p><p>켜는 조건 = observability(관측 가능성) 파이프라인이 그 데이터를 저장해도 된다고 승인됐을 때만</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>예</span>
@@ -548,13 +548,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">장애 분석용으로 원문을 다 남기자는 요구</td><td data-label="답" role="cell">기본은 구조만. 원문은 승인된 파이프라인에서만 opt-in</td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">한 배포가 여러 최종 사용자를 모심 · 보안팀이 사용자별 감사 요구</td><td data-label="답" role="cell"><code>OTEL_RESOURCE_ATTRIBUTES</code> 에 <code>enduser.id</code> · <code>tenant.id</code> → 이벤트를 SIEM 으로</td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">이상 징후 알림이 필요</td><td data-label="답" role="cell">SIEM·백엔드에서 탐지 (Claude Code 는 원 이벤트만)</td><td data-label="근거" role="cell">monitoring-usage</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">프롬프트는 남기되 응답은 빼야 함</td><td data-label="답" role="cell"><code>OTEL_LOG_USER_PROMPTS=1</code> + <code>OTEL_LOG_ASSISTANT_RESPONSES=0</code></td><td data-label="근거" role="cell">monitoring-usage</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">도구 인자에 민감값이 있을 수 있음</td><td data-label="답" role="cell">켜더라도 백엔드에서 거르기·가리기 설정</td><td data-label="근거" role="cell">monitoring-usage</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">OAuth 로 인증(authentication)한 사용자 텔레메트리</td><td data-label="답" role="cell"><code>user.email</code> 이 포함됨 → 필요하면 백엔드에서 거름</td><td data-label="근거" role="cell">monitoring-usage</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">대규모에서 원인을 찾되 개인정보를 지켜야 함</td><td data-label="답" role="cell">내용이 아닌 결정 패턴·상호작용 구조 관측</td><td data-label="근거" role="cell">multi-agent-research-system</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">장애 분석용으로 원문을 다 남기자는 요구</td><td data-label="답" role="cell">기본은 구조만. 원문은 승인된 파이프라인에서만 opt-in</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/observability" lang="en" rel="noopener">agent-sdk/observability</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">한 배포가 여러 최종 사용자를 모심 · 보안팀이 사용자별 감사 요구</td><td data-label="답" role="cell"><code>OTEL_RESOURCE_ATTRIBUTES</code> 에 <code>enduser.id</code> · <code>tenant.id</code> → 이벤트를 SIEM 으로</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/observability" lang="en" rel="noopener">agent-sdk/observability</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">이상 징후 알림이 필요</td><td data-label="답" role="cell">SIEM·백엔드에서 탐지 (Claude Code 는 원 이벤트만)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">프롬프트는 남기되 응답은 빼야 함</td><td data-label="답" role="cell"><code>OTEL_LOG_USER_PROMPTS=1</code> + <code>OTEL_LOG_ASSISTANT_RESPONSES=0</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">도구 인자에 민감값이 있을 수 있음</td><td data-label="답" role="cell">켜더라도 백엔드에서 거르기·가리기 설정</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">OAuth 로 인증(authentication)한 사용자 텔레메트리</td><td data-label="답" role="cell"><code>user.email</code> 이 포함됨 → 필요하면 백엔드에서 거름</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">대규모에서 원인을 찾되 개인정보를 지켜야 함</td><td data-label="답" role="cell">내용이 아닌 결정 패턴·상호작용 구조 관측</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -565,13 +565,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">파이프라인 승인</td><td data-label="값" role="cell">없음</td><td data-label="답 쪽" role="cell">본문 변수 전부 비움</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">파이프라인 승인</td><td data-label="값" role="cell">있음 · 필요한 항목만</td><td data-label="답 쪽" role="cell">해당 변수만 켬</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">배포 형태</td><td data-label="값" role="cell">한 배포 · 여러 최종 사용자</td><td data-label="답 쪽" role="cell">사용자 귀속 필요</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">파이프라인 승인</td><td data-label="값" role="cell">없음</td><td data-label="답 쪽" role="cell">본문 변수 전부 비움</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/observability" lang="en" rel="noopener">agent-sdk/observability</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">파이프라인 승인</td><td data-label="값" role="cell">있음 · 필요한 항목만</td><td data-label="답 쪽" role="cell">해당 변수만 켬</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/observability" lang="en" rel="noopener">agent-sdk/observability</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">배포 형태</td><td data-label="값" role="cell">한 배포 · 여러 최종 사용자</td><td data-label="답 쪽" role="cell">사용자 귀속 필요</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/observability" lang="en" rel="noopener">agent-sdk/observability</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">배포 형태</td><td data-label="값" role="cell">개발자 본인 세션</td><td data-label="답 쪽" role="cell">신원 = 본인 자격증명이라 추가 귀속 없이도 사람이 보임</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">인증 방식</td><td data-label="값" role="cell">OAuth</td><td data-label="답 쪽" role="cell">기본에도 email 포함</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">monitoring-usage</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">필요한 것</td><td data-label="값" role="cell">도구 결과 내용</td><td data-label="답 쪽" role="cell"><code>OTEL_LOG_TOOL_CONTENT</code> (트레이스 켜야 함, 기본 60KB 에서 잘림)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">필요한 것</td><td data-label="값" role="cell">요청·응답 전체</td><td data-label="답 쪽" role="cell"><code>OTEL_LOG_RAW_API_BODIES</code> = 프롬프트·도구 인자·도구 결과 셋 다 동의</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">인증 방식</td><td data-label="값" role="cell">OAuth</td><td data-label="답 쪽" role="cell">기본에도 email 포함</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">필요한 것</td><td data-label="값" role="cell">도구 결과 내용</td><td data-label="답 쪽" role="cell"><code>OTEL_LOG_TOOL_CONTENT</code> (트레이스 켜야 함, 기본 60KB 에서 잘림)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/observability" lang="en" rel="noopener">agent-sdk/observability</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">필요한 것</td><td data-label="값" role="cell">요청·응답 전체</td><td data-label="답 쪽" role="cell"><code>OTEL_LOG_RAW_API_BODIES</code> = 프롬프트·도구 인자·도구 결과 셋 다 동의</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/observability" lang="en" rel="noopener">agent-sdk/observability</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -602,6 +602,10 @@
         <p lang="en">"Claude Code emits the raw event stream only."</p>
       </div>
   </div>
+  <figure class="v3-img">
+    <a class="v3-zoom" href="../images/telemetry-scope-flip.webp"><img src="../images/telemetry-scope-flip.webp" alt="보통은 구조만 남기고 본문은 안 남기지만, 저장 승인 뒤 원문이 필요하면 필요한 변수만 켜고, 개발자 각자 자격증명이면 귀속이 따로 필요 없으며, OAuth 면 user.email 이 들어간다." loading="lazy" decoding="async"></a>
+    <figcaption>그림으로 보기 <span class="note">(AI 생성 · Codex · 누르면 크게)</span> — 자세한 조건은 아래 '더 깊이'에 있어요</figcaption>
+  </figure>
   <details class="t5-orig v3-more">
     <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
@@ -641,11 +645,11 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"장애 분석을 위해 모든 프롬프트·응답 원문을 기본으로 수집·보관"</td><td data-label="왜 끌리나" role="cell">로그는 많을수록 안심</td><td data-label="왜 틀리나" role="cell">기본은 구조만, 원문은 승인된 파이프라인에서 opt-in</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"서비스 계정 신원만으로 사용자별 감사가 된다"</td><td data-label="왜 끌리나" role="cell">이벤트마다 신원이 찍히니까</td><td data-label="왜 틀리나" role="cell">찍히는 건 서비스 자격증명. 최종 사용자는 직접 넣어야</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">agent-sdk/observability</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Claude Code 가 이상 징후를 탐지해 알려 준다"</td><td data-label="왜 끌리나" role="cell">보안 이벤트를 내니까</td><td data-label="왜 틀리나" role="cell">원 이벤트만. 탐지·알림은 SIEM</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">monitoring-usage</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"텔레메트리를 켜면 대화가 Anthropic 으로 간다"</td><td data-label="왜 끌리나" role="cell">외부 전송이 걱정됨</td><td data-label="왜 틀리나" role="cell">내가 지정한 OTel 엔드포인트로만</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">monitoring-usage</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"프롬프트만 켰으니 응답은 안 남는다"</td><td data-label="왜 끌리나" role="cell">변수 이름이 다르니까</td><td data-label="왜 틀리나" role="cell">응답 변수가 비면 프롬프트 값을 따라감</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">monitoring-usage</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"장애 분석을 위해 모든 프롬프트·응답 원문을 기본으로 수집·보관"</td><td data-label="왜 끌리나" role="cell">로그는 많을수록 안심</td><td data-label="왜 틀리나" role="cell">기본은 구조만, 원문은 승인된 파이프라인에서 opt-in</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/observability" lang="en" rel="noopener">agent-sdk/observability</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"서비스 계정 신원만으로 사용자별 감사가 된다"</td><td data-label="왜 끌리나" role="cell">이벤트마다 신원이 찍히니까</td><td data-label="왜 틀리나" role="cell">찍히는 건 서비스 자격증명. 최종 사용자는 직접 넣어야</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/observability" lang="en" rel="noopener">agent-sdk/observability</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Claude Code 가 이상 징후를 탐지해 알려 준다"</td><td data-label="왜 끌리나" role="cell">보안 이벤트를 내니까</td><td data-label="왜 틀리나" role="cell">원 이벤트만. 탐지·알림은 SIEM</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"텔레메트리를 켜면 대화가 Anthropic 으로 간다"</td><td data-label="왜 끌리나" role="cell">외부 전송이 걱정됨</td><td data-label="왜 틀리나" role="cell">내가 지정한 OTel 엔드포인트로만</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"프롬프트만 켰으니 응답은 안 남는다"</td><td data-label="왜 끌리나" role="cell">변수 이름이 다르니까</td><td data-label="왜 틀리나" role="cell">응답 변수가 비면 프롬프트 값을 따라감</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"원문 대신 전부 샘플링해 남기면 된다"</td><td data-label="왜 끌리나" role="cell">흔한 로그 관행</td><td data-label="왜 틀리나" role="cell">공식 문서엔 샘플링 규칙 없음. 공식 축은 구조 기본 · 항목별 opt-in · 사용자 귀속</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">미해결 1</td></tr>
   </tbody>
 </table>
@@ -660,10 +664,10 @@
       </ul>
     <h3>출처</h3>
       <ul class="plain">
-        <li>가이드 목표 3.4 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>agent-sdk/observability</li>
-        <li>monitoring-usage</li>
-        <li>multi-agent-research-system</li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 3.4</a> <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/observability" lang="en" rel="noopener">agent-sdk/observability</a></li>
+        <li><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></li>
+        <li><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></li>
       </ul>
     <h3>상태</h3>
       <ul class="plain">

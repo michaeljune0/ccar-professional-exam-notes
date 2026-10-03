@@ -419,7 +419,7 @@
 </ul>
 <p class="lead">아키텍처 패키지</p>
 <ul>
-<li>ADR 묶음 + 흐름 그림(입력→처리→출력→feedback loop(되먹임)) + 고른 패턴과 이유 + 모델 선택과 평가 근거 + 가드레일·규정 + 평가·모니터링 계획. 구성은 업계 일반(목록 6.4①).</li>
+<li>ADR 묶음 + 흐름 그림(입력→처리→출력→feedback loop) + 고른 패턴과 이유 + 모델 선택과 평가 근거 + 가드레일·규정 + 평가·모니터링 계획. 구성은 업계 일반(목록 6.4①).</li>
 <li>패턴 이름은 가이드 기준 3개 : workflow · agentic · augmented LLM.</li>
 <li>ADR ≠ 패키지 전체. 구현 가이드·런북은 ■ 구현 가이드.</li>
 </ul>
@@ -531,7 +531,7 @@
         <li id="adr-package-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
             <p>아키텍처 패키지 = ADR 묶음 + 흐름 그림 + 계획 (구성은 업계 일반) <span class="pg">[6.4①]</span></p>
-            <p>입력→처리→출력→feedback loop(되먹임) 흐름 → <a href="e2e-architecture.html">■ input → processing → output → feedback loop</a></p>
+            <p>입력→처리→출력→feedback loop 흐름 → <a href="e2e-architecture.html">■ input → processing → output → feedback loop</a></p>
             <p>고른 패턴과 이유 — 가이드 기준 3개 workflow · agentic · augmented LLM (가이드 1.3) → <a href="workflow-vs-agent.html">◆ 워크플로 vs 에이전트</a></p>
             <p>모델 선택과 평가 근거 · 가드레일·규정 설계 · 평가·모니터링 계획 <span class="gen">업계 일반</span> <span class="note">목록 6.4①</span></p>
             <p><span class="lead">ADR ≠ 패키지 전체 :</span> ADR = 결정 기록. 다이어그램·구현 가이드·런북은 패키지의 다른 문서 → <a href="implementation-guide.html">■ 구현 가이드</a> <span class="gen">업계 일반</span></p>
@@ -580,13 +580,13 @@
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
     <tr role="row"><td data-label="조건" role="cell">인계 뒤 새 팀이 정해진 결정을 처음부터 다시 비교</td><td data-label="답" role="cell">빠진 것 = 결정 기록(결정·맥락·기각 대안)</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.4① — Anthropic 문서에 ADR 없음 (grep "decision record|ADR|design doc" official-docs·skilljar 0건)</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">무엇을 기록하나</td><td data-label="답" role="cell">코드로 못 읽는 것 — 구조 결정·함정·이유</td><td data-label="등급" role="cell"><span class="note">(Claude 문서 기준)</span></td><td data-label="근거" role="cell">best-practices "persistent context it can’t infer from code alone" · "Architectural decisions specific to your project" · memory "keeps pitfalls, rationale"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">무엇을 빼나</td><td data-label="답" role="cell">코드를 읽으면 알 수 있는 것 · 긴 설명·튜토리얼 · 자주 바뀌는 정보</td><td data-label="등급" role="cell"><span class="note">(Claude 문서 기준)</span></td><td data-label="근거" role="cell">best-practices 표(Exclude 칸)</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">결정 근거를 뭘로 적나</td><td data-label="답" role="cell">성공 기준 · 평가셋 숫자</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">define-success · demystifying-evals "metrics replace guesswork"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">패턴을 적을 때</td><td data-label="답" role="cell">workflow · agentic · augmented LLM 중 무엇과 이유</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">가이드 목표 1.3</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">어디 두나</td><td data-label="답" role="cell">코드 옆 레포(버전 관리)</td><td data-label="등급" role="cell"><span class="note">(CLAUDE.md 기준)</span></td><td data-label="근거" role="cell">best-practices "Check CLAUDE.md into git so your team can contribute"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">무엇을 기록하나</td><td data-label="답" role="cell">코드로 못 읽는 것 — 구조 결정·함정·이유</td><td data-label="등급" role="cell"><span class="note">(Claude 문서 기준)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a> "persistent context it can’t infer from code alone" · "Architectural decisions specific to your project" · <a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a> "keeps pitfalls, rationale"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">무엇을 빼나</td><td data-label="답" role="cell">코드를 읽으면 알 수 있는 것 · 긴 설명·튜토리얼 · 자주 바뀌는 정보</td><td data-label="등급" role="cell"><span class="note">(Claude 문서 기준)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a> 표(Exclude 칸)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">결정 근거를 뭘로 적나</td><td data-label="답" role="cell">성공 기준 · 평가셋 숫자</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> · <a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a> "metrics replace guesswork"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">패턴을 적을 때</td><td data-label="답" role="cell">workflow · agentic · augmented LLM 중 무엇과 이유</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.3</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">어디 두나</td><td data-label="답" role="cell">코드 옆 레포(버전 관리)</td><td data-label="등급" role="cell"><span class="note">(CLAUDE.md 기준)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a> "Check CLAUDE.md into git so your team can contribute"</td></tr>
     <tr role="row"><td data-label="조건" role="cell">전제가 바뀜</td><td data-label="답" role="cell">새 ADR 로 대체 · 옛 것은 대체됨 표시</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">새 모델이 나옴</td><td data-label="답" role="cell">ADR 의 모델 근거를 평가셋으로 다시 확인</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">demystifying-evals (평가가 있는 팀은 며칠 만에 업그레이드)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">새 모델이 나옴</td><td data-label="답" role="cell">ADR 의 모델 근거를 평가셋으로 다시 확인</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a> (평가가 있는 팀은 며칠 만에 업그레이드)</td></tr>
   </tbody>
 </table>
 </div>
@@ -598,13 +598,13 @@
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
     <tr role="row"><td data-label="변수" role="cell">결정의 성질</td><td data-label="값" role="cell">되돌리기 비쌈 · 논쟁 여지 있음 (검색 방식 · 모델 · 패턴)</td><td data-label="답 쪽" role="cell">ADR 로 남김</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">결정의 성질</td><td data-label="값" role="cell">코드에 그대로 드러남 (파일 배치 · 함수 이름)</td><td data-label="답 쪽" role="cell">안 남김</td><td data-label="등급" role="cell"><span class="note">(Claude 문서 기준)</span></td><td data-label="근거" role="cell">best-practices · memory</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">결정의 성질</td><td data-label="값" role="cell">코드에 그대로 드러남 (파일 배치 · 함수 이름)</td><td data-label="답 쪽" role="cell">안 남김</td><td data-label="등급" role="cell"><span class="note">(Claude 문서 기준)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a> · <a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">기록 위치</td><td data-label="값" role="cell">회의록 · 채팅</td><td data-label="답 쪽" role="cell">흩어져 새 팀이 못 찾음</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.4① 오답</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">기록 위치</td><td data-label="값" role="cell">레포</td><td data-label="답 쪽" role="cell">맞음</td><td data-label="등급" role="cell"><span class="note">(CLAUDE.md 기준)</span></td><td data-label="근거" role="cell">best-practices</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">근거 모양</td><td data-label="값" role="cell">평가셋 숫자</td><td data-label="답 쪽" role="cell">맞음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">define-success</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">근거 모양</td><td data-label="값" role="cell">일반론("context rot", "엔터프라이즈답게")</td><td data-label="답 쪽" role="cell">공식 기준부터 대조</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">rag-vs-full 카드 · contextual-retrieval</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">기록 위치</td><td data-label="값" role="cell">레포</td><td data-label="답 쪽" role="cell">맞음</td><td data-label="등급" role="cell"><span class="note">(CLAUDE.md 기준)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">근거 모양</td><td data-label="값" role="cell">평가셋 숫자</td><td data-label="답 쪽" role="cell">맞음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">근거 모양</td><td data-label="값" role="cell">일반론("context rot", "엔터프라이즈답게")</td><td data-label="답 쪽" role="cell">공식 기준부터 대조</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">rag-vs-full 카드 · <a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">개인 작업 중 결정</td><td data-label="값" role="cell">내 브랜치에서만 쓰는 구조 결정</td><td data-label="답 쪽" role="cell">팀 공유 파일 말고 local 파일(Claude Code)</td><td data-label="등급" role="cell"><span class="note">(Skilljar)</span></td><td data-label="근거" role="cell">Skilljar 486929</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">문서 길이</td><td data-label="값" role="cell">결정마다 긴 설명</td><td data-label="답 쪽" role="cell">짧게 — 길면 묻힘</td><td data-label="등급" role="cell"><span class="note">(Claude 문서 기준)</span></td><td data-label="근거" role="cell">best-practices</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">문서 길이</td><td data-label="값" role="cell">결정마다 긴 설명</td><td data-label="답 쪽" role="cell">짧게 — 길면 묻힘</td><td data-label="등급" role="cell"><span class="note">(Claude 문서 기준)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -613,7 +613,7 @@
   <h2 class="sec-h" id="adr-package-practice-h">연습 문제</h2>
 
   <section class="csx" id="adr-package-case" aria-labelledby="adr-package-case-h" data-tree="adr-package-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;코드에 없음&quot;],[&quot;n5&quot;,null],[&quot;n8&quot;,null],[&quot;n9&quot;,null]]" data-flow="adr-package-flow" data-scene="0">
-    <p class="csx-text">아키텍트가 떠나며 계약 검토 Agent 를 새 팀에 넘긴다. <mark class="csx-m" data-tag="코드에 없음">"왜 RAG 대신 full context(통째 넣기) + 캐싱인가" 는 코드를 읽어도 안 나온다<span class="csx-tag">코드에 없음</span></mark>. 아키텍트는 "근거는 <mark class="csx-m" data-tag="채팅에 있음">슬랙 스레드에 다 있다<span class="csx-tag">채팅에 있음</span></mark>"고 한다. 이 결정의 근거를 어디에 어떻게 남길까?</p>
+    <p class="csx-text">아키텍트가 떠나며 계약 검토 Agent 를 새 팀에 넘긴다. <mark class="csx-m" data-tag="코드에 없음">"왜 RAG 대신 full context(문서 전체를 넣기) + 캐싱인가" 는 코드를 읽어도 안 나온다<span class="csx-tag">코드에 없음</span></mark>. 아키텍트는 "근거는 <mark class="csx-m" data-tag="채팅에 있음">슬랙 스레드에 다 있다<span class="csx-tag">채팅에 있음</span></mark>"고 한다. 이 결정의 근거를 어디에 어떻게 남길까?</p>
     <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
   </section>
   <h2 class="sec-h" id="adr-package-exam-h">시험 대비</h2>
@@ -630,7 +630,7 @@
       </ul>
     <h3>신호</h3>
       <div class="sheet">
-        <p lang="en">"Document architectures and provide implementation guidance" <span class="src" lang="ko">(가이드 목표 6.4)</span></p>
+        <p lang="en">"Document architectures and provide implementation guidance" <span class="src" lang="ko">(<a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 6.4</a>)</span></p>
         <p lang="en">"Architectural decisions specific to your project"</p>
         <p lang="en">"This gives Claude persistent context it can’t infer from code alone."</p>
         <p lang="en">"keeps pitfalls, rationale, and conventions that differ from tool defaults"</p>
@@ -639,13 +639,17 @@
         <p lang="en">"development accelerates as failures become test cases, test cases prevent regressions, and metrics replace guesswork."</p>
       </div>
   </div>
+  <figure class="v3-img">
+    <a class="v3-zoom" href="../images/adr-package-flip.webp"><img src="../images/adr-package-flip.webp" alt="ADR 은 보통 재논쟁을 막지만, 규모 같은 전제가 바뀌면 새 ADR 로 대체하고, 코드로 알 수 있는 결정은 적지 않으며, 새 모델은 같은 평가셋으로 다시 본다." loading="lazy" decoding="async"></a>
+    <figcaption>그림으로 보기 <span class="note">(AI 생성 · Codex · 누르면 크게)</span> — 자세한 조건은 아래 '더 깊이'에 있어요</figcaption>
+  </figure>
   <details class="t5-orig v3-more">
     <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 기록한 결정이 뒤집혀야 맞는 때 — 전제(규모)가 바뀜</h4>
 <ul>
-<li><span class="lead">조건 :</span> ADR = "계약 1건(약 3만 토큰)씩 검토 → full context(통째 넣기) + 캐싱". 1년 뒤 요구가 "계약 800건 전체에서 같은 조항 찾기"로 바뀜.</li>
+<li><span class="lead">조건 :</span> ADR = "계약 1건(약 3만 토큰)씩 검토 → full context(문서 전체를 넣기) + 캐싱". 1년 뒤 요구가 "계약 800건 전체에서 같은 조항 찾기"로 바뀜.</li>
 <li><span class="lead">계산 :</span> 800 × 3만 = 2,400만 토큰 → 1M 창도 한참 넘음 → 창에 안 들어가면 RAG 가 공식 기준.</li>
 <li><span class="lead">판단 :</span> "ADR 이 있으니 못 바꿈"이 아니라 새 ADR 로 대체. 옛 ADR 은 지우지 않고 "대체됨" 표시 — 왜 처음엔 full context 였는지도 남아야 다음 사람이 헷갈리지 않음.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (크기 기준 · 창 크기는 확인, 대체 절차는 업계 일반)</li>
@@ -679,14 +683,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"빠른 인계를 위해 코드·프롬프트만 넘기고 질문은 그때그때 답한다"</td><td data-label="왜 끌리나" role="cell">빠르고 코드가 정답 같음</td><td data-label="왜 틀리나" role="cell">코드엔 "무엇"만 있고 "왜"·기각 대안은 없음. 아키텍트가 떠나면 답할 사람도 없음</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> (가까운 원칙 확인)</td><td data-label="근거" role="cell">목록 6.4① · best-practices</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"빠른 인계를 위해 코드·프롬프트만 넘기고 질문은 그때그때 답한다"</td><td data-label="왜 끌리나" role="cell">빠르고 코드가 정답 같음</td><td data-label="왜 틀리나" role="cell">코드엔 "무엇"만 있고 "왜"·기각 대안은 없음. 아키텍트가 떠나면 답할 사람도 없음</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> (가까운 원칙 확인)</td><td data-label="근거" role="cell">목록 6.4① · <a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"결정 근거는 회의록·채팅에 다 있다"</td><td data-label="왜 끌리나" role="cell">기록은 어딘가 있음</td><td data-label="왜 틀리나" role="cell">흩어져 새 팀이 못 찾음 · 버전 관리 안 됨</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.4①</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"ADR 에 다이어그램·구현 가이드·런북을 다 담는다"</td><td data-label="왜 끌리나" role="cell">ADR = 문서 전부로 오해</td><td data-label="왜 틀리나" role="cell">ADR = 결정 기록. 나머지는 패키지의 다른 문서</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.4① 영상 설명 교정</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"ADR 로 정했으니 결정은 바꿀 수 없다"</td><td data-label="왜 끌리나" role="cell">재논쟁 방지 = 변경 금지로 오해</td><td data-label="왜 틀리나" role="cell">전제가 바뀌면 새 ADR 로 대체</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"ADR 근거 : 100쪽 계약은 context rot 때문에 RAG"</td><td data-label="왜 끌리나" role="cell">context rot 은 공식도 인정</td><td data-label="왜 틀리나" role="cell">20만 토큰 미만이면 full context + 캐싱이 공식 첫 선택</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">◆ RAG vs full context · contextual-retrieval</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"패턴은 workflow 와 agent 두 가지만 적는다"</td><td data-label="왜 끌리나" role="cell">강의가 2개로 설명</td><td data-label="왜 틀리나" role="cell">가이드 기준 3개(augmented LLM 포함)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">가이드 목표 1.3</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"모든 결정·설명을 빠짐없이 길게"</td><td data-label="왜 끌리나" role="cell">완전할수록 좋아 보임</td><td data-label="왜 틀리나" role="cell">길면 중요한 규칙이 묻힘 · 코드로 알 수 있는 건 뺌</td><td data-label="등급" role="cell"><span class="note">(Claude 문서 기준)</span></td><td data-label="근거" role="cell">best-practices</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"모델 선택 근거 = 벤치마크 순위 · 가장 좋은 모델"</td><td data-label="왜 끌리나" role="cell">객관적 같음</td><td data-label="왜 틀리나" role="cell">근거 = 이 과제의 성공 기준·평가셋 숫자</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">define-success</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"ADR 근거 : 100쪽 계약은 context rot 때문에 RAG"</td><td data-label="왜 끌리나" role="cell">context rot 은 공식도 인정</td><td data-label="왜 틀리나" role="cell">20만 토큰 미만이면 full context + 캐싱이 공식 첫 선택</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">◆ RAG vs full context · <a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"패턴은 workflow 와 agent 두 가지만 적는다"</td><td data-label="왜 끌리나" role="cell">강의가 2개로 설명</td><td data-label="왜 틀리나" role="cell">가이드 기준 3개(augmented LLM 포함)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.3</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모든 결정·설명을 빠짐없이 길게"</td><td data-label="왜 끌리나" role="cell">완전할수록 좋아 보임</td><td data-label="왜 틀리나" role="cell">길면 중요한 규칙이 묻힘 · 코드로 알 수 있는 건 뺌</td><td data-label="등급" role="cell"><span class="note">(Claude 문서 기준)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모델 선택 근거 = 벤치마크 순위 · 가장 좋은 모델"</td><td data-label="왜 끌리나" role="cell">객관적 같음</td><td data-label="왜 틀리나" role="cell">근거 = 이 과제의 성공 기준·평가셋 숫자</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -696,12 +700,12 @@
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
-        <li>가이드 목표 6.4 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>가이드 목표 1.3 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>Claude Code best-practices</li>
-        <li>Claude Code memory</li>
-        <li>define-success</li>
-        <li>demystifying-evals</li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 6.4</a> <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.3</a> <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">Claude Code best-practices</a></li>
+        <li><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">Claude Code memory</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></li>
+        <li><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></li>
         <li>Skilljar Claude Code in Action 486929 <span class="src">(구조 결정을 local 파일에)</span></li>
       </ul>
     <h3>상태</h3>

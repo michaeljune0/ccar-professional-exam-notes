@@ -355,7 +355,7 @@
 <article class="card t5-card v3" id="e2e-architecture" aria-labelledby="e2e-architecture-title">
   <header class="t5-head">
     <h1 id="e2e-architecture-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> input → processing → output → feedback loop</h1>
-    <p class="lemma-meta"><span lang="en">end-to-end architecture · 입력 → 처리 → 출력 → 되먹임</span><span class="lemma-main">1.2 본편</span></p>
+    <p class="lemma-meta"><span lang="en">end-to-end architecture · 입력 → 처리 → 출력 → 피드백</span><span class="lemma-main">1.2 본편</span></p>
     <p class="mark-note">표시가 없는 문장은 공식 문서에서 확인한 내용이에요. 다른 표시는 <a href="../contents.html#howto">읽는 법</a></p>
   </header>
   <h2 class="sec-h" id="e2e-architecture-why-h">왜 배우나 — 시험이 요구하는 것</h2>
@@ -370,7 +370,7 @@
   </div>
   <h2 class="sec-h" id="e2e-architecture-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>칸마다 맡는 일을 나눔. 입력 = 모델이 보기 전에 거름 · 처리 = 검색(retrieval)·도구·가드레일·사람 확인을 붙인 LLM(augmented LLM) · 출력 = 스키마로 받아 뒤쪽 코드가 추측 없이 씀 · feedback loop(되먹임) = 실패를 테스트 과제로 바꿔 프롬프트·설정 개선으로 되돌림</p>
+      <p>칸마다 맡는 일을 나눔. 입력 = 모델이 보기 전에 거름 · 처리 = 검색(retrieval)·도구·가드레일·사람 확인을 붙인 LLM(augmented LLM) · 출력 = 스키마로 받아 뒤쪽 코드가 추측 없이 씀 · feedback loop = 실패를 테스트 과제로 바꿔 프롬프트·설정 개선으로 되돌림</p>
     <p class="t5-ana"><span class="lead">비유</span> 알림은 오는데 사후 분석 → 런북 개선이 안 도는 팀. feedback loop 칸이 빠지면 같은 장애가 반복됨. "대시보드를 만들었으니 feedback loop 끝"이 속이는 습관</p>
   </div>
   <figure class="v3-img">
@@ -384,7 +384,7 @@
 <li>입구에서 상한 재료를 먼저 골라내요(입력).</li>
 <li>요리사는 레시피·도구·맛보기를 곁에 두고 요리해요(처리).</li>
 <li>접시 모양이 정해져 있어야 서빙하는 사람이 헷갈리지 않아요(출력).</li>
-<li>손님이 남긴 음식을 보고 레시피를 고쳐야 다음엔 안 남겨요(되먹임).</li>
+<li>손님이 남긴 음식을 보고 레시피를 고쳐야 다음엔 안 남겨요(피드백).</li>
 </ul>
 </section>
   <div id="explain"></div>
@@ -418,7 +418,7 @@
 <li>없으면 : 파싱 오류 · 필수 필드 누락 · 타입 불일치 · 재시도 로직.</li>
 <li>예외 셋 : <code>refusal</code>(HTTP 200, 거절이 스키마보다 우선) · <code>max_tokens</code>(잘림) · enum 대소문자(오류 없이 다르게 옴).</li>
 </ul>
-<p class="lead">feedback loop(되먹임) 칸 — 실패를 테스트로</p>
+<p class="lead">feedback loop 칸 — 실패를 테스트로</p>
 <ul>
 <li>성공 기준(success criteria) → 평가 → 개선 사이클. 실패(사용자 신고·지원 큐)를 테스트 과제로 바꿔야 실제 사용을 반영하고 regression(회귀)을 막음.</li>
 <li>출시 전·변경마다 = 자동 eval(첫 방어선). 출시 뒤 = 운영(production) 감시(분포 변화·예상 못 한 실패) · 사용자 피드백 · 대화 기록 읽기. 한 겹이 모든 걸 못 잡음(스위스 치즈 — 구멍 난 겹을 여러 장 겹쳐 막음).</li>
@@ -590,14 +590,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">엉뚱·위험한 입력이 주 대화까지 옴</td><td data-label="답" role="cell">가벼운 모델로 사전 선별 + 입력 검증</td><td data-label="근거" role="cell">mitigate-jailbreaks</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">선별이 주 응답과 한 호출에 섞임</td><td data-label="답" role="cell">따로(병렬)</td><td data-label="근거" role="cell">building-effective-agents "This tends to perform better than having the same LLM call handle both guardrails and the core response."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">실시간 값을 틀림</td><td data-label="답" role="cell">도구로 조회</td><td data-label="근거" role="cell">customer-support-chat</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">뒤쪽 코드가 파싱에 실패</td><td data-label="답" role="cell">구조화 출력</td><td data-label="근거" role="cell">structured-outputs</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">도구 입력도 형식이 깨짐</td><td data-label="답" role="cell">strict tool use (요청당 strict 20개까지)</td><td data-label="근거" role="cell">structured-outputs</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">인용(citations)이 필요한 답</td><td data-label="답" role="cell">JSON outputs 와 같이 못 씀(400)</td><td data-label="근거" role="cell">structured-outputs</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">같은 오답이 반복, 로그는 쌓임</td><td data-label="답" role="cell">실패를 테스트 과제로 → 평가 → 개선</td><td data-label="근거" role="cell">demystifying-evals</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">출시 뒤 품질 확인</td><td data-label="답" role="cell">운영 감시 + 사용자 피드백 + 대화 기록 읽기, 자동 eval 은 변경마다</td><td data-label="근거" role="cell">demystifying-evals</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">엉뚱·위험한 입력이 주 대화까지 옴</td><td data-label="답" role="cell">가벼운 모델로 사전 선별 + 입력 검증</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks" lang="en" rel="noopener">mitigate-jailbreaks</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">선별이 주 응답과 한 호출에 섞임</td><td data-label="답" role="cell">따로(병렬)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a> "This tends to perform better than having the same LLM call handle both guardrails and the core response."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">실시간 값을 틀림</td><td data-label="답" role="cell">도구로 조회</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">뒤쪽 코드가 파싱에 실패</td><td data-label="답" role="cell">구조화 출력</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">도구 입력도 형식이 깨짐</td><td data-label="답" role="cell">strict tool use (요청당 strict 20개까지)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">인용(citations)이 필요한 답</td><td data-label="답" role="cell">JSON outputs 와 같이 못 씀(400)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">같은 오답이 반복, 로그는 쌓임</td><td data-label="답" role="cell">실패를 테스트 과제로 → 평가 → 개선</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">출시 뒤 품질 확인</td><td data-label="답" role="cell">운영 감시 + 사용자 피드백 + 대화 기록 읽기, 자동 eval 은 변경마다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -609,13 +609,13 @@
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
     <tr role="row"><td data-label="변수" role="cell">입력 출처</td><td data-label="값" role="cell">사용자 채팅</td><td data-label="답 쪽" role="cell">사전 선별(Haiku 4.5)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">입력 출처</td><td data-label="값" role="cell">도구 결과(메일·웹)</td><td data-label="답 쪽" role="cell">같은 선별을 도구 결과에도</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">mitigate-jailbreaks</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">지식 종류</td><td data-label="값" role="cell">정적 문서</td><td data-label="답 쪽" role="cell">검색(RAG) 또는 full context(통째 넣기) → ◆ RAG vs full context</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">customer-support-chat</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">입력 출처</td><td data-label="값" role="cell">도구 결과(메일·웹)</td><td data-label="답 쪽" role="cell">같은 선별을 도구 결과에도</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks" lang="en" rel="noopener">mitigate-jailbreaks</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">지식 종류</td><td data-label="값" role="cell">정적 문서</td><td data-label="답 쪽" role="cell">검색(RAG) 또는 full context(문서 전체를 넣기) → ◆ RAG vs full context</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">지식 종류</td><td data-label="값" role="cell">실시간 값</td><td data-label="답 쪽" role="cell">도구</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 3</td></tr>
     <tr role="row"><td data-label="변수" role="cell">출력을 쓰는 쪽</td><td data-label="값" role="cell">뒤쪽 코드</td><td data-label="답 쪽" role="cell">구조화 출력</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 4</td></tr>
     <tr role="row"><td data-label="변수" role="cell">출력을 쓰는 쪽</td><td data-label="값" role="cell">사람이 읽는 답</td><td data-label="답 쪽" role="cell">자유 문장도 됨</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
     <tr role="row"><td data-label="변수" role="cell">출력에 필요한 것</td><td data-label="값" role="cell">출처 인용</td><td data-label="답 쪽" role="cell">인용 기능 (JSON outputs 와 충돌)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 6</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">prefill 로 형식을 잡던 옛 방식</td><td data-label="답 쪽" role="cell">Opus 4.6 미지원 · Fable 5·Mythos 5 는 400 → 구조화 출력</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">릴리스 노트</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">prefill 로 형식을 잡던 옛 방식</td><td data-label="답 쪽" role="cell">Opus 4.6 미지원 · Fable 5·Mythos 5 는 400 → 구조화 출력</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">feedback loop 시점</td><td data-label="값" role="cell">출시 전·변경마다</td><td data-label="답 쪽" role="cell">자동 eval</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 8</td></tr>
     <tr role="row"><td data-label="변수" role="cell">feedback loop 시점</td><td data-label="값" role="cell">출시 뒤</td><td data-label="답 쪽" role="cell">운영 감시 · 피드백 · 기록 읽기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 8</td></tr>
   </tbody>
@@ -643,7 +643,7 @@
       </ul>
     <h3>신호</h3>
       <div class="sheet">
-        <p lang="en">"Design end-to-end architectures (input → processing → output → feedback loops)" <span class="src" lang="ko">(가이드 목표 1.2)</span></p>
+        <p lang="en">"Design end-to-end architectures (input → processing → output → feedback loops)" <span class="src" lang="ko">(<a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.2</a>)</span></p>
         <p lang="en">"Structured outputs constrain Claude's responses to follow a specific schema, ensuring valid, parseable output for downstream processing."</p>
         <p lang="en">"Use a lightweight model like Claude Haiku 4.5 to pre-screen user input before it reaches your main conversation."</p>
         <p lang="en">"The basic building block of agentic systems is an LLM enhanced with augmentations such as retrieval, tools, and memory."</p>
@@ -652,6 +652,10 @@
         <p lang="en">"development accelerates as failures become test cases, test cases prevent regressions, and metrics replace guesswork."</p>
       </div>
   </div>
+  <figure class="v3-img">
+    <a class="v3-zoom" href="../images/e2e-architecture-flip.webp"><img src="../images/e2e-architecture-flip.webp" alt="보통은 입력을 앞에서 거르고 출력은 스키마로 받지만, 선별이 느리면 병렬로, 인용과 JSON 을 같이 켜면 400, 스키마인데 파싱이 실패하면 stop_reason 부터 본다." loading="lazy" decoding="async"></a>
+    <figcaption>그림으로 보기 <span class="note">(AI 생성 · Codex · 누르면 크게)</span> — 자세한 조건은 아래 '더 깊이'에 있어요</figcaption>
+  </figure>
   <details class="t5-orig v3-more">
     <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
@@ -698,13 +702,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"몇 주째 같은 오답 → 더 큰 모델로"</td><td data-label="왜 끌리나" role="cell">모델이 약해 보임</td><td data-label="왜 틀리나" role="cell">feedback loop 칸이 빠진 것. 실패를 테스트 과제로</td><td data-label="등급" role="cell"><span class="note">(feedback loop) · 업계 일반(모델 무관)</span></td><td data-label="근거" role="cell">demystifying-evals</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"자유 문장으로 받고 정규식 파싱"</td><td data-label="왜 끌리나" role="cell">빨리 붙일 수 있음</td><td data-label="왜 틀리나" role="cell">파싱 오류·필수 필드 누락. 구조화 출력이 보장</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">structured-outputs</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"prefill + stop sequence 로 JSON 만"</td><td data-label="왜 끌리나" role="cell">Skilljar 2025 강의가 가르침</td><td data-label="왜 틀리나" role="cell">지금은 구조화 출력. prefill 은 JSON outputs 와 호환 안 됨, 일부 모델은 400</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">structured-outputs · 릴리스 노트 · Skilljar 287732</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"스키마 켰으니 오류 처리 불필요"</td><td data-label="왜 끌리나" role="cell">"Always valid" 문구</td><td data-label="왜 틀리나" role="cell"><code>refusal</code> · <code>max_tokens</code> 는 스키마와 안 맞을 수 있음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">structured-outputs</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"대시보드를 만들었으니 feedback loop 끝"</td><td data-label="왜 끌리나" role="cell">보이면 관리되는 것 같음</td><td data-label="왜 틀리나" role="cell">운영 감시는 사후 대응. 평가로 되돌리는 길이 있어야 루프</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">demystifying-evals</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"실시간 잔액도 RAG index(색인)로"</td><td data-label="왜 끌리나" role="cell">RAG 가 지식 주입의 기본 같음</td><td data-label="왜 틀리나" role="cell">실시간 값은 임베딩 RAG 로 부족 → 도구</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">customer-support-chat</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"선별·답변을 한 호출에 같이 시킨다"</td><td data-label="왜 끌리나" role="cell">호출 수가 줄어듦</td><td data-label="왜 틀리나" role="cell">따로 돌리는 편이 나음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">building-effective-agents</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"몇 주째 같은 오답 → 더 큰 모델로"</td><td data-label="왜 끌리나" role="cell">모델이 약해 보임</td><td data-label="왜 틀리나" role="cell">feedback loop 칸이 빠진 것. 실패를 테스트 과제로</td><td data-label="등급" role="cell"><span class="note">(feedback loop) · 업계 일반(모델 무관)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"자유 문장으로 받고 정규식 파싱"</td><td data-label="왜 끌리나" role="cell">빨리 붙일 수 있음</td><td data-label="왜 틀리나" role="cell">파싱 오류·필수 필드 누락. 구조화 출력이 보장</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"prefill + stop sequence 로 JSON 만"</td><td data-label="왜 끌리나" role="cell">Skilljar 2025 강의가 가르침</td><td data-label="왜 틀리나" role="cell">지금은 구조화 출력. prefill 은 JSON outputs 와 호환 안 됨, 일부 모델은 400</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a> · <a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a> · Skilljar 287732</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"스키마 켰으니 오류 처리 불필요"</td><td data-label="왜 끌리나" role="cell">"Always valid" 문구</td><td data-label="왜 틀리나" role="cell"><code>refusal</code> · <code>max_tokens</code> 는 스키마와 안 맞을 수 있음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"대시보드를 만들었으니 feedback loop 끝"</td><td data-label="왜 끌리나" role="cell">보이면 관리되는 것 같음</td><td data-label="왜 틀리나" role="cell">운영 감시는 사후 대응. 평가로 되돌리는 길이 있어야 루프</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"실시간 잔액도 RAG index(색인)로"</td><td data-label="왜 끌리나" role="cell">RAG 가 지식 주입의 기본 같음</td><td data-label="왜 틀리나" role="cell">실시간 값은 임베딩 RAG 로 부족 → 도구</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"선별·답변을 한 호출에 같이 시킨다"</td><td data-label="왜 끌리나" role="cell">호출 수가 줄어듦</td><td data-label="왜 틀리나" role="cell">따로 돌리는 편이 나음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -714,27 +718,27 @@
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
-        <li>가이드 목표 1.2 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>structured-outputs</li>
-        <li>mitigate-jailbreaks</li>
-        <li>building-effective-agents</li>
-        <li>customer-support-chat</li>
-        <li>define-success</li>
-        <li>demystifying-evals</li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a></li>
-        <li><a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api/287732">Skilljar API 287732</a></li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.2</a> <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks" lang="en" rel="noopener">mitigate-jailbreaks</a></li>
+        <li><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></li>
+        <li><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></li>
+        <li>Skilljar API 287732</li>
         <li>Skilljar Platform 101 486254</li>
       </ul>
     <h3>상태</h3>
       <ul class="plain">
-        <li><span class="gen">업계 일반</span> 1줄(모델 크기 ≠ 되먹임)</li>
+        <li><span class="gen">업계 일반</span> 1줄(모델 크기 ≠ feedback loop)</li>
       </ul>
   </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
 <li>목록 1.2① 영어 신호 "Design end-to-end architectures (input → processing → output → feedback loops)" 는 가이드 목표 문구(writer-spec 표)와 같음 — 가이드 PDF 원문 파일은 <code>raw/official/</code> 에 6~7쪽만 있어 줄 번호 대조는 못 함.</li>
-<li>"되먹임 = 평가 결과를 프롬프트·모델 개선으로 되돌림" 의 "모델 개선" 쪽(파인튜닝 등)은 공식 문장 없음. 카드는 프롬프트·설정 개선만 적음.</li>
+<li>"feedback loop = 평가 결과를 프롬프트·모델 개선으로 되돌림" 의 "모델 개선" 쪽(파인튜닝 등)은 공식 문장 없음. 카드는 프롬프트·설정 개선만 적음.</li>
 <li>Skilljar Platform 101 "agent loop"(486254, 2026-06 추정) 는 1.2② 본편 재료 — 여기선 한 줄만 씀.</li>
 </ol>
 </section>

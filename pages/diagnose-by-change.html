@@ -370,7 +370,7 @@
   </div>
   <h2 class="sec-h" id="diagnose-by-change-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>갑자기 나빠지면 첫 질문 = "증상 직전에 무엇이 바뀌었나". 그 변경이 일으킬 수 있는 계층부터 조사하고, 그 변경으론 안 생길 원인은 버림 <span class="src">(가이드 샘플 3)</span></p>
+      <p>갑자기 나빠지면 첫 질문 = "증상 직전에 무엇이 바뀌었나". 그 변경이 일으킬 수 있는 계층부터 조사하고, 그 변경으론 안 생길 원인은 버림 <span class="src">(<a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 3</a>)</span></p>
       <p>모델 ID = 고정 스냅숏. 같은 ID 의 가중치·구성은 안 바뀌고, 새 버전은 새 ID 로 나옴 → "모델이 저절로 변함"은 첫 후보가 아님</p>
     <p class="t5-ana"><span class="lead">비유</span> 배포 직후 장애는 변경 이력(change log)부터. 데이터만 갱신했으면 같이 갱신되지 않은 인덱스를 의심하지, 인스턴스부터 키우지 않음</p>
   </div>
@@ -433,7 +433,7 @@
       <div class="t5-fork" style="--n:4">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>문서·데이터 갱신</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">검색·indexing 부터</p><p>관련 없거나 낡은 chunk(조각) (re-index(재색인) 깨짐 · 임베딩 불일치)</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">검색·indexing 부터</p><p>관련 없거나 낡은 chunk (re-index(재색인) 깨짐 · 임베딩 불일치)</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>모델 ID 교체</span>
@@ -571,15 +571,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">문서 갱신 뒤 자신 있게 틀림, 모델·지연(latency) 그대로</td><td data-label="답" role="cell">검색·indexing 단계부터 (관련 없거나 낡은 chunk · re-index 깨짐 · 임베딩 불일치)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">가이드 샘플 3 정답 B 해설 "Confident-but-wrong answers following a document refresh, with model and latency unchanged, point to retrieval feeding the model poor context"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">보기 원인이 그 변경으로 생길 수 없음</td><td data-label="답" role="cell">버림</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">가이드 샘플 3 해설 "The other options would not be triggered specifically by a document refresh."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">같은 모델 ID 인데 "가중치가 바뀌었다"</td><td data-label="답" role="cell">아님. 새 버전은 새 ID</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">model-ids-and-versions</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">내 쪽 변경 없음 + 같은 ID + 사소한 동작 차이</td><td data-label="답" role="cell">서빙 인프라 업데이트가 가장 유력</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">model-ids-and-versions</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">4.6 이전 별칭을 씀 + 동작이 바뀜</td><td data-label="답" role="cell">별칭이 새 스냅숏으로 옮겨갔을 수 있음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">model-ids-and-versions</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">모델 교체 뒤 같은 글인데 토큰·비용이 늚</td><td data-label="답" role="cell">새 토크나이저 (4.7 이후 약 30% 더)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">pricing</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Opus 5 → Opus 5.5 뒤 추론(reasoning)이 얕아짐, effort 안 적음</td><td data-label="답" role="cell">effort 기본값이 medium 으로 내려감 → effort 다시 훑어봄</td><td data-label="등급" role="cell"><span class="note">(시험 뒤 변경)</span></td><td data-label="근거" role="cell">effort · 릴리스 노트(2026-09-22)</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">모델 교체 뒤 400</td><td data-label="답" role="cell">prefill(4.6 이후, 4.6 포함) · temperature 1.0 외 값(Opus 4.6 뒤에 나온 모델, 4.6 제외)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">errors · messages-create</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">eval 점수 하락</td><td data-label="답" role="cell">transcript 로 에이전트 실수 vs grader 오판을 가름</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">demystifying-evals</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">문서 갱신 뒤 자신 있게 틀림, 모델·지연(latency) 그대로</td><td data-label="답" role="cell">검색·indexing 단계부터 (관련 없거나 낡은 chunk · re-index 깨짐 · 임베딩 불일치)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 3</a> 정답 B 해설 "Confident-but-wrong answers following a document refresh, with model and latency unchanged, point to retrieval feeding the model poor context"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">보기 원인이 그 변경으로 생길 수 없음</td><td data-label="답" role="cell">버림</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 3</a> 해설 "The other options would not be triggered specifically by a document refresh."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">같은 모델 ID 인데 "가중치가 바뀌었다"</td><td data-label="답" role="cell">아님. 새 버전은 새 ID</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids-and-versions</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">내 쪽 변경 없음 + 같은 ID + 사소한 동작 차이</td><td data-label="답" role="cell">서빙 인프라 업데이트가 가장 유력</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids-and-versions</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">4.6 이전 별칭을 씀 + 동작이 바뀜</td><td data-label="답" role="cell">별칭이 새 스냅숏으로 옮겨갔을 수 있음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids-and-versions</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">모델 교체 뒤 같은 글인데 토큰·비용이 늚</td><td data-label="답" role="cell">새 토크나이저 (4.7 이후 약 30% 더)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Opus 5 → Opus 5.5 뒤 추론(reasoning)이 얕아짐, effort 안 적음</td><td data-label="답" role="cell">effort 기본값이 medium 으로 내려감 → effort 다시 훑어봄</td><td data-label="등급" role="cell"><span class="note">(시험 뒤 변경)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> · <a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a>(2026-09-22)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">모델 교체 뒤 400</td><td data-label="답" role="cell">prefill(4.6 이후, 4.6 포함) · temperature 1.0 외 값(Opus 4.6 뒤에 나온 모델, 4.6 제외)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a> · <a class="src-link" href="https://platform.claude.com/docs/en/api/messages/create" lang="en" rel="noopener">messages-create</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">eval 점수 하락</td><td data-label="답" role="cell">transcript 로 에이전트 실수 vs grader 오판을 가름</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -592,13 +592,13 @@
   <tbody role="rowgroup">
     <tr role="row"><td data-label="변수" role="cell">직전 변경</td><td data-label="값" role="cell">문서·데이터 갱신</td><td data-label="답 쪽" role="cell">검색·indexing</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
     <tr role="row"><td data-label="변수" role="cell">직전 변경</td><td data-label="값" role="cell">모델 ID 교체</td><td data-label="답 쪽" role="cell">토크나이저 · effort 기본값 · 막힌 기능</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 6~8</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">직전 변경</td><td data-label="값" role="cell">프롬프트·설정</td><td data-label="답 쪽" role="cell">그 수정을 eval 로 다시 → ■ 변경마다 eval 다시</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">demystifying-evals (반응형 디버깅)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">직전 변경</td><td data-label="값" role="cell">프롬프트·설정</td><td data-label="답 쪽" role="cell">그 수정을 eval 로 다시 → ■ 변경마다 eval 다시</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a> (반응형 디버깅)</td></tr>
     <tr role="row"><td data-label="변수" role="cell">직전 변경</td><td data-label="값" role="cell">없음</td><td data-label="답 쪽" role="cell">모델 이름 형식을 봄</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 4·5</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델 이름</td><td data-label="값" role="cell">4.6 이후 (날짜 없음)</td><td data-label="답 쪽" role="cell">스냅숏 고정 → 인프라 쪽</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">model-ids</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델 이름</td><td data-label="값" role="cell">4.6 이전 별칭</td><td data-label="답 쪽" role="cell">별칭 이동 가능</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">model-ids</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델 이름</td><td data-label="값" role="cell">4.6 이전 날짜 붙은 ID</td><td data-label="답 쪽" role="cell">스냅숏 고정</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">model-ids</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델 이름</td><td data-label="값" role="cell">4.6 이후 (날짜 없음)</td><td data-label="답 쪽" role="cell">스냅숏 고정 → 인프라 쪽</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델 이름</td><td data-label="값" role="cell">4.6 이전 별칭</td><td data-label="답 쪽" role="cell">별칭 이동 가능</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델 이름</td><td data-label="값" role="cell">4.6 이전 날짜 붙은 ID</td><td data-label="답 쪽" role="cell">스냅숏 고정</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">지연</td><td data-label="값" role="cell">그대로</td><td data-label="답 쪽" role="cell">'모델·인프라가 크게 바뀌었다' 는 가설이 약해짐</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">샘플 3 이 "지연 그대로"를 단서로 줌 — 왜 단서인지 공식 설명 없음</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">동작 차이 크기</td><td data-label="값" role="cell">사소함</td><td data-label="답 쪽" role="cell">인프라 업데이트 후보</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">model-ids "minor differences"</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">동작 차이 크기</td><td data-label="값" role="cell">사소함</td><td data-label="답 쪽" role="cell">인프라 업데이트 후보</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids</a> "minor differences"</td></tr>
     <tr role="row"><td data-label="변수" role="cell">동작 차이 크기</td><td data-label="값" role="cell">큼</td><td data-label="답 쪽" role="cell">인프라 말고 내 쪽 변경(데이터·입력 분포)부터 다시 찾음</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">공식은 "minor" 만 말함</td></tr>
   </tbody>
 </table>
@@ -624,14 +624,18 @@
       </ul>
     <h3>신호</h3>
       <div class="sheet">
-        <p lang="en">"Confident-but-wrong answers following a document refresh, with model and latency unchanged, point to retrieval feeding the model poor context, for example a broken re-index or mismatched embeddings." <span class="src" lang="ko">(가이드 샘플 3)</span></p>
-        <p lang="en">"The other options would not be triggered specifically by a document refresh." <span class="src" lang="ko">(가이드 샘플 3)</span></p>
+        <p lang="en">"Confident-but-wrong answers following a document refresh, with model and latency unchanged, point to retrieval feeding the model poor context, for example a broken re-index or mismatched embeddings." <span class="src" lang="ko">(<a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 3</a>)</span></p>
+        <p lang="en">"The other options would not be triggered specifically by a document refresh." <span class="src" lang="ko">(<a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 3</a>)</span></p>
         <p lang="en">"Anthropic does not update the weights or configuration of an existing model ID. When an updated version is available, it ships under a new model ID."</p>
         <p lang="en">"If you notice unexpected behavioral differences on a previously stable model ID, an infrastructure update is the most likely cause."</p>
         <p lang="en">"This guarantee covers model IDs, not the convenience aliases that the Claude API accepts for some earlier models"</p>
         <p lang="en">"This tokenizer produces approximately 30% more tokens for the same text."</p>
       </div>
   </div>
+  <figure class="v3-img">
+    <a class="v3-zoom" href="../images/diagnose-by-change-flip.webp"><img src="../images/diagnose-by-change-flip.webp" alt="모델 ID 는 고정이라 보통 바뀐 것부터 보지만, 4.6 이전 별칭은 모델이 실제로 바뀌었을 수 있고, 변경이 겹치면 하나씩 되돌리며, Opus 5.5 뒤 얕아지면 effort 기본값부터 본다는 그림." loading="lazy" decoding="async"></a>
+    <figcaption>그림으로 보기 <span class="note">(AI 생성 · Codex · 누르면 크게)</span> — 자세한 조건은 아래 '더 깊이'에 있어요</figcaption>
+  </figure>
   <details class="t5-orig v3-more">
     <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
@@ -673,13 +677,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"모델 가중치가 몰래 바뀌었다"</td><td data-label="왜 끌리나" role="cell">LLM 은 블랙박스라 뭐든 바뀔 것 같음</td><td data-label="왜 틀리나" role="cell">같은 ID 의 가중치는 고정, 새 버전은 새 ID</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">가이드 샘플 3 A · model-ids</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"temperature 가 너무 낮다"</td><td data-label="왜 끌리나" role="cell">답이 이상하면 샘플링 설정을 만지고 싶음</td><td data-label="왜 틀리나" role="cell">문서 갱신으로 생길 일이 아님. temperature 자체도 폐기 예정</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">가이드 샘플 3 C · messages-create</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"context window 가 줄었다"</td><td data-label="왜 끌리나" role="cell">긴 문서가 안 들어가 틀린 것처럼 보임</td><td data-label="왜 틀리나" role="cell">문서 갱신으로 창이 줄지 않음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">가이드 샘플 3 D</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"바뀐 게 없으니 모델이 저절로 드리프트"</td><td data-label="왜 끌리나" role="cell">'모델 드리프트'라는 말이 익숙함</td><td data-label="왜 틀리나" role="cell">같은 ID 면 인프라 업데이트가 가장 유력, 별칭이면 별칭 이동</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">model-ids</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"날짜 없는 ID 는 늘 최신을 가리킨다"</td><td data-label="왜 끌리나" role="cell">옛 별칭 경험</td><td data-label="왜 틀리나" role="cell">4.6 이후는 날짜 없는 ID 가 스냅숏 그 자체</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">model-ids</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모델 가중치가 몰래 바뀌었다"</td><td data-label="왜 끌리나" role="cell">LLM 은 블랙박스라 뭐든 바뀔 것 같음</td><td data-label="왜 틀리나" role="cell">같은 ID 의 가중치는 고정, 새 버전은 새 ID</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 3</a> A · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"temperature 가 너무 낮다"</td><td data-label="왜 끌리나" role="cell">답이 이상하면 샘플링 설정을 만지고 싶음</td><td data-label="왜 틀리나" role="cell">문서 갱신으로 생길 일이 아님. temperature 자체도 폐기 예정</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 3</a> C · <a class="src-link" href="https://platform.claude.com/docs/en/api/messages/create" lang="en" rel="noopener">messages-create</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"context window 가 줄었다"</td><td data-label="왜 끌리나" role="cell">긴 문서가 안 들어가 틀린 것처럼 보임</td><td data-label="왜 틀리나" role="cell">문서 갱신으로 창이 줄지 않음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 3</a> D</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"바뀐 게 없으니 모델이 저절로 드리프트"</td><td data-label="왜 끌리나" role="cell">'모델 드리프트'라는 말이 익숙함</td><td data-label="왜 틀리나" role="cell">같은 ID 면 인프라 업데이트가 가장 유력, 별칭이면 별칭 이동</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"날짜 없는 ID 는 늘 최신을 가리킨다"</td><td data-label="왜 끌리나" role="cell">옛 별칭 경험</td><td data-label="왜 틀리나" role="cell">4.6 이후는 날짜 없는 ID 가 스냅숏 그 자체</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"원인 모르면 더 큰 모델로"</td><td data-label="왜 끌리나" role="cell">가장 빨라 보이는 조치</td><td data-label="왜 틀리나" role="cell">변경 이력부터. 모델 층은 변경이 없으면 후순위</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"모델 바꾸면 캐시가 무효라서 비용이 올랐다"</td><td data-label="왜 끌리나" role="cell">그럴듯함</td><td data-label="왜 틀리나" role="cell">공식 근거는 토크나이저(약 30%) · 모델별 최소 캐시 길이</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">pricing (목록 4.3③ 의 매력적인 오답)</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모델 바꾸면 캐시가 무효라서 비용이 올랐다"</td><td data-label="왜 끌리나" role="cell">그럴듯함</td><td data-label="왜 틀리나" role="cell">공식 근거는 토크나이저(약 30%) · 모델별 최소 캐시 길이</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a> (목록 4.3③ 의 매력적인 오답)</td></tr>
   </tbody>
 </table>
 </div>
@@ -689,15 +693,15 @@
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
-        <li>가이드 목표 4.4 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 4.4</a> <span class="src">공식 시험 가이드 v1.0</span></li>
         <li>샘플 3 <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>docs model-ids-and-versions</li>
-        <li><a href="https://platform.claude.com/docs/ko/about-claude/pricing">pricing</a></li>
-        <li>effort</li>
-        <li>errors</li>
-        <li>messages-create</li>
-        <li>demystifying-evals</li>
-        <li><a href="https://platform.claude.com/docs/en/release-notes/overview">릴리스 노트</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">docs model-ids-and-versions</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/api/messages/create" lang="en" rel="noopener">messages-create</a></li>
+        <li><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></li>
       </ul>
     <h3>상태</h3>
       <ul class="plain">
