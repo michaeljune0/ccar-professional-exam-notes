@@ -373,10 +373,10 @@
   </div>
   <h2 class="sec-h" id="least-privilege-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>역할에 필요 없는 능력(도구·자격증명·네트워크·파일)은 아예 안 줌 → 공격면(attack surface) 자체가 사라짐. 지켜보기(로그)·막아서기(확인창)와 다른 것</p>
+      <p>역할에 필요 없는 능력(도구·자격증명·네트워크·파일)은 아예 안 줌 → 공격면(attack surface) 자체가 사라짐. 모니터링(로그)·사전 확인(확인창)와 다른 것</p>
       <p>뚫려도(인젝션·모델 실수) 피해가 작게 하는 장치이기도 함</p>
       <p>가이드 3.1 원문 이름 = capability bloat — 도구·권한이 쓰임새보다 불어난 상태를 찾아 빼라 ("Evaluate tool/agent configuration for capability bloat")</p>
-    <p class="t5-ana"><span class="lead">비유</span> IAM 역할에서 안 쓰는 refund·DeleteUser 권한을 지움. CloudTrail 로 지켜보기·MFA 승인은 그다음 보완책</p>
+    <p class="t5-ana"><span class="lead">비유</span> IAM 역할에서 안 쓰는 refund·DeleteUser 권한을 지움. CloudTrail 모니터링·MFA 승인은 그다음 보완책</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/least-privilege.webp"><img src="../images/least-privilege.webp" alt="역할에 필요 없는 도구는 빼서 공격면을 없애는 것이 최소 권한이고, 로그(사후 감지)와 확인창(보완 통제)은 제거가 아니라는 대비 그림." loading="lazy" decoding="async"></a>
@@ -551,7 +551,7 @@
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">surface</th><th scope="col" role="columnheader">빼는 법</th></tr></thead>
               <tbody role="rowgroup">
                 <tr role="row"><td data-label="surface" role="cell">직접 API</td><td data-label="빼는 법" role="cell"><code>tools</code> 배열에 안 넣음 <span class="gen">업계 일반</span> <span class="note">준 도구만 부를 수 있는 구조</span></td></tr>
-                <tr role="row"><td data-label="surface" role="cell">MCP connector <span class="note">(원격 서버째 못 뺌)</span></td><td data-label="빼는 법" role="cell">쓰기·파괴 도구를 denylist(<code>enabled: false</code>), 또는 allowlist(<code>default_config.enabled: false</code> + 필요한 것만 켬)</td></tr>
+                <tr role="row"><td data-label="surface" role="cell">MCP connector <span class="note">(원격 서버째 못 뺌)</span></td><td data-label="빼는 법" role="cell">쓰기·파괴 도구를 denylist(<code>enabled: false</code>), 또는 allowlist(<code>default_<wbr>config.<wbr>enabled: false</code> + 필요한 것만 켬)</td></tr>
                 <tr role="row"><td data-label="surface" role="cell">Agent SDK</td><td data-label="빼는 법" role="cell"><code>disallowedTools</code> 에 도구 이름만(예 <code>"Bash"</code>) → 정의가 요청에서 빠져 Claude 가 못 봄. <code>allowedTools</code> 는 자동 승인일 뿐 목록 밖 도구도 그대로 남음</td></tr>
               </tbody>
             </table>
@@ -593,11 +593,11 @@
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
     <tr role="row"><td data-label="변수" role="cell">그 도구가 역할에 필요한가</td><td data-label="값" role="cell">아니요</td><td data-label="답 쪽" role="cell">제거</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">그 도구가 역할에 필요한가</td><td data-label="값" role="cell">예(가끔)</td><td data-label="답 쪽" role="cell">남기고 실행 전 검사·사람 확인</td><td data-label="등급" role="cell"><span class="note">(훅) · 업계 일반(사람 확인을 위험 크기에 비례해 거는 것)</span></td><td data-label="근거" role="cell">판단 규칙 7</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">그 도구가 역할에 필요한가</td><td data-label="값" role="cell">예(가끔)</td><td data-label="답 쪽" role="cell">남기고 실행 전 검사·사람 확인</td><td data-label="등급" role="cell"><span class="note">(훅) ·</span> <span class="gen">업계 일반</span><span class="note">(사람 확인을 위험 크기에 비례해 거는 것)</span></td><td data-label="근거" role="cell">판단 규칙 7</td></tr>
     <tr role="row"><td data-label="변수" role="cell">도구가 어디서 오나</td><td data-label="값" role="cell">내 코드 <code>tools</code></td><td data-label="답 쪽" role="cell">배열에서 뺌</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">준 도구만 부를 수 있음</td></tr>
     <tr role="row"><td data-label="변수" role="cell">도구가 어디서 오나</td><td data-label="값" role="cell">원격 MCP 서버 묶음</td><td data-label="답 쪽" role="cell">도구 단위 denylist/allowlist</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">도구가 어디서 오나</td><td data-label="값" role="cell">Agent SDK 내장 도구</td><td data-label="답 쪽" role="cell"><code>disallowedTools</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">위협</td><td data-label="값" role="cell">인젝션(믿을 수 없는 콘텐츠를 읽음)</td><td data-label="답 쪽" role="cell">권한 최소 + 나가는 길 끊기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">■ 프롬프트 인젝션 피해 경로 끊기</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">위협</td><td data-label="값" role="cell">인젝션(믿을 수 없는 콘텐츠를 읽음)</td><td data-label="답 쪽" role="cell">권한 최소 + 외부 전송 끊기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">■ 프롬프트 인젝션 피해 경로 끊기</td></tr>
     <tr role="row"><td data-label="변수" role="cell">배포</td><td data-label="값" role="cell">개발자 노트북 1대</td><td data-label="답 쪽" role="cell">기본 보안 기능으로 충분할 수 있음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/secure-deployment" lang="en" rel="noopener">secure-deployment</a> "Not every deployment needs maximum security."</td></tr>
     <tr role="row"><td data-label="변수" role="cell">배포</td><td data-label="값" role="cell">여러 고객 데이터를 다루는 멀티테넌트</td><td data-label="답 쪽" role="cell">격리·프록시·최소 IAM 겹겹이</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/secure-deployment" lang="en" rel="noopener">secure-deployment</a></td></tr>
   </tbody>
@@ -643,7 +643,7 @@
 <ul>
 <li><span class="lead">조건 :</span> 강한 도구(환불)가 역할의 <strong>실제 업무</strong>다. 영업팀 요구가 아니라 상담원이 실제로 환불을 처리한다.</li>
 <li><span class="lead">판단 :</span> 빼면 업무가 안 됨 → 최소 권한(least privilege)은 "필요한 것만"이지 "0" 이 아님. 남기고 실행 직전 검사(한도·대상 확인)·사람 확인을 붙인다.</li>
-<li><span class="lead">등급 :</span> <span class="note">(훅) · 업계 일반(위험 비례 사람 검토)</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(훅) ·</span> <span class="gen">업계 일반</span><span class="note">(위험 비례 사람 검토)</span></li>
 <li><span class="lead">근거 :</span> permissions · 목록 6.2② "필요하면 오류 비용·잡을 수 있는지에 비례해"</li>
 <li><span class="lead">시험에서 :</span> 지문이 "상담원은 읽기·초안만"이라 말하면 제거. "환불도 상담원 업무"라 말하면 제거 보기는 업무를 깨는 오답이 될 수 있음.</li>
 </ul>
@@ -690,11 +690,11 @@
   <h2 class="sec-h" id="least-privilege-ref-h">참고</h2>
   <div class="t5-rest">
     <h3>CCA-F</h3>
-      <p>봄 — CCA-F 는 "서브에이전트마다 역할에 필요한 도구만(18개 → 4~5개)"을 **고르기 정확도**로 물었음. 여기선 같은 빼기를 **보안(공격면)** 근거로 묻고, 보기에 로그·확인창·큰 모델이 섞여 나옴</p>
+      <p>겹침 — CCA-F 는 "서브에이전트마다 역할에 필요한 도구만(18개 → 4~5개)"을 **고르기 정확도**로 물었음. 여기선 같은 빼기를 **보안(공격면)** 근거로 묻고, 보기에 로그·확인창·큰 모델이 섞여 나옴</p>
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 3.1</a> <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>샘플 1 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">샘플 1</a> <span class="src">공식 시험 가이드 v1.0</span></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks" lang="en" rel="noopener">mitigate-jailbreaks</a></li>
         <li><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk permissions</a></li>

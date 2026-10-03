@@ -400,7 +400,7 @@
 <p class="lead">멈추는 신호</p>
 <ul>
 <li>Claude 는 일이 "끝나 보이면" 멈춤. 돌릴 검사가 없으면 그게 유일한 신호 → 사람이 검증 루프가 되고, 모든 실수가 사람이 알아챌 때까지 기다림.</li>
-<li>합격/불합격을 돌려주는 검사(테스트 · 빌드 종료 코드 · 린터 · fixture diff · 스크린샷 비교)를 주면 "일 → 검사 → 결과 읽기 → 고치기" 가 사람 없이 돎.</li>
+<li>합격/불합격을 돌려주는 검사(테스트 · 빌드 종료 코드 · 린터 · fixture diff · 스크린샷 비교)를 주면 "일 → 검사 → 결과 읽기 → 고치기" 가 사람 없이 돌아감.</li>
 <li>검사를 거는 세기는 계단 : 한 프롬프트 → <code>/goal</code>(별도 평가자가 매 턴 재확인) → Stop 훅(통과할 때까지 턴 종료 차단) → 검증 서브에이전트(일한 쪽이 채점하지 않게). 계단을 오를수록 설정 비용이 늘고, 대신 사람이 덜 지켜봐도 됨.</li>
 </ul>
 <p class="lead">탐색과 실행 떼기</p>
@@ -410,7 +410,7 @@
 </ul>
 <p class="lead">컨텍스트가 근본 제약</p>
 <ul>
-<li>대화·읽은 파일·명령 출력이 전부 창에 쌓이고, 찰수록 앞선 지시를 잊고 실수가 늚.</li>
+<li>대화·읽은 파일·명령 출력이 전부 창에 쌓이고, 찰수록 앞선 지시를 잊고 실수가 늘어남.</li>
 <li>그래서 ⓐ 조사는 서브에이전트(요약만 돌아옴) ⓑ 관련 없는 작업 사이 <code>/clear</code> ⓒ 같은 문제 교정이 두 번을 넘으면 실패한 시도가 컨텍스트를 더럽힌 것 → 새로 시작이 대개 이김.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
@@ -528,7 +528,7 @@
       <ol class="how">
         <li id="coding-loop-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">맡기는 말 :</span> 파일·시나리오·테스트 선호를 지정 · 답이 있는 소스를 지목 · 기존 패턴을 가리킴 · 증상 + 위치 + "고쳐진 모습". 큰 기능은 Claude 가 먼저 인터뷰(<code>AskUserQuestion</code>) → <code>SPEC.md</code> → 새 세션에서 실행. 좋은 스펙 = 관련 파일·인터페이스 이름 · 범위 밖 · 끝단 검증 단계</p>
+            <p><span class="lead">맡기는 말 :</span> 파일·시나리오·테스트 선호를 지정 · 답이 있는 소스를 지목 · 기존 패턴을 가리킴 · 증상 + 위치 + "고쳐진 모습". 큰 기능은 Claude 가 먼저 인터뷰(<code>AskUserQuestion</code>) → <code>SPEC.md</code> → 새 세션에서 실행. 좋은 스펙 = 관련 파일·인터페이스 이름 · 범위 밖 · end-to-end 검증 단계</p>
           </div>
         </li>
         <li id="coding-loop-rule-7"><span class="num" aria-hidden="true">⑦</span>
@@ -680,7 +680,7 @@
 <ul>
 <li><span class="lead">조건 :</span> 프롬프트에 "테스트 돌리고 고쳐" 를 넣고 밤새 돌림. 아침에 보니 절반쯤에서 끝났다고 보고.</li>
 <li><span class="lead">판단 :</span> 한 프롬프트 방식은 Claude 가 스스로 멈출 수 있음. 무인은 <code>/goal</code>(매 턴 별도 평가) 또는 Stop 훅(통과 전 턴 종료 차단)으로 올림.</li>
-<li><span class="lead">등급 :</span> <span class="note">(best-practices). Stop 훅의 연속 차단 상한 수치는 미열람 → 미해결 2.</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(best-practices). Stop 훅의 연속 차단 상한 수치는 미열람 →</span> <span class="open">미해결</span> <span class="note">2.</span></li>
 </ul>
 </section>
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
@@ -705,7 +705,7 @@
   <h2 class="sec-h" id="coding-loop-ref-h">참고</h2>
   <div class="t5-rest">
     <h3>CCA-F</h3>
-      <p>봄 (3.4 계획 모드 vs 직접 실행 — diff 한 문장이면 직접 · 3.5 반복 개선 — 예시·검사로 루프 닫기, 두 번 넘게 교정하면 <code>/clear</code>) — 여기선 팀이 일을 맡기는 흐름으로 묻나 : 검사를 어디에 얼마나 세게 거나(프롬프트 · <code>/goal</code> · Stop 훅 · 검증 서브에이전트), 무인 실행을 무엇으로 끝내나</p>
+      <p>겹침 (3.4 계획 모드 vs 직접 실행 — diff 한 문장이면 직접 · 3.5 반복 개선 — 예시·검사로 루프 닫기, 두 번 넘게 교정하면 <code>/clear</code>) — 여기선 팀이 일을 맡기는 흐름으로 묻나 : 검사를 어디에 얼마나 세게 거나(프롬프트 · <code>/goal</code> · Stop 훅 · 검증 서브에이전트), 무인 실행을 무엇으로 끝내나</p>
     <h3>개념</h3>
       <ul class="plain">
         <li><a href="ai-code-review.html">■ AI 코드 리뷰</a></li>

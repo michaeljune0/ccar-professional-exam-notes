@@ -370,9 +370,9 @@
   </div>
   <h2 class="sec-h" id="cost-per-request-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>요청 1건 값 = 입력 토큰 × 입력 단가 + 출력 토큰 × 출력 단가 (캐시 쓰기·읽기는 입력가의 배수). 한 달 값 = 건당 값 × 건수 → 설계안은 건당 값으로 비교</p>
+      <p>요청 1건 값 = 입력 토큰 × 입력 단가 + 출력 토큰 × 출력 단가 (캐시 쓰기·읽기는 입력 단가의 배수). 한 달 값 = 건당 값 × 건수 → 설계안은 건당 값으로 비교</p>
       <p>출력 단가 = 입력의 5배 (현행 모델 전부) → 어느 쪽 토큰이 많은지부터 봄</p>
-    <p class="t5-ana"><span class="lead">비유</span> 클라우드 요금. 들어오는 트래픽은 싸고 나가는 트래픽(egress)이 비쌈 → 청구서의 큰 줄부터 줄임</p>
+    <p class="t5-ana"><span class="lead">비유</span> 클라우드 요금. 들어오는 트래픽은 싸고 나가는 트래픽(egress)이 비쌈 → 청구서의 큰 항목부터 줄임</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/cost-per-request.webp"><img src="../images/cost-per-request.webp" alt="요청 1건 값은 입력 토큰×입력 단가와 출력 토큰×출력 단가의 합이고 출력 단가가 입력의 5배라서, 어느 쪽 토큰이 많은지부터 보고 큰 줄부터 줄인다는 그림." loading="lazy" decoding="async"></a>
@@ -401,13 +401,13 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">값의 뼈대</p>
 <ul>
-<li>요청 1건 = 입력 토큰 × 입력가 + 출력 토큰 × 출력가. 한 달 = 건당 × 건수.</li>
-<li>출력가 = 입력가의 5배 (Haiku 4.5 $1/$5 · Sonnet 5 $2/$10 · Opus 5.5 $4/$20 · Opus 5 $5/$25, 백만 토큰당).</li>
+<li>요청 1건 = 입력 토큰 × 입력 단가 + 출력 토큰 × 출력 단가. 한 달 = 건당 × 건수.</li>
+<li>출력 단가 = 입력 단가의 5배 (Haiku 4.5 $1/$5 · Sonnet 5 $2/$10 · Opus 5.5 $4/$20 · Opus 5 $5/$25, 백만 토큰당).</li>
 <li>그래서 "입력이 많은 일"과 "출력이 많은 일"은 줄이는 수단이 다름.</li>
 </ul>
 <p class="lead">수단별로 깎이는 곳</p>
 <ul>
-<li>캐싱 = 입력가에만 거는 배수. 쓰기 1.25배(5분) · 2배(1시간), 읽기 0.1배. 출력은 그대로.</li>
+<li>캐싱 = 입력 단가에만 거는 배수. 쓰기 1.25배(5분) · 2배(1시간), 읽기 0.1배. 출력은 그대로.</li>
 <li>배치 = 입력·출력 모두 50%. 대신 끝나는 시각을 약속 안 함. 캐싱 할인과 함께 적용됨.</li>
 <li>모델 = 단가 자체를 바꿈. Opus 5.5 → Haiku 4.5 는 입력·출력 모두 4분의 1. 대신 품질이 흔들릴 수 있어 eval 로 확인.</li>
 <li>effort = 한 모델 안에서 출력 토큰(thinking(사고)·도구 호출·답)을 줄임.</li>
@@ -422,7 +422,7 @@
 <p class="lead">공식 줄이는 순서</p>
 <ul>
 <li>맞는 모델 → 캐싱 → 배치(급하지 않은 일) → 사용 패턴 감시.</li>
-<li>이 순서는 목록일 뿐 지문 조건이 먼저 : 청구서의 큰 줄이 입력인가 출력인가, 몇 분 안에 답해야 하는가.</li>
+<li>이 순서는 목록일 뿐 지문 조건이 먼저 : 청구서의 큰 항목이 입력인가 출력인가, 몇 분 안에 답해야 하는가.</li>
 </ul>
 </section>
   <h2 class="sec-h" id="cost-per-request-rules-h">규칙과 판단</h2>
@@ -432,7 +432,7 @@
   </figure>
   <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="cost-per-request-tree-1" aria-labelledby="cost-per-request-tree-1-h" data-paths="n1 n2 n3 n4 n5|n1 n2 n3 n6 n7|n1 n8 n9 n10 n11|n1 n8 n9 n12 n13">
-    <div class="t5-fh"><h3 id="cost-per-request-tree-1-h">①② 청구서의 큰 줄 <span class="pg">[1.6③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
+    <div class="t5-fh"><h3 id="cost-per-request-tree-1-h">①② 청구서의 큰 항목 <span class="pg">[1.6③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
       <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>어느 토큰이 많나?<span class="t5-sub">출력 단가 = 입력의 5배</span></div>
       <div class="t5-fork" style="--n:2">
@@ -543,14 +543,14 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="cost-per-request-flow" aria-label="per-request cost 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["요청","캐시","모델","청구서"],"blocks":[{"name":"고정 앞부분","var":false},{"name":"바뀌는 입력","var":true}],"rules":[null,null,null,"입력 토큰 × 입력가 + 출력 토큰 × 출력가 (출력 = 입력의 5배)"],"question":"청구서의 큰 줄은 입력일까, 출력일까?","scenes":[{"name":"① 긴 고정 앞부분 → 캐싱","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Haiku 4.5","고정 앞부분 6,000","질문 200 · 답 300"]}},{"kind":"move","step":"요청 1","from":{"block":"고정 앞부분"},"to":1,"label":"쓰기 1.25배","art":{"kind":"slip","lines":["캐시 쓰기","6,000 × 1.25배"]}},{"kind":"mark","step":"요청 2","at":{"col":1},"label":"읽기 0.1배","art":{"kind":"slip","lines":["캐시 읽기","6,000 × $0.10/M"]}},{"kind":"move","step":"입력","from":{"block":"바뀌는 입력"},"to":2,"label":"입력 단가 그대로","art":{"kind":"slip","lines":["질문 200 × $1/M"]}},{"kind":"move","step":"청구","from":{"col":2},"to":3,"label":"출력은 입력의 5배","art":{"kind":"slip","lines":["출력 300 × $5/M","건당 $0.0077 → $0.0023"]}},{"kind":"end","label":"입력 대부분이 0.1배로 — 건당 약 70% 줄어듦 (계산)"}]},{"name":"② 짧은 입력 · 긴 출력 → 캐싱","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Sonnet 5","고정 지침 2,500","리뷰 500 · 보고서 5,000"]}},{"kind":"move","step":"캐싱","from":{"block":"고정 앞부분"},"to":1,"label":"할인은 입력가에만 붙는 배수 (출력은 그대로)","art":{"kind":"slip","lines":["캐시 읽기","2,500 × $0.20/M"]}},{"kind":"move","step":"입력","from":{"block":"바뀌는 입력"},"to":2,"label":"입력은 짧음","art":{"kind":"slip","lines":["리뷰 500 × $2/M"]}},{"kind":"move","step":"청구","from":{"col":2},"to":3,"label":"출력이 청구서 대부분","art":{"kind":"slip","lines":["출력 5,000 × $10/M = $0.05","건당 $0.056 → $0.0515"]}},{"kind":"end","label":"캐싱해도 총비용이 조금만 줄어듦 — 약 8% (계산)"}]},{"name":"③ 급하지 않은 대량 → 배치","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["밤새 보고서 1,000건","아침까지만 되면 됨"]}},{"kind":"move","step":"입력","from":{"col":0},"to":2,"label":"Batch API","art":{"kind":"slip","lines":["배치 1개 = 요청 1,000개","결과는 나중에 한꺼번에"]}},{"kind":"move","step":"청구","from":{"col":2},"to":3,"label":"입력·출력 모두 50%","art":{"kind":"slip","lines":["건당 $0.056 → $0.028"]}},{"kind":"end","label":"급하지 않은 작업은 Batch API — 캐싱 할인도 함께 받을 수 있음"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["요청","캐시","모델","청구서"],"blocks":[{"name":"고정 앞부분","var":false},{"name":"바뀌는 입력","var":true}],"rules":[null,null,null,"입력 토큰 × 입력 단가 + 출력 토큰 × 출력 단가 (출력 = 입력의 5배)"],"question":"청구서의 큰 항목은 입력일까, 출력일까?","scenes":[{"name":"① 긴 고정 앞부분 → 캐싱","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Haiku 4.5","고정 앞부분 6,000","질문 200 · 답 300"]}},{"kind":"move","step":"요청 1","from":{"block":"고정 앞부분"},"to":1,"label":"쓰기 1.25배","art":{"kind":"slip","lines":["캐시 쓰기","6,000 × 1.25배"]}},{"kind":"mark","step":"요청 2","at":{"col":1},"label":"읽기 0.1배","art":{"kind":"slip","lines":["캐시 읽기","6,000 × $0.10/M"]}},{"kind":"move","step":"입력","from":{"block":"바뀌는 입력"},"to":2,"label":"입력 단가 그대로","art":{"kind":"slip","lines":["질문 200 × $1/M"]}},{"kind":"move","step":"청구","from":{"col":2},"to":3,"label":"출력은 입력의 5배","art":{"kind":"slip","lines":["출력 300 × $5/M","건당 $0.0077 → $0.0023"]}},{"kind":"end","label":"입력 대부분이 0.1배로 — 건당 약 70% 줄어듦 (계산)"}]},{"name":"② 짧은 입력 · 긴 출력 → 캐싱","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Sonnet 5","고정 지침 2,500","리뷰 500 · 보고서 5,000"]}},{"kind":"move","step":"캐싱","from":{"block":"고정 앞부분"},"to":1,"label":"할인은 입력 단가에만 붙는 배수 (출력은 그대로)","art":{"kind":"slip","lines":["캐시 읽기","2,500 × $0.20/M"]}},{"kind":"move","step":"입력","from":{"block":"바뀌는 입력"},"to":2,"label":"입력은 짧음","art":{"kind":"slip","lines":["리뷰 500 × $2/M"]}},{"kind":"move","step":"청구","from":{"col":2},"to":3,"label":"출력이 청구서 대부분","art":{"kind":"slip","lines":["출력 5,000 × $10/M = $0.05","건당 $0.056 → $0.0515"]}},{"kind":"end","label":"캐싱해도 총비용이 조금만 줄어듦 — 약 8% (계산)"}]},{"name":"③ 급하지 않은 대량 → 배치","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["밤새 보고서 1,000건","아침까지만 되면 됨"]}},{"kind":"move","step":"입력","from":{"col":0},"to":2,"label":"Batch API","art":{"kind":"slip","lines":["배치 1개 = 요청 1,000개","결과는 나중에 한꺼번에"]}},{"kind":"move","step":"청구","from":{"col":2},"to":3,"label":"입력·출력 모두 50%","art":{"kind":"slip","lines":["건당 $0.056 → $0.028"]}},{"kind":"end","label":"급하지 않은 작업은 Batch API — 캐싱 할인도 함께 받을 수 있음"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> 요청 → 캐시 → 모델 → 청구서</p>
       <p><span class="lead">블록 :</span> 고정 앞부분, 바뀌는 입력 (바뀌는 것)</p>
-      <p><span class="lead">규칙 (청구서) :</span> 입력 토큰 × 입력가 + 출력 토큰 × 출력가 (출력 = 입력의 5배)</p>
-      <p><span class="lead">질문 :</span> 청구서의 큰 줄은 입력일까, 출력일까?</p>
+      <p><span class="lead">규칙 (청구서) :</span> 입력 토큰 × 입력 단가 + 출력 토큰 × 출력 단가 (출력 = 입력의 5배)</p>
+      <p><span class="lead">질문 :</span> 청구서의 큰 항목은 입력일까, 출력일까?</p>
       <p class="lead">① 긴 고정 앞부분 → 캐싱 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 요청 — 쪽지 : <span class="flx-alt-slip">Haiku 4.5 / 고정 앞부분 6,000 / 질문 200 · 답 300</span></li>
@@ -563,7 +563,7 @@
       <p class="lead">② 짧은 입력 · 긴 출력 → 캐싱 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 요청 — 쪽지 : <span class="flx-alt-slip">Sonnet 5 / 고정 지침 2,500 / 리뷰 500 · 보고서 5,000</span></li>
-        <li>캐싱 : 고정 앞부분 → 캐시 : 할인은 입력가에만 붙는 배수 (출력은 그대로) — 쪽지 : <span class="flx-alt-slip">캐시 읽기 / 2,500 × $0.20/M</span></li>
+        <li>캐싱 : 고정 앞부분 → 캐시 : 할인은 입력 단가에만 붙는 배수 (출력은 그대로) — 쪽지 : <span class="flx-alt-slip">캐시 읽기 / 2,500 × $0.20/M</span></li>
         <li>입력 : 바뀌는 입력 → 모델 : 입력은 짧음 — 쪽지 : <span class="flx-alt-slip">리뷰 500 × $2/M</span></li>
         <li>청구 : 모델 → 청구서 : 출력이 청구서 대부분 — 쪽지 : <span class="flx-alt-slip">출력 5,000 × $10/M = $0.05 / 건당 $0.056 → $0.0515</span></li>
         <li>끝 : 캐싱해도 총비용이 조금만 줄어듦 — 약 8% (계산)</li>
@@ -591,9 +591,9 @@
       <ol class="how">
         <li id="cost-per-request-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p><span class="lead">식 :</span> 건당 = 캐시 안 된 입력 × 입력가 + 캐시 쓰기 × 1.25배(5분)·2배(1시간) + 캐시 읽기 × 0.1배 + 출력 × 출력가 <span class="pg">[1.6③]</span></p>
+            <p><span class="lead">식 :</span> 건당 = 캐시 안 된 입력 × 입력 단가 + 캐시 쓰기 × 1.25배(5분)·2배(1시간) + 캐시 읽기 × 0.1배 + 출력 × 출력 단가 <span class="pg">[1.6③]</span></p>
             <p>공식 계산 예 (Opus 5, Managed Agents 1시간 세션) : 입력 5만 $0.25 + 출력 1.5만 $0.375 + 런타임 $0.08 = $0.705 → 입력 중 4만을 캐시 읽기로 $0.525</p>
-            <p>이 예에서 출력은 토큰 수가 입력의 3분의 1 인데 값은 더 큼 ($0.375 &gt; $0.25) → 출력 단가 5배의 뜻 <span class="note">(계산)</span></p>
+            <p>이 예에서 출력은 토큰 수가 입력의 3분의 1 인데 값은 더 큼 ($0.375 &gt; $0.25) → 출력 단가 5배의 뜻 <span class="calc">계산</span></p>
           </div>
         </li>
         <li id="cost-per-request-rule-2"><span class="num" aria-hidden="true">②</span>
@@ -698,9 +698,9 @@
       <ul class="traps">
         <li><span class="neq" aria-hidden="true">≠</span><span>"과제와 상관없이 제일 작은 모델로" → 품질 위험 (샘플 2 B)</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"정책을 잘라 입력을 줄임" → 필요한 정책을 잃음 (샘플 2 A)</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>긴 출력 일에 캐싱만 → 할인은 입력가에만 붙는 배수라 출력 토큰이 청구서 대부분이면 캐싱해도 총비용이 조금만 줄어듦</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>긴 출력 일에 캐싱만 → 할인은 입력 단가에만 붙는 배수라 출력 토큰이 청구서 대부분이면 캐싱해도 총비용이 조금만 줄어듦</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"몇 분 안에 답해야 하는데 배치로 50%" → 배치엔 분 단위 약속이 없음 (<a href="batch-vs-sync.html">◆ Batch API vs 동기 호출</a>)</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>새 모델로 옮기며 단가만 비교 → 토큰 수가 약 30% 느는 걸 놓침. 예 Sonnet 4.6 $3/$15 → Sonnet 5 $2/$10 은 단가 33% 싸지만 토큰 1.3배면 약 13% 만 쌈 <span class="note">(계산)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>새 모델로 옮기며 단가만 비교 → 토큰 수가 약 30% 느는 걸 놓침. 예 Sonnet 4.6 $3/$15 → Sonnet 5 $2/$10 은 단가 33% 싸지만 토큰 1.3배면 약 13% 만 쌈 <span class="calc">계산</span></span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>도구 정의·검색 결과를 빼고 입력을 셈 → 전부 입력 토큰</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"200k 넘는 긴 요청은 할증" → 4.6 이후는 1M 창 전체가 표준 단가 <span class="src">(옛 규칙 : 2026-02-05 릴리스 노트엔 200k 초과 할증 있었음)</span></span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"Managed Agents 세션도 배치로 50%" → 배치 모드 없음</span></li>
@@ -766,7 +766,7 @@
     <tr role="row"><td data-label="오답" role="cell">"과제와 상관없이 가장 작은 모델로"</td><td data-label="왜 끌리나" role="cell">단가가 제일 쌈</td><td data-label="왜 틀리나" role="cell">품질 위험. eval 없이 낮추기는 오답</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> B</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"정책 문서를 앞 1,000 토큰만 남기고 자름"</td><td data-label="왜 끌리나" role="cell">입력이 바로 줄어 보임</td><td data-label="왜 틀리나" role="cell">필요한 정책을 잃음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> A</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"정책을 few-shot 예시 블록으로 옮김"</td><td data-label="왜 끌리나" role="cell">구조를 바꾸면 나아 보임</td><td data-label="왜 틀리나" role="cell">캐시 가능한 재사용 앞부분을 안 만듦</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> D</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"캐싱하면 출력도 싸짐"</td><td data-label="왜 끌리나" role="cell">"캐싱 = 비용 절감"으로 외움</td><td data-label="왜 틀리나" role="cell">캐싱 배수는 기본 입력가 기준. 출력은 그대로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"캐싱하면 출력도 싸짐"</td><td data-label="왜 끌리나" role="cell">"캐싱 = 비용 절감"으로 외움</td><td data-label="왜 틀리나" role="cell">캐싱 배수는 기본 입력 단가 기준. 출력은 그대로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"몇 분 안에 답해야 하는데 배치로 50%"</td><td data-label="왜 끌리나" role="cell">50% 가 큼</td><td data-label="왜 틀리나" role="cell">배치엔 분 단위 약속이 없음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">◆ Batch API vs 동기 호출</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"새 모델 단가가 33% 싸니 청구도 33% 준다"</td><td data-label="왜 끌리나" role="cell">단가표만 봄</td><td data-label="왜 틀리나" role="cell">새 토크나이저는 같은 글에 약 30% 더 많은 토큰</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 4</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"200k 넘는 요청은 할증이라 잘라야"</td><td data-label="왜 끌리나" role="cell">옛 자료(2026-02 까지 200k 초과 할증)</td><td data-label="왜 틀리나" role="cell">4.6 이후는 1M 창 전 구간 표준 단가</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a> · <a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></td></tr>
@@ -782,11 +782,11 @@
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.6</a> <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>샘플 2 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">샘플 2</a> <span class="src">공식 시험 가이드 v1.0</span></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a></li>
-        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a> <span class="src">( — 모델 단가표)</span></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a> <span class="src">(모델 단가표)</span></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></li>
-        <li><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> <span class="src">(en-full)</span></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></li>
       </ul>
     <h3>상태</h3>
       <ul class="plain">

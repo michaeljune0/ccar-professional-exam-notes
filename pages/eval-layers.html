@@ -369,7 +369,7 @@
   </div>
   <h2 class="sec-h" id="eval-layers-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>에이전트 성능을 아는 방법 6층 = 자동 eval · 운영(production) 모니터링 · A/B · 사용자 피드백 · transcript 직접 읽기 · 체계적 사람 평가. 어느 한 층도 전부 못 잡음 → 겹쳐 씀. 한 층에서 샌 실패를 다른 층이 잡음(스위스 치즈 모델)</p>
+      <p>에이전트 성능을 아는 방법 6층 = 자동 eval · 운영(production) 모니터링 · A/B · 사용자 피드백 · transcript 직접 읽기 · 체계적 사람 평가. 어느 한 층도 전부 못 잡음 → 겹쳐 씀. 한 층에서 놓친 실패를 다른 층이 잡음(스위스 치즈 모델)</p>
       <p>층마다 시점이 다름 : 자동 eval = 출시 전·CI · 운영 모니터링 = 출시 뒤 · A/B = 트래픽이 충분할 때 큰 변경 · 피드백·transcript = 늘 · 사람 평가 = grader(채점기) 보정·주관적 출력</p>
     <p class="t5-ana"><span class="lead">비유</span> 배포 파이프라인. CI 테스트 → 카나리 → 운영 모니터링. CI 가 초록이어도 카나리를 보고, 카나리 몇 분 보고 전체 배포하지 않음</p>
   </div>
@@ -402,22 +402,22 @@
 <ul>
 <li>자동 eval : 실사용자 없이 코드로 과제를 돌려 채점. 빠르고 재현되고 커밋마다 돌릴 수 있음. 대신 과제가 실사용과 어긋나면 "통과"가 거짓 확신이 됨.</li>
 <li>운영 모니터링 : 실제 시스템의 지표·오류. 진짜 사용자 행동을 봄. 대신 문제가 사용자에게 먼저 닿은 뒤에야 알게 됨(사후 대응) · 채점할 정답이 없음.</li>
-<li>A/B : 실사용 트래픽을 나눠 두 판을 비교. 유지율·과제 완료율 같은 진짜 결과를 재고 교란을 통제(control)함. 대신 유의성(우연이 아니라고 볼 만큼 표본이 쌓임)까지 수일~수주 · 트래픽이 충분해야 함 · 이미 배포한 변경만 시험 · 왜 움직였는지는 transcript 를 읽어야 알 수 있음.</li>
-<li>사용자 피드백 : 엄지 아래·버그 신고. 예상 못 한 문제를 실제 예시와 함께 줌. 대신 드물고, 내고 싶은 사람만 내고, 심한 문제 쪽으로 쏠리고, 이유를 잘 안 적음.</li>
+<li>A/B : 실사용 트래픽을 나눠 두 버전을 비교. 유지율·과제 완료율 같은 진짜 결과를 재고 교란을 통제(control)함. 대신 유의성(우연이 아니라고 볼 만큼 표본이 쌓임)까지 수일~수주 · 트래픽이 충분해야 함 · 이미 배포한 변경만 시험 · 왜 움직였는지는 transcript 를 읽어야 알 수 있음.</li>
+<li>사용자 피드백 : 싫어요 표시·버그 신고. 예상 못 한 문제를 실제 예시와 함께 줌. 대신 드물고, 스스로 나선 사람만 남기고, 심한 문제 쪽으로 쏠리고, 이유를 잘 안 적음.</li>
 <li>transcript 직접 읽기 : 사람이 대화를 읽음. failure modes(실패 유형) 감각·미묘한 품질을 잡음. 대신 규모를 못 키우고(사람 수만큼만) 정성 신호뿐.</li>
 <li>체계적 사람 평가 : 훈련된 평가자 여럿이 구조화해 채점. 최고 품질 판정 · LLM-as-judge(LLM 채점기)를 맞추는 기준. 대신 비싸고 느려 자주 못 돌림.</li>
 </ul>
 <p class="lead">왜 겹치나</p>
 <ul>
-<li>층마다 구멍(못 보는 것)이 다름 → 한 층에서 샌 실패를 다른 층이 잡음. 스위스 치즈 모델.</li>
+<li>층마다 구멍(못 보는 것)이 다름 → 한 층에서 놓친 실패를 다른 층이 잡음. 스위스 치즈 모델.</li>
 <li>시점도 다름 : 출시 전엔 자동 eval · 사람 평가뿐, 출시 뒤에 운영(production) 모니터링 · 피드백이 생기고, 트래픽이 쌓여야 A/B 가 됨.</li>
 <li>가장 잘하는 팀의 기본 조합 = 자동 eval(빠른 반복) + 운영 모니터링(실제 결과) + 주기적 사람 검토(보정).</li>
 </ul>
 <p class="lead">A/B 라는 말이 공식 문서 두 편에 세 뜻으로 나옴</p>
 <ul>
-<li>demystifying-evals 표 : 실사용 트래픽으로 두 판 비교(이 카드의 A/B).</li>
+<li>demystifying-evals 표 : 실사용 트래픽으로 두 버전 비교(이 카드의 A/B).</li>
 <li>같은 글 사람 grader(채점기) 표 : 방법 목록에 A/B testing 이 들어 있음 → 사람의 선택으로 채점하는 방식으로도 분류.</li>
-<li>define-success : "기준 모델이나 이전 판과 성능 비교" 라는 넓은 뜻의 정량 방법. → 지문이 A/B 를 어느 뜻으로 쓰는지 먼저 봄.</li>
+<li>define-success : "기준 모델이나 이전 버전과 성능 비교" 라는 넓은 뜻의 정량 방법. → 지문이 A/B 를 어느 뜻으로 쓰는지 먼저 봄.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
@@ -484,14 +484,14 @@
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>불만이 안 들어옴</span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">안전하다는 뜻 아님</p><p>피드백은 드물고 내고 싶은 사람만 냄 · 심한 문제 쪽으로 쏠림</p></div>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">안전하다는 뜻 아님</p><p>피드백은 드물고 스스로 나선 사람만 남김 · 심한 문제 쪽으로 쏠림</p></div>
         </div>
       </div>
     </div>
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="eval-layers-flow" aria-label="검증 층 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["변경","자동 eval","A/B","운영"],"blocks":[],"rules":[null,null,"트래픽이 충분할 때 큰 변경 · 유의성(우연이 아니라고 볼 만큼 표본이 쌓임)까지 수일~수주",null],"question":"어느 층이 무엇을 잡을까?","scenes":[{"name":"① 층을 차례로","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["새 응답 흐름 v2","(큰 변경)"]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"커밋마다 · 사용자 영향 없음","art":{"kind":"slip","lines":["과제 40개 : 통과","regression 없음"]}},{"kind":"move","step":"넘김","from":{"col":1},"to":2,"label":"트래픽이 충분할 때 큰 변경","art":{"kind":"slip","lines":["A 50% : 기존","B 50% : v2"]}},{"kind":"timer","at":2,"label":"유의성까지 수일~수주"},{"kind":"move","step":"넘김","from":{"col":2},"to":3,"label":"출시 뒤 분포 변화·예상 못 한 실패","art":{"kind":"slip","lines":["2주 뒤 B 채택 · 전체 배포","이제 운영 모니터링"]}},{"kind":"end","label":"한 층에서 샌 실패를 다른 층이 잡음"}]},{"name":"② 몇 시간치 A/B 로 결론","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["새 응답 흐름 v2"]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"오프라인 통과","art":{"kind":"slip","lines":["과제 40개 : 통과"]}},{"kind":"move","step":"넘김","from":{"col":1},"to":2,"label":"하루 2만 건을 반반","art":{"kind":"slip","lines":["A 50% · B 50%"]}},{"kind":"timer","at":2,"label":"유의성까지 수일~수주"},{"kind":"mark","step":"결론","at":{"col":2},"label":"3시간 만에 결론","art":{"kind":"slip","lines":["3시간째 완료율","A 70% · B 74%","→ \"전체 배포하자\""]}},{"kind":"end","label":"몇 시간치로는 유의성까지 못 감 — 아직 결론 못 냄"}]},{"name":"③ 자동 eval 만 믿음","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["새 응답 흐름 v2","(큰 변경)"]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"오프라인 통과","art":{"kind":"slip","lines":["과제 40개 : 95%"]}},{"kind":"skip","at":2},{"kind":"move","step":"새어 나감","from":{"col":1},"to":3,"label":"실사용과 어긋나면 거짓 확신","art":{"kind":"say","text":"새 상품은 왜 교환이 안 돼요?"}},{"kind":"end","label":"오프라인 통과만 믿고 내보내면 실패를 사용자가 먼저 겪음 — 운영 모니터링은 사후 대응"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["변경","자동 eval","A/B","운영"],"blocks":[],"rules":[null,null,"트래픽이 충분할 때 큰 변경 · 유의성(우연이 아니라고 볼 만큼 표본이 쌓임)까지 수일~수주",null],"question":"어느 층이 무엇을 잡을까?","scenes":[{"name":"① 층을 차례로","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["새 응답 흐름 v2","(큰 변경)"]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"커밋마다 · 사용자 영향 없음","art":{"kind":"slip","lines":["과제 40개 : 통과","regression 없음"]}},{"kind":"move","step":"넘김","from":{"col":1},"to":2,"label":"트래픽이 충분할 때 큰 변경","art":{"kind":"slip","lines":["A 50% : 기존","B 50% : v2"]}},{"kind":"timer","at":2,"label":"유의성까지 수일~수주"},{"kind":"move","step":"넘김","from":{"col":2},"to":3,"label":"출시 뒤 분포 변화·예상 못 한 실패","art":{"kind":"slip","lines":["2주 뒤 B 채택 · 전체 배포","이제 운영 모니터링"]}},{"kind":"end","label":"한 층에서 놓친 실패를 다른 층이 잡음"}]},{"name":"② 몇 시간치 A/B 로 결론","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["새 응답 흐름 v2"]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"오프라인 통과","art":{"kind":"slip","lines":["과제 40개 : 통과"]}},{"kind":"move","step":"넘김","from":{"col":1},"to":2,"label":"하루 2만 건을 반반","art":{"kind":"slip","lines":["A 50% · B 50%"]}},{"kind":"timer","at":2,"label":"유의성까지 수일~수주"},{"kind":"mark","step":"결론","at":{"col":2},"label":"3시간 만에 결론","art":{"kind":"slip","lines":["3시간째 완료율","A 70% · B 74%","→ \"전체 배포하자\""]}},{"kind":"end","label":"몇 시간치로는 유의성까지 못 감 — 아직 결론 못 냄"}]},{"name":"③ 자동 eval 만 믿음","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["새 응답 흐름 v2","(큰 변경)"]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"오프라인 통과","art":{"kind":"slip","lines":["과제 40개 : 95%"]}},{"kind":"skip","at":2},{"kind":"move","step":"새어 나감","from":{"col":1},"to":3,"label":"실사용과 어긋나면 거짓 확신","art":{"kind":"say","text":"새 상품은 왜 교환이 안 돼요?"}},{"kind":"end","label":"오프라인 통과만 믿고 내보내면 실패를 사용자가 먼저 겪음 — 운영 모니터링은 사후 대응"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -505,7 +505,7 @@
         <li>넘김 : 자동 eval → A/B : 트래픽이 충분할 때 큰 변경 — 쪽지 : <span class="flx-alt-slip">A 50% : 기존 / B 50% : v2</span></li>
         <li>타이머 : A/B : 유의성까지 수일~수주</li>
         <li>넘김 : A/B → 운영 : 출시 뒤 분포 변화·예상 못 한 실패 — 쪽지 : <span class="flx-alt-slip">2주 뒤 B 채택 · 전체 배포 / 이제 운영 모니터링</span></li>
-        <li>끝 : 한 층에서 샌 실패를 다른 층이 잡음</li>
+        <li>끝 : 한 층에서 놓친 실패를 다른 층이 잡음</li>
       </ol>
       <p class="lead">② 몇 시간치 A/B 로 결론 <span class="fl-v is-ng">≠</span></p>
       <ol>
@@ -540,7 +540,7 @@
                 <tr role="row"><td data-label="층" role="cell">자동 eval</td><td data-label="언제" role="cell">출시 전·CI, 에이전트 변경·모델 업그레이드마다 = 첫 방어선</td><td data-label="강점" role="cell">빠른 반복 · 완전 재현 · 커밋마다 · 사용자 영향 없음</td><td data-label="약점" role="cell">먼저 만들 비용 · 계속 손봐야(drift) · 실사용 패턴과 어긋나면 거짓 확신</td></tr>
                 <tr role="row"><td data-label="층" role="cell">운영 모니터링</td><td data-label="언제" role="cell">출시 뒤 — 분포 변화·예상 못 한 실패</td><td data-label="강점" role="cell">실사용 행동 · 합성 eval 이 놓친 것</td><td data-label="약점" role="cell">사후 대응(사용자가 먼저 겪음) · 신호에 잡음이 많음 · 채점할 정답이 없음</td></tr>
                 <tr role="row"><td data-label="층" role="cell">A/B</td><td data-label="언제" role="cell">트래픽이 충분할 때 큰 변경</td><td data-label="강점" role="cell">실사용 결과(유지율·과제 완료율) · 교란 통제(control)</td><td data-label="약점" role="cell">유의성까지 수일~수주 · 배포한 변경만 시험 · transcript 없이는 '왜' 가 약함</td></tr>
-                <tr role="row"><td data-label="층" role="cell">사용자 피드백</td><td data-label="언제" role="cell">늘 — 계속 분류</td><td data-label="강점" role="cell">예상 못 한 문제 · 실제 예시</td><td data-label="약점" role="cell">드물고 내고 싶은 사람만 냄 · 심한 문제 쪽으로 쏠림 · 이유를 잘 안 말함 · 사용자가 문제를 잡게 두면 사용자가 피해를 봄</td></tr>
+                <tr role="row"><td data-label="층" role="cell">사용자 피드백</td><td data-label="언제" role="cell">늘 — 계속 분류</td><td data-label="강점" role="cell">예상 못 한 문제 · 실제 예시</td><td data-label="약점" role="cell">드물고 스스로 나선 사람만 남김 · 심한 문제 쪽으로 쏠림 · 이유를 잘 안 말함 · 사용자가 문제를 잡게 두면 사용자가 피해를 봄</td></tr>
                 <tr role="row"><td data-label="층" role="cell">transcript 직접 읽기</td><td data-label="언제" role="cell">늘 — 매주 표본</td><td data-label="강점" role="cell">failure modes(실패 유형) 감각 · 자동 검사가 놓친 미묘한 품질</td><td data-label="약점" role="cell">시간 듦 · 규모를 못 키움(사람 수만큼만) · 정성 신호 위주</td></tr>
                 <tr role="row"><td data-label="층" role="cell">체계적 사람 평가</td><td data-label="언제" role="cell">LLM-as-judge 보정 · 주관적 출력 <span class="note">(여기에만 아껴 씀)</span></td><td data-label="강점" role="cell">여러 사람의 최고 품질 판정</td><td data-label="약점" role="cell">비싸고 느림 · 자주 못 돌림 · 판정 불일치 조정 필요</td></tr>
               </tbody>
@@ -622,7 +622,7 @@
         <li><span class="neq" aria-hidden="true">≠</span><span>"A/B 가 있으니 오프라인 eval 은 생략" → A/B 는 배포한 변경만 시험 · 수일~수주. 자동 eval 은 커밋마다 · 사용자 영향 없음</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"몇 시간치 A/B 가 좋으니 전체 배포" → 몇 시간치로는 유의성까지 못 감</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"새 버전이 더 나은지 카나리로 확인" → 카나리 = 일부에 내보내고 오류를 봄<span class="gen">업계 일반</span> <span class="note">공식 문서에 카나리 없음</span>. "두 변형 중 어느 쪽이 실사용에서 나은가" 는 변형끼리 실사용 결과를 비교 · 교란 통제 = A/B</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"사용자 불만(엄지 아래)을 주 탐지 수단으로" → 드물고 쏠림 · 사용자가 문제를 잡게 두면 사용자가 피해를 봄</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"사용자 불만(싫어요 표시)을 주 탐지 수단으로" → 드물고 쏠림 · 사용자가 문제를 잡게 두면 사용자가 피해를 봄</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"운영 대시보드가 멀쩡하니 품질도 OK" → 운영 모니터링은 사후 대응 — 사용자가 먼저 겪음 · 채점할 정답이 없음</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"중요하니 변경마다 체계적 사람 평가" → 비싸고 느려 자주 못 돌림. grader 보정·주관적 출력에만</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"한 층만 제대로 하면 된다" → 어느 한 층도 전부 못 잡음</span></li>
@@ -659,22 +659,19 @@
 <ul>
 <li><span class="lead">조건 :</span> 시스템 프롬프트의 말투 문장 하나만 바꿈.</li>
 <li><span class="lead">판단 :</span> 공식은 A/B 를 "significant changes" 용으로 둠. 작은 변경은 자동 eval 로 먼저 보고, 효과가 작아 자동 eval 에서도 안 보이면 과제 셋을 키움(성숙한 에이전트는 작은 효과를 보려면 더 큰 eval).</li>
-<li><span class="lead">등급 :</span> <span class="note">(A/B 대상 = 큰 변경 · 성숙하면 더 큰 eval) + 업계 일반("작은 변경은 A/B 안 함"이라는 직접 문장은 없음)</span></li>
-<li><span class="lead">근거 :</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(A/B 대상 = 큰 변경 · 성숙하면 더 큰 eval) +</span> <span class="gen">업계 일반</span><span class="note">("작은 변경은 A/B 안 함"이라는 직접 문장은 없음)</span></li>
 </ul>
 <h4>3. 오프라인 eval 은 올랐는데 운영 지표는 그대로</h4>
 <ul>
 <li><span class="lead">조건 :</span> 오프라인 eval +5%p, 출시 2주 뒤 과제 완료율 변화 없음.</li>
 <li><span class="lead">판단 :</span> 자동 eval 이 실사용 패턴과 어긋났을 가능성(거짓 확신). transcript 표본을 읽고, 운영에서 본 실패를 eval 과제로 되돌림(■ 운영 → eval feedback loop).</li>
 <li><span class="lead">등급 :</span> <span class="note">(자동 eval 약점 · 운영 모니터링 강점)</span></li>
-<li><span class="lead">근거 :</span></li>
 </ul>
 <h4>4. 법률 검토 에이전트 — 사람 평가를 아껴 쓰라는 규칙이 약해지는 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 답이 주관적이고 도메인 전문가만 맞고 틀림을 가릴 수 있음.</li>
 <li><span class="lead">판단 :</span> 사람 평가는 "LLM-as-judge 보정·주관적 출력"에 쓰는 층 → 이 경우가 바로 그 자리. 그래도 매 변경마다가 아니라, 사람 판정으로 LLM-as-judge 를 맞춘 뒤 grader 로 규모를 키움(■ LLM-as-judge 설계).</li>
 
-<li><span class="lead">근거 :</span></li>
 </ul>
 </section>
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
@@ -686,7 +683,7 @@
     <tr role="row"><td data-label="오답" role="cell">"몇 시간치 A/B 결과가 좋으니 전체 배포"</td><td data-label="왜 끌리나" role="cell">숫자가 이미 좋아 보임</td><td data-label="왜 틀리나" role="cell">유의성까지 수일~수주</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"오프라인 eval 통과했으니 A/B·운영 확인 불필요"</td><td data-label="왜 끌리나" role="cell">테스트를 통과했음</td><td data-label="왜 틀리나" role="cell">실사용 패턴과 어긋나면 거짓 확신</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"A/B 가 있으니 오프라인 eval 생략"</td><td data-label="왜 끌리나" role="cell">실사용 결과가 더 진짜 같음</td><td data-label="왜 틀리나" role="cell">A/B 는 배포한 변경만 · 느림. 자동 eval 은 커밋마다 · 사용자 영향 없음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"하루 수십 건 사내 도구도 A/B 로 검증"</td><td data-label="왜 끌리나" role="cell">A/B 가 정석처럼 들림</td><td data-label="왜 틀리나" role="cell">트래픽이 충분해야 함 → 결론까지 너무 오래</td><td data-label="등급" role="cell"><span class="note">(조건) · 업계 일반(기간 계산)</span></td><td data-label="근거" role="cell"> 뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"하루 수십 건 사내 도구도 A/B 로 검증"</td><td data-label="왜 끌리나" role="cell">A/B 가 정석처럼 들림</td><td data-label="왜 틀리나" role="cell">트래픽이 충분해야 함 → 결론까지 너무 오래</td><td data-label="등급" role="cell"><span class="note">(조건) ·</span> <span class="gen">업계 일반</span><span class="note">(기간 계산)</span></td><td data-label="근거" role="cell"> 뒤집히는 때 1</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"사용자 피드백을 주 탐지 수단으로"</td><td data-label="왜 끌리나" role="cell">실제 사용자 목소리</td><td data-label="왜 틀리나" role="cell">드물고 쏠림 · 사용자가 문제를 잡게 두면 사용자가 피해를 봄</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"> "Relying primarily on users to catch issues can have negative user impact"</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"운영 대시보드가 멀쩡하니 품질 OK"</td><td data-label="왜 끌리나" role="cell">오류율이 낮음</td><td data-label="왜 틀리나" role="cell">운영 모니터링은 사후 대응 · 채점할 정답이 없음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"중요하니 변경마다 체계적 사람 평가"</td><td data-label="왜 끌리나" role="cell">사람이 제일 정확</td><td data-label="왜 틀리나" role="cell">비싸고 느려 자주 못 돌림 → grader 보정·주관적 출력에만</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>

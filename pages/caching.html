@@ -412,7 +412,7 @@
 </ul>
 <p class="lead">비용</p>
 <ul>
-<li>쓰기 = 입력가 1.25배(5분) · 2배(1시간). 읽기 = 0.1배(최신 모델은 더 쌈). 출력은 할인 없음.</li>
+<li>쓰기 = 입력 단가 1.25배(5분) · 2배(1시간). 읽기 = 0.1배(최신 모델은 더 쌈). 출력은 할인 없음.</li>
 <li>break point 자체는 요금이 붙지 않음 — 몇 개를 꽂든 실제로 쓰고 읽은 토큰만 냄(최대 4개).</li>
 <li>수명은 쓰일 때마다 무료로 갱신. 수명은 요청 <strong>시작</strong> 시점부터 셈(응답 생성 시간 포함).</li>
 </ul>
@@ -479,7 +479,7 @@
   <section class="t5-flow tree" id="caching-tree-2" aria-labelledby="caching-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5">
     <div class="t5-fh"><h3 id="caching-tree-2-h">③ 언제 이득 <span class="pg">[4.5②]</span> <span class="pg">[1.6③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>수명?<span class="t5-sub">읽기는 입력가 0.1배</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>수명?<span class="t5-sub">읽기는 입력 단가 0.1배</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>5분</span>
@@ -510,7 +510,7 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="caching-flow" aria-label="프롬프트 캐싱 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["요청","캐시","모델"],"blocks":[{"name":"tools","var":false},{"name":"system","var":false},{"name":"messages","var":false},{"name":"바뀌는 블록","var":true}],"rules":[null,"매번 똑같이 보내는 앞부분만 저장 · 기본 수명 5분",null],"question":"두 번째 요청은 캐시에서 읽힐까?","scenes":[{"name":"① 적중","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["요청 1","앞부분 6,000토큰","+ \"주문 1042 언제 와요?\""]}},{"kind":"move","step":"요청 1","from":{"col":0},"to":1,"label":"쓰기 1.25배","art":{"kind":"slip","lines":["cache_creation: 6000","cache_read: 0"]}},{"kind":"mark","step":"요청 2","at":{"col":1},"label":"읽기 0.1배 ✓","art":{"kind":"slip","lines":["cache_creation: 0","cache_read: 6000"]}},{"kind":"move","step":"요청 2","from":{"col":1},"to":2,"label":"다시 안 읽음","art":{"kind":"slip","lines":["앞부분 6,000토큰","(캐시에서)"]}},{"kind":"move","step":"요청 2","from":{"block":"바뀌는 블록"},"to":2,"label":"바뀌는 블록만","art":{"kind":"slip","lines":["messages 끝","\"그럼 환불은요?\""]}},{"kind":"end","label":"적중 — 읽기는 입력가 0.1배"}]},{"name":"② 날짜 앞에 → 미스","verdict":"ng","blocks":[{"name":"tools","var":false},{"name":"날짜","var":true},{"name":"system","var":false},{"name":"messages","var":false},{"name":"바뀌는 블록","var":true}],"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["system 맨 앞","\"지금 시각 09:41:07\"","+ 정책 6,000토큰"]}},{"kind":"move","step":"요청 1","from":{"col":0},"to":1,"label":"쓰기 1.25배","art":{"kind":"slip","lines":["cache_creation: 6000","cache_read: 0"]}},{"kind":"mark","step":"요청 2","at":{"block":"날짜"},"label":"앞부분이 매번 달라짐 ≠","art":{"kind":"slip","lines":["\"지금 시각 09:42:07\""]}},{"kind":"move","step":"요청 2","from":{"col":0},"to":1,"label":"쓰기 1.25배 · 읽기 0 ≠","art":{"kind":"slip","lines":["cache_creation: 6000","cache_read: 0"]}},{"kind":"end","label":"미스 — 앞부분이 매번 달라져 영영 적중 안 함"}]},{"name":"③ 5분 넘김 → 만료","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["09:00 요청 1","앞부분 6,000토큰"]}},{"kind":"move","step":"요청 1","from":{"col":0},"to":1,"label":"쓰기 1.25배","art":{"kind":"slip","lines":["cache_creation: 6000","cache_read: 0"]}},{"kind":"timer","at":1,"label":"기본 수명 5분"},{"kind":"move","step":"요청 2","from":{"col":0},"to":1,"label":"쓰기 1.25배 · 읽기 0 ≠","art":{"kind":"slip","lines":["09:07 요청 2","cache_creation: 6000","cache_read: 0"]}},{"kind":"end","label":"만료 — 호출 간격이 수명(5분)보다 긺"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["요청","캐시","모델"],"blocks":[{"name":"tools","var":false},{"name":"system","var":false},{"name":"messages","var":false},{"name":"바뀌는 블록","var":true}],"rules":[null,"매번 똑같이 보내는 앞부분만 저장 · 기본 수명 5분",null],"question":"두 번째 요청은 캐시에서 읽힐까?","scenes":[{"name":"① 적중","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["요청 1","앞부분 6,000토큰","+ \"주문 1042 언제 와요?\""]}},{"kind":"move","step":"요청 1","from":{"col":0},"to":1,"label":"쓰기 1.25배","art":{"kind":"slip","lines":["cache_creation: 6000","cache_read: 0"]}},{"kind":"mark","step":"요청 2","at":{"col":1},"label":"읽기 0.1배 ✓","art":{"kind":"slip","lines":["cache_creation: 0","cache_read: 6000"]}},{"kind":"move","step":"요청 2","from":{"col":1},"to":2,"label":"다시 안 읽음","art":{"kind":"slip","lines":["앞부분 6,000토큰","(캐시에서)"]}},{"kind":"move","step":"요청 2","from":{"block":"바뀌는 블록"},"to":2,"label":"바뀌는 블록만","art":{"kind":"slip","lines":["messages 끝","\"그럼 환불은요?\""]}},{"kind":"end","label":"적중 — 읽기는 입력 단가 0.1배"}]},{"name":"② 날짜 앞에 → 미스","verdict":"ng","blocks":[{"name":"tools","var":false},{"name":"날짜","var":true},{"name":"system","var":false},{"name":"messages","var":false},{"name":"바뀌는 블록","var":true}],"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["system 맨 앞","\"지금 시각 09:41:07\"","+ 정책 6,000토큰"]}},{"kind":"move","step":"요청 1","from":{"col":0},"to":1,"label":"쓰기 1.25배","art":{"kind":"slip","lines":["cache_creation: 6000","cache_read: 0"]}},{"kind":"mark","step":"요청 2","at":{"block":"날짜"},"label":"앞부분이 매번 달라짐 ≠","art":{"kind":"slip","lines":["\"지금 시각 09:42:07\""]}},{"kind":"move","step":"요청 2","from":{"col":0},"to":1,"label":"쓰기 1.25배 · 읽기 0 ≠","art":{"kind":"slip","lines":["cache_creation: 6000","cache_read: 0"]}},{"kind":"end","label":"미스 — 앞부분이 매번 달라져 영영 적중 안 함"}]},{"name":"③ 5분 넘김 → 만료","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["09:00 요청 1","앞부분 6,000토큰"]}},{"kind":"move","step":"요청 1","from":{"col":0},"to":1,"label":"쓰기 1.25배","art":{"kind":"slip","lines":["cache_creation: 6000","cache_read: 0"]}},{"kind":"timer","at":1,"label":"기본 수명 5분"},{"kind":"move","step":"요청 2","from":{"col":0},"to":1,"label":"쓰기 1.25배 · 읽기 0 ≠","art":{"kind":"slip","lines":["09:07 요청 2","cache_creation: 6000","cache_read: 0"]}},{"kind":"end","label":"만료 — 호출 간격이 수명(5분)보다 긺"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -525,7 +525,7 @@
         <li>요청 2 : 캐시 : 읽기 0.1배 ✓ — 쪽지 : <span class="flx-alt-slip">cache_creation: 0 / cache_read: 6000</span></li>
         <li>요청 2 : 캐시 → 모델 : 다시 안 읽음 — 쪽지 : <span class="flx-alt-slip">앞부분 6,000토큰 / (캐시에서)</span></li>
         <li>요청 2 : 바뀌는 블록 → 모델 : 바뀌는 블록만 — 쪽지 : <span class="flx-alt-slip">messages 끝 / "그럼 환불은요?"</span></li>
-        <li>끝 : 적중 — 읽기는 입력가 0.1배</li>
+        <li>끝 : 적중 — 읽기는 입력 단가 0.1배</li>
       </ol>
       <p class="lead">② 날짜 앞에 → 미스 <span class="fl-v is-ng">≠</span></p>
       <ol>
@@ -591,7 +591,7 @@
         </li>
         <li id="caching-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">언제 이득 :</span> 읽기는 입력가 0.1배 <span class="pg">[4.5②]</span> <span class="pg">[1.6③]</span></p>
+            <p><span class="lead">언제 이득 :</span> 읽기는 입력 단가 0.1배 <span class="pg">[4.5②]</span> <span class="pg">[1.6③]</span></p>
             <div class="tscroll" role="region" aria-label="표" tabindex="0">
             <table class="t-narrow t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">수명</th><th scope="col" role="columnheader">쓰기</th><th scope="col" role="columnheader">이득 시점</th></tr></thead>
@@ -622,7 +622,7 @@
     <tr role="row"><td data-label="조건" role="cell">쓰기는 매번 찍히고 읽기 0</td><td data-label="답" role="cell">앞부분이 매번 달라짐 · 수명 초과 · 20블록 밖 · thinking·effort 등 설정 변경</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">호출 간격이 5분~1시간</td><td data-label="답" role="cell">1시간 캐시</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">호출이 5분보다 자주</td><td data-label="답" role="cell">5분 캐시 유지(무료 갱신)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">병렬 요청을 한꺼번에 보냄</td><td data-label="답" role="cell">첫 응답 뒤에 나머지 · 또는 <code>max_tokens: 0</code> 사전 워밍</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">병렬 요청을 한꺼번에 보냄</td><td data-label="답" role="cell">첫 응답 뒤에 나머지 · 또는 <code>max_<wbr>tokens: 0</code> 사전 워밍</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">429 가 남, 반복 앞부분이 큼</td><td data-label="답" role="cell">캐싱이 ITPM 을 줄임(한도 상향만이 답 아님)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/rate-limits" lang="en" rel="noopener">rate-limits</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">같은 앞부분 / 같은 틀에 값만 / 가끔 필요한 전문지식</td><td data-label="답" role="cell">캐싱 / 템플릿 / Skills</td><td data-label="근거" role="cell">카드 ⑤ · ■ Agent Skills progressive disclosure</td></tr>
   </tbody>
@@ -639,7 +639,7 @@
     <tr role="row"><td data-label="변수" role="cell">〃</td><td data-label="값" role="cell">Opus 4.8 · Sonnet 5 · Sonnet 4.6 · Sonnet 4.5 = 1,024</td><td data-label="답 쪽" role="cell">—</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
     <tr role="row"><td data-label="변수" role="cell">〃</td><td data-label="값" role="cell">Opus 4.7 · Mythos Preview = 2,048</td><td data-label="답 쪽" role="cell">—</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
     <tr role="row"><td data-label="변수" role="cell">〃</td><td data-label="값" role="cell">Haiku 4.5 · Opus 4.6 · Opus 4.5 = 4,096</td><td data-label="답 쪽" role="cell">짧으면 조용히 안 됨</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">읽기 배수</td><td data-label="값" role="cell">대부분 0.1배 · Opus 5.5 0.05배 · Fable 5.1·Mythos 5.1 0.025배</td><td data-label="답 쪽" role="cell">최신 모델일수록 읽기 쌈</td><td data-label="등급" role="cell"><span class="note">(시험 뒤 변경 — 2026-09-22 · 2026-09-01)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a> · <a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">읽기 배수</td><td data-label="값" role="cell">대부분 0.1배 · Opus 5.5 0.05배 · Fable 5.1·Mythos 5.1 0.025배</td><td data-label="답 쪽" role="cell">최신 모델일수록 읽기 쌈</td><td data-label="등급" role="cell"><span class="post">시험 뒤 변경</span> <span class="note">2026-09-22 · 2026-09-01</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a> · <a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">호출 간격</td><td data-label="값" role="cell">5분 이내</td><td data-label="답 쪽" role="cell">5분 캐시</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 7</td></tr>
     <tr role="row"><td data-label="변수" role="cell">호출 간격</td><td data-label="값" role="cell">5분~1시간</td><td data-label="답 쪽" role="cell">1시간 캐시(쓰기 2배)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 6</td></tr>
     <tr role="row"><td data-label="변수" role="cell">호출 간격</td><td data-label="값" role="cell">1시간 넘음</td><td data-label="답 쪽" role="cell">캐싱 이득 없음</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
@@ -647,7 +647,7 @@
     <tr role="row"><td data-label="변수" role="cell">동시성</td><td data-label="값" role="cell">첫 요청과 동시에 여러 개</td><td data-label="답 쪽" role="cell">전부 미스</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
     <tr role="row"><td data-label="변수" role="cell">바꾼 설정</td><td data-label="값" role="cell">도구 정의</td><td data-label="답 쪽" role="cell">전부 무효</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
     <tr role="row"><td data-label="변수" role="cell">〃</td><td data-label="값" role="cell">웹 검색·인용 켜고 끔 · fast 모드 전환</td><td data-label="답 쪽" role="cell">system + messages 무효</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">〃</td><td data-label="값" role="cell"><code>tool_choice</code> · 이미지 넣고 뺌</td><td data-label="답 쪽" role="cell">messages 무효</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">〃</td><td data-label="값" role="cell"><code>tool_<wbr>choice</code> · 이미지 넣고 뺌</td><td data-label="답 쪽" role="cell">messages 무효</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
     <tr role="row"><td data-label="변수" role="cell">〃</td><td data-label="값" role="cell">thinking 설정 · effort 값</td><td data-label="답 쪽" role="cell">messages 는 항상, tools·system 은 모델별</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
     <tr role="row"><td data-label="변수" role="cell">〃</td><td data-label="값" role="cell">effort 를 기본값으로 명시</td><td data-label="답 쪽" role="cell">생략과 같음, 무효 아님</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
     <tr role="row"><td data-label="변수" role="cell">턴마다 붙는 블록</td><td data-label="값" role="cell">20개 넘음</td><td data-label="답 쪽" role="cell">두 번째 break point</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
@@ -721,7 +721,7 @@
 <li><span class="lead">조건 :</span> 문서 한 벌을 두고 질문 30개를 동시에 보냄.</li>
 <li><span class="lead">판단 :</span> 캐시 항목은 첫 응답이 시작된 뒤에야 쓸 수 있음 → 동시에 보낸 30개는 모두 미스(각자 쓰기). 첫 요청 하나 → 응답 시작 뒤 나머지, 또는 <code>max_tokens: 0</code> 사전 워밍.</li>
 <li><span class="lead">계산 :</span> 전부 미스면 30 × 1.25 = 37.5 단위 · 순서를 지키면 1.25 + 29 × 0.1 = 4.15 단위(앞부분 기준).</li>
-<li><span class="lead">등급 :</span> <span class="note">(동작) · 계산(단위)</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(동작) ·</span> <span class="calc">계산</span><span class="note">(단위)</span></li>
 <li><span class="lead">근거 :</span> prompt-caching</li>
 </ul>
 <h4>5. 최신 모델이라 손익이 바뀌나? — 안 바뀜</h4>
@@ -769,7 +769,7 @@
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 2.5</a> <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>샘플 2 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">샘플 2</a> <span class="src">공식 시험 가이드 v1.0</span></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">docs prompt-caching</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/api/rate-limits" lang="en" rel="noopener">rate-limits</a></li>

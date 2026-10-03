@@ -417,7 +417,7 @@
 </ul>
 <p class="lead">eval 도 바뀌는 층</p>
 <ul>
-<li>점수가 떨어졌을 때 에이전트가 틀린 건지, grader 가 맞는 답을 떨어뜨린 건지 transcript 를 읽어 가름.</li>
+<li>점수가 떨어졌을 때 에이전트가 틀린 건지, grader 가 맞는 답을 떨어뜨린 건지 transcript 를 읽어 가려냄.</li>
 </ul>
 </section>
   <h2 class="sec-h" id="diagnose-by-change-rules-h">규칙과 판단</h2>
@@ -456,12 +456,12 @@
       <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇이 달라졌나?</div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>비용·길이가 늚</span>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>비용·길이가 늘어남</span>
           <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">토크나이저</p><p>4.7 이후 모델은 같은 글에 토큰 약 30% 더</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>추론이 얕아짐</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">effort 기본값</p><p>Opus 5.5 는 medium → effort 를 생략한 요청은 Opus 5 때보다 한 단계 낮게 돎 <span class="post">시험 뒤 변경</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">effort 기본값</p><p>Opus 5.5 는 medium → effort 를 생략한 요청은 Opus 5 때보다 한 단계 낮게 실행됨 <span class="post">시험 뒤 변경</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>400 오류</span>
@@ -521,7 +521,7 @@
       <ol class="how">
         <li id="diagnose-by-change-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p>eval 점수가 떨어졌으면 transcript 부터 : 에이전트가 진짜 틀렸는지, grader(채점기)가 맞는 답을 떨어뜨렸는지 가름 <span class="pg">[4.4①]</span> <span class="pg">[4.3②]</span> → <a href="llm-judge.html">■ LLM-as-judge 설계</a></p>
+            <p>eval 점수가 떨어졌으면 transcript 부터 : 에이전트가 진짜 틀렸는지, grader(채점기)가 맞는 답을 떨어뜨렸는지 가려냄 <span class="pg">[4.4①]</span> <span class="pg">[4.3②]</span> → <a href="llm-judge.html">■ LLM-as-judge 설계</a></p>
           </div>
         </li>
       </ol>
@@ -549,7 +549,7 @@
           <div class="how-body">
             <p>모델을 바꿨으면 달라진 것부터 <span class="pg">[4.4①]</span> <span class="pg">[4.3③]</span></p>
             <p><span class="lead">토크나이저 :</span> 4.7 이후 모델은 같은 글에 토큰 약 30% 더(정확한 증가는 내용 따라) → 비용·길이 기준선을 다시 측정 → <a href="usage-cost-tracing.html">■ 비용 급증 추적</a></p>
-            <p><span class="lead">effort 기본값 :</span> 대부분 high, Opus 5.5 는 medium → effort 를 생략한 요청은 Opus 5 때보다 한 단계 낮게 돎. 이전 모델 설정을 들고 오지 말고 effort 를 다시 훑어봄(sweep) <span class="src">(2026-09-22 — 시험 뒤 변경)</span></p>
+            <p><span class="lead">effort 기본값 :</span> 대부분 high, Opus 5.5 는 medium → effort 를 생략한 요청은 Opus 5 때보다 한 단계 낮게 실행됨. 이전 모델 설정을 들고 오지 말고 effort 를 다시 훑어봄(sweep) <span class="src">(2026-09-22 — 시험 뒤 변경)</span></p>
             <p><span class="lead">400 으로 막힘 :</span> 4.6 이후(4.6 포함) 모델은 마지막 assistant 턴 prefill 이 400 · Opus 4.6 뒤에 나온(4.6 제외) 모델은 temperature 1.0 외 값이 400 → 기존 형식·샘플링 대책이 깨짐</p>
           </div>
         </li>
@@ -576,10 +576,10 @@
     <tr role="row"><td data-label="조건" role="cell">같은 모델 ID 인데 "가중치가 바뀌었다"</td><td data-label="답" role="cell">아님. 새 버전은 새 ID</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids-and-versions</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">내 쪽 변경 없음 + 같은 ID + 사소한 동작 차이</td><td data-label="답" role="cell">서빙 인프라 업데이트가 가장 유력</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids-and-versions</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">4.6 이전 별칭을 씀 + 동작이 바뀜</td><td data-label="답" role="cell">별칭이 새 스냅숏으로 옮겨갔을 수 있음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids-and-versions</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">모델 교체 뒤 같은 글인데 토큰·비용이 늚</td><td data-label="답" role="cell">새 토크나이저 (4.7 이후 약 30% 더)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Opus 5 → Opus 5.5 뒤 추론(reasoning)이 얕아짐, effort 안 적음</td><td data-label="답" role="cell">effort 기본값이 medium 으로 내려감 → effort 다시 훑어봄</td><td data-label="등급" role="cell"><span class="note">(시험 뒤 변경)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> · <a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a>(2026-09-22)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">모델 교체 뒤 같은 글인데 토큰·비용이 늘어남</td><td data-label="답" role="cell">새 토크나이저 (4.7 이후 약 30% 더)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Opus 5 → Opus 5.5 뒤 추론(reasoning)이 얕아짐, effort 안 적음</td><td data-label="답" role="cell">effort 기본값이 medium 으로 내려감 → effort 다시 훑어봄</td><td data-label="등급" role="cell"><span class="post">시험 뒤 변경</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> · <a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a>(2026-09-22)</td></tr>
     <tr role="row"><td data-label="조건" role="cell">모델 교체 뒤 400</td><td data-label="답" role="cell">prefill(4.6 이후, 4.6 포함) · temperature 1.0 외 값(Opus 4.6 뒤에 나온 모델, 4.6 제외)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a> · <a class="src-link" href="https://platform.claude.com/docs/en/api/messages/create" lang="en" rel="noopener">messages-create</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">eval 점수 하락</td><td data-label="답" role="cell">transcript 로 에이전트 실수 vs grader 오판을 가름</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">eval 점수 하락</td><td data-label="답" role="cell">transcript 로 에이전트 실수 vs grader 오판을 가려냄</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -644,13 +644,13 @@
 <ul>
 <li><span class="lead">조건 :</span> 코드엔 <code>claude-sonnet-4-5</code> 처럼 날짜 없는 이름이 박혀 있음. 코드 변경 없음.</li>
 <li><span class="lead">판단 :</span> 4.6 이전 모델의 날짜 없는 이름은 별칭이라 최신 날짜 스냅숏을 가리킴. 고정 보장은 모델 ID 에만 있고 별칭엔 없음 → 이 경우 "같은 ID"라는 전제가 깨짐.</li>
-<li><span class="lead">등급 :</span> <span class="note">(별칭 성질) · 날짜 붙은 ID 로 고정하라는 처방은 업계 일반.</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(별칭 성질) · 날짜 붙은 ID 로 고정하라는 처방은</span> <span class="gen">업계 일반</span><span class="note">.</span></li>
 <li><span class="lead">근거 :</span> model-ids-and-versions</li>
 </ul>
 <h4>2. 문서 갱신 + 같은 주에 모델도 교체</h4>
 <ul>
 <li><span class="lead">조건 :</span> 두 변경이 겹침. 자신 있게 틀리는 답 + 토큰 수도 늘어남.</li>
-<li><span class="lead">판단 :</span> 샘플 3 의 "모델 그대로" 단서가 없어져 검색만 단정 못 함. 변경을 하나씩 되돌려(또는 eval 로 따로 돌려) 가름.</li>
+<li><span class="lead">판단 :</span> 샘플 3 의 "모델 그대로" 단서가 없어져 검색만 단정 못 함. 변경을 하나씩 되돌려(또는 eval 로 따로 돌려) 가려냄.</li>
 <li><span class="lead">계산 예 :</span> 요청당 입력 6,500 토큰(옛 토크나이저)이 4.7 이후 모델에선 약 8,450 토큰 (6,500 × 1.3). 토큰 증가는 토크나이저로 설명되지만, 틀린 답은 설명 못 함 → 틀린 답은 여전히 검색 쪽 후보.</li>
 <li><span class="lead">전제 :</span> 30% 는 평균값, 실제 증가는 내용 따라 다름.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (30% 는 확인) · 되돌려 가르기는 업계 일반</li>
@@ -659,8 +659,8 @@
 <h4>3. 모델을 바꿨는데 원인이 모델이 아닌 때 — effort 기본값</h4>
 <ul>
 <li><span class="lead">조건 :</span> Opus 5 → Opus 5.5 로 옮긴 뒤 어려운 문제에서 추론이 얕아짐. 요청에 effort 를 안 적음.</li>
-<li><span class="lead">판단 :</span> Opus 5.5 기본값은 medium 이라 같은 요청이 한 단계 낮게 돎. "새 모델이 약하다" 전에 effort 를 올려 봄.</li>
-<li><span class="lead">등급 :</span> <span class="note">· 시험 뒤 변경 (2026-09-22 출시)</span></li>
+<li><span class="lead">판단 :</span> Opus 5.5 기본값은 medium 이라 같은 요청이 한 단계 낮게 실행됨. "새 모델이 약하다" 전에 effort 를 올려 봄.</li>
+<li><span class="lead">등급 :</span> <span class="post">시험 뒤 변경</span> (2026-09-22 출시)</li>
 <li><span class="lead">근거 :</span> effort · 릴리스 노트</li>
 </ul>
 <h4>4. 아무것도 안 바꿨는데 크게 달라진 때</h4>
@@ -694,7 +694,7 @@
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 4.4</a> <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>샘플 3 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">샘플 3</a> <span class="src">공식 시험 가이드 v1.0</span></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">docs model-ids-and-versions</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></li>

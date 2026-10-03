@@ -457,7 +457,7 @@
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>스트리밍·fast mode 가 필요</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">배치에서 안 됨</p><p><code>stream: true</code> · fast mode(<code>speed</code>) · <code>max_tokens: 0</code>(캐시 데우기)</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">배치에서 안 됨</p><p><code>stream: true</code> · fast mode(<code>speed</code>) · <code>max_tokens: 0</code>(캐시 워밍)</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>캐시 할인까지 셈에 넣음</span>
@@ -526,7 +526,7 @@
         <li>결과는 생성 후 29일 보관 · 결과 순서 보장 없음 → <code>custom_id</code> 로 짝 맞춤</li>
         <li><span class="lead">요청마다 독립 처리 :</span> 하나 실패해도 나머지 영향 없음 · 종류 섞어도 됨(비전·도구·멀티턴·thinking)</li>
         <li>캐싱 할인과 같이 받음(둘 다 적용). 단 배치 안 캐시 적중은 보장 없음(되는 만큼 · 보통 30~98%) → 모든 요청에 같은 <code>cache_control</code> 블록</li>
-        <li><span class="lead">배치에서 안 되는 것 :</span> <code>stream: true</code> · fast mode(<code>speed</code>) · <code>max_tokens: 0</code>(캐시 데우기)</li>
+        <li><span class="lead">배치에서 안 되는 것 :</span> <code>stream: true</code> · fast mode(<code>speed</code>) · <code>max_tokens: 0</code>(캐시 워밍)</li>
         <li><span class="lead">rate limit :</span> 배치 API 도 따로 — 요청 RPM + 처리 대기열에 올릴 수 있는 요청 수 <span class="note">(■ rate limit)</span></li>
         <li><span class="lead">데이터 :</span> 입력·출력을 최대 29일 서버에 저장(삭제 API 있음) → 보존 규정 판단은 5.4</li>
         <li>Managed Agents 세션엔 배치 모드 없음 (상태 유지·대화형)</li>
@@ -545,9 +545,9 @@
     <tr role="row"><td data-label="조건" role="cell">분 단위 마감(예 15분 안에 상담원 큐로)</td><td data-label="답" role="cell">동기 호출</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a> (대부분 1시간 · 최대 24시간 · 만료) — 분 단위 약속 문장 없음</td></tr>
     <tr role="row"><td data-label="조건" role="cell">급하지 않은 대량 + 비용 절감이 목표</td><td data-label="답" role="cell">Batch (스트리밍·effort 가 아님)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a> "Use the Batch API for non-time-sensitive tasks"</td></tr>
     <tr role="row"><td data-label="조건" role="cell">비용 줄이는 순서를 물음</td><td data-label="답" role="cell">맞는 모델 → 캐싱 → 배치 → 사용 패턴 감시</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">배치 안에서 공통 앞부분이 큼</td><td data-label="답" role="cell">모든 요청에 같은 <code>cache_control</code> · 꾸준한 요청 흐름</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">배치 안에서 공통 앞부분이 큼</td><td data-label="답" role="cell">모든 요청에 같은 <code>cache_<wbr>control</code> · 꾸준한 요청 흐름</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">요청 10만 개 또는 256MB 초과</td><td data-label="답" role="cell">여러 배치로 나눔</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">결과를 요청과 짝지어야 함</td><td data-label="답" role="cell"><code>custom_id</code> (순서 보장 없음)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">결과를 요청과 짝지어야 함</td><td data-label="답" role="cell"><code>custom_<wbr>id</code> (순서 보장 없음)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">스트리밍 · fast mode 가 필요</td><td data-label="답" role="cell">배치 불가 → 동기</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">Managed Agents 세션</td><td data-label="답" role="cell">배치 할인 없음</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a></td></tr>
   </tbody>
@@ -587,7 +587,7 @@
         <li><span class="neq" aria-hidden="true">≠</span><span>"분 단위 지연(latency)은 괜찮은 대량 작업이니 배치로 50%" → 분 단위 약속이 없음. 15분 마감이면 동기</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"배치는 몇 분이면 끝난다" → 대부분 1시간, 최대 24시간</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>비용 줄이려 스트리밍 · effort 올리기 → 스트리밍은 체감용이라 토큰 비용과 무관<span class="gen">업계 일반</span> · effort 를 올리면 토큰이 늘어 비용 증가</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"배치로 보내면 지연도 준다" → 반대. 배치는 비용·처리량을 얻고 완료 시각을 내주는 거래</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"배치로 보내면 지연도 준다" → 반대. 배치는 비용·처리량을 얻고 완료 시각을 양보하는 trade-off(절충)</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>배치에서 캐시 적중을 100% 로 잡고 비용 계산 → 적중은 보장 없음(되는 만큼)</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>긴 출력(300k, 베타) 한 건은 1시간 넘게 걸릴 수 있음 → 24시간 창 안에서 계획</span></li>
       </ul>
@@ -662,7 +662,7 @@
     <tr role="row"><td data-label="오답" role="cell">"effort 를 올려 한 번에 맞게 → 비용 절감"</td><td data-label="왜 끌리나" role="cell">재시도가 줄 것 같음</td><td data-label="왜 틀리나" role="cell">effort 를 올리면 토큰이 늘어 비용 증가</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"배치로 보내면 지연도 줄어든다"</td><td data-label="왜 끌리나" role="cell">처리량이 늘어난다니까</td><td data-label="왜 틀리나" role="cell">처리량 ≠ 한 건의 완료 시각. 완료 시각 약속 없음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"50만 건을 한 배치로"</td><td data-label="왜 끌리나" role="cell">한 번에 넣으면 편함</td><td data-label="왜 틀리나" role="cell">한 배치 최대 10만 건 또는 256MB</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"배치 결과는 제출 순서대로 온다"</td><td data-label="왜 끌리나" role="cell">목록이니까</td><td data-label="왜 틀리나" role="cell">순서 보장 없음 → <code>custom_id</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"배치 결과는 제출 순서대로 온다"</td><td data-label="왜 끌리나" role="cell">목록이니까</td><td data-label="왜 틀리나" role="cell">순서 보장 없음 → <code>custom_<wbr>id</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"배치 캐시는 항상 적중하니 캐시 가격으로 계산"</td><td data-label="왜 끌리나" role="cell">같은 앞부분이니까</td><td data-label="왜 틀리나" role="cell">비동기·동시 처리라 적중은 보장 없음(되는 만큼 · 30~98%)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"Managed Agents 세션도 배치로 돌려 반값"</td><td data-label="왜 끌리나" role="cell">같은 모델 요금이니까</td><td data-label="왜 틀리나" role="cell">세션엔 배치 모드 없음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a></td></tr>
   </tbody>
@@ -673,7 +673,7 @@
   <h2 class="sec-h" id="batch-vs-sync-ref-h">참고</h2>
   <div class="t5-rest">
     <h3>CCA-F</h3>
-      <p>봄 (Message Batches 구현 동작 — 50% · 24시간 · custom_id) — 여기선 마감 시각(SLA) · 비용 압박 · 데이터 보존을 한 지문에 섞어 "배치를 써도 되나"를 설계 판단으로 물음</p>
+      <p>겹침 (Message Batches 구현 동작 — 50% · 24시간 · custom_id) — 여기선 마감 시각(SLA) · 비용 압박 · 데이터 보존을 한 지문에 섞어 "배치를 써도 되나"를 설계 판단으로 물음</p>
     <h3>개념</h3>
       <ul class="plain">
         <li><a href="latency-levers.html">■ 지연 줄이기 lever</a></li>

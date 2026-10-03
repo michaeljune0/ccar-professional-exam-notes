@@ -402,12 +402,12 @@
 <p class="lead">변경 = 시스템 변경</p>
 <ul>
 <li>프롬프트 한 줄 · 도구 정의 · 하네스 · effort · 모델 버전 — 어느 것을 바꿔도 에이전트 동작이 바뀜.</li>
-<li>그래서 바꿀 때마다 같은 과제 은행(static bank of tasks)으로 다시 돌려 기준선과 비교. 통과한 것만 배포. 이게 품질 문제의 첫 방어선(CI/CD).</li>
-<li>eval 이 없으면 사후 대응 : 불만을 기다리고 → 손으로 재현하고 → 고치고 → 다른 데가 안 깨졌길 바람. 진짜 regression(회귀)과 잡음을 못 가름.</li>
+<li>그래서 바꿀 때마다 같은 과제 세트(static bank of tasks)으로 다시 돌려 기준선과 비교. 통과한 것만 배포. 이게 품질 문제의 첫 방어선(CI/CD).</li>
+<li>eval 이 없으면 사후 대응 : 불만을 기다리고 → 손으로 재현하고 → 고치고 → 다른 데가 안 깨졌길 바람. 진짜 regression(회귀)과 잡음을 구분 못 함.</li>
 </ul>
 <p class="lead">루프 (공식 흐름도 · Skilljar)</p>
 <ul>
-<li>과제 셋 → 첫 프롬프트 → 돌리고 채점 → 기준선 점수 → 프롬프트를 바꿔 같은 셋으로 다시 → 점수로 비교, 제일 나은 판을 씀.</li>
+<li>과제 셋 → 첫 프롬프트 → 돌리고 채점 → 기준선 점수 → 프롬프트를 바꿔 같은 셋으로 다시 → 점수로 비교, 제일 나은 버전을 씀.</li>
 <li>한 번 · 몇 번 해 보고 "됐다"는 흔한 함정 — 실사용자는 예상 못 한 입력을 넣음.</li>
 </ul>
 <p class="lead">eval 먼저 (eval-driven development)</p>
@@ -449,7 +449,7 @@
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>모델 버전</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">품질 + 비용·지연 기준선</p><p>새 토크나이저 : Claude 4.7 이후 모델은 같은 글에 토큰 약 30% 더 → 단가가 같아도 같은 글의 per-request cost(요청당 비용)가 오를 수 있음 · Opus 4.6 → 4.7 = 약 30% 오름 · Sonnet 4.6 → Sonnet 5 = 그래도 약 13% 쌈 <span class="note">(계산)</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">품질 + 비용·지연 기준선</p><p>새 토크나이저 : Claude 4.7 이후 모델은 같은 글에 토큰 약 30% 더 → 단가가 같아도 같은 글의 per-request cost(요청당 비용)가 오를 수 있음 · Opus 4.6 → 4.7 = 약 30% 오름 · Sonnet 4.6 → Sonnet 5 = 그래도 약 13% 쌈 <span class="calc">계산</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>아직 없는 기능</span>
@@ -480,17 +480,17 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="eval-driven-iteration-flow" aria-label="변경마다 eval 다시 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["변경","eval","배포"],"blocks":[],"rules":[null,"같은 과제 은행으로 다시 · 기준선과 비교",null],"question":"이 변경, 바로 내보내도 될까?","scenes":[{"name":"① 통과한 것만 배포","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["PR #212","프롬프트 한 줄 추가","\"환불 전 주문번호 확인\""]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"같은 과제 은행으로","art":{"kind":"slip","lines":["과제 40개 × 새 프롬프트"]}},{"kind":"mark","step":"비교","at":{"col":1},"label":"기준선과 비교","art":{"kind":"slip","lines":["점수 82% → 88%","과제당 비용 그대로","regression 없음"]}},{"kind":"move","step":"넘김","from":{"col":1},"to":2,"label":"통과한 것만 배포","art":{"kind":"slip","lines":["CI : passed","배포 v1.13"]}},{"kind":"end","label":"변경마다 = 품질 문제의 첫 방어선"}]},{"name":"② 데모만 보고 배포","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["핫픽스 : 프롬프트 한 줄"]}},{"kind":"skip","at":1},{"kind":"move","step":"넘김","from":{"col":0},"to":2,"label":"몇 번 해 보고 됐다고 봄","art":{"kind":"slip","lines":["\"데모에서 3번 잘 됨\"","→ 바로 배포"]}},{"kind":"mark","step":"나중","at":{"col":2},"label":"불만이 와서야 알게 됨","art":{"kind":"say","text":"교환 신청했는데 왜 환불됐죠?"}},{"kind":"end","label":"eval 없이 내보내면 불만을 기다리는 사후 대응"}]},{"name":"③ 모델 업그레이드","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["모델 : Opus 4.6 → 4.7","단가 $5/$25 그대로"]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"모델 버전도 변경","art":{"kind":"slip","lines":["같은 과제 40개","새 모델로"]}},{"kind":"mark","step":"비교","at":{"col":1},"label":"새 토크나이저","art":{"kind":"slip","lines":["입력 6,500 → 약 8,450 토큰","per-request cost","약 +30%"]}},{"kind":"move","step":"넘김","from":{"col":1},"to":2,"label":"품질 + 비용·지연 기준선","art":{"kind":"slip","lines":["새 기준선 : 품질 · 지연","토큰 · 과제당 비용"]}},{"kind":"end","label":"단가가 같아도 같은 글의 토큰이 약 30% 늘어 per-request cost 가 오를 수 있음"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["변경","eval","배포"],"blocks":[],"rules":[null,"같은 과제 세트으로 다시 · 기준선과 비교",null],"question":"이 변경, 바로 내보내도 될까?","scenes":[{"name":"① 통과한 것만 배포","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["PR #212","프롬프트 한 줄 추가","\"환불 전 주문번호 확인\""]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"같은 과제 세트으로","art":{"kind":"slip","lines":["과제 40개 × 새 프롬프트"]}},{"kind":"mark","step":"비교","at":{"col":1},"label":"기준선과 비교","art":{"kind":"slip","lines":["점수 82% → 88%","과제당 비용 그대로","regression 없음"]}},{"kind":"move","step":"넘김","from":{"col":1},"to":2,"label":"통과한 것만 배포","art":{"kind":"slip","lines":["CI : passed","배포 v1.13"]}},{"kind":"end","label":"변경마다 = 품질 문제의 첫 방어선"}]},{"name":"② 데모만 보고 배포","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["핫픽스 : 프롬프트 한 줄"]}},{"kind":"skip","at":1},{"kind":"move","step":"넘김","from":{"col":0},"to":2,"label":"몇 번 해 보고 됐다고 봄","art":{"kind":"slip","lines":["\"데모에서 3번 잘 됨\"","→ 바로 배포"]}},{"kind":"mark","step":"나중","at":{"col":2},"label":"불만이 와서야 알게 됨","art":{"kind":"say","text":"교환 신청했는데 왜 환불됐죠?"}},{"kind":"end","label":"eval 없이 내보내면 불만을 기다리는 사후 대응"}]},{"name":"③ 모델 업그레이드","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["모델 : Opus 4.6 → 4.7","단가 $5/$25 그대로"]}},{"kind":"move","step":"돌림","from":{"col":0},"to":1,"label":"모델 버전도 변경","art":{"kind":"slip","lines":["같은 과제 40개","새 모델로"]}},{"kind":"mark","step":"비교","at":{"col":1},"label":"새 토크나이저","art":{"kind":"slip","lines":["입력 6,500 → 약 8,450 토큰","per-request cost","약 +30%"]}},{"kind":"move","step":"넘김","from":{"col":1},"to":2,"label":"품질 + 비용·지연 기준선","art":{"kind":"slip","lines":["새 기준선 : 품질 · 지연","토큰 · 과제당 비용"]}},{"kind":"end","label":"단가가 같아도 같은 글의 토큰이 약 30% 늘어 per-request cost 가 오를 수 있음"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> 변경 → eval → 배포</p>
-      <p><span class="lead">규칙 (eval) :</span> 같은 과제 은행으로 다시 · 기준선과 비교</p>
+      <p><span class="lead">규칙 (eval) :</span> 같은 과제 세트으로 다시 · 기준선과 비교</p>
       <p><span class="lead">질문 :</span> 이 변경, 바로 내보내도 될까?</p>
       <p class="lead">① 통과한 것만 배포 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 변경 — 쪽지 : <span class="flx-alt-slip">PR #212 / 프롬프트 한 줄 추가 / "환불 전 주문번호 확인"</span></li>
-        <li>돌림 : 변경 → eval : 같은 과제 은행으로 — 쪽지 : <span class="flx-alt-slip">과제 40개 × 새 프롬프트</span></li>
+        <li>돌림 : 변경 → eval : 같은 과제 세트으로 — 쪽지 : <span class="flx-alt-slip">과제 40개 × 새 프롬프트</span></li>
         <li>비교 : eval : 기준선과 비교 — 쪽지 : <span class="flx-alt-slip">점수 82% → 88% / 과제당 비용 그대로 / regression 없음</span></li>
         <li>넘김 : eval → 배포 : 통과한 것만 배포 — 쪽지 : <span class="flx-alt-slip">CI : passed / 배포 v1.13</span></li>
         <li>끝 : 변경마다 = 품질 문제의 첫 방어선</li>
@@ -519,7 +519,7 @@
       <ol class="how">
         <li id="eval-driven-iteration-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p><span class="lead">루프 :</span> 과제 셋 → 첫 프롬프트 → 돌리고 채점 → 기준선 점수 → 바꾸고 같은 셋으로 다시 → 점수로 비교해 제일 나은 판을 씀 <span class="pg">[4.3③]</span></p>
+            <p><span class="lead">루프 :</span> 과제 셋 → 첫 프롬프트 → 돌리고 채점 → 기준선 점수 → 바꾸고 같은 셋으로 다시 → 점수로 비교해 제일 나은 버전을 씀 <span class="pg">[4.3③]</span></p>
             <p>한 번·몇 번 테스트는 흔한 함정 → eval 파이프라인으로 점수를 내고 그 점수로 고침 <span class="src">(Skilljar)</span></p>
           </div>
         </li>
@@ -543,8 +543,8 @@
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">바꿈</th><th scope="col" role="columnheader">단가(입력/출력, 백만 토큰당)</th><th scope="col" role="columnheader">같은 글의 per-request cost</th></tr></thead>
               <tbody role="rowgroup">
-                <tr role="row"><td data-label="바꿈" role="cell">Opus 4.6 → 4.7</td><td data-label="단가(입력/출력, 백만 토큰당)" role="cell">$5/$25 → $5/$25 <span class="note">(같음)</span></td><td data-label="같은 글의 per-request cost" role="cell">같은 글이면 per-request cost 약 30% 오름 <span class="note">(계산)</span></td></tr>
-                <tr role="row"><td data-label="바꿈" role="cell">Sonnet 4.6 → Sonnet 5</td><td data-label="단가(입력/출력, 백만 토큰당)" role="cell">$3/$15 → $2/$10</td><td data-label="같은 글의 per-request cost" role="cell">입력 1.3 × $2 = $2.6 &lt; $3 → 그래도 약 13% 쌈 <span class="note">(계산)</span></td></tr>
+                <tr role="row"><td data-label="바꿈" role="cell">Opus 4.6 → 4.7</td><td data-label="단가(입력/출력, 백만 토큰당)" role="cell">$5/$25 → $5/$25 <span class="note">(같음)</span></td><td data-label="같은 글의 per-request cost" role="cell">같은 글이면 per-request cost 약 30% 오름 <span class="calc">계산</span></td></tr>
+                <tr role="row"><td data-label="바꿈" role="cell">Sonnet 4.6 → Sonnet 5</td><td data-label="단가(입력/출력, 백만 토큰당)" role="cell">$3/$15 → $2/$10</td><td data-label="같은 글의 per-request cost" role="cell">입력 1.3 × $2 = $2.6 &lt; $3 → 그래도 약 13% 쌈 <span class="calc">계산</span></td></tr>
               </tbody>
             </table>
             </div>
@@ -577,7 +577,7 @@
     <tr role="row"><td data-label="조건" role="cell">Claude 4.7 이후 모델로 바꿈</td><td data-label="답" role="cell">같은 글에 토큰 약 30% 더 → 비용 다시 계산</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a> "This tokenizer produces approximately 30% more tokens for the same text."</td></tr>
     <tr role="row"><td data-label="조건" role="cell">모델을 바꿔 캐시 적중이 0</td><td data-label="답" role="cell">최소 캐시 길이부터 (■ 프롬프트 캐싱)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">업그레이드할지 정함</td><td data-label="답" role="cell">사용 사례 벤치마크 → 실제 데이터 → 비교 → 성능·비용 저울질</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">effort 를 정함</td><td data-label="답" role="cell">기본값에서 시작해 eval 보고 조정 · 이전 모델 설정을 그대로 가져오지 않음</td><td data-label="등급" role="cell"><span class="note">· 시험 뒤 변경(Opus 5.5)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">effort 를 정함</td><td data-label="답" role="cell">기본값에서 시작해 eval 보고 조정 · 이전 모델 설정을 그대로 가져오지 않음</td><td data-label="등급" role="cell"><span class="post">시험 뒤 변경</span>(Opus 5.5)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">eval 도구를 고름</td><td data-label="답" role="cell">빨리 하나 고르고 과제·grader 에 힘을</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
   </tbody>
 </table>
@@ -648,7 +648,7 @@
 <li><span class="lead">조건 :</span> Sonnet 4.6 → Sonnet 5. 요청 = 입력 6,000 · 출력 800 토큰(옛 토크나이저 기준).</li>
 <li><span class="lead">계산 :</span> Sonnet 4.6 = 6,000 × $3 + 800 × $15 (백만 토큰당) = $0.018 + $0.012 = $0.030. Sonnet 5 = 같은 글이 7,800 · 1,040 토큰 → $0.0156 + $0.0104 = $0.026 (약 13% 쌈). 그런데 Sonnet 5 는 adaptive thinking 이 기본 켜짐 → thinking 이 출력 1,500 토큰을 더 쓰면 +$0.015 → $0.041 (약 37% 비쌈).</li>
 <li><span class="lead">전제 :</span> 캐싱 없음 · thinking 토큰이 출력 단가로 과금된다고 봄(추론 — 받아 둔 파일에서 과금 문장은 못 찾음, 미해결 4) · 1,500 은 가정값 · 가격 = 2026-09-28 조회값.</li>
-<li><span class="lead">판단 :</span> 단가표만 보고 "싸다"고 하지 않음. 같은 과제 은행으로 토큰·비용 기준선을 다시 잰 뒤 effort 로 조정.</li>
+<li><span class="lead">판단 :</span> 단가표만 보고 "싸다"고 하지 않음. 같은 과제 세트으로 토큰·비용 기준선을 다시 잰 뒤 effort 로 조정.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (단가 · 30% · adaptive thinking 기본 켜짐은 확인)</li>
 <li><span class="lead">근거 :</span> pricing · 릴리스 노트 "adaptive thinking is now on by default" · effort(max_tokens = 사고 + 응답 합)</li>
 </ul>
@@ -666,13 +666,12 @@
 <li><span class="lead">조건 :</span> 사내 시연용 첫 주, 수동 테스트·도그푸딩으로 빠르게 고치는 중.</li>
 <li><span class="lead">판단 :</span> 공식도 초기엔 수동 테스트·직관으로도 한동안은 된다고 인정. 하지만 운영·규모로 가면 eval 없이는 무너지고, 늦을수록 eval 만들기가 어려움 → 실제 실패에서 뽑은 20~50개로 일찍 시작(■ 첫 eval 셋 만들기).</li>
 
-<li><span class="lead">근거 :</span></li>
 </ul>
 <h4>4. 새 모델이 기본값을 바꾼 때 (시험 뒤 변경)</h4>
 <ul>
 <li><span class="lead">조건 :</span> Opus 5 → Opus 5.5. effort 를 안 적은 요청.</li>
-<li><span class="lead">판단 :</span> Opus 5.5 는 기본 effort 가 <code>medium</code>(Opus 5 = <code>high</code>) → 같은 요청이 한 단계 낮게 돎. thinking 을 끌 수 없음. 이전 모델 설정을 그대로 쓰지 말고 자체 eval 에서 effort 스윕.</li>
-<li><span class="lead">등급 :</span> <span class="note">· 시험 뒤 변경 (2026-09-22 출시 — 시험은 이 모델을 모를 수 있음)</span></li>
+<li><span class="lead">판단 :</span> Opus 5.5 는 기본 effort 가 <code>medium</code>(Opus 5 = <code>high</code>) → 같은 요청이 한 단계 낮게 실행됨. thinking 을 끌 수 없음. 이전 모델 설정을 그대로 쓰지 말고 자체 eval 에서 effort 스윕.</li>
+<li><span class="lead">등급 :</span> <span class="post">시험 뒤 변경</span> (2026-09-22 출시 — 시험은 이 모델을 모를 수 있음)</li>
 <li><span class="lead">근거 :</span> effort · 릴리스 노트</li>
 </ul>
 </section>
@@ -684,12 +683,12 @@
   <tbody role="rowgroup">
     <tr role="row"><td data-label="오답" role="cell">"데모에서 잘 됐으니 바로 배포"</td><td data-label="왜 끌리나" role="cell">눈으로 확인함</td><td data-label="왜 틀리나" role="cell">한 번·몇 번 테스트는 흔한 함정 → eval 파이프라인으로 점수</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Skilljar 287731</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"프롬프트 한 줄 핫픽스는 eval 건너뜀"</td><td data-label="왜 끌리나" role="cell">작은 변경 같음</td><td data-label="왜 틀리나" role="cell">변경마다 자동 eval = 첫 방어선</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"단가가 같은 새 모델이니 비용 그대로"</td><td data-label="왜 끌리나" role="cell">가격표가 같음</td><td data-label="왜 틀리나" role="cell">같은 글에 토큰 약 30% 더</td><td data-label="등급" role="cell"><span class="note">· 계산</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a> · <a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"모델을 바꾸면 캐시가 무효라서 비용이 올랐다"</td><td data-label="왜 끌리나" role="cell">그럴듯한 원인</td><td data-label="왜 틀리나" role="cell">받아 둔 문서에 이 문장 없음. 공식 근거는 새 토크나이저 · 모델별 최소 캐시 길이</td><td data-label="등급" role="cell"><span class="note">(공식 근거 쪽) · 미해결(문장 부재)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a> · 미해결 1</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"단가가 같은 새 모델이니 비용 그대로"</td><td data-label="왜 끌리나" role="cell">가격표가 같음</td><td data-label="왜 틀리나" role="cell">같은 글에 토큰 약 30% 더</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a> · <a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모델을 바꾸면 캐시가 무효라서 비용이 올랐다"</td><td data-label="왜 끌리나" role="cell">그럴듯한 원인</td><td data-label="왜 틀리나" role="cell">받아 둔 문서에 이 문장 없음. 공식 근거는 새 토크나이저 · 모델별 최소 캐시 길이</td><td data-label="등급" role="cell"><span class="note">(공식 근거 쪽) ·</span> <span class="open">미해결</span><span class="note">(문장 부재)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a> · 미해결 1</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"Promptfoo 같은 특정 도구로 표준화"</td><td data-label="왜 끌리나" role="cell">이름이 구체적</td><td data-label="왜 틀리나" role="cell">공식 글 예시에 없음 · 도구보다 과제</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"eval 은 기능이 완성된 뒤에"</td><td data-label="왜 끌리나" role="cell">측정할 게 먼저 있어야 할 것 같음</td><td data-label="왜 틀리나" role="cell">권장은 eval 먼저(eval-driven development)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"새 모델 나오면 몇 주 수동 테스트"</td><td data-label="왜 끌리나" role="cell">신중해 보임</td><td data-label="왜 틀리나" role="cell">eval 이 있으면 며칠</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"품질 eval 만 다시 돌리면 모델 교체 끝"</td><td data-label="왜 끌리나" role="cell">품질이 제일 중요</td><td data-label="왜 틀리나" role="cell">비용·지연 기준선도 다시(토크나이저·캐시 최소 길이·effort 기본값)</td><td data-label="등급" role="cell"><span class="note">· 계산</span></td><td data-label="근거" role="cell"> 뒤집히는 때 1·2</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"품질 eval 만 다시 돌리면 모델 교체 끝"</td><td data-label="왜 끌리나" role="cell">품질이 제일 중요</td><td data-label="왜 틀리나" role="cell">비용·지연 기준선도 다시(토크나이저·캐시 최소 길이·effort 기본값)</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell"> 뒤집히는 때 1·2</td></tr>
   </tbody>
 </table>
 </div>

@@ -438,8 +438,10 @@ table { border-collapse: collapse; width: 100%; font-size: 18px; line-height: 28
    줄였고, break-word 는 min-content 에 안 넣는다 (문서 : MDN overflow-wrap · MDN word-break keep-all) */
 th, td { text-align: left; vertical-align: top; padding: 6px 12px 6px 0; border-bottom: 1px solid var(--rule);
   word-break: keep-all; overflow-wrap: break-word; }
-/* 설명 쪽 표 '등급' 칸 : 예외 표지 + 덧붙임 괄호가 든 칸이라 자동 배치가 가장 좁게 잡아 괄호가 4줄 넘게 꺾였다 → 최소 폭 */
-td[data-label="등급"] { min-width: 8.5em; }
+/* 설명 쪽 표 '등급' 칸 : 예외 표지 + 덧붙임 괄호가 든 칸이라 자동 배치가 가장 좁게 잡아 괄호가 4줄 넘게 꺾였다 → 최소 폭.
+   8.5em(153px)은 등급 칸 1,441개 중 글 든 칸 31% 를 위해 모든 행 폭을 먹었다 (2026-10-03 측정) → 5em. 표지(.calc · .gen ·
+   .post · .open)는 inline-block + nowrap 이라 칸이 그보다 좁아지지 않아 한 줄 그대로 */
+td[data-label="등급"] { min-width: 5em; }
 thead th { color: var(--muted); font-family: var(--sans); font-size: 15px; font-weight: 600; border-bottom: 1px solid var(--ink); }
 .t-narrow td:nth-child(1), .t-narrow td:nth-child(2) { white-space: nowrap; }
 
@@ -536,6 +538,29 @@ dl.meta { row-gap: 2px; font-family: var(--sans); font-size: 15px; line-height: 
   }
   /* 시험 소개 · 출처 표의 행 머리(th scope=row) = 카드의 머리 */
   table.t-stack > tbody > tr > th[scope="row"] { font-family: var(--sans); font-size: 17px; font-weight: 600; color: var(--ink2);
+    padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+}
+/* 넓은 표(.t-wide — 칸 4개 이상 · 글 많은 표)는 쌓기 경계가 760px : 표 칸 600~759px (목록 300px 이 열린 980~1099px 창 —
+   아이패드 가로 1024 = 644px)에서 안 쌓이면 칸이 8줄 넘게 꺾이거나 표가 가로로 넘쳤다. 경계 = 2026-10-03 측정 (넓은 표 259개의
+   감싸개를 X px 로 고정, 안 쌓인 모양의 문제 표 = 가로 스크롤 또는 8줄+ 칸 : 600 → 38 · 680 → 11 · 740 → 6 · 760 → 6 ·
+   780 → 4 · 900 → 4 — 740~760 평평. 남는 4개는 900px 에서도 긴 칸이라 경계로 못 고침). 1280 창 표 칸 836px 은 안 쌓인 그대로.
+   위 블록과 같은 선언을 .t-wide > 로 좁혀 다시 쓴다 — 질의 값은 표마다 가장 가까운 조상 .tscroll 의 폭
+   (문서 : MDN CSS container queries — 'based on the size of the nearest ancestor with a containment context') */
+@container (max-width: 759px) {
+  .t-wide > table.t-stack, .t-wide > table.t-stack > tbody, .t-wide > table.t-stack > tbody > tr,
+  .t-wide > table.t-stack > tbody > tr > :is(td, th) { display: block; width: auto; }
+  .t-wide > table.t-stack > thead { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; contain: paint; clip-path: inset(50%); border: 0; }
+  .t-wide > table.t-stack > tbody > tr { padding: 10px 14px 12px; border: 1px solid var(--rule); background: var(--sheet); }
+  .t-wide > table.t-stack > tbody > tr + tr { margin-top: 10px; }
+  .t-wide > table.t-stack > tbody > tr > :is(td, th) { padding: 0; border: 0; white-space: normal; }
+  .t-wide > table.t-stack > tbody > tr > * + * { margin-top: 8px; }
+  .t-wide > table.t-stack > tbody > tr > td:empty { display: none; }
+  .t-wide > table.t-stack.t-narrow td { white-space: normal; }
+  .t-wide > table.t-stack td[data-label]::before {
+    content: attr(data-label); content: attr(data-label) / "";
+    display: block; font-family: var(--sans); font-size: 14px; font-weight: 600; line-height: 1.5; color: var(--muted);
+  }
+  .t-wide > table.t-stack > tbody > tr > th[scope="row"] { font-family: var(--sans); font-size: 17px; font-weight: 600; color: var(--ink2);
     padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
 }
 

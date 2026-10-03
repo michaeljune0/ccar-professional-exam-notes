@@ -355,7 +355,7 @@
 <article class="card t5-card v3" id="agent-resilience" aria-labelledby="agent-resilience-title">
   <header class="t5-head">
     <h1 id="agent-resilience-title"><span class="sym" role="img" aria-label="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나" title="개념 카드 — 이게 뭐고, 어떻게 쓰고, 어디서 틀리나">■</span> 에이전트 상태·실패·배포</h1>
-    <p class="lemma-meta"><span lang="en">stateful agents : 재개 · 동기/비동기 · 옛판·새판 함께</span><span class="lemma-main">1.4 본편</span></p>
+    <p class="lemma-meta"><span lang="en">stateful agents : 재개 · 동기/비동기 · 구버전·신버전 함께</span><span class="lemma-main">1.4 본편</span></p>
     <p class="mark-note">표시가 없는 문장은 공식 문서에서 확인한 내용이에요. 다른 표시는 <a href="../contents.html#howto">읽는 법</a></p>
   </header>
   <h2 class="sec-h" id="agent-resilience-why-h">왜 배우나 — 시험이 요구하는 것</h2>
@@ -416,8 +416,8 @@
 </ul>
 <p class="lead">배포</p>
 <ul>
-<li>돌고 있는 에이전트는 "어느 판의 프롬프트·도구"를 전제로 계획을 세워 둠. 중간에 판이 바뀌면 깨짐.</li>
-<li>옛 판·새 판을 함께 두고 새 트래픽만 새 판으로 → 도는 것은 옛 판에서 끝남.</li>
+<li>돌고 있는 에이전트는 "어느 버전의 프롬프트·도구"를 전제로 계획을 세워 둠. 중간에 버전이 바뀌면 깨짐.</li>
+<li>구버전·신버전을 함께 두고 새 트래픽만 새 버전으로 → 도는 것은 구버전에서 끝남.</li>
 </ul>
 </section>
   <h2 class="sec-h" id="agent-resilience-rules-h">규칙과 판단</h2>
@@ -481,17 +481,17 @@
     </div>
   </section>
   <section class="t5-flow tree" id="agent-resilience-tree-3" aria-labelledby="agent-resilience-tree-3-h" data-paths="n1 n2 n3|n1 n4 n5">
-    <div class="t5-fh"><h3 id="agent-resilience-tree-3-h">③ 새 판 배포 <span class="pg">[1.4③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
+    <div class="t5-fh"><h3 id="agent-resilience-tree-3-h">③ 새 버전 배포 <span class="pg">[1.4③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
       <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>어디서 돌리나?<span class="t5-sub">돌고 있는 에이전트가 있을 때</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>직접 돌리는 에이전트</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">옛 판·새 판 함께</p><p>옛 판·새 판을 함께 돌리며 트래픽을 조금씩 옮김 (rainbow deployment)</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">구버전·신버전 함께</p><p>구버전·신버전을 함께 돌리며 트래픽을 조금씩 옮김 (rainbow deployment)</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>Managed Agents 코디네이터</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">코디네이터 업데이트</p><p>참조 에이전트는 스냅샷 판에 고정 → 새 판에 위임하려면 코디네이터를 업데이트</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">코디네이터 업데이트</p><p>참조 에이전트는 스냅샷 버전에 고정 → 새 버전에 위임하려면 코디네이터를 업데이트</p></div>
         </div>
       </div>
     </div>
@@ -542,12 +542,12 @@
             <p><span class="lead">상태와 실패 :</span> 실패하면 처음부터 재시작 말고 멈춘 곳에서 재개 — 재시작은 비싸고 사용자를 짜증나게 함 <span class="pg">[1.4③]</span></p>
             <p>결정론적 안전장치(재시도 로직 · 정기 체크포인트) + 모델 지능(도구 실패를 모델에 알려 적응시킴)을 함께</p>
             <p>도구 오류는 불투명한 코드·traceback 말고 구체적으로 고칠 점을 알려 주는 메시지로 → <a href="tool-design.html">■ 도구 설계</a></p>
-            <p>subagent 실패를 "성공 + 빈 결과" 로 삼키지 않음 → orchestrator 가 반응하게 오류 종류 · 재시도 가능 여부 · 모은 부분 결과를 돌려줌 <span class="note">(공식 = 도구 실패를 모델에 알림 · 구체적 오류 메시지 ✓ · 필드 구성은 이 카드의 해석)</span></p>
+            <p>subagent 실패를 "성공 + 빈 결과" 로 삼키지 않음 → orchestrator 가 반응하게 오류 종류 · 재시도 가능 여부 · 모은 부분 결과를 돌려줌 <span class="note">(공식 = 도구 실패를 모델에 알림 · 구체적 오류 메시지 · 필드 구성은 이 카드의 해석)</span></p>
             <p><span class="lead">재시도 :</span> 공식 SDK 가 일시 오류(연결·429·5xx)를 지수 백오프로 기본 2번 자동 재시도(<code>max_retries</code> 로 조정) · 단 월 지출 한도 429 는 retry-after 없이 계속 실패 → <a href="rate-limits.html">■ rate limit</a></p>
             <p>재개 수단 (Agent SDK 세션) : continue = 가장 최근 세션 · resume = 세션 ID 로 · fork = 원본은 두고 갈래를 새로</p>
             <p>max_turns·예산 한도로 끝난 실행도 한도를 올려 resume</p>
             <p>세션은 대화만 저장, 파일시스템은 아님 → 파일은 file checkpointing</p>
-            <p>다른 호스트면 SessionStore 로 전사 복제, 또는 결과(분석·결정·diff)를 앱 상태로 저장해 새 세션 프롬프트에 넣음 — 흔히 더 튼튼</p>
+            <p>다른 호스트면 SessionStore 로 transcript 복제, 또는 결과(분석·결정·diff)를 앱 상태로 저장해 새 세션 프롬프트에 넣음 — 흔히 더 튼튼</p>
             <p>Managed Agents : 세션이 대화 기록·샌드박스 상태·산출물을 서버에 저장, 멈춘 뒤 깨끗이 재개</p>
             <p><span class="lead">긴 작업 :</span> 끝난 단계는 요약해 외부 메모리에 · 컨텍스트 창이 차면 새 서브에이전트로 넘기고 계획은 메모리에서 되찾음 · 새 컨텍스트 창에선 progress 파일·git 로그로 상태를 되찾음, git = 되돌릴 체크포인트</p>
             <p><span class="lead">디버깅 :</span> 같은 프롬프트도 실행마다 결정이 다름 → 전체 프로덕션 트레이싱 + 대화 내용 말고 결정 패턴·상호작용 구조를 관측 → <a href="observability-signals.html">■ observability 세 신호</a> · <a href="telemetry-scope.html">■ 텔레메트리 기록 범위</a></p>
@@ -565,9 +565,9 @@
         </li>
         <li id="agent-resilience-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">배포 :</span> 에이전트 = 거의 쉬지 않고 도는 상태 있는 연결망(프롬프트·도구·실행 로직이 얽힘) → 배포 순간 에이전트가 과정 어디든 있을 수 있어 모두를 한꺼번에 새 판으로 못 바꿈 <span class="pg">[1.4③]</span></p>
-            <p>rainbow deployment = 옛 판·새 판을 함께 돌리며 트래픽을 조금씩 옮김</p>
-            <p>Managed Agents : 코디네이터 명단은 만들거나 업데이트할 때 스냅샷으로 저장됨, 참조 에이전트는 스냅샷 판에 고정 → 새 판에 위임(delegation)하려면 코디네이터를 업데이트</p>
+            <p><span class="lead">배포 :</span> 에이전트 = 거의 쉬지 않고 도는 상태 있는 연결망(프롬프트·도구·실행 로직이 얽힘) → 배포 순간 에이전트가 과정 어디든 있을 수 있어 모두를 한꺼번에 새 버전으로 못 바꿈 <span class="pg">[1.4③]</span></p>
+            <p>rainbow deployment = 구버전·신버전을 함께 돌리며 트래픽을 조금씩 옮김</p>
+            <p>Managed Agents : 코디네이터 명단은 만들거나 업데이트할 때 스냅샷으로 저장됨, 참조 에이전트는 스냅샷 버전에 고정 → 새 버전에 위임(delegation)하려면 코디네이터를 업데이트</p>
           </div>
         </li>
       </ol>
@@ -586,11 +586,11 @@
     <tr role="row"><td data-label="조건" role="cell">연결 오류·429·5xx</td><td data-label="답" role="cell">SDK 자동 재시도(기본 2번, 지수 백오프)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">월 지출 한도 429</td><td data-label="답" role="cell">재시도 무의미 — 접근이 풀릴 때까지 계속 실패</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">max_turns·예산 한도로 끝남</td><td data-label="답" role="cell">한도를 올려 같은 세션 resume</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/sessions" lang="en" rel="noopener">agent-sdk-sessions</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">다른 호스트·서버리스에서 이어가야 함</td><td data-label="답" role="cell">SessionStore 로 전사 복제, 또는 결과를 앱 상태로 새 세션에</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/sessions" lang="en" rel="noopener">agent-sdk-sessions</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">다른 호스트·서버리스에서 이어가야 함</td><td data-label="답" role="cell">SessionStore 로 transcript 복제, 또는 결과를 앱 상태로 새 세션에</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/sessions" lang="en" rel="noopener">agent-sdk-sessions</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">에이전트가 파일을 바꿨고 되돌려야 함</td><td data-label="답" role="cell">file checkpointing (세션은 대화만)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/sessions" lang="en" rel="noopener">agent-sdk-sessions</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">subagent 하나가 전체를 막음</td><td data-label="답" role="cell">동기 병목 — 비동기는 병렬성을 주지만 조율·일관성·오류 전파 부담</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">실행 중인 에이전트가 있는데 배포</td><td data-label="답" role="cell">옛 판·새 판을 함께 두고 트래픽을 옮김</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Managed Agents 에서 subagent 새 판을 씀</td><td data-label="답" role="cell">코디네이터를 업데이트(명단은 스냅샷 고정)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/managed-agents/multi-agent" lang="en" rel="noopener">managed-agents multi-agent</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">실행 중인 에이전트가 있는데 배포</td><td data-label="답" role="cell">구버전·신버전을 함께 두고 트래픽을 옮김</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Managed Agents 에서 subagent 새 버전을 씀</td><td data-label="답" role="cell">코디네이터를 업데이트(명단은 스냅샷 고정)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/managed-agents/multi-agent" lang="en" rel="noopener">managed-agents multi-agent</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -609,7 +609,7 @@
     <tr role="row"><td data-label="변수" role="cell">호스트</td><td data-label="값" role="cell">CI·임시 컨테이너·서버리스</td><td data-label="답 쪽" role="cell">결과를 앱 상태로 · 또는 SessionStore</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
     <tr role="row"><td data-label="변수" role="cell">subagent 시간 편차</td><td data-label="값" role="cell">한 subagent 만 유독 느림</td><td data-label="답 쪽" role="cell">동기면 그 subagent 가 전체 시간을 정함</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
     <tr role="row"><td data-label="변수" role="cell">subagent 시간 편차</td><td data-label="값" role="cell">비슷함 · 조율이 중요</td><td data-label="답 쪽" role="cell">동기로 충분</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">뒤집히는 때 4</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">배포 시점</td><td data-label="값" role="cell">도는 에이전트 있음</td><td data-label="답 쪽" role="cell">옛 판·새 판 함께</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 9</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">배포 시점</td><td data-label="값" role="cell">도는 에이전트 있음</td><td data-label="답 쪽" role="cell">구버전·신버전 함께</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 9</td></tr>
   </tbody>
 </table>
 </div>
@@ -629,8 +629,8 @@
         <li><span class="neq" aria-hidden="true">≠</span><span>"전부 비동기로 바꾸면 무조건 빨라진다" → 결과 조율 · 상태 일관성 · 오류 전파 비용</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"재시도 로직만 넣으면 끝" → 결정론적 안전장치 + 도구 실패를 모델에 알림. 지출 한도 429 는 재시도해도 계속 실패</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"resume·fork 하면 파일 변경도 되돌아간다" → 세션·fork 는 대화만. 파일은 file checkpointing</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"새 판을 한꺼번에 배포" → 돌던 에이전트가 깨짐 → 옛 판·새 판 함께</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"코디네이터가 참조 에이전트의 최신 판을 자동으로 씀" → 스냅샷 판에 고정</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"새 버전을 한꺼번에 배포" → 돌던 에이전트가 깨짐 → 구버전·신버전 함께</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"코디네이터가 참조 에이전트의 최신 버전을 자동으로 씀" → 스냅샷 버전에 고정</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"원인 찾으려 대화 내용을 전부 기록" → 결정 패턴·상호작용 구조를 관측(프라이버시) → <a href="telemetry-scope.html">■ 텔레메트리 기록 범위</a></span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>Managed Agents 세션 예산 : 예산에 닿으면 <code>budget_reached</code> 로 일시 정지, 예산을 바꾸면 재개 · 스레드마다 따로 정지 <span class="post">시험 뒤 변경</span> <span class="note">2026-08-07</span></span></li>
       </ul>
@@ -663,7 +663,7 @@
 <h4>2. resume 보다 "새 세션 + 앱 상태"가 나은 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 실행이 CI 워커·임시 컨테이너를 옮겨 다님. 세션 파일은 만든 머신에만 있음.</li>
-<li><span class="lead">판단 :</span> 공식 선택지 셋 = SessionStore 로 전사 복제 · 세션 파일 옮기기 · resume 에 기대지 않기. 필요한 결과(분석·결정·diff)를 앱 상태로 잡아 새 세션 프롬프트에 넣는 쪽이 "흔히 더 튼튼".</li>
+<li><span class="lead">판단 :</span> 공식 선택지 셋 = SessionStore 로 transcript 복제 · 세션 파일 옮기기 · resume 에 기대지 않기. 필요한 결과(분석·결정·diff)를 앱 상태로 잡아 새 세션 프롬프트에 넣는 쪽이 "흔히 더 튼튼".</li>
 
 <li><span class="lead">근거 :</span> agent-sdk-sessions · prompting-best-practices(새 창에서 파일시스템으로 상태를 되찾는 편이 compaction 보다 나을 때가 있음)</li>
 </ul>
@@ -703,8 +703,8 @@
     <tr role="row"><td data-label="오답" role="cell">"재시도 횟수를 늘리면 해결"</td><td data-label="왜 끌리나" role="cell">대부분 오류는 일시적</td><td data-label="왜 틀리나" role="cell">지출 한도 429 는 계속 실패 · 도구 실패는 모델이 적응해야</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a> · <a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"fork 하면 파일도 갈라진다"</td><td data-label="왜 끌리나" role="cell">세션을 복사하니</td><td data-label="왜 틀리나" role="cell">fork 는 대화만. 파일 변경은 진짜로 남음</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/sessions" lang="en" rel="noopener">agent-sdk-sessions</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"파드 재시작이면 복구 끝"</td><td data-label="왜 끌리나" role="cell">무상태 서비스 습관</td><td data-label="왜 틀리나" role="cell">상태 있는 작업은 진행분이 날아감</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"새 판을 한 번에 전부 배포"</td><td data-label="왜 끌리나" role="cell">판이 섞이면 복잡해 보임</td><td data-label="왜 틀리나" role="cell">도는 에이전트가 깨짐. 옛 판·새 판을 함께</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"명단 에이전트를 고치면 코디네이터가 바로 새 판을 쓴다"</td><td data-label="왜 끌리나" role="cell">참조니까 최신일 듯</td><td data-label="왜 틀리나" role="cell">스냅샷 고정. 코디네이터를 업데이트해야</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/managed-agents/multi-agent" lang="en" rel="noopener">managed-agents multi-agent</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"새 버전을 한 번에 전부 배포"</td><td data-label="왜 끌리나" role="cell">버전이 섞이면 복잡해 보임</td><td data-label="왜 틀리나" role="cell">도는 에이전트가 깨짐. 구버전·신버전을 함께</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"명단 에이전트를 고치면 코디네이터가 바로 새 버전을 쓴다"</td><td data-label="왜 끌리나" role="cell">참조니까 최신일 듯</td><td data-label="왜 틀리나" role="cell">스냅샷 고정. 코디네이터를 업데이트해야</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/managed-agents/multi-agent" lang="en" rel="noopener">managed-agents multi-agent</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"원인 분석을 위해 대화 내용 전부 수집"</td><td data-label="왜 끌리나" role="cell">많이 보면 잘 보임</td><td data-label="왜 틀리나" role="cell">결정 패턴·상호작용 구조 관측으로 충분, 대화 내용은 안 봄(프라이버시)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
   </tbody>
 </table>

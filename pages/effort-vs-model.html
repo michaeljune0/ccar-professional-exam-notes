@@ -413,12 +413,12 @@
 </ul>
 <p class="lead">모델 조합은 "섞임"이 있을 때만</p>
 <ul>
-<li>쉬운 일과 어려운 일이 섞여 있으면 : 프런티어 지능은 어려운 곳에만, 대부분의 토큰은 싼 모델 단가로.</li>
-<li>섞임이 없으면(난이도가 고름 · 한 줄기 의존 체인) : 잘 맞춘 모델 하나가 대개 나음.</li>
+<li>쉬운 일과 어려운 일이 섞여 있으면 : 최상위 모델은 어려운 곳에만, 대부분의 토큰은 싼 모델 단가로.</li>
+<li>섞임이 없으면(난이도가 일정 · 순차 의존 체인) : 잘 맞춘 모델 하나가 대개 나음.</li>
 <li>두 전략 (누가 루프를 쥐나)</li>
 <li>자문가(advisor) : 싼 실행자가 루프, 막히면 최상위에 물음. 이득은 "모델 격차"와 "실행자가 실제로 묻는 비율(자문 비율)"이 정함.</li>
 <li>
-<p class="lead">orchestrator : 최상위가 루프, 계획·분배·합침. worker 가 대량 탐색을 흡수. 넘길 대량 작업(독립 조각 · 창 하나 초과)이 있어야 쓸 만함.</p>
+<p class="lead">orchestrator : 최상위가 루프, 계획·분배·통합. worker 가 대량 탐색을 흡수. 넘길 대량 작업(독립 조각 · 컨텍스트 창 하나 초과)이 있어야 쓸 만함.</p>
 </li>
 <li>
 <p>routing(라우팅) : 입력을 분류해 쉬운 질문은 작은 모델, 어려운 질문은 강한 모델로. 뚜렷한 범주 + 정확한 분류가 조건 (■ 워크플로 5패턴).</p>
@@ -493,7 +493,7 @@
       <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>요청 난이도가 섞였나?</div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(고름 · 한 줄기 의존 체인)</span></span>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(난이도 일정 · 순차 의존 체인)</span></span>
           <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">모델 하나</p><p>잘 맞춘 모델 하나가 대개 나음</p></div>
         </div>
         <div class="t5-arm">
@@ -505,12 +505,12 @@
               <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">routing</p><p>쉬운 질문 = 작은 모델, 어려운 질문 = 강한 모델 (<a href="workflow-patterns.html">■ 워크플로 5패턴</a>)</p></div>
             </div>
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>한 줄기인데 군데군데 어려움</span>
+              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>순차 작업인데 군데군데 어려움</span>
               <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">자문가(advisor)</p><p>싼 실행자가 루프를 돌고 어려운 결정만 최상위에 물음</p></div>
             </div>
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>독립 조각이 많음 · 창 하나를 넘음</span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">orchestrator-workers</p><p>최상위가 계획·합침, worker 가 대량 작업 (<a href="orchestrator-delegation.html">■ orchestrator-worker 위임</a>)</p></div>
+              <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>독립 조각이 많음 · 컨텍스트 창 하나를 넘음</span>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">orchestrator-workers</p><p>최상위가 계획·통합, worker 가 대량 작업 (<a href="orchestrator-delegation.html">■ orchestrator-worker 위임</a>)</p></div>
             </div>
           </div>
         </div>
@@ -519,7 +519,7 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="effort-vs-model-flow" aria-label="effort 조정 vs 모델 교체 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["요청","라우터","싼 모델","최상위 모델"],"blocks":[],"rules":[null,null,null,null],"question":"어느 모델이 답해야 할까?","scenes":[{"name":"① 섞인 요청 → routing","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["질문 1: 비밀번호 재설정은?","질문 2: 약관 7조 위약금","이사 가면 면제돼요?"]}},{"kind":"move","step":"분류","from":{"col":0},"to":1,"label":"쉬운·어려운 질문으로 분류","art":{"kind":"slip","lines":["질문 1 = 쉬움","질문 2 = 어려움"]}},{"kind":"move","step":"쉬움","from":{"col":1},"to":2,"label":"대부분의 토큰을 싼 단가로","art":{"kind":"say","text":"설정 > 보안에서 재설정하세요."}},{"kind":"move","step":"어려움","from":{"col":1},"to":3,"label":"프런티어 지능은 중요한 곳에만","art":{"kind":"say","text":"7조 2항에 따라 이사는 면제 사유예요."}},{"kind":"end","label":"입력 종류가 뚜렷이 갈리고 분류가 정확할 때"}]},{"name":"② 자문가(advisor)","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["과제: 결제 모듈 버그 수정","20단계짜리 한 줄기"]}},{"kind":"move","step":"실행","from":{"col":0},"to":2,"label":"싼 실행자가 루프를 돎","art":{"kind":"slip","lines":["1~12단계 완료","13단계: 락 순서가 애매"]}},{"kind":"move","step":"자문","from":{"col":2},"to":3,"label":"어려운 결정만 물음","art":{"kind":"say","text":"락은 주문 먼저, 결제는 그다음."}},{"kind":"end","label":"최상위 모델 비용은 자문할 때만 듦"}]},{"name":"③ 실행자 effort 를 낮춤 → 자문 끊김","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["과제: 결제 모듈 버그 수정","20단계짜리 한 줄기"]}},{"kind":"move","step":"실행","from":{"col":0},"to":2,"label":"`low` effort","art":{"kind":"slip","lines":["effort: \"low\"","13단계 그냥 진행"]}},{"kind":"mark","step":"자문","at":{"col":2},"label":"막힌 걸 못 알아챔 ≠","art":{"kind":"slip","lines":["자문 요청 0번","13단계 락 순서 틀림"]}},{"kind":"skip","at":3},{"kind":"end","label":"실행자 혼자보다 점수가 낮아질 수 있음"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["요청","라우터","싼 모델","최상위 모델"],"blocks":[],"rules":[null,null,null,null],"question":"어느 모델이 답해야 할까?","scenes":[{"name":"① 섞인 요청 → routing","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["질문 1: 비밀번호 재설정은?","질문 2: 약관 7조 위약금","이사 가면 면제돼요?"]}},{"kind":"move","step":"분류","from":{"col":0},"to":1,"label":"쉬운·어려운 질문으로 분류","art":{"kind":"slip","lines":["질문 1 = 쉬움","질문 2 = 어려움"]}},{"kind":"move","step":"쉬움","from":{"col":1},"to":2,"label":"대부분의 토큰을 싼 단가로","art":{"kind":"say","text":"설정 > 보안에서 재설정하세요."}},{"kind":"move","step":"어려움","from":{"col":1},"to":3,"label":"최상위 모델은 중요한 곳에만","art":{"kind":"say","text":"7조 2항에 따라 이사는 면제 사유예요."}},{"kind":"end","label":"입력 종류가 뚜렷이 갈리고 분류가 정확할 때"}]},{"name":"② 자문가(advisor)","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["과제: 결제 모듈 버그 수정","20단계 순차 작업"]}},{"kind":"move","step":"실행","from":{"col":0},"to":2,"label":"싼 실행자가 루프를 돌림","art":{"kind":"slip","lines":["1~12단계 완료","13단계: 락 순서가 애매"]}},{"kind":"move","step":"자문","from":{"col":2},"to":3,"label":"어려운 결정만 물음","art":{"kind":"say","text":"락은 주문 먼저, 결제는 그다음."}},{"kind":"end","label":"최상위 모델 비용은 자문할 때만 듦"}]},{"name":"③ 실행자 effort 를 낮춤 → 자문 끊김","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["과제: 결제 모듈 버그 수정","20단계 순차 작업"]}},{"kind":"move","step":"실행","from":{"col":0},"to":2,"label":"`low` effort","art":{"kind":"slip","lines":["effort: \"low\"","13단계 그냥 진행"]}},{"kind":"mark","step":"자문","at":{"col":2},"label":"막힌 걸 못 알아챔 ≠","art":{"kind":"slip","lines":["자문 요청 0번","13단계 락 순서 틀림"]}},{"kind":"skip","at":3},{"kind":"end","label":"실행자 혼자보다 점수가 낮아질 수 있음"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -530,19 +530,19 @@
         <li>시작 : 요청 — 쪽지 : <span class="flx-alt-slip">질문 1: 비밀번호 재설정은? / 질문 2: 약관 7조 위약금 / 이사 가면 면제돼요?</span></li>
         <li>분류 : 요청 → 라우터 : 쉬운·어려운 질문으로 분류 — 쪽지 : <span class="flx-alt-slip">질문 1 = 쉬움 / 질문 2 = 어려움</span></li>
         <li>쉬움 : 라우터 → 싼 모델 : 대부분의 토큰을 싼 단가로 — 말 : <span class="flx-alt-say">“설정 &gt; 보안에서 재설정하세요.”</span></li>
-        <li>어려움 : 라우터 → 최상위 모델 : 프런티어 지능은 중요한 곳에만 — 말 : <span class="flx-alt-say">“7조 2항에 따라 이사는 면제 사유예요.”</span></li>
+        <li>어려움 : 라우터 → 최상위 모델 : 최상위 모델은 중요한 곳에만 — 말 : <span class="flx-alt-say">“7조 2항에 따라 이사는 면제 사유예요.”</span></li>
         <li>끝 : 입력 종류가 뚜렷이 갈리고 분류가 정확할 때</li>
       </ol>
       <p class="lead">② 자문가(advisor) <span class="fl-v is-ok">✓</span></p>
       <ol>
-        <li>시작 : 요청 — 쪽지 : <span class="flx-alt-slip">과제: 결제 모듈 버그 수정 / 20단계짜리 한 줄기</span></li>
-        <li>실행 : 요청 → 싼 모델 : 싼 실행자가 루프를 돎 — 쪽지 : <span class="flx-alt-slip">1~12단계 완료 / 13단계: 락 순서가 애매</span></li>
+        <li>시작 : 요청 — 쪽지 : <span class="flx-alt-slip">과제: 결제 모듈 버그 수정 / 20단계 순차 작업</span></li>
+        <li>실행 : 요청 → 싼 모델 : 싼 실행자가 루프를 돌림 — 쪽지 : <span class="flx-alt-slip">1~12단계 완료 / 13단계: 락 순서가 애매</span></li>
         <li>자문 : 싼 모델 → 최상위 모델 : 어려운 결정만 물음 — 말 : <span class="flx-alt-say">“락은 주문 먼저, 결제는 그다음.”</span></li>
         <li>끝 : 최상위 모델 비용은 자문할 때만 듦</li>
       </ol>
       <p class="lead">③ 실행자 effort 를 낮춤 → 자문 끊김 <span class="fl-v is-ng">≠</span></p>
       <ol>
-        <li>시작 : 요청 — 쪽지 : <span class="flx-alt-slip">과제: 결제 모듈 버그 수정 / 20단계짜리 한 줄기</span></li>
+        <li>시작 : 요청 — 쪽지 : <span class="flx-alt-slip">과제: 결제 모듈 버그 수정 / 20단계 순차 작업</span></li>
         <li>실행 : 요청 → 싼 모델 : <code>low</code> effort — 쪽지 : <span class="flx-alt-slip">effort: "low" / 13단계 그냥 진행</span></li>
         <li>자문 : 싼 모델 : 막힌 걸 못 알아챔 ≠ — 쪽지 : <span class="flx-alt-slip">자문 요청 0번 / 13단계 락 순서 틀림</span></li>
         <li>건너뜀 : 최상위 모델</li>
@@ -561,17 +561,15 @@
         <li>품질 모자람 → 낮췄던 effort 를 되돌림. 아니면 한 단계 위 모델을 <code>low</code> effort 로 · Opus 5.5 는 <code>xhigh</code>·<code>max</code> 도 모자랄 때 Fable 5.1</li>
         <li>결과를 검사할 수 있음(테스트·검증기) → 전부 <code>low</code> 로 돌리고 실패만 <code>high</code> 로 재실행. 통과율은 유지, 비용 약 절반 (실패한 건은 두 번 도는 만큼 지연(latency)이 늘어남)</li>
         <li>effort 미지원 모델(Haiku 4.5) → 이 lever(조절 수단)가 없음. thinking 양은 <a href="thinking-controls.html">■ 모델별 thinking 제어</a> · 모자라면 모델 교체 <span class="gen">업계 일반</span></li>
-        <li>요청 난이도가 섞임 → 조합 : 싼 모델 + 최상위 모델로 대부분의 토큰을 싼 단가로, 프런티어 지능은 중요한 곳에만
+        <li>요청 난이도가 섞임 → 조합 : 싼 모델 + 최상위 모델로 대부분의 토큰을 싼 단가로, 최상위 모델은 중요한 곳에만
           <ul class="dash">
             <li>입력 종류가 뚜렷이 갈리고 분류가 정확 → routing(라우팅). 쉬운 질문 = 작은 모델, 어려운 질문 = 강한 모델 (<a href="workflow-patterns.html">■ 워크플로 5패턴</a>)</li>
-            <li>한 줄기인데 군데군데 어려움(코딩 에이전트 · 다단계 연구) → 자문가(advisor) : 싼 실행자가 루프를 돌고 어려운 결정만 최상위에 물음. 최상위 모델 비용은 자문할 때만 듦</li>
-            <li>서로 독립인 조각이 많음, 특히 창 하나를 넘음 → orchestrator-workers : 최상위가 계획·합침, worker 가 대량 작업 (<a href="orchestrator-delegation.html">■ orchestrator-worker 위임</a>)</li>
+            <li>순차 작업인데 군데군데 어려움(코딩 에이전트 · 다단계 연구) → 자문가(advisor) : 싼 실행자가 루프를 돌고 어려운 결정만 최상위에 물음. 최상위 모델 비용은 자문할 때만 듦</li>
+            <li>서로 독립인 조각이 많음, 특히 컨텍스트 창 하나를 넘음 → orchestrator-workers : 최상위가 계획·통합, worker 가 대량 작업 (<a href="orchestrator-delegation.html">■ orchestrator-worker 위임</a>)</li>
           </ul>
         </li>
-        <li>섞이지 않음(난이도가 고름 · 한 줄기 의존 체인) · 단발 Q&amp;A 에 자문가 → 잘 맞춘 모델 하나가 대개 나음. 자문가는 계획할 게 없는 단발 Q&amp;A 에 안 맞음</li>
-      </ul>
-      <p>조합을 짓기 전 기준선 : 더 강한 모델 하나를 <code>low</code> effort 로 돌린 비용. 조합은 단일 모델의 effort 곡선 전체를 이겨야 함</p>
-      <ul class="plain">
+        <li>섞이지 않음(난이도가 일정 · 순차 의존 체인) · 단발 Q&amp;A 에 자문가 → 잘 맞춘 모델 하나가 대개 나음. 자문가는 계획할 게 없는 단발 Q&amp;A 에 안 맞음</li>
+        <li>조합을 구성하기 전 기준선 : 더 강한 모델 하나를 <code>low</code> effort 로 돌린 비용. 조합은 단일 모델의 effort 곡선 전체를 이겨야 함</li>
         <li>effort 값 (2026-09-28 조회) : 요청의 <code>output_config.effort</code> = <code>low</code>·<code>medium</code>·<code>high</code>·<code>xhigh</code>·<code>max</code>. 기본 = 대부분 <code>high</code> · Opus 5.5 는 <code>medium</code> · Haiku 4.5 는 미지원. 모든 출력 토큰(텍스트·도구 호출·thinking)에 걸림</li>
         <li><span class="post">시험 뒤 변경</span> <span class="note">Opus 5.5 기본 <code>medium</code> 2026-09-22 · <code>xhigh</code> 는 2026-04-16 Opus 4.7 부터</span></li>
         <li>캐시 쓰는 대화 중간에 요청 단위(top-level) effort 를 바꾸면 캐시가 깨짐 → 워크로드 단위로 바꾸거나 메시지별 effort(베타). 속도용 effort = <a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
@@ -592,10 +590,10 @@
     <tr role="row"><td data-label="조건" role="cell">Opus 5.5 가 <code>xhigh</code>·<code>max</code> 에서도 까다로운 추론(reasoning)·장기 에이전트 작업에 모자람</td><td data-label="답" role="cell">Fable 5.1</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">결과를 검사할 수 있음 (테스트·검증기)</td><td data-label="답" role="cell">전부 <code>low</code> 로, 실패만 <code>high</code> 로 재실행</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">요청 난이도가 섞였고 범주가 뚜렷 · 분류가 정확</td><td data-label="답" role="cell">routing (쉬운 = 작은 모델, 어려운 = 강한 모델)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">한 줄기 작업인데 군데군데 어려움 (코딩 에이전트 · 컴퓨터 사용 · 다단계 연구)</td><td data-label="답" role="cell">자문가</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">독립 조각이 많음, 특히 창 하나를 넘음</td><td data-label="답" role="cell">orchestrator-workers</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">난이도 고름 · 한 줄기 의존 체인 · 단발 Q&amp;A</td><td data-label="답" role="cell">잘 맞춘 모델 하나</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">조합을 짓기 전</td><td data-label="답" role="cell">더 강한 모델 하나를 <code>low</code> effort 로 돌린 비용이 이겨야 할 기준</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">순차 작업인데 군데군데 어려움 (코딩 에이전트 · 컴퓨터 사용 · 다단계 연구)</td><td data-label="답" role="cell">자문가</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">독립 조각이 많음, 특히 컨텍스트 창 하나를 넘음</td><td data-label="답" role="cell">orchestrator-workers</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">난이도 일정 · 순차 의존 체인 · 단발 Q&amp;A</td><td data-label="답" role="cell">잘 맞춘 모델 하나</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">조합을 구성하기 전</td><td data-label="답" role="cell">더 강한 모델 하나를 <code>low</code> effort 로 돌린 비용이 이겨야 할 기준</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -608,7 +606,7 @@
   <tbody role="rowgroup">
     <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Haiku 4.5</td><td data-label="답 쪽" role="cell">effort 미지원 → 이 lever 없음. thinking 양은 ■ 모델별 thinking 제어</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/overview" lang="en" rel="noopener">models overview</a> en-2026-09-28-full</td></tr>
     <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Opus 5.5</td><td data-label="답 쪽" role="cell">기본 <code>medium</code> · thinking 을 끌 수 없어 effort 가 주 제어</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> en-2026-09-28</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델 이전</td><td data-label="값" role="cell">Opus 5 → Opus 5.5 · effort 생략</td><td data-label="답 쪽" role="cell">한 단계 낮게(high → medium) 돎 → effort sweep 다시</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델 이전</td><td data-label="값" role="cell">Opus 5 → Opus 5.5 · effort 생략</td><td data-label="답 쪽" role="cell">한 단계 낮게(high → medium) 실행됨 → effort sweep 다시</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">워크로드</td><td data-label="값" role="cell">연구·지식 작업</td><td data-label="답 쪽" role="cell">effort 낮춰도 손해 작음</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">워크로드</td><td data-label="값" role="cell">긴 코딩</td><td data-label="답 쪽" role="cell">effort 를 올리면 정확도가 실제로 오름</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">지연</td><td data-label="값" role="cell">실패 재실행을 쓰면 실패 건은 두 번 도는 시간</td><td data-label="답 쪽" role="cell">지연 민감하면 불리</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
@@ -635,7 +633,7 @@
         <li><span class="neq" aria-hidden="true">≠</span><span>"조합(자문가·orchestrator)이 모델 하나보다 항상 쌈" → 같은 모델을 낮은 effort 로 돌린 게 더 쌌던 경우가 많음</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"사내 Q&amp;A 에 자문가를 붙인다" → 계획할 게 없는 단발 Q&amp;A 엔 안 맞음. 쉬운/어려운 질문이 뚜렷이 갈리면 routing</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>자문가를 붙이고 실행자 effort 를 낮춤 → 막힌 걸 못 알아채 자문이 끊기고 실행자 혼자보다 점수가 낮아질 수 있음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Opus 5 설정을 그대로 Opus 5.5 로 → effort 를 생략하면 기본 <code>medium</code> 이라 한 단계 낮게 돎. 옛 설정을 옮기지 말고 effort sweep 다시</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Opus 5 설정을 그대로 Opus 5.5 로 → effort 를 생략하면 기본 <code>medium</code> 이라 한 단계 낮게 실행됨. 옛 설정을 옮기지 말고 effort sweep 다시</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>Haiku 4.5 문항에 "effort 를 낮춘다" → 미지원</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"어려운 일이니 무조건 high" → 어려워도 effort 가 점수를 못 올리는 워크로드가 있음. 곡선을 재 봐야 알 수 있음</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span><code>adaptive</code> 를 effort 값으로 → thinking 모드이지 effort 단계가 아님</span></li>
@@ -659,7 +657,7 @@
     <summary>더 깊이 : 뒤집히는 때 · 오답 재료 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="flips" aria-labelledby="flips-h">
 <h3 id="flips-h">뒤집히는 때</h3>
-<h4>1. 조합이 effort 낮추기를 이기는 때 — 창 하나를 넘는 입력</h4>
+<h4>1. 조합이 effort 낮추기를 이기는 때 — 컨텍스트 창 하나를 넘는 입력</h4>
 <ul>
 <li><span class="lead">조건 :</span> 입력이 어떤 컨텍스트 창에도 안 들어감.</li>
 <li><span class="lead">판단 :</span> 이때 청구액은 입력을 "읽는 비용" 자체라 effort 를 낮춰도 안 줄어듦. 공식 측정(2,160만 토큰 코드 묶음)에서 Fable 5.1 단독은 effort 셋 모두 에피소드당 $468~$552, orchestrator(Fable 5.1) + worker(Sonnet 5) 25개 구성은 약 절반 비용에 10~12점 낮고, 걸린 시간은 약 2.3시간 vs 15~20시간.</li>
@@ -710,7 +708,7 @@
     <tr role="row"><td data-label="오답" role="cell">"조합이 모델 하나보다 항상 쌈"</td><td data-label="왜 끌리나" role="cell">대부분 토큰이 싼 단가라</td><td data-label="왜 틀리나" role="cell">창 안에 들어가는 일에선 같은 모델을 낮은 effort 로 돌린 게 매번 더 쌌음</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"effort 를 낮추면 답이 짧아진다"</td><td data-label="왜 끌리나" role="cell">적게 쓰라는 설정 같음</td><td data-label="왜 틀리나" role="cell">effort 가 정하는 건 thinking 양 쪽. 답 길이는 프롬프트로 → ■ 지연 줄이기 lever</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> en-2026-09-28 (Opus 5)</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"Haiku 4.5 의 effort 를 <code>low</code> 로"</td><td data-label="왜 끌리나" role="cell">모든 모델에 있을 것 같음</td><td data-label="왜 틀리나" role="cell">Haiku 4.5 는 effort 미지원</td><td data-label="근거" role="cell">overview full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Opus 5.5 에 <code>budget_tokens</code> 로 thinking 상한"</td><td data-label="왜 끌리나" role="cell">옛 방식</td><td data-label="왜 틀리나" role="cell">Opus 5.5 는 thinking 을 <code>enabled</code>·<code>disabled</code> 로 보내면 400. effort 로 → ■ 모델별 thinking 제어</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Opus 5.5 에 <code>budget_<wbr>tokens</code> 로 thinking 상한"</td><td data-label="왜 끌리나" role="cell">옛 방식</td><td data-label="왜 틀리나" role="cell">Opus 5.5 는 thinking 을 <code>enabled</code>·<code>disabled</code> 로 보내면 400. effort 로 → ■ 모델별 thinking 제어</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"<code>max</code> 가 언제나 가장 정확"</td><td data-label="왜 끌리나" role="cell">최대니까</td><td data-label="왜 틀리나" role="cell">대부분 워크로드에서 <code>max</code> 는 작은 품질 이득에 큰 비용, 구조화 출력 같은 일엔 과한 thinking (Opus 4.7 안내)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
   </tbody>
 </table>
@@ -729,9 +727,9 @@
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 2.1</a> <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a> <span class="src">(en-2026-09-28)</span></li>
-        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> <span class="src">(en-2026-09-28)</span></li>
-        <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/overview" lang="en" rel="noopener">models overview</a> <span class="src">(en-2026-09-28-full)</span></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/overview" lang="en" rel="noopener">models overview</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing-cost-intelligence</a></li>
         <li><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></li>

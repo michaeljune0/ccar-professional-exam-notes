@@ -402,7 +402,7 @@
 <ul>
 <li>connector = Anthropic API 쪽이 MCP 클라이언트 역할. 우리는 요청에 서버 URL 만 적음 → 코드 가장 적음.</li>
 <li>그래서 API 가 닿을 수 있는 곳만 됨 : 공개 HTTPS. 우리 머신의 stdio 프로세스·방화벽 안 서버는 못 닿음.</li>
-<li>데이터가 Anthropic 을 거쳐 MCP 서버와 오감 → 도구 정의·결과가 표준 보존 정책을 따름 → ZDR 대상 아님.</li>
+<li>데이터가 Anthropic 을 거쳐 MCP 서버와 데이터를 주고받음 → 도구 정의·결과가 표준 보존 정책을 따름 → ZDR 대상 아님.</li>
 </ul>
 <p class="lead">기능 범위</p>
 <ul>
@@ -412,7 +412,7 @@
 <p class="lead">대안 = 우리 쪽 클라이언트</p>
 <ul>
 <li>우리 앱이 MCP SDK 로 서버에 직접 연결 → SDK 도우미로 MCP 도구·프롬프트·리소스를 Claude API 형식으로 변환. 로컬·사내망·prompts·resources·ZDR 전부 우리 통제(control).</li>
-<li>대가 = 연결 코드와 운영을 우리가 짐.</li>
+<li>대가 = 연결 코드와 운영을 우리가 맡음.</li>
 </ul>
 </section>
   <h2 class="sec-h" id="mcp-connector-rules-h">규칙과 판단</h2>
@@ -531,7 +531,7 @@
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">한계</th><th scope="col" role="columnheader">걸리는 요구</th></tr></thead>
               <tbody role="rowgroup">
                 <tr role="row"><td data-label="한계" role="cell">MCP 기능 중 도구 호출만 <span class="note">(resources·prompts 없음)</span></td><td data-label="걸리는 요구" role="cell">prompts·resources 필요</td></tr>
-                <tr role="row"><td data-label="한계" role="cell">서버는 HTTP 로 공개 노출(Streamable HTTP·SSE) · URL 은 <code>https://</code> · 로컬 stdio 직접 불가</td><td data-label="걸리는 요구" role="cell">로컬 서버 · 사내망 서버</td></tr>
+                <tr role="row"><td data-label="한계" role="cell">서버는 HTTP 로 공개 노출(Streamable HTTP·SSE) · URL 은 <code>https:/<wbr>/</code> · 로컬 stdio 직접 불가</td><td data-label="걸리는 요구" role="cell">로컬 서버 · 사내망 서버</td></tr>
                 <tr role="row"><td data-label="한계" role="cell">ZDR 대상 아님 <span class="note">(도구 정의·실행 결과까지 표준 보존 정책이 적용됨)</span></td><td data-label="걸리는 요구" role="cell">ZDR 계약</td></tr>
                 <tr role="row"><td data-label="한계" role="cell">플랫폼 : Claude API · Claude Platform on AWS · Microsoft Foundry = beta / Amazon Bedrock · Google Cloud = 안 됨 <span class="note">(2026-09-28 조회)</span></td><td data-label="걸리는 요구" role="cell">Bedrock·Google Cloud 로 Claude 를 씀</td></tr>
               </tbody>
@@ -542,7 +542,7 @@
         <li id="mcp-connector-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
             <p>우리 쪽 클라이언트 = MCP SDK 로 직접 연결 + Anthropic SDK 변환 도우미(<code>mcpTools</code> · <code>mcpMessages</code> · <code>mcpResourceToContent</code> · <code>mcpResourceToFile</code>) + tool runner</p>
-            <p><span class="lead">공식 갈림 :</span> URL 로 닿는 원격 서버 + 도구만 → <code>mcp_servers</code>. 로컬 서버·prompts·resources·연결 제어 → 클라이언트 도우미</p>
+            <p><span class="lead">공식 판단 기준 :</span> URL 로 닿는 원격 서버 + 도구만 → <code>mcp_servers</code>. 로컬 서버·prompts·resources·연결 제어 → 클라이언트 도우미</p>
           </div>
         </li>
         <li id="mcp-connector-rule-3"><span class="num" aria-hidden="true">③</span>
@@ -566,15 +566,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">공개 원격 서버 + 도구만 필요</td><td data-label="답" role="cell">connector (<code>mcp_servers</code>)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a> md 원본</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">공개 원격 서버 + 도구만 필요</td><td data-label="답" role="cell">connector (<code>mcp_<wbr>servers</code>)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a> md 원본</td></tr>
     <tr role="row"><td data-label="조건" role="cell">prompts 또는 resources 필요</td><td data-label="답" role="cell">우리 쪽 클라이언트 + SDK 도우미</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">로컬 stdio 서버</td><td data-label="답" role="cell">우리 쪽 클라이언트</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">ZDR 계약 필요</td><td data-label="답" role="cell">connector 안 됨 → 우리 쪽 클라이언트</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">Amazon Bedrock · Google Cloud 로 Claude 사용</td><td data-label="답" role="cell">connector 안 됨</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a> md 원본</td></tr>
     <tr role="row"><td data-label="조건" role="cell">Claude API · Claude Platform on AWS · Microsoft Foundry</td><td data-label="답" role="cell">connector 베타로 됨</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a> md 원본</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">서버 도구 중 일부만 켜야 함</td><td data-label="답" role="cell"><code>mcp_toolset</code> allowlist/denylist</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">서버가 OAuth 요구</td><td data-label="답" role="cell">우리가 흐름 처리 → <code>authorization_token</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">여러 서버 · 도구 수십 개</td><td data-label="답" role="cell"><code>defer_loading</code> + tool search</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">서버 도구 중 일부만 켜야 함</td><td data-label="답" role="cell"><code>mcp_<wbr>toolset</code> allowlist/denylist</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">서버가 OAuth 요구</td><td data-label="답" role="cell">우리가 흐름 처리 → <code>authorization_<wbr>token</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">여러 서버 · 도구 수십 개</td><td data-label="답" role="cell"><code>defer_<wbr>loading</code> + tool search</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -653,14 +653,14 @@
 <ul>
 <li><span class="lead">조건 :</span> 공개 SaaS MCP 서버, 도구만, Claude API 직접 사용, ZDR 없음.</li>
 <li><span class="lead">판단 :</span> connector 가 가장 단순. 여기서 "우리가 MCP 클라이언트를 직접 짠다"는 과설계 쪽.</li>
-<li><span class="lead">등급 :</span> <span class="note">(connector 가능) · 업계 일반(과설계 판단)</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(connector 가능) ·</span> <span class="gen">업계 일반</span><span class="note">(과설계 판단)</span></li>
 <li><span class="lead">근거 :</span> mcp-connector · building-effective-agents "finding the simplest solution possible"</li>
 </ul>
 <h4>4. 대화 도중 서버 도구가 바뀌는 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 서버가 배포 중 도구 이름을 바꿔 긴 대화 중간에 Claude 가 보는 목록이 달라짐.</li>
 <li><span class="lead">판단 :</span> <code>mcp-client-2026-09-15</code> 로 목록을 기록·고정. 2026-09-22 추가라 시험 범위 밖일 가능성.</li>
-<li><span class="lead">등급 :</span> <span class="note">· 시험 뒤 변경</span></li>
+<li><span class="lead">등급 :</span> <span class="post">시험 뒤 변경</span></li>
 <li><span class="lead">근거 :</span> mcp-connector · 릴리스 노트</li>
 </ul>
 </section>

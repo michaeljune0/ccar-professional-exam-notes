@@ -401,7 +401,7 @@
 <p class="lead">지는 이유</p>
 <ul>
 <li>컨텍스트 복제 · 에이전트 간 조율 메시지 · 넘길 때 요약 → 같은 일에 단일 대비 3~10배 토큰.</li>
-<li>넘길 때마다 맥락이 빠짐("말 전달 놀이"). 에이전트가 늘수록 실패 지점·유지할 프롬프트·예측 못 할 동작도 늘어남.</li>
+<li>넘길 때마다 맥락이 빠짐(전달 손실). 에이전트가 늘수록 실패 지점·유지할 프롬프트·예측 못 할 동작도 늘어남.</li>
 <li>지금 모델은 실시간으로 서로 조율·위임(delegation)하는 데 아직 서툼.</li>
 </ul>
 <p class="lead">그래서 기준</p>
@@ -515,7 +515,7 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="single-vs-multi-agent-flow" aria-label="단일 vs 멀티 에이전트 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["orchestrator","서브에이전트들","요약"],"blocks":[],"rules":["에이전트 하나로 먼저. 하나가 못 넘는 제약이 있을 때만 여럿",null,null],"question":"이 일을 여럿에게 쪼갤 만할까?","scenes":[{"name":"① 컨텍스트 오염","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"이 고객 최근 주문 5건 중 환불 대상 있어?"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"하위작업 토큰이 많음(1천+)","art":{"kind":"slip","lines":["주문 조회 5번","한 번에 2,500 토큰","서브 컨텍스트 창에 12,500 토큰"]}},{"kind":"move","step":"요약","from":{"col":1},"to":2,"label":"걸러 요약만 돌려줌","art":{"kind":"slip","lines":["환불 대상: 주문 #3","주 컨텍스트 창엔 90 × 5 = 450 토큰"]}},{"kind":"end","label":"주 작업엔 대부분 무관한 토큰을 걸러 냄 — 총 토큰은 늘어도 주 판단을 지킴"}]},{"name":"② 병렬","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"경쟁사 11곳 환불 정책을 비교해 줘"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"서로 독립인 방향을 동시에","art":{"kind":"slip","lines":["서브 11개","회사마다 하나씩 동시에"]}},{"kind":"move","step":"요약","from":{"col":1},"to":2,"label":"요약만 돌려줌","art":{"kind":"slip","lines":["회사별 요약 11개","11곳 빠짐없이"]}},{"kind":"end","label":"병렬의 주 이득 = 철저함 (속도가 아님)"}]},{"name":"③ 순차 단계 쪼개기","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"환불 기능 하나 만들어 줘"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"계획→구현→테스트","art":{"kind":"slip","lines":["계획 에이전트 →","구현 에이전트 →","테스트 에이전트"]}},{"kind":"move","step":"요약","from":{"col":1},"to":2,"label":"말 전달 놀이(거쳐 갈수록 내용이 빠짐)","art":{"kind":"slip","lines":["테스트: \"구현이 뭘 바꿨지?\"","조율 토큰 > 실제 작업"]}},{"kind":"end","label":"순차 단계는 컨텍스트를 공유해야 해서, 쪼개면 손해"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["orchestrator","서브에이전트들","요약"],"blocks":[],"rules":["에이전트 하나로 먼저. 하나가 못 넘는 제약이 있을 때만 여럿",null,null],"question":"이 일을 여럿에게 쪼갤 만할까?","scenes":[{"name":"① 컨텍스트 오염","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"이 고객 최근 주문 5건 중 환불 대상 있어?"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"하위작업 토큰이 많음(1천+)","art":{"kind":"slip","lines":["주문 조회 5번","한 번에 2,500 토큰","서브 컨텍스트 창에 12,500 토큰"]}},{"kind":"move","step":"요약","from":{"col":1},"to":2,"label":"걸러 요약만 돌려줌","art":{"kind":"slip","lines":["환불 대상: 주문 #3","주 컨텍스트 창엔 90 × 5 = 450 토큰"]}},{"kind":"end","label":"주 작업엔 대부분 무관한 토큰을 걸러 냄 — 총 토큰은 늘어도 주 에이전트의 판단을 지킴"}]},{"name":"② 병렬","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"경쟁사 11곳 환불 정책을 비교해 줘"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"서로 독립인 방향을 동시에","art":{"kind":"slip","lines":["서브 11개","회사마다 하나씩 동시에"]}},{"kind":"move","step":"요약","from":{"col":1},"to":2,"label":"요약만 돌려줌","art":{"kind":"slip","lines":["회사별 요약 11개","11곳 빠짐없이"]}},{"kind":"end","label":"병렬의 주 이득 = 철저함 (속도가 아님)"}]},{"name":"③ 순차 단계 쪼개기","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"환불 기능 하나 만들어 줘"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"계획→구현→테스트","art":{"kind":"slip","lines":["계획 에이전트 →","구현 에이전트 →","테스트 에이전트"]}},{"kind":"move","step":"요약","from":{"col":1},"to":2,"label":"전달 손실(거쳐 갈수록 내용이 빠짐)","art":{"kind":"slip","lines":["테스트: \"구현이 뭘 바꿨지?\"","조율 토큰 > 실제 작업"]}},{"kind":"end","label":"순차 단계는 컨텍스트를 공유해야 해서, 쪼개면 손해"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -527,7 +527,7 @@
         <li>시작 : orchestrator — 말 : <span class="flx-alt-say">“이 고객 최근 주문 5건 중 환불 대상 있어?”</span></li>
         <li>위임 : orchestrator → 서브에이전트들 : 하위작업 토큰이 많음(1천+) — 쪽지 : <span class="flx-alt-slip">주문 조회 5번 / 한 번에 2,500 토큰 / 서브 컨텍스트 창에 12,500 토큰</span></li>
         <li>요약 : 서브에이전트들 → 요약 : 걸러 요약만 돌려줌 — 쪽지 : <span class="flx-alt-slip">환불 대상: 주문 #3 / 주 컨텍스트 창엔 90 × 5 = 450 토큰</span></li>
-        <li>끝 : 주 작업엔 대부분 무관한 토큰을 걸러 냄 — 총 토큰은 늘어도 주 판단을 지킴</li>
+        <li>끝 : 주 작업엔 대부분 무관한 토큰을 걸러 냄 — 총 토큰은 늘어도 주 에이전트의 판단을 지킴</li>
       </ol>
       <p class="lead">② 병렬 <span class="fl-v is-ok">✓</span></p>
       <ol>
@@ -540,7 +540,7 @@
       <ol>
         <li>시작 : orchestrator — 말 : <span class="flx-alt-say">“환불 기능 하나 만들어 줘”</span></li>
         <li>위임 : orchestrator → 서브에이전트들 : 계획→구현→테스트 — 쪽지 : <span class="flx-alt-slip">계획 에이전트 → / 구현 에이전트 → / 테스트 에이전트</span></li>
-        <li>요약 : 서브에이전트들 → 요약 : 말 전달 놀이(거쳐 갈수록 내용이 빠짐) — 쪽지 : <span class="flx-alt-slip">테스트: "구현이 뭘 바꿨지?" / 조율 토큰 &gt; 실제 작업</span></li>
+        <li>요약 : 서브에이전트들 → 요약 : 전달 손실(거쳐 갈수록 내용이 빠짐) — 쪽지 : <span class="flx-alt-slip">테스트: "구현이 뭘 바꿨지?" / 조율 토큰 &gt; 실제 작업</span></li>
         <li>끝 : 순차 단계는 컨텍스트를 공유해야 해서, 쪼개면 손해</li>
       </ol>
     </details>
@@ -624,7 +624,7 @@
         <li><span class="neq" aria-hidden="true">≠</span><span>"15배는 단일 에이전트 대비" → 채팅 대비. 단일 대비는 3~10배</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"90.2% 점수에 도달" → 단일 Opus 4 대비 상대 향상, 내부 연구 eval</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"병렬이니 더 빠르다" → 총시간은 오히려 긴 경우 많음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>역할별 decomposition(분해 — 기획자·구현자·테스터·리뷰어) → 말 전달 놀이, 조율 토큰 &gt; 실제 작업</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>역할별 decomposition(분해 — 기획자·구현자·테스터·리뷰어) → 전달 손실, 조율 토큰 &gt; 실제 작업</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>최신 모델은 서브에이전트를 스스로 과하게 띄움 → 언제 쓰고 말지를 시스템 프롬프트에 적음</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>Managed Agents "coordinator(코디네이터)가 최대 20개에 위임(delegation)" → 명단(roster)에 고유 에이전트 최대 20개, 같은 에이전트의 복사본은 여러 번 호출 가능 · 위임은 1단계만</span></li>
       </ul>
@@ -649,7 +649,7 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 컨텍스트 오염이 멀티를 정당화하는 때 (비용은 오히려 늘어남)</h4>
 <ul>
-<li><span class="lead">조건 :</span> 상담 한 건에서 주문 조회를 5번, 조회 결과가 매번 2,500 토큰인데 주 판단에 필요한 건 90 토큰.</li>
+<li><span class="lead">조건 :</span> 상담 한 건에서 주문 조회를 5번, 조회 결과가 매번 2,500 토큰인데 주 에이전트 판단에 필요한 건 90 토큰.</li>
 <li><span class="lead">계산 :</span> 단일이면 5 × 2,500 = 12,500 토큰이 주 컨텍스트에 쌓임. 서브에이전트로 격리하면 주 컨텍스트엔 5 × 90 = 450 토큰. 대신 서브가 원문 12,500 + 자기 프롬프트를 따로 읽으므로 총 토큰은 늘어남.</li>
 <li><span class="lead">판단 :</span> 비용을 줄이는 선택이 아니라 주 에이전트의 판단 품질을 지키는 선택. 지문이 "비용 최소"만 묻는다면 답이 바뀔 수 있음.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (1천+ · 대부분 무관 조건은 확인)</li>
@@ -697,7 +697,7 @@
     <tr role="row"><td data-label="오답" role="cell">"에이전트를 늘리면 결과가 자동으로 좋아진다"</td><td data-label="왜 끌리나" role="cell">사람 조직처럼</td><td data-label="왜 틀리나" role="cell">세 경우(컨텍스트 오염·병렬·전문화) 밖에선 조율 비용이 이득을 넘음</td><td data-label="근거" role="cell"><a class="src-link" href="https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them" lang="en" rel="noopener">building-multi-agent-systems</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"멀티는 단일 에이전트의 약 15배 토큰"</td><td data-label="왜 끌리나" role="cell">숫자는 맞게 외움</td><td data-label="왜 틀리나" role="cell">15배는 채팅 대비. 단일 대비는 3~10배</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a> · <a class="src-link" href="https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them" lang="en" rel="noopener">building-multi-agent-systems</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"90.2% 점수에 도달하니 코딩에도 쓴다"</td><td data-label="왜 끌리나" role="cell">점수로 들림</td><td data-label="왜 틀리나" role="cell">단일 Opus 4 대비 상대 향상 · 내부 연구 eval · 코딩은 병렬 조각이 적음</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"기획·구현·테스트·리뷰 에이전트로 역할 분담"</td><td data-label="왜 끌리나" role="cell">팀 구조 같음</td><td data-label="왜 틀리나" role="cell">역할별 decomposition 은 말 전달 놀이, 조율 토큰이 실제 작업보다 많았던 실험</td><td data-label="근거" role="cell"><a class="src-link" href="https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them" lang="en" rel="noopener">building-multi-agent-systems</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"기획·구현·테스트·리뷰 에이전트로 역할 분담"</td><td data-label="왜 끌리나" role="cell">팀 구조 같음</td><td data-label="왜 틀리나" role="cell">역할별 decomposition 은 전달 손실, 조율 토큰이 실제 작업보다 많았던 실험</td><td data-label="근거" role="cell"><a class="src-link" href="https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them" lang="en" rel="noopener">building-multi-agent-systems</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"subagent 결과를 전부 orchestrator 대화로 복사"</td><td data-label="왜 끌리나" role="cell">다 모아야 종합하니까</td><td data-label="왜 틀리나" role="cell">큰 산출물은 파일에 쓰고 가벼운 참조만 넘김</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"Managed Agents coordinator(코디네이터)는 최대 20개까지만 호출"</td><td data-label="왜 끌리나" role="cell">목록 문구</td><td data-label="왜 틀리나" role="cell">명단에 고유 에이전트 최대 20개, 같은 에이전트 복사본은 여러 번 호출 가능</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/managed-agents/multi-agent" lang="en" rel="noopener">managed-agents multi-agent</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"서브에이전트가 또 서브에이전트를 두게 하면 더 깊게 판다"</td><td data-label="왜 끌리나" role="cell">계층이 깊을수록 강해 보임</td><td data-label="왜 틀리나" role="cell">Managed Agents 위임은 1단계만 (명단 가진 에이전트 참조 시 오류)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/managed-agents/multi-agent" lang="en" rel="noopener">managed-agents multi-agent</a></td></tr>
@@ -709,7 +709,7 @@
   <h2 class="sec-h" id="single-vs-multi-agent-ref-h">참고</h2>
   <div class="t5-rest">
     <h3>CCA-F</h3>
-      <p>봄 (서브에이전트 설정 · 컨텍스트 격리 동작) — 여기선 "이 일에 멀티를 쓸 만한가"를 비용 배수 · 의존도 · decomposition 경계로 물음</p>
+      <p>겹침 (서브에이전트 설정 · 컨텍스트 격리 동작) — 여기선 "이 일에 멀티를 쓸 만한가"를 비용 배수 · 의존도 · decomposition 경계로 물음</p>
     <h3>개념</h3>
       <ul class="plain">
         <li><a href="observability-signals.html">■ observability 세 신호 (위임 사슬 트레이스)</a></li>
@@ -724,7 +724,7 @@
         <li><a class="src-link" href="https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them" lang="en" rel="noopener">building-multi-agent-systems</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" lang="en" rel="noopener">prompting-best-practices</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/managed-agents/multi-agent" lang="en" rel="noopener">managed-agents multi-agent</a></li>
-        <li><a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a> <span class="src">( — 멀티에이전트 오케스트레이션 공개 베타 2026-05-06)</span></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a> <span class="src">(멀티에이전트 오케스트레이션 공개 베타 2026-05-06)</span></li>
       </ul>
     <h3>상태</h3>
       <ul class="plain">

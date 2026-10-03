@@ -413,7 +413,7 @@
 </ul>
 <p class="lead">deny 의 두 얼굴</p>
 <ul>
-<li>이름째 deny(<code>Bash</code>) = 도구 정의가 Claude 에게서 사라짐 → 부를 생각도 못 함. 필요 없는 도구 빼기(■ 최소 권한).</li>
+<li>도구 전체 deny(<code>Bash</code>) = 도구 정의가 Claude 에게서 사라짐 → 부를 생각도 못 함. 필요 없는 도구 빼기(■ 최소 권한).</li>
 <li>패턴 deny(<code>Bash(rm *)</code>) = 도구는 보이고, 맞는 호출만 막힘.</li>
 </ul>
 <p class="lead">규칙의 한계</p>
@@ -446,7 +446,7 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">이름째 deny</p><p>도구 이름만(<code>Bash</code>) = Claude 맥락에서 아예 뺌 <span class="src">(■ 최소 권한)</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">도구 전체 deny</p><p>도구 이름만(<code>Bash</code>) = Claude 맥락에서 아예 뺌 <span class="src">(■ 최소 권한)</span></p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>예</span>
@@ -515,7 +515,7 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="agent-permissions-flow" aria-label="에이전트 권한 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["호출","deny","ask","allow"],"blocks":[],"rules":[null,"deny → ask → allow 순, 첫 일치가 결정",null,"`Bash(npm run *)` · `Bash(aws s3 ls)`"],"question":"규칙 셋 중 무엇을 먼저 볼까?","scenes":[{"name":"① 저위험 반복 명령","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Bash 명령","`npm run lint`"]}},{"kind":"move","step":"검사","from":{"col":0},"to":1,"label":"안 걸림","art":{"kind":"slip","lines":["`Bash(aws *)`","→ 불일치"]}},{"kind":"move","step":"검사","from":{"col":0},"to":2,"label":"안 걸림","art":{"kind":"slip","lines":["`Bash(git push *)`","→ 불일치"]}},{"kind":"move","step":"통과","from":{"col":0},"to":3,"label":"묻지 않고","art":{"kind":"slip","lines":["`Bash(npm run *)`","→ 일치 · 실행"]}},{"kind":"end","label":"allow = 묻지 않고 — 확인창 없이 lint 가 돎"}]},{"name":"② 좁은 allow 로 넓은 deny 뚫기","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Bash 명령","`aws s3 ls`"]}},{"kind":"move","step":"검사","from":{"col":0},"to":1,"label":"넓은 deny 에 걸림","art":{"kind":"slip","lines":["`Bash(aws *)`","→ 일치 · 거부"]}},{"kind":"skip","at":2},{"kind":"skip","at":3},{"kind":"end","label":"첫 일치가 deny — 좁은 allow(`Bash(aws s3 ls)`)도 넓은 deny 를 못 뚫음"}]},{"name":"③ 다른 표기로 빠져나감","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Bash 명령","`git -C . push`"]}},{"kind":"start","at":1,"label":"","art":{"kind":"slip","lines":["`Bash(git push *)`","를 deny 에 두면"]}},{"kind":"move","step":"검사","from":{"col":0},"to":1,"label":"deny 에 안 걸림","art":{"kind":"slip","lines":["`git -C . push`","→ 불일치"]}},{"kind":"end","label":"Bash 규칙은 명령 글자 매칭이라 `git -C . push` 는 안 걸림 — 내용 검사는 PreToolUse 훅"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["호출","deny","ask","allow"],"blocks":[],"rules":[null,"deny → ask → allow 순, 첫 일치가 결정",null,"`Bash(npm run *)` · `Bash(aws s3 ls)`"],"question":"규칙 셋 중 무엇을 먼저 볼까?","scenes":[{"name":"① 저위험 반복 명령","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Bash 명령","`npm run lint`"]}},{"kind":"move","step":"검사","from":{"col":0},"to":1,"label":"안 걸림","art":{"kind":"slip","lines":["`Bash(aws *)`","→ 불일치"]}},{"kind":"move","step":"검사","from":{"col":0},"to":2,"label":"안 걸림","art":{"kind":"slip","lines":["`Bash(git push *)`","→ 불일치"]}},{"kind":"move","step":"통과","from":{"col":0},"to":3,"label":"묻지 않고","art":{"kind":"slip","lines":["`Bash(npm run *)`","→ 일치 · 실행"]}},{"kind":"end","label":"allow = 묻지 않고 — 확인창 없이 lint 가 실행됨"}]},{"name":"② 좁은 allow 로 넓은 deny 뚫기","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Bash 명령","`aws s3 ls`"]}},{"kind":"move","step":"검사","from":{"col":0},"to":1,"label":"넓은 deny 에 걸림","art":{"kind":"slip","lines":["`Bash(aws *)`","→ 일치 · 거부"]}},{"kind":"skip","at":2},{"kind":"skip","at":3},{"kind":"end","label":"첫 일치가 deny — 좁은 allow(`Bash(aws s3 ls)`)도 넓은 deny 를 못 뚫음"}]},{"name":"③ 다른 표기로 빠져나감","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Bash 명령","`git -C . push`"]}},{"kind":"start","at":1,"label":"","art":{"kind":"slip","lines":["`Bash(git push *)`","를 deny 에 두면"]}},{"kind":"move","step":"검사","from":{"col":0},"to":1,"label":"deny 에 안 걸림","art":{"kind":"slip","lines":["`git -C . push`","→ 불일치"]}},{"kind":"end","label":"Bash 규칙은 명령 글자 매칭이라 `git -C . push` 는 안 걸림 — 내용 검사는 PreToolUse 훅"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -529,7 +529,7 @@
         <li>검사 : 호출 → deny : 안 걸림 — 쪽지 : <span class="flx-alt-slip"><code>Bash(aws *)</code> / → 불일치</span></li>
         <li>검사 : 호출 → ask : 안 걸림 — 쪽지 : <span class="flx-alt-slip"><code>Bash(git push *)</code> / → 불일치</span></li>
         <li>통과 : 호출 → allow : 묻지 않고 — 쪽지 : <span class="flx-alt-slip"><code>Bash(npm run *)</code> / → 일치 · 실행</span></li>
-        <li>끝 : allow = 묻지 않고 — 확인창 없이 lint 가 돎</li>
+        <li>끝 : allow = 묻지 않고 — 확인창 없이 lint 가 실행됨</li>
       </ol>
       <p class="lead">② 좁은 allow 로 넓은 deny 뚫기 <span class="fl-v is-ng">≠</span></p>
       <ol>
@@ -584,7 +584,7 @@
             <p><span class="lead">deny 두 종류 :</span> <span class="pg">[7.1③]</span> <span class="pg">[3.1①]</span></p>
             <ul class="pairs">
               <li>도구 이름만(<code>Bash</code>) = 도구를 Claude 맥락에서 아예 뺌(못 봄)</li>
-              <li>패턴(<code>Bash(rm *)</code>) = 도구는 남고 맞는 호출만 막음 → 역할에 필요 없는 도구는 이름째 빼기 = <a href="least-privilege.html">■ 최소 권한</a></li>
+              <li>패턴(<code>Bash(rm *)</code>) = 도구는 남고 맞는 호출만 막음 → 역할에 필요 없는 도구는 도구 전체 빼기 = <a href="least-privilege.html">■ 최소 권한</a></li>
             </ul>
           </div>
         </li>
@@ -602,7 +602,7 @@
               <li>Bash 규칙은 명령 글자 매칭 → <code>git -C . push</code> 는 <code>Bash(git push *)</code> 에 안 걸림. 명령 내용을 내 코드로 검사 = PreToolUse 훅</li>
               <li>파일·네트워크를 OS 수준에서 = 샌드박스 → <a href="claude-md-vs-hooks.html">◆ CLAUDE.md(지시) vs 훅(강제)</a></li>
             </ul>
-            <p><span class="lead">훅 vs 규칙 :</span> 훅이 먼저 돎. exit 2 훅은 allow 가 있어도 막음 · 훅의 allow 는 deny·ask 를 못 넘음</p>
+            <p><span class="lead">훅 vs 규칙 :</span> 훅이 먼저 실행됨. exit 2 훅은 allow 가 있어도 막음 · 훅의 allow 는 deny·ask 를 못 넘음</p>
           </div>
         </li>
         <li id="agent-permissions-rule-6"><span class="num" aria-hidden="true">⑥</span>
@@ -612,9 +612,9 @@
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">범위</th><th scope="col" role="columnheader">어디</th><th scope="col" role="columnheader">누구</th><th scope="col" role="columnheader">쓰는 곳</th></tr></thead>
               <tbody role="rowgroup">
-                <tr role="row"><td data-label="범위" role="cell">local <span class="note">(기본)</span></td><td data-label="어디" role="cell"><code>~/.claude.json</code> 의 그 프로젝트 칸</td><td data-label="누구" role="cell">나만, 이 프로젝트</td><td data-label="쓰는 곳" role="cell">개인 개발 서버·실험·커밋하기 싫은 자격증명</td></tr>
-                <tr role="row"><td data-label="범위" role="cell">project</td><td data-label="어디" role="cell">저장소 루트 <code>.mcp.json</code></td><td data-label="누구" role="cell">커밋하면 팀</td><td data-label="쓰는 곳" role="cell">팀 공유 도구</td></tr>
-                <tr role="row"><td data-label="범위" role="cell">user</td><td data-label="어디" role="cell"><code>~/.claude.json</code></td><td data-label="누구" role="cell">나만, 모든 프로젝트</td><td data-label="쓰는 곳" role="cell">개인 유틸</td></tr>
+                <tr role="row"><td data-label="범위" role="cell">local <span class="note">(기본)</span></td><td data-label="어디" role="cell"><code>~/<wbr>.<wbr>claude.<wbr>json</code> 의 그 프로젝트 칸</td><td data-label="누구" role="cell">나만, 이 프로젝트</td><td data-label="쓰는 곳" role="cell">개인 개발 서버·실험·커밋하기 싫은 자격증명</td></tr>
+                <tr role="row"><td data-label="범위" role="cell">project</td><td data-label="어디" role="cell">저장소 루트 <code>.mcp.<wbr>json</code></td><td data-label="누구" role="cell">커밋하면 팀</td><td data-label="쓰는 곳" role="cell">팀 공유 도구</td></tr>
+                <tr role="row"><td data-label="범위" role="cell">user</td><td data-label="어디" role="cell"><code>~/<wbr>.<wbr>claude.<wbr>json</code></td><td data-label="누구" role="cell">나만, 모든 프로젝트</td><td data-label="쓰는 곳" role="cell">개인 유틸</td></tr>
               </tbody>
             </table>
             </div>
@@ -636,12 +636,12 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">역할이 안 쓰는 도구</td><td data-label="답" role="cell">이름째 deny(또는 목록에서 뺌)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a> "A bare tool name like <code>Bash</code> removes the tool from Claude’s context entirely" · <a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">역할이 안 쓰는 도구</td><td data-label="답" role="cell">도구 전체 deny(또는 목록에서 뺌)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a> "A bare tool name like <code>Bash</code> removes the tool from Claude’s context entirely" · <a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">저위험 반복 명령</td><td data-label="답" role="cell">allow</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a> (<code>Bash(npm run *)</code>)</td></tr>
     <tr role="row"><td data-label="조건" role="cell">되돌리기 어려운 명령</td><td data-label="답" role="cell">ask(매번 확인) 또는 deny</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a> (<code>Bash(git push *)</code>)</td></tr>
     <tr role="row"><td data-label="조건" role="cell">넓은 deny 에 좁은 예외가 필요</td><td data-label="답" role="cell">deny 를 좁힘 — allow 로는 못 뚫음</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a> "An allow rule can’t carve an exception out of a deny rule."</td></tr>
     <tr role="row"><td data-label="조건" role="cell">명령 내용·다른 표기까지 막아야</td><td data-label="답" role="cell">PreToolUse 훅 · 샌드박스</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">팀 공유 MCP 서버</td><td data-label="답" role="cell"><code>.mcp.json</code> 커밋 + 비밀은 <code>${VAR}</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/mcp" lang="en" rel="noopener">mcp</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">팀 공유 MCP 서버</td><td data-label="답" role="cell"><code>.mcp.<wbr>json</code> 커밋 + 비밀은 <code>${VAR}</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/mcp" lang="en" rel="noopener">mcp</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">개인 자격증명이 든 MCP 서버</td><td data-label="답" role="cell">local 범위</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/mcp" lang="en" rel="noopener">mcp</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">사람 없는 파이프라인</td><td data-label="답" role="cell"><code>dontAsk</code> (미리 허용된 것만)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a> · Skilljar 486932</td></tr>
     <tr role="row"><td data-label="조건" role="cell">확인창 전부 끄기</td><td data-label="답" role="cell"><code>bypassPermissions</code> 는 격리 컨테이너·VM 에서만</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
@@ -655,15 +655,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">도구 필요성</td><td data-label="값" role="cell">역할에 없음</td><td data-label="답 쪽" role="cell">이름째 deny</td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">도구 필요성</td><td data-label="값" role="cell">역할에 없음</td><td data-label="답 쪽" role="cell">도구 전체 deny</td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
     <tr role="row"><td data-label="변수" role="cell">되돌림</td><td data-label="값" role="cell">쉬움·반복</td><td data-label="답 쪽" role="cell">allow</td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
     <tr role="row"><td data-label="변수" role="cell">되돌림</td><td data-label="값" role="cell">어려움</td><td data-label="답 쪽" role="cell">ask / deny</td><td data-label="근거" role="cell">판단 규칙 3</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">규칙 출처</td><td data-label="값" role="cell">관리형 deny</td><td data-label="답 쪽" role="cell">누구도 못 풂 (<code>--allowedTools</code> 포함)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">규칙 출처</td><td data-label="값" role="cell">관리형 deny</td><td data-label="답 쪽" role="cell">누구도 못 풂 (<code>--<wbr>allowedTools</code> 포함)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">규칙 출처</td><td data-label="값" role="cell">커밋한 allow</td><td data-label="답 쪽" role="cell">팀원 폴더 신뢰 뒤</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">규칙 출처</td><td data-label="값" role="cell">로컬 'don't ask again'</td><td data-label="답 쪽" role="cell">프로젝트·관리형 ask 를 못 이김</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/settings" lang="en" rel="noopener">settings</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">실행 방식</td><td data-label="값" role="cell">대화형</td><td data-label="답 쪽" role="cell">project MCP 서버 승인 물음</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/mcp" lang="en" rel="noopener">mcp</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">실행 방식</td><td data-label="값" role="cell"><code>claude -p</code>·SDK</td><td data-label="답 쪽" role="cell">project MCP 서버를 묻지 않고 로드</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/mcp" lang="en" rel="noopener">mcp</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">샌드박스</td><td data-label="값" role="cell">켬 + <code>autoAllowBashIfSandboxed</code> 기본</td><td data-label="답 쪽" role="cell">이름째 Bash ask 를 샌드박스 경계가 대신함</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">샌드박스</td><td data-label="값" role="cell">켬 + <code>autoAllowBashIfSandboxed</code> 기본</td><td data-label="답 쪽" role="cell"><code>Bash</code> 전체 ask 를 샌드박스 경계가 대신함</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">모드</td><td data-label="값" role="cell"><code>auto</code></td><td data-label="답 쪽" role="cell">분류기 검토 — 고위험(high-stakes) 인프라 사람 검토 대체 아님</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/claude-code-auto-mode" rel="noopener">auto mode 글</a></td></tr>
   </tbody>
 </table>
@@ -711,8 +711,8 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 샌드박스를 켜니 Bash 확인창이 사라지는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 팀 설정에 이름째 <code>Bash</code> ask. 누군가 샌드박스를 켬(<code>autoAllowBashIfSandboxed</code> 기본 <code>true</code>).</li>
-<li><span class="lead">판단 :</span> 샌드박스 안의 Bash 는 확인 없이 돎 — 샌드박스 경계가 "모든 Bash 확인"을 대신함. 그래도 내용 지정 ask(<code>Bash(git push *)</code>)·명시 deny·중요 경로 <code>rm</code> 은 그대로 걸림. "ask 에 넣었으니 늘 묻는다"가 뒤집힘. plan 모드에선 이 대체를 안 함.</li>
+<li><span class="lead">조건 :</span> 팀 설정에 <code>Bash</code> 전체 ask. 누군가 샌드박스를 켬(<code>autoAllowBashIfSandboxed</code> 기본 <code>true</code>).</li>
+<li><span class="lead">판단 :</span> 샌드박스 안의 Bash 는 확인 없이 실행됨 — 샌드박스 경계가 "모든 Bash 확인"을 대신함. 그래도 내용 지정 ask(<code>Bash(git push *)</code>)·명시 deny·중요 경로 <code>rm</code> 은 그대로 걸림. "ask 에 넣었으니 늘 묻는다"가 뒤집힘. plan 모드에선 이 대체를 안 함.</li>
 
 <li><span class="lead">근거 :</span> permissions</li>
 </ul>
@@ -756,7 +756,7 @@
     <tr role="row"><td data-label="오답" role="cell">"좁은 allow 가 더 구체적이니 넓은 deny 를 이김"</td><td data-label="왜 끌리나" role="cell">방화벽 규칙처럼 구체 규칙 우선 같음</td><td data-label="왜 틀리나" role="cell">deny → ask → allow, 구체성 무관</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"CLAUDE.md 에 'push 금지' 적으면 된다"</td><td data-label="왜 끌리나" role="cell">쉽고 모두에게 실림</td><td data-label="왜 틀리나" role="cell">규칙은 Claude Code 가 강제, 프롬프트는 허용 범위를 못 바꿈</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"<code>Bash(git push *)</code> deny 로 push 는 다 막힘"</td><td data-label="왜 끌리나" role="cell">규칙이 명확해 보임</td><td data-label="왜 틀리나" role="cell"><code>git -C . push</code> 는 안 걸림</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"토큰을 <code>.mcp.json</code> 에 적어 커밋"</td><td data-label="왜 끌리나" role="cell">팀원이 바로 씀</td><td data-label="왜 틀리나" role="cell">비밀이 저장소에 남음. <code>${VAR}</code> 또는 local</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/mcp" lang="en" rel="noopener">mcp</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"토큰을 <code>.mcp.<wbr>json</code> 에 적어 커밋"</td><td data-label="왜 끌리나" role="cell">팀원이 바로 씀</td><td data-label="왜 틀리나" role="cell">비밀이 저장소에 남음. <code>${VAR}</code> 또는 local</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/mcp" lang="en" rel="noopener">mcp</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"CI 는 사람이 없으니 <code>bypassPermissions</code>"</td><td data-label="왜 끌리나" role="cell">확인창에 안 멈춤</td><td data-label="왜 틀리나" role="cell">무인 = <code>dontAsk</code>. bypass 는 격리 환경에서만</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a> · Skilljar 486932</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"커밋한 <code>enableAllProjectMcpServers</code> 로 팀 서버 자동 연결"</td><td data-label="왜 끌리나" role="cell">한 번에 다 켜짐</td><td data-label="왜 틀리나" role="cell">미신뢰 폴더에선 무시, 서버는 승인 대기</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/mcp" lang="en" rel="noopener">mcp</a></td></tr>
   </tbody>
@@ -767,11 +767,11 @@
   <h2 class="sec-h" id="agent-permissions-ref-h">참고</h2>
   <div class="t5-rest">
     <h3>CCA-F</h3>
-      <p>봄 (2.4 MCP 스코프 local·project·user · <code>${VAR}</code> 로 토큰 분리 · 2.3 서브에이전트마다 역할에 필요한 도구만) — 여기선 allow/ask/deny 를 위험도로 나눠 팀 공유 설정에 싣는 판단과, 규칙이 어느 순서·어느 층에서 이기는지로 묻는다</p>
+      <p>겹침 (2.4 MCP 스코프 local·project·user · <code>${VAR}</code> 로 토큰 분리 · 2.3 서브에이전트마다 역할에 필요한 도구만) — 여기선 allow/ask/deny 를 위험도로 나눠 팀 공유 설정에 싣는 판단과, 규칙이 어느 순서·어느 층에서 이기는지로 묻는다</p>
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 7.1</a> <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>샘플 1 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">샘플 1</a> <span class="src">공식 시험 가이드 v1.0</span></li>
         <li><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">code.claude.com permissions</a></li>
         <li><a class="src-link" href="https://code.claude.com/docs/en/settings" lang="en" rel="noopener">settings</a></li>
         <li>mcp <span class="src">(2026-09-28 조회)</span></li>

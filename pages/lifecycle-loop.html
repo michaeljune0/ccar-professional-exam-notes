@@ -408,7 +408,7 @@
 <ul>
 <li>운영(production) 모니터링은 출시 뒤에야 분포 변화 · 예상 못 한 실패를 잡음. 단 사후 대응 — 사용자가 먼저 겪음.</li>
 <li>반복이 빠지면 하나 고치면 다른 게 깨지는 사후 대응 루프에 갇힘 (공식 "reactive loops").</li>
-<li>eval 셋은 살아 있는 산출물 → 소유자가 없으면 낡음. 전담 팀이 인프라, 도메인 전문가·제품팀이 과제를 기여.</li>
+<li>eval 셋은 살아 있는 산출물 → 담당자가 없으면 낡음. 전담 팀이 인프라, 도메인 전문가·제품팀이 과제를 기여.</li>
 <li>모델 lifecycle : 모델 ID 마다 지원 중단·종료 일정. 교체는 반복 단계의 일, eval 이 있으면 며칠.</li>
 </ul>
 <p class="lead">되돌아가는 폭 (업계 일반)</p>
@@ -456,7 +456,7 @@
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>같은 실패가 반복</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">eval 에 먼저</p><p>설계 변경 승인 전에 그 사례를 eval 에 추가 → 다음 변경을 그 사례로 검증한 뒤 배포 <span class="note">(순서는 업계 일반 · 실패 → 과제는 ✓)</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">eval 에 먼저</p><p>설계 변경 승인 전에 그 사례를 eval 에 추가 → 다음 변경을 그 사례로 검증한 뒤 배포 <span class="note">(순서는 업계 일반 · 실패 → 과제는 확인)</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>요구 자체가 바뀜</span>
@@ -480,7 +480,7 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>eval 셋</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">소유자를 정함</p><p>살아 있는 산출물 · 명확한 소유권 · 인프라는 전담 팀, 과제는 도메인 전문가·제품팀</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">담당자를 정함</p><p>살아 있는 산출물 · 명확한 소유권 · 인프라는 전담 팀, 과제는 도메인 전문가·제품팀</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>모델 버전</span>
@@ -491,7 +491,7 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="lifecycle-loop-flow" aria-label="lifecycle 루프 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["discovery","설계","핸드오프","모니터링","반복"],"blocks":[],"rules":[null,null,null,null,null],"question":"들어온 실패는 어디로 가야 할까?","scenes":[{"name":"① 실패가 되돌아옴","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["필요: 반품 문의 자동 응대","범위: 환불액 · 배송비"]}},{"kind":"move","step":"넘김","from":{"col":1},"to":2,"label":"결정 기록 · 구현 가이드 + eval 셋 소유자","art":{"kind":"slip","lines":["ADR 3장 · 구현 가이드","eval 셋 소유: 지원팀"]}},{"kind":"mark","step":"포착","at":{"col":3},"label":"분포 변화 · 예상 못 한 실패","art":{"kind":"slip","lines":["로그: 배송비 누락","이번 주 14건"]}},{"kind":"move","step":"과제로","from":{"col":3},"to":4,"label":"실패를 테스트 과제로","art":{"kind":"slip","lines":["eval 과제 +14","\"반품 1장 = 배송비 차감\""]}},{"kind":"move","step":"되돌림","from":{"col":4},"to":1,"label":"다음 변경을 그 사례로 검증","art":{"kind":"slip","lines":["프롬프트 v2","새 과제 14/14 통과"]}},{"kind":"end","label":"실패가 테스트 과제가 되고, 테스트 과제가 regression 을 막음"}]},{"name":"② 핸드오프로 끝","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["필요: 반품 문의 자동 응대","범위: 환불액 · 배송비"]}},{"kind":"move","step":"넘김","from":{"col":1},"to":2,"label":"아키텍트 역할은 끝 ≠","art":{"kind":"say","text":"이제 운영팀 몫이에요."}},{"kind":"mark","step":"포착","at":{"col":3},"label":"문제가 사용자에게 먼저 닿음","art":{"kind":"slip","lines":["고객 불만: \"배송비 빠졌어요\"","이번 주 14건"]}},{"kind":"skip","at":4},{"kind":"end","label":"하나 고치면 다른 게 깨지는 사후 대응"}]},{"name":"③ 작은 결함마다 discovery","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["필요: 반품 문의 자동 응대","범위: 환불액 · 배송비"]}},{"kind":"mark","step":"포착","at":{"col":3},"label":"사소한 결함 한 건","art":{"kind":"slip","lines":["로그: 날짜 표기 오타","1건"]}},{"kind":"skip","at":4},{"kind":"move","step":"되돌림","from":{"col":3},"to":0,"label":"처음부터 다시 ≠","art":{"kind":"slip","lines":["이해관계자 인터뷰부터","다시 시작"]}},{"kind":"end","label":"사소한 결함 한 건은 반복 안에서 고치고 regression eval"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["discovery","설계","핸드오프","모니터링","반복"],"blocks":[],"rules":[null,null,null,null,null],"question":"들어온 실패는 어디로 가야 할까?","scenes":[{"name":"① 실패가 되돌아옴","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["필요: 반품 문의 자동 응대","범위: 환불액 · 배송비"]}},{"kind":"move","step":"넘김","from":{"col":1},"to":2,"label":"결정 기록 · 구현 가이드 + eval 셋 담당자","art":{"kind":"slip","lines":["ADR 3장 · 구현 가이드","eval 셋 담당: 지원팀"]}},{"kind":"mark","step":"포착","at":{"col":3},"label":"분포 변화 · 예상 못 한 실패","art":{"kind":"slip","lines":["로그: 배송비 누락","이번 주 14건"]}},{"kind":"move","step":"과제로","from":{"col":3},"to":4,"label":"실패를 테스트 과제로","art":{"kind":"slip","lines":["eval 과제 +14","\"반품 1장 = 배송비 차감\""]}},{"kind":"move","step":"되돌림","from":{"col":4},"to":1,"label":"다음 변경을 그 사례로 검증","art":{"kind":"slip","lines":["프롬프트 v2","새 과제 14/14 통과"]}},{"kind":"end","label":"실패가 테스트 과제가 되고, 테스트 과제가 regression 을 막음"}]},{"name":"② 핸드오프로 끝","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["필요: 반품 문의 자동 응대","범위: 환불액 · 배송비"]}},{"kind":"move","step":"넘김","from":{"col":1},"to":2,"label":"아키텍트 역할은 끝 ≠","art":{"kind":"say","text":"이제 운영팀 몫이에요."}},{"kind":"mark","step":"포착","at":{"col":3},"label":"문제가 사용자에게 먼저 닿음","art":{"kind":"slip","lines":["고객 불만: \"배송비 빠졌어요\"","이번 주 14건"]}},{"kind":"skip","at":4},{"kind":"end","label":"하나 고치면 다른 게 깨지는 사후 대응"}]},{"name":"③ 작은 결함마다 discovery","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["필요: 반품 문의 자동 응대","범위: 환불액 · 배송비"]}},{"kind":"mark","step":"포착","at":{"col":3},"label":"사소한 결함 한 건","art":{"kind":"slip","lines":["로그: 날짜 표기 오타","1건"]}},{"kind":"skip","at":4},{"kind":"move","step":"되돌림","from":{"col":3},"to":0,"label":"처음부터 다시 ≠","art":{"kind":"slip","lines":["이해관계자 인터뷰부터","다시 시작"]}},{"kind":"end","label":"사소한 결함 한 건은 반복 안에서 고치고 regression eval"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -500,7 +500,7 @@
       <p class="lead">① 실패가 되돌아옴 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : discovery — 쪽지 : <span class="flx-alt-slip">필요: 반품 문의 자동 응대 / 범위: 환불액 · 배송비</span></li>
-        <li>넘김 : 설계 → 핸드오프 : 결정 기록 · 구현 가이드 + eval 셋 소유자 — 쪽지 : <span class="flx-alt-slip">ADR 3장 · 구현 가이드 / eval 셋 소유: 지원팀</span></li>
+        <li>넘김 : 설계 → 핸드오프 : 결정 기록 · 구현 가이드 + eval 셋 담당자 — 쪽지 : <span class="flx-alt-slip">ADR 3장 · 구현 가이드 / eval 셋 담당: 지원팀</span></li>
         <li>포착 : 모니터링 : 분포 변화 · 예상 못 한 실패 — 쪽지 : <span class="flx-alt-slip">로그: 배송비 누락 / 이번 주 14건</span></li>
         <li>과제로 : 모니터링 → 반복 : 실패를 테스트 과제로 — 쪽지 : <span class="flx-alt-slip">eval 과제 +14 / "반품 1장 = 배송비 차감"</span></li>
         <li>되돌림 : 반복 → 설계 : 다음 변경을 그 사례로 검증 — 쪽지 : <span class="flx-alt-slip">프롬프트 v2 / 새 과제 14/14 통과</span></li>
@@ -545,7 +545,7 @@
               <tbody role="rowgroup">
                 <tr role="row"><td data-label="단계" role="cell">discovery</td><td data-label="할 일" role="cell">진짜 필요 · 범위 · 데이터 사실</td><td data-label="본편" role="cell"><a href="discovery.html">■ discovery</a> · <a href="problem-framing.html">■ 문제 정의</a></td></tr>
                 <tr role="row"><td data-label="단계" role="cell">설계</td><td data-label="할 일" role="cell">성공 기준(success criteria) 먼저, 그 기준을 재는 eval 을 설계 · 만들 기능의 eval 먼저(eval-driven)</td><td data-label="본편" role="cell"><a href="success-criteria.html">■ 성공 기준</a> · <a href="eval-driven-iteration.html">■ 변경마다 eval 다시</a></td></tr>
-                <tr role="row"><td data-label="단계" role="cell">핸드오프</td><td data-label="할 일" role="cell">결정 기록 · 구현 가이드 + eval 셋 소유자</td><td data-label="본편" role="cell"><a href="adr-package.html">■ ADR·아키텍처 패키지</a> · <a href="implementation-guide.html">■ 구현 가이드</a></td></tr>
+                <tr role="row"><td data-label="단계" role="cell">핸드오프</td><td data-label="할 일" role="cell">결정 기록 · 구현 가이드 + eval 셋 담당자</td><td data-label="본편" role="cell"><a href="adr-package.html">■ ADR·아키텍처 패키지</a> · <a href="implementation-guide.html">■ 구현 가이드</a></td></tr>
                 <tr role="row"><td data-label="단계" role="cell">모니터링</td><td data-label="할 일" role="cell">출시 뒤 분포 변화 · 예상 못 한 실패</td><td data-label="본편" role="cell"><a href="eval-layers.html">■ 검증 층</a> · <a href="observability-signals.html">■ observability 세 신호</a></td></tr>
                 <tr role="row"><td data-label="단계" role="cell">반복</td><td data-label="할 일" role="cell">실패를 테스트 과제로 → 다음 변경 검증</td><td data-label="본편" role="cell"><a href="production-feedback-loop.html">■ 운영 → eval feedback loop</a></td></tr>
               </tbody>
@@ -578,14 +578,14 @@
               </tbody>
             </table>
             </div>
-            <p>eval 과제를 정의해 보는 것 = 요구가 짓기 시작할 만큼 구체적인지 시험하는 좋은 방법 → 과제로 못 적으면 discovery 쪽 신호 <span class="note">(연결은 업계 일반)</span></p>
+            <p>eval 과제를 정의해 보는 것 = 요구가 구현을 시작할 만큼 구체적인지 시험하는 좋은 방법 → 과제로 못 적으면 discovery 쪽 신호 <span class="note">(연결은 업계 일반)</span></p>
           </div>
         </li>
         <li id="lifecycle-loop-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p>eval 셋은 핸드오프 뒤에도 소유자가 있어야 : 살아 있는 산출물 · 계속 손보고 명확한 소유권이 있어야 쓸모 <span class="pg">[6.5①]</span></p>
+            <p>eval 셋은 핸드오프 뒤에도 담당자가 있어야 : 살아 있는 산출물 · 계속 손보고 명확한 소유권이 있어야 쓸모 <span class="pg">[6.5①]</span></p>
             <p>가장 잘 된 방식 = 전담 eval 팀이 핵심 인프라, 도메인 전문가·제품팀이 과제 대부분을 기여하고 직접 돌림. PM · 고객 성공 매니저 · 영업도 Claude Code 로 과제를 PR 로 기여</p>
-            <p>100% 통과한 capability(능력) eval → regression 스위트로 졸업 · 100% eval 은 regression 만 잡고 개선 신호 없음(포화) → <a href="capability-vs-regression.html">◆ capability eval vs regression eval</a></p>
+            <p>100% 통과한 capability(능력) eval → regression 스위트로 이관 · 100% eval 은 regression 만 잡고 개선 신호 없음(포화) → <a href="capability-vs-regression.html">◆ capability eval vs regression eval</a></p>
           </div>
         </li>
         <li id="lifecycle-loop-rule-5"><span class="num" aria-hidden="true">⑤</span>
@@ -608,10 +608,10 @@
     <tr role="row"><td data-label="조건" role="cell">핸드오프 뒤 할 일 (복수 응답)</td><td data-label="답" role="cell">운영 모니터링 · 실패를 eval 과제로 넣어 다음 결정의 증거로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a> · <a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 6.5</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">이미 운영 중인 시스템의 첫 eval 과제</td><td data-label="답" role="cell">버그 트래커 · 지원 큐의 실제 실패</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">첫 eval 셋 크기</td><td data-label="답" role="cell">실제 실패에서 뽑은 20~50개로 시작</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">핸드오프 때 eval 셋</td><td data-label="답" role="cell">소유자를 정함 · 도메인 전문가·제품팀이 과제 기여</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">capability(능력) eval 이 100% 에 닿음</td><td data-label="답" role="cell">regression 스위트로 졸업 · 새 capability eval 필요(포화)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">핸드오프 때 eval 셋</td><td data-label="답" role="cell">담당자를 정함 · 도메인 전문가·제품팀이 과제 기여</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">capability(능력) eval 이 100% 에 닿음</td><td data-label="답" role="cell">regression 스위트로 이관 · 새 capability eval 필요(포화)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">모델 종료 · 새 모델</td><td data-label="답" role="cell">eval 로 교체 판단 · effort 새로 스윕</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids-and-versions</a> · <a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">같은 실패가 반복</td><td data-label="답" role="cell">설계 변경 승인 전에 eval 에 먼저 → 그 사례로 다음 변경 검증</td><td data-label="등급" role="cell">업계 일반(순서) · 확인(실패 → 과제)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">같은 실패가 반복</td><td data-label="답" role="cell">설계 변경 승인 전에 eval 에 먼저 → 그 사례로 다음 변경 검증</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span>(순서) · 확인(실패 → 과제)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">사소한 결함 한 건</td><td data-label="답" role="cell">discovery 재시작 X · 반복 안에서</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
     <tr role="row"><td data-label="조건" role="cell">요구 자체가 바뀐 증거</td><td data-label="답" role="cell">discovery 로</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">eval 과제로 요구의 구체성을 시험과 이어짐</td></tr>
     <tr role="row"><td data-label="조건" role="cell">문서 갱신 뒤 확신에 찬 오답 · 모델·지연(latency) 그대로</td><td data-label="답" role="cell">검색(retrieval)·indexing(색인)부터</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 3</a> 정답 B · ■ 변경부터 묻는 진단</td></tr>
@@ -626,10 +626,10 @@
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
     <tr role="row"><td data-label="변수" role="cell">들어온 문제</td><td data-label="값" role="cell">1회성 · 작음</td><td data-label="답 쪽" role="cell">반복 안에서 고침</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 8</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">들어온 문제</td><td data-label="값" role="cell">같은 유형 반복</td><td data-label="답 쪽" role="cell">eval 에 먼저 → 설계 변경</td><td data-label="등급" role="cell">업계 일반(순서)</td><td data-label="근거" role="cell">판단 규칙 7</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">들어온 문제</td><td data-label="값" role="cell">같은 유형 반복</td><td data-label="답 쪽" role="cell">eval 에 먼저 → 설계 변경</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span>(순서)</td><td data-label="근거" role="cell">판단 규칙 7</td></tr>
     <tr role="row"><td data-label="변수" role="cell">들어온 문제</td><td data-label="값" role="cell">요구 변화 증거</td><td data-label="답 쪽" role="cell">discovery 로</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 9</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">핸드오프 뒤 소유</td><td data-label="값" role="cell">eval 소유자 있음 · 기여 경로 있음</td><td data-label="답 쪽" role="cell">루프가 돎</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">핸드오프 뒤 소유</td><td data-label="값" role="cell">아무도 안 쥠</td><td data-label="답 쪽" role="cell">eval 이 낡음 → 거짓 확신</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"> "ongoing maintenance … to avoid drift"</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">핸드오프 뒤 담당</td><td data-label="값" role="cell">eval 담당자 있음 · 기여 경로 있음</td><td data-label="답 쪽" role="cell">루프가 돌아감</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">핸드오프 뒤 담당</td><td data-label="값" role="cell">담당자 없음</td><td data-label="답 쪽" role="cell">eval 이 낡음 → 거짓 확신</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"> "ongoing maintenance … to avoid drift"</td></tr>
     <tr role="row"><td data-label="변수" role="cell">eval 통과율</td><td data-label="값" role="cell">100%</td><td data-label="답 쪽" role="cell">regression 만 잡아냄 · 개선 신호 없음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
     <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">종료 일정 공지</td><td data-label="답 쪽" role="cell">반복 단계가 열림 · eval 있으면 며칠</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">문항 형식</td><td data-label="값" role="cell">복수 응답</td><td data-label="답 쪽" role="cell">문항이 고를 개수를 말함</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 5절</a></td></tr>
@@ -697,15 +697,15 @@
 </ul>
 <h4>3. 아키텍트 개인이 빠져도 되는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 핸드오프 때 eval 셋 소유 팀이 정해지고, 도메인 전문가가 과제를 PR 로 기여하는 경로가 있음.</li>
+<li><span class="lead">조건 :</span> 핸드오프 때 eval 셋 담당 팀이 정해지고, 도메인 전문가가 과제를 PR 로 기여하는 경로가 있음.</li>
 <li><span class="lead">판단 :</span> 틀린 보기 "핸드오프로 아키텍트 역할은 끝" 이 틀린 이유는 모니터링·반복이 멈추기 때문이지, 그 사람이 꼭 남아야 해서가 아님. 소유권이 넘어가 루프가 돌면 개인은 빠져도 됨.</li>
-<li><span class="lead">등급 :</span> <span class="note">(소유권·기여 구조) · 업계 일반(개인 역할 해석)</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(소유권·기여 구조) ·</span> <span class="gen">업계 일반</span><span class="note">(개인 역할 해석)</span></li>
 <li><span class="lead">근거 :</span> demystifying-evals</li>
 </ul>
 <h4>4. eval 이 100% 인데 할 일이 남을 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> capability eval 40문항이 석 달째 40/40.</li>
-<li><span class="lead">판단 :</span> 포화 — regression 만 잡고 개선 신호 없음. 이 셋은 regression 스위트로 졸업시키고, 운영에서 들어온 새 실패로 capability eval 을 새로 만듦.</li>
+<li><span class="lead">판단 :</span> 포화 — regression 만 잡고 개선 신호 없음. 이 셋은 regression 스위트로 옮기고, 운영에서 들어온 새 실패로 capability eval 을 새로 만듦.</li>
 
 <li><span class="lead">근거 :</span> demystifying-evals</li>
 </ul>
@@ -725,7 +725,7 @@
   <tbody role="rowgroup">
     <tr role="row"><td data-label="오답" role="cell">"핸드오프로 아키텍트 역할은 끝, 이제 운영팀 몫"</td><td data-label="왜 끌리나" role="cell">인수인계 = 책임 이전</td><td data-label="왜 틀리나" role="cell">모니터링·반복이 멈추면 사후 대응 루프</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"사소한 버그마다 discovery 를 처음부터 다시"</td><td data-label="왜 끌리나" role="cell">꼼꼼해 보임</td><td data-label="왜 틀리나" role="cell">결함 크기·원인에 맞게 되돌아감. 과한 재설계</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.5① (영상 Part 23 Q4 오답)</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"같은 누락이 반복되니 바로 더 큰 모델로"</td><td data-label="왜 끌리나" role="cell">모델이 약해 보임</td><td data-label="왜 틀리나" role="cell">먼저 사례를 eval 에 넣어 커버리지부터 · 모델 교체도 eval 로 판단</td><td data-label="등급" role="cell">업계 일반(순서) · 확인(교체는 eval 로)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"같은 누락이 반복되니 바로 더 큰 모델로"</td><td data-label="왜 끌리나" role="cell">모델이 약해 보임</td><td data-label="왜 틀리나" role="cell">먼저 사례를 eval 에 넣어 커버리지부터 · 모델 교체도 eval 로 판단</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span>(순서) · 확인(교체는 eval 로)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"주간 상태 보고 회의에서 공유하고 주의를 당부"</td><td data-label="왜 끌리나" role="cell">소통을 했으니 루프를 닫은 것 같음</td><td data-label="왜 틀리나" role="cell">실패가 테스트 과제가 되지 않음 → regression 을 못 막음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a> (본문 = ■ 운영 → eval feedback loop)</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"eval 은 출시 전에 한 번 만들면 끝"</td><td data-label="왜 끌리나" role="cell">테스트는 출시 관문</td><td data-label="왜 틀리나" role="cell">살아 있는 산출물 · 계속 손봐야</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"eval 100% 니 개선할 게 없다"</td><td data-label="왜 끌리나" role="cell">만점</td><td data-label="왜 틀리나" role="cell">포화 — 개선 신호 없음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>

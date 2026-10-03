@@ -410,7 +410,7 @@
 <li>정적 지식은 검색(RAG), 잔액·주문 같은 실시간 값은 임베딩 RAG 로 부족 → 도구.</li>
 <li>가드레일 : 환각(hallucination) 줄이기(인용·사실 확인) · 정책 교차 확인 · 권한 없는 약속 금지 · PII 제거.</li>
 <li>사람 확인 지점 : 에이전트는 체크포인트나 막힐 때 사람에게 돌아옴.</li>
-<li>루프는 앱이 쥠 : <code>stop_reason</code> 으로 다음 단계를 정함(1.2②). "You own the loop and the tools. Claude owns the reasoning." (Skilljar)</li>
+<li>루프는 앱이 맡음 : <code>stop_reason</code> 으로 다음 단계를 정함(1.2②). "You own the loop and the tools. Claude owns the reasoning." (Skilljar)</li>
 </ul>
 <p class="lead">출력 칸 — 스키마</p>
 <ul>
@@ -427,7 +427,7 @@
 <p class="lead">핵심 질문 두 개</p>
 <ul>
 <li>칸 사이에 넘어가는 것(판정 · 도구 입력 · 최종 답)이 스키마로 정해져 있나?</li>
-<li>운영에서 잡힌 실패가 다음 평가 묶음으로 들어가는 길이 있나?</li>
+<li>운영에서 잡힌 실패가 다음 평가 세트으로 들어가는 길이 있나?</li>
 </ul>
 </section>
   <h2 class="sec-h" id="e2e-architecture-rules-h">규칙과 판단</h2>
@@ -498,7 +498,7 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="e2e-architecture-flow" aria-label="input → processing → output → feedback loop 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["입력","처리","출력","feedback loop"],"blocks":[],"rules":[null,null,"스키마로 받아 뒤쪽 코드가 추측 없이 씀","실패를 테스트 과제로 바꿔 프롬프트·설정 개선으로 되돌림"],"question":"같은 오답이 반복되면 어느 칸이 빠졌을까?","scenes":[{"name":"① 네 칸이 다 돔","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"거름","at":{"col":0},"label":"모델이 보기 전에 거름","art":{"kind":"slip","lines":["Haiku 4.5 선별","{ 안전: true,","주제: \"해지\" }"]}},{"kind":"move","step":"통과","from":{"col":0},"to":1,"label":"앱이 분기","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"보강","at":{"col":1},"label":"검색·도구·가드레일","art":{"kind":"slip","lines":["도구 :","get_contract","→ 가입 14개월째"]}},{"kind":"move","step":"스키마","from":{"col":1},"to":2,"label":"항상 파싱되는 JSON","art":{"kind":"slip","lines":["{ 수수료: 50000,","근거: \"약관 7조\"","}"]}},{"kind":"move","step":"feedback loop","from":{"col":2},"to":3,"label":"실패를 테스트 과제로","art":{"kind":"slip","lines":["신고 #812","→ 테스트 과제","\"14개월 해지","= 30,000\""]}},{"kind":"move","step":"개선","from":{"col":3},"to":1,"label":"개선으로 되돌림","art":{"kind":"slip","lines":["프롬프트 수정","eval 에 새 과제","포함해 통과"]}},{"kind":"move","step":"다시","from":{"col":1},"to":2,"label":"","art":{"kind":"slip","lines":["{ 수수료: 30000,","근거: \"약관 7조\"","}"]}},{"kind":"end","label":"실패를 테스트 과제로 바꿔야 regression 을 막음"}]},{"name":"② feedback loop 끊김","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"거름","at":{"col":0},"label":"모델이 보기 전에 거름","art":{"kind":"slip","lines":["Haiku 4.5 선별","{ 안전: true,","주제: \"해지\" }"]}},{"kind":"move","step":"통과","from":{"col":0},"to":1,"label":"앱이 분기","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"보강","at":{"col":1},"label":"검색·도구·가드레일","art":{"kind":"slip","lines":["도구 :","get_contract","→ 가입 14개월째"]}},{"kind":"move","step":"스키마","from":{"col":1},"to":2,"label":"항상 파싱되는 JSON","art":{"kind":"slip","lines":["{ 수수료: 50000,","근거: \"약관 7조\"","}"]}},{"kind":"move","step":"쌓임","from":{"col":2},"to":3,"label":"로그만 쌓임 · 과제로 안 바뀜","art":{"kind":"slip","lines":["신고 로그 3주치","같은 오답 214건","테스트 과제 0개"]}},{"kind":"end","label":"하나 고치면 다른 게 깨지는 사후 대응 루프 — 같은 오답이 계속 돎"}]},{"name":"③ 자유 문장 + 정규식","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"거름","at":{"col":0},"label":"모델이 보기 전에 거름","art":{"kind":"slip","lines":["Haiku 4.5 선별","{ 안전: true,","주제: \"해지\" }"]}},{"kind":"move","step":"통과","from":{"col":0},"to":1,"label":"앱이 분기","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"보강","at":{"col":1},"label":"검색·도구·가드레일","art":{"kind":"slip","lines":["도구 :","get_contract","→ 가입 14개월째"]}},{"kind":"move","step":"자유 문장","from":{"col":1},"to":2,"label":"파싱 오류·필수 필드 누락","art":{"kind":"slip","lines":["\"음, 3만 원쯤","될 것 같아요!\"","정규식 \\d+원","→ 못 찾음"]}},{"kind":"end","label":"뒤쪽 코드가 추측해야 함"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["입력","처리","출력","feedback loop"],"blocks":[],"rules":[null,null,"스키마로 받아 뒤쪽 코드가 추측 없이 씀","실패를 테스트 과제로 바꿔 프롬프트·설정 개선으로 되돌림"],"question":"같은 오답이 반복되면 어느 칸이 빠졌을까?","scenes":[{"name":"① 네 칸이 다 돔","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"거름","at":{"col":0},"label":"모델이 보기 전에 거름","art":{"kind":"slip","lines":["Haiku 4.5 선별","{ 안전: true,","주제: \"해지\" }"]}},{"kind":"move","step":"통과","from":{"col":0},"to":1,"label":"앱이 분기","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"보강","at":{"col":1},"label":"검색·도구·가드레일","art":{"kind":"slip","lines":["도구 :","get_contract","→ 가입 14개월째"]}},{"kind":"move","step":"스키마","from":{"col":1},"to":2,"label":"항상 파싱되는 JSON","art":{"kind":"slip","lines":["{ 수수료: 50000,","근거: \"약관 7조\"","}"]}},{"kind":"move","step":"feedback loop","from":{"col":2},"to":3,"label":"실패를 테스트 과제로","art":{"kind":"slip","lines":["신고 #812","→ 테스트 과제","\"14개월 해지","= 30,000\""]}},{"kind":"move","step":"개선","from":{"col":3},"to":1,"label":"개선으로 되돌림","art":{"kind":"slip","lines":["프롬프트 수정","eval 에 새 과제","포함해 통과"]}},{"kind":"move","step":"다시","from":{"col":1},"to":2,"label":"","art":{"kind":"slip","lines":["{ 수수료: 30000,","근거: \"약관 7조\"","}"]}},{"kind":"end","label":"실패를 테스트 과제로 바꿔야 regression 을 막음"}]},{"name":"② feedback loop 끊김","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"거름","at":{"col":0},"label":"모델이 보기 전에 거름","art":{"kind":"slip","lines":["Haiku 4.5 선별","{ 안전: true,","주제: \"해지\" }"]}},{"kind":"move","step":"통과","from":{"col":0},"to":1,"label":"앱이 분기","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"보강","at":{"col":1},"label":"검색·도구·가드레일","art":{"kind":"slip","lines":["도구 :","get_contract","→ 가입 14개월째"]}},{"kind":"move","step":"스키마","from":{"col":1},"to":2,"label":"항상 파싱되는 JSON","art":{"kind":"slip","lines":["{ 수수료: 50000,","근거: \"약관 7조\"","}"]}},{"kind":"move","step":"쌓임","from":{"col":2},"to":3,"label":"로그만 쌓임 · 과제로 안 바뀜","art":{"kind":"slip","lines":["신고 로그 3주치","같은 오답 214건","테스트 과제 0개"]}},{"kind":"end","label":"하나 고치면 다른 게 깨지는 사후 대응 루프 — 같은 오답이 계속 반복됨"}]},{"name":"③ 자유 문장 + 정규식","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"거름","at":{"col":0},"label":"모델이 보기 전에 거름","art":{"kind":"slip","lines":["Haiku 4.5 선별","{ 안전: true,","주제: \"해지\" }"]}},{"kind":"move","step":"통과","from":{"col":0},"to":1,"label":"앱이 분기","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"보강","at":{"col":1},"label":"검색·도구·가드레일","art":{"kind":"slip","lines":["도구 :","get_contract","→ 가입 14개월째"]}},{"kind":"move","step":"자유 문장","from":{"col":1},"to":2,"label":"파싱 오류·필수 필드 누락","art":{"kind":"slip","lines":["\"음, 3만 원쯤","될 것 같아요!\"","정규식 \\d+원","→ 못 찾음"]}},{"kind":"end","label":"뒤쪽 코드가 추측해야 함"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -526,7 +526,7 @@
         <li>보강 : 처리 : 검색·도구·가드레일 — 쪽지 : <span class="flx-alt-slip">도구 : / get_contract / → 가입 14개월째</span></li>
         <li>스키마 : 처리 → 출력 : 항상 파싱되는 JSON — 쪽지 : <span class="flx-alt-slip">{ 수수료: 50000, / 근거: "약관 7조" / }</span></li>
         <li>쌓임 : 출력 → feedback loop : 로그만 쌓임 · 과제로 안 바뀜 — 쪽지 : <span class="flx-alt-slip">신고 로그 3주치 / 같은 오답 214건 / 테스트 과제 0개</span></li>
-        <li>끝 : 하나 고치면 다른 게 깨지는 사후 대응 루프 — 같은 오답이 계속 돎</li>
+        <li>끝 : 하나 고치면 다른 게 깨지는 사후 대응 루프 — 같은 오답이 계속 반복됨</li>
       </ol>
       <p class="lead">③ 자유 문장 + 정규식 <span class="fl-v is-ng">≠</span></p>
       <ol>
@@ -562,7 +562,7 @@
             <p><span class="lead">처리 :</span> 보강된 LLM(augmented LLM) = 검색·도구·메모리를 붙인 LLM. 정적 지식은 검색(RAG) · 실시간 값은 임베딩 RAG 로 부족 → 도구로 조회 <span class="pg">[1.2①]</span></p>
             <p>가드레일 = 환각(hallucination) 줄이기(인용·사실 확인) · 정책 교차 확인 · 권한 없는 약속 금지 · PII 제거</p>
             <p>사람 확인 지점 = 체크포인트나 막힐 때 사람에게 돌아옴</p>
-            <p><span class="lead">루프는 앱이 쥠 :</span> 응답의 <code>stop_reason</code> 으로 다음 단계를 정함 (1.2② 본편) <span class="src">(Skilljar)</span></p>
+            <p><span class="lead">루프는 앱이 맡음 :</span> 응답의 <code>stop_reason</code> 으로 다음 단계를 정함 (1.2② 본편) <span class="src">(Skilljar)</span></p>
           </div>
         </li>
         <li id="e2e-architecture-rule-3"><span class="num" aria-hidden="true">③</span>
@@ -664,14 +664,14 @@
 <ul>
 <li><span class="lead">조건 :</span> 모든 채팅에 선별 호출을 앞에 붙였더니 첫 답이 늦어짐.</li>
 <li><span class="lead">판단 :</span> 선별을 순서대로(앞에) 두지 말고 주 응답과 병렬로 → 선별이 "막아야 함"이면 주 응답을 버림. 공식도 분류기 추가는 추가 호출이라 지연을 늘릴 수 있다고 적음.</li>
-<li><span class="lead">등급 :</span> <span class="note">(병렬 가드레일 · 추가 호출 지연) · 버리는 운용은 업계 일반</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(병렬 가드레일 · 추가 호출 지연) · 버리는 운용은</span> <span class="gen">업계 일반</span></li>
 <li><span class="lead">근거 :</span> building-effective-agents · customer-support-chat</li>
 </ul>
 <h4>2. 스키마가 오히려 막는 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 정책 답변에 조항 인용을 반드시 붙여야 하고, 앱이 JSON 으로도 받고 싶음.</li>
 <li><span class="lead">판단 :</span> 인용(citations) + JSON outputs 는 400. 인용이 핵심이면 인용 기능을 쓰고 JSON 은 포기, JSON 이 핵심이면 인용 필드를 스키마 안에 직접 둠(업계 일반).</li>
-<li><span class="lead">등급 :</span> <span class="note">(충돌) · 우회는 업계 일반</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(충돌) · 우회는</span> <span class="gen">업계 일반</span></li>
 <li><span class="lead">근거 :</span> structured-outputs</li>
 </ul>
 <h4>3. 스키마를 걸었는데도 안 맞는 때</h4>
@@ -702,10 +702,10 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"몇 주째 같은 오답 → 더 큰 모델로"</td><td data-label="왜 끌리나" role="cell">모델이 약해 보임</td><td data-label="왜 틀리나" role="cell">feedback loop 칸이 빠진 것. 실패를 테스트 과제로</td><td data-label="등급" role="cell"><span class="note">(feedback loop) · 업계 일반(모델 무관)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"몇 주째 같은 오답 → 더 큰 모델로"</td><td data-label="왜 끌리나" role="cell">모델이 약해 보임</td><td data-label="왜 틀리나" role="cell">feedback loop 칸이 빠진 것. 실패를 테스트 과제로</td><td data-label="등급" role="cell"><span class="note">(feedback loop) ·</span> <span class="gen">업계 일반</span><span class="note">(모델 무관)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"자유 문장으로 받고 정규식 파싱"</td><td data-label="왜 끌리나" role="cell">빨리 붙일 수 있음</td><td data-label="왜 틀리나" role="cell">파싱 오류·필수 필드 누락. 구조화 출력이 보장</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"prefill + stop sequence 로 JSON 만"</td><td data-label="왜 끌리나" role="cell">Skilljar 2025 강의가 가르침</td><td data-label="왜 틀리나" role="cell">지금은 구조화 출력. prefill 은 JSON outputs 와 호환 안 됨, 일부 모델은 400</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a> · <a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a> · Skilljar 287732</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"스키마 켰으니 오류 처리 불필요"</td><td data-label="왜 끌리나" role="cell">"Always valid" 문구</td><td data-label="왜 틀리나" role="cell"><code>refusal</code> · <code>max_tokens</code> 는 스키마와 안 맞을 수 있음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"스키마 켰으니 오류 처리 불필요"</td><td data-label="왜 끌리나" role="cell">"Always valid" 문구</td><td data-label="왜 틀리나" role="cell"><code>refusal</code> · <code>max_<wbr>tokens</code> 는 스키마와 안 맞을 수 있음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"대시보드를 만들었으니 feedback loop 끝"</td><td data-label="왜 끌리나" role="cell">보이면 관리되는 것 같음</td><td data-label="왜 틀리나" role="cell">운영 감시는 사후 대응. 평가로 되돌리는 길이 있어야 루프</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"실시간 잔액도 RAG index(색인)로"</td><td data-label="왜 끌리나" role="cell">RAG 가 지식 주입의 기본 같음</td><td data-label="왜 틀리나" role="cell">실시간 값은 임베딩 RAG 로 부족 → 도구</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"선별·답변을 한 호출에 같이 시킨다"</td><td data-label="왜 끌리나" role="cell">호출 수가 줄어듦</td><td data-label="왜 틀리나" role="cell">따로 돌리는 편이 나음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>

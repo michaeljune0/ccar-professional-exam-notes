@@ -396,7 +396,7 @@
 <p class="lead">두 단계, 두 가지 실패</p>
 <ul>
 <li>RAG 는 검색(retrieval — 관련 chunk 를 찾아 문맥에 넣음) → 생성(문맥을 읽고 답함) 두 단계.</li>
-<li>검색 실패 = 필요한 구절이 문맥에 없음(또는 낡은 판이 들어감). 모델은 없는 걸 못 봄.</li>
+<li>검색 실패 = 필요한 구절이 문맥에 없음(또는 낡은 버전이 들어감). 모델은 없는 걸 못 봄.</li>
 <li>생성 실패 = 필요한 구절이 문맥에 있는데 답이 그걸 무시하거나 반대로 말함.</li>
 <li>둘을 가르는 건 "실제로 넣은 문맥"을 보는 것 하나. 여기서 갈리면 대책이 정반대가 됨.</li>
 </ul>
@@ -441,13 +441,13 @@
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>있고 맞는데 답이 무시·반대</span>
-          <div class="t5-leaf t5-ans t5-ref" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#retrieval-vs-grounding-tree-2">↓ 아래 「근거 묶기」 갈림길로 이어짐</a></p><p>다음 물음 — 무엇이 보이나?</p></div>
+          <div class="t5-leaf t5-ans t5-ref" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#retrieval-vs-grounding-tree-2">↓ 아래 「grounding 강화」 갈림길로 이어짐</a></p><p>다음 물음 — 무엇이 보이나?</p></div>
         </div>
       </div>
     </div>
   </section>
   <section class="t5-flow tree" id="retrieval-vs-grounding-tree-2" aria-labelledby="retrieval-vs-grounding-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9|n1 n10 n11">
-    <div class="t5-fh"><h3 id="retrieval-vs-grounding-tree-2-h">근거 묶기 <span class="pg">[4.4②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
+    <div class="t5-fh"><h3 id="retrieval-vs-grounding-tree-2-h">grounding 강화 <span class="pg">[4.4②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
       <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇이 보이나?<span class="t5-sub">새는 모양 · 문서 길이</span></div>
       <div class="t5-fork" style="--n:5">
@@ -476,7 +476,7 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="retrieval-vs-grounding-flow" aria-label="검색 실패 vs grounding 실패 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["질문","검색","문맥","모델"],"blocks":[],"rules":[null,null,"먼저 볼 것 : 필요한 구절이 실제로 들어갔나",null],"question":"필요한 구절이 문맥에 들어갔을까?","scenes":[{"name":"① 구절이 없음 → 검색을 고침","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"소파도 반품되나요?"}},{"kind":"move","step":"찾기","from":{"col":0},"to":1,"label":"관련 chunk 찾기","art":{"kind":"slip","lines":["query : 소파 반품"]}},{"kind":"move","step":"넣기","from":{"col":1},"to":2,"label":"필요한 구절이 없음","art":{"kind":"slip","lines":["chunk 1 : 의류 반품 30일","chunk 2 : 배송비 안내","(가구 조항 없음)"]}},{"kind":"mark","step":"진단","at":{"col":2},"label":"검색 실패","art":{"kind":"slip","lines":["→ 검색 쪽을 고침","chunking","BM25 · 리랭킹"]}},{"kind":"end","label":"필요한 구절이 문맥에 없으면 검색 실패 — 검색 쪽을 고침"}]},{"name":"② 있는데 무시 → 근거에 묶음","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"소파도 반품되나요?"}},{"kind":"move","step":"찾기","from":{"col":0},"to":1,"label":"관련 chunk 찾기","art":{"kind":"slip","lines":["query : 소파 반품"]}},{"kind":"move","step":"넣기","from":{"col":1},"to":2,"label":"필요한 구절이 있음","art":{"kind":"slip","lines":["chunk 3 : \"가구는","배송 후 7일 안 반품\""]}},{"kind":"move","step":"읽기","from":{"col":2},"to":3,"label":"답이 근거와 반대","art":{"kind":"say","text":"30일 안에 반품돼요."}},{"kind":"mark","step":"묶기","at":{"col":3},"label":"넣어 준 문서만 · 주장마다 인용","art":{"kind":"slip","lines":["인용 : chunk 3 \"7일\"","답 : 7일 안에 반품돼요"]}},{"kind":"end","label":"구절이 문맥에 있으면 생성 실패 — 검색은 이미 성공, 생성을 근거에 묶음"}]},{"name":"③ temperature 를 낮춤","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"소파도 반품되나요?"}},{"kind":"move","step":"찾기","from":{"col":0},"to":1,"label":"관련 chunk 찾기","art":{"kind":"slip","lines":["query : 소파 반품"]}},{"kind":"move","step":"넣기","from":{"col":1},"to":2,"label":"필요한 구절이 있음","art":{"kind":"slip","lines":["chunk 3 : \"가구는","배송 후 7일 안 반품\""]}},{"kind":"mark","step":"설정","at":{"col":3},"label":"temperature 를 낮춤","art":{"kind":"slip","lines":["temperature : 0.2","→ 400 (Opus 4.6 뒤 모델)"]}},{"kind":"end","label":"temperature 는 환각 줄이기 문서에 없는 수단 — Opus 4.6 뒤에 나온 모델은 400 으로 거절"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["질문","검색","문맥","모델"],"blocks":[],"rules":[null,null,"먼저 볼 것 : 필요한 구절이 실제로 들어갔나",null],"question":"필요한 구절이 문맥에 들어갔을까?","scenes":[{"name":"① 구절이 없음 → 검색을 고침","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"소파도 반품되나요?"}},{"kind":"move","step":"찾기","from":{"col":0},"to":1,"label":"관련 chunk 찾기","art":{"kind":"slip","lines":["query : 소파 반품"]}},{"kind":"move","step":"넣기","from":{"col":1},"to":2,"label":"필요한 구절이 없음","art":{"kind":"slip","lines":["chunk 1 : 의류 반품 30일","chunk 2 : 배송비 안내","(가구 조항 없음)"]}},{"kind":"mark","step":"진단","at":{"col":2},"label":"검색 실패","art":{"kind":"slip","lines":["→ 검색 쪽을 고침","chunking","BM25 · 리랭킹"]}},{"kind":"end","label":"필요한 구절이 문맥에 없으면 검색 실패 — 검색 쪽을 고침"}]},{"name":"② 있는데 무시 → grounding 강화","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"소파도 반품되나요?"}},{"kind":"move","step":"찾기","from":{"col":0},"to":1,"label":"관련 chunk 찾기","art":{"kind":"slip","lines":["query : 소파 반품"]}},{"kind":"move","step":"넣기","from":{"col":1},"to":2,"label":"필요한 구절이 있음","art":{"kind":"slip","lines":["chunk 3 : \"가구는","배송 후 7일 안 반품\""]}},{"kind":"move","step":"읽기","from":{"col":2},"to":3,"label":"답이 근거와 반대","art":{"kind":"say","text":"30일 안에 반품돼요."}},{"kind":"mark","step":"강화","at":{"col":3},"label":"넣어 준 문서만 · 주장마다 인용","art":{"kind":"slip","lines":["인용 : chunk 3 \"7일\"","답 : 7일 안에 반품돼요"]}},{"kind":"end","label":"구절이 문맥에 있으면 생성 실패 — 검색은 이미 성공, 생성을 넣어 준 근거에 맞춤"}]},{"name":"③ temperature 를 낮춤","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"소파도 반품되나요?"}},{"kind":"move","step":"찾기","from":{"col":0},"to":1,"label":"관련 chunk 찾기","art":{"kind":"slip","lines":["query : 소파 반품"]}},{"kind":"move","step":"넣기","from":{"col":1},"to":2,"label":"필요한 구절이 있음","art":{"kind":"slip","lines":["chunk 3 : \"가구는","배송 후 7일 안 반품\""]}},{"kind":"mark","step":"설정","at":{"col":3},"label":"temperature 를 낮춤","art":{"kind":"slip","lines":["temperature : 0.2","→ 400 (Opus 4.6 뒤 모델)"]}},{"kind":"end","label":"temperature 는 환각 줄이기 문서에 없는 수단 — Opus 4.6 뒤에 나온 모델은 400 으로 거절"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -491,14 +491,14 @@
         <li>진단 : 문맥 : 검색 실패 — 쪽지 : <span class="flx-alt-slip">→ 검색 쪽을 고침 / chunking / BM25 · 리랭킹</span></li>
         <li>끝 : 필요한 구절이 문맥에 없으면 검색 실패 — 검색 쪽을 고침</li>
       </ol>
-      <p class="lead">② 있는데 무시 → 근거에 묶음 <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">② 있는데 무시 → grounding 강화 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 질문 — 말 : <span class="flx-alt-say">“소파도 반품되나요?”</span></li>
         <li>찾기 : 질문 → 검색 : 관련 chunk 찾기 — 쪽지 : <span class="flx-alt-slip">query : 소파 반품</span></li>
         <li>넣기 : 검색 → 문맥 : 필요한 구절이 있음 — 쪽지 : <span class="flx-alt-slip">chunk 3 : "가구는 / 배송 후 7일 안 반품"</span></li>
         <li>읽기 : 문맥 → 모델 : 답이 근거와 반대 — 말 : <span class="flx-alt-say">“30일 안에 반품돼요.”</span></li>
-        <li>묶기 : 모델 : 넣어 준 문서만 · 주장마다 인용 — 쪽지 : <span class="flx-alt-slip">인용 : chunk 3 "7일" / 답 : 7일 안에 반품돼요</span></li>
-        <li>끝 : 구절이 문맥에 있으면 생성 실패 — 검색은 이미 성공, 생성을 근거에 묶음</li>
+        <li>강화 : 모델 : 넣어 준 문서만 · 주장마다 인용 — 쪽지 : <span class="flx-alt-slip">인용 : chunk 3 "7일" / 답 : 7일 안에 반품돼요</span></li>
+        <li>끝 : 구절이 문맥에 있으면 생성 실패 — 검색은 이미 성공, 생성을 넣어 준 근거에 맞춤</li>
       </ol>
       <p class="lead">③ temperature 를 낮춤 <span class="fl-v is-ng">≠</span></p>
       <ol>
@@ -520,7 +520,7 @@
         <li>검색은 따로 측정 (공식 실험 지표 = 상위 20개에 정답 chunk 가 없는 비율) → <a href="rag-pipeline.html">■ RAG 파이프라인</a></li>
         <li>있는데 낡음(문서 갱신 뒤) → 역시 검색 실패. 낡은 chunk = indexing 문제 → <a href="diagnose-by-change.html">■ 변경부터 묻는 진단</a></li>
         <li>너무 많은 chunk 에 묻힘 → 더 넣으면 모델이 산만해질 수 있음 → 개수는 실험 <span class="src">(공식 실험에선 5·10·20 중 20)</span></li>
-        <li>있고 맞는데 답이 무시·반대 → 생성(근거 충실) 실패. 검색은 이미 성공 → 재임베딩·리랭킹이 아니라 생성을 근거에 묶음</li>
+        <li>있고 맞는데 답이 무시·반대 → 생성(근거 충실) 실패. 검색은 이미 성공 → 재임베딩·리랭킹이 아니라 생성을 넣어 준 근거에 맞춤</li>
       </ul>
       <p>기본 : '모른다' 허용(불확실을 인정해도 된다고 명시) · 긴 문서(2만 토큰 초과)는 원문 그대로 인용을 먼저 뽑고 작업 · 주장마다 인용·출처, 답한 뒤 인용을 찾아 검증하고 못 찾으면 철회</p>
       <p>고급 : 단계별 추론 검증 · Best-of-N(같은 프롬프트 여러 번, 서로 다르면 환각(hallucination) 신호) · 반복 다듬기 · 넣어 준 문서의 정보만, 일반 지식은 쓰지 말라고 명시</p>
@@ -560,14 +560,14 @@
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
     <tr role="row"><td data-label="변수" role="cell">필요한 구절</td><td data-label="값" role="cell">문맥에 없음</td><td data-label="답 쪽" role="cell">검색</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">필요한 구절</td><td data-label="값" role="cell">있는데 옛 판</td><td data-label="답 쪽" role="cell">검색·indexing</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">필요한 구절</td><td data-label="값" role="cell">있는데 구버전</td><td data-label="답 쪽" role="cell">검색·indexing</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
     <tr role="row"><td data-label="변수" role="cell">필요한 구절</td><td data-label="값" role="cell">있고 맞음</td><td data-label="답 쪽" role="cell">생성</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 3</td></tr>
     <tr role="row"><td data-label="변수" role="cell">문맥 길이</td><td data-label="값" role="cell">2만 토큰 초과</td><td data-label="답 쪽" role="cell">인용 먼저 기법이 조건에 맞음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">문맥 길이</td><td data-label="값" role="cell">2만 토큰 미만</td><td data-label="답 쪽" role="cell">인용 먼저는 조건 밖 → '모른다' 허용 · 넣어 준 문서만 · 인용 검증</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">같은 문서</td></tr>
     <tr role="row"><td data-label="변수" role="cell">넣은 chunk 수</td><td data-label="값" role="cell">아주 많음</td><td data-label="답 쪽" role="cell">산만해짐 → chunk 수·리랭킹</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Contextual Retrieval</td></tr>
     <tr role="row"><td data-label="변수" role="cell">모델 세대</td><td data-label="값" role="cell">Opus 4.6 뒤에 나온 모델 (Opus 4.7·4.8 · Sonnet 5 등)</td><td data-label="답 쪽" role="cell">temperature 1.0 외 값 = 400</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/messages/create" lang="en" rel="noopener">messages-create</a> · <a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">모델 세대</td><td data-label="값" role="cell">그 이전 모델</td><td data-label="답 쪽" role="cell">temperature 설정은 되지만 환각 대책은 아님</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a> 전문(temperature 없음)</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">SDK</td><td data-label="값" role="cell">Python SDK v1.0 이상</td><td data-label="답 쪽" role="cell">temperature 파라미터 자체가 없음</td><td data-label="등급" role="cell"><span class="note">(시험 뒤 변경)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a>(2026-08-20)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">SDK</td><td data-label="값" role="cell">Python SDK v1.0 이상</td><td data-label="답 쪽" role="cell">temperature 파라미터 자체가 없음</td><td data-label="등급" role="cell"><span class="post">시험 뒤 변경</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a>(2026-08-20)</td></tr>
     <tr role="row"><td data-label="변수" role="cell">답의 흔들림</td><td data-label="값" role="cell">같은 질문에 답이 매번 다름</td><td data-label="답 쪽" role="cell">Best-of-N 비교로 환각(hallucination) 신호 잡기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a></td></tr>
   </tbody>
 </table>
@@ -585,7 +585,7 @@
     <h3>함정</h3>
       <ul class="traps">
         <li><span class="neq" aria-hidden="true">≠</span><span>"temperature 를 낮춘다" → 환각 줄이기 문서에 없음 · Opus 4.6 뒤에 나온 모델은 400</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>구절이 문맥에 있는데 "재임베딩·리랭킹" → 검색은 이미 성공, 생성을 근거에 묶음</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>구절이 문맥에 있는데 "재임베딩·리랭킹" → 검색은 이미 성공, 생성을 넣어 준 근거에 맞춤</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>낡은 chunk 가 들어갔는데 "grounding 실패(근거 무시)"로 봄 → 낡은 chunk = indexing 문제</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"인용만 뽑게 하면 끝" → 인용을 못 찾으면 그 주장을 철회까지</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"chunk 를 많이 넣을수록 안전" → 더 넣으면 모델이 산만해질 수 있음</span></li>
@@ -628,7 +628,7 @@
 <h4>3. temperature 를 여전히 받는 옛 모델</h4>
 <ul>
 <li><span class="lead">조건 :</span> Haiku 4.5 처럼 Opus 4.6 전에 나온 모델이라 temperature 를 0.2 로 넣어도 400 이 안 남.</li>
-<li><span class="lead">판단 :</span> 설정은 되지만 환각 줄이기 문서가 드는 수단이 아님. 0.0 이어도 완전히 결정적이진 않음. 답은 여전히 근거 묶기.</li>
+<li><span class="lead">판단 :</span> 설정은 되지만 환각 줄이기 문서가 드는 수단이 아님. 0.0 이어도 완전히 결정적이진 않음. 답은 여전히 grounding 강화.</li>
 <li><span class="lead">등급 :</span> <span class="note">(Haiku 4.5 출시 2025-10-15 → Opus 4.6(2026-02-05) 전)</span></li>
 <li><span class="lead">근거 :</span> messages-create · reduce-hallucinations 전문 · 릴리스 노트</li>
 </ul>
@@ -668,7 +668,7 @@
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 4.4</a> <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>샘플 3 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">샘플 3</a> <span class="src">공식 시험 가이드 v1.0</span></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">docs reduce-hallucinations</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/api/messages/create" lang="en" rel="noopener">messages-create</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" lang="en" rel="noopener">prompting-best-practices</a></li>

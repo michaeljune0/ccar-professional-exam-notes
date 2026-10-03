@@ -474,7 +474,7 @@
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(4.5 세대)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">thinking 켬 · JSON outputs 여부 먼저</p><p>이전 모델은 계속 지원. 단 thinking 켠 동안엔 prefill 못 함 · JSON outputs 와 같이 못 씀 · 은퇴 하한일이 잡힌 상태</p></div>
+          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">thinking 켬 · JSON outputs 여부 먼저</p><p>이전 모델은 계속 지원. 단 thinking 켠 동안엔 prefill 못 함 · JSON outputs 와 같이 못 씀 · 최소 지원 기한이 정해진 상태</p></div>
         </div>
       </div>
     </div>
@@ -552,7 +552,7 @@
         <li id="structured-output-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
             <p>모양 강제 = structured outputs <span class="pg">[2.2②]</span> <span class="pg">[1.2①]</span></p>
-            <p><span class="lead">JSON outputs :</span> <code>output_config.format</code> 에 <code>type: "json_schema"</code> + 스키마 → text 블록에 스키마 맞는 JSON <span class="src">(옛 <code>output_format</code> → <code>output_config.format</code>, 2026-01-29 GA ✓)</span></p>
+            <p><span class="lead">JSON outputs :</span> <code>output_config.format</code> 에 <code>type: "json_schema"</code> + 스키마 → text 블록에 스키마 맞는 JSON <span class="src">(옛 <code>output_format</code> → <code>output_config.format</code>, 2026-01-29 GA)</span></p>
             <p>strict tool use : 도구 정의 최상위 <code>strict: true</code> → <code>tool_use</code> 의 <code>input</code> 이 <code>input_schema</code> 를 그대로 따르고 <code>name</code> 도 항상 유효</p>
             <p>둘 다 한 요청에 = 믿을 수 있는 도구 호출 + 구조화된 최종 답</p>
             <p>공식 마이그레이션 글은 "먼저 모델에게 구조를 따르라고 말해 보기(재시도 포함)" 도 듦 — 새 모델은 말하면 복잡한 스키마도 잘 맞춤. **보장**이 필요하면 structured outputs</p>
@@ -595,13 +595,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">뒤쪽 코드가 응답을 JSON 으로 파싱해야 함</td><td data-label="답" role="cell">JSON outputs (<code>output_config.format</code> + <code>type: "json_schema"</code>)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">뒤쪽 코드가 응답을 JSON 으로 파싱해야 함</td><td data-label="답" role="cell">JSON outputs (<code>output_<wbr>config.<wbr>format</code> + <code>type: "json_<wbr>schema"</code>)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">도구 인자 타입이 자꾸 틀림(<code>"2"</code> vs <code>2</code>)</td><td data-label="답" role="cell">strict tool use (<code>strict: true</code>)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use" lang="en" rel="noopener">strict-tool-use</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">분류 라벨을 정해진 값 중 하나로</td><td data-label="답" role="cell">enum 필드 가진 도구 또는 structured outputs</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" lang="en" rel="noopener">prompting-best-practices</a> en-full</td></tr>
     <tr role="row"><td data-label="조건" role="cell">prefill 코드가 새 모델에서 400</td><td data-label="답" role="cell">모양 = structured outputs · 머리말 = 시스템 프롬프트 지시 · 이어 쓰기 = user 메시지로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full · <a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">지문 모델이 4.5 세대이고 thinking 꺼짐</td><td data-label="답" role="cell">prefill 동작함(옛 코드가 틀린 게 아님)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full "Earlier models continue to support prefills" · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Opus 5.5·Fable 5.1·Mythos 5.1 에 <code>tool_choice</code> <code>any</code>·<code>tool</code></td><td data-label="답" role="cell">400 → <code>auto</code> + strict tool use 또는 structured outputs</td><td data-label="등급" role="cell"><span class="note">· 시험 뒤 변경</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a> · <a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a> · <a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell"><code>stop_reason</code> 이 <code>refusal</code>·<code>max_tokens</code></td><td data-label="답" role="cell">스키마 불일치 가능 → stop_reason 먼저 분기, <code>max_tokens</code> 면 늘려 재시도</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Opus 5.5·Fable 5.1·Mythos 5.1 에 <code>tool_<wbr>choice</code> <code>any</code>·<code>tool</code></td><td data-label="답" role="cell">400 → <code>auto</code> + strict tool use 또는 structured outputs</td><td data-label="등급" role="cell"><span class="post">시험 뒤 변경</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a> · <a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a> · <a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell"><code>stop_<wbr>reason</code> 이 <code>refusal</code>·<code>max_<wbr>tokens</code></td><td data-label="답" role="cell">스키마 불일치 가능 → stop_reason 먼저 분기, <code>max_<wbr>tokens</code> 면 늘려 재시도</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">enum 비교</td><td data-label="답" role="cell">대소문자 무시 비교 · 대소문자만 다른 값 금지</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">출력 JSON 에 근거 인용(Citations)도</td><td data-label="답" role="cell">같이 못 켬(400)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">HIPAA 조직에서 structured outputs</td><td data-label="답" role="cell">사용 가능, PHI 는 스키마(속성 이름·enum·const·pattern)에 넣지 않음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
@@ -617,14 +617,14 @@
   <tbody role="rowgroup">
     <tr role="row"><td data-label="변수" role="cell">모델 세대</td><td data-label="값" role="cell">Claude 4.6 이후 · Mythos Preview</td><td data-label="답 쪽" role="cell">prefill 400</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">모델 세대</td><td data-label="값" role="cell">Opus 4.5 · Sonnet 4.5 · Haiku 4.5</td><td data-label="답 쪽" role="cell">prefill 됨 (thinking 꺼짐일 때)</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">"4.6 이후" 규칙 × model-deprecations 목록 en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Opus 5.5 · Fable 5.1 · Mythos 5.1</td><td data-label="답 쪽" role="cell">강제 도구 호출 400</td><td data-label="등급" role="cell"><span class="note">· 시험 뒤 변경</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Opus 5.5 · Fable 5.1 · Mythos 5.1</td><td data-label="답 쪽" role="cell">강제 도구 호출 400</td><td data-label="등급" role="cell"><span class="post">시험 뒤 변경</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">thinking</td><td data-label="값" role="cell">수동 extended thinking(<code>type: "enabled"</code>)</td><td data-label="답 쪽" role="cell"><code>any</code>·<code>tool</code> 불가</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">thinking</td><td data-label="값" role="cell">켜짐(어느 방식이든)</td><td data-label="답 쪽" role="cell">prefill 불가</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">필요한 것</td><td data-label="값" role="cell">보장(뒤쪽 파서가 재시도 못 함)</td><td data-label="답 쪽" role="cell">structured outputs</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">필요한 것</td><td data-label="값" role="cell">대체로 맞으면 됨 · 재시도 가능</td><td data-label="답 쪽" role="cell">프롬프트로 구조 요청 + 재시도도 공식 경로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full "Try asking the model to conform… especially if implemented with retries"</td></tr>
     <tr role="row"><td data-label="변수" role="cell">스키마</td><td data-label="값" role="cell">자주 바뀜</td><td data-label="답 쪽" role="cell">바꿀 때마다 첫 요청 컴파일 지연(latency) · 프롬프트 캐시 무효</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">스키마</td><td data-label="값" role="cell">strict 도구 20개 초과 · 선택 파라미터 24 초과 · union 16 초과</td><td data-label="답 쪽" role="cell">한도 초과 → 중요한 도구만 strict · 선택 파라미터를 되도록 required 로 · 요청 나누기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">플랫폼</td><td data-label="값" role="cell">Amazon Bedrock</td><td data-label="답 쪽" role="cell">structured outputs 는 Opus 4.6·Sonnet 4.6·Sonnet 4.5·Opus 4.5·Haiku 4.5 만</td><td data-label="등급" role="cell"><span class="note">(해석은 미해결 2)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a> en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">플랫폼</td><td data-label="값" role="cell">Amazon Bedrock</td><td data-label="답 쪽" role="cell">structured outputs 는 Opus 4.6·Sonnet 4.6·Sonnet 4.5·Opus 4.5·Haiku 4.5 만</td><td data-label="등급" role="cell"><span class="note">(해석은</span> <span class="open">미해결</span> <span class="note">2)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a> en-full</td></tr>
   </tbody>
 </table>
 </div>
@@ -641,7 +641,7 @@
     <h3>함정</h3>
       <ul class="traps">
         <li><span class="neq" aria-hidden="true">≠</span><span>"prefill 을 더 길게 채운다" → 4.6 이후 모델은 마지막 assistant 턴 prefill 자체가 400. 길이 무관</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"prefill 되는 옛 모델로 영구 고정" → 4.5 세대는 은퇴 하한일만 잡힌 상태, 은퇴 뒤 요청은 실패</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"prefill 되는 옛 모델로 영구 고정" → 4.5 세대는 최소 지원 기한만 정해진 상태, 은퇴 뒤 요청은 실패</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"prefill 이 보이면 모델 불문 무조건 틀림" → 이전 모델(4.5 세대)은 지원. 지문의 모델명·thinking 켬 여부 먼저</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"JSON 을 정규식으로 긁고 재시도 횟수를 늘림" → structured outputs 면 스키마 위반 재시도가 필요 없음</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"structured outputs 면 무조건 스키마대로 · enum 도 글자 그대로" → refusal·max_tokens 예외 + enum 대소문자 미보장</span></li>
@@ -673,14 +673,14 @@
 <li><span class="lead">판단 :</span> Haiku 4.5 는 4.6 이전 모델 → prefill 동작. "즉시 지운다" 는 과함. 다만 옮길 계획은 필요(은퇴 경로).</li>
 <li><span class="lead">계산 :</span> Haiku 4.5 는 2026-09-28 에 Active, 은퇴 "하한일" 2026-10-15. 공개 모델은 은퇴 최소 60일 전 통보 → 오늘(9/28) 통보가 나와도 실제 은퇴는 빨라야 11/27. 하한일(10/15)보다 60일 규칙이 더 늦음.</li>
 <li><span class="lead">전제 :</span> 60일 통보 규칙이 그대로 지켜짐 · Anthropic 운영 플랫폼 기준(Bedrock·Google Cloud 는 자체 일정).</li>
-<li><span class="lead">등급 :</span> <span class="note">(규칙·날짜) · 계산(11/27)</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(규칙·날짜) ·</span> <span class="calc">계산</span><span class="note">(11/27)</span></li>
 <li><span class="lead">근거 :</span> prompting-best-practices en-full · model-deprecations en-full</li>
 </ul>
 <h4>2. CCA-F 식 "첫 턴 <code>tool_choice: tool</code> 로 못 박기" 가 틀리는 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 지문 모델이 Opus 5.5(또는 Fable 5.1). 추출 도구를 반드시 부르게 하려고 <code>{"type": "tool", "name": "extract_invoice"}</code>.</li>
 <li><span class="lead">판단 :</span> 모든 요청에서 400. <code>auto</code> + strict tool use 로 입력 모양을 보장하고, 부를지는 프롬프트로 이끎. 응답 모양만 필요하면 structured outputs.</li>
-<li><span class="lead">등급 :</span> <span class="note">· 시험 뒤 변경(Fable 5.1 2026-09-01 · Opus 5.5 2026-09-22) — 가이드(2026-07) 기준 시험은 옛 동작(<code>tool</code> 강제 가능)으로 물을 가능성</span></li>
+<li><span class="lead">등급 :</span> <span class="post">시험 뒤 변경</span>(Fable 5.1 2026-09-01 · Opus 5.5 2026-09-22) — 가이드(2026-07) 기준 시험은 옛 동작(<code>tool</code> 강제 가능)으로 물을 가능성</li>
 <li><span class="lead">근거 :</span> define-tools · errors · 릴리스 노트</li>
 </ul>
 <h4>3. 스키마 보장보다 프롬프트 + 재시도가 충분한 때</h4>
@@ -689,14 +689,14 @@
 <li><span class="lead">계산 :</span> 재시도로 기대 호출 수 = 1 / (1 − 0.02) ≈ 1.02 → 토큰 약 2% 더. 두 번 연속 실패 = 0.02² = 0.04%. structured outputs 는 매 요청 형식 설명 시스템 프롬프트 토큰이 더 붙고, 스키마를 바꾸면 첫 요청 컴파일 지연.</li>
 <li><span class="lead">판단 :</span> 공식 마이그레이션 글도 "먼저 구조를 따르라고 말해 보기(재시도 포함)" 를 듦 → 보장이 필요 없는 곳에선 프롬프트가 설 자리가 있음. 뒤쪽 파서가 재시도할 수 없거나 실패가 사고로 이어지면 structured outputs.</li>
 <li><span class="lead">전제 :</span> 실패율 2% 는 가정값(공식 숫자 없음) · 재시도 지연이 문제 안 됨.</li>
-<li><span class="lead">등급 :</span> 계산(가정 포함)</li>
+<li><span class="lead">등급 :</span> <span class="calc">계산</span>(가정 포함)</li>
 <li><span class="lead">근거 :</span> en-full · structured-outputs</li>
 </ul>
 <h4>4. 근거 인용이 꼭 필요한 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 문서 질의 답을 JSON 으로 받고 인용(Citations)도 달고 싶음.</li>
 <li><span class="lead">판단 :</span> <code>output_config.format</code> + Citations = 400. 둘 중 하나를 고르거나 다른 경로가 필요.</li>
-<li><span class="lead">등급 :</span> <span class="note">(400) · 대안은 미해결 3</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(400) · 대안은</span> <span class="open">미해결</span> <span class="note">3</span></li>
 <li><span class="lead">근거 :</span> structured-outputs</li>
 </ul>
 </section>
@@ -707,12 +707,12 @@
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
     <tr role="row"><td data-label="오답" role="cell">"prefill 을 더 길게 채운다"</td><td data-label="왜 끌리나" role="cell">더 많이 채우면 더 잘 따를 것 같음</td><td data-label="왜 틀리나" role="cell">4.6 이후는 마지막 assistant 턴 prefill 자체가 400</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"prefill 되는 옛 모델로 영구 고정"</td><td data-label="왜 끌리나" role="cell">코드 안 고쳐도 됨</td><td data-label="왜 틀리나" role="cell">4.5 세대는 은퇴 하한일 경로, 은퇴 뒤 요청 실패</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/model-deprecations" lang="en" rel="noopener">model-deprecations</a> en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"prefill 되는 옛 모델로 영구 고정"</td><td data-label="왜 끌리나" role="cell">코드 안 고쳐도 됨</td><td data-label="왜 틀리나" role="cell">4.5 세대는 최소 지원 기한이 정해진 상태, 은퇴 뒤 요청 실패</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/model-deprecations" lang="en" rel="noopener">model-deprecations</a> en-full</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"prefill 이 보이면 모델 불문 오답"</td><td data-label="왜 끌리나" role="cell">'4.6 부터 400' 을 과하게 일반화</td><td data-label="왜 틀리나" role="cell">이전 모델은 지원 — 지문 모델명·thinking 먼저</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"JSON 을 정규식으로 긁고 재시도 횟수를 늘림"</td><td data-label="왜 끌리나" role="cell">당장 고치기 쉬움</td><td data-label="왜 틀리나" role="cell">structured outputs 면 스키마 위반 재시도 불필요</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"structured outputs 면 무조건 스키마대로"</td><td data-label="왜 끌리나" role="cell">'보장' 이라는 말</td><td data-label="왜 틀리나" role="cell">refusal·max_tokens 예외</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"enum 이니 글자 그대로 비교"</td><td data-label="왜 끌리나" role="cell">제약 디코딩이니 정확할 것 같음</td><td data-label="왜 틀리나" role="cell">대소문자 미보장 — 오류 없이 옴</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Opus 5.5 에서 <code>tool_choice: tool</code> 로 추출 강제"</td><td data-label="왜 끌리나" role="cell">CCA-F 에서 배운 정답</td><td data-label="왜 틀리나" role="cell">400. <code>auto</code> + strict</td><td data-label="등급" role="cell"><span class="note">· 시험 뒤 변경</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Opus 5.5 에서 <code>tool_<wbr>choice: tool</code> 로 추출 강제"</td><td data-label="왜 끌리나" role="cell">CCA-F 에서 배운 정답</td><td data-label="왜 틀리나" role="cell">400. <code>auto</code> + strict</td><td data-label="등급" role="cell"><span class="post">시험 뒤 변경</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"Citations 도 켜서 근거 달린 JSON"</td><td data-label="왜 끌리나" role="cell">둘 다 좋은 기능</td><td data-label="왜 틀리나" role="cell">같이 켜면 400</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"환자별 값을 enum 에 넣어 분류"</td><td data-label="왜 끌리나" role="cell">스키마로 딱 맞출 수 있음</td><td data-label="왜 틀리나" role="cell">스키마는 따로 캐시돼 PHI 보호가 없음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"스키마를 통과했으니 값도 맞음"</td><td data-label="왜 끌리나" role="cell">검증을 통과했다는 느낌</td><td data-label="왜 틀리나" role="cell">모양만 보장. 합계·필드 위치는 뒤쪽 검증</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">CCA-F 노트 4.3</td></tr>
@@ -725,17 +725,17 @@
   <h2 class="sec-h" id="structured-output-ref-h">참고</h2>
   <div class="t5-rest">
     <h3>CCA-F</h3>
-      <p>봄 — CCA-F 는 tool_use + JSON 스키마를 구현으로 물었음(<code>tool_choice</code> <code>tool</code>/<code>any</code> 강제 · strict · enum 대소문자 · 필수 vs nullable). 여기선 "prefill 이 400 난 코드를 무엇으로 옮기나 · 옛 모델 고정이 답인가"를 모델 수명·마이그레이션 판단으로 묻고, CCA-F 식 <code>tool_choice</code> 강제가 Opus 5.5·Fable 5.1 에선 400 이라는 게 새 함정</p>
+      <p>겹침 — CCA-F 는 tool_use + JSON 스키마를 구현으로 물었음(<code>tool_choice</code> <code>tool</code>/<code>any</code> 강제 · strict · enum 대소문자 · 필수 vs nullable). 여기선 "prefill 이 400 난 코드를 무엇으로 옮기나 · 옛 모델 고정이 답인가"를 모델 수명·마이그레이션 판단으로 묻고, CCA-F 식 <code>tool_choice</code> 강제가 Opus 5.5·Fable 5.1 에선 400 이라는 게 새 함정</p>
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 2.2</a> <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a> <span class="src">(en-full)</span></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use" lang="en" rel="noopener">strict-tool-use</a></li>
-        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" lang="en" rel="noopener">prompting-best-practices</a> <span class="src">(en-full)</span></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" lang="en" rel="noopener">prompting-best-practices</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></li>
-        <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/model-deprecations" lang="en" rel="noopener">model-deprecations</a> <span class="src">(en-full)</span></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/model-deprecations" lang="en" rel="noopener">model-deprecations</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></li>
         <li>Skilljar API 287732</li>
         <li>CCA-F 노트 4.3 <span class="src">(개인 학습 노트)</span></li>
@@ -750,7 +750,7 @@
 <h3 id="open-questions-h">미해결</h3>
 <ol>
 <li>목록은 행동을 막는 수단으로 "strict 도구 사용" 을 훅(PreToolUse)과 함께 들었음 → 공식 strict 는 도구 <strong>입력 모양</strong>만 보장(어떤 도구를 부를지·부르지 말지는 아님, strict-tool-use). 카드엔 행동 차단을 ◆ 안내(프롬프트) vs 강제(구성·코드) 로 넘김.</li>
-<li>Bedrock 지원 모델 줄(en-full)이 "Claude in Amazon Bedrock"(새 플랫폼)과 "Bedrock legacy" 중 어디를 뜻하는지 원문만으론 모호. 확인 방법 = claude-in-amazon-bedrock 페이지의 기능 표 대조.</li>
+<li>Bedrock 지원 모델 줄이 "Claude in Amazon Bedrock"(새 플랫폼)과 "Bedrock legacy" 중 어디를 뜻하는지 원문만으론 모호. 확인 방법 = claude-in-amazon-bedrock 페이지의 기능 표 대조.</li>
 <li>Citations 와 구조화 JSON 을 함께 원할 때의 공식 대안 문장은 못 찾음(structured-outputs 원문엔 "incompatible" 까지만).</li>
 <li>목록 영어 신호 "Claude treats them as context, not enforced configuration." 은 원문에 있으나(claude-code-memory) Claude Code 메모리 문맥 — 이 카드가 아니라 D5 ◆ 안내(프롬프트) vs 강제(구성·코드) 몫이라 인용 안 함.</li>
 </ol>

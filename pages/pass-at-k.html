@@ -412,8 +412,8 @@
 </ul>
 <p class="lead">숫자가 믿을 만하려면</p>
 <ul>
-<li>시도가 서로 독립이어야 함. 깨끗한 환경에서 시작하지 않으면 남은 파일·캐시·자원 고갈로 같이 실패하거나, 앞 시도의 흔적을 보고 점수가 부풂.</li>
-<li>프런티어 모델이 여러 번 다 0% 면 대개 과제가 고장.</li>
+<li>시도가 서로 독립이어야 함. 깨끗한 환경에서 시작하지 않으면 남은 파일·캐시·자원 고갈로 같이 실패하거나, 앞 시도의 흔적을 보고 점수가 부풀려짐.</li>
+<li>프런티어 모델이 여러 번 다 0% 면 대개 과제가 잘못됨.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
@@ -550,14 +550,14 @@
       <p class="lead orig-h">셈</p>
       <ul class="dash">
         <li>pass^k = p^k (1회 성공률 p) : 75% · 3번 → (0.75)³ ≈ 42%</li>
-        <li>pass@k = 1 − (1 − p)^k : 75% · 3번 → 1 − 0.25³ ≈ 98% <span class="note">(계산 — 공식은 식 없이 정의만, 시도 독립 가정)</span></li>
+        <li>pass@k = 1 − (1 − p)^k : 75% · 3번 → 1 − 0.25³ ≈ 98% <span class="calc">계산</span> <span class="note">공식은 식 없이 정의만, 시도 독립 가정</span></li>
         <li>k = 1 이면 둘 다 1회 성공률 · k = 10 이면 pass@k → 100%, pass^k → 0%</li>
         <li>"50% pass@1" = 첫 시도에 과제 절반을 성공</li>
       </ul>
       <p class="lead orig-h">시도 믿기 <span class="src">(과제·환경 만들기 본문 = ■ 첫 eval 셋 만들기)</span></p>
       <ul class="dash">
         <li>시도마다 깨끗한 환경에서 시작. 남은 파일 · 캐시 데이터 · 자원 고갈 같은 공유 상태 → 에이전트가 아니라 인프라 때문에 같이 실패(독립 아님). 앞 시도의 git 기록을 보고 점수가 부풀기도 함</li>
-        <li>프런티어 모델이 여러 시도에서 0%(0% pass@100) → 대개 과제가 고장. 과제 명세·grader 확인, 과제마다 참고 해답(reference solution)</li>
+        <li>프런티어 모델이 여러 시도에서 0%(0% pass@100) → 대개 과제가 잘못됨. 과제 명세·grader 확인, 과제마다 참고 해답(reference solution)</li>
       </ul>
     </details>
   </div>
@@ -615,7 +615,7 @@
         <li><span class="neq" aria-hidden="true">≠</span><span>pass^k 를 "k번의 평균 성공률"로 읽음 → 모두 성공할 확률, k 가 커질수록 내려감</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"pass@k 가 올랐으니 에이전트가 좋아졌다" → k 만 늘려도 오름</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>신뢰성을 물었는데 TTFT 같은 지연(latency) 지표를 고름 → 다른 차원 <span class="note">(◆ TTFT vs 응답 완료 지연)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>0% pass@100 을 "모델이 못 한다"로 → 과제 고장부터</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>0% pass@100 을 "모델이 못 한다"로 → 과제 결함부터</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -640,7 +640,7 @@
 <ul>
 <li><span class="lead">조건 :</span> 에이전트가 사용자에게 내보내기 전에 결과를 자동으로 검사할 수 있음(예 : 환불 금액이 규칙 범위 안인지, 응답이 스키마를 통과하는지). 실패하면 시스템이 조용히 다시 돌림, 최대 3번. 1회 성공률 70%.</li>
 <li><span class="lead">계산 :</span> 사용자가 받는 결과의 성공률 = 1 − 0.3³ = 97.3%. 평균 호출 수 = 1 + 0.3 + 0.09 = 1.39번.</li>
-<li><span class="lead">판단 :</span> 사용자가 받는 건 "검사를 통과한 하나"라 pass@3 이 사용자 체감에 가까움. 단 검사기가 성공을 정확히 가려야 하고, 호출 수만큼 비용·지연(latency)이 늚. 검사기가 없으면 원래대로 pass^k.</li>
+<li><span class="lead">판단 :</span> 사용자가 받는 건 "검사를 통과한 하나"라 pass@3 이 사용자 체감에 가까움. 단 검사기가 성공을 정확히 가려야 하고, 호출 수만큼 비용·지연(latency)이 늘어남. 검사기가 없으면 원래대로 pass^k.</li>
 <li><span class="lead">전제 :</span> 시도 독립 · 검사기 오판 없음.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> · 업계 일반(공식 글은 이 경우를 말하지 않음)</li>
 <li><span class="lead">근거 :</span> demystifying-evals</li>
@@ -664,7 +664,7 @@
 <h4>4. 0% 인데 모델 탓이 아닐 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 과제 하나가 100번 시도 모두 실패(0% pass@100).</li>
-<li><span class="lead">판단 :</span> 프런티어 모델에서 이건 대개 과제 고장 신호 — 과제 설명에 없는 파일 경로를 grader 가 기대하는 식. 모델을 바꾸기 전에 과제 명세 · grader 를 보고, 참고 해답이 grader 를 통과하는지 확인.</li>
+<li><span class="lead">판단 :</span> 프런티어 모델에서 이건 대개 과제 결함 신호 — 과제 설명에 없는 파일 경로를 grader 가 기대하는 식. 모델을 바꾸기 전에 과제 명세 · grader 를 보고, 참고 해답이 grader 를 통과하는지 확인.</li>
 
 <li><span class="lead">근거 :</span> demystifying-evals</li>
 </ul>
@@ -681,7 +681,7 @@
     <tr role="row"><td data-label="오답" role="cell">"75% 로 3번이면 pass^3 = 75%"</td><td data-label="왜 끌리나" role="cell">1회 성공률을 그대로 옮김</td><td data-label="왜 틀리나" role="cell">(0.75)³ ≈ 42%</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"pass@k 가 올랐으니 개선"</td><td data-label="왜 끌리나" role="cell">점수가 오름</td><td data-label="왜 틀리나" role="cell">k 만 늘려도 오름</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">신뢰성 문항에서 TTFT 같은 지연 지표</td><td data-label="왜 끌리나" role="cell">같은 "지표 고르기" 목표(4.1)</td><td data-label="왜 틀리나" role="cell">다른 차원 → ◆ TTFT vs 응답 완료 지연</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"0% 면 모델이 못 하는 것"</td><td data-label="왜 끌리나" role="cell">결과가 명확해 보임</td><td data-label="왜 틀리나" role="cell">대개 과제 고장</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"0% 면 모델이 못 하는 것"</td><td data-label="왜 끌리나" role="cell">결과가 명확해 보임</td><td data-label="왜 틀리나" role="cell">대개 과제 결함</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
   </tbody>
 </table>
 </div>

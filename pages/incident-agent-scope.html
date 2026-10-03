@@ -469,7 +469,7 @@
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>필요 없는 강한 도구</span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">이름째 빼기</p><p><code>disallowedTools</code> 에 도구 이름 → <a href="least-privilege.html">■ 최소 권한</a></p></div>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">도구 전체 빼기</p><p><code>disallowedTools</code> 에 도구 이름 → <a href="least-privilege.html">■ 최소 권한</a></p></div>
         </div>
       </div>
     </div>
@@ -628,7 +628,7 @@
   <h2 class="sec-h" id="incident-agent-scope-practice-h">연습 문제</h2>
 
   <section class="csx" id="incident-agent-scope-case" aria-labelledby="incident-agent-scope-case-h" data-tree="incident-agent-scope-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;재시작&quot;],[&quot;n5&quot;,null]]" data-flow="incident-agent-scope-flow" data-scene="0">
-    <p class="csx-text">새벽 3시 주문 API 오류율이 치솟자 온콜 에이전트가 로그를 읽고 결제 워커의 메모리 누수를 원인으로 추정했다. 다음 수로 <mark class="csx-m" data-tag="재시작">프로덕션 워커를 재시작<span class="csx-tag">재시작</span></mark>하려 한다. 온콜 담당은 20분 뒤에 도착하고, "사람이 없으니 에이전트가 바로 복구하자" 는 의견이 있다. 이 재시작은 누가 하나?</p>
+    <p class="csx-text">새벽 3시 주문 API 오류율이 치솟자 온콜 에이전트가 로그를 읽고 결제 워커의 메모리 누수를 원인으로 추정했다. 다음 조치로 <mark class="csx-m" data-tag="재시작">프로덕션 워커를 재시작<span class="csx-tag">재시작</span></mark>하려 한다. 온콜 담당은 20분 뒤에 도착하고, "사람이 없으니 에이전트가 바로 복구하자" 는 의견이 있다. 이 재시작은 누가 하나?</p>
     <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
   </section>
   <h2 class="sec-h" id="incident-agent-scope-exam-h">시험 대비</h2>
@@ -642,7 +642,7 @@
         <li><span class="neq" aria-hidden="true">≠</span><span>"야간엔 물을 사람이 없으니 <code>bypassPermissions</code>" → 격리 컨테이너·VM 에서만. 무인은 <code>dontAsk</code> <span class="src">(Skilljar)</span></span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"사전 검사가 실패한 배포를 검증 생략 플래그로 다시" → 공유 인프라 영향, 차단</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"읽기 전용 마운트면 비밀 걱정 없음" → 읽기 전용도 자격증명 파일을 드러낼 수 있음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"야간엔 자동 복구가 빠르다" → 속도가 아니라 되돌릴 수 있나·피해 범위로 가름 → <a href="human-approval-gates.html">■ human-in-the-loop 게이트 위치</a> <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"야간엔 자동 복구가 빠르다" → 속도가 아니라 되돌릴 수 있나·피해 범위로 판단 → <a href="human-approval-gates.html">■ human-in-the-loop 게이트 위치</a> <span class="gen">업계 일반</span></span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -668,7 +668,7 @@
 <ul>
 <li><span class="lead">조건 :</span> 같은 조치를 수없이 해 왔고 되돌릴 수 있음. 예 : 스테이징의 캐시 워커 1대 재기동을 한 달에 30번쯤 해 왔고, 사람이 매번 도장만 찍음.</li>
 <li><span class="lead">판단 :</span> 공식은 "믿는 반복 작업엔 지속 권한을 줄 수 있다"고 함. 매번 승인은 승인 피로(<a href="human-approval-gates.html">■ human-in-the-loop 게이트 위치</a> <span class="rule-ref">· <a href="human-approval-gates.html#human-approval-gates-rule-3">규칙 ③</a></span>). 미리 정한 좁은 조치만 허용 목록으로(표준 변경).</li>
-<li><span class="lead">등급 :</span> <span class="note">(지속 권한 문장) + 업계 일반(표준 변경으로의 적용)</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(지속 권한 문장) +</span> <span class="gen">업계 일반</span><span class="note">(표준 변경으로의 적용)</span></li>
 <li><span class="lead">근거 :</span> safe-trustworthy-agents</li>
 <li><span class="lead">선 :</span> 프로덕션 배포·공유 인프라·데이터 삭제는 여기 안 들어옴 — 기본 차단 규칙.</li>
 </ul>
@@ -676,14 +676,14 @@
 <ul>
 <li><span class="lead">조건 :</span> 새벽 3시 오답 급증, 온콜 사람이 30분 뒤에 옴.</li>
 <li><span class="lead">판단 :</span> 무인 에이전트는 <code>dontAsk</code> — 조사는 계속, 변경 호출은 묻지 않고 거부. "사람이 없으니 에이전트가 복구"로 뒤집히지 않음. 에이전트는 원인 추정안·변경안을 준비해 두고, 사람이 오면 승인.</li>
-<li><span class="lead">등급 :</span> <span class="note">(<code>dontAsk</code> 동작) · 업계 일반(변경안 준비)</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(<code>dontAsk</code> 동작) ·</span> <span class="gen">업계 일반</span><span class="note">(변경안 준비)</span></li>
 <li><span class="lead">근거 :</span> agent-sdk permissions · Skilljar 486932</li>
 </ul>
 <h4>3. 조사처럼 보이지만 상태를 바꾸는 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> "원인 찾으려고" 로그 수준을 올리는 설정 변경 · 디버깅용 스크립트를 외부 Gist 에 공유.</li>
 <li><span class="lead">판단 :</span> 목적이 조사여도 행동이 상태를 바꾸거나 데이터를 밖으로 내보내면 조치 쪽. Gist 공유는 공식이 유출로 차단한 예.</li>
-<li><span class="lead">등급 :</span> <span class="note">(Gist) · 업계 일반(로그 수준 변경)</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(Gist) ·</span> <span class="gen">업계 일반</span><span class="note">(로그 수준 변경)</span></li>
 <li><span class="lead">근거 :</span> claude-code-auto-mode</li>
 </ul>
 <h4>4. 읽기 전용인데도 위험한 때</h4>

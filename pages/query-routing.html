@@ -369,7 +369,7 @@
   </div>
   <h2 class="sec-h" id="query-routing-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>질문 종류에 맞춰 검색(retrieval) 노력을 조절함. 기본은 hybrid + 리랭킹 한 줄기. 질문 모양이 뚜렷이 갈릴 때만 경로를 나누고, 어려운 질문만 쪼개거나 여러 번 검색함</p>
+      <p>질문 종류에 맞춰 검색(retrieval) 노력을 조절함. 기본은 hybrid + 리랭킹 단일 파이프라인. 질문 모양이 뚜렷이 갈릴 때만 경로를 나누고, 어려운 질문만 쪼개거나 여러 번 검색함</p>
     <p class="t5-ana"><span class="lead">비유</span> L7 로드밸런서 경로별 라우팅. 비교 질문 = 대시보드 둘을 따로 조회해 나란히 놓기</p>
   </div>
   <figure class="v3-img">
@@ -437,7 +437,7 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>없음</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">한 줄기</p><p>기본값 = hybrid + 리랭킹. 이득이 쌓임</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">단일 파이프라인</p><p>기본값 = hybrid + 리랭킹. 이득이 쌓임</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>있음</span>
@@ -449,7 +449,7 @@
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">routing 말고 한 줄기</p><p>조건은 '분류가 정확할 때'. 잘못 보낸 질문은 전용 경로에서 틀림 <span class="note">(추론)</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">routing 말고 단일 파이프라인</p><p>조건은 '분류가 정확할 때'. 잘못 보낸 질문은 전용 경로에서 틀림 <span class="note">(추론)</span></p></div>
             </div>
           </div>
         </div>
@@ -585,11 +585,11 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">뜻 질문·코드 질문이 섞인 일반 지원 질의</td><td data-label="답" role="cell">hybrid + 리랭킹 한 줄기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "All these benefits stack"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">뜻 질문·코드 질문이 섞인 일반 지원 질의</td><td data-label="답" role="cell">hybrid + 리랭킹 단일 파이프라인</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "All these benefits stack"</td></tr>
     <tr role="row"><td data-label="조건" role="cell">뚜렷한 범주 + 분류가 정확함</td><td data-label="답" role="cell">routing</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">쉬운 질문이 대부분이고 비용 압박</td><td data-label="답" role="cell">쉬운 것 → 작은 모델, 어려운 것 → 강한 모델로 routing</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">비교 질문</td><td data-label="답" role="cell">하위 질의로 쪼갬</td><td data-label="등급" role="cell"><span class="note">(원리) · 적용은 업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a> "decomposing difficult questions into smaller tasks"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">둘째 검색이 첫 결과에 달림</td><td data-label="답" role="cell">다단계 검색</td><td data-label="등급" role="cell"><span class="note">(원리) · 적용은 업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">비교 질문</td><td data-label="답" role="cell">하위 질의로 쪼갬</td><td data-label="등급" role="cell"><span class="note">(원리) · 적용은</span> <span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a> "decomposing difficult questions into smaller tasks"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">둘째 검색이 첫 결과에 달림</td><td data-label="답" role="cell">다단계 검색</td><td data-label="등급" role="cell"><span class="note">(원리) · 적용은</span> <span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">단순 사실 질문</td><td data-label="답" role="cell">가벼운 검색 1회. 무거운 다단계 에이전트 금지</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">테넌트·권한이 갈림</td><td data-label="답" role="cell">검색 단계에서 필터·네임스페이스</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">— (권한 원칙은 ■ 최소 권한)</td></tr>
   </tbody>
@@ -602,7 +602,7 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">질문 종류</td><td data-label="값" role="cell">한 종류뿐</td><td data-label="답 쪽" role="cell">routing 불필요, 한 줄기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">routing 조건</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">질문 종류</td><td data-label="값" role="cell">한 종류뿐</td><td data-label="답 쪽" role="cell">routing 불필요, 단일 파이프라인</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">routing 조건</td></tr>
     <tr role="row"><td data-label="변수" role="cell">분류 정확도</td><td data-label="값" role="cell">낮음</td><td data-label="답 쪽" role="cell">routing 효과 ↓, 잘못 보낸 질문이 전용 경로에서 틀림</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
     <tr role="row"><td data-label="변수" role="cell">쉬운 질문 비율</td><td data-label="값" role="cell">높음 (예 70%)</td><td data-label="답 쪽" role="cell">모델 routing 으로 비용 약 절반</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
     <tr role="row"><td data-label="변수" role="cell">하위 질의 사이 관계</td><td data-label="값" role="cell">서로 독립 (A·B 비교)</td><td data-label="답 쪽" role="cell">쪼개서 나란히(병렬 가능)</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
@@ -713,7 +713,7 @@
         <li><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" rel="noopener">Contextual Retrieval 글</a></li>
         <li><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></li>
         <li><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></li>
-        <li><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a> <span class="src">( — ⑥)</span></li>
+        <li><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a> <span class="src">(⑥)</span></li>
       </ul>
     <h3>상태</h3>
       <ul class="plain">

@@ -411,12 +411,12 @@
 <p class="lead">"가장 직접" 의 뜻</p>
 <ul>
 <li>지문이 든 제약(예 : 지연(latency) + 비용)을 한 lever 가 다 풀면 그 lever 가 답. 한쪽만 풀면 약한 보기.</li>
-<li>필요한 걸 버려서 얻는 절감(잘라내기 · 무작정 최소 모델)은 "직접"이 아니라 품질을 내주는 거래 → 탈락.</li>
+<li>필요한 걸 버려서 얻는 절감(잘라내기 · 무작정 최소 모델)은 "직접"이 아니라 품질을 희생하는 trade-off(절충) → 탈락.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
 <li>이 지문이 말한 제약은 무엇 무엇인가 (비용 · 지연 · 처리량 · 마감)?</li>
-<li>이 lever 는 그 제약 전부를 줄이는가, 아니면 무엇을 내주나?</li>
+<li>이 lever 는 그 제약 전부를 줄이는가, 아니면 무엇을 잃나?</li>
 </ul>
 </section>
   <h2 class="sec-h" id="optimization-levers-rules-h">규칙과 판단</h2>
@@ -448,7 +448,7 @@
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>과한 thinking·도구 호출</span>
-          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">effort 낮추기</p><p>얻는 것은 지연·비용, 내주는 것은 능력 일부 — eval 로 확인</p></div>
+          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">effort 낮추기</p><p>얻는 것은 지연·비용, 잃는 것은 능력 일부 — eval 로 확인</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>쿼리당 비용</span>
@@ -516,7 +516,7 @@
       <ol class="how">
         <li id="optimization-levers-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">재기 :</span> eval 셋이 있으면 지연 · 토큰 사용량 · 작업당 비용 · 오류율을 고정 과제 은행에서 기준선으로 봄 → lever 전후 비교. 한 번에 여러 lever 를 켜면 어느 게 효과인지 못 가름 <span class="gen">업계 일반</span>. 운영(production) 비용 추적은 <a href="usage-cost-tracing.html">■ 비용 급증 추적</a></p>
+            <p><span class="lead">측정 :</span> eval 셋이 있으면 지연 · 토큰 사용량 · 작업당 비용 · 오류율을 고정 과제 세트에서 기준선으로 봄 → lever 전후 비교. 한 번에 여러 lever 를 켜면 어느 게 효과인지 구분 못 함 <span class="gen">업계 일반</span>. 운영(production) 비용 추적은 <a href="usage-cost-tracing.html">■ 비용 급증 추적</a></p>
             <p>비용 줄이는 공식 순서(맞는 모델 → 캐싱 → 배치 → 사용 패턴 감시)의 본문 = <a href="cost-per-request.html">■ per-request cost</a></p>
           </div>
         </li>
@@ -529,14 +529,14 @@
             <p class="lead">단서 → lever 짝 (각 칸 =, 표로 읽는 법 자체는 업계 일반) <span class="pg">[4.5②]</span></p>
             <div class="tscroll t-wide" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
-              <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">단서</th><th scope="col" role="columnheader">lever</th><th scope="col" role="columnheader">얻는 것</th><th scope="col" role="columnheader">내주는 것</th></tr></thead>
+              <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">단서</th><th scope="col" role="columnheader">lever</th><th scope="col" role="columnheader">얻는 것</th><th scope="col" role="columnheader">잃는 것</th></tr></thead>
               <tbody role="rowgroup">
-                <tr role="row"><td data-label="단서" role="cell">매번 같은 긴 앞부분</td><td data-label="lever" role="cell">캐싱 <span class="note">(안 바뀌는 건 앞에 둠)</span></td><td data-label="얻는 것" role="cell">TTFT + per-request cost</td><td data-label="내주는 것" role="cell">5분 캐시는 쓰기 비용 1.25배 — 읽기 1번부터 이득 · 최소 길이 미달이면 조용히 안 됨 <span class="note">(■ 프롬프트 캐싱)</span></td></tr>
-                <tr role="row"><td data-label="단서" role="cell">급하지 않은 대량</td><td data-label="lever" role="cell">Batch</td><td data-label="얻는 것" role="cell">입력·출력 모두 50% 할인</td><td data-label="내주는 것" role="cell">완료 시각 <span class="note">(대부분 1시간, 24시간 넘으면 만료)</span></td></tr>
-                <tr role="row"><td data-label="단서" role="cell">첫 글자 기다림</td><td data-label="lever" role="cell">스트리밍</td><td data-label="얻는 것" role="cell">체감 반응성</td><td data-label="내주는 것" role="cell">없음 — 대신 비용·총 시간도 그대로 <span class="gen">업계 일반</span></td></tr>
-                <tr role="row"><td data-label="단서" role="cell">장황 · 전체 시간 김</td><td data-label="lever" role="cell">출력 줄이기 <span class="note">(프롬프트 + <code>max_tokens</code>)</span></td><td data-label="얻는 것" role="cell">전체 시간 · 출력 비용</td><td data-label="내주는 것" role="cell">한도가 낮으면 잘림</td></tr>
-                <tr role="row"><td data-label="단서" role="cell">과한 thinking(사고)·도구 호출</td><td data-label="lever" role="cell">effort 낮추기</td><td data-label="얻는 것" role="cell">지연 · 비용</td><td data-label="내주는 것" role="cell">능력 일부 — eval 로 확인</td></tr>
-                <tr role="row"><td data-label="단서" role="cell">난이도 섞인 쿼리</td><td data-label="lever" role="cell">라우팅 · 멀티 모델</td><td data-label="얻는 것" role="cell">대부분 토큰을 낮은 요율로</td><td data-label="내주는 것" role="cell">분류 단계 · 어려운 걸 작은 모델로 보낼 위험 <span class="gen">업계 일반</span></td></tr>
+                <tr role="row"><td data-label="단서" role="cell">매번 같은 긴 앞부분</td><td data-label="lever" role="cell">캐싱 <span class="note">(안 바뀌는 건 앞에 둠)</span></td><td data-label="얻는 것" role="cell">TTFT + per-request cost</td><td data-label="잃는 것" role="cell">5분 캐시는 쓰기 비용 1.25배 — 읽기 1번부터 이득 · 최소 길이 미달이면 조용히 안 됨 <span class="note">(■ 프롬프트 캐싱)</span></td></tr>
+                <tr role="row"><td data-label="단서" role="cell">급하지 않은 대량</td><td data-label="lever" role="cell">Batch</td><td data-label="얻는 것" role="cell">입력·출력 모두 50% 할인</td><td data-label="잃는 것" role="cell">완료 시각 <span class="note">(대부분 1시간, 24시간 넘으면 만료)</span></td></tr>
+                <tr role="row"><td data-label="단서" role="cell">첫 글자 기다림</td><td data-label="lever" role="cell">스트리밍</td><td data-label="얻는 것" role="cell">체감 반응성</td><td data-label="잃는 것" role="cell">없음 — 대신 비용·총 시간도 그대로 <span class="gen">업계 일반</span></td></tr>
+                <tr role="row"><td data-label="단서" role="cell">장황 · 전체 시간 김</td><td data-label="lever" role="cell">출력 줄이기 <span class="note">(프롬프트 + <code>max_<wbr>tokens</code>)</span></td><td data-label="얻는 것" role="cell">전체 시간 · 출력 비용</td><td data-label="잃는 것" role="cell">한도가 낮으면 잘림</td></tr>
+                <tr role="row"><td data-label="단서" role="cell">과한 thinking(사고)·도구 호출</td><td data-label="lever" role="cell">effort 낮추기</td><td data-label="얻는 것" role="cell">지연 · 비용</td><td data-label="잃는 것" role="cell">능력 일부 — eval 로 확인</td></tr>
+                <tr role="row"><td data-label="단서" role="cell">난이도 섞인 쿼리</td><td data-label="lever" role="cell">라우팅 · 멀티 모델</td><td data-label="얻는 것" role="cell">대부분 토큰을 낮은 요율로</td><td data-label="잃는 것" role="cell">분류 단계 · 어려운 걸 작은 모델로 보낼 위험 <span class="gen">업계 일반</span></td></tr>
               </tbody>
             </table>
             </div>
@@ -573,7 +573,7 @@
     <tr role="row"><td data-label="조건" role="cell">비용 줄이려 정책 잘라내기 · 최소 모델 · few-shot 으로 옮기기</td><td data-label="답" role="cell">셋 다 오답</td><td data-label="근거" role="cell">sample-questions-p6-7 "Truncation (A) loses needed policy; downsizing blindly (B) risks quality; relocating to few-shot (D) does not create a cacheable, reusable prefix."</td></tr>
     <tr role="row"><td data-label="조건" role="cell">급하지 않은 작업</td><td data-label="답" role="cell">Batch</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a> "Use the Batch API for non-time-sensitive tasks"</td></tr>
     <tr role="row"><td data-label="조건" role="cell">사용자가 출력을 기다림 (체감)</td><td data-label="답" role="cell">스트리밍</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a> (체감 반응성)</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">답이 장황 · 출력이 김</td><td data-label="답" role="cell">"짧게" 요청 + <code>max_tokens</code> 상한</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">답이 장황 · 출력이 김</td><td data-label="답" role="cell">"짧게" 요청 + <code>max_<wbr>tokens</code> 상한</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">한 모델 안에서 지연·비용을 더 줄여야</td><td data-label="답" role="cell">effort 조정이 모델 교체보다 먼저</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a> "Tuning effort is often a better lever than switching models."</td></tr>
     <tr role="row"><td data-label="조건" role="cell">쉬운·흔한 질문과 어렵고 드문 질문이 섞임</td><td data-label="답" role="cell">라우팅 (작은 모델 ↔ 큰 모델)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">비싼 모델 하나로 모든 토큰을 씀</td><td data-label="답" role="cell">멀티 모델 (실행자→어드바이저 · orchestrator→싼 워커)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
@@ -693,8 +693,8 @@
 <h4>4. 스트리밍이 정답인 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 제약이 "사용자가 답이 늦게 뜬다고 느낌" 하나뿐이고 비용 말이 없음.</li>
-<li><span class="lead">판단 :</span> 스트리밍이 가장 직접. 캐싱은 앞부분이 매번 같을 때만, 출력 줄이기는 답 내용을 바꿈. 지문이 "첫 글자까지"와 "다 받기까지" 중 무엇인지 먼저 가름 → ◆ TTFT vs 응답 완료 지연.</li>
-<li><span class="lead">등급 :</span> <span class="note">(스트리밍 = 체감) · 업계 일반 (총 시간 그대로)</span></li>
+<li><span class="lead">판단 :</span> 스트리밍이 가장 직접. 캐싱은 앞부분이 매번 같을 때만, 출력 줄이기는 답 내용을 바꿈. 지문이 "첫 글자까지"와 "다 받기까지" 중 무엇인지 먼저 구분 → ◆ TTFT vs 응답 완료 지연.</li>
+<li><span class="lead">등급 :</span> <span class="note">(스트리밍 = 체감) ·</span> <span class="gen">업계 일반</span> <span class="note">(총 시간 그대로)</span></li>
 <li><span class="lead">근거 :</span> reduce-latency</li>
 </ul>
 </section>
@@ -710,7 +710,7 @@
     <tr role="row"><td data-label="오답" role="cell">"지연·비용 둘 다니까 스트리밍"</td><td data-label="왜 끌리나" role="cell">지연 = 스트리밍으로 외움</td><td data-label="왜 틀리나" role="cell">체감만, 토큰 비용 그대로</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a>("체감")</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"상담원이 기다리지만 대량이니 배치로 50%"</td><td data-label="왜 끌리나" role="cell">50% 가 커 보임</td><td data-label="왜 틀리나" role="cell">완료 시각 약속이 없음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">◆ Batch API vs 동기 호출</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"품질·비용 둘 다 위해 effort 를 max 로"</td><td data-label="왜 끌리나" role="cell">높을수록 좋아 보임</td><td data-label="왜 틀리나" role="cell">effort 를 올리면 토큰이 늘어 비용 증가</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"캐싱·배치·라우팅·effort 를 한꺼번에 적용"</td><td data-label="왜 끌리나" role="cell">많이 할수록 좋아 보임</td><td data-label="왜 틀리나" role="cell">무엇이 먹혔는지 못 가름 · 근거 없는 조합</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 4.5② "매력적인 오답"</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"캐싱·배치·라우팅·effort 를 한꺼번에 적용"</td><td data-label="왜 끌리나" role="cell">많이 할수록 좋아 보임</td><td data-label="왜 틀리나" role="cell">무엇이 먹혔는지 구분 못 함 · 근거 없는 조합</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 4.5② "매력적인 오답"</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"Haiku 로 내리면 단가가 절반이니 비용도 절반"</td><td data-label="왜 끌리나" role="cell">단가표가 그렇게 보임</td><td data-label="왜 틀리나" role="cell">캐싱 최소 길이·토크나이저까지 넣으면 거의 같거나 더 비쌀 수 있음</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"모델 교체 보기는 늘 오답"</td><td data-label="왜 끌리나" role="cell">샘플 2 B 를 일반화</td><td data-label="왜 틀리나" role="cell">effort 로도 모자라고 eval 로 품질을 보면 맞는 답</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"캐싱은 요청 2~3회부터 이득"</td><td data-label="왜 끌리나" role="cell">영상 요령</td><td data-label="왜 틀리나" role="cell">5분 캐시는 읽기 1번 · 1시간 캐시는 읽기 2번부터 이득</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a></td></tr>
@@ -732,7 +732,7 @@
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 4.5</a> <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>샘플 2 <span class="src">(raw/official sample-questions-p6-7)</span></li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">샘플 2</a> <span class="src">(raw/official sample-questions-p6-7)</span></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></li>
         <li><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></li>

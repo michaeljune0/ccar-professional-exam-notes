@@ -417,7 +417,7 @@
 <p class="lead">저장 쪽 lever(조절 수단)</p>
 <ul>
 <li>임베딩 값의 정밀도를 낮추면(int8 4배, binary 32배) 저장·메모리·비용이 줄고 정확도를 조금 내줌.</li>
-<li>차원을 줄여도(1024 → 256) 같은 거래.</li>
+<li>차원을 줄여도(1024 → 256) 같은 trade-off(절충).</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
@@ -631,8 +631,8 @@
     <tr role="row"><td data-label="조건" role="cell">chunk 만 봐선 어느 문서 얘기인지 모름</td><td data-label="답" role="cell">Contextual Retrieval (chunk 별 설명을 앞에 붙여 임베딩·BM25 양쪽에)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">맞는 chunk 가 후보엔 있는데 순위가 낮음</td><td data-label="답" role="cell">리랭킹 추가</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "Reranking is better than no reranking"</td></tr>
     <tr role="row"><td data-label="조건" role="cell">리랭킹 뒤 p95 지연이 목표를 넘음</td><td data-label="답" role="cell">리랭킹 개수를 줄이며 실험 (빼지 않음)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "There is an inherent trade-off between reranking more chunks … vs. reranking fewer for lower latency and cost."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">검색용으로 임베딩</td><td data-label="답" role="cell">문서 = <code>input_type="document"</code>, 질문 = <code>"query"</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본 "Do not omit <code>input_type</code>"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">벡터 저장·메모리가 부담</td><td data-label="답" role="cell">int8(4배) · binary(32배) 양자화, 또는 차원 줄이기 — 정확도 대가를 eval 로 확인</td><td data-label="등급" role="cell"><span class="note">(eval 부분은 업계 일반)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">검색용으로 임베딩</td><td data-label="답" role="cell">문서 = <code>input_<wbr>type="document"</code>, 질문 = <code>"query"</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본 "Do not omit <code>input_<wbr>type</code>"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">벡터 저장·메모리가 부담</td><td data-label="답" role="cell">int8(4배) · binary(32배) 양자화, 또는 차원 줄이기 — 정확도 대가를 eval 로 확인</td><td data-label="등급" role="cell"><span class="note">(eval 부분은</span> <span class="gen">업계 일반</span><span class="note">)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본</td></tr>
     <tr role="row"><td data-label="조건" role="cell">임베딩 공급자 고르기</td><td data-label="답" role="cell">여러 공급자를 내 사례로 평가 (Anthropic 자체 모델 없음)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본</td></tr>
   </tbody>
 </table>
@@ -723,9 +723,9 @@
 <h4>3. 리랭킹이 지연을 넘김 — 빼는 게 아니라 줄임</h4>
 <ul>
 <li><span class="lead">조건 :</span> 후보 전부를 리랭킹해 p95 가 목표를 넘음.</li>
-<li><span class="lead">판단 :</span> 공식은 "많이 = 성능, 적게 = 지연·비용" 거래라 하고 내 사례로 실험하라 함. 리랭킹은 없는 것보다 나음 → 후보 수를 줄여 가며 eval·지연을 함께 봄. 빼는 보기는 약함.</li>
+<li><span class="lead">판단 :</span> 공식은 "많이 = 성능, 적게 = 지연·비용" trade-off 라 하고 내 사례로 실험하라 함. 리랭킹은 없는 것보다 나음 → 후보 수를 줄여 가며 eval·지연을 함께 봄. 빼는 보기는 약함.</li>
 <li><span class="lead">반대 방향 :</span> 리랭킹이 모델에 넣는 chunk 를 줄이면 생성 단계 지연은 오히려 줄어듦 → 전체 지연으로 판단.</li>
-<li><span class="lead">등급 :</span> <span class="note">(방향) · 개수 숫자는 미해결(공식 숫자 = 실험값 150 → 20 뿐)</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(방향) · 개수 숫자는</span> <span class="open">미해결</span><span class="note">(공식 숫자 = 실험값 150 → 20 뿐)</span></li>
 <li><span class="lead">근거 :</span> contextual-retrieval</li>
 </ul>
 <h4>4. 넣는 chunk 수를 늘리면 더 잘 찾나?</h4>

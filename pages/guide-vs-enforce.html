@@ -405,7 +405,7 @@
 <ul>
 <li>구성 : 도구를 아예 안 줌 → 부를 수 없음 (■ 최소 권한).</li>
 <li>권한 규칙 : deny rule 은 권한 모드와 무관하게 막음. 도구 이름만 적은 deny 는 정의를 요청에서 빼 버림 (agent-sdk permissions).</li>
-<li>코드 : 실행 직전 검사. Claude Code·Agent SDK 는 <code>PreToolUse</code> 훅이 모든 도구 호출 전에 돎 (hooks). 훅이 <code>deny</code> 하면 <code>bypassPermissions</code> 에서도 막힘 (agent-sdk permissions).</li>
+<li>코드 : 실행 직전 검사. Claude Code·Agent SDK 는 <code>PreToolUse</code> 훅이 모든 도구 호출 전에 실행됨 (hooks). 훅이 <code>deny</code> 하면 <code>bypassPermissions</code> 에서도 막힘 (agent-sdk permissions).</li>
 <li>순수 Messages API 앱 : 클라이언트 도구는 앱이 실행함 → <code>tool_use</code> 를 받은 뒤 실행 전에 앱 코드가 검사하는 자리가 곧 훅 자리 (업계 일반).</li>
 </ul>
 <p class="lead"><code>strict: true</code> 는 어느 쪽?</p>
@@ -450,7 +450,7 @@
               <div class="t5-fork" style="--n:2">
                 <div class="t5-arm is-leaf">
                   <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>Claude Code · Agent SDK</span>
-                  <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>PreToolUse</code> 훅</p><p>모든 도구 호출 전에 돎 · <code>deny</code> 로 막음 <span class="src">(2026-09-28 조회)</span></p></div>
+                  <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>PreToolUse</code> 훅</p><p>모든 도구 호출 전에 실행됨 · <code>deny</code> 로 막음 <span class="src">(2026-09-28 조회)</span></p></div>
                 </div>
                 <div class="t5-arm is-leaf">
                   <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>순수 Messages API 앱</span>
@@ -497,12 +497,12 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="guide-vs-enforce-flow" aria-label="안내(프롬프트) vs 강제(구성·코드) 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["system prompt","Claude","실행 전 검사","도구"],"blocks":[],"rules":[null,null,"모든 도구 호출 전에 돎 · `deny` 로 막음",null],"question":"45만 원 환불 호출은 도구에 닿을까?","scenes":[{"name":"① 프롬프트만","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["규칙: 30만 원 넘는","환불은 절대 하지 마"]}},{"kind":"move","step":"안내","from":{"col":0},"to":1,"label":"요청이지 보장 아님","art":{"kind":"slip","lines":["\"30만 원 넘으면 거절\"","(대개 따름)"]}},{"kind":"skip","at":2},{"kind":"move","step":"호출","from":{"col":1},"to":3,"label":"도구가 있으면 불릴 수 있음","art":{"kind":"slip","lines":["refund({ order: \"A-7731\",","amount: 450000 })","→ 환불 완료"]}},{"kind":"end","label":"프롬프트 규칙은 요청이지 보장 아님 — 45만 원이 그대로 나감"}]},{"name":"② 실행 직전 검사","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["규칙: 30만 원 넘는","환불은 절대 하지 마"]}},{"kind":"move","step":"호출","from":{"col":1},"to":2,"label":"모든 도구 호출 전에 돎","art":{"kind":"slip","lines":["refund({ order: \"A-7731\",","amount: 450000 })"]}},{"kind":"mark","step":"막기","at":{"col":2},"label":"`deny` 로 막음","art":{"kind":"slip","lines":["PreToolUse 훅","amount > 300000","→ deny"]}},{"kind":"end","label":"규칙을 어긴 호출은 도구에 못 닿음"}]},{"name":"③ strict 만","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["규칙: 30만 원 넘는","환불은 절대 하지 마"]}},{"kind":"mark","step":"호출","at":{"col":1},"label":"`strict: true` = 입력 모양만 보장","art":{"kind":"slip","lines":["refund({ order: \"A-7731\",","amount: 450000 })","모양 맞음"]}},{"kind":"skip","at":2},{"kind":"move","step":"실행","from":{"col":1},"to":3,"label":"값(얼마)은 검사 안 됨","art":{"kind":"slip","lines":["환불 완료","450,000원"]}},{"kind":"end","label":"strict 는 입력 모양만 보장 — 금액 값은 검사 안 됨"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["system prompt","Claude","실행 전 검사","도구"],"blocks":[],"rules":[null,null,"모든 도구 호출 전에 실행됨 · `deny` 로 막음",null],"question":"45만 원 환불 호출은 도구에 닿을까?","scenes":[{"name":"① 프롬프트만","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["규칙: 30만 원 넘는","환불은 절대 하지 마"]}},{"kind":"move","step":"안내","from":{"col":0},"to":1,"label":"요청이지 보장 아님","art":{"kind":"slip","lines":["\"30만 원 넘으면 거절\"","(대개 따름)"]}},{"kind":"skip","at":2},{"kind":"move","step":"호출","from":{"col":1},"to":3,"label":"도구가 있으면 불릴 수 있음","art":{"kind":"slip","lines":["refund({ order: \"A-7731\",","amount: 450000 })","→ 환불 완료"]}},{"kind":"end","label":"프롬프트 규칙은 요청이지 보장 아님 — 45만 원이 그대로 나감"}]},{"name":"② 실행 직전 검사","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["규칙: 30만 원 넘는","환불은 절대 하지 마"]}},{"kind":"move","step":"호출","from":{"col":1},"to":2,"label":"모든 도구 호출 전에 실행됨","art":{"kind":"slip","lines":["refund({ order: \"A-7731\",","amount: 450000 })"]}},{"kind":"mark","step":"막기","at":{"col":2},"label":"`deny` 로 막음","art":{"kind":"slip","lines":["PreToolUse 훅","amount > 300000","→ deny"]}},{"kind":"end","label":"규칙을 어긴 호출은 도구에 못 닿음"}]},{"name":"③ strict 만","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["규칙: 30만 원 넘는","환불은 절대 하지 마"]}},{"kind":"mark","step":"호출","at":{"col":1},"label":"`strict: true` = 입력 모양만 보장","art":{"kind":"slip","lines":["refund({ order: \"A-7731\",","amount: 450000 })","모양 맞음"]}},{"kind":"skip","at":2},{"kind":"move","step":"실행","from":{"col":1},"to":3,"label":"값(얼마)은 검사 안 됨","art":{"kind":"slip","lines":["환불 완료","450,000원"]}},{"kind":"end","label":"strict 는 입력 모양만 보장 — 금액 값은 검사 안 됨"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> system prompt → Claude → 실행 전 검사 → 도구</p>
-      <p><span class="lead">규칙 (실행 전 검사) :</span> 모든 도구 호출 전에 돎 · <code>deny</code> 로 막음</p>
+      <p><span class="lead">규칙 (실행 전 검사) :</span> 모든 도구 호출 전에 실행됨 · <code>deny</code> 로 막음</p>
       <p><span class="lead">질문 :</span> 45만 원 환불 호출은 도구에 닿을까?</p>
       <p class="lead">① 프롬프트만 <span class="fl-v is-ng">≠</span></p>
       <ol>
@@ -515,7 +515,7 @@
       <p class="lead">② 실행 직전 검사 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : system prompt — 쪽지 : <span class="flx-alt-slip">규칙: 30만 원 넘는 / 환불은 절대 하지 마</span></li>
-        <li>호출 : Claude → 실행 전 검사 : 모든 도구 호출 전에 돎 — 쪽지 : <span class="flx-alt-slip">refund({ order: "A-7731", / amount: 450000 })</span></li>
+        <li>호출 : Claude → 실행 전 검사 : 모든 도구 호출 전에 실행됨 — 쪽지 : <span class="flx-alt-slip">refund({ order: "A-7731", / amount: 450000 })</span></li>
         <li>막기 : 실행 전 검사 : <code>deny</code> 로 막음 — 쪽지 : <span class="flx-alt-slip">PreToolUse 훅 / amount &gt; 300000 / → deny</span></li>
         <li>끝 : 규칙을 어긴 호출은 도구에 못 닿음</li>
       </ol>
@@ -543,7 +543,7 @@
             <li>필요하지만 조건부로만 막아야 함 → 실행 직전 검사</li>
           </ul>
         </li>
-        <li>Claude Code·Agent SDK = <code>PreToolUse</code> 훅 : 모든 도구 호출 전에 돎(권한 확인이 필요 없는 호출도). <code>deny</code> 로 막음. SDK 에선 훅 deny 가 <code>bypassPermissions</code> 에서도 적용됨 (2026-09-28 조회)</li>
+        <li>Claude Code·Agent SDK = <code>PreToolUse</code> 훅 : 모든 도구 호출 전에 실행됨(권한 확인이 필요 없는 호출도). <code>deny</code> 로 막음. SDK 에선 훅 deny 가 <code>bypassPermissions</code> 에서도 적용됨 (2026-09-28 조회)</li>
         <li>명령 훅은 exit 2 로 막음. exit 1 은 비차단 오류 → 그대로 진행</li>
         <li>딱 잘라 허용·거부할 것은 권한 규칙(deny rule)으로 — 훅의 <code>if</code> 필터는 best-effort</li>
         <li>순수 Messages API 앱엔 훅이 없음 : 도구는 앱이 실행 → 실행 전에 앱 코드가 검사 <span class="gen">업계 일반</span> <span class="note"><code>tool_use</code> 면 "Run the tool and return the result" 구조</span></li>
@@ -566,7 +566,7 @@
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
     <tr role="row"><td data-label="조건" role="cell">역할에 필요 없는 강한 도구가 붙어 있음</td><td data-label="답" role="cell">구성에서 뺌</td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> 정답 B</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">팀 전체에 "반드시" 막을 도구·명령·경로 (Claude Code)</td><td data-label="답" role="cell">settings <code>permissions.deny</code> — CLAUDE.md 아님</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">팀 전체에 "반드시" 막을 도구·명령·경로 (Claude Code)</td><td data-label="답" role="cell">settings <code>permissions.<wbr>deny</code> — CLAUDE.md 아님</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">필요하지만 조건부로만 막아야 함 (Claude Code·Agent SDK)</td><td data-label="답" role="cell"><code>PreToolUse</code> 훅에서 <code>deny</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a> · <a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/hooks" lang="en" rel="noopener">agent-sdk hooks</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">모든 호출에 반드시 돌아야 하는 검사 (Agent SDK)</td><td data-label="답" role="cell"><code>PreToolUse</code> 훅 — 다른 단계보다 먼저, <code>bypassPermissions</code> 에서도</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk permissions</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">딱 잘라 허용·거부 (Claude Code)</td><td data-label="답" role="cell">권한 규칙(allow/deny)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
@@ -639,7 +639,7 @@
 <ul>
 <li><span class="lead">조건 :</span> 환불 담당 에이전트라 <code>refund</code> 도구가 역할에 꼭 필요. 규칙은 "건당 30만 원 넘으면 사람에게".</li>
 <li><span class="lead">판단 :</span> 빼기는 불가 → 실행 직전 검사가 답. 금액은 스키마 <code>maximum</code> 으로 강제되지 않으니(값 제약 미지원) 훅·앱 코드가 금액을 읽고 넘으면 <code>deny</code> 또는 <code>ask</code>.</li>
-<li><span class="lead">등급 :</span> <span class="note">(훅 decision · 값 제약 미지원) + 업계 일반 (금액 기준은 예시)</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(훅 decision · 값 제약 미지원) +</span> <span class="gen">업계 일반</span> <span class="note">(금액 기준은 예시)</span></li>
 <li><span class="lead">근거 :</span> hooks(<code>ask</code> = 사용자 확인) · structured-outputs</li>
 </ul>
 <h4>2. 안내가 정답일 때</h4>
@@ -686,7 +686,7 @@
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 5.1</a> <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>샘플 1 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">샘플 1</a> <span class="src">공식 시험 가이드 v1.0</span></li>
         <li><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">Claude Code memory</a></li>
         <li><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">Claude Code hooks</a></li>
         <li><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk permissions</a></li>

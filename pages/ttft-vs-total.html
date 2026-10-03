@@ -533,7 +533,7 @@
         <li><code>gen_ai.server.time_to_first_token</code> = 첫 토큰까지. 대기열과 prefill 단계 시간을 봄, 스트리밍 요청에 특히 중요</li>
         <li><code>gen_ai.server.request.duration</code> = 요청 시간, 마지막 출력 토큰(time-to-last byte)까지</li>
         <li><code>gen_ai.server.time_per_output_token</code> = (요청 시간 − 첫 토큰 시간) ÷ 첫 토큰 뒤 출력 토큰 수 → decode 단계 성능</li>
-        <li>그래서 완료 ≈ TTFT + 출력 토큰 수 × 토큰당 시간 <span class="note">(계산 — 위 정의를 거꾸로 푼 식)</span></li>
+        <li>그래서 완료 ≈ TTFT + 출력 토큰 수 × 토큰당 시간 <span class="calc">계산</span> <span class="note">위 정의를 거꾸로 푼 식</span></li>
         <li>Claude Code 트레이스 <code>claude_code.llm_request</code> 스팬도 <code>ttft_ms</code> 와 <code>duration_ms</code>(재시도 포함 wall-clock)를 따로 찍음</li>
       </ul>
       <p class="lead orig-h">지표 거는 법</p>
@@ -541,8 +541,8 @@
         <li>지연 = 성공 기준(success criteria)의 한 차원. 받아들일 수 있는 응답 시간은 앱의 실시간 요구와 사용자 기대에 달림 → <a href="success-criteria.html">■ 성공 기준</a></li>
         <li><span class="lead">분위수로 :</span> 공식 예 = 응답 95% 가 200ms 미만</li>
         <li>eval 에서도 따로 추적 : <code>time_to_first_token</code> · <code>output_tokens_per_sec</code> · <code>time_to_last_token</code></li>
-        <li>TTFT 를 줄이는 공식 수단 = 캐싱(샘플 2 해설) · 캐시 미리 데우기(pre-warming). 완료 지연 쪽 = 출력 길이 · effort · 모델, lever(조절 수단) 본문 = <a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
-        <li>사람이 안 기다리는 배치에는 TTFT 가 해당 없음 : 캐시 미리 데우기(<code>max_tokens: 0</code>)가 Message Batches 에서 거부되는 이유</li>
+        <li>TTFT 를 줄이는 공식 수단 = 캐싱(샘플 2 해설) · 캐시 사전 워밍(pre-warming). 완료 지연 쪽 = 출력 길이 · effort · 모델, lever(조절 수단) 본문 = <a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
+        <li>사람이 안 기다리는 배치에는 TTFT 가 해당 없음 : 캐시 사전 워밍(<code>max_tokens: 0</code>)가 Message Batches 에서 거부되는 이유</li>
       </ul>
     </details>
   </div>
@@ -555,12 +555,12 @@
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
     <tr role="row"><td data-label="조건" role="cell">채팅처럼 사람이 첫 글자를 기다림</td><td data-label="답" role="cell">TTFT 를 지표로 · 스트리밍</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a> "It's particularly relevant when you're using streaming"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">첫 토큰은 빨라졌는데 "여전히 느리다"</td><td data-label="답" role="cell">응답 완료 지연을 따로 재고 출력 길이를 봄</td><td data-label="등급" role="cell"><span class="note">(정의) · 업계 일반(진단)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">첫 토큰은 빨라졌는데 "여전히 느리다"</td><td data-label="답" role="cell">응답 완료 지연을 따로 재고 출력 길이를 봄</td><td data-label="등급" role="cell"><span class="note">(정의) ·</span> <span class="gen">업계 일반</span><span class="note">(진단)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">지연 기준을 성공 기준(success criteria)에 넣음</td><td data-label="답" role="cell">분위수로 : 응답 95% 가 N ms 미만</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
     <tr role="row"><td data-label="조건" role="cell">eval 에서 지연을 추적</td><td data-label="답" role="cell">TTFT · 초당 출력 토큰 · 마지막 토큰까지를 따로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">모니터링 지표를 고름</td><td data-label="답" role="cell"><code>gen_ai.server.time_to_first_token</code> · <code>gen_ai.server.request.duration</code> · <code>gen_ai.server.time_per_output_token</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">OTel semconv v1.37.0</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">TTFT 자체가 느림 · 앞부분이 매번 같음</td><td data-label="답" role="cell">캐싱 (+ 첫 요청이면 캐시 미리 데우기)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설 · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">완료가 느림 · 답이 장황</td><td data-label="답" role="cell">출력 길이(짧게 요청 · <code>max_tokens</code>) → ■ 지연 줄이기 lever</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">모니터링 지표를 고름</td><td data-label="답" role="cell"><code>gen_<wbr>ai.<wbr>server.<wbr>time_<wbr>to_<wbr>first_<wbr>token</code> · <code>gen_<wbr>ai.<wbr>server.<wbr>request.<wbr>duration</code> · <code>gen_<wbr>ai.<wbr>server.<wbr>time_<wbr>per_<wbr>output_<wbr>token</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">OTel semconv v1.37.0</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">TTFT 자체가 느림 · 앞부분이 매번 같음</td><td data-label="답" role="cell">캐싱 (+ 첫 요청이면 캐시 사전 워밍)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설 · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">완료가 느림 · 답이 장황</td><td data-label="답" role="cell">출력 길이(짧게 요청 · <code>max_<wbr>tokens</code>) → ■ 지연 줄이기 lever</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">배치 작업의 지연 목표</td><td data-label="답" role="cell">TTFT 는 해당 없음 → 완료 시각(배치 창)으로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a> "Pre-warming targets time-to-first-token, which does not apply to batch processing"</td></tr>
   </tbody>
 </table>
@@ -577,9 +577,9 @@
     <tr role="row"><td data-label="변수" role="cell">출력 길이</td><td data-label="값" role="cell">몇 토큰(분류 라벨)</td><td data-label="답 쪽" role="cell">완료 ≈ TTFT → 입력 쪽 lever(조절 수단)</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
     <tr role="row"><td data-label="변수" role="cell">출력 길이</td><td data-label="값" role="cell">수천 토큰(보고서)</td><td data-label="답 쪽" role="cell">완료의 대부분이 출력 구간 → 출력 쪽 lever</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
     <tr role="row"><td data-label="변수" role="cell">입력</td><td data-label="값" role="cell">길고 매번 같은 앞부분</td><td data-label="답 쪽" role="cell">캐싱이 TTFT 를 줄임</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">첫 요청</td><td data-label="값" role="cell">캐시 미스</td><td data-label="답 쪽" role="cell">캐시 미리 데우기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">첫 요청</td><td data-label="값" role="cell">캐시 미스</td><td data-label="답 쪽" role="cell">캐시 사전 워밍</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">시스템 모양</td><td data-label="값" role="cell">도구를 여러 번 부르는 에이전트</td><td data-label="답 쪽" role="cell">모델 요청 하나의 TTFT 보다 턴 전체 시간</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 3 · <a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">집계</td><td data-label="값" role="cell">평균</td><td data-label="답 쪽" role="cell">가장 느린 몇 %(꼬리 지연)를 가림 → 분위수</td><td data-label="등급" role="cell"><span class="note">(공식 예가 95%) · 업계 일반(이유)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">집계</td><td data-label="값" role="cell">평균</td><td data-label="답 쪽" role="cell">가장 느린 몇 %(꼬리 지연)를 가림 → 분위수</td><td data-label="등급" role="cell"><span class="note">(공식 예가 95%) ·</span> <span class="gen">업계 일반</span><span class="note">(이유)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
   </tbody>
 </table>
 </div>
@@ -643,13 +643,13 @@
 <ul>
 <li><span class="lead">조건 :</span> 한 턴에 도구를 4번 부르는 지원 에이전트. 요청마다 TTFT 는 짧음.</li>
 <li><span class="lead">판단 :</span> 사용자가 기다리는 건 턴 전체(요청 여러 개 + 도구 실행). 요청 하나의 TTFT 만 보면 느린 도구 · 호출 횟수를 놓침. Claude Code 트레이스도 턴 전체(<code>interaction.duration_ms</code>)와 요청별(<code>ttft_ms</code> · <code>duration_ms</code>)을 따로 찍음. 어디서 느린지 가르기는 ■ observability 세 신호.</li>
-<li><span class="lead">등급 :</span> <span class="note">(필드) · 업계 일반(판단)</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(필드) ·</span> <span class="gen">업계 일반</span><span class="note">(판단)</span></li>
 <li><span class="lead">근거 :</span> monitoring-usage</li>
 </ul>
 <h4>4. 사람이 안 보는 배치</h4>
 <ul>
 <li><span class="lead">조건 :</span> 밤새 도는 문서 요약 배치.</li>
-<li><span class="lead">판단 :</span> TTFT 는 해당 없음. 공식도 캐시 미리 데우기를 배치에서 거부하며 "TTFT 는 배치와 무관"이라고 씀. 지표는 전체 완료 시각(배치 창) · 처리량.</li>
+<li><span class="lead">판단 :</span> TTFT 는 해당 없음. 공식도 캐시 사전 워밍를 배치에서 거부하며 "TTFT 는 배치와 무관"이라고 씀. 지표는 전체 완료 시각(배치 창) · 처리량.</li>
 
 <li><span class="lead">근거 :</span> prompt-caching · ◆ Batch API vs 동기 호출</li>
 </ul>
@@ -684,12 +684,12 @@
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 4.1</a> <span class="src">공식 시험 가이드 v1.0</span></li>
-        <li>샘플 2 <span class="src">공식 시험 가이드 v1.0</span></li>
+        <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">샘플 2</a> <span class="src">공식 시험 가이드 v1.0</span></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/glossary" lang="en" rel="noopener">glossary</a></li>
         <li><a class="src-link" href="https://opentelemetry.io/docs/specs/semconv/gen-ai/" lang="en" rel="noopener">OTel GenAI semconv v1.37.0</a></li>
         <li><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></li>
-        <li><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> <span class="src">(en-full)</span></li>
+        <li><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></li>
         <li><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></li>
         <li><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></li>
       </ul>

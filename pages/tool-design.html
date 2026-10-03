@@ -415,7 +415,7 @@
 </ul>
 <p class="lead">응답이 곧 다음 컨텍스트</p>
 <ul>
-<li>도구 응답이 그대로 다음 턴 입력 → 긴 응답은 비용·혼란. 쓸모 큰 정보(high signal) 필드만 · 페이지 · 자르기 · 짧게/길게 선택.</li>
+<li>도구 응답이 그대로 다음 턴 입력 → 긴 응답은 비용·혼란. 핵심 정보(high signal) 필드만 · 페이지 · 자르기 · 짧게/길게 선택.</li>
 </ul>
 </section>
   <h2 class="sec-h" id="tool-design-rules-h">규칙과 판단</h2>
@@ -487,7 +487,7 @@
       <ol class="how">
         <li id="tool-design-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p><span class="lead">응답도 설계 :</span> 쓸모 큰 정보(high signal)만(<code>uuid</code>·<code>mime_type</code> 대신 <code>name</code>·<code>file_type</code>) · 긴 응답은 페이지·필터·자르기 + 기본값 · Claude Code 는 도구 응답 기본 25,000토큰 상한 · 오류는 고칠 방법을 말하는 문장으로</p>
+            <p><span class="lead">응답도 설계 :</span> 핵심 정보(high signal)만(<code>uuid</code>·<code>mime_type</code> 대신 <code>name</code>·<code>file_type</code>) · 긴 응답은 페이지·필터·자르기 + 기본값 · Claude Code 는 도구 응답 기본 25,000토큰 상한 · 오류는 고칠 방법을 말하는 문장으로</p>
             <p><code>response_format</code> enum(<code>concise</code>/<code>detailed</code>) — 공식 예 206 → 72토큰(약 ⅓)</p>
           </div>
         </li>
@@ -538,12 +538,12 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">API 엔드포인트마다 도구 하나, 비슷한 도구를 번갈아 잘못 부름</td><td data-label="답" role="cell">업무 단위로 합치고 네임스페이스로 가름</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/writing-tools-for-agents" lang="en" rel="noopener">writing-tools</a> · <a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">API 엔드포인트마다 도구 하나, 비슷한 도구를 번갈아 잘못 부름</td><td data-label="답" role="cell">업무 단위로 합치고 네임스페이스로 구분</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/writing-tools-for-agents" lang="en" rel="noopener">writing-tools</a> · <a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">도구가 전부를 돌려줌(list_*)</td><td data-label="답" role="cell">찾기·거르기 도구로(search_*)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/writing-tools-for-agents" lang="en" rel="noopener">writing-tools</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">자주 이어 부르는 여러 호출</td><td data-label="답" role="cell">도구 하나가 안에서 처리</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/writing-tools-for-agents" lang="en" rel="noopener">writing-tools</a> "handle frequently chained, multi-step tasks in a single tool call"</td></tr>
     <tr role="row"><td data-label="조건" role="cell">여러 서비스에 같은 이름 도구</td><td data-label="답" role="cell">서비스(·자원) 접두사</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/writing-tools-for-agents" lang="en" rel="noopener">writing-tools</a> · <a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">설명이 한 줄뿐</td><td data-label="답" role="cell">무엇·언제(안)·파라미터·못 돌려주는 것, 3~4문장 이상</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">응답이 길어 컨텍스트를 먹음</td><td data-label="답" role="cell">페이지·범위·필터·자르기 + 기본값, <code>response_format</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/writing-tools-for-agents" lang="en" rel="noopener">writing-tools</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">응답이 길어 컨텍스트를 먹음</td><td data-label="답" role="cell">페이지·범위·필터·자르기 + 기본값, <code>response_<wbr>format</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/writing-tools-for-agents" lang="en" rel="noopener">writing-tools</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">합쳐도 30~50개 넘음</td><td data-label="답" role="cell">tool search</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool" lang="en" rel="noopener">tool-search-tool</a> → ◆ 도구 미리 싣기 vs tool search</td></tr>
     <tr role="row"><td data-label="조건" role="cell">어떤 방식이 나은지 모름(접두 vs 접미 · 응답 형식)</td><td data-label="답" role="cell">자기 eval 로 고름</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/writing-tools-for-agents" lang="en" rel="noopener">writing-tools</a></td></tr>
   </tbody>
@@ -560,7 +560,7 @@
     <tr role="row"><td data-label="변수" role="cell">도구 개수</td><td data-label="값" role="cell">30~50 넘음</td><td data-label="답 쪽" role="cell">합치기 + tool search</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool" lang="en" rel="noopener">tool-search-tool</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">증상</td><td data-label="값" role="cell">비슷한 도구 사이 오선택</td><td data-label="답 쪽" role="cell">합치기·개명·경계 문장</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/writing-tools-for-agents" lang="en" rel="noopener">writing-tools</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">증상</td><td data-label="값" role="cell">같은 도구를 중복 호출</td><td data-label="답 쪽" role="cell">페이지·토큰 한도 조정</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/writing-tools-for-agents" lang="en" rel="noopener">writing-tools</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">증상</td><td data-label="값" role="cell">파라미터 오류 잦음</td><td data-label="답 쪽" role="cell">설명·예시(<code>input_examples</code>) 보강</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/writing-tools-for-agents" lang="en" rel="noopener">writing-tools</a> · <a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">증상</td><td data-label="값" role="cell">파라미터 오류 잦음</td><td data-label="답 쪽" role="cell">설명·예시(<code>input_<wbr>examples</code>) 보강</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/writing-tools-for-agents" lang="en" rel="noopener">writing-tools</a> · <a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">과제 모양</td><td data-label="값" role="cell">열린 과제(코딩처럼 단계가 미리 안 정해짐)</td><td data-label="답 쪽" role="cell">조합 가능한 범용 도구</td><td data-label="등급" role="cell"><span class="note">(Skilljar)</span></td><td data-label="근거" role="cell">Skilljar API 287803 "reasonably abstract tools"</td></tr>
     <tr role="row"><td data-label="변수" role="cell">과제 모양</td><td data-label="값" role="cell">정해진 업무 흐름(예약·고객 조회)</td><td data-label="답 쪽" role="cell">업무 단위 통합 도구</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/writing-tools-for-agents" lang="en" rel="noopener">writing-tools</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">권한 경계</td><td data-label="값" role="cell">합칠 동작끼리 권한이 다름(읽기 vs 머지)</td><td data-label="답 쪽" role="cell">나누거나 실행 전 검사</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">■ 최소 권한 뒤집히는 때 4</td></tr>
@@ -615,7 +615,7 @@
 <ul>
 <li><span class="lead">조건 :</span> 코딩·리서치처럼 단계를 미리 못 정하는 에이전트.</li>
 <li><span class="lead">판단 :</span> 업무 단위 도구를 미리 다 만들 수 없음. bash·read·edit 같은 범용·조합 가능 도구가 공식(Skilljar)이 드는 모양. 둘 다 "엔드포인트마다 좁은 도구"는 거부.</li>
-<li><span class="lead">등급 :</span> <span class="note">(Skilljar 문장) · 가르는 기준은 업계 일반</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(Skilljar 문장) · 가르는 기준은</span> <span class="gen">업계 일반</span></li>
 <li><span class="lead">근거 :</span> Skilljar API 287803 · writing-tools "subdivide and solve tasks in much the same way that a human would"</li>
 </ul>
 <h4>3. 응답을 줄이면 얼마나 아끼나</h4>
@@ -645,7 +645,7 @@
     <tr role="row"><td data-label="오답" role="cell">"모든 기능을 하는 mega tool 하나"</td><td data-label="왜 끌리나" role="cell">도구 수 최소</td><td data-label="왜 틀리나" role="cell">공식은 목적이 뚜렷한 도구를 업무 단위로. 하나로 몰기 근거 없음</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 3.1② 영상 메모</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"list_all 로 다 주고 모델이 고르게"</td><td data-label="왜 끌리나" role="cell">모델이 알아서 찾을 것 같음</td><td data-label="왜 틀리나" role="cell">한정된 컨텍스트 낭비 — 찾기 도구로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/writing-tools-for-agents" lang="en" rel="noopener">writing-tools</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"더 큰 모델로 바꾼다"</td><td data-label="왜 끌리나" role="cell">고르기 = 지능 문제로 봄</td><td data-label="왜 틀리나" role="cell">원인은 겹치는 이름·설명</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">CCA-F 노트 2.1</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"도구 응답은 전부 돌려줘야 정확"</td><td data-label="왜 끌리나" role="cell">정보 손실이 두려움</td><td data-label="왜 틀리나" role="cell">쓸모 큰 정보만, 필요하면 detailed 선택</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/writing-tools-for-agents" lang="en" rel="noopener">writing-tools</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"도구 응답은 전부 돌려줘야 정확"</td><td data-label="왜 끌리나" role="cell">정보 손실이 두려움</td><td data-label="왜 틀리나" role="cell">핵심 정보만, 필요하면 detailed 선택</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/writing-tools-for-agents" lang="en" rel="noopener">writing-tools</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"UUID 를 그대로 돌려준다"</td><td data-label="왜 끌리나" role="cell">식별자가 정확</td><td data-label="왜 틀리나" role="cell">뜻 있는 이름·0부터 번호가 환각(hallucination)을 줄임</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/writing-tools-for-agents" lang="en" rel="noopener">writing-tools</a></td></tr>
   </tbody>
 </table>
@@ -655,7 +655,7 @@
   <h2 class="sec-h" id="tool-design-ref-h">참고</h2>
   <div class="t5-rest">
     <h3>CCA-F</h3>
-      <p>봄 — CCA-F 는 "설명이 겹쳐 엉뚱한 도구가 불림 → 개명 + 경계 문장"(설명 고치기)을 물었음. 여기선 **도구 모양 자체**(엔드포인트 1:1 vs 업무 단위 통합)를 설계 판단으로 묻고, 오답은 "더 쪼개기"</p>
+      <p>겹침 — CCA-F 는 "설명이 겹쳐 엉뚱한 도구가 불림 → 개명 + 경계 문장"(설명 고치기)을 물었음. 여기선 **도구 모양 자체**(엔드포인트 1:1 vs 업무 단위 통합)를 설계 판단으로 묻고, 오답은 "더 쪼개기"</p>
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 3.1</a> <span class="src">공식 시험 가이드 v1.0</span></li>

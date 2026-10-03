@@ -372,7 +372,7 @@
   <h2 class="sec-h" id="production-feedback-loop-sum-h">한눈에</h2>
   <div class="t5-sum">
       <p>출시 뒤 운영(production) 모니터링은 분포가 바뀌거나(distribution drift) 예상 못 한 실제 실패를 잡는 층. 단 사후 대응 — 사용자가 먼저 겪음</p>
-      <p>그래서 잡은 실패를 그대로 두지 않고 루프를 닫음 : 피드백은 계속 분류 · transcript 는 매주 표본으로 읽기 → 실패 한 건마다 transcript 로 "에이전트가 진짜 틀렸나, grader(채점기)가 맞는 답을 거절했나" 가름 → 진짜 실패는 테스트 케이스로 eval 셋에 → 다음 변경부터 CI 에서 막음</p>
+      <p>그래서 잡은 실패를 그대로 두지 않고 루프를 닫음 : 피드백은 계속 분류 · transcript 는 매주 일부를 뽑아 읽기 → 실패 한 건마다 transcript 로 "에이전트가 진짜 틀렸나, grader(채점기)가 맞는 답을 거절했나" 가려냄 → 진짜 실패는 테스트 케이스로 eval 셋에 → 다음 변경부터 CI 에서 막음</p>
       <p>"실패가 테스트 케이스가 되고, 테스트 케이스가 regression(회귀)을 막는다"</p>
     <p class="t5-ana"><span class="lead">비유</span> SLO 위반 → 포스트모템 → 액션 아이템을 회의록에만 두지 않고 regression 테스트·알림 규칙으로 추가</p>
   </div>
@@ -409,7 +409,7 @@
 </ul>
 <p class="lead">실패 판정이 먼저</p>
 <ul>
-<li>eval 이 "실패"라고 해도 grader(채점기)가 맞는 답을 거절했을 수 있음. transcript 를 읽어 가름.</li>
+<li>eval 이 "실패"라고 해도 grader(채점기)가 맞는 답을 거절했을 수 있음. transcript 를 읽어 가려냄.</li>
 <li>에이전트 실수면 과제로 넣고 에이전트를 고침. grader 오판이면 grader 를 고침.</li>
 </ul>
 <p class="lead">드리프트는 입력 쪽</p>
@@ -497,7 +497,7 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="production-feedback-loop-flow" aria-label="운영 → eval feedback loop 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["운영","선별","eval 셋","CI"],"blocks":[],"rules":[null,null,"진짜 실패는 테스트 케이스로",null],"question":"운영에서 잡은 실패는 어디로 가야 할까?","scenes":[{"name":"① 새 실패 → 테스트 케이스","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"소파 배송 날짜를 바꾸고 싶은데 안 된대요."}},{"kind":"move","step":"신고","from":{"col":0},"to":1,"label":"피드백 분류 · transcript 매주 표본","art":{"kind":"slip","lines":["이번 주 표본 50개","가구 문의 실패 9건"]}},{"kind":"mark","step":"판정","at":{"col":1},"label":"transcript 로 가름","art":{"kind":"slip","lines":["에이전트 실수 8건","grader 오판 1건"]}},{"kind":"move","step":"넣기","from":{"col":1},"to":2,"label":"진짜 실패 → 테스트 케이스","art":{"kind":"slip","lines":["가구 과제 +8 · 영향 순","eval 셋 : 48개"]}},{"kind":"move","step":"막기","from":{"col":2},"to":3,"label":"다음 변경부터 CI 에서 막음","art":{"kind":"slip","lines":["PR 마다 48개 돌림","가구 과제 실패 → 배포 막힘"]}},{"kind":"end","label":"실패가 테스트 케이스가 되고, 테스트 케이스가 regression 을 막음"}]},{"name":"② 오프라인 통과니 괜찮다","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["문의 비율","옷 75% · 가구 25% (신규)"]}},{"kind":"mark","step":"통과","at":{"col":3},"label":"오프라인 eval 은 여전히 통과","art":{"kind":"slip","lines":["eval 40개 : 95%","가구 과제 : 0개"]}},{"kind":"mark","step":"드리프트","at":{"col":0},"label":"입력 분포가 바뀜","art":{"kind":"slip","lines":["가구 문의 실패 ↑","만족도 ↓"]}},{"kind":"end","label":"eval 셋에 그 유형이 없으면 오프라인 통과는 아무것도 말해 주지 않음"}]},{"name":"③ 공유만 하고 끝","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"소파 배송 날짜를 바꾸고 싶은데 안 된대요."}},{"kind":"move","step":"신고","from":{"col":0},"to":1,"label":"놓친 사례를 회의에서 공유","art":{"kind":"slip","lines":["주간 회의 :","\"가구 문의 주의해 주세요\""]}},{"kind":"skip","at":2},{"kind":"mark","step":"다음 변경","at":{"col":3},"label":"가구 과제 없이 통과","art":{"kind":"slip","lines":["PR #230 : 40/40 통과","가구 과제 : 0개"]}},{"kind":"end","label":"eval 셋에 안 들어가면 루프가 안 닫힘 — 다음 변경에서 또 새어 나감"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["운영","선별","eval 셋","CI"],"blocks":[],"rules":[null,null,"진짜 실패는 테스트 케이스로",null],"question":"운영에서 잡은 실패는 어디로 가야 할까?","scenes":[{"name":"① 새 실패 → 테스트 케이스","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"소파 배송 날짜를 바꾸고 싶은데 안 된대요."}},{"kind":"move","step":"신고","from":{"col":0},"to":1,"label":"피드백 분류 · transcript 매주 표본","art":{"kind":"slip","lines":["이번 주 표본 50개","가구 문의 실패 9건"]}},{"kind":"mark","step":"판정","at":{"col":1},"label":"transcript 로 가려냄","art":{"kind":"slip","lines":["에이전트 실수 8건","grader 오판 1건"]}},{"kind":"move","step":"넣기","from":{"col":1},"to":2,"label":"진짜 실패 → 테스트 케이스","art":{"kind":"slip","lines":["가구 과제 +8 · 영향 순","eval 셋 : 48개"]}},{"kind":"move","step":"막기","from":{"col":2},"to":3,"label":"다음 변경부터 CI 에서 막음","art":{"kind":"slip","lines":["PR 마다 48개 돌림","가구 과제 실패 → 배포 막힘"]}},{"kind":"end","label":"실패가 테스트 케이스가 되고, 테스트 케이스가 regression 을 막음"}]},{"name":"② 오프라인 통과니 괜찮다","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["문의 비율","옷 75% · 가구 25% (신규)"]}},{"kind":"mark","step":"통과","at":{"col":3},"label":"오프라인 eval 은 여전히 통과","art":{"kind":"slip","lines":["eval 40개 : 95%","가구 과제 : 0개"]}},{"kind":"mark","step":"드리프트","at":{"col":0},"label":"입력 분포가 바뀜","art":{"kind":"slip","lines":["가구 문의 실패 ↑","만족도 ↓"]}},{"kind":"end","label":"eval 셋에 그 유형이 없으면 오프라인 통과는 아무것도 말해 주지 않음"}]},{"name":"③ 공유만 하고 끝","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"소파 배송 날짜를 바꾸고 싶은데 안 된대요."}},{"kind":"move","step":"신고","from":{"col":0},"to":1,"label":"놓친 사례를 회의에서 공유","art":{"kind":"slip","lines":["주간 회의 :","\"가구 문의 주의해 주세요\""]}},{"kind":"skip","at":2},{"kind":"mark","step":"다음 변경","at":{"col":3},"label":"가구 과제 없이 통과","art":{"kind":"slip","lines":["PR #230 : 40/40 통과","가구 과제 : 0개"]}},{"kind":"end","label":"eval 셋에 안 들어가면 루프가 안 닫힘 — 다음 변경에서 또 새어 나감"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -508,7 +508,7 @@
       <ol>
         <li>시작 : 운영 — 말 : <span class="flx-alt-say">“소파 배송 날짜를 바꾸고 싶은데 안 된대요.”</span></li>
         <li>신고 : 운영 → 선별 : 피드백 분류 · transcript 매주 표본 — 쪽지 : <span class="flx-alt-slip">이번 주 표본 50개 / 가구 문의 실패 9건</span></li>
-        <li>판정 : 선별 : transcript 로 가름 — 쪽지 : <span class="flx-alt-slip">에이전트 실수 8건 / grader 오판 1건</span></li>
+        <li>판정 : 선별 : transcript 로 가려냄 — 쪽지 : <span class="flx-alt-slip">에이전트 실수 8건 / grader 오판 1건</span></li>
         <li>넣기 : 선별 → eval 셋 : 진짜 실패 → 테스트 케이스 — 쪽지 : <span class="flx-alt-slip">가구 과제 +8 · 영향 순 / eval 셋 : 48개</span></li>
         <li>막기 : eval 셋 → CI : 다음 변경부터 CI 에서 막음 — 쪽지 : <span class="flx-alt-slip">PR 마다 48개 돌림 / 가구 과제 실패 → 배포 막힘</span></li>
         <li>끝 : 실패가 테스트 케이스가 되고, 테스트 케이스가 regression 을 막음</li>
@@ -535,7 +535,7 @@
       <ol class="how">
         <li id="production-feedback-loop-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p>사용자 신고만으로 감시하지 않음 : 드물고 내고 싶은 사람만 냄 · 심한 문제로 쏠림 · 이유를 잘 안 말함 · 사용자가 문제를 잡게 두면 사용자가 피해를 봄</p>
+            <p>사용자 신고만으로 감시하지 않음 : 드물고 스스로 나선 사람만 신고함 · 심한 문제로 쏠림 · 이유를 잘 안 말함 · 사용자가 문제를 잡게 두면 사용자가 피해를 봄</p>
           </div>
         </li>
       </ol>
@@ -560,14 +560,14 @@
         </li>
         <li id="production-feedback-loop-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">실패 판정 :</span> 실패한 과제는 transcript 로 "에이전트의 진짜 실수 vs grader 가 맞는 답을 거절"을 가름. 뒤쪽이면 에이전트가 아니라 grader 를 고침 <span class="pg">[4.6②]</span></p>
+            <p><span class="lead">실패 판정 :</span> 실패한 과제는 transcript 로 "에이전트의 진짜 실수 vs grader 가 맞는 답을 거절"을 가려냄. 뒤쪽이면 에이전트가 아니라 grader 를 고침 <span class="pg">[4.6②]</span></p>
           </div>
         </li>
         <li id="production-feedback-loop-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
             <p><span class="lead">루프 닫기 :</span> 사용자 보고 실패를 테스트 케이스로 → suite 가 실제 사용을 반영. 사용자 영향 순으로 · 넣은 뒤엔 변경·모델 업그레이드마다 CI 에서 자동 eval (<a href="eval-driven-iteration.html">■ 변경마다 eval 다시</a>) <span class="pg">[4.6②]</span> <span class="pg">[6.3②]</span> <span class="pg">[6.5①]</span></p>
             <p>실패를 들고 온 사람(제품 요구·사용자에 가장 가까운 PM·CS·영업)이 eval 과제를 직접 보태게 함(PR 로)</p>
-            <p>통과율이 높아진 capability(능력) 과제는 regression suite 로 졸업해 계속 돌리며 drift 를 잡음 (<a href="capability-vs-regression.html">◆ capability eval vs regression eval</a>)</p>
+            <p>통과율이 높아진 capability(능력) 과제는 regression suite 로 옮겨 계속 돌리며 drift 를 잡음 (<a href="capability-vs-regression.html">◆ capability eval vs regression eval</a>)</p>
             <p>증거로 보아 요구 자체가 바뀌었으면 과제 추가가 아니라 요구부터 다시 <span class="gen">업계 일반</span> <span class="note">목록 6.3② 문장, 공식 원문 미확인</span></p>
           </div>
         </li>
@@ -589,10 +589,10 @@
     <tr role="row"><td data-label="조건" role="cell">사용자 보고 실패</td><td data-label="답" role="cell">테스트 케이스로 · 사용자 영향 순</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">과제를 넣은 뒤</td><td data-label="답" role="cell">변경·모델 업그레이드마다 CI 에서 자동 eval</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">실패를 들고 온 PM·CS·영업</td><td data-label="답" role="cell">eval 과제를 PR 로 보태게</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">통과율이 높아진 capability(능력) 과제</td><td data-label="답" role="cell">regression(회귀) suite 로 졸업해 계속 돌림</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">통과율이 높아진 capability(능력) 과제</td><td data-label="답" role="cell">regression(회귀) suite 로 옮겨 계속 돌림</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">"모델이 저절로 바뀌었다"</td><td data-label="답" role="cell">같은 ID 의 가중치·구성은 안 바뀜</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids-and-versions</a></td></tr>
     <tr role="row"><td data-label="조건" role="cell">같은 ID 에서 작은 동작 차이</td><td data-label="답" role="cell">서빙 인프라 업데이트가 가장 유력</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids-and-versions</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">사용자 신고를 주 감시 수단으로</td><td data-label="답" role="cell">아님 — 드물고 내고 싶은 사람만 냄</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">사용자 신고를 주 감시 수단으로</td><td data-label="답" role="cell">아님 — 드물고 스스로 나선 사람만 신고함</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -627,7 +627,7 @@
     <h3>함정</h3>
       <ul class="traps">
         <li><span class="neq" aria-hidden="true">≠</span><span>"오프라인 eval 통과했으니 문제없다" → eval 셋에 없는 유형이면 통과는 아무것도 말해 주지 않음. 운영 모니터링이 잡는 층</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"사용자 신고로만 감시" → 드물고 내고 싶은 사람만 냄</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"사용자 신고로만 감시" → 드물고 스스로 나선 사람만 신고함</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>"모델이 저절로 드리프트했으니 모델 교체" → 모델 ID 는 고정 스냅숏</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>eval 점수가 떨어지자 transcript 안 읽고 에이전트를 고침 → grader 가 맞는 답을 거절했을 수 있음</span></li>
         <li><span class="neq" aria-hidden="true">≠</span><span>놓친 사례를 회의에서 공유하고 끝 → eval 셋에 안 들어가면 루프가 안 닫힘 <span class="gen">업계 일반</span></span></li>
@@ -671,9 +671,9 @@
 </ul>
 <h4>2. eval 점수가 떨어졌는데 에이전트는 맞은 때 — grader 오판</h4>
 <ul>
-<li><span class="lead">조건 :</span> 문구 일치로 채점하는 과제가 "환불 기한 14일"만 정답으로 받음. 새 프롬프트 뒤 에이전트가 "2주 안에 환불"로 답해 실패 처리가 늚.</li>
+<li><span class="lead">조건 :</span> 문구 일치로 채점하는 과제가 "환불 기한 14일"만 정답으로 받음. 새 프롬프트 뒤 에이전트가 "2주 안에 환불"로 답해 실패 처리가 늘어남.</li>
 <li><span class="lead">판단 :</span> transcript 를 읽으면 답은 맞음 → 에이전트가 아니라 grader 를 고침(■ grader 고르기 · ■ LLM-as-judge 설계). 점수만 보고 프롬프트를 되돌리면 좋은 변경을 버림.</li>
-<li><span class="lead">등급 :</span> <span class="note">(transcript 로 가름) · 예시는 설명용</span></li>
+<li><span class="lead">등급 :</span> <span class="note">(transcript 로 가려냄) · 예시는 설명용</span></li>
 <li><span class="lead">근거 :</span> demystifying-evals</li>
 </ul>
 <h4>3. "모델 ID 그대로니 모델 쪽은 볼 것 없음" 이 약간 틀리는 때</h4>
@@ -686,7 +686,7 @@
 <h4>4. 들어온 실패를 전부 과제로 넣을 수 없는 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 월간 검토에서 실패 사례가 수십 건씩 옴.</li>
-<li><span class="lead">판단 :</span> 사용자 영향 순으로 넣음. 처음엔 실제 실패에서 뽑은 20~50개로도 충분히 시작(■ 첫 eval 셋 만들기). 늘어 통과율이 높아진 과제는 regression suite 로 졸업.</li>
+<li><span class="lead">판단 :</span> 사용자 영향 순으로 넣음. 처음엔 실제 실패에서 뽑은 20~50개로도 충분히 시작(■ 첫 eval 셋 만들기). 늘어 통과율이 높아진 과제는 regression suite 로 이관.</li>
 
 <li><span class="lead">근거 :</span> demystifying-evals</li>
 </ul>
@@ -698,7 +698,7 @@
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
     <tr role="row"><td data-label="오답" role="cell">"오프라인 eval 이 통과했으니 문제없다"</td><td data-label="왜 끌리나" role="cell">숫자가 초록</td><td data-label="왜 틀리나" role="cell">셋에 없는 유형은 측정 못 함. 운영이 잡는 층</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a> · 뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"사용자 신고로만 감시"</td><td data-label="왜 끌리나" role="cell">실제 사용자 목소리</td><td data-label="왜 틀리나" role="cell">드물고 내고 싶은 사람만 냄 · 심한 문제로 쏠림 · 사용자가 문제를 잡게 두면 사용자가 피해를 봄</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"사용자 신고로만 감시"</td><td data-label="왜 끌리나" role="cell">실제 사용자 목소리</td><td data-label="왜 틀리나" role="cell">드물고 스스로 나선 사람만 신고함 · 심한 문제로 쏠림 · 사용자가 문제를 잡게 두면 사용자가 피해를 봄</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"모델이 저절로 드리프트했으니 모델 교체"</td><td data-label="왜 끌리나" role="cell">영상이 "모델 동작이 드리프트"라 가르침</td><td data-label="왜 틀리나" role="cell">같은 ID 의 가중치·구성은 안 바뀜. 드리프트 = 입력 분포</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids-and-versions</a></td></tr>
     <tr role="row"><td data-label="오답" role="cell">"주간 회의에서 공유하고 담당자에게 주의 당부"</td><td data-label="왜 끌리나" role="cell">할 일을 한 것처럼 보임</td><td data-label="왜 틀리나" role="cell">eval 셋에 안 들어가면 다음 변경에서 또 새어 나감</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.3② "매력적인 오답"</td></tr>
     <tr role="row"><td data-label="오답" role="cell">"놓친 사례가 나왔으니 더 큰 모델로"</td><td data-label="왜 끌리나" role="cell">능력 부족으로 보임</td><td data-label="왜 틀리나" role="cell">과제로 넣고 원인부터. 모델 교체는 증거 뒤</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.3② "매력적인 오답"</td></tr>
