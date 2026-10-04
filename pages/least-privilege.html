@@ -373,10 +373,10 @@
   </div>
   <h2 class="sec-h" id="least-privilege-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>역할에 필요 없는 능력(도구·자격증명·네트워크·파일)은 아예 안 줌 → 공격면(attack surface) 자체가 사라짐. 모니터링(로그)·사전 확인(확인창)와 다른 것</p>
-      <p>뚫려도(인젝션·모델 실수) 피해가 작게 하는 장치이기도 함</p>
-      <p>가이드 3.1 원문 이름 = capability bloat — 도구·권한이 쓰임새보다 불어난 상태를 찾아 빼라 ("Evaluate tool/agent configuration for capability bloat")</p>
-    <p class="t5-ana"><span class="lead">비유</span> IAM 역할에서 안 쓰는 refund·DeleteUser 권한을 지움. CloudTrail 모니터링·MFA 승인은 그다음 보완책</p>
+      <p>역할에 필요 없는 능력(도구·자격증명·네트워크·파일)은 아예 주지 않는다. 그러면 공격면(attack surface) 자체가 사라진다. 모니터링(로그)이나 사전 확인(확인창)과는 다른 것이다</p>
+      <p>뚫려도(인젝션·모델 실수) 피해를 작게 하는 장치이기도 하다</p>
+      <p>가이드 3.1 원문 이름은 capability bloat 다. 도구·권한이 쓰임새보다 불어난 상태를 찾아 빼라는 뜻이다 ("Evaluate tool/agent configuration for capability bloat")</p>
+    <p class="t5-ana"><span class="lead">비유</span> IAM 역할에서 안 쓰는 refund·DeleteUser 권한을 지우는 것과 같다. CloudTrail 모니터링과 MFA 승인은 그다음 보완책이다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/least-privilege.webp"><img src="../images/least-privilege.webp" alt="역할에 필요 없는 도구는 빼서 공격면을 없애는 것이 최소 권한이고, 로그(사후 감지)와 확인창(보완 통제)은 제거가 아니라는 대비 그림." loading="lazy" decoding="async"></a>
@@ -405,23 +405,29 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">빼기가 왜 제일 센가</p>
 <ul>
-<li>없는 도구는 부를 수 없음 → 인젝션·모델 실수·오용이 그 도구로는 아예 안 일어남. 공격면(attack surface)이 0.</li>
-<li>로그 = 일이 난 뒤에 알게 됨(detective). 확인창 = 사람이 매번 맞게 눌러야 막힘(compensating). 둘 다 도구는 남아 있음.</li>
-<li>모델을 키워도 "무엇을 할 수 있나"는 안 바뀜. 권한은 모델이 아니라 설정이 정함.</li>
+<li>없는 도구는 부를 수 없다. 그래서 인젝션·모델 실수·오용이 그 도구로는 아예 일어나지 않는다. 공격면(attack surface)이 0 이 된다.</li>
+<li>로그로는 일이 난 뒤에 알게 된다(detective). 확인창은 사람이 매번 맞게 눌러야 막힌다(compensating). 둘 다 도구는 남아 있다.</li>
+<li>모델을 키워도 "무엇을 할 수 있나"는 바뀌지 않는다. 권한은 모델이 아니라 설정이 정한다.</li>
 </ul>
-<p class="lead">빼기의 범위는 도구보다 넓음</p>
+<p class="lead">빼기의 범위는 도구보다 넓다</p>
 <ul>
-<li>파일(필요한 디렉토리만, 읽기 전용) · 네트워크(프록시로 특정 엔드포인트만) · 자격증명(프록시가 주입) · 컨테이너 권한(capability 떼기).</li>
-<li>공식은 이것을 "뚫려도 피해가 작게"라는 틀로 적음 — 막는 장치가 아니라 <strong>피해 반경을 줄이는</strong> 장치.</li>
+<li>빼기는 아래 넷에도 적용된다.<ul>
+<li>파일 : 필요한 디렉토리만, 읽기 전용으로 준다</li>
+<li>네트워크 : 프록시로 특정 엔드포인트만 연다</li>
+<li>자격증명 : 프록시가 주입한다</li>
+<li>컨테이너 권한 : capability 를 뗀다</li>
+</ul>
+</li>
+<li>공식은 이것을 "뚫려도 피해가 작게"라는 틀로 적는다. 막는 장치가 아니라 <strong>피해 반경을 줄이는</strong> 장치다.</li>
 </ul>
 <p class="lead">설정 lever(조절 수단)의 함정</p>
 <ul>
-<li>Agent SDK <code>allowedTools</code> = "묻지 않고 실행" 목록. 목록 밖 도구는 <strong>남아 있음</strong>. 도구를 없애는 건 <code>disallowedTools</code> 에 이름만 적을 때.</li>
-<li>MCP connector 는 서버를 붙이면 기본이 "모든 도구 켬". 읽기 전용이면 쓰기·파괴 도구를 꺼야 함.</li>
+<li>Agent SDK 의 <code>allowedTools</code> 는 "묻지 않고 실행" 목록이다. 목록 밖 도구는 <strong>남아 있다</strong>. 도구를 없애려면 <code>disallowedTools</code> 에 이름만 적는다.</li>
+<li>MCP connector 는 서버를 붙이면 기본이 "모든 도구 켬" 이다. 읽기 전용이면 쓰기·파괴 도구를 꺼야 한다.</li>
 </ul>
 <p class="lead">남겨야 하는 강한 도구</p>
 <ul>
-<li>먼저 "정말 역할에 필요한가". 필요하면 남기고 실행 직전 코드 검사(훅)·사람 확인을 붙임. 이 경우엔 확인창이 정답 쪽.</li>
+<li>먼저 "정말 역할에 필요한가"를 묻는다. 필요하면 남기고 실행 직전 코드 검사(훅)와 사람 확인을 붙인다. 이 경우에는 확인창이 정답 쪽이다.</li>
 </ul>
 </section>
   <h2 class="sec-h" id="least-privilege-rules-h">규칙과 판단</h2>
@@ -437,7 +443,7 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">빼기</p><p>첫 수 = 빼기. 역할이 안 쓰는 도구는 설정에서 제거</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">뺀다</p><p>첫 수는 빼기다. 역할이 안 쓰는 도구는 설정에서 제거한다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>예</span>
@@ -445,11 +451,11 @@
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(읽기)</span></span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">남김</p><p>필요한 읽기 도구는 그대로 남김 — 읽기 전용 도우미면 쓰기·파괴 도구만 denylist</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">남긴다</p><p>필요한 읽기 도구는 그대로 남긴다. 읽기 전용 도우미면 쓰기·파괴 도구만 denylist 에 넣는다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>예 <span class="note">(정말 필요한 강한 도구)</span></span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">실행 직전 검사</p><p>남기고 실행 직전 검사 : <code>PreToolUse</code> 훅(모든 호출 전에 돌고, 훅의 거부는 <code>bypassPermissions</code> 에서도 먹힘)</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">실행 직전에 검사한다</p><p>도구를 남기고 실행 직전에 <code>PreToolUse</code> 훅으로 검사한다. 이 훅은 모든 호출 전에 돈다. 훅의 거부는 <code>bypassPermissions</code> 에서도 먹힌다</p></div>
             </div>
           </div>
         </div>
@@ -463,7 +469,7 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">제거</p><p>공격면(attack surface) 자체가 사라짐</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">제거다</p><p>공격면(attack surface) 자체가 사라진다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
@@ -471,19 +477,19 @@
           <div class="t5-fork" style="--n:4">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>로그</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">사후 감지</p><p>로그 = 사후 감지(detective) — 제거가 아님</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">사후 감지다</p><p>로그는 사후 감지(detective)다. 제거가 아니다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>확인창</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">보완 통제</p><p>확인창 = 보완 통제(compensating control) — 제거가 아님</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">보완 통제다</p><p>확인창은 보완 통제(compensating control)다. 제거가 아니다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>더 큰 모델</span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">무관</p><p>모델 크기는 권한 범위와 무관</p></div>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">무관하다</p><p>모델 크기는 권한 범위와 무관하다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>system prompt 에 '삭제 금지'</span>
-              <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">안내일 뿐</p><p>안내일 뿐 강제 아님. 도구가 있으면 불릴 수 있음 <span class="gen">업계 일반</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">안내일 뿐이다</p><p>안내일 뿐 강제가 아니다. 도구가 있으면 불릴 수 있다 <span class="gen">업계 일반</span></p></div>
             </div>
           </div>
         </div>
@@ -497,15 +503,15 @@
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>직접 API</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>tools</code> 배열에 안 넣음</p><p><span class="gen">업계 일반</span> <span class="note">준 도구만 부를 수 있는 구조</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>tools</code> 배열에 안 넣는다</p><p><span class="gen">업계 일반</span> <span class="note">준 도구만 부를 수 있는 구조</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>MCP connector</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">denylist · allowlist</p><p>쓰기·파괴 도구를 denylist(<code>enabled: false</code>), 또는 allowlist(<code>default_config.enabled: false</code> + 필요한 것만 켬)</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">denylist · allowlist</p><p>쓰기·파괴 도구를 denylist 로 끈다(<code>enabled: false</code>). 또는 allowlist 를 쓴다. <code>default_config.enabled: false</code> 로 모두 끄고 필요한 것만 켠다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>Agent SDK</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>disallowedTools</code></p><p>도구 이름만(예 <code>"Bash"</code>) → 정의가 요청에서 빠져 Claude 가 못 봄. <code>allowedTools</code> 는 자동 승인일 뿐 목록 밖 도구도 그대로 남음</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>disallowedTools</code></p><p>도구 이름만 적는다(예 <code>"Bash"</code>). 그러면 정의가 요청에서 빠져 Claude 가 못 본다. <code>allowedTools</code> 는 자동 승인일 뿐이다. 목록 밖 도구도 그대로 남는다</p></div>
         </div>
       </div>
     </div>
@@ -515,23 +521,29 @@
       <ol class="how">
         <li id="least-privilege-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">도구 말고도 :</span>  <span class="pg">[3.2③]</span></p>
-            <ul class="pairs">
-              <li>파일 = 필요한 디렉토리만·읽기 전용</li>
-              <li>네트워크 = 프록시로 특정 엔드포인트만</li>
-              <li>자격증명 = 프록시가 주입(에이전트는 못 봄)</li>
-              <li>컨테이너 = Linux capability 떼기</li>
+            <p><span class="lead">도구 말고도 :</span> 아래 능력도 좁힌다 <span class="pg">[3.2③]</span></p>
+            <ul class="dash">
+              <li><span class="lead">파일 :</span> 필요한 디렉토리만 읽기 전용으로 준다</li>
+              <li><span class="lead">네트워크 :</span> 프록시로 특정 엔드포인트만 연다</li>
+              <li><span class="lead">자격증명 :</span> 프록시가 주입한다(에이전트는 못 본다)</li>
+              <li><span class="lead">컨테이너 :</span> Linux capability 를 뗀다</li>
             </ul>
           </div>
         </li>
         <li id="least-privilege-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p>인젝션 대비도 같은 처방 : 필요 없는 비밀 안 줌 · 샌드박스에서 도구 실행 · 권한 범위 최대한 좁게 <span class="pg">[5.1②]</span> → 경로 끊기는 <a href="injection-egress.html">■ 프롬프트 인젝션 피해 경로 끊기</a></p>
+            <p>인젝션 대비도 같은 처방이다 <span class="pg">[5.1②]</span></p>
+            <ul class="dash">
+              <li>필요 없는 비밀은 주지 않는다</li>
+              <li>도구는 샌드박스에서 실행한다</li>
+              <li>권한 범위는 최대한 좁게 둔다</li>
+            </ul>
+            <p>경로 끊기는 <a href="injection-egress.html">■ 프롬프트 인젝션 피해 경로 끊기</a> 에 있다</p>
           </div>
         </li>
         <li id="least-privilege-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
-            <p>OAuth scope 도 최소부터 받고 필요할 때 올림 → <a href="mcp-auth.html">■ MCP 인증·인가</a></p>
+            <p>OAuth scope 도 최소부터 받고 필요할 때 올린다. 자세한 것은 <a href="mcp-auth.html">■ MCP 인증·인가</a> 에 있다</p>
           </div>
         </li>
       </ol>
@@ -540,19 +552,20 @@
       <ol class="how">
         <li id="least-privilege-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p>첫 수 = 빼기. 역할이 안 쓰는 도구는 설정에서 제거. 로그 = 사후 감지(detective), 확인창 = 보완(compensating) 통제 — 둘 다 제거가 아님. 모델 크기는 권한 범위와 무관 <span class="pg">[3.1①]</span> <span class="pg">[5.1③]</span> <span class="pg">[6.2②]</span></p>
+            <p>첫 수는 빼기다. 역할이 안 쓰는 도구는 설정에서 제거한다 <span class="pg">[3.1①]</span> <span class="pg">[5.1③]</span> <span class="pg">[6.2②]</span></p>
+            <p>로그는 사후 감지(detective)이고, 확인창은 보완(compensating) 통제다. 둘 다 제거가 아니다. 모델 크기는 권한 범위와 무관하다</p>
           </div>
         </li>
         <li id="least-privilege-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p class="lead">빼는 lever(조절 수단)는 surface(쓰는 환경)마다 다름</p>
+            <p class="lead">빼는 lever(조절 수단)는 surface(쓰는 환경)마다 다르다</p>
             <div class="tscroll t-wide" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">surface</th><th scope="col" role="columnheader">빼는 법</th></tr></thead>
               <tbody role="rowgroup">
-                <tr role="row"><td data-label="surface" role="cell">직접 API</td><td data-label="빼는 법" role="cell"><code>tools</code> 배열에 안 넣음 <span class="gen">업계 일반</span> <span class="note">준 도구만 부를 수 있는 구조</span></td></tr>
-                <tr role="row"><td data-label="surface" role="cell">MCP connector <span class="note">(원격 서버째 못 뺌)</span></td><td data-label="빼는 법" role="cell">쓰기·파괴 도구를 denylist(<code>enabled: false</code>), 또는 allowlist(<code>default_<wbr>config.<wbr>enabled: false</code> + 필요한 것만 켬)</td></tr>
-                <tr role="row"><td data-label="surface" role="cell">Agent SDK</td><td data-label="빼는 법" role="cell"><code>disallowedTools</code> 에 도구 이름만(예 <code>"Bash"</code>) → 정의가 요청에서 빠져 Claude 가 못 봄. <code>allowedTools</code> 는 자동 승인일 뿐 목록 밖 도구도 그대로 남음</td></tr>
+                <tr role="row"><td data-label="surface" role="cell">직접 API</td><td data-label="빼는 법" role="cell"><code>tools</code> 배열에 안 넣는다 <span class="gen">업계 일반</span> <span class="note">준 도구만 부를 수 있는 구조</span></td></tr>
+                <tr role="row"><td data-label="surface" role="cell">MCP connector <span class="note">(원격 서버째 못 뺀다)</span></td><td data-label="빼는 법" role="cell">쓰기·파괴 도구를 denylist 로 끈다(<code>enabled: false</code>). 또는 allowlist 를 쓴다. <code>default_<wbr>config.<wbr>enabled: false</code> 로 모두 끄고 필요한 것만 켠다</td></tr>
+                <tr role="row"><td data-label="surface" role="cell">Agent SDK</td><td data-label="빼는 법" role="cell"><code>disallowedTools</code> 에 도구 이름만 적는다(예 <code>"Bash"</code>). 그러면 정의가 요청에서 빠져 Claude 가 못 본다. <code>allowedTools</code> 는 자동 승인일 뿐이다. 목록 밖 도구도 그대로 남는다</td></tr>
               </tbody>
             </table>
             </div>
@@ -560,8 +573,10 @@
         </li>
         <li id="least-privilege-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p>정말 필요한 강한 도구면 남기고 실행 직전 검사 : Claude Code·Agent SDK = <code>PreToolUse</code> 훅(모든 호출 전에 돌고, 훅의 거부는 <code>bypassPermissions</code> 에서도 먹힘). 사람 확인을 위험 크기에 맞춰 거는 건 <span class="gen">업계 일반</span> <span class="note">목록 6.2② 근거 문서 미열람</span></p>
-            <p>필요한 읽기 도구는 그대로 남김 — 읽기 전용 도우미면 쓰기·파괴 도구만 denylist</p>
+            <p>정말 필요한 강한 도구면 남기고 실행 직전에 검사한다. Claude Code 와 Agent SDK 에서는 <code>PreToolUse</code> 훅을 쓴다</p>
+            <p>이 훅은 모든 호출 전에 돈다. 훅의 거부는 <code>bypassPermissions</code> 에서도 먹힌다</p>
+            <p>사람 확인은 위험 크기에 맞춰 건다 <span class="gen">업계 일반</span> <span class="note">목록 6.2② 근거 문서 미열람</span></p>
+            <p>필요한 읽기 도구는 그대로 남긴다. 읽기 전용 도우미면 쓰기·파괴 도구만 denylist 에 넣는다</p>
           </div>
         </li>
       </ol>
@@ -575,13 +590,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">역할이 안 쓰는 도구가 붙어 있음</td><td data-label="답" role="cell">설정에서 제거</td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> 정답 B "Least privilege means removing capabilities the role does not require"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">보기에 로그·확인창·더 큰 모델이 섞임</td><td data-label="답" role="cell">셋 다 제거보다 약함</td><td data-label="근거" role="cell">샘플 1 해설 "Logging (A) and confirmations (C) are detective/compensating controls … model size (D) is unrelated to authorization scope"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">원격 MCP 서버를 connector 로 붙였고 읽기만 필요</td><td data-label="답" role="cell">쓰기·파괴 도구 denylist (또는 allowlist 로 필요한 것만)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Agent SDK 에서 도구를 없애야 함</td><td data-label="답" role="cell"><code>disallowedTools</code> 에 이름만</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk permissions</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">인젝션이 성공해도 피해를 줄이고 싶음</td><td data-label="답" role="cell">비밀 안 줌 · 샌드박스 · 권한 최소</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks" lang="en" rel="noopener">mitigate-jailbreaks</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">에이전트 환경의 파일·네트워크·키</td><td data-label="답" role="cell">필요한 디렉토리만 읽기 전용 · 프록시로 엔드포인트 제한 · 키는 프록시 주입</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/secure-deployment" lang="en" rel="noopener">secure-deployment</a> 표</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">강한 도구가 역할에 꼭 필요</td><td data-label="답" role="cell">남기고 실행 직전 검사(훅)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk permissions</a> "use a PreToolUse hook … a hook deny applies even in bypassPermissions mode"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">역할이 안 쓰는 도구가 붙어 있다</td><td data-label="답" role="cell">설정에서 제거한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> 정답 B "Least privilege means removing capabilities the role does not require"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">보기에 로그·확인창·더 큰 모델이 섞였다</td><td data-label="답" role="cell">셋 다 제거보다 약하다</td><td data-label="근거" role="cell">샘플 1 해설 "Logging (A) and confirmations (C) are detective/compensating controls … model size (D) is unrelated to authorization scope"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">원격 MCP 서버를 connector 로 붙였고 읽기만 필요하다</td><td data-label="답" role="cell">쓰기·파괴 도구를 denylist 에 넣는다 (또는 allowlist 로 필요한 것만 켠다)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Agent SDK 에서 도구를 없애야 한다</td><td data-label="답" role="cell"><code>disallowedTools</code> 에 이름만 적는다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk permissions</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">인젝션이 성공해도 피해를 줄이고 싶다</td><td data-label="답" role="cell">비밀을 주지 않는다. 샌드박스를 쓴다. 권한을 최소로 둔다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks" lang="en" rel="noopener">mitigate-jailbreaks</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">에이전트 환경의 파일·네트워크·키를 정한다</td><td data-label="답" role="cell">필요한 디렉토리만 읽기 전용으로 준다. 프록시로 엔드포인트를 제한한다. 키는 프록시가 주입한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/secure-deployment" lang="en" rel="noopener">secure-deployment</a> 표</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">강한 도구가 역할에 꼭 필요하다</td><td data-label="답" role="cell">남기고 실행 직전에 검사한다(훅)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk permissions</a> "use a PreToolUse hook … a hook deny applies even in bypassPermissions mode"</td></tr>
   </tbody>
 </table>
 </div>
@@ -592,14 +607,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">그 도구가 역할에 필요한가</td><td data-label="값" role="cell">아니요</td><td data-label="답 쪽" role="cell">제거</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">그 도구가 역할에 필요한가</td><td data-label="값" role="cell">예(가끔)</td><td data-label="답 쪽" role="cell">남기고 실행 전 검사·사람 확인</td><td data-label="등급" role="cell"><span class="note">(훅) ·</span> <span class="gen">업계 일반</span><span class="note">(사람 확인을 위험 크기에 비례해 거는 것)</span></td><td data-label="근거" role="cell">판단 규칙 7</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">도구가 어디서 오나</td><td data-label="값" role="cell">내 코드 <code>tools</code></td><td data-label="답 쪽" role="cell">배열에서 뺌</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">준 도구만 부를 수 있음</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">도구가 어디서 오나</td><td data-label="값" role="cell">원격 MCP 서버 묶음</td><td data-label="답 쪽" role="cell">도구 단위 denylist/allowlist</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">도구가 어디서 오나</td><td data-label="값" role="cell">Agent SDK 내장 도구</td><td data-label="답 쪽" role="cell"><code>disallowedTools</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">위협</td><td data-label="값" role="cell">인젝션(믿을 수 없는 콘텐츠를 읽음)</td><td data-label="답 쪽" role="cell">권한 최소 + 외부 전송 끊기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">■ 프롬프트 인젝션 피해 경로 끊기</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">배포</td><td data-label="값" role="cell">개발자 노트북 1대</td><td data-label="답 쪽" role="cell">기본 보안 기능으로 충분할 수 있음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/secure-deployment" lang="en" rel="noopener">secure-deployment</a> "Not every deployment needs maximum security."</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">배포</td><td data-label="값" role="cell">여러 고객 데이터를 다루는 멀티테넌트</td><td data-label="답 쪽" role="cell">격리·프록시·최소 IAM 겹겹이</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/secure-deployment" lang="en" rel="noopener">secure-deployment</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">그 도구가 역할에 필요한가</td><td data-label="값" role="cell">아니요</td><td data-label="답 쪽" role="cell">제거한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">그 도구가 역할에 필요한가</td><td data-label="값" role="cell">예(가끔)</td><td data-label="답 쪽" role="cell">남기고 실행 전 검사와 사람 확인을 붙인다</td><td data-label="등급" role="cell"><span class="note">(훅) ·</span> <span class="gen">업계 일반</span><span class="note">(사람 확인을 위험 크기에 비례해 거는 것)</span></td><td data-label="근거" role="cell">판단 규칙 7</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">도구가 어디서 오나</td><td data-label="값" role="cell">내 코드 <code>tools</code></td><td data-label="답 쪽" role="cell">배열에서 뺀다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">준 도구만 부를 수 있다</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">도구가 어디서 오나</td><td data-label="값" role="cell">원격 MCP 서버 묶음</td><td data-label="답 쪽" role="cell">도구 단위로 denylist/allowlist 를 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">도구가 어디서 오나</td><td data-label="값" role="cell">Agent SDK 내장 도구</td><td data-label="답 쪽" role="cell"><code>disallowedTools</code> 를 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">위협</td><td data-label="값" role="cell">인젝션(믿을 수 없는 콘텐츠를 읽는다)</td><td data-label="답 쪽" role="cell">권한을 최소로 두고 외부 전송을 끊는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">■ 프롬프트 인젝션 피해 경로 끊기</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">배포</td><td data-label="값" role="cell">개발자 노트북 1대</td><td data-label="답 쪽" role="cell">기본 보안 기능으로 충분할 수 있다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/secure-deployment" lang="en" rel="noopener">secure-deployment</a> "Not every deployment needs maximum security."</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">배포</td><td data-label="값" role="cell">여러 고객 데이터를 다루는 멀티테넌트</td><td data-label="답 쪽" role="cell">격리·프록시·최소 IAM 을 겹겹이 둔다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/secure-deployment" lang="en" rel="noopener">secure-deployment</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -608,19 +623,19 @@
   <h2 class="sec-h" id="least-privilege-practice-h">연습 문제</h2>
 
   <section class="csx" id="least-privilege-case" aria-labelledby="least-privilege-case-h" data-tree="least-privilege-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;안 쓰는 도구&quot;],[&quot;n3&quot;,null]]">
-    <p class="csx-text">상담 에이전트는 <mark class="csx-m" data-tag="읽기·초안만">주문 조회와 답장 초안만 한다<span class="csx-tag">읽기·초안만</span></mark>. 그런데 설정에는 <mark class="csx-m" data-tag="안 쓰는 도구">영업팀이 예전에 붙인 환불 도구와 고객 삭제 도구<span class="csx-tag">안 쓰는 도구</span></mark>가 그대로 남아 있다. 누군가 "환불·삭제 전에 확인창을 띄우자"고 한다. 첫 수는?</p>
+    <p class="csx-text">상담 에이전트는 <mark class="csx-m" data-tag="읽기·초안만">주문 조회와 답장 초안만 한다<span class="csx-tag">읽기·초안만</span></mark>. 그런데 설정에는 <mark class="csx-m" data-tag="안 쓰는 도구">영업팀이 예전에 붙인 환불 도구와 고객 삭제 도구<span class="csx-tag">안 쓰는 도구</span></mark>가 그대로 남아 있다. 누군가 "환불·삭제 전에 확인창을 띄우자"고 한다. 첫 수는 무엇인가?</p>
     <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
   </section>
   <h2 class="sec-h" id="least-privilege-exam-h">시험 대비</h2>
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"도구는 두고 환불·삭제 전에 확인 단계" (샘플 1 C) → 보완 통제일 뿐</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"로그 달아 나중에 감사" (샘플 1 A) → 사후 감지</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"지시 잘 따르는 더 큰 모델로" (샘플 1 D) → 권한 범위와 무관</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"system prompt 에 '삭제 금지' 적기" → 안내일 뿐 강제 아님. 도구가 있으면 불릴 수 있음 <span class="gen">업계 일반</span> <span class="note">CCA-F 노트 2.3 "다 주고 프롬프트로 '쓰지 마'" 와 같은 함정</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>allowedTools</code> 에 읽기 도구만 적었으니 나머지는 막혔다" → 안 막힘. 목록 밖 도구는 남아 권한 모드로 넘어감. 빼려면 <code>disallowedTools</code></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "확인창 보기는 항상 오답" → 필요해서 남긴 강한 도구엔 실행 전 검사·사람 확인이 맞는 통제 (업계 일반 + ⑤)</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"도구는 두고 환불·삭제 전에 확인 단계를 둔다" (샘플 1 C) 는 함정이다. 보완 통제일 뿐이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"로그를 달아 나중에 감사한다" (샘플 1 A) 는 함정이다. 사후 감지다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"지시를 잘 따르는 더 큰 모델로 바꾼다" (샘플 1 D) 는 함정이다. 모델 크기는 권한 범위와 무관하다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"system prompt 에 '삭제 금지' 를 적는다" 는 함정이다. 안내일 뿐 강제가 아니다. 도구가 있으면 불릴 수 있다 <span class="gen">업계 일반</span> <span class="note">CCA-F 노트 2.3 "다 주고 프롬프트로 '쓰지 마'" 와 같은 함정</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>allowedTools</code> 에 읽기 도구만 적었으니 나머지는 막혔다" 는 함정이다. 막히지 않는다. 목록 밖 도구는 남아서 권한 모드로 넘어간다. 빼려면 <code>disallowedTools</code> 를 쓴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>반대쪽 함정도 있다. "확인창 보기는 항상 오답이다" 는 함정이다. 필요해서 남긴 강한 도구에는 실행 전 검사와 사람 확인이 맞는 통제다 (업계 일반 + ⑤)</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -642,30 +657,30 @@
 <h4>1. 확인창이 정답이 되는 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 강한 도구(환불)가 역할의 <strong>실제 업무</strong>다. 영업팀 요구가 아니라 상담원이 실제로 환불을 처리한다.</li>
-<li><span class="lead">판단 :</span> 빼면 업무가 안 됨 → 최소 권한(least privilege)은 "필요한 것만"이지 "0" 이 아님. 남기고 실행 직전 검사(한도·대상 확인)·사람 확인을 붙인다.</li>
+<li><span class="lead">판단 :</span> 빼면 업무가 안 된다. 최소 권한(least privilege)은 "필요한 것만"이지 "0" 이 아니다. 남기고 실행 직전 검사(한도·대상 확인)와 사람 확인을 붙인다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(훅) ·</span> <span class="gen">업계 일반</span><span class="note">(위험 비례 사람 검토)</span></li>
 <li><span class="lead">근거 :</span> permissions · 목록 6.2② "필요하면 오류 비용·잡을 수 있는지에 비례해"</li>
-<li><span class="lead">시험에서 :</span> 지문이 "상담원은 읽기·초안만"이라 말하면 제거. "환불도 상담원 업무"라 말하면 제거 보기는 업무를 깨는 오답이 될 수 있음.</li>
+<li><span class="lead">시험에서 :</span> 지문이 "상담원은 읽기·초안만"이라 말하면 제거가 답이다. "환불도 상담원 업무"라 말하면 제거 보기는 업무를 깨는 오답이 될 수 있다.</li>
 </ul>
 <h4>2. 서버째 뺄 수 없는 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 사내 원격 MCP 서버 하나에 읽기·쓰기 도구가 20개 섞여 있고, 서버를 떼면 읽기 도구까지 잃는다.</li>
-<li><span class="lead">판단 :</span> 서버 단위가 아니라 도구 단위로 끔. connector 는 <code>configs</code> 로 도구별 <code>enabled: false</code>.</li>
+<li><span class="lead">판단 :</span> 서버 단위가 아니라 도구 단위로 끈다. connector 는 <code>configs</code> 로 도구별 <code>enabled: false</code> 를 준다.</li>
 
 <li><span class="lead">근거 :</span> mcp-connector</li>
 </ul>
 <h4>3. <code>allowedTools</code> 로 잠갔다고 믿는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> SDK 설정이 <code>allowedTools: ["Read", "Grep"]</code> 뿐.</li>
-<li><span class="lead">판단 :</span> 목록 밖 도구도 존재. 승인이 필요한 호출은 권한 모드로 넘어감(모드에 따라 실행될 수 있음). 잠그려면 <code>dontAsk</code> 모드와 짝, 없애려면 <code>disallowedTools</code>.</li>
+<li><span class="lead">조건 :</span> SDK 설정이 <code>allowedTools: ["Read", "Grep"]</code> 뿐이다.</li>
+<li><span class="lead">판단 :</span> 목록 밖 도구도 존재한다. 승인이 필요한 호출은 권한 모드로 넘어간다(모드에 따라 실행될 수 있다). 잠그려면 <code>dontAsk</code> 모드와 짝을 짓는다. 없애려면 <code>disallowedTools</code> 를 쓴다.</li>
 
 <li><span class="lead">근거 :</span> permissions</li>
 </ul>
 <h4>4. 합친 도구가 권한 단위를 섞는 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 도구 설계에서 <code>github_pr</code> 하나에 <code>action</code> = list·review·merge 를 합쳤다(<a href="tool-design.html">■ 도구 설계</a> <span class="rule-ref">· <a href="tool-design.html#tool-design-rule-1">규칙 ①</a></span>). 리뷰 전용 에이전트는 머지가 안 돼야 한다.</li>
-<li><span class="lead">판단 :</span> 도구 하나를 빼면 읽기까지 사라지고, 두면 머지까지 남음. 권한 경계가 다른 동작은 도구를 나누거나, 실행 직전 검사로 action 값을 막음.</li>
-<li><span class="lead">등급 :</span> <span class="gen">업계 일반</span> (두 공식 권고 — 합치기 · 최소 권한 — 를 같이 쓸 때의 추론)</li>
+<li><span class="lead">판단 :</span> 도구 하나를 빼면 읽기까지 사라진다. 두면 머지까지 남는다. 권한 경계가 다른 동작은 도구를 나누거나, 실행 직전 검사로 action 값을 막는다.</li>
+<li><span class="lead">등급 :</span> <span class="gen">업계 일반</span> (두 공식 권고인 합치기와 최소 권한을 같이 쓸 때의 추론)</li>
 <li><span class="lead">근거 :</span> define-tools · 샘플 1 · permissions</li>
 </ul>
 </section>
@@ -675,22 +690,24 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"환불·삭제 전에 확인 단계를 붙인다"</td><td data-label="왜 끌리나" role="cell">안전해 보이고 업무도 안 깨짐</td><td data-label="왜 틀리나" role="cell">도구가 남음 = 공격면 그대로. 보완 통제(compensating control)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">샘플 1 해설</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"로그를 달아 나중에 감사"</td><td data-label="왜 끌리나" role="cell">규정 감사에 익숙</td><td data-label="왜 틀리나" role="cell">사후 감지. 일이 난 뒤 알게 됨</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">샘플 1 해설</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"지시를 더 잘 따르는 큰 모델"</td><td data-label="왜 끌리나" role="cell">오용 = 모델 실수로 봄</td><td data-label="왜 틀리나" role="cell">권한 범위와 무관</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">샘플 1 해설</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"system prompt 에 '삭제 도구 쓰지 마'"</td><td data-label="왜 끌리나" role="cell">비용 0, 바로 적용</td><td data-label="왜 틀리나" role="cell">안내일 뿐. 도구가 있으면 불릴 수 있음</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">CCA-F 노트 2.3 같은 함정</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"<code>allowedTools</code> 에 필요한 것만 적었다"</td><td data-label="왜 끌리나" role="cell">이름이 '허용 목록'이라 나머지는 막힌 것 같음</td><td data-label="왜 틀리나" role="cell">자동 승인 목록일 뿐, 나머지 도구도 남음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"지우면 나중에 곤란하니 두고 감시"</td><td data-label="왜 끌리나" role="cell">되돌리기 쉬워 보임</td><td data-label="왜 틀리나" role="cell">공식은 "지켜보기가 아니라 없애기"</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">샘플 1 정답 문장</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"확인창 보기는 항상 오답" (반대 함정)</td><td data-label="왜 끌리나" role="cell">샘플 1 을 외움</td><td data-label="왜 틀리나" role="cell">역할에 필요한 강한 도구면 남기고 실행 전 검사·확인이 맞음</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"환불·삭제 전에 확인 단계를 붙인다"</td><td data-label="왜 끌리나" role="cell">안전해 보이고 업무도 안 깨진다</td><td data-label="왜 틀리나" role="cell">도구가 남으니 공격면이 그대로다. 보완 통제(compensating control)일 뿐이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">샘플 1 해설</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"로그를 달아 나중에 감사"</td><td data-label="왜 끌리나" role="cell">규정 감사에 익숙하다</td><td data-label="왜 틀리나" role="cell">사후 감지다. 일이 난 뒤에 알게 된다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">샘플 1 해설</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"지시를 더 잘 따르는 큰 모델"</td><td data-label="왜 끌리나" role="cell">오용을 모델 실수로 본다</td><td data-label="왜 틀리나" role="cell">모델 크기는 권한 범위와 무관하다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">샘플 1 해설</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"system prompt 에 '삭제 도구 쓰지 마'"</td><td data-label="왜 끌리나" role="cell">비용이 0 이고 바로 적용된다</td><td data-label="왜 틀리나" role="cell">안내일 뿐이다. 도구가 있으면 불릴 수 있다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">CCA-F 노트 2.3 같은 함정</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"<code>allowedTools</code> 에 필요한 것만 적었다"</td><td data-label="왜 끌리나" role="cell">이름이 '허용 목록'이라 나머지는 막힌 것 같다</td><td data-label="왜 틀리나" role="cell">자동 승인 목록일 뿐이다. 나머지 도구도 남는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"지우면 나중에 곤란하니 두고 감시"</td><td data-label="왜 끌리나" role="cell">되돌리기 쉬워 보인다</td><td data-label="왜 틀리나" role="cell">공식은 "지켜보기가 아니라 없애기"를 말한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">샘플 1 정답 문장</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"확인창 보기는 항상 오답" (반대 함정)</td><td data-label="왜 끌리나" role="cell">샘플 1 을 외웠다</td><td data-label="왜 틀리나" role="cell">역할에 필요한 강한 도구면 남기고 실행 전 검사와 확인을 붙이는 것이 맞다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="least-privilege-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : CCA-F · 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>CCA-F</h3>
-      <p>겹침 — CCA-F 는 "서브에이전트마다 역할에 필요한 도구만(18개 → 4~5개)"을 **고르기 정확도**로 물었음. 여기선 같은 빼기를 **보안(공격면)** 근거로 묻고, 보기에 로그·확인창·큰 모델이 섞여 나옴</p>
+      <p>겹침 — CCA-F 는 "서브에이전트마다 역할에 필요한 도구만(18개 → 4~5개)"을 **고르기 정확도**로 물었다. 여기서는 같은 빼기를 **보안(공격면)** 근거로 묻는다. 보기에 로그·확인창·큰 모델이 섞여 나온다</p>
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 3.1</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -709,11 +726,12 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>사람 확인을 위험 등급에 맞춰 거는 규칙(목록 6.2② "Creating multiple risk levels…")은 content-moderation 문서를 이번에 받지 않아 확인 못 함 — 6.2② 카드 때 확인.</li>
-<li>system prompt 규칙이 "안내일 뿐 강제 아님"이라는 공식 문장은 이번 원문들에서 못 찾음(검색어 : "enforce", "guidance" — secure-deployment · mitigate-jailbreaks · agent-sdk permissions en). 업계 일반으로 둠.</li>
-<li>목록 3.1① 의 "서버째 뺄 수 없는 원격 MCP 면 denylist" 는 원문 그대로 확인됨. 다만 원문은 denylist 를 "사람 확인 단계를 두고 싶을 때"도 권함 — 여기서 '확인 단계'는 에이전트가 상태를 못 바꾸게 하고 사람이 바꾸는 뜻으로 읽힘(추론).</li>
+<li>사람 확인을 위험 등급에 맞춰 거는 규칙(목록 6.2② "Creating multiple risk levels…")은 확인하지 못했다. content-moderation 문서를 이번에 받지 않았다. 6.2② 카드 때 확인한다.</li>
+<li>system prompt 규칙이 "안내일 뿐 강제 아님"이라는 공식 문장은 이번 원문들에서 못 찾았다. 검색어는 "enforce", "guidance" 다. 찾아본 문서는 secure-deployment · mitigate-jailbreaks · agent-sdk permissions en 이다. 업계 일반으로 둔다.</li>
+<li>목록 3.1① 의 "서버째 뺄 수 없는 원격 MCP 면 denylist" 는 원문 그대로 확인했다. 다만 원문은 denylist 를 "사람 확인 단계를 두고 싶을 때"도 권한다. 여기서 '확인 단계'는 에이전트가 상태를 못 바꾸게 하고 사람이 바꾸는 뜻으로 읽힌다(추론).</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

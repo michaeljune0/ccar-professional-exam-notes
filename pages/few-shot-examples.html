@@ -370,9 +370,9 @@
   </div>
   <h2 class="sec-h" id="few-shot-examples-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>원하는 답의 예시를 몇 개 보여 주기. 출력 형식·어조·구조를 잡는 가장 확실한 방법 중 하나 · 정확도·일관성이 오름</p>
-      <p>추상적인 지침보다 원하는 출력의 예시가 더 효과적</p>
-    <p class="t5-ana"><span class="lead">비유</span> 로그 파서 규칙을 말로 길게 설명하는 대신 정상·에러·멀티라인 샘플 몇 줄을 같이 주기 <span class="note">(모든 예외를 if 분기로 하드코딩하는 대신)</span></p>
+      <p>원하는 답의 예시를 몇 개 보여 준다. 출력 형식·어조·구조를 잡는 가장 확실한 방법 중 하나다. 정확도와 일관성이 오른다</p>
+      <p>추상적인 지침보다 원하는 출력의 예시가 더 효과적이다</p>
+    <p class="t5-ana"><span class="lead">비유</span> 로그 파서 규칙을 말로 길게 설명하는 대신 정상·에러·멀티라인 샘플 몇 줄을 같이 주는 것과 같다. 모든 예외를 if 분기로 하드코딩하지 않는다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/few-shot-examples.webp"><img src="../images/few-shot-examples.webp" alt="경계 사례를 규칙으로 줄줄이 늘어놓기보다 서로 다른 예시 3~5개를 examples 태그로 보여 주는 쪽이 낫다. 형식·어조·구조는 예시로 잡는다." loading="lazy" decoding="async"></a>
@@ -401,23 +401,23 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">예시가 지시보다 센 이유</p>
 <ul>
-<li>형식·어조·구조는 말로 정확히 설명하기 어려움. 예시는 "보여 주기" 라 모델이 바로 따라 함 — 공식은 예시를 출력 형식·어조·구조를 잡는 가장 확실한 방법 중 하나로 봄.</li>
-<li>추상적인 지침보다 원하는 출력의 예시가 더 효과적.</li>
+<li>형식·어조·구조는 말로 정확히 설명하기 어렵다. 예시는 "보여 주기" 라서 모델이 바로 따라 한다. 공식은 예시를 출력 형식·어조·구조를 잡는 가장 확실한 방법 중 하나로 본다.</li>
+<li>추상적인 지침보다 원하는 출력의 예시가 더 효과적이다.</li>
 </ul>
 <p class="lead">예시의 부작용 = 우연한 공통점도 배움</p>
 <ul>
-<li>예시끼리 공통점(길이·주제·첫 단어)이 있으면 모델은 그것도 규칙으로 읽음. 그래서 "다양성" 조건 — 경계 사례를 넣고 의도 안 한 패턴을 따라 하지 않게 충분히 다르게.</li>
-<li>예시가 지시와 섞이면 어디까지가 예시인지 헷갈림 → <code>&lt;example&gt;</code>/<code>&lt;examples&gt;</code> 태그.</li>
+<li>예시끼리 공통점(길이·주제·첫 단어)이 있으면 모델은 그것도 규칙으로 읽는다. 그래서 "다양성" 조건이 있다. 경계 사례를 넣고, 의도 안 한 패턴을 따라 하지 않게 충분히 다르게 한다.</li>
+<li>예시가 지시와 섞이면 어디까지가 예시인지 헷갈린다. 그래서 <code>&lt;example&gt;</code>/<code>&lt;examples&gt;</code> 태그로 감싼다.</li>
 </ul>
 <p class="lead">규칙 목록 vs 대표 예시</p>
 <ul>
-<li>모든 경계 사례를 규칙 문장으로 나열하면 프롬프트가 길어지고 깨지기 쉬움 → 서로 다르고 대표적인(canonical) 예시 몇 개로 기대 행동을 그림처럼.</li>
-<li>컨텍스트는 한정 자원이라 예시도 "작지만 쓸모 있는 정보가 많은(high-signal)" 쪽으로.</li>
+<li>모든 경계 사례를 규칙 문장으로 나열하면 프롬프트가 길어지고 깨지기 쉽다. 그래서 서로 다르고 대표적인(canonical) 예시 몇 개로 기대 행동을 그림처럼 보여 준다.</li>
+<li>컨텍스트는 한정 자원이다. 그래서 예시도 "작지만 쓸모 있는 정보가 많은(high-signal)" 쪽으로 고른다.</li>
 </ul>
 <p class="lead">언제 넣나</p>
 <ul>
-<li>처음부터 예시를 잔뜩 넣지 않음. 가장 좋은 모델로 최소 프롬프트를 시험 → failure modes(실패 유형)가 형식·어조면 예시, 판단 기준이면 지시.</li>
-<li>모양을 <strong>보장</strong>해야 하면 예시가 아니라 스키마(■ structured outputs).</li>
+<li>처음부터 예시를 잔뜩 넣지 않는다. 가장 좋은 모델로 최소 프롬프트를 시험한다. failure modes(실패 유형)가 형식·어조면 예시를 넣고, 판단 기준이면 지시를 넣는다.</li>
+<li>모양을 <strong>보장</strong>해야 하면 예시가 아니라 스키마를 쓴다. 자세한 것은 ■ structured outputs 에 있다.</li>
 </ul>
 </section>
   <h2 class="sec-h" id="few-shot-examples-rules-h">규칙과 판단</h2>
@@ -432,20 +432,20 @@
       <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇이 흔들리나?</div>
       <div class="t5-fork" style="--n:4">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>형식·어조·구조 <span class="note">(머리말·길이가 매번 다름)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">예시</p><p>출력 형식·어조·구조를 잡는 가장 확실한 방법 중 하나</p></div>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>형식·어조·구조 <span class="note">(머리말·길이가 매번 다르다)</span></span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">예시를 넣는다</p><p>예시는 출력 형식·어조·구조를 잡는 가장 확실한 방법 중 하나다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>코드가 파싱할 JSON 모양</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">예시 말고 스키마</p><p>모양 보장은 structured outputs → <a href="structured-output.html">■ structured outputs</a></p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">예시 말고 스키마</p><p>모양 보장은 structured outputs 가 한다. 자세한 것은 <a href="structured-output.html">■ structured outputs</a> 에 있다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>아직 모름 <span class="note">(첫 시도)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">최소 프롬프트부터</p><p>가장 좋은 모델로 최소 프롬프트를 먼저 시험 → failure modes(실패 유형) 보고 지시·예시를 더함</p></div>
+          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>아직 모른다 <span class="note">(첫 시도)</span></span>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">최소 프롬프트부터</p><p>가장 좋은 모델로 최소 프롬프트를 먼저 시험한다. 그다음 failure modes(실패 유형)를 보고 지시와 예시를 더한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>"하지 마"·나쁜 예로 잡으려 함</span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">좋은 예</p><p>"하지 마" 지시·나쁜 예보다 좋은 예가 더 효과적</p></div>
+          <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>"하지 마"·나쁜 예로 잡으려 한다</span>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">좋은 예를 보여 준다</p><p>"하지 마" 지시나 나쁜 예보다 좋은 예가 더 효과적이다</p></div>
         </div>
       </div>
     </div>
@@ -457,19 +457,19 @@
       <div class="t5-fork" style="--n:4">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>비슷한 것뿐</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">서로 다르게</p><p>경계 사례를 넣고, 의도 안 한 패턴을 따라 하지 않을 만큼 다르게 · 같은 모범 답 하나를 여러 번 반복 → 다양성 조건 위반 <span class="note">(반복 자체를 콕 집은 공식 문장은 없음 — 다양성 조건에서 추론)</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">서로 다르게 고른다</p><p>같은 모범 답 하나를 여러 번 반복하면 다양성 조건을 어긴다 (반복 자체를 콕 집은 공식 문장은 없다. 다양성 조건에서 추론했다). 경계 사례를 넣고, 의도 안 한 패턴을 따라 하지 않을 만큼 다르게 고른다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>경계 사례를 규칙으로 줄줄이</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">대표 예시 몇 개</p><p>경계 사례 목록 채우기 비권장 → 서로 다르고 대표적인(diverse, canonical) 예시</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">대표 예시 몇 개를 고른다</p><p>경계 사례 목록을 채우는 것은 권하지 않는다. 서로 다르고 대표적인(diverse, canonical) 예시를 고른다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>지시 문장 사이에 섞임</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">example 태그</p><p><code>&lt;example&gt;</code>(여럿이면 <code>&lt;examples&gt;</code>)로 감싸 지시와 구분</p></div>
+          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>지시 문장 사이에 섞였다</span>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">example 태그</p><p><code>&lt;example&gt;</code>(여럿이면 <code>&lt;examples&gt;</code>)로 감싸 지시와 구분한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>개수를 못 정함</span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">3~5개</p><p>3~5개가 최선</p></div>
+          <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>개수를 못 정했다</span>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">3~5개</p><p>3~5개가 최선이다</p></div>
         </div>
       </div>
     </div>
@@ -479,17 +479,23 @@
       <ol class="how">
         <li id="few-shot-examples-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p>thinking 과 함께 : 예시 안에 <code>&lt;thinking&gt;</code> 태그로 추론(reasoning) 패턴을 보여 주면 그 스타일을 extended thinking(확장 사고) 블록에 일반화 → thinking 켜기·깊이는 <a href="thinking-controls.html">■ 모델별 thinking 제어</a></p>
+            <p>thinking 과 함께 : 예시 안에 <code>&lt;thinking&gt;</code> 태그로 추론(reasoning) 패턴을 보여 준다. 그러면 모델이 그 스타일을 extended thinking(확장 사고) 블록에 일반화한다. thinking 켜기와 깊이는 <a href="thinking-controls.html">■ 모델별 thinking 제어</a> 에 있다</p>
           </div>
         </li>
         <li id="few-shot-examples-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
-            <p>예시 고르는 법 (Skilljar) : eval 에서 최고 점수 받은 입력·출력 쌍을 예시로 · 왜 좋은 답인지 한 줄 덧붙임 · 가장 흔한 실패 사례를 다루는 예시 · 입력/이상 출력을 태그(<code>&lt;sample_input&gt;</code>·<code>&lt;ideal_output&gt;</code>)로 구분 <span class="src">(docs 와 충돌 없음)</span></p>
+            <p>예시 고르는 법 (Skilljar) 은 아래와 같다 <span class="src">(docs 와 충돌이 없다)</span></p>
+            <ul class="dash">
+              <li>eval 에서 최고 점수를 받은 입력·출력 쌍을 예시로 쓴다</li>
+              <li>왜 좋은 답인지 한 줄 덧붙인다</li>
+              <li>가장 흔한 실패 사례를 다루는 예시를 넣는다</li>
+              <li>입력과 이상 출력을 태그(<code>&lt;sample_input&gt;</code>·<code>&lt;ideal_output&gt;</code>)로 구분한다</li>
+            </ul>
           </div>
         </li>
         <li id="few-shot-examples-rule-7"><span class="num" aria-hidden="true">⑦</span>
           <div class="how-body">
-            <p>예시 블록 ≠ 캐시 자리 : 긴 정책을 few-shot 예시 블록으로 옮겨도 캐시되는 재사용 앞부분이 생기지 않음 (공식 샘플 2 오답 D) → <a href="caching.html">■ 프롬프트 캐싱</a> <span class="pg">[2.5①]</span></p>
+            <p>예시 블록 ≠ 캐시 자리 : 긴 정책을 few-shot 예시 블록으로 옮겨도 캐시되는 재사용 앞부분이 생기지 않는다 (공식 샘플 2 오답 D). 자세한 것은 <a href="caching.html">■ 프롬프트 캐싱</a> 에 있다 <span class="pg">[2.5①]</span></p>
           </div>
         </li>
       </ol>
@@ -498,24 +504,29 @@
       <ol class="how">
         <li id="few-shot-examples-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p><span class="lead">언제 :</span> 형식·어조·구조가 들쭉날쭉 → 예시가 가장 확실한 방법 중 하나. 추상적인 지침보다 효과적 <span class="pg">[2.3①]</span> <span class="pg">[4.4③]</span></p>
-            <p><span class="lead">순서 :</span> 가장 좋은 모델로 최소 프롬프트를 먼저 시험 → failure modes 보고 분명한 지시·예시를 더함 → <a href="system-prompt-style.html">■ 시스템 프롬프트 문체</a> <span class="rule-ref">· <a href="system-prompt-style.html#system-prompt-style-rule-6">규칙 ⑥</a></span></p>
+            <p><span class="lead">언제 :</span> 형식·어조·구조가 들쭉날쭉하면 예시가 가장 확실한 방법 중 하나다. 예시는 추상적인 지침보다 효과적이다 <span class="pg">[2.3①]</span> <span class="pg">[4.4③]</span></p>
+            <p><span class="lead">순서 :</span> 가장 좋은 모델로 최소 프롬프트를 먼저 시험한다. 그다음 failure modes 를 보고 분명한 지시와 예시를 더한다. 자세한 것은 <a href="system-prompt-style.html">■ 시스템 프롬프트 문체</a> <span class="rule-ref">· <a href="system-prompt-style.html#system-prompt-style-rule-6">규칙 ⑥</a></span> 에 있다</p>
           </div>
         </li>
         <li id="few-shot-examples-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p><span class="lead">세 조건 :</span> 관련(실제 사용 사례를 닮게) · 다양(경계 사례 포함, 의도 안 한 패턴을 따라 하지 않게 충분히 다르게) · 구조(<code>&lt;example&gt;</code> 태그, 여럿이면 <code>&lt;examples&gt;</code> 로 지시와 구분)</p>
-            <p>3~5개가 최선. Claude 에게 예시의 관련성·다양성을 평가시키거나 처음 세트를 바탕으로 더 만들게 해도 됨</p>
+            <p>세 조건이 있다</p>
+            <ul class="dash">
+              <li><span class="lead">관련 :</span> 실제 사용 사례를 닮게 한다</li>
+              <li><span class="lead">다양 :</span> 경계 사례를 넣는다. 의도 안 한 패턴을 따라 하지 않게 충분히 다르게 한다</li>
+              <li><span class="lead">구조 :</span> <code>&lt;example&gt;</code> 태그로 감싼다. 여럿이면 <code>&lt;examples&gt;</code> 로 감싸 지시와 구분한다</li>
+            </ul>
+            <p>3~5개가 최선이다. Claude 에게 예시의 관련성·다양성을 평가시켜도 된다. 처음 세트를 바탕으로 더 만들게 해도 된다</p>
           </div>
         </li>
         <li id="few-shot-examples-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">경계 사례 목록 금지 :</span> 모든 규칙을 말하려고 경계 사례를 줄줄이(laundry list) 넣지 말고, 기대 행동을 잘 보여 주는 서로 다르고 대표적인 예시를 고름 — 예시는 "천 마디 말보다 나은 그림"</p>
+            <p><span class="lead">경계 사례 목록 금지 :</span> 모든 규칙을 말하려고 경계 사례를 줄줄이(laundry list) 넣지 않는다. 기대 행동을 잘 보여 주는 서로 다르고 대표적인 예시를 고른다. 예시는 "천 마디 말보다 나은 그림" 이다</p>
           </div>
         </li>
         <li id="few-shot-examples-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p>좋은 예 &gt; 나쁜 예·금지 지시 : 간결함 같은 문체는 적절한 간결함을 보여 주는 좋은 예가 나쁜 예나 "하지 마" 지시보다 효과적 (Sonnet 5 문서)</p>
+            <p>좋은 예 &gt; 나쁜 예·금지 지시 : 간결함 같은 문체는 적절한 간결함을 보여 주는 좋은 예로 잡는다. 좋은 예가 나쁜 예나 "하지 마" 지시보다 효과적이다 (Sonnet 5 문서)</p>
           </div>
         </li>
       </ol>
@@ -529,16 +540,16 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">답의 형식·어조·구조가 매번 다름</td><td data-label="답" role="cell">예시(few-shot) 추가</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" lang="en" rel="noopener">prompting-best-practices</a> en-full · <a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/increase-consistency" lang="en" rel="noopener">increase-consistency</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">예시 개수</td><td data-label="답" role="cell">3~5개가 최선</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">예시가 서로 비슷함</td><td data-label="답" role="cell">경계 사례 포함, 충분히 다르게</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">예시가 지시와 섞임</td><td data-label="답" role="cell"><code>&lt;example&gt;</code> 태그, 여럿이면 <code>&lt;examples&gt;</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">경계 사례를 규칙으로 줄줄이 적음</td><td data-label="답" role="cell">서로 다르고 대표적인 예시 몇 개로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">처음 프롬프트를 짬</td><td data-label="답" role="cell">최소 프롬프트 → failure modes 보고 지시·예시 추가</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">간결함 같은 문체를 잡고 싶음</td><td data-label="답" role="cell">좋은 예 &gt; 나쁜 예·금지 지시</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-sonnet-5" lang="en" rel="noopener">prompting-claude-sonnet-5</a> en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">thinking 켠 상태에서 추론(reasoning) 방식을 보여 주고 싶음</td><td data-label="답" role="cell">예시 안에 <code>&lt;thinking&gt;</code> 태그</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">예시를 어디서 구하나</td><td data-label="답" role="cell">eval 최고 점수 입력·출력 쌍 + 왜 좋은지 한 줄</td><td data-label="등급" role="cell"><span class="note">(Skilljar)</span></td><td data-label="근거" role="cell">Skilljar API 287746</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">긴 정책을 few-shot 블록으로 옮겨 비용 줄이기</td><td data-label="답" role="cell">오답 — 캐시되는 재사용 앞부분이 안 생김</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설(sample-questions-p6-7)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">답의 형식·어조·구조가 매번 다르다</td><td data-label="답" role="cell">예시(few-shot)를 넣는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" lang="en" rel="noopener">prompting-best-practices</a> en-full · <a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/increase-consistency" lang="en" rel="noopener">increase-consistency</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">예시 개수를 정한다</td><td data-label="답" role="cell">3~5개가 최선이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">예시가 서로 비슷하다</td><td data-label="답" role="cell">경계 사례를 넣고, 충분히 다르게 한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">예시가 지시와 섞였다</td><td data-label="답" role="cell"><code>&lt;example&gt;</code> 태그로, 여럿이면 <code>&lt;examples&gt;</code> 로 감싼다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">경계 사례를 규칙으로 줄줄이 적었다</td><td data-label="답" role="cell">서로 다르고 대표적인 예시 몇 개로 바꾼다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">처음 프롬프트를 짠다</td><td data-label="답" role="cell">최소 프롬프트로 시작한다. failure modes 를 보고 지시와 예시를 더한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">간결함 같은 문체를 잡고 싶다</td><td data-label="답" role="cell">좋은 예가 나쁜 예나 금지 지시보다 낫다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-sonnet-5" lang="en" rel="noopener">prompting-claude-sonnet-5</a> en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">thinking 을 켠 상태에서 추론(reasoning) 방식을 보여 주고 싶다</td><td data-label="답" role="cell">예시 안에 <code>&lt;thinking&gt;</code> 태그를 넣는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">예시를 어디서 구할지 정한다</td><td data-label="답" role="cell">eval 최고 점수 입력·출력 쌍을 쓰고, 왜 좋은지 한 줄 붙인다</td><td data-label="등급" role="cell"><span class="note">(Skilljar)</span></td><td data-label="근거" role="cell">Skilljar API 287746</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">긴 정책을 few-shot 블록으로 옮겨 비용을 줄이려 한다</td><td data-label="답" role="cell">오답이다. 캐시되는 재사용 앞부분이 생기지 않는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설(sample-questions-p6-7)</td></tr>
   </tbody>
 </table>
 </div>
@@ -550,14 +561,14 @@
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
     <tr role="row"><td data-label="변수" role="cell">흔들리는 것</td><td data-label="값" role="cell">형식·어조·구조</td><td data-label="답 쪽" role="cell">예시</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">흔들리는 것</td><td data-label="값" role="cell">코드가 파싱할 JSON 모양</td><td data-label="답 쪽" role="cell">스키마 → ■ structured outputs</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">흔들리는 것</td><td data-label="값" role="cell">판단 기준(무엇을 환불로 볼지)</td><td data-label="답 쪽" role="cell">지시 + 이유 → ■ 시스템 프롬프트 문체</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">공식은 예시·지시를 "failure modes 에 따라" 더하라고만 함(<a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a>)</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">예시 수</td><td data-label="값" role="cell">1개</td><td data-label="답 쪽" role="cell">패턴 하나는 잡힘(one-shot) · 여러 경계 사례면 multi-shot</td><td data-label="등급" role="cell"><span class="note">(Skilljar)</span></td><td data-label="근거" role="cell">Skilljar API 287746</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">예시 수</td><td data-label="값" role="cell">3~5개</td><td data-label="답 쪽" role="cell">공식 최선</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">예시 수</td><td data-label="값" role="cell">수십 개</td><td data-label="답 쪽" role="cell">공식 문장 없음 · 매 요청 토큰 비용</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">예시 모양</td><td data-label="값" role="cell">전부 같은 길이·주제</td><td data-label="답 쪽" role="cell">그 공통점을 따라 함</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Opus 4.8 · Sonnet 5 (문자 그대로)</td><td data-label="답 쪽" role="cell">예시가 보여 준 범위 밖으로는 조용히 안 넓힘 → 범위는 지시로</td><td data-label="등급" role="cell">추론</td><td data-label="근거" role="cell">opus-4-8 en-full · sonnet-5 en-full (예시 문맥 문장은 아님)</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">요청 수</td><td data-label="값" role="cell">많음 · 예시 고정</td><td data-label="답 쪽" role="cell">예시는 고정 앞부분 → 캐싱으로 비용이 줄어듦</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">흔들리는 것</td><td data-label="값" role="cell">코드가 파싱할 JSON 모양</td><td data-label="답 쪽" role="cell">스키마를 쓴다. 자세한 것은 ■ structured outputs 에 있다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">흔들리는 것</td><td data-label="값" role="cell">판단 기준(무엇을 환불로 볼지)</td><td data-label="답 쪽" role="cell">지시와 이유를 쓴다. 자세한 것은 ■ 시스템 프롬프트 문체 에 있다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">공식은 예시·지시를 "failure modes 에 따라" 더하라고만 한다(<a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a>)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">예시 수</td><td data-label="값" role="cell">1개</td><td data-label="답 쪽" role="cell">패턴 하나는 잡힌다(one-shot). 경계 사례가 여럿이면 multi-shot 을 쓴다</td><td data-label="등급" role="cell"><span class="note">(Skilljar)</span></td><td data-label="근거" role="cell">Skilljar API 287746</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">예시 수</td><td data-label="값" role="cell">3~5개</td><td data-label="답 쪽" role="cell">공식 최선이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">예시 수</td><td data-label="값" role="cell">수십 개</td><td data-label="답 쪽" role="cell">공식 문장이 없다. 매 요청 토큰 비용이 든다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">예시 모양</td><td data-label="값" role="cell">전부 같은 길이·주제다</td><td data-label="답 쪽" role="cell">모델이 그 공통점을 따라 한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Opus 4.8 · Sonnet 5 (문자 그대로)</td><td data-label="답 쪽" role="cell">예시가 보여 준 범위 밖으로는 조용히 넓히지 않는다. 그래서 범위는 지시로 정한다</td><td data-label="등급" role="cell">추론</td><td data-label="근거" role="cell">opus-4-8 en-full · sonnet-5 en-full (예시 문맥 문장은 아님)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">요청 수</td><td data-label="값" role="cell">많고 예시가 고정이다</td><td data-label="답 쪽" role="cell">예시는 고정 앞부분이다. 캐싱으로 비용이 줄어든다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
   </tbody>
 </table>
 </div>
@@ -573,13 +584,13 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"모든 예외 경우를 규칙 목록으로 길게 나열" → 비권장. 대표 예시 몇 개</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"같은 모범 답 하나를 여러 번 반복" → 다양성 조건 위반, 의도 안 한 패턴을 따라 함 <span class="note">(반복 자체를 콕 집은 공식 문장은 없음 — 다양성 조건에서 추론)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"예시를 지시 문장 사이에 그냥 섞음" → 태그로 구분</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"예시는 많을수록 좋다(수십 개)" → 공식은 3~5개가 최선. 그 이상이 나쁘다는 문장은 없음 <span class="gen">업계 일반</span> <span class="note">컨텍스트는 한정 자원이라 늘 비용이 듦</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"정책 문서를 few-shot 블록으로 옮겨 비용·지연(latency) 줄이기" → 캐시되는 재사용 앞부분이 안 생김 (공식 샘플 2 오답 D)</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"JSON 모양을 예시만으로 보장" → 예시는 방향. 보장은 structured outputs → <a href="structured-output.html">■ structured outputs</a></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>목록 영상 요령 "권장 7단계 순서(명확→이유→예시→XML→역할→형식→체이닝)대로" → 공식은 소개 순서일 뿐 규칙 아님. 가까운 원칙 = 최소 프롬프트부터 <span class="note">(목록 영상 요령 — 공식 근거 없음)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"모든 예외 경우를 규칙 목록으로 길게 나열한다" 는 함정이다. 권하지 않는 방법이다. 대표 예시 몇 개를 고른다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"같은 모범 답 하나를 여러 번 반복한다" 는 함정이다. 다양성 조건을 어겨 의도 안 한 패턴을 따라 한다 <span class="note">(반복 자체를 콕 집은 공식 문장은 없다. 다양성 조건에서 추론했다)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"예시를 지시 문장 사이에 그냥 섞는다" 는 함정이다. 태그로 구분한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"예시는 많을수록 좋다(수십 개)" 는 함정이다. 공식은 3~5개가 최선이라고 한다. 그 이상이 나쁘다는 문장은 없다 <span class="gen">업계 일반</span> <span class="note">컨텍스트는 한정 자원이라 늘 비용이 든다</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"정책 문서를 few-shot 블록으로 옮겨 비용·지연(latency)을 줄인다" 는 함정이다. 캐시되는 재사용 앞부분이 생기지 않는다 (공식 샘플 2 오답 D)</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"JSON 모양을 예시만으로 보장한다" 는 함정이다. 예시는 방향만 준다. 보장은 structured outputs 가 한다. 자세한 것은 <a href="structured-output.html">■ structured outputs</a> 에 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>목록 영상 요령 "권장 7단계 순서(명확→이유→예시→XML→역할→형식→체이닝)대로" 는 함정이다. 공식은 소개 순서일 뿐 규칙이 아니다. 가까운 원칙은 최소 프롬프트부터 시작하는 것이다 <span class="note">(목록 영상 요령이다. 공식 근거는 없다)</span></span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -601,31 +612,36 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 예시를 넣었더니 더 한쪽으로 쏠린 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 티켓 요약 예시 3개가 전부 환불 건이고 전부 두 문장. 이후 배송 문의 요약도 두 문장 + 환불 말투로 나옴.</li>
-<li><span class="lead">판단 :</span> 예시가 모자란 게 아니라 다양성 부족. 개수를 늘리기보다 주제·길이·경계 사례가 다른 예시로 바꿈.</li>
+<li><span class="lead">조건 :</span> 티켓 요약 예시 3개가 전부 환불 건이고 전부 두 문장이다. 이후 배송 문의 요약도 두 문장에 환불 말투로 나온다.</li>
+<li><span class="lead">판단 :</span> 예시가 모자란 것이 아니라 다양성이 부족한 것이다. 개수를 늘리기보다 주제·길이·경계 사례가 다른 예시로 바꾼다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(원리) · 사례는 새로 만든 것</span></li>
 <li><span class="lead">근거 :</span> en-full "vary enough that Claude doesn't pick up unintended patterns"</li>
 </ul>
 <h4>2. "예시가 비싸서 뺀다" 가 틀리는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 예시 4개 × 약 600토큰 = 2,400토큰. 하루 3만 요청 · Haiku 4.5 (입력 $1, 캐시 읽기 $0.10 / 백만 토큰).</li>
-<li><span class="lead">계산 :</span> 캐시 없이 = 2,400 × 30,000 = 7,200만 토큰/일 → $72/일. 예시를 고정 앞부분에 두고 캐시 적중 = 0.1배 → $7.20/일(+ 5분마다 쓰기 1.25배).</li>
-<li><span class="lead">전제 :</span> 예시가 요청마다 똑같고 바뀌는 입력 앞에 있음 · 캐시 대상 앞부분(tools + system + 예시)이 Haiku 4.5 최소 캐시 길이 4,096토큰 이상(예시 2,400 만으로는 미달 — 시스템 프롬프트·도구 정의와 합쳐 넘어야 함) · 호출 간격이 5분보다 짧음 · 가격 = 2026-09-28 조회값.</li>
-<li><span class="lead">판단 :</span> 예시 비용이 문제면 빼기 전에 앞부분 고정 + 캐싱. 단 "정책을 예시 블록으로 옮기면 캐시된다" 는 반대로 오답(샘플 2 D) — 캐싱은 위치가 아니라 요청마다 똑같은 앞부분에서 생김.</li>
+<li><span class="lead">조건 :</span> 예시 4개 × 약 600토큰 = 2,400토큰이다. 하루 3만 요청이고 Haiku 4.5 를 쓴다 (입력 $1, 캐시 읽기 $0.10 / 백만 토큰).</li>
+<li><span class="lead">계산 :</span> 캐시가 없으면 2,400 × 30,000 = 7,200만 토큰/일이라 $72/일이다. 예시를 고정 앞부분에 두고 캐시가 적중하면 0.1배라 $7.20/일이다(+ 5분마다 쓰기 1.25배).</li>
+<li>전제 : 아래를 가정한다. 가격은 2026-09-28 조회값이다.<ul>
+<li>예시가 요청마다 똑같고 바뀌는 입력 앞에 있다.</li>
+<li>캐시 대상 앞부분(tools + system + 예시)이 Haiku 4.5 최소 캐시 길이 4,096토큰 이상이다. 예시 2,400 만으로는 모자라서 시스템 프롬프트·도구 정의와 합쳐 넘어야 한다.</li>
+<li>호출 간격이 5분보다 짧다.</li>
+</ul>
+</li>
+<li><span class="lead">판단 :</span> 예시 비용이 문제면 빼기 전에 앞부분을 고정하고 캐싱한다. 단 "정책을 예시 블록으로 옮기면 캐시된다" 는 반대로 오답이다(샘플 2 D). 캐싱은 위치가 아니라 요청마다 똑같은 앞부분에서 생긴다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (배수·가격·최소 길이는 확인)</li>
 <li><span class="lead">근거 :</span> ko-pricing-2026-09-28 · ko-prompt-caching(Haiku 4.5 최소 4,096) <a href="caching.html">■ 프롬프트 캐싱</a> <span class="rule-ref">· 규칙 <a href="caching.html#caching-rule-1" aria-label="규칙 ①">①</a><a href="caching.html#caching-rule-2" aria-label="규칙 ②">②</a></span> sample-questions-p6-7</li>
 </ul>
 <h4>3. 예시로 안 되는 때 (모양 보장)</h4>
 <ul>
-<li><span class="lead">조건 :</span> 예시 5개로 JSON 모양을 보여 줬는데 하루 몇 건씩 파싱 실패. 뒤쪽 시스템이 재시도를 못 함.</li>
-<li><span class="lead">판단 :</span> 예시는 방향. 보장은 structured outputs(제약 디코딩) → ■ structured outputs. 예시는 필드 값의 문체·기준을 잡는 데 계속 씀.</li>
+<li><span class="lead">조건 :</span> 예시 5개로 JSON 모양을 보여 줬는데 하루 몇 건씩 파싱이 실패한다. 뒤쪽 시스템은 재시도를 못 한다.</li>
+<li><span class="lead">판단 :</span> 예시는 방향만 준다. 보장은 structured outputs(제약 디코딩)가 한다. 자세한 것은 ■ structured outputs 에 있다. 예시는 필드 값의 문체와 기준을 잡는 데 계속 쓴다.</li>
 
 <li><span class="lead">근거 :</span> structured-outputs</li>
 </ul>
 <h4>4. 예시보다 지시가 먼저인 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 첫 프롬프트, failure modes 를 아직 모름.</li>
-<li><span class="lead">판단 :</span> 가장 좋은 모델로 최소 프롬프트부터. 실패가 형식·어조면 예시, 그 밖이면 지시. 처음부터 예시를 쌓는 건 순서가 거꾸로.</li>
+<li><span class="lead">조건 :</span> 첫 프롬프트라 failure modes 를 아직 모른다.</li>
+<li><span class="lead">판단 :</span> 가장 좋은 모델로 최소 프롬프트부터 시작한다. 실패가 형식·어조면 예시를 넣고, 그 밖이면 지시를 넣는다. 처음부터 예시를 쌓는 것은 순서가 거꾸로다.</li>
 
 <li><span class="lead">근거 :</span> effective-context-engineering</li>
 </ul>
@@ -636,20 +652,22 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"모든 예외 경우를 규칙 목록으로 길게 나열"</td><td data-label="왜 끌리나" role="cell">빈틈없어 보임</td><td data-label="왜 틀리나" role="cell">비권장. 서로 다르고 대표적인 예시 몇 개</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"같은 모범 답 하나를 여러 번 반복"</td><td data-label="왜 끌리나" role="cell">강조하면 더 따를 것 같음</td><td data-label="왜 틀리나" role="cell">다양성 조건 위반 — 우연한 공통점까지 따라 함</td><td data-label="등급" role="cell">추론</td><td data-label="근거" role="cell">en-full(반복 자체를 콕 집은 문장은 없음)</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"예시를 지시 문장 사이에 섞어 둠"</td><td data-label="왜 끌리나" role="cell">따로 둘 이유를 못 느낌</td><td data-label="왜 틀리나" role="cell">태그로 구분해야 지시와 안 헷갈림</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"예시는 많을수록 좋다(수십 개)"</td><td data-label="왜 끌리나" role="cell">많이 보여 주면 더 정확</td><td data-label="왜 틀리나" role="cell">공식 최선 3~5개. 더 많을 때의 손익 문장은 없음</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"나쁜 예를 잔뜩 보여 주고 '이렇게 하지 마'"</td><td data-label="왜 끌리나" role="cell">피할 것이 분명해 보임</td><td data-label="왜 틀리나" role="cell">좋은 예가 나쁜 예·금지 지시보다 효과적</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">sonnet-5 en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"정책을 few-shot 블록으로 옮겨 비용 절감"</td><td data-label="왜 끌리나" role="cell">위치를 바꾸면 효과 있을 듯</td><td data-label="왜 틀리나" role="cell">캐시되는 재사용 앞부분이 안 생김</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"예시만으로 JSON 모양 보장"</td><td data-label="왜 끌리나" role="cell">예시가 형식을 잘 잡으니</td><td data-label="왜 틀리나" role="cell">방향일 뿐. 보장은 structured outputs</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"권장 7단계 순서대로 기법을 쌓는다"</td><td data-label="왜 끌리나" role="cell">순서가 있으면 안심</td><td data-label="왜 틀리나" role="cell">공식은 소개 순서일 뿐. failure modes 에 따라 더함</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a> (목록 영상 요령)</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모든 예외 경우를 규칙 목록으로 길게 나열"</td><td data-label="왜 끌리나" role="cell">빈틈없어 보인다</td><td data-label="왜 틀리나" role="cell">권하지 않는 방법이다. 서로 다르고 대표적인 예시 몇 개를 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"같은 모범 답 하나를 여러 번 반복"</td><td data-label="왜 끌리나" role="cell">강조하면 더 따를 것 같다</td><td data-label="왜 틀리나" role="cell">다양성 조건을 어긴다. 모델이 우연한 공통점까지 따라 한다</td><td data-label="등급" role="cell">추론</td><td data-label="근거" role="cell">en-full(반복 자체를 콕 집은 문장은 없다)</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"예시를 지시 문장 사이에 섞어 둠"</td><td data-label="왜 끌리나" role="cell">따로 둘 이유를 못 느낀다</td><td data-label="왜 틀리나" role="cell">태그로 구분해야 지시와 헷갈리지 않는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"예시는 많을수록 좋다(수십 개)"</td><td data-label="왜 끌리나" role="cell">많이 보여 주면 더 정확할 것 같다</td><td data-label="왜 틀리나" role="cell">공식 최선은 3~5개다. 더 많을 때의 손익 문장은 없다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"나쁜 예를 잔뜩 보여 주고 '이렇게 하지 마'"</td><td data-label="왜 끌리나" role="cell">피할 것이 분명해 보인다</td><td data-label="왜 틀리나" role="cell">좋은 예가 나쁜 예나 금지 지시보다 효과적이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">sonnet-5 en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"정책을 few-shot 블록으로 옮겨 비용 절감"</td><td data-label="왜 끌리나" role="cell">위치를 바꾸면 효과가 있을 듯하다</td><td data-label="왜 틀리나" role="cell">캐시되는 재사용 앞부분이 생기지 않는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"예시만으로 JSON 모양 보장"</td><td data-label="왜 끌리나" role="cell">예시가 형식을 잘 잡으니까</td><td data-label="왜 틀리나" role="cell">예시는 방향일 뿐이다. 보장은 structured outputs 가 한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"권장 7단계 순서대로 기법을 쌓는다"</td><td data-label="왜 끌리나" role="cell">순서가 있으면 안심이 된다</td><td data-label="왜 틀리나" role="cell">공식은 소개 순서일 뿐이다. failure modes 에 따라 더한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a> (목록 영상 요령)</td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="few-shot-examples-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
@@ -670,11 +688,17 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>예시 수 상한 : 3~5개 "최선" 문장만 있고, 그 이상일 때 품질이 떨어지는지 공식 문장 없음.</li>
-<li>문자 그대로 따르는 모델(Opus 4.8·Sonnet 5)에서 예시가 일반화되는 폭 : 모델 문서는 "지시" 의 범위만 말함 — 예시 문맥 문장 없음(상황 변수의 해당 줄은 추론).</li>
-<li>목록 영어 신호 3개("Include 3–5 examples for best results." · "we recommend working to curate a set of diverse, canonical examples…" · "It's best to start by testing a minimal prompt…")는 원문에서 모두 찾음. 단 마지막 문장의 원문 따옴표는 곧은 <code>'</code> 가 아니라 <code>’</code>(effective-context-engineering).</li>
+<li>예시 수 상한은 모른다. 3~5개가 "최선" 이라는 문장만 있다. 그 이상일 때 품질이 떨어지는지는 공식 문장이 없다.</li>
+<li>문자 그대로 따르는 모델(Opus 4.8·Sonnet 5)에서 예시가 일반화되는 폭은 모른다. 모델 문서는 "지시" 의 범위만 말한다. 예시 문맥 문장은 없다(상황 변수의 해당 줄은 추론이다).</li>
+<li>목록 영어 신호 3개는 원문에서 모두 찾았다. 단 마지막 문장의 원문 따옴표는 곧은 <code>'</code> 가 아니라 <code>’</code> 다(effective-context-engineering).<ul>
+<li>"Include 3–5 examples for best results."</li>
+<li>"we recommend working to curate a set of diverse, canonical examples…"</li>
+<li>"It's best to start by testing a minimal prompt…"</li>
+</ul>
+</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

@@ -371,9 +371,9 @@
   </div>
   <h2 class="sec-h" id="structured-output-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>JSON 모양은 부탁(프롬프트)이 아니라 structured outputs 의 제약 디코딩(constrained decoding)으로 보장. 응답 모양 = JSON outputs(<code>output_config.format</code>), 도구 입력 = strict tool use(<code>strict: true</code>), 한 요청에 둘 다 가능</p>
-      <p>옛 수단 prefill(마지막 assistant 턴에 "{" 채우기)은 Claude 4.6 이후 모델에서 400</p>
-    <p class="t5-ana"><span class="lead">비유</span> 출력을 grep 으로 긁어 검사하던 걸 스키마 검증(admission 정책)으로 바꾸기 / 폐기된 API 버전을 부르면 에러</p>
+      <p>JSON 모양은 부탁(프롬프트)이 아니라 structured outputs 의 제약 디코딩(constrained decoding)으로 보장한다. 응답 모양은 JSON outputs(<code>output_config.format</code>)로, 도구 입력은 strict tool use(<code>strict: true</code>)로 보장한다. 한 요청에 둘 다 쓸 수 있다</p>
+      <p>옛 수단 prefill(마지막 assistant 턴에 "{" 채우기)은 Claude 4.6 이후 모델에서 400 이 난다</p>
+    <p class="t5-ana"><span class="lead">비유</span> 출력을 grep 으로 긁어 검사하던 것을 스키마 검증(admission 정책)으로 바꾸는 것과 같다. 폐기된 API 버전을 부르면 에러가 나는 것과도 같다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/structured-output.webp"><img src="../images/structured-output.webp" alt="JSON 모양은 부탁이나 prefill(4.6 이후 400)이 아니라 structured outputs 로 보장하며, 응답은 output_config.format, 도구 입력은 strict: true 로 건다." loading="lazy" decoding="async"></a>
@@ -402,25 +402,25 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">부탁 vs 보장</p>
 <ul>
-<li>프롬프트로 "JSON 으로" 라고 하면 대개 맞지만, 파싱 오류·필수 필드 누락·타입 불일치가 섞일 수 있음.</li>
-<li>structured outputs 는 스키마를 문법으로 컴파일해 생성 단계에서 벗어난 토큰을 못 고르게 함(constrained decoding) → 항상 유효 · 타입 안전 · 스키마 위반 재시도 불필요.</li>
-<li>두 갈래 : 응답 전체 모양 = JSON outputs(<code>output_config.format</code>) / 도구 입력 모양 = strict tool use(<code>strict: true</code>). 한 요청에 둘 다.</li>
+<li>프롬프트로 "JSON 으로" 라고 하면 대개 맞는다. 그러나 파싱 오류, 필수 필드 누락, 타입 불일치가 섞일 수 있다.</li>
+<li>structured outputs 는 스키마를 문법으로 컴파일한다. 그래서 생성 단계에서 벗어난 토큰을 고르지 못하게 한다(constrained decoding). 결과는 항상 유효하고 타입이 안전하다. 스키마 위반 재시도도 필요 없다.</li>
+<li>두 갈래가 있다. 응답 전체 모양은 JSON outputs(<code>output_config.format</code>)로 정한다. 도구 입력 모양은 strict tool use(<code>strict: true</code>)로 정한다. 한 요청에 둘 다 쓸 수 있다.</li>
 </ul>
 <p class="lead">prefill 은 왜 막혔나</p>
 <ul>
-<li>prefill = 마지막 assistant 턴에 답의 앞머리("{", "```json")를 넣어 이어 쓰게 하던 요령.</li>
-<li>Claude 4.6 이후 모델 + Mythos Preview 는 이걸 400 으로 거절. 모델의 지시 따르기가 좋아져 대부분 필요 없어졌고, 모양은 structured outputs 가 전담.</li>
-<li>이전 모델(4.5 세대)은 계속 됨. 단 thinking 켠 동안엔 모델 불문 prefill 불가, JSON outputs 와도 같이 못 씀.</li>
+<li>prefill 은 마지막 assistant 턴에 답의 앞머리("{", "```json")를 넣어 이어 쓰게 하던 요령이다.</li>
+<li>Claude 4.6 이후 모델과 Mythos Preview 는 이것을 400 으로 거절한다. 모델의 지시 따르기가 좋아져 대부분 필요 없어졌다. 모양은 structured outputs 가 전담한다.</li>
+<li>이전 모델(4.5 세대)은 계속 된다. 단 thinking 을 켠 동안에는 모델과 상관없이 prefill 을 못 한다. JSON outputs 와도 같이 못 쓴다.</li>
 </ul>
 <p class="lead">강제 도구 호출도 모델별</p>
 <ul>
-<li><code>tool_choice</code> <code>any</code>·<code>tool</code> 은 내부적으로 prefill 로 도구 호출을 강제함(그래서 <code>tool_use</code> 앞에 설명 문장이 안 나옴).</li>
-<li>Opus 5.5 · Fable 5.1 · Mythos 5.1 은 이 강제 자체를 400 으로 거절 → <code>auto</code> + strict tool use, 또는 structured outputs. 어느 도구를 고를지는 프롬프트가 좌우.</li>
+<li><code>tool_choice</code> <code>any</code>·<code>tool</code> 은 내부적으로 prefill 로 도구 호출을 강제한다. 그래서 <code>tool_use</code> 앞에 설명 문장이 나오지 않는다.</li>
+<li>Opus 5.5 · Fable 5.1 · Mythos 5.1 은 이 강제 자체를 400 으로 거절한다. 대신 <code>auto</code> 와 strict tool use 를 쓰거나, structured outputs 를 쓴다. 어느 도구를 고를지는 프롬프트가 좌우한다.</li>
 </ul>
 <p class="lead">보장의 경계</p>
 <ul>
-<li>모양만 보장. refusal(HTTP 200)·max_tokens 잘림이면 스키마와 안 맞을 수 있고, enum 대소문자도 보장 안 함.</li>
-<li>값의 뜻(합계·필드 위치)은 스키마 밖 → 뒤쪽 검증.</li>
+<li>모양만 보장한다. refusal(HTTP 200)이나 max_tokens 잘림이면 스키마와 안 맞을 수 있다. enum 대소문자도 보장하지 않는다.</li>
+<li>값의 뜻(합계·필드 위치)은 스키마 밖이다. 그래서 뒤쪽에서 검증한다.</li>
 </ul>
 </section>
   <h2 class="sec-h" id="structured-output-rules-h">규칙과 판단</h2>
@@ -436,15 +436,15 @@
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>응답 전체 <span class="note">(추출·보고서 JSON)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">JSON outputs</p><p><code>output_config.format</code> + <code>type: "json_schema"</code></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">JSON outputs</p><p><code>output_config.format</code> 에 <code>type: "json_schema"</code> 를 넣는다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>도구 입력 <span class="note">(함수 인자)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">strict tool use</p><p>도구 정의 최상위에 <code>strict: true</code></p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">strict tool use</p><p>도구 정의 최상위에 <code>strict: true</code> 를 넣는다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>정해진 라벨 중 하나 <span class="note">(분류)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">enum</p><p>enum 필드가 있는 도구, 또는 structured outputs. 대소문자는 보장 안 함 → 대소문자 무시 비교</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">enum</p><p>enum 필드가 있는 도구나 structured outputs 를 쓴다. 대소문자는 보장하지 않는다. 그래서 대소문자를 무시하고 비교한다</p></div>
         </div>
       </div>
     </div>
@@ -452,29 +452,29 @@
   <section class="t5-flow tree" id="structured-output-tree-2" aria-labelledby="structured-output-tree-2-h" data-paths="n1 n2 n3 n4 n5|n1 n2 n3 n6 n7|n1 n2 n3 n8 n9|n1 n10 n11">
     <div class="t5-fh"><h3 id="structured-output-tree-2-h">③④ prefill 코드가 400 <span class="pg">[2.2②]</span> <span class="pg">[4.4③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>모델이 4.6 이후?<span class="t5-sub">지금 Active 중 prefill 되는 건 Opus 4.5 · Sonnet 4.5 · Haiku 4.5 뿐</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>모델이 4.6 이후인가?<span class="t5-sub">지금 Active 중 prefill 되는 모델은 Opus 4.5 · Sonnet 4.5 · Haiku 4.5 뿐이다</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-q" data-p="n3"><span class="t5-hl" aria-hidden="true"></span>prefill 로 뭘 했나?</div>
+          <div class="t5-q" data-p="n3"><span class="t5-hl" aria-hidden="true"></span>prefill 로 무엇을 했나?</div>
           <div class="t5-fork" style="--n:3">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>JSON·분류 모양</span>
-              <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">structured outputs</p><p>분류는 enum 도구도</p></div>
+              <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">structured outputs</p><p>분류에는 enum 도구도 쓸 수 있다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>머리말 건너뛰기</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">시스템 프롬프트 지시</p><p>"Respond directly without preamble" · XML 태그 · 그래도 머리말이 가끔 나오면 후처리로 떼기</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">시스템 프롬프트 지시</p><p>시스템 프롬프트에 "Respond directly without preamble" 을 넣는다. XML 태그도 쓴다. 그래도 머리말이 가끔 나오면 후처리로 뗀다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>끊긴 답 잇기</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">user 메시지로</p><p>끊긴 끝을 user 턴에 넣고 이어 쓰라고</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">user 메시지로</p><p>끊긴 끝을 user 턴에 넣고 이어 쓰라고 한다</p></div>
             </div>
           </div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(4.5 세대)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">thinking 켬 · JSON outputs 여부 먼저</p><p>이전 모델은 계속 지원. 단 thinking 켠 동안엔 prefill 못 함 · JSON outputs 와 같이 못 씀 · 최소 지원 기한이 정해진 상태</p></div>
+          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">thinking·JSON outputs 여부를 먼저 본다</p><p>이전 모델은 prefill 을 계속 지원한다. 단 thinking 을 켠 동안에는 prefill 을 못 한다. JSON outputs 와도 같이 못 쓴다. 최소 지원 기한이 정해진 상태다</p></div>
         </div>
       </div>
     </div>
@@ -482,22 +482,22 @@
   <section class="t5-flow tree" id="structured-output-tree-3" aria-labelledby="structured-output-tree-3-h" data-paths="n1 n2 n3|n1 n4 n5">
     <div class="t5-fh"><h3 id="structured-output-tree-3-h">⑤ 강제 도구 호출이 400 <span class="pg">[2.2②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>모델이 Opus 5.5 · Fable 5.1 · Mythos 5.1?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>모델이 Opus 5.5 · Fable 5.1 · Mythos 5.1 인가?</div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">auto + strict</p><p><code>tool_choice</code> <code>any</code>·<code>tool</code> = 400 → <code>auto</code> + strict tool use, 또는 structured outputs <span class="post">시험 뒤 변경</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">auto + strict</p><p><code>tool_choice</code> <code>any</code>·<code>tool</code> 은 400 이다. <code>auto</code> 와 strict tool use 를 쓰거나, structured outputs 를 쓴다 <span class="post">시험 뒤 변경</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">any·tool 그대로</p><p>단 수동 extended thinking 과는 같이 못 씀</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">any·tool 을 그대로 쓴다</p><p>단 수동 extended thinking 과는 같이 못 쓴다</p></div>
         </div>
       </div>
     </div>
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="structured-output-flow" aria-label="structured outputs 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["앱","API","모델"],"blocks":[],"rules":[null,null,null],"question":"모양은 누가 보장할까?","scenes":[{"name":"① structured outputs","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["메일: \"우산 2개,","내일까지 보내 주세요\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"`output_config.format` + 스키마","art":{"kind":"slip","lines":["format: type \"json_schema\"","+ 스키마 {상품, 수량}"]}},{"kind":"mark","step":"생성","at":{"col":2},"label":"제약 디코딩(constrained decoding)","art":{"kind":"slip","lines":["스키마대로만 생성","{\"상품\": \"우산\", …"]}},{"kind":"move","step":"응답","from":{"col":2},"to":0,"label":"스키마 맞는 JSON","art":{"kind":"slip","lines":["{\"상품\": \"우산\",","\"수량\": 2}"]}},{"kind":"end","label":"항상 유효 — 스키마 위반 재시도 필요 없음"}]},{"name":"② prefill \"{\"","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["메일: \"우산 2개,","내일까지 보내 주세요\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"마지막 assistant 턴에 \"{\"","art":{"kind":"slip","lines":["모델: Sonnet 5","마지막 턴:","{role: \"assistant\", \"{\"}"]}},{"kind":"mark","step":"거절","at":{"col":1},"label":"400 `invalid_request_error`","art":{"kind":"slip","lines":["HTTP 400","invalid_request_error"]}},{"kind":"skip","at":2},{"kind":"end","label":"Claude 4.6 이후 모델 + Mythos Preview 는 prefill 400"}]},{"name":"③ 보장의 구멍","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["메일: 주문 180건 목록","(아주 김)"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"`output_config.format` + 스키마","art":{"kind":"slip","lines":["format: type \"json_schema\"","max_tokens: 1024"]}},{"kind":"mark","step":"생성","at":{"col":2},"label":"잘림(max_tokens) 또는 거절(refusal)","art":{"kind":"slip","lines":["… {\"상품\": \"장"]}},{"kind":"move","step":"응답","from":{"col":2},"to":0,"label":"스키마와 안 맞을 수 있음","art":{"kind":"slip","lines":["stop_reason: \"max_tokens\"","[{\"상품\": \"우산\", …,","{\"상품\": \"장"]}},{"kind":"end","label":"보장에도 예외 — stop_reason 먼저 봄"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["앱","API","모델"],"blocks":[],"rules":[null,null,null],"question":"모양은 누가 보장할까?","scenes":[{"name":"① structured outputs","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["메일: \"우산 2개,","내일까지 보내 주세요\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"`output_config.format` + 스키마","art":{"kind":"slip","lines":["format: type \"json_schema\"","+ 스키마 {상품, 수량}"]}},{"kind":"mark","step":"생성","at":{"col":2},"label":"제약 디코딩(constrained decoding)","art":{"kind":"slip","lines":["스키마대로만 생성","{\"상품\": \"우산\", …"]}},{"kind":"move","step":"응답","from":{"col":2},"to":0,"label":"스키마에 맞는 JSON 이 온다","art":{"kind":"slip","lines":["{\"상품\": \"우산\",","\"수량\": 2}"]}},{"kind":"end","label":"항상 유효하다. 스키마 위반 재시도가 필요 없다"}]},{"name":"② prefill \"{\"","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["메일: \"우산 2개,","내일까지 보내 주세요\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"마지막 assistant 턴에 \"{\" 를 채운다","art":{"kind":"slip","lines":["모델: Sonnet 5","마지막 턴:","{role: \"assistant\", \"{\"}"]}},{"kind":"mark","step":"거절","at":{"col":1},"label":"400 `invalid_request_error`","art":{"kind":"slip","lines":["HTTP 400","invalid_request_error"]}},{"kind":"skip","at":2},{"kind":"end","label":"Claude 4.6 이후 모델과 Mythos Preview 는 prefill 에 400 을 낸다"}]},{"name":"③ 보장의 구멍","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["메일: 주문 180건 목록","(아주 김)"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"`output_config.format` + 스키마","art":{"kind":"slip","lines":["format: type \"json_schema\"","max_tokens: 1024"]}},{"kind":"mark","step":"생성","at":{"col":2},"label":"잘림(max_tokens)이나 거절(refusal)이 생긴다","art":{"kind":"slip","lines":["… {\"상품\": \"장"]}},{"kind":"move","step":"응답","from":{"col":2},"to":0,"label":"스키마와 안 맞을 수 있다","art":{"kind":"slip","lines":["stop_reason: \"max_tokens\"","[{\"상품\": \"우산\", …,","{\"상품\": \"장"]}},{"kind":"end","label":"보장에도 예외가 있다. stop_reason 을 먼저 본다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -508,24 +508,24 @@
         <li>시작 : 앱 — 쪽지 : <span class="flx-alt-slip">메일: "우산 2개, / 내일까지 보내 주세요"</span></li>
         <li>요청 : 앱 → API : <code>output_config.format</code> + 스키마 — 쪽지 : <span class="flx-alt-slip">format: type "json_schema" / + 스키마 {상품, 수량}</span></li>
         <li>생성 : 모델 : 제약 디코딩(constrained decoding) — 쪽지 : <span class="flx-alt-slip">스키마대로만 생성 / {"상품": "우산", …</span></li>
-        <li>응답 : 모델 → 앱 : 스키마 맞는 JSON — 쪽지 : <span class="flx-alt-slip">{"상품": "우산", / "수량": 2}</span></li>
-        <li>끝 : 항상 유효 — 스키마 위반 재시도 필요 없음</li>
+        <li>응답 : 모델 → 앱 : 스키마에 맞는 JSON 이 온다 — 쪽지 : <span class="flx-alt-slip">{"상품": "우산", / "수량": 2}</span></li>
+        <li>끝 : 항상 유효하다. 스키마 위반 재시도가 필요 없다</li>
       </ol>
       <p class="lead">② prefill "{" <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 앱 — 쪽지 : <span class="flx-alt-slip">메일: "우산 2개, / 내일까지 보내 주세요"</span></li>
-        <li>요청 : 앱 → API : 마지막 assistant 턴에 "{" — 쪽지 : <span class="flx-alt-slip">모델: Sonnet 5 / 마지막 턴: / {role: "assistant", "{"}</span></li>
+        <li>요청 : 앱 → API : 마지막 assistant 턴에 "{" 를 채운다 — 쪽지 : <span class="flx-alt-slip">모델: Sonnet 5 / 마지막 턴: / {role: "assistant", "{"}</span></li>
         <li>거절 : API : 400 <code>invalid_request_error</code> — 쪽지 : <span class="flx-alt-slip">HTTP 400 / invalid_request_error</span></li>
         <li>건너뜀 : 모델</li>
-        <li>끝 : Claude 4.6 이후 모델 + Mythos Preview 는 prefill 400</li>
+        <li>끝 : Claude 4.6 이후 모델과 Mythos Preview 는 prefill 에 400 을 낸다</li>
       </ol>
       <p class="lead">③ 보장의 구멍 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 앱 — 쪽지 : <span class="flx-alt-slip">메일: 주문 180건 목록 / (아주 김)</span></li>
         <li>요청 : 앱 → API : <code>output_config.format</code> + 스키마 — 쪽지 : <span class="flx-alt-slip">format: type "json_schema" / max_tokens: 1024</span></li>
-        <li>생성 : 모델 : 잘림(max_tokens) 또는 거절(refusal) — 쪽지 : <span class="flx-alt-slip">… {"상품": "장</span></li>
-        <li>응답 : 모델 → 앱 : 스키마와 안 맞을 수 있음 — 쪽지 : <span class="flx-alt-slip">stop_reason: "max_tokens" / [{"상품": "우산", …, / {"상품": "장</span></li>
-        <li>끝 : 보장에도 예외 — stop_reason 먼저 봄</li>
+        <li>생성 : 모델 : 잘림(max_tokens)이나 거절(refusal)이 생긴다 — 쪽지 : <span class="flx-alt-slip">… {"상품": "장</span></li>
+        <li>응답 : 모델 → 앱 : 스키마와 안 맞을 수 있다 — 쪽지 : <span class="flx-alt-slip">stop_reason: "max_tokens" / [{"상품": "우산", …, / {"상품": "장</span></li>
+        <li>끝 : 보장에도 예외가 있다. stop_reason 을 먼저 본다</li>
       </ol>
     </details>
   </figure>
@@ -534,15 +534,27 @@
       <ol class="how">
         <li id="structured-output-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
-            <p><span class="lead">보장의 구멍 :</span> <code>stop_reason: "refusal"</code>(HTTP 200 · 과금됨) · <code>"max_tokens"</code>(잘림 → 더 큰 <code>max_tokens</code> 로 재시도)면 스키마와 안 맞을 수 있음 → <a href="stop-reason.html">■ stop_reason 으로 분기</a></p>
-            <p>모양만 보장 — 값의 뜻(항목 합계 ≠ 총액, 엉뚱한 필드)은 못 막음 <span class="gen">업계 일반</span> <span class="note">CCA-F 노트 4.3</span></p>
-            <p>형식이 자꾸 깨질 때 프롬프트 탓·모델 탓 가르기 → <a href="prompt-vs-model-mismatch.html">◆ prompt failure vs model mismatch</a> · 행동을 꼭 막아야 함(삭제 금지 등) → <a href="guide-vs-enforce.html">◆ 안내(프롬프트) vs 강제(구성·코드)</a></p>
+            <p><span class="lead">보장의 구멍 :</span> 아래 두 경우에는 스키마와 안 맞을 수 있다</p>
+            <ul class="dash">
+              <li><code>stop_reason: "refusal"</code> : HTTP 200 이고 과금된다</li>
+              <li><code>"max_tokens"</code> : 잘린 것이다. 더 큰 <code>max_tokens</code> 로 재시도한다</li>
+            </ul>
+            <p>자세한 것은 <a href="stop-reason.html">■ stop_reason 으로 분기</a> 에 있다</p>
+            <p>모양만 보장한다. 값의 뜻(항목 합계 ≠ 총액, 엉뚱한 필드)은 못 막는다 <span class="gen">업계 일반</span> <span class="note">CCA-F 노트 4.3</span></p>
+            <p>형식이 자꾸 깨질 때 프롬프트 탓인지 모델 탓인지 가르는 법은 <a href="prompt-vs-model-mismatch.html">◆ prompt failure vs model mismatch</a> 에 있다. 행동을 꼭 막아야 할 때(삭제 금지 등)는 <a href="guide-vs-enforce.html">◆ 안내(프롬프트) vs 강제(구성·코드)</a> 에 있다</p>
           </div>
         </li>
         <li id="structured-output-rule-7"><span class="num" aria-hidden="true">⑦</span>
           <div class="how-body">
-            <p>지원 모델 = 지금 Active 모델 전부(4.5 세대 포함) · Amazon Bedrock 에선 Opus 4.6 · Sonnet 4.6 · Sonnet 4.5 · Opus 4.5 · Haiku 4.5 만 (2026-09-28 조회)</p>
-            <p><span class="lead">비용·제약 :</span> 새 스키마 첫 요청은 문법 컴파일 지연(latency), 컴파일 결과는 마지막 사용 뒤 24시간 캐시 · <code>output_config.format</code> 을 바꾸면 그 대화의 프롬프트 캐시 무효 · 요청당 strict 도구 20 · 선택 파라미터 24 · union 타입 16 · Citations 와 같이 켜면 400 · PHI 는 스키마(속성 이름·enum·const·pattern)에 넣지 않음 <span class="pg">[5.4①]</span></p>
+            <p>지원 모델은 지금 Active 모델 전부다(4.5 세대 포함). Amazon Bedrock 에서는 Opus 4.6 · Sonnet 4.6 · Sonnet 4.5 · Opus 4.5 · Haiku 4.5 만 지원한다 (2026-09-28 조회)</p>
+            <p>비용과 제약은 아래와 같다 <span class="pg">[5.4①]</span></p>
+            <ul class="dash">
+              <li>새 스키마의 첫 요청은 문법 컴파일 지연(latency)이 있다. 컴파일 결과는 마지막 사용 뒤 24시간 캐시된다</li>
+              <li><code>output_config.format</code> 을 바꾸면 그 대화의 프롬프트 캐시가 무효가 된다</li>
+              <li>요청당 한도는 strict 도구 20 · 선택 파라미터 24 · union 타입 16 이다</li>
+              <li>Citations 와 같이 켜면 400 이다</li>
+              <li>PHI 는 스키마(속성 이름·enum·const·pattern)에 넣지 않는다</li>
+            </ul>
           </div>
         </li>
       </ol>
@@ -551,37 +563,49 @@
       <ol class="how">
         <li id="structured-output-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p>모양 강제 = structured outputs <span class="pg">[2.2②]</span> <span class="pg">[1.2①]</span></p>
-            <p><span class="lead">JSON outputs :</span> <code>output_config.format</code> 에 <code>type: "json_schema"</code> + 스키마 → text 블록에 스키마 맞는 JSON <span class="src">(옛 <code>output_format</code> → <code>output_config.format</code>, 2026-01-29 GA)</span></p>
-            <p>strict tool use : 도구 정의 최상위 <code>strict: true</code> → <code>tool_use</code> 의 <code>input</code> 이 <code>input_schema</code> 를 그대로 따르고 <code>name</code> 도 항상 유효</p>
-            <p>둘 다 한 요청에 = 믿을 수 있는 도구 호출 + 구조화된 최종 답</p>
-            <p>공식 마이그레이션 글은 "먼저 모델에게 구조를 따르라고 말해 보기(재시도 포함)" 도 듦 — 새 모델은 말하면 복잡한 스키마도 잘 맞춤. **보장**이 필요하면 structured outputs</p>
+            <p>모양 강제는 structured outputs 로 한다 <span class="pg">[2.2②]</span> <span class="pg">[1.2①]</span></p>
+            <p><span class="lead">JSON outputs :</span> <code>output_config.format</code> 에 <code>type: "json_schema"</code> 와 스키마를 넣는다. 그러면 text 블록에 스키마에 맞는 JSON 이 온다 <span class="src">(옛 <code>output_format</code> 은 <code>output_config.format</code> 으로 바뀌었다, 2026-01-29 GA)</span></p>
+            <p>strict tool use : 도구 정의 최상위에 <code>strict: true</code> 를 넣는다. 그러면 <code>tool_use</code> 의 <code>input</code> 이 <code>input_schema</code> 를 그대로 따른다. <code>name</code> 도 항상 유효하다</p>
+            <p>둘 다 한 요청에 쓸 수 있다. 그러면 도구 호출을 믿을 수 있고, 최종 답도 구조화된다</p>
+            <p>공식 마이그레이션 글은 "먼저 모델에게 구조를 따르라고 말해 보기(재시도 포함)" 도 든다. 새 모델은 말하면 복잡한 스키마도 잘 맞춘다. **보장**이 필요하면 structured outputs 를 쓴다</p>
           </div>
         </li>
         <li id="structured-output-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p>분류 = enum 필드를 가진 도구 또는 structured outputs</p>
-            <p>enum·const 값의 대소문자는 보장 안 함 — 오류·특별 stop_reason 없이 그대로 옴 → 대소문자 무시 비교 · 대소문자만 다른 값 금지</p>
+            <p>분류에는 enum 필드를 가진 도구나 structured outputs 를 쓴다</p>
+            <p>enum·const 값의 대소문자는 보장하지 않는다. 값이 오류나 특별 stop_reason 없이 그대로 온다. 그래서 대소문자를 무시하고 비교한다. 대소문자만 다른 값은 두지 않는다</p>
           </div>
         </li>
         <li id="structured-output-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">prefill 400 :</span> Claude 4.6 이후 모델 + Mythos Preview 는 마지막 assistant 턴 prefill = 400 <code>invalid_request_error</code>. 이전 모델은 계속 지원 · 대화 중간의 assistant 메시지는 영향 없음 <span class="pg">[2.2②]</span> <span class="pg">[4.4③]</span></p>
-            <p>→ 지금 Active 중 prefill 되는 건 Opus 4.5 · Sonnet 4.5 · Haiku 4.5 뿐 <span class="note">(모델 목록 대조 계산, 2026-09-28 조회)</span></p>
-            <p>thinking 켠 동안엔 모델과 상관없이 prefill 못 함 · JSON outputs 와 prefill 은 호환 안 됨</p>
-            <p><span class="lead">옮기는 법 :</span> 모양 = structured outputs / 분류 = enum 도구 / 머리말 = 시스템 프롬프트 지시(+XML 태그·후처리) / 이어 쓰기 = user 메시지로 / 맥락 다시 넣기 = user 턴·도구·compaction</p>
+            <p><span class="lead">prefill 400 :</span> Claude 4.6 이후 모델과 Mythos Preview 는 마지막 assistant 턴 prefill 에 400 <code>invalid_request_error</code> 를 낸다. 이전 모델은 계속 지원한다. 대화 중간의 assistant 메시지는 영향이 없다 <span class="pg">[2.2②]</span> <span class="pg">[4.4③]</span></p>
+            <p>그래서 지금 Active 중 prefill 되는 모델은 Opus 4.5 · Sonnet 4.5 · Haiku 4.5 뿐이다 <span class="note">(모델 목록 대조 계산, 2026-09-28 조회)</span></p>
+            <p>thinking 을 켠 동안에는 모델과 상관없이 prefill 을 못 한다. JSON outputs 와 prefill 은 호환되지 않는다</p>
+            <p>옮기는 법은 아래와 같다</p>
+            <ul class="dash">
+              <li><span class="lead">모양 :</span> structured outputs</li>
+              <li><span class="lead">분류 :</span> enum 도구</li>
+              <li><span class="lead">머리말 :</span> 시스템 프롬프트 지시(+XML 태그·후처리)</li>
+              <li><span class="lead">이어 쓰기 :</span> user 메시지로</li>
+              <li><span class="lead">맥락 다시 넣기 :</span> user 턴·도구·compaction</li>
+            </ul>
           </div>
         </li>
         <li id="structured-output-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p>옛 모델 고정은 길이 아님 : prefill 되는 4.5 세대는 은퇴 "하한일"(Not sooner than)만 잡힌 Active — Sonnet 4.5 2026-09-29 · Haiku 4.5 2026-10-15 · Opus 4.5 2026-11-24 이후 (2026-09-28 조회)</p>
-            <p>공개 모델은 은퇴 최소 60일 전 통보 · 은퇴 날짜가 지난 모델 요청은 실패</p>
+            <p>옛 모델 고정은 길이 아니다 : prefill 되는 4.5 세대는 은퇴 "하한일"(Not sooner than)만 잡힌 Active 다 (2026-09-28 조회)</p>
+            <ul class="dash">
+              <li>Sonnet 4.5 : 2026-09-29 이후</li>
+              <li>Haiku 4.5 : 2026-10-15 이후</li>
+              <li>Opus 4.5 : 2026-11-24 이후</li>
+            </ul>
+            <p>공개 모델은 은퇴 최소 60일 전에 통보한다. 은퇴 날짜가 지난 모델에 보낸 요청은 실패한다</p>
           </div>
         </li>
         <li id="structured-output-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p>강제 도구 호출(<code>tool_choice</code> <code>any</code>·<code>tool</code>) : Opus 5.5 · Fable 5.1 · Mythos 5.1 은 모든 요청에서 400 → <code>auto</code> + strict tool use, 또는 고정 JSON 응답이면 structured outputs. <code>auto</code> 가 어느 도구를 고를지는 여전히 프롬프트가 좌우 <span class="post">시험 뒤 변경</span> <span class="note">Fable 5.1 2026-09-01 · Opus 5.5 2026-09-22, 2026-09-28 조회</span></p>
-            <p><span class="lead">다른 모델 :</span> 수동 extended thinking(<code>type: "enabled"</code>)과 <code>any</code>·<code>tool</code> 은 같이 못 씀 · <code>any</code>·<code>tool</code> 이면 API 가 prefill 해서 <code>tool_use</code> 앞에 설명 문장이 안 나옴</p>
+            <p>강제 도구 호출(<code>tool_choice</code> <code>any</code>·<code>tool</code>) : Opus 5.5 · Fable 5.1 · Mythos 5.1 은 모든 요청에서 400 을 낸다. 대신 <code>auto</code> 와 strict tool use 를 쓴다. 고정 JSON 응답이면 structured outputs 를 쓴다. <code>auto</code> 가 어느 도구를 고를지는 여전히 프롬프트가 좌우한다 <span class="post">시험 뒤 변경</span> <span class="note">Fable 5.1 2026-09-01 · Opus 5.5 2026-09-22, 2026-09-28 조회</span></p>
+            <p>다른 모델에서는 수동 extended thinking(<code>type: "enabled"</code>)과 <code>any</code>·<code>tool</code> 을 같이 못 쓴다. <code>any</code>·<code>tool</code> 이면 API 가 prefill 해서 <code>tool_use</code> 앞에 설명 문장이 나오지 않는다</p>
           </div>
         </li>
       </ol>
@@ -595,16 +619,16 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">뒤쪽 코드가 응답을 JSON 으로 파싱해야 함</td><td data-label="답" role="cell">JSON outputs (<code>output_<wbr>config.<wbr>format</code> + <code>type: "json_<wbr>schema"</code>)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">도구 인자 타입이 자꾸 틀림(<code>"2"</code> vs <code>2</code>)</td><td data-label="답" role="cell">strict tool use (<code>strict: true</code>)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use" lang="en" rel="noopener">strict-tool-use</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">분류 라벨을 정해진 값 중 하나로</td><td data-label="답" role="cell">enum 필드 가진 도구 또는 structured outputs</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" lang="en" rel="noopener">prompting-best-practices</a> en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">prefill 코드가 새 모델에서 400</td><td data-label="답" role="cell">모양 = structured outputs · 머리말 = 시스템 프롬프트 지시 · 이어 쓰기 = user 메시지로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full · <a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">지문 모델이 4.5 세대이고 thinking 꺼짐</td><td data-label="답" role="cell">prefill 동작함(옛 코드가 틀린 게 아님)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full "Earlier models continue to support prefills" · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Opus 5.5·Fable 5.1·Mythos 5.1 에 <code>tool_<wbr>choice</code> <code>any</code>·<code>tool</code></td><td data-label="답" role="cell">400 → <code>auto</code> + strict tool use 또는 structured outputs</td><td data-label="등급" role="cell"><span class="post">시험 뒤 변경</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a> · <a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a> · <a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell"><code>stop_<wbr>reason</code> 이 <code>refusal</code>·<code>max_<wbr>tokens</code></td><td data-label="답" role="cell">스키마 불일치 가능 → stop_reason 먼저 분기, <code>max_<wbr>tokens</code> 면 늘려 재시도</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">enum 비교</td><td data-label="답" role="cell">대소문자 무시 비교 · 대소문자만 다른 값 금지</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">출력 JSON 에 근거 인용(Citations)도</td><td data-label="답" role="cell">같이 못 켬(400)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">HIPAA 조직에서 structured outputs</td><td data-label="답" role="cell">사용 가능, PHI 는 스키마(속성 이름·enum·const·pattern)에 넣지 않음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">뒤쪽 코드가 응답을 JSON 으로 파싱해야 한다</td><td data-label="답" role="cell">JSON outputs 를 쓴다 (<code>output_<wbr>config.<wbr>format</code> + <code>type: "json_<wbr>schema"</code>)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">도구 인자 타입이 자꾸 틀린다(<code>"2"</code> vs <code>2</code>)</td><td data-label="답" role="cell">strict tool use 를 쓴다 (<code>strict: true</code>)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use" lang="en" rel="noopener">strict-tool-use</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">분류 라벨을 정해진 값 중 하나로 받는다</td><td data-label="답" role="cell">enum 필드를 가진 도구나 structured outputs 를 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" lang="en" rel="noopener">prompting-best-practices</a> en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">prefill 코드가 새 모델에서 400 이 난다</td><td data-label="답" role="cell">모양은 structured outputs 로 옮긴다. 머리말은 시스템 프롬프트 지시로, 이어 쓰기는 user 메시지로 옮긴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full · <a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">지문 모델이 4.5 세대이고 thinking 이 꺼져 있다</td><td data-label="답" role="cell">prefill 이 동작한다(옛 코드가 틀린 것이 아니다)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full "Earlier models continue to support prefills" · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Opus 5.5·Fable 5.1·Mythos 5.1 에 <code>tool_<wbr>choice</code> <code>any</code>·<code>tool</code> 을 쓴다</td><td data-label="답" role="cell">400 이 난다. <code>auto</code> 와 strict tool use 를 쓰거나 structured outputs 를 쓴다</td><td data-label="등급" role="cell"><span class="post">시험 뒤 변경</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a> · <a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a> · <a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell"><code>stop_<wbr>reason</code> 이 <code>refusal</code>·<code>max_<wbr>tokens</code> 다</td><td data-label="답" role="cell">스키마와 안 맞을 수 있다. stop_reason 으로 먼저 분기하고, <code>max_<wbr>tokens</code> 면 늘려서 재시도한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">enum 을 비교한다</td><td data-label="답" role="cell">대소문자를 무시하고 비교한다. 대소문자만 다른 값은 두지 않는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">출력 JSON 에 근거 인용(Citations)도 달고 싶다</td><td data-label="답" role="cell">같이 켤 수 없다(400)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">HIPAA 조직에서 structured outputs 를 쓴다</td><td data-label="답" role="cell">쓸 수 있다. PHI 는 스키마(속성 이름·enum·const·pattern)에 넣지 않는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -615,16 +639,16 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">모델 세대</td><td data-label="값" role="cell">Claude 4.6 이후 · Mythos Preview</td><td data-label="답 쪽" role="cell">prefill 400</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델 세대</td><td data-label="값" role="cell">Opus 4.5 · Sonnet 4.5 · Haiku 4.5</td><td data-label="답 쪽" role="cell">prefill 됨 (thinking 꺼짐일 때)</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">"4.6 이후" 규칙 × model-deprecations 목록 en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Opus 5.5 · Fable 5.1 · Mythos 5.1</td><td data-label="답 쪽" role="cell">강제 도구 호출 400</td><td data-label="등급" role="cell"><span class="post">시험 뒤 변경</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">thinking</td><td data-label="값" role="cell">수동 extended thinking(<code>type: "enabled"</code>)</td><td data-label="답 쪽" role="cell"><code>any</code>·<code>tool</code> 불가</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">thinking</td><td data-label="값" role="cell">켜짐(어느 방식이든)</td><td data-label="답 쪽" role="cell">prefill 불가</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">필요한 것</td><td data-label="값" role="cell">보장(뒤쪽 파서가 재시도 못 함)</td><td data-label="답 쪽" role="cell">structured outputs</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">필요한 것</td><td data-label="값" role="cell">대체로 맞으면 됨 · 재시도 가능</td><td data-label="답 쪽" role="cell">프롬프트로 구조 요청 + 재시도도 공식 경로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full "Try asking the model to conform… especially if implemented with retries"</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">스키마</td><td data-label="값" role="cell">자주 바뀜</td><td data-label="답 쪽" role="cell">바꿀 때마다 첫 요청 컴파일 지연(latency) · 프롬프트 캐시 무효</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">스키마</td><td data-label="값" role="cell">strict 도구 20개 초과 · 선택 파라미터 24 초과 · union 16 초과</td><td data-label="답 쪽" role="cell">한도 초과 → 중요한 도구만 strict · 선택 파라미터를 되도록 required 로 · 요청 나누기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">플랫폼</td><td data-label="값" role="cell">Amazon Bedrock</td><td data-label="답 쪽" role="cell">structured outputs 는 Opus 4.6·Sonnet 4.6·Sonnet 4.5·Opus 4.5·Haiku 4.5 만</td><td data-label="등급" role="cell"><span class="note">(해석은</span> <span class="open">미해결</span> <span class="note">2)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a> en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델 세대</td><td data-label="값" role="cell">Claude 4.6 이후 · Mythos Preview</td><td data-label="답 쪽" role="cell">prefill 에 400 이 난다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델 세대</td><td data-label="값" role="cell">Opus 4.5 · Sonnet 4.5 · Haiku 4.5</td><td data-label="답 쪽" role="cell">prefill 이 된다 (thinking 이 꺼져 있을 때)</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">"4.6 이후" 규칙 × model-deprecations 목록 en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Opus 5.5 · Fable 5.1 · Mythos 5.1</td><td data-label="답 쪽" role="cell">강제 도구 호출에 400 이 난다</td><td data-label="등급" role="cell"><span class="post">시험 뒤 변경</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">thinking</td><td data-label="값" role="cell">수동 extended thinking(<code>type: "enabled"</code>)</td><td data-label="답 쪽" role="cell"><code>any</code>·<code>tool</code> 을 쓸 수 없다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">thinking</td><td data-label="값" role="cell">켜져 있다(어느 방식이든)</td><td data-label="답 쪽" role="cell">prefill 을 쓸 수 없다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">필요한 것</td><td data-label="값" role="cell">보장이 필요하다(뒤쪽 파서가 재시도하지 못한다)</td><td data-label="답 쪽" role="cell">structured outputs 를 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">필요한 것</td><td data-label="값" role="cell">대체로 맞으면 된다. 재시도할 수 있다</td><td data-label="답 쪽" role="cell">프롬프트로 구조를 요청하고 재시도하는 것도 공식 경로다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full "Try asking the model to conform… especially if implemented with retries"</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">스키마</td><td data-label="값" role="cell">자주 바뀐다</td><td data-label="답 쪽" role="cell">바꿀 때마다 첫 요청에 컴파일 지연(latency)이 있고, 프롬프트 캐시가 무효가 된다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">스키마</td><td data-label="값" role="cell">strict 도구 20개 초과 · 선택 파라미터 24 초과 · union 16 초과</td><td data-label="답 쪽" role="cell">한도를 넘는다. 중요한 도구만 strict 로 둔다. 선택 파라미터를 되도록 required 로 바꾼다. 요청을 나눈다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">플랫폼</td><td data-label="값" role="cell">Amazon Bedrock</td><td data-label="답 쪽" role="cell">structured outputs 는 Opus 4.6·Sonnet 4.6·Sonnet 4.5·Opus 4.5·Haiku 4.5 만 지원한다</td><td data-label="등급" role="cell"><span class="note">(해석은</span> <span class="open">미해결</span> <span class="note">2)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a> en-full</td></tr>
   </tbody>
 </table>
 </div>
@@ -640,14 +664,14 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"prefill 을 더 길게 채운다" → 4.6 이후 모델은 마지막 assistant 턴 prefill 자체가 400. 길이 무관</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"prefill 되는 옛 모델로 영구 고정" → 4.5 세대는 최소 지원 기한만 정해진 상태, 은퇴 뒤 요청은 실패</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"prefill 이 보이면 모델 불문 무조건 틀림" → 이전 모델(4.5 세대)은 지원. 지문의 모델명·thinking 켬 여부 먼저</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"JSON 을 정규식으로 긁고 재시도 횟수를 늘림" → structured outputs 면 스키마 위반 재시도가 필요 없음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"structured outputs 면 무조건 스키마대로 · enum 도 글자 그대로" → refusal·max_tokens 예외 + enum 대소문자 미보장</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"분류 도구를 <code>tool_choice: tool</code> 로 못 박기" (CCA-F 식) → Opus 5.5·Fable 5.1·Mythos 5.1 에선 400. <code>auto</code> + strict <span class="post">시험 뒤 변경</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"근거도 달게 Citations 를 같이 켠 JSON" → <code>output_config.format</code> + Citations = 400</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar API 강의(2025 제작 추정) "prefill "``<code>json" + stop sequence "</code>``" 로 깨끗한 JSON" → 4.6 이후 모델에선 400. 지금은 structured outputs</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"prefill 을 더 길게 채운다" 는 함정이다. 4.6 이후 모델은 마지막 assistant 턴 prefill 자체가 400 이다. 길이와 상관없다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"prefill 되는 옛 모델로 영구 고정한다" 는 함정이다. 4.5 세대는 최소 지원 기한만 정해진 상태다. 은퇴 뒤에는 요청이 실패한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"prefill 이 보이면 모델 불문 무조건 틀렸다" 는 함정이다. 이전 모델(4.5 세대)은 prefill 을 지원한다. 지문의 모델명과 thinking 을 켰는지부터 본다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"JSON 을 정규식으로 긁고 재시도 횟수를 늘린다" 는 함정이다. structured outputs 면 스키마 위반 재시도가 필요 없다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"structured outputs 면 무조건 스키마대로 오고, enum 도 글자 그대로 온다" 는 함정이다. refusal·max_tokens 예외가 있다. enum 대소문자도 보장하지 않는다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"분류 도구를 <code>tool_choice: tool</code> 로 못 박는다" (CCA-F 식) 는 함정이다. Opus 5.5·Fable 5.1·Mythos 5.1 에서는 400 이다. <code>auto</code> 와 strict 를 쓴다 <span class="post">시험 뒤 변경</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"근거도 달게 Citations 를 같이 켠 JSON" 은 함정이다. <code>output_config.format</code> 과 Citations 를 같이 켜면 400 이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar API 강의(2025 제작 추정)의 "prefill "``<code>json" + stop sequence "</code>``" 로 깨끗한 JSON" 은 함정이다. 4.6 이후 모델에서는 400 이다. 지금은 structured outputs 를 쓴다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -669,33 +693,33 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. prefill 코드가 아직 맞는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 지문이 "Haiku 4.5 · thinking 꺼짐 · prefill '{' 로 받는 분류 파이프라인이 잘 돈다" 고 하고 보기가 "prefill 은 무조건 400 이니 즉시 지운다".</li>
-<li><span class="lead">판단 :</span> Haiku 4.5 는 4.6 이전 모델 → prefill 동작. "즉시 지운다" 는 과함. 다만 옮길 계획은 필요(은퇴 경로).</li>
-<li><span class="lead">계산 :</span> Haiku 4.5 는 2026-09-28 에 Active, 은퇴 "하한일" 2026-10-15. 공개 모델은 은퇴 최소 60일 전 통보 → 오늘(9/28) 통보가 나와도 실제 은퇴는 빨라야 11/27. 하한일(10/15)보다 60일 규칙이 더 늦음.</li>
-<li><span class="lead">전제 :</span> 60일 통보 규칙이 그대로 지켜짐 · Anthropic 운영 플랫폼 기준(Bedrock·Google Cloud 는 자체 일정).</li>
+<li><span class="lead">조건 :</span> 지문은 "Haiku 4.5 · thinking 꺼짐 · prefill '{' 로 받는 분류 파이프라인이 잘 돈다" 고 한다. 보기는 "prefill 은 무조건 400 이니 즉시 지운다" 다.</li>
+<li><span class="lead">판단 :</span> Haiku 4.5 는 4.6 이전 모델이라 prefill 이 동작한다. "즉시 지운다" 는 과하다. 다만 옮길 계획은 필요하다(은퇴 경로).</li>
+<li><span class="lead">계산 :</span> Haiku 4.5 는 2026-09-28 에 Active 이고, 은퇴 "하한일"은 2026-10-15 다. 공개 모델은 은퇴 최소 60일 전에 통보한다. 그래서 오늘(9/28) 통보가 나와도 실제 은퇴는 빨라야 11/27 이다. 하한일(10/15)보다 60일 규칙이 더 늦다.</li>
+<li><span class="lead">전제 :</span> 60일 통보 규칙이 그대로 지켜진다고 본다. Anthropic 운영 플랫폼 기준이다(Bedrock·Google Cloud 는 자체 일정).</li>
 <li><span class="lead">등급 :</span> <span class="note">(규칙·날짜) ·</span> <span class="calc">계산</span><span class="note">(11/27)</span></li>
 <li><span class="lead">근거 :</span> prompting-best-practices en-full · model-deprecations en-full</li>
 </ul>
 <h4>2. CCA-F 식 "첫 턴 <code>tool_choice: tool</code> 로 못 박기" 가 틀리는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 지문 모델이 Opus 5.5(또는 Fable 5.1). 추출 도구를 반드시 부르게 하려고 <code>{"type": "tool", "name": "extract_invoice"}</code>.</li>
-<li><span class="lead">판단 :</span> 모든 요청에서 400. <code>auto</code> + strict tool use 로 입력 모양을 보장하고, 부를지는 프롬프트로 이끎. 응답 모양만 필요하면 structured outputs.</li>
-<li><span class="lead">등급 :</span> <span class="post">시험 뒤 변경</span>(Fable 5.1 2026-09-01 · Opus 5.5 2026-09-22) — 가이드(2026-07) 기준 시험은 옛 동작(<code>tool</code> 강제 가능)으로 물을 가능성</li>
+<li><span class="lead">조건 :</span> 지문 모델이 Opus 5.5(또는 Fable 5.1)다. 추출 도구를 반드시 부르게 하려고 <code>{"type": "tool", "name": "extract_invoice"}</code> 를 쓴다.</li>
+<li><span class="lead">판단 :</span> 모든 요청에서 400 이 난다. <code>auto</code> 와 strict tool use 로 입력 모양을 보장하고, 부를지는 프롬프트로 이끈다. 응답 모양만 필요하면 structured outputs 를 쓴다.</li>
+<li><span class="lead">등급 :</span> <span class="post">시험 뒤 변경</span>(Fable 5.1 2026-09-01 · Opus 5.5 2026-09-22). 가이드(2026-07) 기준 시험은 옛 동작(<code>tool</code> 강제 가능)으로 물을 가능성이 있다</li>
 <li><span class="lead">근거 :</span> define-tools · errors · 릴리스 노트</li>
 </ul>
 <h4>3. 스키마 보장보다 프롬프트 + 재시도가 충분한 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 사내 도구, 하루 요청 적음, 형식 실패가 나면 다시 부르면 되는 흐름. 실패율 2%(가정).</li>
-<li><span class="lead">계산 :</span> 재시도로 기대 호출 수 = 1 / (1 − 0.02) ≈ 1.02 → 토큰 약 2% 더. 두 번 연속 실패 = 0.02² = 0.04%. structured outputs 는 매 요청 형식 설명 시스템 프롬프트 토큰이 더 붙고, 스키마를 바꾸면 첫 요청 컴파일 지연.</li>
-<li><span class="lead">판단 :</span> 공식 마이그레이션 글도 "먼저 구조를 따르라고 말해 보기(재시도 포함)" 를 듦 → 보장이 필요 없는 곳에선 프롬프트가 설 자리가 있음. 뒤쪽 파서가 재시도할 수 없거나 실패가 사고로 이어지면 structured outputs.</li>
-<li><span class="lead">전제 :</span> 실패율 2% 는 가정값(공식 숫자 없음) · 재시도 지연이 문제 안 됨.</li>
+<li><span class="lead">조건 :</span> 사내 도구이고 하루 요청이 적다. 형식 실패가 나면 다시 부르면 되는 흐름이다. 실패율은 2%(가정)다.</li>
+<li><span class="lead">계산 :</span> 재시도로 기대 호출 수 = 1 / (1 − 0.02) ≈ 1.02 다. 그래서 토큰이 약 2% 더 든다. 두 번 연속 실패할 확률은 0.02² = 0.04% 다. structured outputs 는 매 요청에 형식 설명 시스템 프롬프트 토큰이 더 붙는다. 스키마를 바꾸면 첫 요청에 컴파일 지연도 있다.</li>
+<li><span class="lead">판단 :</span> 공식 마이그레이션 글도 "먼저 구조를 따르라고 말해 보기(재시도 포함)" 를 든다. 그래서 보장이 필요 없는 곳에서는 프롬프트가 설 자리가 있다. 뒤쪽 파서가 재시도할 수 없거나 실패가 사고로 이어지면 structured outputs 를 쓴다.</li>
+<li><span class="lead">전제 :</span> 실패율 2% 는 가정값이다(공식 숫자 없음). 재시도 지연은 문제가 되지 않는다고 본다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span>(가정 포함)</li>
 <li><span class="lead">근거 :</span> en-full · structured-outputs</li>
 </ul>
 <h4>4. 근거 인용이 꼭 필요한 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 문서 질의 답을 JSON 으로 받고 인용(Citations)도 달고 싶음.</li>
-<li><span class="lead">판단 :</span> <code>output_config.format</code> + Citations = 400. 둘 중 하나를 고르거나 다른 경로가 필요.</li>
+<li><span class="lead">조건 :</span> 문서 질의 답을 JSON 으로 받고, 인용(Citations)도 달고 싶다.</li>
+<li><span class="lead">판단 :</span> <code>output_config.format</code> 과 Citations 를 같이 켜면 400 이다. 둘 중 하나를 고르거나 다른 경로가 필요하다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(400) · 대안은</span> <span class="open">미해결</span> <span class="note">3</span></li>
 <li><span class="lead">근거 :</span> structured-outputs</li>
 </ul>
@@ -706,26 +730,28 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"prefill 을 더 길게 채운다"</td><td data-label="왜 끌리나" role="cell">더 많이 채우면 더 잘 따를 것 같음</td><td data-label="왜 틀리나" role="cell">4.6 이후는 마지막 assistant 턴 prefill 자체가 400</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"prefill 되는 옛 모델로 영구 고정"</td><td data-label="왜 끌리나" role="cell">코드 안 고쳐도 됨</td><td data-label="왜 틀리나" role="cell">4.5 세대는 최소 지원 기한이 정해진 상태, 은퇴 뒤 요청 실패</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/model-deprecations" lang="en" rel="noopener">model-deprecations</a> en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"prefill 이 보이면 모델 불문 오답"</td><td data-label="왜 끌리나" role="cell">'4.6 부터 400' 을 과하게 일반화</td><td data-label="왜 틀리나" role="cell">이전 모델은 지원 — 지문 모델명·thinking 먼저</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"JSON 을 정규식으로 긁고 재시도 횟수를 늘림"</td><td data-label="왜 끌리나" role="cell">당장 고치기 쉬움</td><td data-label="왜 틀리나" role="cell">structured outputs 면 스키마 위반 재시도 불필요</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"structured outputs 면 무조건 스키마대로"</td><td data-label="왜 끌리나" role="cell">'보장' 이라는 말</td><td data-label="왜 틀리나" role="cell">refusal·max_tokens 예외</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"enum 이니 글자 그대로 비교"</td><td data-label="왜 끌리나" role="cell">제약 디코딩이니 정확할 것 같음</td><td data-label="왜 틀리나" role="cell">대소문자 미보장 — 오류 없이 옴</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Opus 5.5 에서 <code>tool_<wbr>choice: tool</code> 로 추출 강제"</td><td data-label="왜 끌리나" role="cell">CCA-F 에서 배운 정답</td><td data-label="왜 틀리나" role="cell">400. <code>auto</code> + strict</td><td data-label="등급" role="cell"><span class="post">시험 뒤 변경</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Citations 도 켜서 근거 달린 JSON"</td><td data-label="왜 끌리나" role="cell">둘 다 좋은 기능</td><td data-label="왜 틀리나" role="cell">같이 켜면 400</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"환자별 값을 enum 에 넣어 분류"</td><td data-label="왜 끌리나" role="cell">스키마로 딱 맞출 수 있음</td><td data-label="왜 틀리나" role="cell">스키마는 따로 캐시돼 PHI 보호가 없음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"스키마를 통과했으니 값도 맞음"</td><td data-label="왜 끌리나" role="cell">검증을 통과했다는 느낌</td><td data-label="왜 틀리나" role="cell">모양만 보장. 합계·필드 위치는 뒤쪽 검증</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">CCA-F 노트 4.3</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"prefill "```json" + stop sequence" (Skilljar 2025)</td><td data-label="왜 끌리나" role="cell">공식 강의 요령</td><td data-label="왜 틀리나" role="cell">4.6 이후 모델에서 400. 지금은 structured outputs</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Skilljar API 287732 · <a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"prefill 을 더 길게 채운다"</td><td data-label="왜 끌리나" role="cell">더 많이 채우면 더 잘 따를 것 같다</td><td data-label="왜 틀리나" role="cell">4.6 이후는 마지막 assistant 턴 prefill 자체가 400 이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"prefill 되는 옛 모델로 영구 고정"</td><td data-label="왜 끌리나" role="cell">코드를 안 고쳐도 된다</td><td data-label="왜 틀리나" role="cell">4.5 세대는 최소 지원 기한이 정해진 상태다. 은퇴 뒤에는 요청이 실패한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/model-deprecations" lang="en" rel="noopener">model-deprecations</a> en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"prefill 이 보이면 모델 불문 오답"</td><td data-label="왜 끌리나" role="cell">'4.6 부터 400' 을 과하게 일반화했다</td><td data-label="왜 틀리나" role="cell">이전 모델은 지원한다. 지문의 모델명과 thinking 을 먼저 본다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"JSON 을 정규식으로 긁고 재시도 횟수를 늘림"</td><td data-label="왜 끌리나" role="cell">당장 고치기 쉽다</td><td data-label="왜 틀리나" role="cell">structured outputs 면 스키마 위반 재시도가 필요 없다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"structured outputs 면 무조건 스키마대로"</td><td data-label="왜 끌리나" role="cell">'보장' 이라는 말 때문이다</td><td data-label="왜 틀리나" role="cell">refusal·max_tokens 예외가 있다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"enum 이니 글자 그대로 비교"</td><td data-label="왜 끌리나" role="cell">제약 디코딩이니 정확할 것 같다</td><td data-label="왜 틀리나" role="cell">대소문자는 보장하지 않는다. 다른 대소문자가 오류 없이 온다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Opus 5.5 에서 <code>tool_<wbr>choice: tool</code> 로 추출 강제"</td><td data-label="왜 끌리나" role="cell">CCA-F 에서 배운 정답이다</td><td data-label="왜 틀리나" role="cell">400 이 난다. <code>auto</code> 와 strict 를 쓴다</td><td data-label="등급" role="cell"><span class="post">시험 뒤 변경</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Citations 도 켜서 근거 달린 JSON"</td><td data-label="왜 끌리나" role="cell">둘 다 좋은 기능이다</td><td data-label="왜 틀리나" role="cell">같이 켜면 400 이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"환자별 값을 enum 에 넣어 분류"</td><td data-label="왜 끌리나" role="cell">스키마로 딱 맞출 수 있다</td><td data-label="왜 틀리나" role="cell">스키마는 따로 캐시돼 PHI 보호가 없다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"스키마를 통과했으니 값도 맞음"</td><td data-label="왜 끌리나" role="cell">검증을 통과했다는 느낌이 든다</td><td data-label="왜 틀리나" role="cell">모양만 보장한다. 합계와 필드 위치는 뒤쪽에서 검증한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">CCA-F 노트 4.3</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"prefill "```json" + stop sequence" (Skilljar 2025)</td><td data-label="왜 끌리나" role="cell">공식 강의 요령이다</td><td data-label="왜 틀리나" role="cell">4.6 이후 모델에서 400 이다. 지금은 structured outputs 를 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Skilljar API 287732 · <a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a></td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="structured-output-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : CCA-F · 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>CCA-F</h3>
-      <p>겹침 — CCA-F 는 tool_use + JSON 스키마를 구현으로 물었음(<code>tool_choice</code> <code>tool</code>/<code>any</code> 강제 · strict · enum 대소문자 · 필수 vs nullable). 여기선 "prefill 이 400 난 코드를 무엇으로 옮기나 · 옛 모델 고정이 답인가"를 모델 수명·마이그레이션 판단으로 묻고, CCA-F 식 <code>tool_choice</code> 강제가 Opus 5.5·Fable 5.1 에선 400 이라는 게 새 함정</p>
+      <p>겹침. CCA-F 는 tool_use + JSON 스키마를 구현으로 물었다(<code>tool_choice</code> <code>tool</code>/<code>any</code> 강제 · strict · enum 대소문자 · 필수 vs nullable). 여기서는 "prefill 이 400 난 코드를 무엇으로 옮기나 · 옛 모델 고정이 답인가"를 모델 수명·마이그레이션 판단으로 묻는다. CCA-F 식 <code>tool_choice</code> 강제가 Opus 5.5·Fable 5.1 에서는 400 이라는 것이 새 함정이다</p>
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 2.2</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -749,12 +775,13 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>목록은 행동을 막는 수단으로 "strict 도구 사용" 을 훅(PreToolUse)과 함께 들었음 → 공식 strict 는 도구 <strong>입력 모양</strong>만 보장(어떤 도구를 부를지·부르지 말지는 아님, strict-tool-use). 카드엔 행동 차단을 ◆ 안내(프롬프트) vs 강제(구성·코드) 로 넘김.</li>
-<li>Bedrock 지원 모델 줄이 "Claude in Amazon Bedrock"(새 플랫폼)과 "Bedrock legacy" 중 어디를 뜻하는지 원문만으론 모호. 확인 방법 = claude-in-amazon-bedrock 페이지의 기능 표 대조.</li>
-<li>Citations 와 구조화 JSON 을 함께 원할 때의 공식 대안 문장은 못 찾음(structured-outputs 원문엔 "incompatible" 까지만).</li>
-<li>목록 영어 신호 "Claude treats them as context, not enforced configuration." 은 원문에 있으나(claude-code-memory) Claude Code 메모리 문맥 — 이 카드가 아니라 D5 ◆ 안내(프롬프트) vs 강제(구성·코드) 몫이라 인용 안 함.</li>
+<li>목록은 행동을 막는 수단으로 "strict 도구 사용" 을 훅(PreToolUse)과 함께 들었다. 그러나 공식 strict 는 도구 <strong>입력 모양</strong>만 보장한다(어떤 도구를 부를지·부르지 말지는 아니다, strict-tool-use). 카드에서는 행동 차단을 ◆ 안내(프롬프트) vs 강제(구성·코드) 로 넘겼다.</li>
+<li>Bedrock 지원 모델 줄이 "Claude in Amazon Bedrock"(새 플랫폼)과 "Bedrock legacy" 중 어디를 뜻하는지 원문만으로는 모호하다. 확인 방법은 claude-in-amazon-bedrock 페이지의 기능 표를 대조하는 것이다.</li>
+<li>Citations 와 구조화 JSON 을 함께 원할 때의 공식 대안 문장은 못 찾았다(structured-outputs 원문에는 "incompatible" 까지만 있다).</li>
+<li>목록 영어 신호 "Claude treats them as context, not enforced configuration." 은 원문에 있다(claude-code-memory). 그러나 Claude Code 메모리 문맥이다. 이 카드가 아니라 D5 ◆ 안내(프롬프트) vs 강제(구성·코드) 몫이라 인용하지 않았다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

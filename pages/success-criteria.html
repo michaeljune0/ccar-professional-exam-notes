@@ -370,9 +370,16 @@
   </div>
   <h2 class="sec-h" id="success-criteria-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>"잘 되게"를 합격·불합격이 갈리는 문장으로 바꾼 것. 좋은 성공 기준(success criteria) = 구체적 · 측정 가능 · 달성 가능 · 관련 4가지</p>
-      <p>한 문장에 지표 + 임계값 + 잴 데이터(held-out 테스트 셋) + 기준선 대비를 넣고, 대부분 여러 차원을 같이 기준으로 걺. 공식 순서 = 성공 기준 먼저, 그 기준을 재는 eval 은 그다음</p>
-    <p class="t5-ana"><span class="lead">비유</span> SLO 문서. "빠르게"가 아니라 "이 엔드포인트, 요청 95% 가 200ms 미만". 가용성 하나로 "성공"이라 안 하고 오류율·지연(latency)을 같이 기준으로 걺</p>
+      <p>성공 기준(success criteria)은 "잘 되게"를 합격·불합격이 갈리는 문장으로 바꾼 것이다. 좋은 성공 기준은 4가지를 갖춘다</p>
+      <ul class="dash">
+        <li>구체적</li>
+        <li>측정 가능</li>
+        <li>달성 가능</li>
+        <li>관련</li>
+      </ul>
+      <p>기준 한 문장에 지표 + 임계값 + 잴 데이터(held-out 테스트 셋) + 기준선 대비를 넣는다. 그리고 대부분은 여러 차원을 같이 기준으로 건다</p>
+      <p>공식 순서에서는 성공 기준을 먼저 정한다. 그 기준을 재는 eval 은 그다음이다</p>
+    <p class="t5-ana"><span class="lead">비유</span> SLO 문서와 같다. "빠르게"가 아니라 "이 엔드포인트, 요청 95% 가 200ms 미만" 으로 쓴다. 가용성 하나로 "성공"이라 하지 않고, 오류율과 지연(latency)을 같이 기준으로 건다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/success-criteria.webp"><img src="../images/success-criteria.webp" alt="&#x27;감정을 잘 분류해야 한다&#x27; 대신 &#x27;held-out 트윗 10,000개에서 F1 0.85 이상, 기준선보다 5% 개선&#x27;처럼 쓴다. 좋은 기준은 구체적·측정 가능·달성 가능·관련 4가지이고 기한은 없다." loading="lazy" decoding="async"></a>
@@ -401,38 +408,43 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">왜 기준이 먼저인가</p>
 <ul>
-<li>기준이 없으면 프롬프트를 고친 뒤 "좋아졌나"를 판정할 수 없음. 공식 순서 = 성공 기준(success criteria) 정의 → 그 기준을 재는 eval 설계 → 고치고 다시 측정.</li>
-<li>늦게 정하면 운영(production) 중인 시스템에서 기준을 거꾸로 캐내야 함. 초기에 eval 을 쓰면 팀이 "성공이 뭔지"를 글로 적게 됨.</li>
+<li>기준이 없으면 프롬프트를 고친 뒤 "좋아졌나"를 판정할 수 없다. 공식 순서는 아래와 같다.<ul>
+<li>성공 기준(success criteria)을 정의한다</li>
+<li>그 기준을 재는 eval 을 설계한다</li>
+<li>고치고 다시 잰다</li>
+</ul>
+</li>
+<li>늦게 정하면 운영(production) 중인 시스템에서 기준을 거꾸로 캐내야 한다. 초기에 eval 을 쓰면 팀이 "성공이 뭔지"를 글로 적게 된다.</li>
 </ul>
 <p class="lead">좋은 기준 4가지 — 각각이 막는 실패</p>
 <ul>
-<li>구체적 : 무엇을 잘해야 하는지 흐림 → "좋은 성능"이 아니라 "정확한 감정 분류".</li>
-<li>측정 가능 : 판정 불가 → 숫자, 또는 일관되게 쓰는 정성 척도(Likert · 루브릭). 안전·윤리도 숫자로.</li>
-<li>달성 가능 : 영원히 불합격인 목표 → 벤치마크 · 이전 실험 · 연구 · 전문가 지식에 기댐.</li>
-<li>관련 : 쓸모없는 지표를 올리는 일 → 앱 목적과 사용자 요구에 맞춤.</li>
-<li>공식은 이 4가지뿐. 'SMART' 의 기한은 없음.</li>
+<li>구체적 : 무엇을 잘해야 하는지 흐린 실패를 막는다. "좋은 성능"이 아니라 "정확한 감정 분류"로 쓴다.</li>
+<li>측정 가능 : 판정할 수 없는 실패를 막는다. 숫자나 일관되게 쓰는 정성 척도(Likert · 루브릭)를 쓴다. 안전·윤리도 숫자로 쓴다.</li>
+<li>달성 가능 : 영원히 불합격인 목표를 막는다. 벤치마크 · 이전 실험 · 연구 · 전문가 지식에 기댄다.</li>
+<li>관련 : 쓸모없는 지표를 올리는 일을 막는다. 앱 목적과 사용자 요구에 맞춘다.</li>
+<li>공식은 이 4가지뿐이다. 'SMART' 의 기한은 없다.</li>
 </ul>
 <p class="lead">기준 문장의 조각 (공식 예)</p>
 <ul>
-<li>지표 F1 · 임계값 0.85 이상 · 데이터 = held-out 트윗 10,000개 · 기준선 = 지금보다 5% 개선.</li>
-<li>held-out 셋 = 고칠 때 안 본 셋. 고칠 때 보던 셋으로만 재면 그 셋에 맞춘 개선(과적합)을 진짜 개선으로 착각함.</li>
-<li>기준선이 있어야 "개선"인지 "그대로"인지 가릴 수 있음.</li>
+<li>지표는 F1, 임계값은 0.85 이상, 데이터는 held-out 트윗 10,000개, 기준선은 지금보다 5% 개선이다.</li>
+<li>held-out 셋은 고칠 때 안 본 셋이다. 고칠 때 보던 셋으로만 재면, 그 셋에 맞춘 개선(과적합)을 진짜 개선으로 착각한다.</li>
+<li>기준선이 있어야 "개선"인지 "그대로"인지 가릴 수 있다.</li>
 </ul>
 <p class="lead">여러 차원</p>
 <ul>
-<li>대부분 한 숫자로 안 끝남. 정확도를 올리다 안전·지연(latency)·비용이 나빠지면 한 숫자만 보는 기준은 그걸 못 봄.</li>
-<li>오류도 무게가 다름 : 공식 예는 "오류의 90% 는 큰 오류가 아닌 불편 수준"을 따로 기준으로 걺 → 오류 심각도도 기준이 됨.</li>
-<li>운영 지표(응답 시간 ms · 가동률 %)도 성공 기준의 차원.</li>
+<li>대부분은 한 숫자로 끝나지 않는다. 정확도를 올리다 안전·지연(latency)·비용이 나빠지면, 한 숫자만 보는 기준은 그것을 못 본다.</li>
+<li>오류도 무게가 다르다. 공식 예는 "오류의 90% 는 큰 오류가 아닌 불편 수준"을 따로 기준으로 건다. 그래서 오류 심각도도 기준이 된다.</li>
+<li>운영 지표(응답 시간 ms · 가동률 %)도 성공 기준의 차원이다.</li>
 </ul>
 <p class="lead">에이전트</p>
 <ul>
-<li>에이전트는 말로 끝나지 않음. 성공 = 시도가 끝난 뒤 환경의 최종 상태(outcome).</li>
-<li>실행마다 결과가 달라서 한 번 돌려 보고 판정하지 않음 → pass@k · pass^k.</li>
+<li>에이전트는 말로 끝나지 않는다. 성공은 시도가 끝난 뒤 환경의 최종 상태(outcome)다.</li>
+<li>실행마다 결과가 달라서 한 번 돌려 보고 판정하지 않는다. 그래서 pass@k · pass^k 를 쓴다.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
 <li>이 문장만 보고 기계가 합격·불합격을 가를 수 있나?</li>
-<li>이 숫자 하나만 좋아지고 다른 게 나빠지면, 기준이 그걸 잡나?</li>
+<li>이 숫자 하나만 좋아지고 다른 게 나빠지면, 기준이 그것을 잡나?</li>
 </ul>
 </section>
   <h2 class="sec-h" id="success-criteria-rules-h">규칙과 판단</h2>
@@ -448,19 +460,19 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-          <div class="t5-q" data-p="n3"><span class="t5-hl" aria-hidden="true"></span>어떤 주제?<span class="t5-sub">성능 · 안전·윤리 · 어조</span></div>
+          <div class="t5-q" data-p="n3"><span class="t5-hl" aria-hidden="true"></span>어떤 주제인가?<span class="t5-sub">성능 · 안전·윤리 · 어조</span></div>
           <div class="t5-fork" style="--n:3">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>성능·정확도 <span class="note">("잘 분류해야")</span></span>
-              <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">지표 + 임계값</p><p>나쁨 = "모델이 감정을 잘 분류해야 한다" → 좋음 = F1 0.85 이상(측정 가능·구체적)</p></div>
+              <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">지표 + 임계값</p><p>나쁜 예는 "모델이 감정을 잘 분류해야 한다" 다. 좋은 예는 F1 0.85 이상이다(측정 가능·구체적)</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>안전·윤리</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">숫자로</p><p>"안전한 출력"(나쁨) → 10,000회 중 콘텐츠 필터 유해 플래그 0.1% 미만(좋음)</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">숫자로 바꾼다</p><p>"안전한 출력" 은 나쁜 예다. 10,000회 중 콘텐츠 필터 유해 플래그 0.1% 미만이 좋은 예다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>어조처럼 주관적</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">잘 정의된 정성 척도</p><p>Likert 1~5 · 전문가 루브릭. 정성은 정량과 함께 일관되게 쓸 때 가치 있음</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">잘 정의된 정성 척도</p><p>Likert 1~5 나 전문가 루브릭을 쓴다. 정성 척도는 정량과 함께 일관되게 쓸 때 가치가 있다</p></div>
             </div>
           </div>
         </div>
@@ -470,15 +482,15 @@
           <div class="t5-fork" style="--n:3">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>데이터·기준선</span>
-              <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">셋·기준선 붙임</p><p>held-out 테스트 셋(다양한 트윗 10,000개) + 지금 기준선보다 5% 개선</p></div>
+              <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">셋·기준선을 붙인다</p><p>held-out 테스트 셋(다양한 트윗 10,000개)과 "지금 기준선보다 5% 개선" 을 붙인다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n14"><span class="t5-hl" aria-hidden="true"></span>기한(Time-bound) 이라는 지적</span>
-              <div class="t5-leaf t5-ans" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">공식 4가지에 없음</p><p>SMART 의 기한(Time-bound)은 공식 4가지에 없음</p></div>
+              <div class="t5-leaf t5-ans" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">공식 4가지에 없다</p><p>SMART 의 기한(Time-bound)은 공식 4가지에 없다</p></div>
             </div>
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n16"><span class="t5-hl" aria-hidden="true"></span>셋·기준선 다 있음</span>
-              <div class="t5-leaf t5-ans t5-ref" data-p="n17"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#success-criteria-tree-2">↓ 아래 「차원 점검」 갈림길로 이어짐</a></p><p>다음 물음 — 지표가 하나뿐?</p></div>
+              <span class="t5-edge" data-p="n16"><span class="t5-hl" aria-hidden="true"></span>셋·기준선이 다 있다</span>
+              <div class="t5-leaf t5-ans t5-ref" data-p="n17"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#success-criteria-tree-2">↓ 아래 「차원 점검」 갈림길로 이어짐</a></p><p>다음 물음 — 지표가 하나뿐인가?</p></div>
             </div>
           </div>
         </div>
@@ -488,11 +500,11 @@
   <section class="t5-flow tree" id="success-criteria-tree-2" aria-labelledby="success-criteria-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9|n1 n4 n5 n10 n11">
     <div class="t5-fh"><h3 id="success-criteria-tree-2-h">③④ 차원 점검 <span class="pg">[4.1①]</span> <span class="pg">[1.6②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>지표가 하나뿐?<span class="t5-sub">정확도만 · F1 만</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>지표가 하나뿐인가?<span class="t5-sub">정확도만 · F1 만</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">여러 차원</p><p>F1 0.85 이상 + 출력 99.5% 무해 + 오류의 90% 는 불편 수준 + 응답 95% 가 200ms 미만</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">여러 차원으로 건다</p><p>공식 예는 다음을 같이 건다. F1 0.85 이상이다. 출력 99.5% 가 무해하다. 오류의 90% 는 불편 수준이다. 응답 95% 가 200ms 미만이다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
@@ -500,15 +512,15 @@
           <div class="t5-fork" style="--n:3">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>프런티어 모델 역량 밖</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">달성 가능하게</p><p>업계 벤치마크 · 이전 실험 · AI 연구 · 전문가 지식에 기댐</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">달성 가능하게</p><p>업계 벤치마크 · 이전 실험 · AI 연구 · 전문가 지식에 기댄다</p></div>
             </div>
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>앱 목적과 상관 약함</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">관련 있게</p><p>인용 정확도는 의료 앱엔 중요, 일상 챗봇엔 덜</p></div>
+              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>앱 목적과 상관이 약하다</span>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">관련 있게</p><p>인용 정확도는 의료 앱에서는 중요하고, 일상 챗봇에서는 덜 중요하다</p></div>
             </div>
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>둘 다 됨</span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">eval 설계로</p><p>이 기준을 재는 eval 을 설계 → <a href="eval-dataset.html">■ 첫 eval 셋 만들기</a></p></div>
+              <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>둘 다 된다</span>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">eval 설계로</p><p>이 기준을 재는 eval 을 설계한다. 자세한 것은 <a href="eval-dataset.html">■ 첫 eval 셋 만들기</a> 에 있다</p></div>
             </div>
           </div>
         </div>
@@ -518,15 +530,15 @@
   <section class="t5-flow tree" id="success-criteria-tree-3" aria-labelledby="success-criteria-tree-3-h" data-paths="n1 n2 n3|n1 n4 n5">
     <div class="t5-fh"><h3 id="success-criteria-tree-3-h">⑤ 에이전트면 <span class="pg">[4.1①]</span> <span class="pg">[4.1③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>판정에서 무엇이 걸리나?<span class="t5-sub">마지막 말 · 실행마다 다름</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>판정에서 무엇이 걸리나?<span class="t5-sub">마지막 말 · 실행마다 다르다</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>에이전트가 "완료"라고 말함</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">결과로</p><p>성공 = 시도가 끝난 뒤 환경의 최종 상태. "예약됐어요"라고 말해도 DB 에 예약이 있어야</p></div>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>에이전트가 "완료"라고 말한다</span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">결과로 판정한다</p><p>성공은 시도가 끝난 뒤 환경의 최종 상태다. "예약됐어요"라고 말해도 DB 에 예약이 있어야 성공이다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>돌릴 때마다 결과가 다름</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">여러 번 시도</p><p><a href="pass-at-k.html">◆ pass@k vs pass^k</a></p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>돌릴 때마다 결과가 다르다</span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">여러 번 시도한다</p><p>자세한 것은 <a href="pass-at-k.html">◆ pass@k vs pass^k</a> 에 있다</p></div>
         </div>
       </div>
     </div>
@@ -537,45 +549,79 @@
       <ol class="how">
         <li id="success-criteria-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p>4가지 <span class="pg">[4.1①]</span></p>
+            <p>좋은 기준은 4가지를 갖춘다 <span class="pg">[4.1①]</span></p>
             <ul class="dash">
-              <li>구체적(Specific) : "좋은 성능" 대신 "정확한 감정 분류"</li>
-              <li>측정 가능(Measurable) : 정량 지표 또는 잘 정의된 정성 척도. 정성은 정량과 함께 일관되게 쓸 때 가치. 윤리·안전 같은 모호한 주제도 숫자로 : "안전한 출력"(나쁨) → 10,000회 중 콘텐츠 필터 유해 플래그 0.1% 미만(좋음)</li>
-              <li>달성 가능(Achievable) : 업계 벤치마크 · 이전 실험 · AI 연구 · 전문가 지식에 기댐. 현재 프런티어 모델 역량에 비해 비현실이면 안 됨</li>
-              <li>관련(Relevant) : 앱 목적·사용자 요구에 맞춤. 인용 정확도는 의료 앱엔 중요, 일상 챗봇엔 덜</li>
+              <li>구체적(Specific) : "좋은 성능" 대신 "정확한 감정 분류" 처럼 쓴다</li>
+              <li>측정 가능(Measurable) : 정량 지표나 잘 정의된 정성 척도를 쓴다. 정성 척도는 정량과 함께 일관되게 쓸 때 가치가 있다. 윤리·안전 같은 모호한 주제도 숫자로 쓴다. "안전한 출력" 은 나쁜 예다. 10,000회 중 콘텐츠 필터 유해 플래그 0.1% 미만이 좋은 예다</li>
+              <li>달성 가능(Achievable) : 업계 벤치마크 · 이전 실험 · AI 연구 · 전문가 지식에 기댄다. 현재 프런티어 모델 역량에 비해 비현실적이면 안 된다</li>
+              <li>관련(Relevant) : 앱 목적과 사용자 요구에 맞춘다. 인용 정확도는 의료 앱에서는 중요하고, 일상 챗봇에서는 덜 중요하다</li>
             </ul>
-            <p>SMART 의 기한(Time-bound)은 공식 4가지에 없음</p>
+            <p>SMART 의 기한(Time-bound)은 공식 4가지에 없다</p>
           </div>
         </li>
         <li id="success-criteria-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p>한 문장 조립 (공식 감정 분석 예) <span class="pg">[4.1①]</span></p>
-            <p>나쁨 = "모델이 감정을 잘 분류해야 한다"</p>
-            <p>좋음 = F1 0.85 이상(측정 가능·구체적) · held-out 테스트 셋, 다양한 트윗 10,000개(관련) · 지금 기준선보다 5% 개선(달성 가능)</p>
-            <p>held-out 셋 = 고칠 때 안 본 셋 → "훈련용" eval 에 과적합했는지 가려냄</p>
-            <p><span class="lead">재는 수단 예 :</span> 과제별 F1 · BLEU · perplexity / 일반 정확도 · 정밀도 · 재현율 / 운영 응답 시간(ms) · 가동률(%) / A/B(기준 모델·이전 버전과 비교) · 엣지 케이스 무오류 처리 비율 / Likert 척도 · 전문가 루브릭</p>
+            <p>기준 한 문장을 조립한다 (공식 감정 분석 예) <span class="pg">[4.1①]</span></p>
+            <p><span class="lead">나쁜 예 :</span> "모델이 감정을 잘 분류해야 한다"</p>
+            <p>좋은 예는 세 조각으로 이루어진다</p>
+            <ul class="dash">
+              <li>F1 0.85 이상(측정 가능·구체적)</li>
+              <li>held-out 테스트 셋, 다양한 트윗 10,000개(관련)</li>
+              <li>지금 기준선보다 5% 개선(달성 가능)</li>
+            </ul>
+            <p>held-out 셋은 고칠 때 안 본 셋이다. 이 셋으로 "훈련용" eval 에 과적합했는지 가려낸다</p>
+            <p>재는 수단 예는 아래와 같다</p>
+            <ul class="dash">
+              <li><span class="lead">과제별 :</span> F1 · BLEU · perplexity</li>
+              <li><span class="lead">일반 :</span> 정확도 · 정밀도 · 재현율</li>
+              <li><span class="lead">운영 :</span> 응답 시간(ms) · 가동률(%)</li>
+              <li>A/B(기준 모델·이전 버전과 비교) · 엣지 케이스 무오류 처리 비율</li>
+              <li>Likert 척도 · 전문가 루브릭</li>
+            </ul>
           </div>
         </li>
         <li id="success-criteria-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">여러 차원 :</span> 대부분 여러 성공 기준으로 다차원 평가 <span class="pg">[4.1①]</span> <span class="pg">[1.6②]</span></p>
-            <p>공식 예 (held-out 트윗 10,000개) = F1 0.85 이상 + 출력 99.5% 무해 + 오류의 90% 는 큰 오류가 아닌 불편 수준 + 응답 95% 가 200ms 미만. "불편"·"큰 오류"의 뜻도 따로 정의해야</p>
-            <p>흔한 기준(공식, 전부 아님) = 과제 충실도(드물고 어려운 입력 포함) · 일관성 · 관련성·논리 · 톤·스타일 · 개인정보 보호 · 맥락 활용 · 지연 · 가격</p>
-            <p>가이드 목표 4.1 의 차원 = 정확도 · 지연 · 비용 · 안전 · 보안. 보안(인젝션 성공률 같은 것)을 재는 법은 공식 목록에 없음 <span class="gen">업계 일반</span></p>
-            <p>고객지원 목표치 = <a href="impact-metrics.html">■ impact metrics</a> · 지연 차원 = <a href="ttft-vs-total.html">◆ TTFT vs 응답 완료 지연</a> · 가격 차원 = <a href="cost-per-request.html">■ per-request cost</a></p>
+            <p><span class="lead">여러 차원 :</span> 대부분은 여러 성공 기준으로 다차원 평가를 한다 <span class="pg">[4.1①]</span> <span class="pg">[1.6②]</span></p>
+            <p>공식 예(held-out 트윗 10,000개)는 아래를 같이 건다</p>
+            <ul class="dash">
+              <li>F1 0.85 이상</li>
+              <li>출력 99.5% 가 무해하다</li>
+              <li>오류의 90% 는 큰 오류가 아닌 불편 수준이다</li>
+              <li>응답 95% 가 200ms 미만이다</li>
+            </ul>
+            <p>"불편" 과 "큰 오류" 의 뜻도 따로 정의해야 한다</p>
+            <p>흔한 기준은 아래와 같다(공식 목록이고, 전부는 아니다)</p>
+            <ul class="dash">
+              <li>과제 충실도(드물고 어려운 입력 포함)</li>
+              <li>일관성</li>
+              <li>관련성·논리</li>
+              <li>톤·스타일</li>
+              <li>개인정보 보호</li>
+              <li>맥락 활용</li>
+              <li>지연</li>
+              <li>가격</li>
+            </ul>
+            <p>가이드 목표 4.1 의 차원은 정확도 · 지연 · 비용 · 안전 · 보안이다. 보안(인젝션 성공률 같은 것)을 재는 법은 공식 목록에 없다 <span class="gen">업계 일반</span></p>
+            <p>고객지원 목표치는 <a href="impact-metrics.html">■ impact metrics</a> 에 있다. 지연 차원은 <a href="ttft-vs-total.html">◆ TTFT vs 응답 완료 지연</a> 에 있다. 가격 차원은 <a href="cost-per-request.html">■ per-request cost</a> 에 있다</p>
           </div>
         </li>
         <li id="success-criteria-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p><span class="lead">언제 :</span> 만들기 전에. 성공 기준을 먼저 정하고 그 기준을 재는 eval 을 설계. 늦으면 운영 중인 시스템에서 기준을 거꾸로 캐냄 <span class="src">(본문 = <a href="problem-framing.html">■ 문제 정의</a> <span class="rule-ref">· <a href="problem-framing.html#problem-framing-rule-4">규칙 ④</a></span>)</span></p>
+            <p><span class="lead">언제 :</span> 만들기 전에 정한다. 성공 기준을 먼저 정하고, 그 기준을 재는 eval 을 설계한다. 늦으면 운영 중인 시스템에서 기준을 거꾸로 캐내야 한다 <span class="src">(본문 = <a href="problem-framing.html">■ 문제 정의</a> <span class="rule-ref">· <a href="problem-framing.html#problem-framing-rule-4">규칙 ④</a></span>)</span></p>
           </div>
         </li>
         <li id="success-criteria-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">에이전트면 :</span> 과제(task) = 입력과 성공 기준이 정해진 테스트 하나 <span class="pg">[4.1①]</span> <span class="pg">[4.1③]</span></p>
-            <p>성공 = 말이 아니라 결과(outcome) — 시도가 끝난 뒤 환경의 최종 상태. "예약됐어요"라고 말해도 DB 에 예약이 있어야</p>
-            <p>대화형 에이전트도 여러 차원 : 티켓 해결(상태 확인) · 10턴 미만(기록 제약) · 어조(LLM 루브릭)</p>
-            <p>실행마다 결과가 달라서 여러 번 시도 → <a href="pass-at-k.html">◆ pass@k vs pass^k</a></p>
+            <p><span class="lead">에이전트면 :</span> 과제(task)는 입력과 성공 기준이 정해진 테스트 하나다 <span class="pg">[4.1①]</span> <span class="pg">[4.1③]</span></p>
+            <p>성공은 말이 아니라 결과(outcome)다. 곧 시도가 끝난 뒤 환경의 최종 상태다. "예약됐어요"라고 말해도 DB 에 예약이 있어야 성공이다</p>
+            <p>대화형 에이전트도 여러 차원으로 잰다</p>
+            <ul class="dash">
+              <li>티켓 해결(상태 확인)</li>
+              <li>10턴 미만(기록 제약)</li>
+              <li>어조(LLM 루브릭)</li>
+            </ul>
+            <p>실행마다 결과가 달라서 여러 번 시도한다. 자세한 것은 <a href="pass-at-k.html">◆ pass@k vs pass^k</a> 에 있다</p>
           </div>
         </li>
       </ol>
@@ -589,16 +635,16 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">목표가 "잘 되게" · "좋은 성능" 같은 말</td><td data-label="답" role="cell">구체적 과제 + 숫자 지표로 바꿈</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full (Specific — "good performance" 대신 "accurate sentiment classification")</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">안전·윤리처럼 모호한 차원</td><td data-label="답" role="cell">숫자로 : 10,000회 중 유해 플래그 0.1% 미만</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">어조·공감처럼 주관적 차원</td><td data-label="답" role="cell">잘 정의된 정성 척도(Likert · 전문가 루브릭), 정량과 함께</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">기준 문장을 쓸 때</td><td data-label="답" role="cell">지표 + 임계값 + held-out 셋 + 기준선 대비</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">지표를 하나만 걸려 함</td><td data-label="답" role="cell">여러 차원 (정확도 · 안전 · 오류 심각도 · 지연 …)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full "Most use cases need multidimensional evaluation along several success criteria."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">목표치를 어디서 정하나</td><td data-label="답" role="cell">업계 벤치마크 · 이전 실험 · AI 연구 · 전문가 지식, 프런티어 역량 안에서</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">어떤 차원을 넣을지 모름</td><td data-label="답" role="cell">흔한 기준 목록에서 : 과제 충실도 · 일관성 · 관련성·논리 · 톤·스타일 · 개인정보 · 맥락 활용 · 지연 · 가격</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full (목록은 전부 아님)</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">에이전트 과제의 성공 판정</td><td data-label="답" role="cell">환경 최종 상태(outcome), 마지막 말이 아님</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">대화형 에이전트</td><td data-label="답" role="cell">상태 확인 + 턴 수 제약 + 어조 루브릭을 같이</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">언제 정하나</td><td data-label="답" role="cell">만들기 전에</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full · <a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">목표가 "잘 되게" · "좋은 성능" 같은 말이다</td><td data-label="답" role="cell">구체적 과제와 숫자 지표로 바꾼다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full (Specific — "good performance" 대신 "accurate sentiment classification")</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">안전·윤리처럼 모호한 차원이다</td><td data-label="답" role="cell">숫자로 쓴다. 예를 들어 10,000회 중 유해 플래그 0.1% 미만이다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">어조·공감처럼 주관적 차원이다</td><td data-label="답" role="cell">잘 정의된 정성 척도(Likert · 전문가 루브릭)를 정량과 함께 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">기준 문장을 쓸 때</td><td data-label="답" role="cell">지표 + 임계값 + held-out 셋 + 기준선 대비를 넣는다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">지표를 하나만 걸려 한다</td><td data-label="답" role="cell">여러 차원을 건다 (정확도 · 안전 · 오류 심각도 · 지연 …)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full "Most use cases need multidimensional evaluation along several success criteria."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">목표치를 어디서 정하나</td><td data-label="답" role="cell">업계 벤치마크 · 이전 실험 · AI 연구 · 전문가 지식에서 정한다. 프런티어 역량 안에서 정한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">어떤 차원을 넣을지 모른다</td><td data-label="답" role="cell">흔한 기준 목록에서 고른다 : 과제 충실도 · 일관성 · 관련성·논리 · 톤·스타일 · 개인정보 · 맥락 활용 · 지연 · 가격</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full (목록은 전부 아님)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">에이전트 과제의 성공을 판정한다</td><td data-label="답" role="cell">환경 최종 상태(outcome)로 판정한다. 마지막 말로 판정하지 않는다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">대화형 에이전트다</td><td data-label="답" role="cell">상태 확인 + 턴 수 제약 + 어조 루브릭을 같이 건다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">언제 정하나</td><td data-label="답" role="cell">만들기 전에 정한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full · <a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -609,17 +655,17 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">차원의 성격</td><td data-label="값" role="cell">정답이 뚜렷함(분류)</td><td data-label="답 쪽" role="cell">정량 지표(정확도 · F1)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">차원의 성격</td><td data-label="값" role="cell">주관적(어조 · 공감)</td><td data-label="답 쪽" role="cell">Likert · 루브릭, 정량과 함께</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">차원의 성격</td><td data-label="값" role="cell">모호한 안전·윤리</td><td data-label="답 쪽" role="cell">비율 숫자 + 시행 횟수</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">앱 목적</td><td data-label="값" role="cell">의료</td><td data-label="답 쪽" role="cell">인용 정확도가 중요</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">앱 목적</td><td data-label="값" role="cell">일상 챗봇</td><td data-label="답 쪽" role="cell">인용 정확도는 덜 중요</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">기준선</td><td data-label="값" role="cell">있음</td><td data-label="답 쪽" role="cell">"기준선보다 N% 개선"</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">기준선</td><td data-label="값" role="cell">없음(새 제품)</td><td data-label="답 쪽" role="cell">벤치마크 · 이전 실험 · 전문가 지식으로 절대 목표</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full · 뒤집히는 때 3</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">과제 종류</td><td data-label="값" role="cell">맥락에 넣어 준 회사·상품 정보 · 견적</td><td data-label="답 쪽" role="cell">100% 가 공식 목표</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat-full</a> · 뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">과제 종류</td><td data-label="값" role="cell">자동 해결률처럼 문의 복잡성에 좌우</td><td data-label="답 쪽" role="cell">100% 아님 (deflection 70~80%)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">■ impact metrics</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">시스템 모양</td><td data-label="값" role="cell">에이전트(도구·상태 변경)</td><td data-label="답 쪽" role="cell">결과(환경 상태) + 여러 번 시도</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">차원</td><td data-label="값" role="cell">보안(인젝션 등)</td><td data-label="답 쪽" role="cell">가이드는 차원으로 듦, 재는 법은 공식 목록에 없음</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">미해결 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">차원의 성격</td><td data-label="값" role="cell">정답이 뚜렷하다(분류)</td><td data-label="답 쪽" role="cell">정량 지표(정확도 · F1)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">차원의 성격</td><td data-label="값" role="cell">주관적이다(어조 · 공감)</td><td data-label="답 쪽" role="cell">Likert · 루브릭을 정량과 함께 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">차원의 성격</td><td data-label="값" role="cell">모호한 안전·윤리다</td><td data-label="답 쪽" role="cell">비율 숫자와 시행 횟수를 적는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">앱 목적</td><td data-label="값" role="cell">의료</td><td data-label="답 쪽" role="cell">인용 정확도가 중요하다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">앱 목적</td><td data-label="값" role="cell">일상 챗봇</td><td data-label="답 쪽" role="cell">인용 정확도는 덜 중요하다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">기준선</td><td data-label="값" role="cell">있다</td><td data-label="답 쪽" role="cell">"기준선보다 N% 개선" 으로 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">기준선</td><td data-label="값" role="cell">없다(새 제품)</td><td data-label="답 쪽" role="cell">벤치마크 · 이전 실험 · 전문가 지식으로 절대 목표를 정한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full · 뒤집히는 때 3</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">과제 종류</td><td data-label="값" role="cell">맥락에 넣어 준 회사·상품 정보 · 견적</td><td data-label="답 쪽" role="cell">100% 가 공식 목표다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat-full</a> · 뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">과제 종류</td><td data-label="값" role="cell">자동 해결률처럼 문의 복잡성에 좌우된다</td><td data-label="답 쪽" role="cell">100% 가 아니다 (deflection 70~80%)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">■ impact metrics</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">시스템 모양</td><td data-label="값" role="cell">에이전트(도구·상태 변경)</td><td data-label="답 쪽" role="cell">결과(환경 상태)로 보고 여러 번 시도한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">차원</td><td data-label="값" role="cell">보안(인젝션 등)</td><td data-label="답 쪽" role="cell">가이드는 차원으로 든다. 재는 법은 공식 목록에 없다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">미해결 1</td></tr>
   </tbody>
 </table>
 </div>
@@ -635,15 +681,15 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"모델이 감정을 잘 분류해야 한다" 같은 말 기준 → 숫자 · 데이터 · 기준선 없음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"안전한 출력" → 10,000회 중 0.1% 미만처럼 숫자로</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>정확도 하나만 기준으로 걺 → 대부분 여러 차원</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>'SMART' 로 외워 기한(Time-bound)을 찾음 → 공식은 4가지</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>현재 프런티어 모델로 닿지 않는 목표 → 달성 가능해야</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"어조는 주관적이라 못 잰다" → Likert · 루브릭 같은 잘 정의된 정성 척도, 정량과 함께</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>오류 비율만 걸고 오류의 무게는 안 봄 → 공식 예는 "오류의 90% 는 불편 수준"처럼 심각도도 기준</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>고칠 때 보던 셋으로 합격 판정 → held-out 셋</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>에이전트의 마지막 말("완료했습니다")로 성공 판정 → 환경 최종 상태</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"모델이 감정을 잘 분류해야 한다" 같은 말을 기준으로 쓰는 것은 함정이다. 숫자 · 데이터 · 기준선이 없다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"안전한 출력" 을 기준으로 쓰는 것은 함정이다. 10,000회 중 0.1% 미만처럼 숫자로 쓴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>정확도 하나만 기준으로 거는 것은 함정이다. 대부분은 여러 차원으로 잰다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>'SMART' 로 외워 기한(Time-bound)을 찾는 것은 함정이다. 공식은 4가지다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>현재 프런티어 모델로 닿지 않는 목표는 함정이다. 목표는 달성 가능해야 한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"어조는 주관적이라 못 잰다" 는 함정이다. Likert · 루브릭 같은 잘 정의된 정성 척도를 정량과 함께 쓴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>오류 비율만 걸고 오류의 무게는 안 보는 것은 함정이다. 공식 예는 "오류의 90% 는 불편 수준"처럼 심각도도 기준으로 건다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>고칠 때 보던 셋으로 합격을 판정하는 것은 함정이다. held-out 셋을 쓴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>에이전트의 마지막 말("완료했습니다")로 성공을 판정하는 것은 함정이다. 환경 최종 상태로 판정한다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -667,32 +713,32 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. "100% 목표는 비현실이라 오답" 이 틀리는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 과제가 좁은 사실 전달 — 맥락에 넣어 준 회사·상품 정보를 그대로 말하기, 견적을 맞게 내기.</li>
-<li><span class="lead">판단 :</span> 공식 고객지원 가이드는 이 두 칸에 100% 정확도를 목표로 둠. 답이 맥락 안에 다 있어 프런티어 역량 밖이 아님. "달성 가능"은 "100% 금지"가 아니라 "과제에 비춰 현실적"이라는 뜻.</li>
+<li><span class="lead">조건 :</span> 과제가 좁은 사실 전달이다. 맥락에 넣어 준 회사·상품 정보를 그대로 말하거나, 견적을 맞게 내는 일이다.</li>
+<li><span class="lead">판단 :</span> 공식 고객지원 가이드는 이 두 칸에 100% 정확도를 목표로 둔다. 답이 맥락 안에 다 있어서 프런티어 역량 밖이 아니다. "달성 가능"은 "100% 금지"가 아니라 "과제에 비춰 현실적"이라는 뜻이다.</li>
 
 <li><span class="lead">근거 :</span> customer-support-chat-full · define-success en-full</li>
-<li><span class="lead">대조 :</span> 문의 복잡성에 좌우되는 자동 해결률(deflection)은 70~80% 가 공식 목표 → 100% 는 오답 (■ impact metrics).</li>
+<li><span class="lead">대조 :</span> 문의 복잡성에 좌우되는 자동 해결률(deflection)은 70~80% 가 공식 목표다. 그래서 거기서는 100% 가 오답이다 (■ impact metrics).</li>
 </ul>
 <h4>2. 시행 횟수가 작으면 0.1% 기준은 못 잰다</h4>
 <ul>
-<li><span class="lead">조건 :</span> 유해 출력 0.1% 미만을 기준으로 걸었는데 시험 셋이 800회.</li>
-<li><span class="lead">계산 :</span> 0.1% × 800 = 0.8개. 1개만 나와도 1 ÷ 800 = 0.125% → 불합격, 0개면 합격. 합격 여부가 출력 1개에 달림. 공식 예처럼 10,000회면 0.1% = 10개까지 허용 → 1~2개 차이로 판정이 뒤집히지 않음.</li>
-<li><span class="lead">전제 :</span> 시행이 서로 독립 · 콘텐츠 필터 판정은 고정.</li>
+<li><span class="lead">조건 :</span> 유해 출력 0.1% 미만을 기준으로 걸었다. 그런데 시험 셋이 800회다.</li>
+<li><span class="lead">계산 :</span> 0.1% × 800 = 0.8개다. 1개만 나와도 1 ÷ 800 = 0.125% 라 불합격이고, 0개면 합격이다. 합격 여부가 출력 1개에 달린다. 공식 예처럼 10,000회면 0.1% = 10개까지 허용된다. 그래서 1~2개 차이로 판정이 뒤집히지 않는다.</li>
+<li><span class="lead">전제 :</span> 시행은 서로 독립이다. 콘텐츠 필터 판정은 고정이다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (0.1%·10,000회는 확인). "공식 예가 시행 횟수를 같이 적은 이유가 이것"은 추론.</li>
 <li><span class="lead">근거 :</span> define-success en-full</li>
-<li><span class="lead">처방 :</span> 드문 사건을 비율로 걸 땐 시행 횟수도 기준 문장에 넣음.</li>
+<li><span class="lead">처방 :</span> 드문 사건을 비율로 걸 때는 시행 횟수도 기준 문장에 넣는다.</li>
 </ul>
 <h4>3. 기준선이 없는 새 제품</h4>
 <ul>
-<li><span class="lead">조건 :</span> 처음 만드는 분류기라 "지금 기준선"이 없음.</li>
-<li><span class="lead">판단 :</span> "기준선보다 5% 개선"을 쓸 수 없음 → 달성 가능 근거를 업계 벤치마크 · 이전 실험 · AI 연구 · 전문가 지식에서 가져와 절대 목표로. 첫 버전이 나오면 그것이 다음 버전의 기준선이 됨.</li>
+<li><span class="lead">조건 :</span> 처음 만드는 분류기라서 "지금 기준선"이 없다.</li>
+<li><span class="lead">판단 :</span> "기준선보다 5% 개선"을 쓸 수 없다. 그래서 달성 가능 근거를 업계 벤치마크 · 이전 실험 · AI 연구 · 전문가 지식에서 가져와 절대 목표로 쓴다. 첫 버전이 나오면 그것이 다음 버전의 기준선이 된다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(근거 4가지) ·</span> <span class="gen">업계 일반</span><span class="note">("첫 버전이 기준선")</span></li>
 <li><span class="lead">근거 :</span> define-success en-full · demystifying-evals ("you get baselines and regression tests for free")</li>
 </ul>
 <h4>4. 여러 차원이 서로 부딪칠 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 기준 = F1 0.9 이상 + 응답 95% 300ms 미만. 더 큰 모델로 F1 0.92 가 됐지만 95번째 응답 시간이 450ms.</li>
-<li><span class="lead">판단 :</span> 한 차원만 통과 = 불합격. 여러 차원을 건 이유가 바로 이 충돌을 드러내는 것. 다음 조치는 지연 lever(조절 수단 — ■ 지연 줄이기 lever)로 지연 차원을 되찾거나, 기준 자체를 다시 협의.</li>
+<li><span class="lead">조건 :</span> 기준은 F1 0.9 이상과 응답 95% 300ms 미만이다. 더 큰 모델로 F1 0.92 가 됐다. 그러나 95번째 응답 시간이 450ms 다.</li>
+<li><span class="lead">판단 :</span> 한 차원만 통과하면 불합격이다. 여러 차원을 건 이유가 바로 이 충돌을 드러내는 것이다. 다음 조치는 둘 중 하나다. 지연 lever(조절 수단, ■ 지연 줄이기 lever)로 지연 차원을 되찾는다. 또는 기준 자체를 다시 협의한다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(다차원) ·</span> <span class="gen">업계 일반</span><span class="note">(충돌 처리 순서)</span></li>
 <li><span class="lead">근거 :</span> define-success en-full</li>
 </ul>
@@ -703,21 +749,23 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"모델이 감정을 잘 분류해야 한다"</td><td data-label="왜 끌리나" role="cell">목표가 분명해 보임</td><td data-label="왜 틀리나" role="cell">숫자 · 데이터 · 기준선 없음 → 판정 불가. 공식이 든 '나쁨' 예 그대로</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"안전한 출력을 낸다"</td><td data-label="왜 끌리나" role="cell">안전은 숫자로 못 잴 것 같음</td><td data-label="왜 틀리나" role="cell">공식 '나쁨' 예. 10,000회 중 0.1% 미만처럼 숫자로</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">정확도(F1) 하나만 건 기준</td><td data-label="왜 끌리나" role="cell">가장 중요한 숫자 하나면 충분해 보임</td><td data-label="왜 틀리나" role="cell">대부분 다차원. 공식 좋은 예는 F1 + 무해 + 오류 심각도 + 지연</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">'SMART' 5요소, 기한(Time-bound)을 찾는 보기</td><td data-label="왜 끌리나" role="cell">흔히 외우는 목표 틀</td><td data-label="왜 틀리나" role="cell">공식은 4가지(구체적 · 측정 가능 · 달성 가능 · 관련)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"어조는 주관적이라 사람이 전부 채점"</td><td data-label="왜 끌리나" role="cell">주관적 = 사람</td><td data-label="왜 틀리나" role="cell">잘 정의된 정성 척도로 측정. 채점 수단 고르기는 ■ grader 고르기</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"정확도 99.99% 를 목표로"</td><td data-label="왜 끌리나" role="cell">높을수록 좋아 보임</td><td data-label="왜 틀리나" role="cell">프런티어 역량에 비해 비현실이면 안 됨</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"100% 목표는 늘 오답"</td><td data-label="왜 끌리나" role="cell">달성 가능을 과하게 외움</td><td data-label="왜 틀리나" role="cell">맥락 정보 · 견적 정확도는 공식 목표 100%</td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">에이전트가 "완료"라고 답했으니 성공</td><td data-label="왜 끌리나" role="cell">말이 곧 결과 같음</td><td data-label="왜 틀리나" role="cell">성공은 환경 최종 상태</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"기준은 운영하면서 정한다"</td><td data-label="왜 끌리나" role="cell">빨리 내보내고 싶음</td><td data-label="왜 틀리나" role="cell">만들기 전에. 늦으면 운영 중 시스템에서 거꾸로 캐냄</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모델이 감정을 잘 분류해야 한다"</td><td data-label="왜 끌리나" role="cell">목표가 분명해 보인다</td><td data-label="왜 틀리나" role="cell">숫자 · 데이터 · 기준선이 없어서 판정할 수 없다. 공식이 든 '나쁨' 예 그대로다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"안전한 출력을 낸다"</td><td data-label="왜 끌리나" role="cell">안전은 숫자로 못 잴 것 같다</td><td data-label="왜 틀리나" role="cell">공식 '나쁨' 예다. 10,000회 중 0.1% 미만처럼 숫자로 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">정확도(F1) 하나만 건 기준</td><td data-label="왜 끌리나" role="cell">가장 중요한 숫자 하나면 충분해 보인다</td><td data-label="왜 틀리나" role="cell">대부분 다차원이다. 공식 좋은 예는 F1 + 무해 + 오류 심각도 + 지연을 건다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">'SMART' 5요소, 기한(Time-bound)을 찾는 보기</td><td data-label="왜 끌리나" role="cell">흔히 외우는 목표 틀이다</td><td data-label="왜 틀리나" role="cell">공식은 4가지다(구체적 · 측정 가능 · 달성 가능 · 관련)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"어조는 주관적이라 사람이 전부 채점"</td><td data-label="왜 끌리나" role="cell">주관적이면 사람이 해야 할 것 같다</td><td data-label="왜 틀리나" role="cell">잘 정의된 정성 척도로 잰다. 채점 수단 고르기는 ■ grader 고르기 에 있다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"정확도 99.99% 를 목표로"</td><td data-label="왜 끌리나" role="cell">높을수록 좋아 보인다</td><td data-label="왜 틀리나" role="cell">프런티어 역량에 비해 비현실적이면 안 된다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"100% 목표는 늘 오답"</td><td data-label="왜 끌리나" role="cell">달성 가능을 과하게 외웠다</td><td data-label="왜 틀리나" role="cell">맥락 정보 · 견적 정확도는 공식 목표가 100% 다</td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">에이전트가 "완료"라고 답했으니 성공</td><td data-label="왜 끌리나" role="cell">말이 곧 결과 같다</td><td data-label="왜 틀리나" role="cell">성공은 환경 최종 상태다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"기준은 운영하면서 정한다"</td><td data-label="왜 끌리나" role="cell">빨리 내보내고 싶다</td><td data-label="왜 틀리나" role="cell">만들기 전에 정한다. 늦으면 운영 중인 시스템에서 거꾸로 캐내야 한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="success-criteria-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
@@ -734,12 +782,13 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>보안 차원 : 가이드 목표 4.1 은 security 를 지표 차원으로 들지만, define-success 의 흔한 기준 목록엔 보안 항목이 없음(가까운 건 개인정보 보호). 인젝션 성공률 같은 보안 지표는 업계 일반 — 목록도 "(근거 확인 필요 — Anthropic 문서 없음)" 으로 표시해 둠.</li>
-<li>"5% improvement over the current baseline" 이 상대(0.85 ÷ 1.05 ≈ 기준선 0.81)인지 절대(0.85 − 0.05 = 기준선 0.80)인지 공식 문장에 없음. 시험에 숫자로 나오면 지문 표현을 따름(추론).</li>
-<li>한국어판 define-success(ko)는 예시 아코디언(감정 분석 좋은/나쁜 예 · 지표 예 · 흔한 기준 설명)이 빠져 있음 → 카드의 예시·지표 목록은 영어 full 판으로만 확인.</li>
-<li>목록 4.1① 의 두 영어 신호("Most use cases need…" · "Less than 0.1%…")는 원문에서 찾음. 목록의 "held-out 데이터셋 · 기준선" 도 en-full에서 확인.</li>
+<li>보안 차원 : 가이드 목표 4.1 은 security 를 지표 차원으로 든다. 그러나 define-success 의 흔한 기준 목록에는 보안 항목이 없다(가까운 것은 개인정보 보호다). 인젝션 성공률 같은 보안 지표는 업계 일반이다. 목록도 "(근거 확인 필요 — Anthropic 문서 없음)" 으로 표시해 두었다.</li>
+<li>"5% improvement over the current baseline" 이 상대(0.85 ÷ 1.05 ≈ 기준선 0.81)인지 절대(0.85 − 0.05 = 기준선 0.80)인지는 공식 문장에 없다. 시험에 숫자로 나오면 지문 표현을 따른다(추론).</li>
+<li>한국어판 define-success(ko)에는 예시 아코디언(감정 분석 좋은/나쁜 예 · 지표 예 · 흔한 기준 설명)이 빠져 있다. 그래서 카드의 예시·지표 목록은 영어 full 판으로만 확인했다.</li>
+<li>목록 4.1① 의 두 영어 신호("Most use cases need…" · "Less than 0.1%…")는 원문에서 찾았다. 목록의 "held-out 데이터셋 · 기준선" 도 en-full에서 확인했다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

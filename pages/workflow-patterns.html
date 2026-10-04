@@ -368,9 +368,16 @@
   </div>
   <h2 class="sec-h" id="workflow-patterns-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>증강 LLM(검색(retrieval)·도구·메모리가 붙은 LLM) 호출을 코드로 엮는 흔한 다섯 모양. 처방이 아니라 섞고 고쳐 쓰는 틀. 복잡도는 결과가 나아질 때만 더함</p>
-      <p>영어 이름 : prompt chaining(체이닝) · routing(라우팅) · parallelization(병렬 — sectioning · voting) · orchestrator-workers · evaluator-optimizer(평가자-개선자)</p>
-    <p class="t5-ana"><span class="lead">비유</span> 스테이지 게이트 파이프라인(prompt chaining) · L7 경로 라우팅(routing) · 맵리듀스(parallelization) · 잡 스케줄러가 작업을 쪼개 워커에 배분(orchestrator-workers) · 카나리 판정 루프(evaluator-optimizer)</p>
+      <p>증강 LLM(검색(retrieval)·도구·메모리가 붙은 LLM) 호출을 코드로 엮는 흔한 다섯 모양이다. 처방이 아니라 섞고 고쳐 쓰는 틀이다. 복잡도는 결과가 나아질 때만 더한다</p>
+      <p>영어 이름은 다섯이다</p>
+      <ul class="dash">
+        <li>prompt chaining(체이닝)</li>
+        <li>routing(라우팅)</li>
+        <li>parallelization(병렬 : sectioning · voting)</li>
+        <li>orchestrator-workers</li>
+        <li>evaluator-optimizer(평가자-개선자)</li>
+      </ul>
+    <p class="t5-ana"><span class="lead">비유</span> prompt chaining 은 스테이지 게이트 파이프라인이다. routing 은 L7 경로 라우팅이다. parallelization 은 맵리듀스다. orchestrator-workers 는 잡 스케줄러가 작업을 쪼개 워커에 배분하는 것이다. evaluator-optimizer 는 카나리 판정 루프다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/workflow-patterns.webp"><img src="../images/workflow-patterns.webp" alt="prompt chaining·routing·parallelization·orchestrator-workers·evaluator-optimizer 다섯 워크플로 모양을 작은 도식과 한 줄 설명으로 나란히 보인 그림." loading="lazy" decoding="async"></a>
@@ -399,21 +406,38 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">모두 같은 재료</p>
 <ul>
-<li>다섯 모양 모두 "증강 LLM"(검색(retrieval)·도구·메모리가 붙은 LLM) 호출을 코드로 잇는 것. 차이는 호출을 어떻게 잇나 — 순서로, 갈래로, 동시에, orchestrator 가, 피드백 루프로.</li>
+<li>다섯 모양 모두 "증강 LLM"(검색(retrieval)·도구·메모리가 붙은 LLM) 호출을 코드로 잇는 것이다. 차이는 호출을 잇는 방법이다.<ul>
+<li>순서로 잇는다</li>
+<li>갈래로 나눈다</li>
+<li>동시에 돌린다</li>
+<li>orchestrator 가 나눈다</li>
+<li>피드백 루프로 돈다</li>
+</ul>
+</li>
 </ul>
 <p class="lead">모양별로 무엇을 얻나</p>
 <ul>
-<li>prompt chaining(체이닝) : 정확도를 얻음, 지연(latency)을 냄. 각 호출이 쉬운 일 하나만 하게 되고, 사이에 코드 검사(gate)를 둘 수 있음.</li>
-<li>routing(라우팅) : 전문화를 얻음. 한 프롬프트로 모든 종류를 맞추면 한 종류를 좋게 할수록 다른 종류가 나빠짐 → 나눠서 각자 최적화. 대가 = 분류 호출 1번 + 분류가 틀리면 엉뚱한 경로.</li>
-<li>parallelization(병렬) : 나눠 돌리기는 속도를, 다수결은 신뢰도를 얻음. 고려할 게 여럿이면 하나씩 따로 보는 게 대개 나음(집중).</li>
-<li>orchestrator-workers : 유연성을 얻음. 하위작업을 미리 못 정할 때 orchestrator 가 입력을 보고 나눔. 모양은 parallelization 과 비슷, 차이는 "미리 정해졌나".</li>
-<li>evaluator-optimizer(평가자-개선자) : 품질을 얻음, 호출·지연을 되풀이만큼 냄. 기준이 뚜렷하고, 피드백으로 나아지고, LLM 이 그 피드백을 줄 수 있을 때만 쓸 만함.</li>
+<li>prompt chaining(체이닝) : 정확도를 얻고, 지연(latency)을 낸다. 각 호출이 쉬운 일 하나만 하게 된다. 사이에 코드 검사(gate)를 둘 수 있다.</li>
+<li>routing(라우팅) : 전문화를 얻는다. 한 프롬프트로 모든 종류를 맞추면, 한 종류를 좋게 할수록 다른 종류가 나빠진다. 그래서 나눠서 각자 최적화한다. 대가는 분류 호출 1번이다. 분류가 틀리면 엉뚱한 경로로 간다.</li>
+<li>parallelization(병렬) : 나눠 돌리기는 속도를 얻는다. 다수결은 신뢰도를 얻는다. 고려할 게 여럿이면 하나씩 따로 보는 편이 대개 낫다(집중).</li>
+<li>orchestrator-workers : 유연성을 얻는다. 하위작업을 미리 못 정할 때 orchestrator 가 입력을 보고 나눈다. 모양은 parallelization 과 비슷하다. 차이는 "미리 정해졌나" 다.</li>
+<li>evaluator-optimizer(평가자-개선자) : 품질을 얻는다. 대신 호출과 지연을 되풀이한 만큼 낸다. 아래 셋이 다 맞을 때만 쓸 만하다.<ul>
+<li>기준이 뚜렷하다</li>
+<li>피드백으로 나아진다</li>
+<li>LLM 이 그 피드백을 줄 수 있다</li>
+</ul>
+</li>
 </ul>
 <p class="lead">고르는 순서</p>
 <ul>
-<li>하위작업을 미리 아나? 모르면 orchestrator-workers(또는 에이전트 — ◆ 워크플로 vs 에이전트).</li>
-<li>알면 : 종류가 뚜렷이 갈리나(routing) → 조각끼리 독립인가(parallelization) → 앞 출력이 다음 입력인가(prompt chaining).</li>
-<li>품질 기준이 뚜렷하면 어느 모양에든 evaluator 루프를 덧붙일 수 있음. 모양은 섞어 씀.</li>
+<li>하위작업을 미리 아나? 모르면 orchestrator-workers 를 쓴다. 에이전트도 후보다(◆ 워크플로 vs 에이전트).</li>
+<li>알면 세 가지를 차례로 묻는다.<ul>
+<li>종류가 뚜렷이 갈리나? (routing)</li>
+<li>조각끼리 독립인가? (parallelization)</li>
+<li>앞 출력이 다음 입력인가? (prompt chaining)</li>
+</ul>
+</li>
+<li>품질 기준이 뚜렷하면 어느 모양에든 evaluator 루프를 덧붙일 수 있다. 모양은 섞어 쓴다.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
@@ -430,7 +454,7 @@
   <section class="t5-flow tree" id="workflow-patterns-tree-1" aria-labelledby="workflow-patterns-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9 n10 n11|n1 n4 n5 n8 n9 n12 n13 n14 n15|n1 n4 n5 n8 n9 n12 n13 n16 n17">
     <div class="t5-fh"><h3 id="workflow-patterns-tree-1-h">①②④ 5패턴 고르기 <span class="pg">[1.3②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>기준에 맞춰 되풀이 다듬을 일?<span class="t5-sub">만들고 → 평가 → 고침 · 되풀이 다듬기 조건이 안 맞으면 아니오</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>기준에 맞춰 되풀이 다듬을 일인가?<span class="t5-sub">만들고·평가하고·고친다. 되풀이 다듬기 조건이 안 맞으면 아니오</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
@@ -441,16 +465,16 @@
           <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>하위작업이 미리 정해져 있나?</div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(입력 따라 달라짐)</span></span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">orchestrator-workers</p><p>필요한 하위작업을 예측 못 하는 복잡한 일 · orchestrator 가 입력 따라 정함</p></div>
+              <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(입력 따라 달라진다)</span></span>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">orchestrator-workers</p><p>필요한 하위작업을 예측 못 하는 복잡한 일이다. orchestrator 가 입력에 따라 정한다</p></div>
             </div>
             <div class="t5-arm">
-              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>예 <span class="note">(늘 같음)</span></span>
+              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>예 <span class="note">(늘 같다)</span></span>
               <div class="t5-q" data-p="n9"><span class="t5-hl" aria-hidden="true"></span>입력 종류가 뚜렷이 갈리나?</div>
               <div class="t5-fork" style="--n:2">
                 <div class="t5-arm is-leaf">
                   <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>예 <span class="note">(정확히 분류 가능)</span></span>
-                  <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">routing</p><p>따로 다루는 게 나은 뚜렷한 범주 + 분류가 정확히 됨</p></div>
+                  <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">routing</p><p>따로 다루는 게 나은 뚜렷한 범주가 있다. 분류도 정확히 된다</p></div>
                 </div>
                 <div class="t5-arm">
                   <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
@@ -458,11 +482,11 @@
                   <div class="t5-fork" style="--n:2">
                     <div class="t5-arm is-leaf">
                       <span class="t5-edge" data-p="n14"><span class="t5-hl" aria-hidden="true"></span>예</span>
-                      <div class="t5-leaf t5-ans t5-ref" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#workflow-patterns-tree-2">↓ 아래 「parallelization 두 갈래」 갈림길로 이어짐</a></p><p>다음 물음 — 무엇을 얻으려나?</p></div>
+                      <div class="t5-leaf t5-ans t5-ref" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#workflow-patterns-tree-2">↓ 아래 「parallelization 두 갈래」 갈림길로 이어짐</a></p><p>다음 물음 — 무엇을 얻으려 하나?</p></div>
                     </div>
                     <div class="t5-arm is-leaf">
-                      <span class="t5-edge" data-p="n16"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(앞 출력이 다음 입력)</span></span>
-                      <div class="t5-leaf t5-ans" data-p="n17"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">prompt chaining</p><p>고정 하위작업으로 쉽고 깔끔히 나뉨 · 지연(latency)을 감수하고 정확도를 얻음</p></div>
+                      <span class="t5-edge" data-p="n16"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(앞 출력이 다음 입력이다)</span></span>
+                      <div class="t5-leaf t5-ans" data-p="n17"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">prompt chaining</p><p>고정 하위작업으로 쉽고 깔끔히 나뉜다. 지연(latency)을 감수하고 정확도를 얻는다</p></div>
                     </div>
                   </div>
                 </div>
@@ -476,15 +500,15 @@
   <section class="t5-flow tree" id="workflow-patterns-tree-2" aria-labelledby="workflow-patterns-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5">
     <div class="t5-fh"><h3 id="workflow-patterns-tree-2-h">③ parallelization 두 갈래 <span class="pg">[1.3②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇을 얻으려나?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇을 얻으려 하나?</div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>속도</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">나눠 돌리기(sectioning)</p><p>독립 하위작업을 동시에</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">나눠 돌리기(sectioning)</p><p>독립 하위작업을 동시에 돌린다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>신뢰도</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">다수결(voting)</p><p>같은 일을 여러 번 → 여러 관점·시도</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">다수결(voting)</p><p>같은 일을 여러 번 돌려 여러 관점·시도를 얻는다</p></div>
         </div>
       </div>
     </div>
@@ -496,28 +520,28 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-q" data-p="n3"><span class="t5-hl" aria-hidden="true"></span>이 패턴이 맞는 두 신호가 다 있나?<span class="t5-sub">사람이 피드백하면 나아짐 · LLM 이 그런 피드백을 줄 수 있음</span></div>
+          <div class="t5-q" data-p="n3"><span class="t5-hl" aria-hidden="true"></span>이 패턴이 맞는 두 신호가 다 있나?<span class="t5-sub">사람이 피드백하면 나아진다 · LLM 이 그런 피드백을 줄 수 있다</span></div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>둘 다</span>
-              <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">evaluator-optimizer</p><p>한 호출이 만들고 다른 호출이 평가·피드백, 루프</p></div>
+              <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">evaluator-optimizer</p><p>한 호출이 만들고 다른 호출이 평가·피드백한다. 이것을 루프로 돈다</p></div>
             </div>
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>하나라도 없음</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">evaluator-optimizer 아님 <span class="note">(뚜렷한 기준 + 두 신호가 조건)</span></p><p>평가 기준이 흐린 일에 evaluator 루프 → 뚜렷한 기준 + 두 신호가 조건</p></div>
+              <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>하나라도 없다</span>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">evaluator-optimizer 가 아니다</p><p>평가 기준이 흐린 일에는 evaluator 루프를 쓰지 않는다. 뚜렷한 기준과 두 신호가 조건이다</p></div>
             </div>
           </div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(분류처럼 답이 갈래 하나)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">routing</p><p>분류 문제에 evaluator-optimizer 루프 → 뚜렷한 범주 + 정확한 분류 = routing</p></div>
+          <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(분류처럼 답이 갈래 하나다)</span></span>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">routing</p><p>분류 문제에는 evaluator-optimizer 루프를 쓰지 않는다. 뚜렷한 범주와 정확한 분류가 있으면 routing 이다</p></div>
         </div>
       </div>
     </div>
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="workflow-patterns-flow" aria-label="워크플로 5패턴 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["입력","코드","LLM 호출들","출력"],"blocks":[],"rules":[null,null,null,null],"question":"이 입력은 어떤 모양으로 흘러갈까?","scenes":[{"name":"① routing","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"환불 요청했는데 아직 안 들어왔어요"}},{"kind":"move","step":"분류","from":{"col":0},"to":1,"label":"입력을 분류해","art":{"kind":"slip","lines":["분류 결과: \"환불\""]}},{"kind":"move","step":"보냄","from":{"col":1},"to":2,"label":"전용 후속 처리 하나로만","art":{"kind":"slip","lines":["환불 전용 프롬프트 + 도구","일반 · 기술 경로는 안 감"]}},{"kind":"move","step":"답","from":{"col":2},"to":3,"label":"","art":{"kind":"say","text":"환불은 접수됐고 영업일 3일 안에 들어와요."}},{"kind":"end","label":"입력은 한 경로로만 감 — 환불 쪽을 다듬어도 기술 지원 답은 안 건드림"}]},{"name":"② 나눠 돌리기","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"환불 요청했는데 아직 안 들어왔어요"}},{"kind":"move","step":"받음","from":{"col":0},"to":1,"label":"같은 문의를 두 호출로","art":{"kind":"slip","lines":["문의 1건 → 호출 2개"]}},{"kind":"move","step":"나눔","from":{"col":1},"to":2,"label":"독립 하위작업을 동시에","art":{"kind":"slip","lines":["호출 A: 답 쓰기","호출 B: 부적절 여부 선별"]}},{"kind":"move","step":"합침","from":{"col":2},"to":3,"label":"코드가 합침","art":{"kind":"slip","lines":["A: 답 초안","B: 문제 없음 → 보냄"]}},{"kind":"end","label":"속도 — 독립 조각을 동시에"}]},{"name":"③ prompt chaining 이면 빨라진다?","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["상품 설명 요청","응답 한도 5초"]}},{"kind":"move","step":"순서","from":{"col":1},"to":2,"label":"앞 출력을 다음 호출이 처리","art":{"kind":"slip","lines":["개요 → 기준 검사 → 본문","단계마다 2.5초"]}},{"kind":"timer","at":2,"label":"지연을 감수하고"},{"kind":"move","step":"결과","from":{"col":2},"to":3,"label":"이어 붙인 시간","art":{"kind":"slip","lines":["2.5 × 3 = 7.5초","한도 5초 넘김"]}},{"kind":"end","label":"prompt chaining = 지연을 감수하고 정확도를 얻음 (단계당 2.5초는 그림용 가정)"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["입력","코드","LLM 호출들","출력"],"blocks":[],"rules":[null,null,null,null],"question":"이 입력은 어떤 모양으로 흘러갈까?","scenes":[{"name":"① routing","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"환불 요청했는데 아직 안 들어왔어요"}},{"kind":"move","step":"분류","from":{"col":0},"to":1,"label":"입력을 분류한다","art":{"kind":"slip","lines":["분류 결과: \"환불\""]}},{"kind":"move","step":"보냄","from":{"col":1},"to":2,"label":"전용 후속 처리 하나로만 보낸다","art":{"kind":"slip","lines":["환불 전용 프롬프트 + 도구","일반 · 기술 경로는 안 감"]}},{"kind":"move","step":"답","from":{"col":2},"to":3,"label":"","art":{"kind":"say","text":"환불은 접수됐고 영업일 3일 안에 들어와요."}},{"kind":"end","label":"입력은 한 경로로만 간다. 환불 쪽을 다듬어도 기술 지원 답은 안 건드린다"}]},{"name":"② 나눠 돌리기","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"환불 요청했는데 아직 안 들어왔어요"}},{"kind":"move","step":"받음","from":{"col":0},"to":1,"label":"같은 문의를 두 호출로 보낸다","art":{"kind":"slip","lines":["문의 1건 → 호출 2개"]}},{"kind":"move","step":"나눔","from":{"col":1},"to":2,"label":"독립 하위작업을 동시에 돌린다","art":{"kind":"slip","lines":["호출 A: 답 쓰기","호출 B: 부적절 여부 선별"]}},{"kind":"move","step":"합침","from":{"col":2},"to":3,"label":"코드가 합친다","art":{"kind":"slip","lines":["A: 답 초안","B: 문제 없음 → 보냄"]}},{"kind":"end","label":"독립 조각을 동시에 돌려 속도를 얻는다"}]},{"name":"③ prompt chaining 이면 빨라진다?","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["상품 설명 요청","응답 한도 5초"]}},{"kind":"move","step":"순서","from":{"col":1},"to":2,"label":"앞 출력을 다음 호출이 처리한다","art":{"kind":"slip","lines":["개요 → 기준 검사 → 본문","단계마다 2.5초"]}},{"kind":"timer","at":2,"label":"지연을 감수한다"},{"kind":"move","step":"결과","from":{"col":2},"to":3,"label":"이어 붙인 시간","art":{"kind":"slip","lines":["2.5 × 3 = 7.5초","한도 5초 넘김"]}},{"kind":"end","label":"prompt chaining 은 지연을 감수하고 정확도를 얻는다. 단계당 2.5초는 그림용 가정이다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -526,26 +550,26 @@
       <p class="lead">① routing <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 입력 — 말 : <span class="flx-alt-say">“환불 요청했는데 아직 안 들어왔어요”</span></li>
-        <li>분류 : 입력 → 코드 : 입력을 분류해 — 쪽지 : <span class="flx-alt-slip">분류 결과: "환불"</span></li>
-        <li>보냄 : 코드 → LLM 호출들 : 전용 후속 처리 하나로만 — 쪽지 : <span class="flx-alt-slip">환불 전용 프롬프트 + 도구 / 일반 · 기술 경로는 안 감</span></li>
+        <li>분류 : 입력 → 코드 : 입력을 분류한다 — 쪽지 : <span class="flx-alt-slip">분류 결과: "환불"</span></li>
+        <li>보냄 : 코드 → LLM 호출들 : 전용 후속 처리 하나로만 보낸다 — 쪽지 : <span class="flx-alt-slip">환불 전용 프롬프트 + 도구 / 일반 · 기술 경로는 안 감</span></li>
         <li>답 : LLM 호출들 → 출력 — 말 : <span class="flx-alt-say">“환불은 접수됐고 영업일 3일 안에 들어와요.”</span></li>
-        <li>끝 : 입력은 한 경로로만 감 — 환불 쪽을 다듬어도 기술 지원 답은 안 건드림</li>
+        <li>끝 : 입력은 한 경로로만 간다. 환불 쪽을 다듬어도 기술 지원 답은 안 건드린다</li>
       </ol>
       <p class="lead">② 나눠 돌리기 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 입력 — 말 : <span class="flx-alt-say">“환불 요청했는데 아직 안 들어왔어요”</span></li>
-        <li>받음 : 입력 → 코드 : 같은 문의를 두 호출로 — 쪽지 : <span class="flx-alt-slip">문의 1건 → 호출 2개</span></li>
-        <li>나눔 : 코드 → LLM 호출들 : 독립 하위작업을 동시에 — 쪽지 : <span class="flx-alt-slip">호출 A: 답 쓰기 / 호출 B: 부적절 여부 선별</span></li>
-        <li>합침 : LLM 호출들 → 출력 : 코드가 합침 — 쪽지 : <span class="flx-alt-slip">A: 답 초안 / B: 문제 없음 → 보냄</span></li>
-        <li>끝 : 속도 — 독립 조각을 동시에</li>
+        <li>받음 : 입력 → 코드 : 같은 문의를 두 호출로 보낸다 — 쪽지 : <span class="flx-alt-slip">문의 1건 → 호출 2개</span></li>
+        <li>나눔 : 코드 → LLM 호출들 : 독립 하위작업을 동시에 돌린다 — 쪽지 : <span class="flx-alt-slip">호출 A: 답 쓰기 / 호출 B: 부적절 여부 선별</span></li>
+        <li>합침 : LLM 호출들 → 출력 : 코드가 합친다 — 쪽지 : <span class="flx-alt-slip">A: 답 초안 / B: 문제 없음 → 보냄</span></li>
+        <li>끝 : 독립 조각을 동시에 돌려 속도를 얻는다</li>
       </ol>
       <p class="lead">③ prompt chaining 이면 빨라진다? <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 입력 — 쪽지 : <span class="flx-alt-slip">상품 설명 요청 / 응답 한도 5초</span></li>
-        <li>순서 : 코드 → LLM 호출들 : 앞 출력을 다음 호출이 처리 — 쪽지 : <span class="flx-alt-slip">개요 → 기준 검사 → 본문 / 단계마다 2.5초</span></li>
-        <li>타이머 : LLM 호출들 : 지연을 감수하고</li>
+        <li>순서 : 코드 → LLM 호출들 : 앞 출력을 다음 호출이 처리한다 — 쪽지 : <span class="flx-alt-slip">개요 → 기준 검사 → 본문 / 단계마다 2.5초</span></li>
+        <li>타이머 : LLM 호출들 : 지연을 감수한다</li>
         <li>결과 : LLM 호출들 → 출력 : 이어 붙인 시간 — 쪽지 : <span class="flx-alt-slip">2.5 × 3 = 7.5초 / 한도 5초 넘김</span></li>
-        <li>끝 : prompt chaining = 지연을 감수하고 정확도를 얻음 (단계당 2.5초는 그림용 가정)</li>
+        <li>끝 : prompt chaining 은 지연을 감수하고 정확도를 얻는다. 단계당 2.5초는 그림용 가정이다</li>
       </ol>
     </details>
   </figure>
@@ -554,8 +578,8 @@
       <ol class="how">
         <li id="workflow-patterns-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
-            <p><span class="lead">섞어 쓰기 :</span> 다섯 모양은 처방이 아님, 섞고 고쳐 씀. 성공 열쇠 = 성능을 재고 되풀이</p>
-            <p>워크플로냐 에이전트냐부터 = <a href="workflow-vs-agent.html">◆ 워크플로 vs 에이전트</a></p>
+            <p><span class="lead">섞어 쓰기 :</span> 다섯 모양은 처방이 아니다. 섞고 고쳐 쓴다. 성공 열쇠는 성능을 재고 되풀이하는 것이다</p>
+            <p>워크플로냐 에이전트냐는 <a href="workflow-vs-agent.html">◆ 워크플로 vs 에이전트</a> 에서 먼저 정한다</p>
           </div>
         </li>
       </ol>
@@ -564,42 +588,53 @@
       <ol class="how">
         <li id="workflow-patterns-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p>prompt chaining : 앞 호출의 출력을 다음 호출이 처리하는 순서. 중간 단계에 코드 검사(gate)로 궤도 확인 <span class="pg">[1.3②]</span></p>
-            <p>쓰는 때 = 고정 하위작업으로 쉽고 깔끔히 나뉨. 목적 = 각 호출을 쉬운 일로 만들어 지연을 감수하고 정확도를 얻음</p>
-            <p><span class="lead">예 :</span> 마케팅 문구 → 번역 · 개요 → 기준 검사 → 본문</p>
-            <p>긴 프롬프트에서 일부 제약을 계속 무시하면 → 1차 생성 + 2차 "고치기 전용" 호출. 단계 사이에 LLM 아닌 처리도 넣을 수 있음 <span class="src">(Skilljar)</span></p>
+            <p>prompt chaining : 앞 호출의 출력을 다음 호출이 처리하는 순서다. 중간 단계에 코드 검사(gate)를 둬 궤도를 확인한다 <span class="pg">[1.3②]</span></p>
+            <p>쓰는 때는 일이 고정 하위작업으로 쉽고 깔끔히 나뉠 때다. 목적은 각 호출을 쉬운 일로 만드는 것이다. 지연을 감수하고 정확도를 얻는다</p>
+            <p><span class="lead">예 :</span> 마케팅 문구를 쓴 뒤 번역한다. 개요를 쓰고, 기준을 검사하고, 본문을 쓴다</p>
+            <p>긴 프롬프트에서 일부 제약을 계속 무시하면, 1차로 생성하고 2차로 "고치기 전용" 호출을 둔다. 단계 사이에 LLM 아닌 처리도 넣을 수 있다 <span class="src">(Skilljar)</span></p>
           </div>
         </li>
         <li id="workflow-patterns-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p><span class="lead">routing :</span> 입력을 분류해 전문 후속 작업(프롬프트·도구)으로. 관심사 분리 — 없으면 한 종류에 맞춘 최적화가 다른 입력을 해침 <span class="pg">[1.3②]</span></p>
-            <p>쓰는 때 = 따로 다루는 게 나은 뚜렷한 범주 + 분류가 정확히 됨(LLM 또는 전통 분류 모델)</p>
-            <p><span class="lead">예 :</span> 고객 문의(일반 · 환불 · 기술 지원)를 다른 후속 처리로 · 쉬운 질문은 작은 모델(Haiku 4.5), 어려운 질문은 더 강한 모델</p>
-            <p>입력은 한 경로로만 감 · 분류 단계의 부담보다 전문 처리 이득이 커야 (Skilljar) · 검색 질의를 index 로 보내는 routing 은 <a href="query-routing.html">■ 질의 패턴별 검색</a></p>
+            <p><span class="lead">routing :</span> 입력을 분류해 전문 후속 작업(프롬프트·도구)으로 보낸다. 관심사를 분리한다. 분리하지 않으면 한 종류에 맞춘 최적화가 다른 입력을 해친다 <span class="pg">[1.3②]</span></p>
+            <p>쓰는 때는 따로 다루는 게 나은 뚜렷한 범주가 있고, 분류가 정확히 될 때다(LLM 또는 전통 분류 모델)</p>
+            <p><span class="lead">예 :</span> 고객 문의(일반 · 환불 · 기술 지원)를 서로 다른 후속 처리로 보낸다. 쉬운 질문은 작은 모델(Haiku 4.5)로, 어려운 질문은 더 강한 모델로 보낸다</p>
+            <p>입력은 한 경로로만 간다. 분류 단계의 부담보다 전문 처리 이득이 커야 한다 <span class="src">(Skilljar)</span></p>
+            <p>검색 질의를 index 로 보내는 routing 은 <a href="query-routing.html">■ 질의 패턴별 검색</a> 에서 다룬다</p>
           </div>
         </li>
         <li id="workflow-patterns-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p>parallelization : 여러 호출을 동시에 돌리고 코드가 합침 <span class="pg">[1.3②]</span></p>
-            <p>나눠 돌리기(sectioning) = 독립 하위작업 → 속도 · 다수결(voting) = 같은 일을 여러 번 → 여러 관점·시도로 신뢰도</p>
-            <p>고려할 게 여럿이면 하나씩 따로 호출이 대개 나음(각자 집중)</p>
-            <p><span class="lead">예 :</span> 한 인스턴스는 답하고 다른 인스턴스는 부적절 여부 선별(가드레일) — 한 호출이 둘 다 하는 것보다 나음 · 여러 프롬프트로 코드 취약점 검토 · 여러 관점·투표 기준으로 부적절 판정</p>
-            <p>병렬 하위작업은 똑같을 필요 없음 — 각자 프롬프트·도구·기준 <span class="src">(Skilljar)</span></p>
+            <p>parallelization : 여러 호출을 동시에 돌리고 코드가 합친다 <span class="pg">[1.3②]</span></p>
+            <p>나눠 돌리기(sectioning)는 독립 하위작업을 돌려 속도를 얻는다. 다수결(voting)은 같은 일을 여러 번 돌려 여러 관점·시도로 신뢰도를 얻는다</p>
+            <p>고려할 게 여럿이면 하나씩 따로 호출하는 편이 대개 낫다(각자 집중한다)</p>
+            <p>예는 셋이다</p>
+            <ul class="dash">
+              <li>한 인스턴스는 답하고, 다른 인스턴스는 부적절 여부를 선별한다(가드레일). 한 호출이 둘 다 하는 것보다 낫다</li>
+              <li>여러 프롬프트로 코드 취약점을 검토한다</li>
+              <li>여러 관점·투표 기준으로 부적절 여부를 판정한다</li>
+            </ul>
+            <p>병렬 하위작업은 똑같을 필요가 없다. 각자 프롬프트·도구·기준을 가진다 <span class="src">(Skilljar)</span></p>
           </div>
         </li>
         <li id="workflow-patterns-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p>orchestrator-workers : 중앙 LLM 이 동적으로 나누고 worker LLM 에 맡기고 결과를 합침 <span class="pg">[1.3②]</span></p>
-            <p>쓰는 때 = 필요한 하위작업을 예측 못 하는 복잡한 일(예 코딩 : 바꿀 파일 수·내용이 과제 따라 다름 · 여러 출처를 모아 분석하는 검색)</p>
-            <p>parallelization 과 모양은 비슷. 차이 = 하위작업이 미리 정해지지 않고 입력 따라 orchestrator 가 정함</p>
-            <p>여러 에이전트로 갈지 = <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></p>
+            <p>orchestrator-workers : 중앙 LLM 이 동적으로 나누고, worker LLM 에 맡기고, 결과를 합친다 <span class="pg">[1.3②]</span></p>
+            <p>쓰는 때는 필요한 하위작업을 예측 못 하는 복잡한 일이다. 예는 코딩(바꿀 파일 수·내용이 과제에 따라 다르다)과 여러 출처를 모아 분석하는 검색이다</p>
+            <p>parallelization 과 모양은 비슷하다. 차이는 하위작업이 미리 정해지지 않고, 입력에 따라 orchestrator 가 정한다는 점이다</p>
+            <p>여러 에이전트로 갈지는 <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a> 에서 다룬다</p>
           </div>
         </li>
         <li id="workflow-patterns-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p>evaluator-optimizer : 한 호출이 만들고 다른 호출이 평가·피드백, 루프 <span class="pg">[1.3②]</span></p>
-            <p>쓰는 때 = 평가 기준이 뚜렷 + 되풀이 다듬기가 측정 가능한 이득을 냄. 이 패턴이 맞는다는 두 신호 = 사람이 피드백하면 나아짐 · LLM 이 그런 피드백을 줄 수 있음</p>
-            <p><span class="lead">예 :</span> 문학 번역 · 더 찾을지 evaluator 가 정하는 여러 번의 검색 · 이미지 → CAD 모델 → 렌더 → 원본과 채점, 통과할 때까지 반복 <span class="src">(Skilljar)</span></p>
+            <p>evaluator-optimizer : 한 호출이 만들고 다른 호출이 평가·피드백한다. 이것을 루프로 돈다 <span class="pg">[1.3②]</span></p>
+            <p>쓰는 때는 평가 기준이 뚜렷하고, 되풀이 다듬기가 측정 가능한 이득을 낼 때다. 이 패턴이 맞는다는 신호는 둘이다</p>
+            <ul class="dash">
+              <li>사람이 피드백하면 나아진다</li>
+              <li>LLM 이 그런 피드백을 줄 수 있다</li>
+            </ul>
+            <p><span class="lead">예 :</span> 문학 번역, 그리고 더 찾을지 evaluator 가 정하는 여러 번의 검색이다</p>
+            <p>이미지로 CAD 모델을 만들고, 렌더해서 원본과 채점한다. 통과할 때까지 반복한다 <span class="src">(Skilljar)</span></p>
           </div>
         </li>
       </ol>
@@ -613,16 +648,16 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">고정 하위작업으로 쉽고 깔끔히 나뉨 · 앞 출력이 다음 입력</td><td data-label="답" role="cell">prompt chaining</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">긴 프롬프트에서 일부 제약을 계속 무시</td><td data-label="답" role="cell">prompt chaining(생성 → 고치기 전용 호출)</td><td data-label="근거" role="cell">Skilljar 287800</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">따로 다루는 게 나은 뚜렷한 범주 + 분류가 정확히 됨</td><td data-label="답" role="cell">routing</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">쉬운 질문과 어려운 질문이 섞임 · 비용 최적화</td><td data-label="답" role="cell">routing(쉬운 건 작은 모델, 어려운 건 강한 모델)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">독립 하위작업 · 속도</td><td data-label="답" role="cell">parallelization — 나눠 돌리기</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">여러 관점·시도로 신뢰도</td><td data-label="답" role="cell">parallelization — 다수결</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">주 답 + 부적절 선별(가드레일)</td><td data-label="답" role="cell">병렬로 따로 (한 호출에 둘 다보다 나음)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">필요한 하위작업을 예측 못 함</td><td data-label="답" role="cell">orchestrator-workers</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">평가 기준 뚜렷 + 되풀이가 측정 가능한 이득 + 두 신호</td><td data-label="답" role="cell">evaluator-optimizer</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">어느 모양이든</td><td data-label="답" role="cell">섞고 고쳐 씀, 성능을 재고 되풀이</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">고정 하위작업으로 쉽고 깔끔히 나뉜다 · 앞 출력이 다음 입력이다</td><td data-label="답" role="cell">prompt chaining 을 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">긴 프롬프트에서 일부 제약을 계속 무시한다</td><td data-label="답" role="cell">prompt chaining 을 쓴다(생성한 뒤 고치기 전용 호출)</td><td data-label="근거" role="cell">Skilljar 287800</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">따로 다루는 게 나은 뚜렷한 범주가 있고, 분류가 정확히 된다</td><td data-label="답" role="cell">routing 을 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">쉬운 질문과 어려운 질문이 섞여 있고, 비용을 줄이고 싶다</td><td data-label="답" role="cell">routing 을 쓴다(쉬운 것은 작은 모델, 어려운 것은 강한 모델)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">독립 하위작업이고, 속도가 필요하다</td><td data-label="답" role="cell">parallelization 의 나눠 돌리기를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">여러 관점·시도로 신뢰도를 얻고 싶다</td><td data-label="답" role="cell">parallelization 의 다수결을 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">주 답과 부적절 선별(가드레일)이 있다</td><td data-label="답" role="cell">병렬로 따로 돌린다 (한 호출에 둘 다 넣는 것보다 낫다)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">필요한 하위작업을 예측하지 못한다</td><td data-label="답" role="cell">orchestrator-workers 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">평가 기준이 뚜렷하고, 되풀이가 측정 가능한 이득을 내고, 두 신호가 있다</td><td data-label="답" role="cell">evaluator-optimizer 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">어느 모양이든</td><td data-label="답" role="cell">섞고 고쳐 쓴다. 성능을 재고 되풀이한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -633,17 +668,17 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">하위작업</td><td data-label="값" role="cell">미리 정해짐</td><td data-label="답 쪽" role="cell">prompt chaining · routing · parallelization</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">하위작업</td><td data-label="값" role="cell">입력 따라 정해짐</td><td data-label="답 쪽" role="cell">orchestrator-workers</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">조각 사이</td><td data-label="값" role="cell">앞 출력이 다음 입력</td><td data-label="답 쪽" role="cell">prompt chaining</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">조각 사이</td><td data-label="값" role="cell">서로 독립</td><td data-label="답 쪽" role="cell">나눠 돌리기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">입력</td><td data-label="값" role="cell">뚜렷한 범주, 분류 정확</td><td data-label="답 쪽" role="cell">routing</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">입력</td><td data-label="값" role="cell">범주 흐림 · 분류가 자주 틀림</td><td data-label="답 쪽" role="cell">routing 약함 → 한 경로(또는 orchestrator)</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">routing 전제의 반대</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">목표</td><td data-label="값" role="cell">지연 최소</td><td data-label="답 쪽" role="cell">prompt chaining 약함(순서대로 이어 지연을 냄) · 나눠 돌리기 쪽</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">목표</td><td data-label="값" role="cell">정확도</td><td data-label="답 쪽" role="cell">prompt chaining(각 호출을 쉬운 일로)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">하위작업</td><td data-label="값" role="cell">미리 정해져 있다</td><td data-label="답 쪽" role="cell">prompt chaining · routing · parallelization</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">하위작업</td><td data-label="값" role="cell">입력에 따라 정해진다</td><td data-label="답 쪽" role="cell">orchestrator-workers</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">조각 사이</td><td data-label="값" role="cell">앞 출력이 다음 입력이다</td><td data-label="답 쪽" role="cell">prompt chaining</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">조각 사이</td><td data-label="값" role="cell">서로 독립이다</td><td data-label="답 쪽" role="cell">나눠 돌리기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">입력</td><td data-label="값" role="cell">범주가 뚜렷하고 분류가 정확하다</td><td data-label="답 쪽" role="cell">routing</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">입력</td><td data-label="값" role="cell">범주가 흐리다 · 분류가 자주 틀린다</td><td data-label="답 쪽" role="cell">routing 이 약하다. 한 경로(또는 orchestrator)로 보낸다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">routing 전제의 반대</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">목표</td><td data-label="값" role="cell">지연 최소</td><td data-label="답 쪽" role="cell">prompt chaining 이 약하다(순서대로 이어 지연을 낸다). 나눠 돌리기 쪽이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">목표</td><td data-label="값" role="cell">정확도</td><td data-label="답 쪽" role="cell">prompt chaining(각 호출을 쉬운 일로 만든다)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">목표</td><td data-label="값" role="cell">결과 신뢰도</td><td data-label="답 쪽" role="cell">다수결</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">평가 기준</td><td data-label="값" role="cell">뚜렷 · LLM 이 피드백 가능</td><td data-label="답 쪽" role="cell">evaluator-optimizer</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">평가 기준</td><td data-label="값" role="cell">흐림 · 답이 갈래 하나(분류)</td><td data-label="답 쪽" role="cell">evaluator 루프 이득 약함</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">두 신호의 반대</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">평가 기준</td><td data-label="값" role="cell">뚜렷하다 · LLM 이 피드백할 수 있다</td><td data-label="답 쪽" role="cell">evaluator-optimizer</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">평가 기준</td><td data-label="값" role="cell">흐리다 · 답이 갈래 하나다(분류)</td><td data-label="답 쪽" role="cell">evaluator 루프의 이득이 약하다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">두 신호의 반대</td></tr>
   </tbody>
 </table>
 </div>
@@ -652,21 +687,21 @@
   <h2 class="sec-h" id="workflow-patterns-practice-h">연습 문제</h2>
 
   <section class="csx" id="workflow-patterns-case" aria-labelledby="workflow-patterns-case-h" data-tree="workflow-patterns-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,null],[&quot;n5&quot;,null],[&quot;n8&quot;,&quot;뚜렷한 범주&quot;],[&quot;n9&quot;,null],[&quot;n10&quot;,&quot;분류 정확&quot;],[&quot;n11&quot;,null]]" data-flow="workflow-patterns-flow" data-scene="0">
-    <p class="csx-text">쇼핑몰 문의는 <mark class="csx-m" data-tag="뚜렷한 범주">일반 · 환불 · 기술 지원 세 종류로 늘 정해져 있고<span class="csx-tag">뚜렷한 범주</span></mark>, <mark class="csx-m" data-tag="분류 정확">작은 분류 호출이 종류를 거의 틀리지 않고 맞힌다<span class="csx-tag">분류 정확</span></mark>. 지금은 만능 프롬프트 하나가 다 받는데, 환불 답을 다듬을 때마다 기술 지원 답이 나빠진다. 어떤 패턴으로 바꿀까?</p>
+    <p class="csx-text">쇼핑몰 문의는 <mark class="csx-m" data-tag="뚜렷한 범주">일반 · 환불 · 기술 지원 세 종류로 늘 정해져 있다<span class="csx-tag">뚜렷한 범주</span></mark>. 그리고 <mark class="csx-m" data-tag="분류 정확">작은 분류 호출이 종류를 거의 틀리지 않고 맞힌다<span class="csx-tag">분류 정확</span></mark>. 지금은 만능 프롬프트 하나가 다 받는다. 그런데 환불 답을 다듬을 때마다 기술 지원 답이 나빠진다. 어떤 패턴으로 바꿔야 하나?</p>
     <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
   </section>
   <h2 class="sec-h" id="workflow-patterns-exam-h">시험 대비</h2>
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"prompt chaining 을 고르는 이유 = 비용·지연이 낮아서" → 지연을 감수하고 정확도를 얻음 <span class="src">(영상 ⚠)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"단계를 쪼개면 빨라진다" → 순서대로 잇는 prompt chaining 은 지연을 냄. 빨라지는 건 독립 조각을 동시에 돌리는 나눠 돌리기</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"분류 문제에 evaluator-optimizer 루프" → 뚜렷한 범주 + 정확한 분류 = routing</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>분류가 부정확한데 routing → routing 의 전제 = 분류가 정확히 됨</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>parallelization ↔ orchestrator-workers 혼동 → 하위작업이 미리 정해졌으면 parallelization, 입력 따라 정해지면 orchestrator-workers</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>다수결을 속도 수단으로 → 다수결은 신뢰도, 속도는 나눠 돌리기</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>가드레일 검사와 주 답을 한 호출에 → 따로 병렬이 대개 나음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>평가 기준이 흐린 일에 evaluator 루프 → 뚜렷한 기준 + 두 신호가 조건</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"prompt chaining 을 고르는 이유는 비용·지연이 낮아서다" 는 함정이다. prompt chaining 은 지연을 감수하고 정확도를 얻는다 <span class="src">(영상 ⚠)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"단계를 쪼개면 빨라진다" 는 함정이다. 순서대로 잇는 prompt chaining 은 지연을 낸다. 빨라지는 것은 독립 조각을 동시에 돌리는 나눠 돌리기다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"분류 문제에 evaluator-optimizer 루프를 쓴다" 는 함정이다. 뚜렷한 범주와 정확한 분류가 있으면 routing 이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>분류가 부정확한데 routing 을 쓰는 것은 함정이다. routing 의 전제는 분류가 정확히 되는 것이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>parallelization 과 orchestrator-workers 를 헷갈리는 것은 함정이다. 하위작업이 미리 정해졌으면 parallelization 이다. 입력에 따라 정해지면 orchestrator-workers 다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>다수결을 속도 수단으로 쓰는 것은 함정이다. 다수결은 신뢰도를 얻는다. 속도는 나눠 돌리기로 얻는다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>가드레일 검사와 주 답을 한 호출에 넣는 것은 함정이다. 따로 병렬로 돌리는 편이 대개 낫다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>평가 기준이 흐린 일에 evaluator 루프를 쓰는 것은 함정이다. 뚜렷한 기준과 두 신호가 조건이다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -689,30 +724,30 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. prompt chaining 은 정확한데 지연 한도를 넘을 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 3단계 체인, 단계마다 평균 2.5초. 응답 한도 5초.</li>
-<li><span class="lead">계산 :</span> 순서대로 이어 3 × 2.5 = 7.5초 → 한도 초과. 세 단계 중 두 개가 서로 독립이면 그 둘을 나눠 돌리기로 동시에 → 2.5 + 2.5 = 5초.</li>
-<li><span class="lead">전제 :</span> 단계 시간이 같다고 둠 · 합치는 코드 시간은 뺌 · 두 단계가 정말 서로의 출력을 안 쓸 때만.</li>
-<li><span class="lead">등급 :</span> <span class="calc">계산</span>. 공식은 prompt chaining 을 "지연을 감수하고 정확도를 얻는" 방식이라 함 → 지연이 제약인 지문이면 prompt chaining 이 약한 보기.</li>
+<li><span class="lead">조건 :</span> 3단계 체인이다. 단계마다 평균 2.5초가 걸린다. 응답 한도는 5초다.</li>
+<li><span class="lead">계산 :</span> 순서대로 이으면 3 × 2.5 = 7.5초다. 한도를 넘는다. 세 단계 중 두 개가 서로 독립이면, 그 둘을 나눠 돌리기로 동시에 돌린다. 그러면 2.5 + 2.5 = 5초다.</li>
+<li><span class="lead">전제 :</span> 단계 시간이 같다고 둔다. 합치는 코드 시간은 뺀다. 두 단계가 정말 서로의 출력을 안 쓸 때만 성립한다.</li>
+<li><span class="lead">등급 :</span> <span class="calc">계산</span>. 공식은 prompt chaining 을 "지연을 감수하고 정확도를 얻는" 방식이라고 한다. 그래서 지연이 제약인 지문이면 prompt chaining 이 약한 보기다.</li>
 <li><span class="lead">근거 :</span> building-effective-agents</li>
 </ul>
 <h4>2. routing 인데 분류가 자주 틀릴 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 결제·기술·해지 문의 중 절반가량이 두 범주에 걸침.</li>
-<li><span class="lead">판단 :</span> routing 의 공식 조건은 "분류가 정확히 됨". 이게 깨지면 잘못된 전문 경로로 가서 오히려 나빠짐 → 범주를 다시 나누거나, 걸친 문의는 한 경로(일반 응답기)로 보냄. 분류 부담보다 전문 처리 이득이 커야 함(Skilljar).</li>
+<li><span class="lead">조건 :</span> 결제·기술·해지 문의 중 절반가량이 두 범주에 걸친다.</li>
+<li><span class="lead">판단 :</span> routing 의 공식 조건은 "분류가 정확히 된다" 는 것이다. 이 조건이 깨지면 잘못된 전문 경로로 가서 오히려 나빠진다. 그래서 범주를 다시 나누거나, 걸친 문의는 한 경로(일반 응답기)로 보낸다. 분류 부담보다 전문 처리 이득이 커야 한다(Skilljar).</li>
 <li><span class="lead">등급 :</span> <span class="note">(조건) ·</span> <span class="gen">업계 일반</span> <span class="note">(처방)</span></li>
 <li><span class="lead">근거 :</span> building-effective-agents · Skilljar 287801</li>
 </ul>
 <h4>3. 병렬로 나눴는데 사실 순서가 있을 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> "요약 → 요약 기반 번역"을 속도 욕심에 동시에 돌림.</li>
-<li><span class="lead">판단 :</span> 번역이 요약 결과를 써야 하므로 독립이 아님 → 나눠 돌리기 조건이 깨짐. prompt chaining 으로.</li>
+<li><span class="lead">조건 :</span> "요약, 그다음 요약 기반 번역" 을 속도 욕심에 동시에 돌린다.</li>
+<li><span class="lead">판단 :</span> 번역이 요약 결과를 써야 한다. 그래서 독립이 아니다. 나눠 돌리기 조건이 깨진다. prompt chaining 으로 바꾼다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(조건)</span></li>
-<li><span class="lead">근거 :</span> building-effective-agents (예 : 문구 → 번역 = prompt chaining)</li>
+<li><span class="lead">근거 :</span> building-effective-agents (예 : 문구를 쓰고 번역 = prompt chaining)</li>
 </ul>
 <h4>4. 하위작업이 미리 정해졌는데 orchestrator 를 둘 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 매번 같은 네 관점(보안·성능·스타일·테스트)으로 코드 검토.</li>
-<li><span class="lead">판단 :</span> 조각이 미리 정해짐 → orchestrator 없이 parallelization(나눠 돌리기 또는 다수결)이 더 단순. orchestrator-workers 는 바꿀 파일 수·내용이 과제마다 달라 미리 못 정할 때.</li>
+<li><span class="lead">조건 :</span> 매번 같은 네 관점(보안·성능·스타일·테스트)으로 코드를 검토한다.</li>
+<li><span class="lead">판단 :</span> 조각이 미리 정해져 있다. 그래서 orchestrator 없이 parallelization(나눠 돌리기 또는 다수결)이 더 단순하다. orchestrator-workers 는 바꿀 파일 수·내용이 과제마다 달라 미리 못 정할 때 쓴다.</li>
 
 <li><span class="lead">근거 :</span> building-effective-agents</li>
 </ul>
@@ -723,19 +758,21 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"prompt chaining 을 고르는 이유 = 비용·지연이 낮아서"</td><td data-label="왜 끌리나" role="cell">호출 하나하나가 작아 보임</td><td data-label="왜 틀리나" role="cell">지연을 감수하고 정확도를 얻는 방식</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a> (영상 Part 18 [02:39] 주장과 반대)</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"분류 문제에 evaluator-optimizer 루프"</td><td data-label="왜 끌리나" role="cell">품질을 높이는 루프라 좋아 보임</td><td data-label="왜 틀리나" role="cell">뚜렷한 범주 + 정확한 분류 = routing. evaluator 는 뚜렷한 기준으로 다듬을 이득이 있을 때</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"단계를 쪼개면 빨라진다"</td><td data-label="왜 끌리나" role="cell">일이 작아지니까</td><td data-label="왜 틀리나" role="cell">순서대로 이으면 지연이 더해짐. 빨라지는 건 독립 조각을 동시에</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"하위작업을 LLM 이 나누니 parallelization"</td><td data-label="왜 끌리나" role="cell">여러 호출이 동시에 실행됨</td><td data-label="왜 틀리나" role="cell">미리 정해졌으면 parallelization, 입력 따라 정해지면 orchestrator-workers</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"다수결로 빠르게"</td><td data-label="왜 끌리나" role="cell">여러 호출을 동시에 돌림</td><td data-label="왜 틀리나" role="cell">다수결은 신뢰도, 속도는 나눠 돌리기</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"가드레일 검사도 주 답 호출에 함께 넣어 호출을 줄임"</td><td data-label="왜 끌리나" role="cell">호출 수가 줄어 쌈</td><td data-label="왜 틀리나" role="cell">따로 병렬이 대개 나음</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"모든 문의를 한 만능 프롬프트로"</td><td data-label="왜 끌리나" role="cell">관리할 프롬프트가 하나</td><td data-label="왜 틀리나" role="cell">한 종류 최적화가 다른 입력을 해침 → routing</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"prompt chaining 을 고르는 이유 = 비용·지연이 낮아서"</td><td data-label="왜 끌리나" role="cell">호출 하나하나가 작아 보인다</td><td data-label="왜 틀리나" role="cell">지연을 감수하고 정확도를 얻는 방식이다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a> (영상 Part 18 [02:39] 주장과 반대)</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"분류 문제에 evaluator-optimizer 루프"</td><td data-label="왜 끌리나" role="cell">품질을 높이는 루프라 좋아 보인다</td><td data-label="왜 틀리나" role="cell">뚜렷한 범주와 정확한 분류가 있으면 routing 이다. evaluator 는 뚜렷한 기준으로 다듬을 이득이 있을 때 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"단계를 쪼개면 빨라진다"</td><td data-label="왜 끌리나" role="cell">일이 작아지니까 빨라 보인다</td><td data-label="왜 틀리나" role="cell">순서대로 이으면 지연이 더해진다. 빨라지는 것은 독립 조각을 동시에 돌릴 때다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"하위작업을 LLM 이 나누니 parallelization"</td><td data-label="왜 끌리나" role="cell">여러 호출이 동시에 실행된다</td><td data-label="왜 틀리나" role="cell">미리 정해졌으면 parallelization 이다. 입력에 따라 정해지면 orchestrator-workers 다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"다수결로 빠르게"</td><td data-label="왜 끌리나" role="cell">여러 호출을 동시에 돌린다</td><td data-label="왜 틀리나" role="cell">다수결은 신뢰도를 얻는다. 속도는 나눠 돌리기로 얻는다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"가드레일 검사도 주 답 호출에 함께 넣어 호출을 줄인다"</td><td data-label="왜 끌리나" role="cell">호출 수가 줄어 싸다</td><td data-label="왜 틀리나" role="cell">따로 병렬로 돌리는 편이 대개 낫다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모든 문의를 한 만능 프롬프트로"</td><td data-label="왜 끌리나" role="cell">관리할 프롬프트가 하나다</td><td data-label="왜 틀리나" role="cell">한 종류 최적화가 다른 입력을 해친다. 그래서 routing 을 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="workflow-patterns-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
@@ -754,11 +791,12 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>목록 1.3② 의 영어 신호 두 개("The main goal is to trade off latency…" · "where classification can be handled accurately")는 원문에서 찾음. 목록의 "orchestrator-workers = 하위작업을 미리 모름"도 확인.</li>
-<li>Skilljar 강의 목록(287796 · 287800 · 287801 · 287804)에 orchestrator-workers 강의는 없음 — 공식 글만으로 씀.</li>
-<li>prompt chaining·parallelization 의 실제 지연 숫자는 공식에 없음(뒤집히는 때 1 은 가정 숫자로 한 계산).</li>
+<li>목록 1.3② 의 영어 신호 두 개("The main goal is to trade off latency…" · "where classification can be handled accurately")는 원문에서 찾았다. 목록의 "orchestrator-workers = 하위작업을 미리 모름" 도에서 확인했다.</li>
+<li>Skilljar 강의 목록(287796 · 287800 · 287801 · 287804)에 orchestrator-workers 강의는 없다. 그래서 공식 글만으로 쓴다.</li>
+<li>prompt chaining·parallelization 의 실제 지연 숫자는 공식에 없다. 뒤집히는 때 1 은 가정 숫자로 한 계산이다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

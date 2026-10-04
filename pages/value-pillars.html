@@ -368,10 +368,10 @@
   </div>
   <h2 class="sec-h" id="value-pillars-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>설계안의 사업 가치를 말하는 축. 가이드 목표 문구 그대로 5개 = 효율 · 전환 · 생산성 · 비용 · 성능 SLA</p>
-      <p>비용과 성능 SLA 는 각각 독립된 축 — 효율 안에 넣지 않음 <span class="src">(목표 문구에 5개가 나란히)</span></p>
-      <p>축마다 무슨 뜻인지는 가이드가 정의하지 않음 → 아래 "뜻" 풀이와 지표를 축에 짝짓는 건 업계 일반</p>
-    <p class="t5-ana"><span class="lead">비유</span> FinOps(비용)와 SRE(SLO)가 따로 있는 이유. 한 "효율" 보고서에 섞으면 한쪽이 가려짐</p>
+      <p>설계안의 사업 가치를 말하는 축이다. 축은 가이드 목표 문구 그대로 5개다. 효율, 전환, 생산성, 비용, 성능 SLA 다</p>
+      <p>비용과 성능 SLA 는 각각 독립된 축이다. 효율 안에 넣지 않는다 <span class="src">(목표 문구에 5개가 나란히 있다)</span></p>
+      <p>축마다 무슨 뜻인지는 가이드가 정의하지 않는다. 그래서 아래 "뜻" 풀이와, 지표를 축에 짝짓는 것은 업계 일반이다</p>
+    <p class="t5-ana"><span class="lead">비유</span> FinOps(비용)와 SRE(SLO)가 따로 있는 이유와 같다. 한 "효율" 보고서에 섞으면 한쪽이 가려진다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/value-pillars.webp"><img src="../images/value-pillars.webp" alt="사업 가치 축 다섯 개(효율·전환·생산성·비용·성능 SLA)가 나란히 서 있고, 비용과 성능 SLA 는 효율과 따로 선 축임을 보여 준다." loading="lazy" decoding="async"></a>
@@ -400,25 +400,40 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">가이드가 정한 것 (확인)</p>
 <ul>
-<li>목표 1.6 문구가 축 5개를 나란히 적음 : efficiency · transformation · productivity · cost · performance SLAs.</li>
-<li>뜻 풀이는 가이드에 없음. 그래서 "어느 축이냐"를 묻는 문항은 목표 문구의 단어와 지문 단서를 맞추는 문제로 봄(추론).</li>
+<li>목표 1.6 문구가 축 5개를 나란히 적는다 : efficiency · transformation · productivity · cost · performance SLAs.</li>
+<li>뜻 풀이는 가이드에 없다. 그래서 "어느 축이냐"를 묻는 문항은 목표 문구의 단어와 지문 단서를 맞추는 문제로 본다(추론).</li>
 </ul>
 <p class="lead">축을 나눠 두는 이유 (업계 일반)</p>
 <ul>
-<li>축마다 담당 팀·재는 법이 다름 : 비용은 예산·단가, 성능 SLA 는 지연(latency)·가용 약속, 효율은 같은 일에 드는 시간·손.</li>
-<li>한 축에 합치면(예 : 비용을 효율에) 한쪽이 좋아지며 다른 쪽이 나빠지는 걸 못 봄.</li>
+<li>축마다 담당 팀과 재는 법이 다르다.<ul>
+<li>비용은 예산과 단가로 잰다.</li>
+<li>성능 SLA 는 지연(latency)과 가용 약속으로 잰다.</li>
+<li>효율은 같은 일에 드는 시간과 손으로 잰다.</li>
+</ul>
+</li>
+<li>한 축에 합치면(예 : 비용을 효율에) 한쪽이 좋아지며 다른 쪽이 나빠지는 것을 못 본다.</li>
 </ul>
 <p class="lead">공식 문서가 주는 재료 (확인)</p>
 <ul>
-<li>성공 기준(success criteria)은 대부분 여러 차원으로 측정. 공식 성공 기준 목록에 지연(Latency)과 가격(Price)이 따로 있음.</li>
-<li>다차원 예 : F1 0.85 이상 · 무해 99.5% · 95% 응답 시간 200ms 미만 — 성능 SLA 모양의 숫자가 성공 기준 안에 들어감.</li>
-<li>고객지원 가이드 : 도입 신호(대량 반복 문의 · 24/7 · 급증 대응 · 200개 넘는 언어)와 사업 영향 지표(감정 유지 · deflection 70~80% · CSAT 4/5 이상 · AHT 사람보다 낮게).</li>
-<li>모델 선택 = 비용 · 정확도 · 응답 시간 사이 trade-off.</li>
-<li>공식 샘플 2 : 지연과 비용 둘 다 걱정 → 고정 앞부분 캐싱이 둘을 함께 줄이고 필요한 정책도 안 버림.</li>
+<li>성공 기준(success criteria)은 대부분 여러 차원으로 측정한다. 공식 성공 기준 목록에 지연(Latency)과 가격(Price)이 따로 있다.</li>
+<li>다차원 예는 F1 0.85 이상 · 무해 99.5% · 95% 응답 시간 200ms 미만이다. 성능 SLA 모양의 숫자가 성공 기준 안에 들어간다.</li>
+<li>고객지원 가이드는 두 가지를 준다.<ul>
+<li>도입 신호 : 대량 반복 문의 · 24/7 · 급증 대응 · 200개 넘는 언어</li>
+<li>사업 영향 지표 : 감정 유지 · deflection 70~80% · CSAT 4/5 이상 · AHT 사람보다 낮게</li>
+</ul>
+</li>
+<li>모델 선택은 비용, 정확도, 응답 시간 사이의 trade-off 다.</li>
+<li>공식 샘플 2 는 지연과 비용이 둘 다 걱정인 상황이다. 고정 앞부분을 캐싱하면 둘을 함께 줄이고 필요한 정책도 버리지 않는다.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
-<li>지문이 말하는 "좋아짐"은 어느 축 단어에 붙나? (예산·요청당 → 비용 · P95·가동률·약속 → 성능 SLA · 사람 시간 → 생산성 · 새 채널·24/7 → 전환)</li>
+<li>지문이 말하는 "좋아짐"은 어느 축 단어에 붙나? 단서와 축은 아래처럼 짝짓는다.<ul>
+<li>예산·요청당 : 비용</li>
+<li>P95·가동률·약속 : 성능 SLA</li>
+<li>사람 시간 : 생산성</li>
+<li>새 채널·24/7 : 전환</li>
+</ul>
+</li>
 <li>한 축을 올리는 보기가 다른 축을 깨지 않나?</li>
 </ul>
 </section>
@@ -435,23 +450,23 @@
       <div class="t5-fork" style="--n:5">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>같은 일을 더 빨리·적은 손으로</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">효율</p><p>사람 없이 끝난 비율(deflection) 70~80% · 평균 처리 시간(AHT) 사람보다 낮게 <span class="src">(짝짓기는 업계 일반)</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">효율</p><p>사람 없이 끝난 비율(deflection) 70~80% 가 여기 든다. 평균 처리 시간(AHT)을 사람보다 낮게 잡는 것도 여기 든다 <span class="src">(짝짓기는 업계 일반)</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>사람이 더 가치 있는 일에</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">생산성</p><p>상담원이 더 복잡한 문제에 집중 <span class="src">(짝짓기는 업계 일반)</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">생산성</p><p>상담원이 더 복잡한 문제에 집중한다 <span class="src">(짝짓기는 업계 일반)</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>일하는 방식·제공 범위가 바뀜</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">전환</p><p>24/7 가용 · 200개 넘는 언어를 챗봇 하나로 <span class="src">(짝짓기는 업계 일반)</span></p></div>
+          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>일하는 방식·제공 범위가 바뀐다</span>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">전환</p><p>24/7 가용과, 200개 넘는 언어를 챗봇 하나로 다루는 것이 여기 든다 <span class="src">(짝짓기는 업계 일반)</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>돈</span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">비용</p><p>예산 = 호출당 비용 · 모델 크기 · 사용 빈도</p></div>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">비용</p><p>예산은 호출당 비용, 모델 크기, 사용 빈도로 본다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>지연·가용 약속</span>
-          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">성능 SLA</p><p>예 "95% 응답 시간 &lt; 200ms"</p></div>
+          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">성능 SLA</p><p>예를 들면 "95% 응답 시간 &lt; 200ms" 다</p></div>
         </div>
       </div>
     </div>
@@ -463,7 +478,7 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예 <span class="note">("얼마 아끼나"만)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">여러 차원으로</p><p>대부분의 사용 사례는 여러 성공 기준(success criteria)에 따른 다차원 평가</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">여러 차원으로 잰다</p><p>대부분의 사용 사례는 여러 성공 기준(success criteria)에 따라 다차원으로 평가한다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(둘 이상)</span></span>
@@ -471,11 +486,11 @@
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">trade-off</p><p>모델 선택 = 비용 · 정확도 · 응답 시간 사이 trade-off</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">trade-off 를 드러낸다</p><p>모델 선택은 비용, 정확도, 응답 시간 사이의 trade-off 다</p></div>
             </div>
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>둘 다 올릴 수단 있음</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">함께 올림</p><p>두 축을 함께 올리고 필요한 걸 버리지 않는 것 — 공식 샘플 2</p></div>
+              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>둘 다 올릴 수단이 있다</span>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">함께 올린다</p><p>두 축을 함께 올리고 필요한 것을 버리지 않는다. 이것이 공식 샘플 2 의 답이다</p></div>
             </div>
           </div>
         </div>
@@ -487,7 +502,11 @@
       <ol class="how">
         <li id="value-pillars-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p>과제 지표와 사업 영향 지표는 따로 세움 : 과제 = 질문 이해 정확도 · 응답 관련성 · 주제 유지 · 에스컬레이션 정확도 / 사업 영향 = 감정 유지 · deflection · CSAT · AHT <span class="src">(목표치로 증명하는 법 = 1.6② 쪽)</span></p>
+            <p>과제 지표와 사업 영향 지표는 따로 세운다 <span class="src">(목표치로 증명하는 법은 1.6② 쪽에 있다)</span></p>
+            <ul class="dash">
+              <li><span class="lead">과제 지표 :</span> 질문 이해 정확도 · 응답 관련성 · 주제 유지 · 에스컬레이션 정확도</li>
+              <li><span class="lead">사업 영향 지표 :</span> 감정 유지 · deflection · CSAT · AHT</li>
+            </ul>
           </div>
         </li>
       </ol>
@@ -496,31 +515,32 @@
       <ol class="how">
         <li id="value-pillars-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p class="lead">5축 풀이 (뜻 = 업계 일반 · 축 이름만 공식) <span class="pg">[1.6①]</span></p>
+            <p class="lead">5축 풀이다. 뜻은 업계 일반이고, 축 이름만 공식이다 <span class="pg">[1.6①]</span></p>
             <div class="tscroll" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">축</th><th scope="col" role="columnheader">뜻</th><th scope="col" role="columnheader">공식 문서에서 가져올 지표·근거</th></tr></thead>
               <tbody role="rowgroup">
-                <tr role="row"><td data-label="축" role="cell">효율 efficiency</td><td data-label="뜻" role="cell">같은 일을 더 적은 시간·손으로</td><td data-label="공식 문서에서 가져올 지표·근거" role="cell">사람 없이 끝난 비율(deflection) 70~80% · 평균 처리 시간(AHT) 사람보다 낮게</td></tr>
-                <tr role="row"><td data-label="축" role="cell">전환 transformation</td><td data-label="뜻" role="cell">일하는 방식·제공 범위 자체를 바꿈</td><td data-label="공식 문서에서 가져올 지표·근거" role="cell">24/7 가용 · 200개 넘는 언어를 챗봇 하나로</td></tr>
-                <tr role="row"><td data-label="축" role="cell">생산성 productivity</td><td data-label="뜻" role="cell">사람이 더 가치 있는 일에</td><td data-label="공식 문서에서 가져올 지표·근거" role="cell">비슷한 질문을 효율적으로 처리해 상담원이 더 복잡한 문제에 집중</td></tr>
-                <tr role="row"><td data-label="축" role="cell">비용 cost</td><td data-label="뜻" role="cell">요청당·월 비용</td><td data-label="공식 문서에서 가져올 지표·근거" role="cell">예산 = 호출당 비용 · 모델 크기 · 사용 빈도 → 숫자 계산은 <a href="caching.html">■ 프롬프트 캐싱</a> · <a href="batch-vs-sync.html">◆ Batch API vs 동기 호출</a></td></tr>
-                <tr role="row"><td data-label="축" role="cell">성능 SLA</td><td data-label="뜻" role="cell">지연(latency)·가용 같은 운영 한계를 약속</td><td data-label="공식 문서에서 가져올 지표·근거" role="cell">예 "95% 응답 시간 &lt; 200ms" → lever(조절 수단)는 <a href="latency-levers.html">■ 지연 줄이기 lever</a></td></tr>
+                <tr role="row"><td data-label="축" role="cell">효율 efficiency</td><td data-label="뜻" role="cell">같은 일을 더 적은 시간·손으로 한다</td><td data-label="공식 문서에서 가져올 지표·근거" role="cell">사람 없이 끝난 비율(deflection) 70~80% · 평균 처리 시간(AHT) 사람보다 낮게</td></tr>
+                <tr role="row"><td data-label="축" role="cell">전환 transformation</td><td data-label="뜻" role="cell">일하는 방식·제공 범위 자체를 바꾼다</td><td data-label="공식 문서에서 가져올 지표·근거" role="cell">24/7 가용 · 200개 넘는 언어를 챗봇 하나로</td></tr>
+                <tr role="row"><td data-label="축" role="cell">생산성 productivity</td><td data-label="뜻" role="cell">사람이 더 가치 있는 일을 한다</td><td data-label="공식 문서에서 가져올 지표·근거" role="cell">비슷한 질문을 효율적으로 처리해 상담원이 더 복잡한 문제에 집중한다</td></tr>
+                <tr role="row"><td data-label="축" role="cell">비용 cost</td><td data-label="뜻" role="cell">요청당·월 비용</td><td data-label="공식 문서에서 가져올 지표·근거" role="cell">예산은 호출당 비용·모델 크기·사용 빈도로 본다. 숫자 계산은 <a href="caching.html">■ 프롬프트 캐싱</a> · <a href="batch-vs-sync.html">◆ Batch API vs 동기 호출</a> 에 있다</td></tr>
+                <tr role="row"><td data-label="축" role="cell">성능 SLA</td><td data-label="뜻" role="cell">지연(latency)·가용 같은 운영 한계를 약속한다</td><td data-label="공식 문서에서 가져올 지표·근거" role="cell">예는 "95% 응답 시간 &lt; 200ms" 다. lever(조절 수단)는 <a href="latency-levers.html">■ 지연 줄이기 lever</a> 에 있다</td></tr>
               </tbody>
             </table>
             </div>
-            <p>지표를 축에 짝짓는 칸은 업계 일반. 지표 값 자체는</p>
+            <p>지표를 축에 짝짓는 칸은 업계 일반이다. 지표 값 자체는 공식 값이다</p>
           </div>
         </li>
         <li id="value-pillars-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p>지표 하나로 약속하지 않음 : 대부분의 사용 사례는 여러 성공 기준에 따른 다차원 평가. 지연(Latency)과 가격(Price)은 공식 성공 기준 목록에서도 독립된 항목 <span class="pg">[1.6①]</span></p>
-            <p>임원이 "얼마 아끼나"만 물어도 비용 + 해결률 + 만족도 + 지연을 함께 건다 <span class="gen">업계 일반</span> <span class="note">조합은 목록 제안</span></p>
+            <p>지표 하나로 약속하지 않는다 : 대부분의 사용 사례는 여러 성공 기준에 따라 다차원으로 평가한다. 지연(Latency)과 가격(Price)은 공식 성공 기준 목록에서도 독립된 항목이다 <span class="pg">[1.6①]</span></p>
+            <p>임원이 "얼마 아끼나"만 물어도 비용, 해결률, 만족도, 지연을 함께 건다 <span class="gen">업계 일반</span> <span class="note">조합은 목록 제안</span></p>
           </div>
         </li>
         <li id="value-pillars-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p>축끼리 맞바꿈(trade-off) : 모델 선택 = 비용 · 정확도 · 응답 시간 사이 trade-off. 가장 좋은 답은 두 축을 함께 올리고 필요한 걸 버리지 않는 것 — 공식 샘플 2(지연·비용 둘 다 → 고정 앞부분 캐싱, 정책 잘라내기·무작정 작은 모델 X) <span class="pg">[1.6①]</span></p>
+            <p>축끼리 맞바꿈(trade-off) : 모델 선택은 비용, 정확도, 응답 시간 사이의 trade-off 다. 가장 좋은 답은 두 축을 함께 올리고 필요한 것을 버리지 않는 것이다 <span class="pg">[1.6①]</span></p>
+            <p>공식 샘플 2 가 그 예다. 지연과 비용이 둘 다 문제이면 고정 앞부분을 캐싱한다. 정책을 잘라내거나 무작정 작은 모델을 고르지 않는다</p>
           </div>
         </li>
       </ol>
@@ -535,11 +555,11 @@
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
     <tr role="row"><td data-label="조건" role="cell">"value pillars(핵심 가치 항목)가 무엇인가"</td><td data-label="답" role="cell">효율 · 전환 · 생산성 · 비용 · 성능 SLA (5개)</td><td data-label="근거" role="cell">가이드 v1.0 목표 1.6 (PDF 4쪽)</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">비용·지연을 효율에 합친 보기</td><td data-label="답" role="cell">틀림 — 독립된 축</td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.6</a> (5개 나란히)</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">지표 하나로 도입 가치를 약속</td><td data-label="답" role="cell">여러 차원으로</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> · en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">비용과 성능이 부딪힘</td><td data-label="답" role="cell">trade-off를 드러내고 고름</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">두 축을 함께 올리는 수단이 있음 (예 : 고정 앞부분)</td><td data-label="답" role="cell">그 수단 (캐싱)</td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 정답 C</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">비용 줄이려 품질·필요한 정보를 버리는 보기</td><td data-label="답" role="cell">틀림</td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설 A·B</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">비용·지연을 효율에 합친 보기다</td><td data-label="답" role="cell">틀린다. 비용과 지연은 독립된 축이다</td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.6</a> (5개 나란히)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">지표 하나로 도입 가치를 약속한다</td><td data-label="답" role="cell">여러 차원으로 잰다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> · en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">비용과 성능이 부딪힌다</td><td data-label="답" role="cell">trade-off를 드러내고 고른다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">두 축을 함께 올리는 수단이 있다 (예 : 고정 앞부분)</td><td data-label="답" role="cell">그 수단을 쓴다 (캐싱)</td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 정답 C</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">비용을 줄이려고 품질이나 필요한 정보를 버리는 보기다</td><td data-label="답" role="cell">틀린다</td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설 A·B</td></tr>
   </tbody>
 </table>
 </div>
@@ -550,13 +570,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">지문 단서</td><td data-label="값" role="cell">예산 · per-request cost(요청당 비용) · 월 청구</td><td data-label="답 쪽" role="cell">비용 축 → ■ 프롬프트 캐싱 · ◆ Batch API vs 동기 호출</td><td data-label="등급" role="cell"><span class="note">(지표) ·</span> <span class="gen">업계 일반</span> <span class="note">(짝짓기)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">지문 단서</td><td data-label="값" role="cell">P95 · 응답 시간 · 가동 · 계약상 약속</td><td data-label="답 쪽" role="cell">성능 SLA 축 → ■ 지연 줄이기 lever</td><td data-label="등급" role="cell"><span class="note">(지표) ·</span> <span class="gen">업계 일반</span> <span class="note">(짝짓기)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full · <a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 6.3</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">지문 단서</td><td data-label="값" role="cell">사람 개입 없이 끝남 · 처리 시간</td><td data-label="답 쪽" role="cell">효율 축</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a> (지표 값은 확인)</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">지문 단서</td><td data-label="값" role="cell">상담원이 복잡한 일에 집중</td><td data-label="답 쪽" role="cell">생산성 축</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"> (문장은 확인)</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">지문 단서</td><td data-label="값" role="cell">24/7 · 다국어 · 없던 서비스</td><td data-label="답 쪽" role="cell">전환 축</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"> (문장은 확인)</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">질문자</td><td data-label="값" role="cell">임원 "얼마 아끼나"만</td><td data-label="답 쪽" role="cell">비용 + 다른 축 지표를 함께</td><td data-label="등급" role="cell"><span class="note">(다차원) ·</span> <span class="gen">업계 일반</span> <span class="note">(조합)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">한국어 지문의 "전환율"</td><td data-label="값" role="cell">deflection rate 번역</td><td data-label="답 쪽" role="cell">효율 쪽 지표 — 전환(transformation) 축 아님</td><td data-label="등급" role="cell"><span class="note">(번역)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">지문 단서</td><td data-label="값" role="cell">예산 · per-request cost(요청당 비용) · 월 청구</td><td data-label="답 쪽" role="cell">비용 축이다. 자세한 것은 ■ 프롬프트 캐싱 · ◆ Batch API vs 동기 호출 에 있다</td><td data-label="등급" role="cell"><span class="note">(지표) ·</span> <span class="gen">업계 일반</span> <span class="note">(짝짓기)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">지문 단서</td><td data-label="값" role="cell">P95 · 응답 시간 · 가동 · 계약상 약속</td><td data-label="답 쪽" role="cell">성능 SLA 축이다. 자세한 것은 ■ 지연 줄이기 lever 에 있다</td><td data-label="등급" role="cell"><span class="note">(지표) ·</span> <span class="gen">업계 일반</span> <span class="note">(짝짓기)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full · <a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 6.3</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">지문 단서</td><td data-label="값" role="cell">사람 개입 없이 끝난다 · 처리 시간</td><td data-label="답 쪽" role="cell">효율 축이다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a> (지표 값은 확인)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">지문 단서</td><td data-label="값" role="cell">상담원이 복잡한 일에 집중한다</td><td data-label="답 쪽" role="cell">생산성 축이다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"> (문장은 확인)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">지문 단서</td><td data-label="값" role="cell">24/7 · 다국어 · 없던 서비스</td><td data-label="답 쪽" role="cell">전환 축이다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"> (문장은 확인)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">질문자</td><td data-label="값" role="cell">임원이 "얼마 아끼나"만 묻는다</td><td data-label="답 쪽" role="cell">비용과 다른 축 지표를 함께 건다</td><td data-label="등급" role="cell"><span class="note">(다차원) ·</span> <span class="gen">업계 일반</span> <span class="note">(조합)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">한국어 지문의 "전환율"</td><td data-label="값" role="cell">deflection rate 의 번역이다</td><td data-label="답 쪽" role="cell">효율 쪽 지표다. 전환(transformation) 축이 아니다</td><td data-label="등급" role="cell"><span class="note">(번역)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -572,11 +592,11 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"value pillars = 효율(비용 포함)·생산성·전환 셋" → 5축, 비용·성능 SLA 는 따로</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"성능은 기술 지표지 사업 가치가 아니다" → 성능 SLA 는 가이드의 value pillars 중 하나</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>한국어판 고객지원 가이드는 deflection rate 를 "전환율"로 번역 → value pillars 의 "전환(transformation)"과 다른 말. deflection = 사람 없이 끝난 비율 <span class="note">(효율 쪽 지표로 봄 — 업계 일반)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"비용 줄이려 과제 무시하고 제일 작은 모델 · 정책 잘라내기" → 품질·필요한 정책을 잃음 (공식 샘플 2 B·A) → <a href="caching.html">■ 프롬프트 캐싱</a></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"deflection 만 올리면 성공" → 에스컬레이션 정확도(목표 95% 이상)를 같이 봄. 사람에게 넘길 대화를 붙잡아도 deflection 은 좋아 보임 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"value pillars = 효율(비용 포함)·생산성·전환 셋" 은 함정이다. 축은 5개다. 비용과 성능 SLA 는 따로 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"성능은 기술 지표지 사업 가치가 아니다" 는 함정이다. 성능 SLA 는 가이드의 value pillars 중 하나다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>deflection 은 사람 없이 끝난 비율이다 (효율 쪽 지표로 본다 — 업계 일반). 그런데 한국어판 고객지원 가이드는 deflection rate 를 "전환율"로 번역한다. 이 말은 value pillars 의 "전환(transformation)"과 다른 말이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"비용을 줄이려고 과제를 무시하고 제일 작은 모델을 고르거나 정책을 잘라낸다" 는 함정이다. 품질이나 필요한 정책을 잃는다 (공식 샘플 2 B·A). 자세한 것은 <a href="caching.html">■ 프롬프트 캐싱</a> 에 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"deflection 만 올리면 성공이다" 는 함정이다. 챗봇이 사람에게 넘길 대화를 붙잡아도 deflection 은 좋아 보인다 <span class="gen">업계 일반</span>. 그래서 에스컬레이션 정확도(목표 95% 이상)를 같이 본다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -598,29 +618,29 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 비용 축을 올리는 안이 성능 SLA 를 깨는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 채팅 응답을 P95 2.5초로 약속한 서비스. 비용을 줄이려 "배치로 50% 절감" 안이 올라옴.</li>
-<li><span class="lead">판단 :</span> 배치는 대부분 1시간 안, 최대 24시간이고 분 단위 약속이 없음 → 성능 SLA 축을 깸. 비용 축은 동기 호출 안에서 캐싱 등으로. 배치 판단 본문 = ◆ Batch API vs 동기 호출.</li>
+<li><span class="lead">조건 :</span> 채팅 응답을 P95 2.5초로 약속한 서비스다. 비용을 줄이려고 "배치로 50% 절감" 안이 올라왔다.</li>
+<li><span class="lead">판단 :</span> 배치는 대부분 1시간 안에 끝나고, 최대 24시간이 걸린다. 분 단위 약속은 없다. 그래서 성능 SLA 축을 깬다. 비용 축은 동기 호출 안에서 캐싱 등으로 줄인다. 배치 판단 본문은 ◆ Batch API vs 동기 호출 에 있다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(배치 시간) ·</span> <span class="gen">업계 일반</span> <span class="note">(2.5초는 새로 고른 가정 숫자)</span></li>
 <li><span class="lead">근거 :</span> ◆ Batch API vs 동기 호출 카드 신호 줄 · 가이드 샘플 2</li>
 </ul>
 <h4>2. 효율 지표는 올랐는데 가치가 아닌 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 시범 뒤 deflection 85%(목표 70~80% 넘음). 그런데 에스컬레이션 정확도가 88%(목표 95% 이상 미달).</li>
-<li><span class="lead">판단 :</span> 사람에게 넘겨야 할 대화를 붙잡아 deflection 이 부풀었을 수 있음 → 효율 축 하나로 성공이라 부르지 않음. 과제 지표(에스컬레이션 정확도)와 사업 영향 지표를 같이 봄.</li>
+<li><span class="lead">조건 :</span> 시범 뒤 deflection 이 85% 다(목표 70~80% 를 넘었다). 그런데 에스컬레이션 정확도는 88% 다(목표 95% 이상에 못 미친다).</li>
+<li><span class="lead">판단 :</span> 사람에게 넘겨야 할 대화를 붙잡아 deflection 이 부풀었을 수 있다. 그래서 효율 축 하나로 성공이라 부르지 않는다. 과제 지표(에스컬레이션 정확도)와 사업 영향 지표를 같이 본다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(목표치 70~80% · 95%) ·</span> <span class="gen">업계 일반</span> <span class="note">(부풀었다는 해석)</span></li>
 <li><span class="lead">근거 :</span> customer-support-chat</li>
 </ul>
 <h4>3. 두 축이 부딪히는 줄 알았는데 함께 올라가는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 매 요청에 같은 긴 정책 문서를 보내 지연·비용이 둘 다 문제.</li>
-<li><span class="lead">판단 :</span> "비용이냐 지연이냐" 고르기가 아님. 고정 앞부분을 앞에 두고 캐싱하면 첫 토큰 시간과 per-request cost 가 함께 줄고 정책도 안 버림.</li>
+<li><span class="lead">조건 :</span> 매 요청에 같은 긴 정책 문서를 보낸다. 지연과 비용이 둘 다 문제다.</li>
+<li><span class="lead">판단 :</span> "비용이냐 지연이냐"를 고르는 문제가 아니다. 고정 앞부분을 앞에 두고 캐싱하면 첫 토큰 시간과 per-request cost 가 함께 준다. 정책도 버리지 않는다.</li>
 
 <li><span class="lead">근거 :</span> 가이드 샘플 2 정답 C · ■ 프롬프트 캐싱</li>
 </ul>
 <h4>4. 한국어 지문에서 "전환"이 두 뜻일 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 한국어 번역 지문에 "전환율 75% 달성"이 value pillars 의 "전환" 근거로 쓰인 보기.</li>
-<li><span class="lead">판단 :</span> 한국어판 고객지원 가이드는 deflection rate 를 "전환율"로 옮김. 사람 없이 끝난 비율이지 업무 방식을 바꾸는 transformation 이 아님. 영어 원문 단어로 되돌려 읽음.</li>
+<li><span class="lead">조건 :</span> 한국어 번역 지문의 보기에서 "전환율 75% 달성"이 value pillars 의 "전환" 근거로 쓰였다.</li>
+<li><span class="lead">판단 :</span> 한국어판 고객지원 가이드는 deflection rate 를 "전환율"로 옮긴다. 이것은 사람 없이 끝난 비율이다. 업무 방식을 바꾸는 transformation 이 아니다. 영어 원문 단어로 되돌려 읽는다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(번역 사실) ·</span> <span class="gen">업계 일반</span> <span class="note">(축 짝짓기)</span></li>
 </ul>
 </section>
@@ -630,12 +650,12 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"value pillars = 효율(비용 포함)·생산성·전환 셋"</td><td data-label="왜 끌리나" role="cell">비용 절감 = 효율로 흔히 말함 · 목록 기록상 영상 Part 3 주장</td><td data-label="왜 틀리나" role="cell">가이드는 5개, 비용·성능 SLA 는 따로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.6</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"성능은 기술 지표지 사업 가치가 아니다"</td><td data-label="왜 끌리나" role="cell">SLA 는 운영팀 일로 보임</td><td data-label="왜 틀리나" role="cell">가이드가 value pillars 로 명시</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.6</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"지표 하나(절감액)로 도입을 약속"</td><td data-label="왜 끌리나" role="cell">임원 질문이 하나</td><td data-label="왜 틀리나" role="cell">대부분 여러 차원으로 측정</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"비용을 위해 과제와 상관없이 제일 작은 모델"</td><td data-label="왜 끌리나" role="cell">단가가 바로 줄어 보임</td><td data-label="왜 틀리나" role="cell">무작정 줄이면 품질 위험</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설 B</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"전환율(=deflection) 상승 = 전환 축의 가치"</td><td data-label="왜 끌리나" role="cell">한국어 단어가 같음</td><td data-label="왜 틀리나" role="cell">번역어 충돌. deflection 은 사람 없이 끝난 비율</td><td data-label="등급" role="cell"><span class="note">(번역)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"deflection 만 올리면 성공"</td><td data-label="왜 끌리나" role="cell">자동 해결률 = 절감으로 곧장 보임</td><td data-label="왜 틀리나" role="cell">에스컬레이션 정확도를 같이 안 보면 붙잡은 대화도 성공처럼 보임</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> (목표치는 확인)</td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"value pillars = 효율(비용 포함)·생산성·전환 셋"</td><td data-label="왜 끌리나" role="cell">비용 절감을 흔히 효율이라 말한다. 목록 기록상 영상 Part 3 의 주장이다</td><td data-label="왜 틀리나" role="cell">가이드는 5개다. 비용과 성능 SLA 는 따로 있다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.6</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"성능은 기술 지표지 사업 가치가 아니다"</td><td data-label="왜 끌리나" role="cell">SLA 는 운영팀 일로 보인다</td><td data-label="왜 틀리나" role="cell">가이드가 value pillars 로 명시한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.6</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"지표 하나(절감액)로 도입을 약속"</td><td data-label="왜 끌리나" role="cell">임원 질문이 하나다</td><td data-label="왜 틀리나" role="cell">대부분 여러 차원으로 측정한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"비용을 위해 과제와 상관없이 제일 작은 모델"</td><td data-label="왜 끌리나" role="cell">단가가 바로 줄어 보인다</td><td data-label="왜 틀리나" role="cell">무작정 줄이면 품질 위험이 있다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설 B</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"전환율(=deflection) 상승 = 전환 축의 가치"</td><td data-label="왜 끌리나" role="cell">한국어 단어가 같다</td><td data-label="왜 틀리나" role="cell">번역어가 충돌한 것이다. deflection 은 사람 없이 끝난 비율이다</td><td data-label="등급" role="cell"><span class="note">(번역)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"deflection 만 올리면 성공"</td><td data-label="왜 끌리나" role="cell">자동 해결률이 곧장 절감으로 보인다</td><td data-label="왜 틀리나" role="cell">에스컬레이션 정확도를 같이 보지 않으면 붙잡은 대화도 성공처럼 보인다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> (목표치는 확인)</td><td data-label="근거" role="cell"></td></tr>
   </tbody>
 </table>
 </div>
@@ -643,12 +663,16 @@
   </details>
   <h2 class="sec-h" id="value-pillars-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="caching.html">■ 프롬프트 캐싱 (비용)</a></li>
         <li><a href="batch-vs-sync.html">◆ Batch API vs 동기 호출 (비용)</a></li>
         <li><a href="latency-levers.html">■ 지연 줄이기 lever (성능 SLA)</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.6</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -665,14 +689,15 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>가이드는 5축의 뜻을 정의하지 않음. 특히 transformation 과 productivity·efficiency 의 경계는 공식 문장 없음 — 카드 풀이는 업계 일반.</li>
-<li>"성능 SLA" 가 지연만인지 가용률까지인지 공식 문장 없음. 공식 숫자 예는 응답 시간(95% &lt; 200ms)뿐.</li>
-<li>목록 1.6① 의 "P95 4초 · 99.9%" 는 목록 스스로 강의 예시라 적음 — 공식 원문에 없어 카드에 안 씀.</li>
-<li>목록 1.6① 정답 규칙의 "해결률 + 만족도 + 지연을 함께 건다" 조합은 공식 문장이 아님(다차원 원칙만 확인) → 업계 일반으로 낮춤.</li>
-<li>목록 1.6① 의 영어 신호(목표 문구)는 가이드 PDF 4쪽에서 확인. 못 찾은 인용 없음.</li>
-<li>Skilljar 는 이 카드에서 새로 조회하지 않음. 받아 둔 Skilljar 22개 파일을 "business value · value pillar · transformation" 으로 grep → 1건(Skills 강의의 "Data transformations", 무관). 받지 않은 강의는 모름.</li>
+<li>가이드는 5축의 뜻을 정의하지 않는다. 특히 transformation 과 productivity·efficiency 의 경계는 공식 문장이 없다. 카드 풀이는 업계 일반이다.</li>
+<li>"성능 SLA" 가 지연만인지 가용률까지인지 공식 문장이 없다. 공식 숫자 예는 응답 시간(95% &lt; 200ms)뿐이다.</li>
+<li>목록 1.6① 의 "P95 4초 · 99.9%" 는 목록 스스로 강의 예시라고 적었다. 공식 원문에 없어 카드에 쓰지 않았다.</li>
+<li>목록 1.6① 정답 규칙의 "해결률 + 만족도 + 지연을 함께 건다" 조합은 공식 문장이 아니다(다차원 원칙만 확인). 그래서 업계 일반으로 낮췄다.</li>
+<li>목록 1.6① 의 영어 신호(목표 문구)는 가이드 PDF 4쪽에서 확인했다. 못 찾은 인용은 없다.</li>
+<li>Skilljar 는 이 카드에서 새로 조회하지 않았다. 받아 둔 Skilljar 22개 파일을 "business value · value pillar · transformation" 으로 grep 했다. 1건이 나왔다(Skills 강의의 "Data transformations", 무관). 받지 않은 강의는 모른다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

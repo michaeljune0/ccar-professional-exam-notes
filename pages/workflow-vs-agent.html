@@ -392,27 +392,35 @@
 <!-- /vx:figure -->
 <section class="ex-sec" id="principle" aria-labelledby="principle-h">
 <h3 id="principle-h">원리</h3>
-<p class="lead">가르는 축은 하나</p>
+<p class="lead">가르는 축은 하나다</p>
 <ul>
-<li>다음 단계를 누가 정하나. 코드가 미리 정해 두면 워크플로, 모델이 실행 중에 정하면 에이전트.</li>
-<li>도구 호출은 둘 다 함. 워크플로 안의 각 호출도 검색(retrieval)·도구·메모리가 붙은 LLM(증강 LLM)을 씀 → "도구를 쓴다"는 가르는 기준이 아님.</li>
+<li>축은 다음 단계를 누가 정하나다. 코드가 미리 정해 두면 워크플로다. 모델이 실행 중에 정하면 에이전트다.</li>
+<li>도구 호출은 둘 다 한다. 워크플로 안의 각 호출도 검색(retrieval)·도구·메모리가 붙은 LLM(증강 LLM)을 쓴다. 그래서 "도구를 쓴다" 는 가르는 기준이 아니다.</li>
 </ul>
 <p class="lead">워크플로가 이기는 이유</p>
 <ul>
-<li>경로가 코드에 있음 → 중간 단계에 코드 검사(gate)를 넣을 수 있고, 매 단계가 무엇을 할지 알아서 평가·테스트가 쉬움.</li>
-<li>한 호출이 한 가지 일에 집중 → 대개 정확도가 오름.</li>
-<li>대신 유연성이 없음 : 미리 그린 입력·단계 밖의 일은 못 받음.</li>
+<li>경로가 코드에 있다. 그래서 중간 단계에 코드 검사(gate)를 넣을 수 있다. 매 단계가 무엇을 할지 알아서 평가·테스트가 쉽다.</li>
+<li>한 호출이 한 가지 일에 집중한다. 그래서 대개 정확도가 오른다.</li>
+<li>대신 유연성이 없다. 미리 그린 입력·단계 밖의 일은 못 받는다.</li>
 </ul>
 <p class="lead">에이전트가 이기는 이유</p>
 <ul>
-<li>필요한 단계 수를 미리 알 수 없는 열린 문제 : 매 걸음 도구 결과(ground truth)를 보고 다음을 정함.</li>
-<li>예상 못 한 상황에서 도구를 뜻밖의 방식으로 묶어 풀고, 필요하면 사용자에게 되물음.</li>
-<li>대신 비용↑ · 지연(latency)↑ · 오류가 쌓임 · 완료율↓ · 계측·평가가 어려움 → 모델 결정을 어느 정도 믿을 수 있어야 하고, 샌드박스 테스트·가드레일·멈춤 조건이 따라붙음.</li>
+<li>필요한 단계 수를 미리 알 수 없는 열린 문제를 푼다. 매 걸음 도구 결과(ground truth)를 보고 다음을 정한다.</li>
+<li>예상 못 한 상황에서 도구를 뜻밖의 방식으로 묶어 푼다. 필요하면 사용자에게 되묻는다.</li>
+<li>대신 대가가 있다.<ul>
+<li>비용이 오른다</li>
+<li>지연(latency)이 늘어난다</li>
+<li>오류가 쌓인다</li>
+<li>완료율이 내려간다</li>
+<li>계측·평가가 어렵다</li>
+</ul>
+</li>
+<li>그래서 모델 결정을 어느 정도 믿을 수 있어야 한다. 샌드박스 테스트·가드레일·멈춤 조건도 따라붙는다.</li>
 </ul>
 <p class="lead">순서</p>
 <ul>
-<li>더 단순한 것부터 : 단일 LLM 호출 + 검색·예시로 대개 충분. 에이전트 시스템을 아예 안 만드는 것도 답.</li>
-<li>복잡도는 결과가 나아진다는 증거가 있을 때만.</li>
+<li>더 단순한 것부터 본다. 단일 LLM 호출에 검색·예시를 붙이면 대개 충분하다. 에이전트 시스템을 아예 안 만드는 것도 답이다.</li>
+<li>복잡도는 결과가 나아진다는 증거가 있을 때만 더한다.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
@@ -429,11 +437,11 @@
   <section class="t5-flow tree" id="workflow-vs-agent-tree-1" aria-labelledby="workflow-vs-agent-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5">
     <div class="t5-fh"><h3 id="workflow-vs-agent-tree-1-h">더 단순한 걸로 되나 <span class="pg">[1.3①]</span> <span class="pg">[1.3③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>단일 호출 + 검색·예시로 충분?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>단일 호출 + 검색·예시로 충분한가?</div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">에이전트 시스템 없이</p><p>단일 LLM 호출 + 검색(retrieval)·예시로 대개 충분</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">에이전트 시스템 없이 간다</p><p>단일 LLM 호출에 검색(retrieval)·예시를 붙이면 대개 충분하다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
@@ -445,23 +453,23 @@
   <section class="t5-flow tree" id="workflow-vs-agent-tree-2" aria-labelledby="workflow-vs-agent-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9">
     <div class="t5-fh"><h3 id="workflow-vs-agent-tree-2-h">누가 다음 단계를 정하나 <span class="pg">[1.3①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>단계를 미리 그릴 수 있나?<span class="t5-sub">도구 유무는 기준 아님</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>단계를 미리 그릴 수 있나?<span class="t5-sub">도구 유무는 기준이 아니다</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예 <span class="note">(고정 경로)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">워크플로</p><p>미리 정한 코드 경로. 예측 가능·일관성 · 한 단계씩 집중 · 평가·테스트 쉬움</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">워크플로</p><p>미리 정한 코드 경로로 간다. 예측 가능하고 일관된다. 한 단계씩 집중한다. 평가·테스트가 쉽다</p></div>
         </div>
         <div class="t5-arm">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(단계 수를 모름)</span></span>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(단계 수를 모른다)</span></span>
           <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>모델 결정을 믿을 만한가?<span class="t5-sub">샌드박스·가드레일</span></div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">에이전트</p><p>필요한 단계 수를 예측하기 어렵거나 불가능 · 고정 경로를 하드코딩 못 함 · 모델 결정을 어느 정도 믿음 · 샌드박스에서 충분히 테스트 + 가드레일</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">에이전트</p><p>필요한 단계 수를 예측하기 어렵거나 불가능하다. 고정 경로를 하드코딩하지 못한다. 모델 결정을 어느 정도 믿는다. 샌드박스에서 충분히 테스트하고 가드레일을 둔다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아직</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">에이전트 + 막히면 사람에게 · 멈춤 조건</p><p>에이전트는 비용↑ · 오류가 쌓일 수 있음 → 샌드박스에서 충분히 테스트 + 가드레일 · 체크포인트·막히면 사람에게 · 멈춤 조건(최대 반복 수)</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">에이전트 + 막히면 사람에게 · 멈춤 조건</p><p>에이전트는 비용이 오르고 오류가 쌓일 수 있다. 그래서 샌드박스에서 충분히 테스트하고 가드레일을 둔다. 체크포인트에서나 막히면 사람에게 돌아온다. 멈춤 조건(최대 반복 수)을 둔다</p></div>
             </div>
           </div>
         </div>
@@ -471,22 +479,22 @@
   <section class="t5-flow tree" id="workflow-vs-agent-tree-3" aria-labelledby="workflow-vs-agent-tree-3-h" data-paths="n1 n2 n3|n1 n4 n5">
     <div class="t5-fh"><h3 id="workflow-vs-agent-tree-3-h">무엇을 포기하나 <span class="pg">[1.3①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>에이전트로 가면?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>에이전트로 가면 무엇이 바뀌나?</div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>얻음</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">유연성</p><p>도구를 뜻밖의 방식으로 묶음 · 예상 못 한 상황 처리</p></div>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>얻는 것</span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">유연성</p><p>도구를 뜻밖의 방식으로 묶는다. 예상 못 한 상황을 처리한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>잃음</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">비용·오류·평가</p><p>비용↑ · 오류가 쌓일 수 있음 · 과제 완료율↓ · 계측·평가 어려움</p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>잃는 것</span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">비용·오류·평가</p><p>비용이 오른다. 오류가 쌓일 수 있다. 과제 완료율이 내려간다. 계측·평가가 어렵다</p></div>
         </div>
       </div>
     </div>
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="workflow-vs-agent-flow" aria-label="워크플로 vs 에이전트 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["코드","모델","도구"],"blocks":[],"rules":[null,null,null],"question":"다음 단계는 누가 정할까?","scenes":[{"name":"① 워크플로","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["환불 요청 #5521","순서: 자격 → 정책 → 처리 → 알림"]}},{"kind":"move","step":"경로","from":{"col":0},"to":1,"label":"미리 정한 코드 경로","art":{"kind":"slip","lines":["1단계: 자격 확인","(순서는 코드가 정함)"]}},{"kind":"move","step":"판정","from":{"col":1},"to":0,"label":"","art":{"kind":"slip","lines":["{ 자격: true }"]}},{"kind":"mark","step":"검사","at":{"col":0},"label":"중간 단계에 코드 검사(gate)","art":{"kind":"slip","lines":["gate: 자격 = true","→ 2단계 정책 확인"]}},{"kind":"end","label":"코드가 다음 단계를 정함 — 예측 가능·일관성"}]},{"name":"② 에이전트","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"결제가 가끔 두 번 나가요, 원인 찾아 줘"}},{"kind":"move","step":"넘김","from":{"col":0},"to":1,"label":"목표와 도구만 줌","art":{"kind":"slip","lines":["목표 + 도구 목록","다음 단계는 모델이"]}},{"kind":"move","step":"결정","from":{"col":1},"to":2,"label":"모델이 스스로 도구를 정함","art":{"kind":"slip","lines":["search_logs(\"중복 결제\")"]}},{"kind":"move","step":"결과","from":{"col":2},"to":1,"label":"매 걸음 ground truth(도구 결과)","art":{"kind":"slip","lines":["로그 2건: 재시도가","결제를 한 번 더 보냄"]}},{"kind":"end","label":"필요한 단계 수를 예측하기 어려운 열린 문제"}]},{"name":"③ 도구를 부르니 에이전트?","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["환불 요청 #5521","순서: 자격 → 정책 → 처리 → 알림"]}},{"kind":"move","step":"경로","from":{"col":0},"to":1,"label":"미리 정한 코드 경로","art":{"kind":"slip","lines":["3단계: 처리","(순서는 코드가 정함)"]}},{"kind":"move","step":"호출","from":{"col":1},"to":2,"label":"도구를 여러 개 부름","art":{"kind":"slip","lines":["cancel_payment(5521)","send_mail(고객)"]}},{"kind":"end","label":"도구를 불러도 순서는 코드가 정함 — 도구 유무가 아니라 다음 단계를 누가 정하나"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["코드","모델","도구"],"blocks":[],"rules":[null,null,null],"question":"다음 단계는 누가 정할까?","scenes":[{"name":"① 워크플로","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["환불 요청 #5521","순서: 자격 → 정책 → 처리 → 알림"]}},{"kind":"move","step":"경로","from":{"col":0},"to":1,"label":"미리 정한 코드 경로로 간다","art":{"kind":"slip","lines":["1단계: 자격 확인","(순서는 코드가 정함)"]}},{"kind":"move","step":"판정","from":{"col":1},"to":0,"label":"","art":{"kind":"slip","lines":["{ 자격: true }"]}},{"kind":"mark","step":"검사","at":{"col":0},"label":"중간 단계에서 코드가 검사(gate)한다","art":{"kind":"slip","lines":["gate: 자격 = true","→ 2단계 정책 확인"]}},{"kind":"end","label":"코드가 다음 단계를 정한다. 예측 가능하고 일관된다"}]},{"name":"② 에이전트","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"결제가 가끔 두 번 나가요, 원인 찾아 줘"}},{"kind":"move","step":"넘김","from":{"col":0},"to":1,"label":"목표와 도구만 준다","art":{"kind":"slip","lines":["목표 + 도구 목록","다음 단계는 모델이"]}},{"kind":"move","step":"결정","from":{"col":1},"to":2,"label":"모델이 스스로 도구를 정한다","art":{"kind":"slip","lines":["search_logs(\"중복 결제\")"]}},{"kind":"move","step":"결과","from":{"col":2},"to":1,"label":"매 걸음 ground truth(도구 결과)를 받는다","art":{"kind":"slip","lines":["로그 2건: 재시도가","결제를 한 번 더 보냄"]}},{"kind":"end","label":"필요한 단계 수를 예측하기 어려운 열린 문제다"}]},{"name":"③ 도구를 부르니 에이전트?","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["환불 요청 #5521","순서: 자격 → 정책 → 처리 → 알림"]}},{"kind":"move","step":"경로","from":{"col":0},"to":1,"label":"미리 정한 코드 경로로 간다","art":{"kind":"slip","lines":["3단계: 처리","(순서는 코드가 정함)"]}},{"kind":"move","step":"호출","from":{"col":1},"to":2,"label":"도구를 여러 개 부른다","art":{"kind":"slip","lines":["cancel_payment(5521)","send_mail(고객)"]}},{"kind":"end","label":"도구를 불러도 순서는 코드가 정한다. 기준은 도구 유무가 아니라 다음 단계를 누가 정하나다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -495,25 +503,25 @@
       <p class="lead">① 워크플로 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 코드 — 쪽지 : <span class="flx-alt-slip">환불 요청 #5521 / 순서: 자격 → 정책 → 처리 → 알림</span></li>
-        <li>경로 : 코드 → 모델 : 미리 정한 코드 경로 — 쪽지 : <span class="flx-alt-slip">1단계: 자격 확인 / (순서는 코드가 정함)</span></li>
+        <li>경로 : 코드 → 모델 : 미리 정한 코드 경로로 간다 — 쪽지 : <span class="flx-alt-slip">1단계: 자격 확인 / (순서는 코드가 정함)</span></li>
         <li>판정 : 모델 → 코드 — 쪽지 : <span class="flx-alt-slip">{ 자격: true }</span></li>
-        <li>검사 : 코드 : 중간 단계에 코드 검사(gate) — 쪽지 : <span class="flx-alt-slip">gate: 자격 = true / → 2단계 정책 확인</span></li>
-        <li>끝 : 코드가 다음 단계를 정함 — 예측 가능·일관성</li>
+        <li>검사 : 코드 : 중간 단계에서 코드가 검사(gate)한다 — 쪽지 : <span class="flx-alt-slip">gate: 자격 = true / → 2단계 정책 확인</span></li>
+        <li>끝 : 코드가 다음 단계를 정한다. 예측 가능하고 일관된다</li>
       </ol>
       <p class="lead">② 에이전트 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 코드 — 말 : <span class="flx-alt-say">“결제가 가끔 두 번 나가요, 원인 찾아 줘”</span></li>
-        <li>넘김 : 코드 → 모델 : 목표와 도구만 줌 — 쪽지 : <span class="flx-alt-slip">목표 + 도구 목록 / 다음 단계는 모델이</span></li>
-        <li>결정 : 모델 → 도구 : 모델이 스스로 도구를 정함 — 쪽지 : <span class="flx-alt-slip">search_logs("중복 결제")</span></li>
-        <li>결과 : 도구 → 모델 : 매 걸음 ground truth(도구 결과) — 쪽지 : <span class="flx-alt-slip">로그 2건: 재시도가 / 결제를 한 번 더 보냄</span></li>
-        <li>끝 : 필요한 단계 수를 예측하기 어려운 열린 문제</li>
+        <li>넘김 : 코드 → 모델 : 목표와 도구만 준다 — 쪽지 : <span class="flx-alt-slip">목표 + 도구 목록 / 다음 단계는 모델이</span></li>
+        <li>결정 : 모델 → 도구 : 모델이 스스로 도구를 정한다 — 쪽지 : <span class="flx-alt-slip">search_logs("중복 결제")</span></li>
+        <li>결과 : 도구 → 모델 : 매 걸음 ground truth(도구 결과)를 받는다 — 쪽지 : <span class="flx-alt-slip">로그 2건: 재시도가 / 결제를 한 번 더 보냄</span></li>
+        <li>끝 : 필요한 단계 수를 예측하기 어려운 열린 문제다</li>
       </ol>
       <p class="lead">③ 도구를 부르니 에이전트? <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 코드 — 쪽지 : <span class="flx-alt-slip">환불 요청 #5521 / 순서: 자격 → 정책 → 처리 → 알림</span></li>
-        <li>경로 : 코드 → 모델 : 미리 정한 코드 경로 — 쪽지 : <span class="flx-alt-slip">3단계: 처리 / (순서는 코드가 정함)</span></li>
-        <li>호출 : 모델 → 도구 : 도구를 여러 개 부름 — 쪽지 : <span class="flx-alt-slip">cancel_payment(5521) / send_mail(고객)</span></li>
-        <li>끝 : 도구를 불러도 순서는 코드가 정함 — 도구 유무가 아니라 다음 단계를 누가 정하나</li>
+        <li>경로 : 코드 → 모델 : 미리 정한 코드 경로로 간다 — 쪽지 : <span class="flx-alt-slip">3단계: 처리 / (순서는 코드가 정함)</span></li>
+        <li>호출 : 모델 → 도구 : 도구를 여러 개 부른다 — 쪽지 : <span class="flx-alt-slip">cancel_payment(5521) / send_mail(고객)</span></li>
+        <li>끝 : 도구를 불러도 순서는 코드가 정한다. 기준은 도구 유무가 아니라 다음 단계를 누가 정하나다</li>
       </ol>
     </details>
   </figure>
@@ -521,22 +529,34 @@
     <details class="t5-orig">
       <summary>규칙 원문 <span class="note">갈림 기준 (갈림길로 그린 규칙)</span></summary>
       <p class="lead orig-h">갈림 기준</p>
-      <p class="lead">다음 단계를 누가 정하나 (도구 유무 X)</p>
+      <p class="lead">기준은 다음 단계를 누가 정하나다. 도구 유무가 아니다</p>
       <ul class="plain">
-        <li>워크플로 = LLM·도구를 미리 정한 코드 경로로 엮음 → 코드가 다음 단계를 정함. 잘 정의된 일에 예측 가능·일관성</li>
-        <li>에이전트 = LLM 이 스스로 과정·도구 사용을 정함 → 유연성·모델 주도 결정이 필요할 때</li>
+        <li>워크플로는 LLM·도구를 미리 정한 코드 경로로 엮는다. 그래서 코드가 다음 단계를 정한다. 잘 정의된 일에 예측 가능성과 일관성을 준다</li>
+        <li>에이전트는 LLM 이 스스로 과정과 도구 사용을 정한다. 유연성과 모델 주도 결정이 필요할 때 쓴다</li>
+        <li>에이전트를 쓰는 때는 이렇다
+          <ul class="dash">
+            <li>필요한 단계 수를 예측하기 어렵거나 불가능하다</li>
+            <li>고정 경로를 하드코딩하지 못한다</li>
+            <li>모델 결정을 어느 정도 믿는다</li>
+          </ul>
+        </li>
       </ul>
-      <p>에이전트를 쓰는 때 : 필요한 단계 수를 예측하기 어렵거나 불가능 · 고정 경로를 하드코딩 못 함 · 모델 결정을 어느 정도 믿음</p>
-      <p>대가 : 에이전트 시스템은 지연(latency)·비용을 내고 성능을 얻음. 에이전트는 비용↑ · 오류가 쌓일 수 있음 → 샌드박스에서 충분히 테스트 + 가드레일</p>
+      <p>대가 : 에이전트 시스템은 지연(latency)·비용을 내고 성능을 얻는다. 에이전트는 비용이 오르고 오류가 쌓일 수 있다. 그래서 샌드박스에서 충분히 테스트하고 가드레일을 둔다</p>
       <ul class="plain">
-        <li>워크플로 = 한 단계씩 집중 → 대개 정확도↑ · 평가·테스트 훨씬 쉬움 / 에이전트 = 과제 완료율↓ · 계측·평가 어려움 · 동작 예측 어려움 <span class="src">(Skilljar)</span></li>
-      </ul>
-      <p>에이전트 운전 : 매 걸음 환경에서 ground truth(도구 결과·코드 실행)로 진척 확인 · 체크포인트·막힘에서 사람에게 · 멈춤 조건(최대 반복 수)</p>
-      <ul class="plain">
-        <li>에이전트 실체 = 환경 피드백을 보며 도구를 쓰는 루프의 LLM → 구현은 대개 단순, 도구 세트·문서가 핵심 → <a href="tool-design.html">■ 도구 설계</a> · 루프 제어 = <a href="stop-reason.html">■ stop_reason 으로 분기</a></li>
-        <li>앱 UX 가 사용자를 정해진 작업 몇 개로 묶으면 워크플로 · 어떤 과제·값이 올지 모르면 에이전트 <span class="src">(Skilljar)</span></li>
-        <li>먼저 가장 단순한 해법. 단일 LLM 호출 + 검색·예시로 대개 충분, 복잡도는 결과가 나아질 때만 <span class="src">(어디서 멈추나 = 1.3③ 쪽)</span></li>
-        <li>워크플로 안에서 무엇을 고르나 = <a href="workflow-patterns.html">■ 워크플로 5패턴</a> · 여러 에이전트로 갈지 = <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></li>
+        <li>워크플로는 한 단계씩 집중한다. 그래서 대개 정확도가 오르고, 평가·테스트가 훨씬 쉽다. 에이전트는 과제 완료율이 내려가고, 계측·평가와 동작 예측이 어렵다 <span class="src">(Skilljar)</span></li>
+        <li>에이전트 운전은 세 가지다
+          <ul class="dash">
+            <li>매 걸음 환경에서 ground truth(도구 결과·코드 실행)로 진척을 확인한다</li>
+            <li>체크포인트에서나 막히면 사람에게 돌아온다</li>
+            <li>멈춤 조건(최대 반복 수)을 둔다</li>
+          </ul>
+        </li>
+        <li>에이전트의 실체는 환경 피드백을 보며 도구를 쓰는 루프의 LLM 이다. 그래서 구현은 대개 단순하다. 도구 세트와 문서가 핵심이다</li>
+        <li>자세한 것은 <a href="tool-design.html">■ 도구 설계</a> 에 있다. 루프 제어는 <a href="stop-reason.html">■ stop_reason 으로 분기</a> 에서 다룬다</li>
+        <li>앱 UX 가 사용자를 정해진 작업 몇 개로 묶으면 워크플로다. 어떤 과제·값이 올지 모르면 에이전트다 <span class="src">(Skilljar)</span></li>
+        <li>먼저 가장 단순한 해법을 본다. 단일 LLM 호출에 검색·예시를 붙이면 대개 충분하다. 복잡도는 결과가 나아질 때만 더한다 (어디서 멈추나는 1.3③ 쪽)</li>
+        <li>워크플로 안에서 무엇을 고르나는 <a href="workflow-patterns.html">■ 워크플로 5패턴</a> 에서 다룬다</li>
+        <li>여러 에이전트로 갈지는 <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a> 에서 다룬다</li>
       </ul>
     </details>
   </div>
@@ -548,14 +568,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">단일 호출 + 검색·예시로 충분</td><td data-label="답" role="cell">에이전트 시스템 없이</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">단계를 미리 그릴 수 있음 · 잘 정의된 일</td><td data-label="답" role="cell">워크플로</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a> · Skilljar 287796</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">앱 UX 가 사용자를 정해진 작업 몇 개로 묶음</td><td data-label="답" role="cell">워크플로</td><td data-label="근거" role="cell">Skilljar 287796</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">필요한 단계 수를 예측하기 어렵거나 불가능 · 고정 경로를 하드코딩 못 함</td><td data-label="답" role="cell">에이전트</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">어떤 과제·값이 올지 모름</td><td data-label="답" role="cell">에이전트</td><td data-label="근거" role="cell">Skilljar 287796</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">에이전트를 택함</td><td data-label="답" role="cell">매 걸음 ground truth 확인 · 체크포인트 · 멈춤 조건(최대 반복 수) · 샌드박스 테스트 + 가드레일</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">둘 다 가능해 보임</td><td data-label="답" role="cell">되는 곳은 워크플로, 에이전트는 꼭 필요할 때만</td><td data-label="근거" role="cell">Skilljar 287794</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">프레임워크를 쓸까</td><td data-label="답" role="cell">LLM API 직접부터, 쓰면 밑단 코드를 이해</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">단일 호출과 검색·예시로 충분하다</td><td data-label="답" role="cell">에이전트 시스템 없이 간다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">단계를 미리 그릴 수 있다 · 잘 정의된 일이다</td><td data-label="답" role="cell">워크플로를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a> · Skilljar 287796</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">앱 UX 가 사용자를 정해진 작업 몇 개로 묶는다</td><td data-label="답" role="cell">워크플로를 쓴다</td><td data-label="근거" role="cell">Skilljar 287796</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">필요한 단계 수를 예측하기 어렵거나 불가능하다 · 고정 경로를 하드코딩하지 못한다</td><td data-label="답" role="cell">에이전트를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">어떤 과제·값이 올지 모른다</td><td data-label="답" role="cell">에이전트를 쓴다</td><td data-label="근거" role="cell">Skilljar 287796</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">에이전트를 택했다</td><td data-label="답" role="cell">매 걸음 ground truth 를 확인한다. 체크포인트와 멈춤 조건(최대 반복 수)을 둔다. 샌드박스에서 테스트하고 가드레일을 둔다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">둘 다 가능해 보인다</td><td data-label="답" role="cell">되는 곳은 워크플로로 한다. 에이전트는 꼭 필요할 때만 쓴다</td><td data-label="근거" role="cell">Skilljar 287794</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">프레임워크를 쓸지 고민한다</td><td data-label="답" role="cell">LLM API 직접부터 시작한다. 쓰면 밑단 코드를 이해한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -566,14 +586,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">단계</td><td data-label="값" role="cell">고정 (자격 확인 → 정책 확인 → 처리 → 알림)</td><td data-label="답 쪽" role="cell">워크플로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">단계</td><td data-label="값" role="cell">입력 따라 수·종류가 바뀜 (반복 장애 원인 조사)</td><td data-label="답 쪽" role="cell">에이전트</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 4</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">도구 수</td><td data-label="값" role="cell">많음</td><td data-label="답 쪽" role="cell">가르는 기준 아님 — 단계를 누가 정하나로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a> (모든 호출이 증강 LLM)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">단계</td><td data-label="값" role="cell">고정이다 (자격 확인, 정책 확인, 처리, 알림)</td><td data-label="답 쪽" role="cell">워크플로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">단계</td><td data-label="값" role="cell">입력에 따라 수·종류가 바뀐다 (반복 장애 원인 조사)</td><td data-label="답 쪽" role="cell">에이전트</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 4</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">도구 수</td><td data-label="값" role="cell">많다</td><td data-label="답 쪽" role="cell">가르는 기준이 아니다. 단계를 누가 정하나로 가른다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a> (모든 호출이 증강 LLM)</td></tr>
     <tr role="row"><td data-label="변수" role="cell">요구</td><td data-label="값" role="cell">예측 가능 · 감사 가능 · 일관성</td><td data-label="답 쪽" role="cell">워크플로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">요구</td><td data-label="값" role="cell">예상 못 한 요청 처리 · 유연한 사용자 경험</td><td data-label="답 쪽" role="cell">에이전트</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Skilljar 287794</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">비용 여유</td><td data-label="값" role="cell">작음 · 호출량 많음</td><td data-label="답 쪽" role="cell">워크플로 쪽 (에이전트 토큰 = 채팅 대비 약 4배)</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델 결정 신뢰</td><td data-label="값" role="cell">낮음 · 되돌리기 어려운 동작</td><td data-label="답 쪽" role="cell">에이전트여도 체크포인트·사람 확인</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">평가 가능성</td><td data-label="값" role="cell">단계별 검사 필요</td><td data-label="답 쪽" role="cell">워크플로 (gate)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">비용 여유</td><td data-label="값" role="cell">작다 · 호출량이 많다</td><td data-label="답 쪽" role="cell">워크플로 쪽이다 (에이전트 토큰은 채팅 대비 약 4배다)</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델 결정 신뢰</td><td data-label="값" role="cell">낮다 · 되돌리기 어려운 동작이 있다</td><td data-label="답 쪽" role="cell">에이전트여도 체크포인트·사람 확인을 둔다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">평가 가능성</td><td data-label="값" role="cell">단계별 검사가 필요하다</td><td data-label="답 쪽" role="cell">워크플로 (gate)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -582,21 +602,21 @@
   <h2 class="sec-h" id="workflow-vs-agent-practice-h">연습 문제</h2>
 
   <section class="csx" id="workflow-vs-agent-case" aria-labelledby="workflow-vs-agent-case-h" data-tree="workflow-vs-agent-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;고정 경로&quot;],[&quot;n3&quot;,null]]" data-flow="workflow-vs-agent-flow" data-scene="0">
-    <p class="csx-text">쇼핑몰 환불 처리는 <mark class="csx-m" data-tag="고정 경로">늘 자격 확인 → 정책 확인 → 처리 → 알림 순서로 간다<span class="csx-tag">고정 경로</span></mark>. 단계마다 주문 조회 · 결제 취소 · 메일 발송 도구를 부른다. 팀은 "도구를 여러 개 부르니 에이전트로 만들자"고 한다. 무엇으로 만들까?</p>
+    <p class="csx-text">쇼핑몰 환불 처리는 <mark class="csx-m" data-tag="고정 경로">늘 자격 확인, 정책 확인, 처리, 알림 순서로 간다<span class="csx-tag">고정 경로</span></mark>. 단계마다 주문 조회 · 결제 취소 · 메일 발송 도구를 부른다. 팀은 "도구를 여러 개 부르니 에이전트로 만들자"고 한다. 무엇으로 만들어야 하나?</p>
     <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
   </section>
   <h2 class="sec-h" id="workflow-vs-agent-exam-h">시험 대비</h2>
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"도구를 여러 개 부르니 에이전트" → 도구 유무가 아니라 누가 다음 단계를 정하나. 워크플로 안의 호출도 도구를 씀</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>환불 처리(자격 확인 → 정책 확인 → 처리 → 알림)처럼 단계가 고정인 일에 에이전트 → 고정 경로 = 워크플로</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"고정 스키마 대량 변환에 에이전트" → 단계가 미리 그려지면 워크플로</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"강한 모델이니 자율 에이전트가 기본 업그레이드" → 복잡도는 결과가 나아질 때만</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"orchestrator-workers 는 모델이 하위작업을 정하니 에이전트" → 공식 분류는 워크플로 패턴</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"에이전트는 복잡한 프레임워크부터" → LLM API 직접부터, 많은 패턴이 코드 몇 줄</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"에이전트면 끝날 때까지 알아서" → 멈춤 조건(최대 반복 수) · 체크포인트</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"'에이전트' = 완전 자율만" → Anthropic 은 둘 다 agentic systems 로 묶고 구조로 구분</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"도구를 여러 개 부르니 에이전트다" 는 함정이다. 기준은 도구 유무가 아니라 누가 다음 단계를 정하나다. 워크플로 안의 호출도 도구를 쓴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>환불 처리(자격 확인, 정책 확인, 처리, 알림)처럼 단계가 고정인 일에 에이전트를 쓰는 것은 함정이다. 고정 경로는 워크플로다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"고정 스키마 대량 변환에 에이전트를 쓴다" 는 함정이다. 단계가 미리 그려지면 워크플로다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"강한 모델이니 자율 에이전트가 기본 업그레이드다" 는 함정이다. 복잡도는 결과가 나아질 때만 더한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"orchestrator-workers 는 모델이 하위작업을 정하니 에이전트다" 는 함정이다. 공식 분류는 워크플로 패턴이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"에이전트는 복잡한 프레임워크부터 시작한다" 는 함정이다. LLM API 직접부터 시작한다. 많은 패턴이 코드 몇 줄이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"에이전트면 끝날 때까지 알아서 돈다" 는 함정이다. 멈춤 조건(최대 반복 수)과 체크포인트를 둔다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"'에이전트' 는 완전 자율만 뜻한다" 는 함정이다. Anthropic 은 둘 다 agentic systems 로 묶고 구조로 구분한다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -619,30 +639,30 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 단계는 고정인데 갈래가 폭발</h4>
 <ul>
-<li><span class="lead">조건 :</span> 문의 종류가 처음 5가지에서 70가지 넘게 늘고, 종류마다 필요한 조회·처리 순서가 달라짐.</li>
-<li><span class="lead">판단 :</span> 종류를 정확히 나눌 수 있으면 여전히 워크플로(routing · 라우팅). 종류를 미리 셀 수 없고 순서를 코드에 박아 둘 수 없게 되면 공식 조건("can't hardcode a fixed path")이 성립 → 에이전트 쪽.</li>
-<li><span class="lead">등급 :</span> <span class="gen">업계 일반</span> (경계선 숫자는 공식에 없음 · 조건 문장은 확인)</li>
+<li><span class="lead">조건 :</span> 문의 종류가 처음 5가지에서 70가지 넘게 늘었다. 종류마다 필요한 조회·처리 순서가 다르다.</li>
+<li><span class="lead">판단 :</span> 종류를 정확히 나눌 수 있으면 여전히 워크플로다(routing · 라우팅). 종류를 미리 셀 수 없고 순서를 코드에 박아 둘 수 없게 되면, 공식 조건("can't hardcode a fixed path")이 성립한다. 그러면 에이전트 쪽이다.</li>
+<li><span class="lead">등급 :</span> <span class="gen">업계 일반</span> (경계선 숫자는 공식에 없다 · 조건 문장은 확인)</li>
 <li><span class="lead">근거 :</span> building-effective-agents</li>
 </ul>
 <h4>2. 비용이 제약이면</h4>
 <ul>
-<li><span class="lead">조건 :</span> 하루 1,200건, 채팅형 한 번 처리에 평균 3천 토큰.</li>
-<li><span class="lead">계산 :</span> 채팅형 = 1,200 × 3천 = 360만 토큰/일. 에이전트(채팅 대비 약 4배) = 약 1,440만 토큰/일. 늘어난 1,080만 토큰만큼 완료율·품질이 올라야 쓸 만함.</li>
-<li><span class="lead">전제 :</span> 4배는 Anthropic 내부 데이터의 "typically" 값 · 워크플로는 호출 수만큼 늘지만 여기선 채팅형과 같다고 둠 · 가격은 뺌.</li>
+<li><span class="lead">조건 :</span> 하루 1,200건이다. 채팅형 한 번 처리에 평균 3천 토큰이 든다.</li>
+<li><span class="lead">계산 :</span> 채팅형은 1,200 × 3천 = 360만 토큰/일이다. 에이전트(채팅 대비 약 4배)는 약 1,440만 토큰/일이다. 늘어난 1,080만 토큰만큼 완료율·품질이 올라야 쓸 만하다.</li>
+<li><span class="lead">전제 :</span> 4배는 Anthropic 내부 데이터의 "typically" 값이다. 워크플로는 호출 수만큼 늘지만, 여기서는 채팅형과 같다고 둔다. 가격은 뺀다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span></li>
 <li><span class="lead">근거 :</span> multi-agent-research-system · building-effective-agents</li>
 </ul>
 <h4>3. 에이전트 조건은 맞지만 믿을 근거가 없음</h4>
 <ul>
-<li><span class="lead">조건 :</span> 원인 조사처럼 단계가 열린 일인데, 도구에 환불·계정 변경 같은 되돌리기 어려운 동작이 있음.</li>
-<li><span class="lead">판단 :</span> "에이전트를 쓴다"는 답은 그대로, 그 위에 체크포인트(사람 확인)·멈춤 조건·샌드박스가 붙음. 권한 줄이기는 ■ 최소 권한.</li>
+<li><span class="lead">조건 :</span> 원인 조사처럼 단계가 열린 일이다. 그런데 도구에 환불·계정 변경 같은 되돌리기 어려운 동작이 있다.</li>
+<li><span class="lead">판단 :</span> "에이전트를 쓴다" 는 답은 그대로다. 그 위에 체크포인트(사람 확인)·멈춤 조건·샌드박스가 붙는다. 권한 줄이기는 ■ 최소 권한 에서 다룬다.</li>
 
 <li><span class="lead">근거 :</span> building-effective-agents</li>
 </ul>
 <h4>4. 워크플로가 더 정확하다는데 새 요청엔 약함</h4>
 <ul>
-<li><span class="lead">조건 :</span> 워크플로가 평소 완료율은 높지만, 개발 때 상상 못 한 요청이 자주 들어옴.</li>
-<li><span class="lead">판단 :</span> 워크플로는 정해진 입력 밖을 못 받음 · 에이전트는 예상 못 한 상황을 다룸. 새 요청 비중이 크면 에이전트 쪽. 하이브리드(평소 경로는 워크플로, 못 받는 것만 에이전트로)도 됨.</li>
+<li><span class="lead">조건 :</span> 워크플로가 평소 완료율은 높다. 그런데 개발 때 상상 못 한 요청이 자주 들어온다.</li>
+<li><span class="lead">판단 :</span> 워크플로는 정해진 입력 밖을 못 받는다. 에이전트는 예상 못 한 상황을 다룬다. 새 요청 비중이 크면 에이전트 쪽이다. 하이브리드(평소 경로는 워크플로, 못 받는 것만 에이전트로)도 된다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(각 성질) ·</span> <span class="gen">업계 일반</span> <span class="note">(하이브리드)</span></li>
 <li><span class="lead">근거 :</span> Skilljar 287794 · building-effective-agents</li>
 </ul>
@@ -653,13 +673,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"도구를 여러 개 부르니 환불도 에이전트로"</td><td data-label="왜 끌리나" role="cell">도구 = 에이전트라는 인상</td><td data-label="왜 틀리나" role="cell">단계가 고정이면 워크플로. 가르는 건 다음 단계를 누가 정하나</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"고정 스키마 대량 변환에 에이전트"</td><td data-label="왜 끌리나" role="cell">대량·자동이라 자율이 맞아 보임</td><td data-label="왜 틀리나" role="cell">단계가 미리 그려짐 → 워크플로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"강한 모델이니 자율 에이전트가 기본 업그레이드"</td><td data-label="왜 끌리나" role="cell">모델이 좋아졌으니 맡겨도 될 것 같음</td><td data-label="왜 틀리나" role="cell">복잡도는 결과가 나아질 때만</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"orchestrator-workers 는 모델이 나누니 에이전트"</td><td data-label="왜 끌리나" role="cell">하위작업을 LLM 이 정함</td><td data-label="왜 틀리나" role="cell">공식 분류는 워크플로 패턴</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"에이전트는 프레임워크부터 깐다"</td><td data-label="왜 끌리나" role="cell">규모 있어 보임</td><td data-label="왜 틀리나" role="cell">LLM API 직접부터. 추상화가 디버깅을 가림</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"에이전트면 끝날 때까지 알아서 돌게 둠"</td><td data-label="왜 끌리나" role="cell">자율이니까</td><td data-label="왜 틀리나" role="cell">멈춤 조건(최대 반복 수)·체크포인트를 둠</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"워크플로가 항상 더 싸고 빠르다"</td><td data-label="왜 끌리나" role="cell">단계가 적어 보임</td><td data-label="왜 틀리나" role="cell">워크플로도 호출 수만큼 지연·비용. 공식은 '예측 가능·일관성'을 이점으로 듦</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"도구를 여러 개 부르니 환불도 에이전트로"</td><td data-label="왜 끌리나" role="cell">도구가 곧 에이전트라는 인상이 있다</td><td data-label="왜 틀리나" role="cell">단계가 고정이면 워크플로다. 가르는 것은 다음 단계를 누가 정하나다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"고정 스키마 대량 변환에 에이전트"</td><td data-label="왜 끌리나" role="cell">대량·자동이라 자율이 맞아 보인다</td><td data-label="왜 틀리나" role="cell">단계가 미리 그려진다. 그래서 워크플로다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"강한 모델이니 자율 에이전트가 기본 업그레이드"</td><td data-label="왜 끌리나" role="cell">모델이 좋아졌으니 맡겨도 될 것 같다</td><td data-label="왜 틀리나" role="cell">복잡도는 결과가 나아질 때만 더한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"orchestrator-workers 는 모델이 나누니 에이전트"</td><td data-label="왜 끌리나" role="cell">하위작업을 LLM 이 정한다</td><td data-label="왜 틀리나" role="cell">공식 분류는 워크플로 패턴이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"에이전트는 프레임워크부터 깐다"</td><td data-label="왜 끌리나" role="cell">규모 있어 보인다</td><td data-label="왜 틀리나" role="cell">LLM API 직접부터 시작한다. 추상화가 디버깅을 가린다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"에이전트면 끝날 때까지 알아서 돌게 둔다"</td><td data-label="왜 끌리나" role="cell">자율이니까 그래 보인다</td><td data-label="왜 틀리나" role="cell">멈춤 조건(최대 반복 수)과 체크포인트를 둔다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"워크플로가 항상 더 싸고 빠르다"</td><td data-label="왜 끌리나" role="cell">단계가 적어 보인다</td><td data-label="왜 틀리나" role="cell">워크플로도 호출 수만큼 지연·비용이 든다. 공식은 '예측 가능·일관성' 을 이점으로 든다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -667,13 +687,17 @@
   </details>
   <h2 class="sec-h" id="workflow-vs-agent-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="workflow-patterns.html">■ 워크플로 5패턴</a></li>
         <li><a href="stop-reason.html">■ stop_reason 으로 분기</a></li>
         <li><a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></li>
         <li><a href="tool-design.html">■ 도구 설계</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.3</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -690,11 +714,12 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>building-effective-agents 는 2024-12 글이고 머리에 "도구 환경이 많이 바뀜, 현행은 Managed Agents 글 참고" 주석이 있음. 정의·판단 문장은 가이드 목표 1.3 과 맞지만 현행 글(anthropic.com/engineering/managed-agents)은 안 받음.</li>
-<li>목록 1.3① 의 "새 증거가 다음 결정으로 되돌아올 때만 에이전트" 는 그 문장 그대로는 원문에 없음. 가장 가까운 공식 문장 = 매 걸음 환경에서 ground truth 로 진척을 판단. 카드엔 원문 쪽만.</li>
-<li>워크플로 호출량·지연 비교 숫자는 공식에 없음(뒤집히는 때 2 전제).</li>
+<li>building-effective-agents 는 2024-12 글이다. 머리에 "도구 환경이 많이 바뀜, 현행은 Managed Agents 글 참고" 주석이 있다. 정의·판단 문장은 가이드 목표 1.3 과 맞는다. 하지만 현행 글(anthropic.com/engineering/managed-agents)은 받지 않았다.</li>
+<li>목록 1.3① 의 "새 증거가 다음 결정으로 되돌아올 때만 에이전트" 는 그 문장 그대로는 원문에 없다. 가장 가까운 공식 문장은 매 걸음 환경에서 ground truth 로 진척을 판단한다는 것이다. 카드에는 원문 쪽만 적는다.</li>
+<li>워크플로 호출량·지연 비교 숫자는 공식에 없다(뒤집히는 때 2 전제).</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

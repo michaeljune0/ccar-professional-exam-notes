@@ -368,9 +368,14 @@
   </div>
   <h2 class="sec-h" id="implementation-guide-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>아키텍트 없이 팀이 짓고 고치게 하는 문서. 합격 기준 = "아키텍트 없이 빌드·복구할 수 있는가" <span class="gen">업계 일반</span></p>
-      <p>공식에서 가장 가까운 원칙 : 자기완결형 명세(self-contained spec) = 관련 파일·인터페이스를 짚고 · 범위 밖을 적고 · 되는지 증명하는 end-to-end(처음부터 끝까지) 검증으로 끝냄 <span class="src">(Claude Code 코딩 명세 기준 — 구현 가이드로 옮긴 건 추론)</span></p>
-    <p class="t5-ana"><span class="lead">비유</span> OpenAPI 스펙(인터페이스·계약) + 설정이 어느 레포 어느 경로에 있는지 + 온콜 런북. 기준 = 새벽 온콜이 설계자 없이 복구하나. "코드가 문서다" 가 속이는 습관</p>
+      <p>구현 가이드는 아키텍트 없이 팀이 짓고 고치게 하는 문서다. 합격 기준은 "아키텍트 없이 빌드·복구할 수 있는가" 다 <span class="gen">업계 일반</span></p>
+      <p>공식 문서에서 가장 가까운 원칙은 자기완결형 명세(self-contained spec)다. 이 명세는 세 가지를 한다 <span class="src">(Claude Code 코딩 명세 기준이다. 구현 가이드로 옮긴 것은 추론이다)</span></p>
+      <ul class="dash">
+        <li>관련 파일·인터페이스를 짚는다</li>
+        <li>범위 밖을 적는다</li>
+        <li>되는지 증명하는 end-to-end(처음부터 끝까지) 검증으로 끝낸다</li>
+      </ul>
+    <p class="t5-ana"><span class="lead">비유</span> OpenAPI 스펙(인터페이스·계약), 설정이 어느 레포 어느 경로에 있는지, 온콜 런북을 묶은 것과 같다. 기준은 "새벽 온콜이 설계자 없이 복구하나?" 다. "코드가 문서다" 가 속이는 습관이다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/implementation-guide.webp"><img src="../images/implementation-guide.webp" alt="구현 가이드는 인터페이스·프롬프트와 스킬 위치·도구 계약·런북으로 이루어지고, 합격 기준은 아키텍트 없이 팀이 빌드하고 복구할 수 있는가이다." loading="lazy" decoding="async"></a>
@@ -399,26 +404,38 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">합격 기준</p>
 <ul>
-<li>"아키텍트 없이 빌드·복구할 수 있는가" (업계 일반).</li>
-<li>공식에서 가장 가까운 기준 = 자기완결형 명세 : 관련 파일·인터페이스를 짚고 · 범위 밖을 적고 · 되는지 증명하는 end-to-end(처음부터 끝까지) 검증으로 끝냄. Claude Code 코딩 명세 기준이라 구현 가이드로 옮긴 건 추론.</li>
+<li>합격 기준은 "아키텍트 없이 빌드·복구할 수 있는가" 다 (업계 일반).</li>
+<li>공식 문서에서 가장 가까운 기준은 자기완결형 명세다. 이 명세는 관련 파일·인터페이스를 짚고, 범위 밖을 적고, 되는지 증명하는 end-to-end(처음부터 끝까지) 검증으로 끝낸다. Claude Code 코딩 명세 기준이라 구현 가이드로 옮긴 것은 추론이다.</li>
 </ul>
 <p class="lead">네 칸</p>
 <ul>
-<li>인터페이스 : 컴포넌트마다 입력·출력.</li>
-<li>프롬프트·스킬 위치 : 두는 곳이 어느 세션이 불러오는지를 정함. 개인 <code>~/.claude/skills/</code> 는 이 기계의 내 프로젝트만, 프로젝트 <code>.claude/skills/</code> 는 커밋하면 팀이 받음, 조직 전체는 관리 설정·플러그인. 이름이 겹치면 기업 &gt; 개인 &gt; 프로젝트.</li>
-<li>도구 계약 : 받는 것(<code>input_schema</code>, 복잡하면 <code>input_examples</code>) · 돌려주는 것(설명에 "못 돌려주는 것"까지) · 보장하는 것(<code>strict: true</code> 면 입력이 스키마와 맞음). 설명이 도구 성능의 가장 큰 요인, 도구당 최소 3~4문장.</li>
-<li>런북 : 자주 나는 장애마다 알아보는 법 · 확인할 것 · 복구 방법. 공식 문서에 런북 없음 → 업계 일반.</li>
+<li>인터페이스 : 컴포넌트마다 입력·출력을 적는다.</li>
+<li>프롬프트·스킬 위치 : 두는 곳이 어느 세션이 불러오는지를 정한다.<ul>
+<li>개인 <code>~/.claude/skills/</code> 는 이 기계의 내 프로젝트만 불러온다.</li>
+<li>프로젝트 <code>.claude/skills/</code> 는 커밋하면 팀이 받는다.</li>
+<li>조직 전체는 관리 설정·플러그인으로 배포한다.</li>
+<li>이름이 겹치면 기업 &gt; 개인 &gt; 프로젝트 순으로 이긴다.</li>
+</ul>
+</li>
+<li>도구 계약 : 세 가지를 적는다.<ul>
+<li>받는 것 : <code>input_schema</code> 를 적고, 복잡하면 <code>input_examples</code> 를 더한다.</li>
+<li>돌려주는 것 : 설명에 "못 돌려주는 것"까지 적는다.</li>
+<li>보장하는 것 : <code>strict: true</code> 면 입력이 스키마와 맞는다.</li>
+</ul>
+</li>
+<li>설명이 도구 성능의 가장 큰 요인이다. 도구당 최소 3~4문장을 쓴다.</li>
+<li>런북 : 자주 나는 장애마다 알아보는 법 · 확인할 것 · 복구 방법을 적는다. 공식 문서에 런북이 없다. 그래서 업계 일반이다.</li>
 </ul>
 <p class="lead">문서만으론 안 전해지는 것 둘</p>
 <ul>
-<li>기대 동작 : 같은 명세도 두 엔지니어가 엣지 케이스를 다르게 읽음 → 평가셋이 모호함을 없앰. 평가가 있으면 기준선·regression(회귀) 테스트가 딸려 옴.</li>
-<li>꼭 지킬 규칙 : CLAUDE.md 지시는 권고, hook 은 결정적(deterministic). "절대 X" 를 문서에 크게 적는 걸로는 못 막음 → 강제 장치.</li>
+<li>기대 동작 : 같은 명세도 두 엔지니어가 엣지 케이스를 다르게 읽는다. 평가셋이 이 모호함을 없앤다. 평가가 있으면 기준선·regression(회귀) 테스트가 딸려 온다.</li>
+<li>꼭 지킬 규칙 : CLAUDE.md 지시는 권고다. hook 은 결정적(deterministic)이다. "절대 X" 를 문서에 크게 적는 것으로는 못 막는다. 그래서 강제 장치를 쓴다.</li>
 </ul>
 <p class="lead">문서 쪽 규칙 쓰는 법 (Claude 가 읽는 문서 기준)</p>
 <ul>
-<li>짧게 : 길면 규칙이 묻힘. 강조는 몇 줄에만.</li>
-<li>구체적이고 검사 가능하게 · 금지만 말고 대신 할 것 (Skilljar).</li>
-<li>코드로 못 읽는 것 위주 : 흔한 함정 · 환경 특이점(필요한 환경 변수) · 구조 결정.</li>
+<li>짧게 쓴다. 길면 규칙이 묻힌다. 강조는 몇 줄에만 쓴다.</li>
+<li>구체적이고 검사 가능하게 쓴다. 금지만 말고 대신 할 것을 적는다 (Skilljar).</li>
+<li>코드로 못 읽는 것 위주로 쓴다. 흔한 함정 · 환경 특이점(필요한 환경 변수) · 구조 결정이 그것이다.</li>
 </ul>
 </section>
   <h2 class="sec-h" id="implementation-guide-rules-h">규칙과 판단</h2>
@@ -434,15 +451,15 @@
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>구현 <span class="note">(컴포넌트 잇기)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">인터페이스</p><p>관련 파일·인터페이스 · 범위 밖 · end-to-end 검증 <span class="src">(코딩 명세 기준 — 옮긴 건 추론)</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">인터페이스를 적는다</p><p>관련 파일·인터페이스, 범위 밖, end-to-end 검증을 적는다 <span class="src">(코딩 명세 기준이다. 옮긴 것은 추론이다)</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>도구 붙이기·고치기</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">도구 계약</p><p>받는 것 · 돌려주는 것 · 보장하는 것. 설명이 도구 성능의 가장 큰 요인</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">도구 계약을 적는다</p><p>받는 것 · 돌려주는 것 · 보장하는 것을 적는다. 설명이 도구 성능의 가장 큰 요인이다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>장애 복구</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">런북</p><p>알아보는 법 · 확인할 것 · 복구 방법 <span class="gen">업계 일반</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">런북을 적는다</p><p>알아보는 법 · 확인할 것 · 복구 방법을 적는다 <span class="gen">업계 일반</span></p></div>
         </div>
       </div>
     </div>
@@ -454,15 +471,15 @@
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>나만 <span class="note">(내 모든 프로젝트)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">개인 <code>~/.claude/skills/</code></p><p>이 컴퓨터만 · 클라우드 세션·routine 에선 "not found"</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">개인 <code>~/.claude/skills/</code></p><p>이 컴퓨터에서만 불린다. 클라우드 세션·routine 에서는 "not found" 가 난다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>이 레포에서 일하는 팀</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">프로젝트 <code>.claude/skills/</code></p><p>커밋하면 팀이 받음</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">프로젝트 <code>.claude/skills/</code></p><p>커밋하면 팀이 받는다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>조직 전체</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">기업 · 플러그인</p><p>관리 설정 디렉터리 또는 플러그인으로 배포</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">기업 · 플러그인</p><p>관리 설정 디렉터리 또는 플러그인으로 배포한다</p></div>
         </div>
       </div>
     </div>
@@ -474,7 +491,7 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">강제 장치</p><p>CLAUDE.md 지시는 권고, hook 은 결정적(deterministic)이고 반드시 실행</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">강제 장치를 쓴다</p><p>CLAUDE.md 지시는 권고다. hook 은 결정적(deterministic)이고 반드시 실행된다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(관례)</span></span>
@@ -482,11 +499,11 @@
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">짧게 문서에</p><p>구체적이고 검사 가능하게, 금지만 말고 대신 할 것 <span class="src">(Skilljar)</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">짧게 문서에 적는다</p><p>구체적이고 검사 가능하게 쓴다. 금지만 말고 대신 할 것을 적는다 <span class="src">(Skilljar)</span></p></div>
             </div>
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(엣지 케이스 해석이 갈림)</span></span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">평가셋</p><p>평가셋(eval suite)이 모호함을 없앰</p></div>
+              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(엣지 케이스 해석이 갈린다)</span></span>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">평가셋을 넘긴다</p><p>평가셋(eval suite)이 모호함을 없앤다</p></div>
             </div>
           </div>
         </div>
@@ -499,55 +516,69 @@
       <ol class="how">
         <li id="implementation-guide-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p><span class="lead">인터페이스 :</span> 컴포넌트마다 입력·출력. 자기완결형 명세 = 관련 파일·인터페이스 · 범위 밖 · end-to-end 검증 (옮긴 건 추론) <span class="pg">[6.4②]</span></p>
-            <p>명세를 정확히 쓰는 시간이 구현을 지켜보는 시간보다 더 쓸 만함</p>
+            <p><span class="lead">인터페이스 :</span> 컴포넌트마다 입력·출력을 적는다. 자기완결형 명세는 관련 파일·인터페이스, 범위 밖, end-to-end 검증을 담는다 (옮긴 것은 추론이다) <span class="pg">[6.4②]</span></p>
+            <p>명세를 정확히 쓰는 시간이 구현을 지켜보는 시간보다 더 쓸 만하다</p>
           </div>
         </li>
         <li id="implementation-guide-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p><span class="lead">프롬프트·스킬 위치 :</span> 두는 곳이 어느 세션이 불러오는지를 정함 <span class="pg">[6.4②]</span></p>
+            <p><span class="lead">프롬프트·스킬 위치 :</span> 두는 곳이 어느 세션이 불러오는지를 정한다 <span class="pg">[6.4②]</span></p>
             <div class="tscroll" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">위치</th><th scope="col" role="columnheader">경로</th><th scope="col" role="columnheader">불러오는 곳</th></tr></thead>
               <tbody role="rowgroup">
                 <tr role="row"><td data-label="위치" role="cell">기업</td><td data-label="경로" role="cell">관리 설정 디렉터리의 <code>.claude/<wbr>skills/</code></td><td data-label="불러오는 곳" role="cell">조직이 배포한 기계의 모든 사용자</td></tr>
-                <tr role="row"><td data-label="위치" role="cell">개인</td><td data-label="경로" role="cell"><code>~/<wbr>.<wbr>claude/<wbr>skills/</code></td><td data-label="불러오는 곳" role="cell">이 기계의 내 모든 프로젝트 — Cowork·클라우드 세션은 아님</td></tr>
-                <tr role="row"><td data-label="위치" role="cell">프로젝트</td><td data-label="경로" role="cell"><code>.claude/<wbr>skills/</code></td><td data-label="불러오는 곳" role="cell">이 레포 세션 — 커밋하면 팀이 받음</td></tr>
+                <tr role="row"><td data-label="위치" role="cell">개인</td><td data-label="경로" role="cell"><code>~/<wbr>.<wbr>claude/<wbr>skills/</code></td><td data-label="불러오는 곳" role="cell">이 기계의 내 모든 프로젝트다. Cowork·클라우드 세션은 아니다</td></tr>
+                <tr role="row"><td data-label="위치" role="cell">프로젝트</td><td data-label="경로" role="cell"><code>.claude/<wbr>skills/</code></td><td data-label="불러오는 곳" role="cell">이 레포 세션이다. 커밋하면 팀이 받는다</td></tr>
               </tbody>
             </table>
             </div>
-            <p>조직 전체에는 관리 설정 디렉터리 또는 플러그인으로 배포 · 이름이 겹치면 기업 &gt; 개인 &gt; 프로젝트 · 개인 폴더에만 둔 스킬은 routine 이 부르면 "not found" → 팀에 넘길 건 레포에</p>
-            <p>CLAUDE.md 도 같음 : 프로젝트 파일 = 소스 관리로 팀 공유 · 구조 결정 · 빌드·테스트 명령</p>
-            <p>스킬 동작·API 쪽 공유 범위(claude.ai 와 API 는 따로 올림)는 <a href="agent-skills.html">■ Agent Skills progressive disclosure</a>. API 앱 프롬프트도 옛 대화 속이 아니라 버전 관리되는 곳에 <span class="gen">업계 일반</span></p>
+            <p>조직 전체에는 관리 설정 디렉터리 또는 플러그인으로 배포한다</p>
+            <p>이름이 겹치면 기업 &gt; 개인 &gt; 프로젝트 순으로 이긴다</p>
+            <p>개인 폴더에만 둔 스킬은 routine 이 부르면 "not found" 가 난다</p>
+            <p>그래서 팀에 넘길 것은 레포에 둔다</p>
+            <p>CLAUDE.md 도 같다. 프로젝트 파일은 소스 관리로 팀이 공유한다. 구조 결정과 빌드·테스트 명령을 담는다</p>
+            <p>스킬 동작·API 쪽 공유 범위(claude.ai 와 API 는 따로 올린다)는 <a href="agent-skills.html">■ Agent Skills progressive disclosure</a> 에 있다. API 앱 프롬프트도 옛 대화 속이 아니라 버전 관리되는 곳에 둔다 <span class="gen">업계 일반</span></p>
           </div>
         </li>
         <li id="implementation-guide-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p>도구 계약 = 받는 것 · 돌려주는 것 · 보장하는 것 <span class="pg">[6.4②]</span></p>
-            <p><span class="lead">받는 것 :</span> <code>input_schema</code>(JSON Schema) · 입력이 복잡하면 <code>input_examples</code></p>
-            <p>설명이 도구 성능의 가장 큰 요인 : 무엇을 하나 · 언제 쓰고 언제 안 쓰나 · 파라미터 뜻 · 못 돌려주는 것. 도구당 최소 3~4문장</p>
-            <p>새 팀원에게 설명하듯 — 쿼리 형식·용어 뜻·자원 관계 같은 암묵 지식을 드러냄</p>
-            <p><span class="lead">보장하는 것 :</span> <code>strict: true</code> → 도구 입력이 스키마와 맞음을 보장. 없으면 <code>"2"</code>(문자) 대 <code>2</code>(숫자) · 필수 필드 누락 · strict 도구는 요청당 20개까지</p>
-            <p>도구 모양·응답 설계 세부 → <a href="tool-design.html">■ 도구 설계</a></p>
+            <p><span class="lead">도구 계약 :</span> 받는 것 · 돌려주는 것 · 보장하는 것을 적는다 <span class="pg">[6.4②]</span></p>
+            <p><span class="lead">받는 것 :</span> <code>input_schema</code>(JSON Schema)를 적는다. 입력이 복잡하면 <code>input_examples</code> 를 더한다</p>
+            <p>설명이 도구 성능의 가장 큰 요인이다. 설명에는 아래를 적는다. 도구당 최소 3~4문장을 쓴다</p>
+            <ul class="dash">
+              <li>무엇을 하나</li>
+              <li>언제 쓰고 언제 안 쓰나</li>
+              <li>파라미터 뜻</li>
+              <li>못 돌려주는 것</li>
+            </ul>
+            <p>새 팀원에게 설명하듯 쓴다. 쿼리 형식·용어 뜻·자원 관계 같은 암묵 지식을 드러낸다</p>
+            <p><span class="lead">보장하는 것 :</span> <code>strict: true</code> 를 걸면 도구 입력이 스키마와 맞는다고 보장된다. 없으면 <code>"2"</code>(문자) 대 <code>2</code>(숫자) 같은 어긋남이나 필수 필드 누락이 생길 수 있다</p>
+            <p>strict 도구는 요청당 20개까지다</p>
+            <p>도구 모양·응답 설계 세부는 <a href="tool-design.html">■ 도구 설계</a> 에 있다</p>
           </div>
         </li>
         <li id="implementation-guide-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p><span class="lead">기대 동작은 평가셋으로 :</span> 같은 명세도 두 엔지니어가 엣지 케이스를 다르게 읽음 → 평가셋(eval suite)이 모호함을 없앰 <span class="pg">[6.4②]</span></p>
-            <p>평가가 있으면 기준선·regression(회귀) 테스트가 딸려 옴 (지연(latency)·토큰·과제당 비용·오류율) → end-to-end 검증 = 평가셋 돌리기 (연결은 추론) → <a href="eval-layers.html">■ 검증 층</a></p>
+            <p><span class="lead">기대 동작은 평가셋으로 :</span> 같은 명세도 두 엔지니어가 엣지 케이스를 다르게 읽는다. 평가셋(eval suite)이 이 모호함을 없앤다 <span class="pg">[6.4②]</span></p>
+            <p>평가가 있으면 기준선·regression(회귀) 테스트가 딸려 온다 (지연(latency)·토큰·과제당 비용·오류율)</p>
+            <p>그래서 end-to-end 검증은 평가셋을 돌리는 것으로 본다 (연결은 추론). 자세한 것은 <a href="eval-layers.html">■ 검증 층</a> 에 있다</p>
           </div>
         </li>
         <li id="implementation-guide-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">런북 :</span> 자주 나는 장애마다 알아보는 법 · 확인할 것 · 복구 방법 <span class="gen">업계 일반</span> <span class="note">공식 문서에 런북 없음</span> <span class="pg">[6.4②]</span></p>
-            <p>무엇부터 볼지는 → <a href="observability-signals.html">■ observability 세 신호</a></p>
+            <p><span class="lead">런북 :</span> 자주 나는 장애마다 알아보는 법 · 확인할 것 · 복구 방법을 적는다 <span class="gen">업계 일반</span> <span class="note">공식 문서에 런북 없음</span> <span class="pg">[6.4②]</span></p>
+            <p>무엇부터 볼지는 <a href="observability-signals.html">■ observability 세 신호</a> 에 있다</p>
           </div>
         </li>
         <li id="implementation-guide-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
-            <p>꼭 지킬 규칙은 강제 장치로 : CLAUDE.md 지시는 권고, hook 은 결정적이고 반드시 실행 · "never push to main" 은 CLAUDE.md 가 아니라 pre-tool-use hook (Skilljar) <span class="pg">[6.4②]</span></p>
-            <p><span class="lead">문서 쪽 규칙은 짧게 :</span> 길면 규칙이 묻힘 · 구체적이고 검사 가능하게, 금지만 말고 대신 할 것 (Skilljar) · 강조는 몇 줄에만 — 여러 줄을 강조하면 아무것도 눈에 안 띔</p>
-            <p>(Claude 가 읽는 문서 기준 — 사람 팀 문서로 넓힌 건 추론)</p>
+            <p>꼭 지킬 규칙은 강제 장치로 : CLAUDE.md 지시는 권고다. hook 은 결정적이고 반드시 실행된다 <span class="pg">[6.4②]</span></p>
+            <p>"never push to main" 은 CLAUDE.md 가 아니라 pre-tool-use hook 으로 막는다 <span class="src">(Skilljar)</span></p>
+            <p>문서 쪽 규칙은 짧게 쓴다. 길면 규칙이 묻힌다</p>
+            <p>구체적이고 검사 가능하게 쓴다. 금지만 말고 대신 할 것을 적는다 <span class="src">(Skilljar)</span></p>
+            <p>강조는 몇 줄에만 쓴다. 여러 줄을 강조하면 아무것도 눈에 안 띈다</p>
+            <p>(Claude 가 읽는 문서 기준이다. 사람 팀 문서로 넓힌 것은 추론이다)</p>
           </div>
         </li>
       </ol>
@@ -561,15 +592,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">구현 가이드의 명세 모양</td><td data-label="답" role="cell">관련 파일·인터페이스 · 범위 밖 · end-to-end 검증</td><td data-label="등급" role="cell"><span class="note">(코딩 명세 기준)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a> "The most useful specs are self-contained…"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">도구를 넘길 때 무엇을 적나</td><td data-label="답" role="cell">무엇을 하나 · 언제 쓰고 안 쓰나 · 파라미터 뜻 · 못 돌려주는 것, 3~4문장+</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">입력 모양이 복잡함</td><td data-label="답" role="cell"><code>input_<wbr>examples</code> 추가</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">입력이 스키마와 꼭 맞아야 함</td><td data-label="답" role="cell"><code>strict: true</code> (요청당 20개까지)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use" lang="en" rel="noopener">strict-tool-use</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">팀이 같이 쓸 스킬</td><td data-label="답" role="cell">프로젝트 <code>.claude/<wbr>skills/</code> 에 커밋</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/skills" lang="en" rel="noopener">Claude Code skills</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">조직 전체</td><td data-label="답" role="cell">관리 설정 디렉터리 · 플러그인</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/skills" lang="en" rel="noopener">Claude Code skills</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">기대 동작의 엣지 케이스</td><td data-label="답" role="cell">평가셋을 같이 넘김</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">어기면 큰일인 규칙</td><td data-label="답" role="cell">hook 같은 강제 장치</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a> · Skilljar 486929</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">장애 대응</td><td data-label="답" role="cell">런북(알아보는 법·확인할 것·복구 방법)</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.4② — 공식 문서에 runbook·playbook 0건</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">구현 가이드의 명세 모양을 정한다</td><td data-label="답" role="cell">관련 파일·인터페이스, 범위 밖, end-to-end 검증을 담는다</td><td data-label="등급" role="cell"><span class="note">(코딩 명세 기준)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a> "The most useful specs are self-contained…"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">도구를 넘길 때 무엇을 적나?</td><td data-label="답" role="cell">무엇을 하나 · 언제 쓰고 안 쓰나 · 파라미터 뜻 · 못 돌려주는 것을 3~4문장 이상 적는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">입력 모양이 복잡하다</td><td data-label="답" role="cell"><code>input_<wbr>examples</code> 를 추가한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">입력이 스키마와 꼭 맞아야 한다</td><td data-label="답" role="cell"><code>strict: true</code> 를 건다 (요청당 20개까지)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use" lang="en" rel="noopener">strict-tool-use</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">팀이 같이 쓸 스킬이다</td><td data-label="답" role="cell">프로젝트 <code>.claude/<wbr>skills/</code> 에 커밋한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/skills" lang="en" rel="noopener">Claude Code skills</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">조직 전체에 배포한다</td><td data-label="답" role="cell">관리 설정 디렉터리나 플러그인을 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/skills" lang="en" rel="noopener">Claude Code skills</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">기대 동작의 엣지 케이스가 있다</td><td data-label="답" role="cell">평가셋을 같이 넘긴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">어기면 큰일인 규칙이다</td><td data-label="답" role="cell">hook 같은 강제 장치를 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a> · Skilljar 486929</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">장애에 대응한다</td><td data-label="답" role="cell">런북(알아보는 법·확인할 것·복구 방법)을 쓴다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.4②. 공식 문서에 runbook·playbook 은 0건이다</td></tr>
   </tbody>
 </table>
 </div>
@@ -580,15 +611,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">스킬 쓰는 사람</td><td data-label="값" role="cell">나만</td><td data-label="답 쪽" role="cell">개인 <code>~/<wbr>.<wbr>claude/<wbr>skills/</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/skills" lang="en" rel="noopener">skills</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">스킬 쓰는 사람</td><td data-label="값" role="cell">이 레포의 팀</td><td data-label="답 쪽" role="cell">프로젝트 <code>.claude/<wbr>skills/</code> + 커밋</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/skills" lang="en" rel="noopener">skills</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">실행 환경</td><td data-label="값" role="cell">routine · 클라우드 세션</td><td data-label="답 쪽" role="cell">개인 폴더 스킬은 "not found" → 레포에 커밋</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/skills" lang="en" rel="noopener">skills</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">같은 이름 스킬</td><td data-label="값" role="cell">개인·프로젝트 둘 다</td><td data-label="답 쪽" role="cell">개인 것이 이김 (기업 &gt; 개인 &gt; 프로젝트)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/skills" lang="en" rel="noopener">skills</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">도구 입력</td><td data-label="값" role="cell">중첩 객체 · 형식에 민감</td><td data-label="답 쪽" role="cell"><code>input_<wbr>examples</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">strict 걸 도구 수</td><td data-label="값" role="cell">20개 넘음</td><td data-label="답 쪽" role="cell">스키마가 깨지면 곤란한 도구만 strict</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">규칙 무게</td><td data-label="값" role="cell">관례(코드 스타일)</td><td data-label="답 쪽" role="cell">문서에 짧고 검사 가능하게</td><td data-label="등급" role="cell"><span class="note">(Skilljar)</span></td><td data-label="근거" role="cell">Skilljar 486929</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">규칙 무게</td><td data-label="값" role="cell">어기면 사고(main push)</td><td data-label="답 쪽" role="cell">hook</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">도구 수</td><td data-label="값" role="cell">30~50개 넘음</td><td data-label="답 쪽" role="cell">설명 보강만으론 부족 → tool search 쪽</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a href="tool-design.html">■ 도구 설계</a> <span class="rule-ref">· <a href="tool-design.html#tool-design-rule-5">규칙 ⑤</a></span> <a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool" lang="en" rel="noopener">tool-search-tool</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">스킬 쓰는 사람</td><td data-label="값" role="cell">나만 쓴다</td><td data-label="답 쪽" role="cell">개인 <code>~/<wbr>.<wbr>claude/<wbr>skills/</code> 에 둔다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/skills" lang="en" rel="noopener">skills</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">스킬 쓰는 사람</td><td data-label="값" role="cell">이 레포의 팀이 쓴다</td><td data-label="답 쪽" role="cell">프로젝트 <code>.claude/<wbr>skills/</code> 에 두고 커밋한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/skills" lang="en" rel="noopener">skills</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">실행 환경</td><td data-label="값" role="cell">routine · 클라우드 세션이다</td><td data-label="답 쪽" role="cell">개인 폴더 스킬은 "not found" 가 난다. 레포에 커밋한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/skills" lang="en" rel="noopener">skills</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">같은 이름 스킬</td><td data-label="값" role="cell">개인·프로젝트 둘 다 있다</td><td data-label="답 쪽" role="cell">개인 것이 이긴다 (기업 &gt; 개인 &gt; 프로젝트)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/skills" lang="en" rel="noopener">skills</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">도구 입력</td><td data-label="값" role="cell">중첩 객체이고 형식에 민감하다</td><td data-label="답 쪽" role="cell"><code>input_<wbr>examples</code> 를 더한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">strict 걸 도구 수</td><td data-label="값" role="cell">20개를 넘는다</td><td data-label="답 쪽" role="cell">스키마가 깨지면 곤란한 도구만 strict 를 건다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">규칙 무게</td><td data-label="값" role="cell">관례다(코드 스타일)</td><td data-label="답 쪽" role="cell">문서에 짧고 검사 가능하게 적는다</td><td data-label="등급" role="cell"><span class="note">(Skilljar)</span></td><td data-label="근거" role="cell">Skilljar 486929</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">규칙 무게</td><td data-label="값" role="cell">어기면 사고가 난다(main push)</td><td data-label="답 쪽" role="cell">hook 을 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">도구 수</td><td data-label="값" role="cell">30~50개를 넘는다</td><td data-label="답 쪽" role="cell">설명 보강만으로는 부족하다. tool search 쪽으로 간다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a href="tool-design.html">■ 도구 설계</a> <span class="rule-ref">· <a href="tool-design.html#tool-design-rule-5">규칙 ⑤</a></span> <a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool" lang="en" rel="noopener">tool-search-tool</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -604,13 +635,13 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"코드와 프롬프트가 곧 문서" → 코드에서 못 읽는 것(흔한 함정 · 환경 특이점 · 구조 결정)이 빠짐. CLAUDE.md 에 넣을 것 = 바로 그것들</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"도구 설명은 짧게, 세부는 구현자가 코드에서 읽는다" → 설명이 도구 성능의 가장 큰 요인</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"스킬·프롬프트를 내 <code>~/.claude/skills/</code> 에 두고 인계" → 팀·클라우드 세션엔 안 보임. 레포 <code>.claude/skills/</code> 에 커밋</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"스키마만 적어 두면 도구 입력이 늘 맞음" → 보장은 <code>strict: true</code> 일 때</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"가이드에 '절대 X 하지 말 것' 을 크게 적으면 끝" → 권고일 뿐. 막아야 하면 hook 같은 강제 장치 · 강조 남발은 아무것도 눈에 안 띔</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"명세 문서만 넘기면 기대 동작이 전해짐" → 엣지 케이스는 사람마다 다르게 읽음. 평가셋을 같이</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"런북 = 아키텍트 연락처" → 기준은 아키텍트 없이 복구 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"코드와 프롬프트가 곧 문서" 는 함정이다. 코드에서 못 읽는 것(흔한 함정 · 환경 특이점 · 구조 결정)이 빠진다. CLAUDE.md 에 넣을 것이 바로 그것들이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"도구 설명은 짧게, 세부는 구현자가 코드에서 읽는다" 는 함정이다. 설명이 도구 성능의 가장 큰 요인이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"스킬·프롬프트를 내 <code>~/.claude/skills/</code> 에 두고 인계" 는 함정이다. 팀·클라우드 세션에는 안 보인다. 레포 <code>.claude/skills/</code> 에 커밋한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"스키마만 적어 두면 도구 입력이 늘 맞음" 은 함정이다. 보장은 <code>strict: true</code> 일 때만 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"가이드에 '절대 X 하지 말 것' 을 크게 적으면 끝" 은 함정이다. 문서는 권고일 뿐이다. 막아야 하면 hook 같은 강제 장치를 쓴다. 강조를 남발하면 아무것도 눈에 안 띈다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"명세 문서만 넘기면 기대 동작이 전해짐" 은 함정이다. 엣지 케이스는 사람마다 다르게 읽는다. 평가셋을 같이 넘긴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"런북 = 아키텍트 연락처" 는 함정이다. 기준은 아키텍트 없이 복구하는 것이다 <span class="gen">업계 일반</span></span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -635,29 +666,29 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 개인 폴더가 맞는 때 — 그리고 안 맞게 되는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 혼자 쓰는 요약 스킬 → 개인 <code>~/.claude/skills/</code> 가 맞음(내 모든 프로젝트).</li>
-<li><span class="lead">뒤집힘 :</span> 같은 스킬을 매일 밤 routine 으로 돌리기로 함 → routine 은 새 클라우드 세션이라 개인 폴더를 안 읽음 → "not found". 레포 <code>.claude/skills/</code> 에 커밋하거나 claude.ai 계정 쪽에 켬.</li>
+<li><span class="lead">조건 :</span> 혼자 쓰는 요약 스킬이면 개인 <code>~/.claude/skills/</code> 가 맞다(내 모든 프로젝트).</li>
+<li><span class="lead">뒤집힘 :</span> 같은 스킬을 매일 밤 routine 으로 돌리기로 했다. routine 은 새 클라우드 세션이라 개인 폴더를 안 읽는다. 그래서 "not found" 가 난다. 레포 <code>.claude/skills/</code> 에 커밋하거나 claude.ai 계정 쪽에 켠다.</li>
 
 <li><span class="lead">근거 :</span> skills</li>
 </ul>
 <h4>2. 도구 설명을 늘려도 안 풀리는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 도구 60개, 비슷한 도구를 번갈아 잘못 부름. 가이드엔 도구마다 3~4문장 설명이 이미 있음.</li>
-<li><span class="lead">판단 :</span> 설명이 가장 큰 요인인 건 맞지만, 30~50개를 넘으면 고르기 정확도 자체가 떨어짐 → 합치기 + 네임스페이스, 그래도 많으면 tool search. 가이드의 "도구 계약"은 개수 판단까지 대신하지 못함.</li>
+<li><span class="lead">조건 :</span> 도구가 60개다. 비슷한 도구를 번갈아 잘못 부른다. 가이드에는 도구마다 3~4문장 설명이 이미 있다.</li>
+<li><span class="lead">판단 :</span> 설명이 가장 큰 요인인 것은 맞다. 그러나 30~50개를 넘으면 고르기 정확도 자체가 떨어진다. 먼저 도구를 합치고 네임스페이스를 둔다. 그래도 많으면 tool search 를 쓴다. 가이드의 "도구 계약"은 개수 판단까지 대신하지 못한다.</li>
 
 <li><span class="lead">근거 :</span> define-tools <a href="tool-design.html">■ 도구 설계</a> <span class="rule-ref">· <a href="tool-design.html#tool-design-rule-5">규칙 ⑤</a></span>(tool-search-tool)</li>
 </ul>
 <h4>3. strict 를 다 걸 수 없는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 도구 35개 전부 "입력 보장"을 가이드에 약속하고 싶음.</li>
-<li><span class="lead">계산 :</span> strict 도구는 요청당 20개까지 → 35개 전부는 한 요청에 못 검. 스키마가 깨지면 곤란한 도구(결제·삭제처럼 뒤쪽 함수가 타입에 민감한 것)부터 strict — 고르는 기준은 업계 일반.</li>
+<li><span class="lead">조건 :</span> 도구 35개 전부 "입력 보장"을 가이드에 약속하고 싶다.</li>
+<li><span class="lead">계산 :</span> strict 도구는 요청당 20개까지다. 그래서 35개 전부는 한 요청에 못 건다. 스키마가 깨지면 곤란한 도구(결제·삭제처럼 뒤쪽 함수가 타입에 민감한 것)부터 strict 를 건다. 고르는 기준은 업계 일반이다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (상한은 확인)</li>
 <li><span class="lead">근거 :</span> structured-outputs · strict-tool-use</li>
 </ul>
 <h4>4. 문서 한 줄로 충분한 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> "새 API 경로는 <code>src/api/handlers</code> 에 한 파일씩" 같은 관례.</li>
-<li><span class="lead">판단 :</span> 어겨도 리뷰에서 잡히고 되돌리기 쉬움 → hook 까지 갈 필요 없음. 구체적이고 검사 가능하게 적으면 됨. hook 은 "어기면 큰일"인 것에만.</li>
+<li><span class="lead">조건 :</span> "새 API 경로는 <code>src/api/handlers</code> 에 한 파일씩" 같은 관례다.</li>
+<li><span class="lead">판단 :</span> 어겨도 리뷰에서 잡히고 되돌리기 쉽다. 그래서 hook 까지 갈 필요가 없다. 구체적이고 검사 가능하게 적으면 된다. hook 은 "어기면 큰일"인 것에만 쓴다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(Skilljar 기준)</span></li>
 <li><span class="lead">근거 :</span> Skilljar 486929</li>
 </ul>
@@ -668,20 +699,22 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"코드와 프롬프트가 곧 문서"</td><td data-label="왜 끌리나" role="cell">코드는 늘 최신</td><td data-label="왜 틀리나" role="cell">코드로 못 읽는 것(함정·환경 특이점·구조 결정)이 빠짐</td><td data-label="등급" role="cell"><span class="note">(Claude 문서 기준)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"도구 설명은 짧게, 세부는 구현자가 코드에서 읽는다"</td><td data-label="왜 끌리나" role="cell">설명 중복 같음</td><td data-label="왜 틀리나" role="cell">설명이 도구 성능의 가장 큰 요인 · 최소 3~4문장</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"스킬·프롬프트를 내 홈 폴더에 두고 경로만 알려 준다"</td><td data-label="왜 끌리나" role="cell">이미 잘 돌아감</td><td data-label="왜 틀리나" role="cell">팀·클라우드 세션엔 안 보임. 레포에 커밋</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/skills" lang="en" rel="noopener">skills</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"스키마만 정의하면 도구 입력이 늘 맞다"</td><td data-label="왜 끌리나" role="cell">JSON Schema 가 있으니</td><td data-label="왜 틀리나" role="cell">보장은 <code>strict: true</code> 일 때. 없으면 <code>"2"</code> 대 <code>2</code> · 필수 필드 누락</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use" lang="en" rel="noopener">strict-tool-use</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"가이드에 '절대 main 에 push 금지' 를 굵게 적는다"</td><td data-label="왜 끌리나" role="cell">강조하면 지킬 것 같음</td><td data-label="왜 틀리나" role="cell">CLAUDE.md 는 권고 — 막으려면 hook · 강조 남발은 아무것도 눈에 안 띔</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a> · Skilljar 486929</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"명세 문서만 꼼꼼히 쓰면 기대 동작이 전해진다"</td><td data-label="왜 끌리나" role="cell">문서가 자세하면 됨</td><td data-label="왜 틀리나" role="cell">두 엔지니어가 엣지 케이스를 다르게 읽음 → 평가셋을 같이</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"<code>@path</code> 로 쪼개면 읽는 양이 줄어 규칙을 더 잘 지킨다"</td><td data-label="왜 끌리나" role="cell">파일이 작아 보임</td><td data-label="왜 틀리나" role="cell">import 는 시작 때 다 불러옴 — 정리만 됨</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a> · Skilljar 486929 (imports 절)</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"런북 = 아키텍트 연락처 + 에스컬레이션 경로"</td><td data-label="왜 끌리나" role="cell">확실한 안전망(safety net) 같음</td><td data-label="왜 틀리나" role="cell">기준은 아키텍트 없이 복구</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.4②</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"코드와 프롬프트가 곧 문서"</td><td data-label="왜 끌리나" role="cell">코드는 늘 최신이다</td><td data-label="왜 틀리나" role="cell">코드로 못 읽는 것(함정·환경 특이점·구조 결정)이 빠진다</td><td data-label="등급" role="cell"><span class="note">(Claude 문서 기준)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"도구 설명은 짧게, 세부는 구현자가 코드에서 읽는다"</td><td data-label="왜 끌리나" role="cell">설명이 중복 같다</td><td data-label="왜 틀리나" role="cell">설명이 도구 성능의 가장 큰 요인이다. 최소 3~4문장을 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/define-tools" lang="en" rel="noopener">define-tools</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"스킬·프롬프트를 내 홈 폴더에 두고 경로만 알려 준다"</td><td data-label="왜 끌리나" role="cell">이미 잘 돌아간다</td><td data-label="왜 틀리나" role="cell">팀·클라우드 세션에는 안 보인다. 레포에 커밋한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/skills" lang="en" rel="noopener">skills</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"스키마만 정의하면 도구 입력이 늘 맞다"</td><td data-label="왜 끌리나" role="cell">JSON Schema 가 있으니 맞을 것 같다</td><td data-label="왜 틀리나" role="cell">보장은 <code>strict: true</code> 일 때만 있다. 없으면 <code>"2"</code> 대 <code>2</code> 같은 어긋남이나 필수 필드 누락이 생길 수 있다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use" lang="en" rel="noopener">strict-tool-use</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"가이드에 '절대 main 에 push 금지' 를 굵게 적는다"</td><td data-label="왜 끌리나" role="cell">강조하면 지킬 것 같다</td><td data-label="왜 틀리나" role="cell">CLAUDE.md 는 권고다. 막으려면 hook 을 쓴다. 강조를 남발하면 아무것도 눈에 안 띈다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a> · Skilljar 486929</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"명세 문서만 꼼꼼히 쓰면 기대 동작이 전해진다"</td><td data-label="왜 끌리나" role="cell">문서가 자세하면 될 것 같다</td><td data-label="왜 틀리나" role="cell">두 엔지니어가 엣지 케이스를 다르게 읽는다. 평가셋을 같이 넘긴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"<code>@path</code> 로 쪼개면 읽는 양이 줄어 규칙을 더 잘 지킨다"</td><td data-label="왜 끌리나" role="cell">파일이 작아 보인다</td><td data-label="왜 틀리나" role="cell">import 는 시작 때 다 불러온다. 정리만 된다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a> · Skilljar 486929 (imports 절)</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"런북 = 아키텍트 연락처 + 에스컬레이션 경로"</td><td data-label="왜 끌리나" role="cell">확실한 안전망(safety net) 같다</td><td data-label="왜 틀리나" role="cell">기준은 아키텍트 없이 복구하는 것이다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.4②</td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="implementation-guide-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
@@ -706,13 +739,19 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>런북 : 공식 문서 없음 (grep "runbook|playbook" — ccarp/raw/official-docs 0건 · 제외 = 받지 않은 공식 페이지). 구성(알아보는 법·확인할 것·복구 방법)은 목록 6.4② 를 업계 일반으로.</li>
-<li>"코딩 명세 기준(self-contained spec) → 구현 가이드", "end-to-end 검증 = 평가셋 돌리기" 는 추론 연결. 공식이 구현 가이드라는 문서를 따로 정의하지 않음.</li>
-<li>API 앱(Claude Code 밖)의 프롬프트 저장 위치 : 공식 권고 문장 못 찾음 — 카드엔 업계 일반으로만.</li>
-<li>목록 6.4② 영어 신호 3개 모두 원문에서 찾음. 공식이 목록보다 더 말하는 것 : 개인 스킬은 Cowork·클라우드 세션에서 안 불림 · 이름 겹침 우선순위 · 플러그인 배포 경로 — 카드에 더함.</li>
-<li>스킬 위치 표의 Nested·Additional directory(<code>--add-dir</code>) 칸은 판단을 가르지 않아 카드에서 뺌 (skills).</li>
+<li>런북은 공식 문서가 없다 (grep "runbook|playbook" 결과 ccarp/raw/official-docs 0건 · 제외 = 받지 않은 공식 페이지). 구성(알아보는 법·확인할 것·복구 방법)은 목록 6.4② 를 업계 일반으로 옮겼다.</li>
+<li>코딩 명세 기준(self-contained spec)을 구현 가이드에 옮긴 것과 "end-to-end 검증 = 평가셋 돌리기" 는 추론 연결이다. 공식은 구현 가이드라는 문서를 따로 정의하지 않는다.</li>
+<li>API 앱(Claude Code 밖)의 프롬프트 저장 위치는 공식 권고 문장을 못 찾았다. 그래서 카드에는 업계 일반으로만 적었다.</li>
+<li>목록 6.4② 영어 신호 3개는 모두 원문에서 찾았다. 공식은 목록보다 세 가지를 더 말한다. 이 셋을 카드에 더했다.<ul>
+<li>개인 스킬은 Cowork·클라우드 세션에서 안 불린다.</li>
+<li>이름 겹침 우선순위</li>
+<li>플러그인 배포 경로</li>
+</ul>
+</li>
+<li>스킬 위치 표의 Nested·Additional directory(<code>--add-dir</code>) 칸은 판단을 가르지 않아 카드에서 뺐다 (skills).</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

@@ -370,9 +370,14 @@
   </div>
   <h2 class="sec-h" id="thinking-controls-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>thinking(사고) lever(조절 수단)는 모델마다 다름 → 문항의 모델 이름을 먼저 봄. 새 방식 = <code>thinking: {type: "adaptive"}</code> + <code>output_config.effort</code>(Claude 가 thinking 할지·얼마나 할지 정함) · 옛 방식 = <code>thinking: {type: "enabled", budget_tokens: N}</code>(수동 extended thinking). 모델이 안 받는 설정은 400</p>
-      <p>지출의 엄격한 상한은 어느 방식이든 <code>max_tokens</code>(thinking + 답 합계). effort 는 유연한 지침, budget_tokens 는 목표치</p>
-    <p class="t5-ana"><span class="lead">비유</span> Kubernetes apiVersion. 버전마다 받는 필드가 다름 → 매니페스트에 적힌 버전의 스펙으로 판단. 그 버전에 없는 필드를 넣으면 API 서버가 거부</p>
+      <p>thinking(사고) lever(조절 수단)는 모델마다 다르다. 그래서 문항의 모델 이름을 먼저 본다. 방식은 둘이다.</p>
+      <ul class="dash">
+        <li><span class="lead">새 방식 :</span> <code>thinking: {type: "adaptive"}</code> + <code>output_config.effort</code>. Claude 가 thinking 할지, 얼마나 할지 정한다.</li>
+        <li><span class="lead">옛 방식 :</span> <code>thinking: {type: "enabled", budget_tokens: N}</code>. 수동 extended thinking 이다.</li>
+      </ul>
+      <p>모델이 안 받는 설정은 400 이다</p>
+      <p>지출의 엄격한 상한은 어느 방식이든 <code>max_tokens</code>(thinking + 답 합계)다. effort 는 유연한 지침이고, budget_tokens 는 목표치다</p>
+    <p class="t5-ana"><span class="lead">비유</span> Kubernetes apiVersion 과 같다. 버전마다 받는 필드가 다르다. 그래서 매니페스트에 적힌 버전의 스펙으로 판단한다. 그 버전에 없는 필드를 넣으면 API 서버가 거부한다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/thinking-controls.webp"><img src="../images/thinking-controls.webp" alt="새 방식 adaptive + effort 와 옛 방식 budget_tokens 를 대비하고, 어느 쪽이든 엄격한 상한은 max_tokens 이며 모델이 안 받는 설정은 400 임을 보여 준다." loading="lazy" decoding="async"></a>
@@ -402,29 +407,34 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">두 방식</p>
 <ul>
-<li>옛 방식 = 수동 extended thinking(확장 사고) <code>thinking: {type: "enabled", budget_tokens: N}</code>. 사람이 thinking 예산을 정함. 고정 예산이면 매 요청 thinking.</li>
-<li>새 방식 = <code>thinking: {type: "adaptive"}</code> + <code>output_config.effort</code>. 모델이 요청마다 thinking 할지·얼마나 할지 정함. effort 는 그 성향을 미는 유연한 지침.</li>
-<li>세대 경계 : 4.5 이하 = 옛 방식만 · 4.6 = 둘 다(옛 방식은 지원 중단) · 4.7 이후 = 새 방식만. 안 받는 쪽을 보내면 400.</li>
+<li>옛 방식은 수동 extended thinking(확장 사고) <code>thinking: {type: "enabled", budget_tokens: N}</code> 이다. 사람이 thinking 예산을 정한다. 고정 예산이면 매 요청 thinking 한다.</li>
+<li>새 방식은 <code>thinking: {type: "adaptive"}</code> + <code>output_config.effort</code> 다. 모델이 요청마다 thinking 할지, 얼마나 할지 정한다. effort 는 그 성향을 미는 유연한 지침이다.</li>
+<li>세대 경계는 아래와 같다. 안 받는 쪽을 보내면 400 이다.<ul>
+<li>4.5 이하 : 옛 방식만 받는다.</li>
+<li>4.6 : 둘 다 받는다(옛 방식은 지원 중단).</li>
+<li>4.7 이후 : 새 방식만 받는다.</li>
+</ul>
+</li>
 </ul>
 <p class="lead">effort 가 하는 일</p>
 <ul>
-<li>thinking 만이 아니라 답 글·도구 호출까지 모든 출력 토큰에 걸림 → thinking 이 꺼져도 작동.</li>
-<li>단 thinking 깊이의 주 lever(조절 수단)인 건 adaptive 모드에서만. extended thinking 전용 모델에서 effort 를 바꿔도 thinking 은 그대로(그 모델들은 대부분 effort 자체가 없음 — Opus 4.5 만 예외).</li>
+<li>effort 는 thinking 만이 아니라 답 글과 도구 호출까지 모든 출력 토큰에 걸린다. 그래서 thinking 이 꺼져도 작동한다.</li>
+<li>단 effort 가 thinking 깊이의 주 lever(조절 수단)인 것은 adaptive 모드에서만이다. extended thinking 전용 모델에서 effort 를 바꿔도 thinking 은 그대로다. 그 모델들은 대부분 effort 자체가 없다(Opus 4.5 만 예외다).</li>
 </ul>
 <p class="lead">상한은 하나뿐</p>
 <ul>
-<li><code>max_tokens</code> = thinking + 답 합계의 엄격한 한도. 넘어서 생성하지 않음.</li>
-<li>budget_tokens = 목표치(예산보다 훨씬 일찍 멈출 수 있음). effort = 토큰 수 보장 안 함.</li>
-<li>도구 루프는 요청마다 <code>max_tokens</code> 가 따로라 턴 전체는 못 묶음.</li>
+<li><code>max_tokens</code> 는 thinking + 답 합계의 엄격한 한도다. 이 한도를 넘어서 생성하지 않는다.</li>
+<li>budget_tokens 는 목표치다(예산보다 훨씬 일찍 멈출 수 있다). effort 는 토큰 수를 보장하지 않는다.</li>
+<li>도구 루프는 요청마다 <code>max_tokens</code> 가 따로라서 턴 전체는 못 묶는다.</li>
 </ul>
 <p class="lead">설정은 프롬프트의 일부</p>
 <ul>
-<li>thinking 모드·budget_tokens·effort 값은 프롬프트 안에 렌더링됨 → 바꾸면 캐시 앞부분이 달라져 메시지 캐시가 깨짐.</li>
+<li>thinking 모드, budget_tokens, effort 값은 프롬프트 안에 렌더링된다. 그래서 바꾸면 캐시 앞부분이 달라져 메시지 캐시가 깨진다.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
-<li>문항의 모델은 어느 세대인가? (받는 필드가 정해짐)</li>
-<li>원하는 게 엄격한 상한인가, 평균을 낮추는 것인가, 깊이를 올리는 것인가?</li>
+<li>문항의 모델은 어느 세대인가? (받는 필드가 정해진다)</li>
+<li>원하는 것이 엄격한 상한인가, 평균을 낮추는 것인가, 깊이를 올리는 것인가?</li>
 </ul>
 </section>
   <h2 class="sec-h" id="thinking-controls-rules-h">규칙과 판단</h2>
@@ -436,7 +446,7 @@
   <section class="t5-flow tree" id="thinking-controls-tree-1" aria-labelledby="thinking-controls-tree-1-h" data-paths="n1 n2 n3 n4 n5|n1 n2 n3 n6 n7|n1 n8 n9|n1 n10 n11">
     <div class="t5-fh"><h3 id="thinking-controls-tree-1-h">①②③ 모델로 가르기 <span class="pg">[2.3③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>모델 세대?<span class="t5-sub">문항의 모델 이름</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>모델이 어느 세대인가?<span class="t5-sub">문항의 모델 이름</span></div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>4.5 이하 <span class="note">(Haiku·Sonnet·Opus 4.5)</span></span>
@@ -444,21 +454,21 @@
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">budget_tokens + effort</p><p>effort 를 지원하는 유일한 extended thinking 전용 모델</p></div>
+              <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">budget_tokens + effort</p><p>이 모델은 effort 를 지원하는 유일한 extended thinking 전용 모델이다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(Haiku 4.5 · Sonnet 4.5)</span></span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">budget_tokens 만</p><p>extended thinking 이 유일한 모드, <code>adaptive</code> 는 400 · effort 없음</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">budget_tokens 만</p><p>extended thinking 이 유일한 모드다. <code>adaptive</code> 는 400 이다. effort 는 없다</p></div>
             </div>
           </div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>4.6 <span class="note">(Opus 4.6 · Sonnet 4.6)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">adaptive 권장</p><p><code>enabled</code>·budget_tokens 는 지원 중단(요청은 성공)</p></div>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">adaptive 권장</p><p><code>enabled</code>·budget_tokens 는 지원 중단이다(요청은 성공한다)</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>4.7 이후 <span class="note">(Opus 4.7~5.5 · Sonnet 5 · Fable)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">adaptive + effort</p><p><code>enabled</code>(budget_tokens) 는 400</p></div>
+          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">adaptive + effort</p><p><code>enabled</code>(budget_tokens) 는 400 이다</p></div>
         </div>
       </div>
     </div>
@@ -466,27 +476,27 @@
   <section class="t5-flow tree" id="thinking-controls-tree-2" aria-labelledby="thinking-controls-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9|n1 n10 n11">
     <div class="t5-fh"><h3 id="thinking-controls-tree-2-h">① 끌 수 있나 <span class="pg">[2.3③]</span> <span class="pg">[2.3②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>어느 모델?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>어느 모델인가?</div>
       <div class="t5-fork" style="--n:5">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>Fable 5.1 · Fable 5 · Opus 5.5</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">못 끔</p><p>항상 켜짐, <code>disabled</code> 400</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">못 끈다</p><p>항상 켜져 있다. <code>disabled</code> 는 400 이다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>Opus 5</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">effort high 이하만 끌 수 있음</p><p>기본 켜짐 · <code>disabled</code> + effort xhigh·max = 400</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">effort high 이하만 끌 수 있다</p><p>기본은 켜져 있다. <code>disabled</code> + effort xhigh·max 는 400 이다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>Sonnet 5</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">끌 수 있음</p><p>기본 켜짐</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">끌 수 있다</p><p>기본은 켜져 있다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>Opus 4.6~4.8 · Sonnet 4.6</span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">기본 꺼짐</p><p><code>adaptive</code> 를 넣어야 켜짐</p></div>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">기본은 꺼져 있다</p><p><code>adaptive</code> 를 넣어야 켜진다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>4.5 이하 <span class="note">(Haiku·Sonnet·Opus 4.5)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">기본 꺼짐</p><p><code>enabled</code> 만 · 기본 꺼짐 · <code>adaptive</code> 는 400</p></div>
+          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">기본은 꺼져 있다</p><p><code>enabled</code> 만 받는다. 기본은 꺼져 있다. <code>adaptive</code> 는 400 이다</p></div>
         </div>
       </div>
     </div>
@@ -494,27 +504,27 @@
   <section class="t5-flow tree" id="thinking-controls-tree-3" aria-labelledby="thinking-controls-tree-3-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7 n8 n9|n1 n6 n7 n10 n11">
     <div class="t5-fh"><h3 id="thinking-controls-tree-3-h">④ 무엇으로 묶나 <span class="pg">[2.3③]</span> <span class="pg">[4.5]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇이 필요?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇이 필요한가?</div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>엄격한 지출 상한</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">max_tokens</p><p>thinking + 답 합계의 엄격한 한도</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">max_tokens</p><p>thinking + 답 합계의 엄격한 한도다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>평균 비용·지연 ↓</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">effort ↓</p><p>thinking 포함 전체 응답이 줄어듦</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">effort ↓</p><p>thinking 을 포함한 전체 응답이 줄어든다</p></div>
         </div>
         <div class="t5-arm">
-          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span><code>stop_reason: "max_tokens"</code> 로 잘림</span>
+          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span><code>stop_reason: "max_tokens"</code> 로 잘렸다</span>
           <div class="t5-q" data-p="n7"><span class="t5-hl" aria-hidden="true"></span>잘린 답에 추론이 필요했나?</div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">max_tokens ↑</p><p>추론(reasoning)이 필요했으면 max_tokens ↑</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">max_tokens ↑</p><p>추론(reasoning)이 필요했으면 max_tokens 를 올린다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(과하게 생각)</span></span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">effort ↓</p><p>과하게 생각했으면 effort ↓</p></div>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">effort ↓</p><p>과하게 생각했으면 effort 를 낮춘다</p></div>
             </div>
           </div>
         </div>
@@ -523,7 +533,7 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="thinking-controls-flow" aria-label="모델별 thinking 제어 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["요청","API 검사","모델"],"blocks":[],"rules":[null,"모델이 안 받는 설정은 400",null],"question":"이 설정은 검사를 통과할까?","scenes":[{"name":"① Haiku 4.5 + budget_tokens","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["model: Haiku 4.5","type: \"enabled\"","budget_tokens: 2048","max_tokens: 4096"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"`enabled` + budget_tokens","art":{"kind":"slip","lines":["Haiku 4.5 = enabled 만","통과"]}},{"kind":"move","step":"통과","from":{"col":1},"to":2,"label":"extended thinking 만 되는 모델","art":{"kind":"slip","lines":["[thinking] 배송 지연 언급","답: 라벨 \"배송\""]}},{"kind":"end","label":"4.5 이하는 extended thinking 이 유일한 모드"}]},{"name":"② Opus 5.5 + budget_tokens","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["model: Opus 5.5","type: \"enabled\"","budget_tokens: 2048"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"`enabled` + budget_tokens","art":{"kind":"slip","lines":["Opus 5.5 = adaptive 만"]}},{"kind":"mark","step":"거부","at":{"col":1},"label":"400 ≠","art":{"kind":"slip","lines":["HTTP 400"]}},{"kind":"skip","at":2},{"kind":"end","label":"4.7 이후는 adaptive + effort"}]},{"name":"③ Haiku 4.5 + adaptive","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["model: Haiku 4.5","type: \"adaptive\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"`adaptive`","art":{"kind":"slip","lines":["Haiku 4.5 = enabled 만"]}},{"kind":"mark","step":"거부","at":{"col":1},"label":"400 ≠","art":{"kind":"slip","lines":["HTTP 400"]}},{"kind":"skip","at":2},{"kind":"end","label":"extended thinking 만 되는 모델은 adaptive 가 400"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["요청","API 검사","모델"],"blocks":[],"rules":[null,"모델이 안 받는 설정은 400",null],"question":"이 설정은 검사를 통과할까?","scenes":[{"name":"① Haiku 4.5 + budget_tokens","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["model: Haiku 4.5","type: \"enabled\"","budget_tokens: 2048","max_tokens: 4096"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"`enabled` + budget_tokens","art":{"kind":"slip","lines":["Haiku 4.5 = enabled 만","통과"]}},{"kind":"move","step":"통과","from":{"col":1},"to":2,"label":"extended thinking 만 되는 모델이다","art":{"kind":"slip","lines":["[thinking] 배송 지연 언급","답: 라벨 \"배송\""]}},{"kind":"end","label":"4.5 이하는 extended thinking 이 유일한 모드다"}]},{"name":"② Opus 5.5 + budget_tokens","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["model: Opus 5.5","type: \"enabled\"","budget_tokens: 2048"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"`enabled` + budget_tokens","art":{"kind":"slip","lines":["Opus 5.5 = adaptive 만"]}},{"kind":"mark","step":"거부","at":{"col":1},"label":"400 ≠","art":{"kind":"slip","lines":["HTTP 400"]}},{"kind":"skip","at":2},{"kind":"end","label":"4.7 이후는 adaptive + effort 를 쓴다"}]},{"name":"③ Haiku 4.5 + adaptive","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["model: Haiku 4.5","type: \"adaptive\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"`adaptive`","art":{"kind":"slip","lines":["Haiku 4.5 = enabled 만"]}},{"kind":"mark","step":"거부","at":{"col":1},"label":"400 ≠","art":{"kind":"slip","lines":["HTTP 400"]}},{"kind":"skip","at":2},{"kind":"end","label":"extended thinking 만 되는 모델은 adaptive 에 400 을 낸다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -534,8 +544,8 @@
       <ol>
         <li>시작 : 요청 — 쪽지 : <span class="flx-alt-slip">model: Haiku 4.5 / type: "enabled" / budget_tokens: 2048 / max_tokens: 4096</span></li>
         <li>요청 : 요청 → API 검사 : <code>enabled</code> + budget_tokens — 쪽지 : <span class="flx-alt-slip">Haiku 4.5 = enabled 만 / 통과</span></li>
-        <li>통과 : API 검사 → 모델 : extended thinking 만 되는 모델 — 쪽지 : <span class="flx-alt-slip">[thinking] 배송 지연 언급 / 답: 라벨 "배송"</span></li>
-        <li>끝 : 4.5 이하는 extended thinking 이 유일한 모드</li>
+        <li>통과 : API 검사 → 모델 : extended thinking 만 되는 모델이다 — 쪽지 : <span class="flx-alt-slip">[thinking] 배송 지연 언급 / 답: 라벨 "배송"</span></li>
+        <li>끝 : 4.5 이하는 extended thinking 이 유일한 모드다</li>
       </ol>
       <p class="lead">② Opus 5.5 + budget_tokens <span class="fl-v is-ng">≠</span></p>
       <ol>
@@ -543,7 +553,7 @@
         <li>요청 : 요청 → API 검사 : <code>enabled</code> + budget_tokens — 쪽지 : <span class="flx-alt-slip">Opus 5.5 = adaptive 만</span></li>
         <li>거부 : API 검사 : 400 ≠ — 쪽지 : <span class="flx-alt-slip">HTTP 400</span></li>
         <li>건너뜀 : 모델</li>
-        <li>끝 : 4.7 이후는 adaptive + effort</li>
+        <li>끝 : 4.7 이후는 adaptive + effort 를 쓴다</li>
       </ol>
       <p class="lead">③ Haiku 4.5 + adaptive <span class="fl-v is-ng">≠</span></p>
       <ol>
@@ -551,7 +561,7 @@
         <li>요청 : 요청 → API 검사 : <code>adaptive</code> — 쪽지 : <span class="flx-alt-slip">Haiku 4.5 = enabled 만</span></li>
         <li>거부 : API 검사 : 400 ≠ — 쪽지 : <span class="flx-alt-slip">HTTP 400</span></li>
         <li>건너뜀 : 모델</li>
-        <li>끝 : extended thinking 만 되는 모델은 adaptive 가 400</li>
+        <li>끝 : extended thinking 만 되는 모델은 adaptive 에 400 을 낸다</li>
       </ol>
     </details>
   </figure>
@@ -560,16 +570,23 @@
       <ol class="how">
         <li id="thinking-controls-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">바꾸면 캐시가 깨짐 :</span> thinking 모드 전환 · budget_tokens 변경 · 요청 단위(top-level) effort 변경 = 메시지 캐시 무효화 → 대화 안에서는 고정. 기본값을 명시하는 건 생략과 같아 안 깨짐. 메시지별 effort(베타, Fable 5.1·Mythos 5.1·Opus 5.5·Opus 5)는 캐시 유지 <span class="post">시험 뒤 변경</span> <span class="note">2026-09-01~</span> · 상세 = <a href="caching.html">■ 프롬프트 캐싱</a></p>
+            <p><span class="lead">바꾸면 캐시가 깨진다 :</span> 아래를 바꾸면 메시지 캐시가 무효가 된다. 그래서 대화 안에서는 고정한다</p>
+            <ul class="dash">
+              <li>thinking 모드 전환</li>
+              <li>budget_tokens 변경</li>
+              <li>요청 단위(top-level) effort 변경</li>
+            </ul>
+            <p>기본값을 명시하는 것은 생략과 같아 캐시가 깨지지 않는다</p>
+            <p>메시지별 effort(베타, Fable 5.1·Mythos 5.1·Opus 5.5·Opus 5)는 캐시를 유지한다 <span class="post">시험 뒤 변경</span> <span class="note">2026-09-01~</span>. 상세는 <a href="caching.html">■ 프롬프트 캐싱</a> 에 있다</p>
           </div>
         </li>
         <li id="thinking-controls-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
             <p>thinking 과 같이 걸리는 그 밖의 400</p>
-            <p>새 모델(Fable·Mythos · Opus 5.5·5·4.8·4.7 · Sonnet 5)은 temperature·top_p·top_k 를 기본값 아닌 값으로 주면 thinking 과 무관하게 400</p>
-            <p>수동 extended thinking + 강제 도구 사용(<code>tool_choice</code> any·tool) = 오류 · Opus 5.5·Fable 5.1 은 강제 도구 사용 자체가 400 → auto + strict tool use</p>
-            <p>thinking 켠 채 prefill 불가</p>
-            <p>도구 결과를 보낼 때 thinking 블록을 고치거나 빼면 400 → 받은 그대로 돌려줌</p>
+            <p>새 모델(Fable·Mythos · Opus 5.5·5·4.8·4.7 · Sonnet 5)은 temperature·top_p·top_k 를 기본값 아닌 값으로 주면 thinking 과 무관하게 400 이다</p>
+            <p>수동 extended thinking 과 강제 도구 사용(<code>tool_choice</code> any·tool)을 같이 쓰면 오류다. Opus 5.5·Fable 5.1 은 강제 도구 사용 자체가 400 이다. 대신 auto 와 strict tool use 를 쓴다</p>
+            <p>thinking 을 켠 채로는 prefill 을 못 한다</p>
+            <p>도구 결과를 보낼 때 thinking 블록을 고치거나 빼면 400 이다. 받은 그대로 돌려준다</p>
           </div>
         </li>
       </ol>
@@ -578,56 +595,66 @@
       <ol class="how">
         <li id="thinking-controls-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p class="lead">모델별 thinking 방식 (2026-09-28 조회) <span class="pg">[2.3③]</span></p>
+            <p class="lead">모델별 thinking 방식은 아래 표와 같다 (2026-09-28 조회) <span class="pg">[2.3③]</span></p>
             <div class="tscroll t-wide" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">모델</th><th scope="col" role="columnheader">thinking 방식</th><th scope="col" role="columnheader">기본</th><th scope="col" role="columnheader">400</th></tr></thead>
               <tbody role="rowgroup">
-                <tr role="row"><td data-label="모델" role="cell">Fable 5.1 · Fable 5</td><td data-label="thinking 방식" role="cell">adaptive 만</td><td data-label="기본" role="cell">항상 켜짐</td><td data-label="400" role="cell"><code>enabled</code> · <code>disabled</code></td></tr>
-                <tr role="row"><td data-label="모델" role="cell">Opus 5.5</td><td data-label="thinking 방식" role="cell">adaptive 만</td><td data-label="기본" role="cell">항상 켜짐</td><td data-label="400" role="cell"><code>enabled</code> · <code>disabled</code></td></tr>
-                <tr role="row"><td data-label="모델" role="cell">Opus 5</td><td data-label="thinking 방식" role="cell">adaptive 만</td><td data-label="기본" role="cell">켜짐</td><td data-label="400" role="cell"><code>enabled</code> · <span class="note">(<code>disabled</code> + effort xhigh·max)</span></td></tr>
-                <tr role="row"><td data-label="모델" role="cell">Sonnet 5</td><td data-label="thinking 방식" role="cell">adaptive 만</td><td data-label="기본" role="cell">켜짐</td><td data-label="400" role="cell"><code>enabled</code></td></tr>
-                <tr role="row"><td data-label="모델" role="cell">Opus 4.8 · 4.7</td><td data-label="thinking 방식" role="cell">adaptive 만</td><td data-label="기본" role="cell">꺼짐</td><td data-label="400" role="cell"><code>enabled</code></td></tr>
-                <tr role="row"><td data-label="모델" role="cell">Opus 4.6 · Sonnet 4.6</td><td data-label="thinking 방식" role="cell">adaptive · enabled(지원 중단)</td><td data-label="기본" role="cell">꺼짐</td><td data-label="400" role="cell">없음</td></tr>
-                <tr role="row"><td data-label="모델" role="cell">Opus 4.5 · Haiku 4.5 · Sonnet 4.5</td><td data-label="thinking 방식" role="cell">enabled 만</td><td data-label="기본" role="cell">꺼짐</td><td data-label="400" role="cell"><code>adaptive</code></td></tr>
+                <tr role="row"><td data-label="모델" role="cell">Fable 5.1 · Fable 5</td><td data-label="thinking 방식" role="cell">adaptive 만</td><td data-label="기본" role="cell">항상 켜져 있다</td><td data-label="400" role="cell"><code>enabled</code> · <code>disabled</code></td></tr>
+                <tr role="row"><td data-label="모델" role="cell">Opus 5.5</td><td data-label="thinking 방식" role="cell">adaptive 만</td><td data-label="기본" role="cell">항상 켜져 있다</td><td data-label="400" role="cell"><code>enabled</code> · <code>disabled</code></td></tr>
+                <tr role="row"><td data-label="모델" role="cell">Opus 5</td><td data-label="thinking 방식" role="cell">adaptive 만</td><td data-label="기본" role="cell">켜져 있다</td><td data-label="400" role="cell"><code>enabled</code> · <span class="note">(<code>disabled</code> + effort xhigh·max)</span></td></tr>
+                <tr role="row"><td data-label="모델" role="cell">Sonnet 5</td><td data-label="thinking 방식" role="cell">adaptive 만</td><td data-label="기본" role="cell">켜져 있다</td><td data-label="400" role="cell"><code>enabled</code></td></tr>
+                <tr role="row"><td data-label="모델" role="cell">Opus 4.8 · 4.7</td><td data-label="thinking 방식" role="cell">adaptive 만</td><td data-label="기본" role="cell">꺼져 있다</td><td data-label="400" role="cell"><code>enabled</code></td></tr>
+                <tr role="row"><td data-label="모델" role="cell">Opus 4.6 · Sonnet 4.6</td><td data-label="thinking 방식" role="cell">adaptive · enabled(지원 중단)</td><td data-label="기본" role="cell">꺼져 있다</td><td data-label="400" role="cell">없다</td></tr>
+                <tr role="row"><td data-label="모델" role="cell">Opus 4.5 · Haiku 4.5 · Sonnet 4.5</td><td data-label="thinking 방식" role="cell">enabled 만</td><td data-label="기본" role="cell">꺼져 있다</td><td data-label="400" role="cell"><code>adaptive</code></td></tr>
               </tbody>
             </table>
             </div>
-            <p><span class="lead">끄기 :</span> 항상 켜짐 = 못 끔 · Opus 5 = effort high 이하만 <code>disabled</code> 가능 · Sonnet 5 = 기본 켜짐이지만 <code>disabled</code> 로 끌 수 있음 · 기본 꺼짐 모델은 <code>adaptive</code> 를 넣어야 켜짐</p>
-            <p>Mythos 5.1·5 = Fable 과 같음 · Mythos Preview = 두 모드 다 받음(<code>disabled</code> 만 400)</p>
-            <p><span class="post">시험 뒤 변경</span> <span class="note">Opus 5 2026-07-24 · Fable 5.1 2026-09-01 · Opus 5.5 2026-09-22 출시. 규칙 "4.7 이후 = budget_tokens 400"은 그대로</span></p>
+            <p>끄기는 모델마다 다르다</p>
+            <ul class="dash">
+              <li>항상 켜진 모델은 못 끈다</li>
+              <li>Opus 5 는 effort high 이하에서만 <code>disabled</code> 를 쓸 수 있다</li>
+              <li>Sonnet 5 는 기본이 켜져 있지만 <code>disabled</code> 로 끌 수 있다</li>
+              <li>기본이 꺼진 모델은 <code>adaptive</code> 를 넣어야 켜진다</li>
+            </ul>
+            <p>Mythos 5.1·5 는 Fable 과 같다. Mythos Preview 는 두 모드를 다 받는다(<code>disabled</code> 만 400 이다)</p>
+            <p><span class="post">시험 뒤 변경</span> <span class="note">Opus 5 는 2026-07-24, Fable 5.1 은 2026-09-01, Opus 5.5 는 2026-09-22 에 출시됐다. 규칙 "4.7 이후 = budget_tokens 400"은 그대로다</span></p>
           </div>
         </li>
         <li id="thinking-controls-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p><span class="lead">effort :</span> <code>output_config.effort</code>(thinking 객체 안 아님). 단계 = low · medium · high · xhigh · max</p>
-            <p>기본 = high, Opus 5.5 만 medium <span class="note">(2026-09-28 조회 · 시험 뒤 변경 — Opus 5.5 2026-09-22 출시)</span></p>
-            <p>모든 출력 토큰(답 · 도구 호출 · thinking)에 걸림 → thinking 이 꺼져도 작동. thinking 의 주 lever 인 건 adaptive 모드에서만 — extended thinking 전용 모델은 budget_tokens 가 깊이를 정함</p>
-            <p><code>max</code> 지원 모델 = Fable·Mythos 계열 · Opus 5.5·5·4.8·4.7·4.6 · Sonnet 5·4.6 / <code>xhigh</code> 지원 모델 = Fable·Mythos 5.x·5 · Opus 5.5·5·4.8·4.7 · Sonnet 5 (4.6 은 xhigh 없음) (2026-09-28 조회)</p>
-            <p><code>adaptive</code> 는 effort 값이 아님(thinking 모드)</p>
-            <p>Opus 4.5 = effort 를 지원하는 유일한 extended thinking 전용 모델 → Haiku 4.5·Sonnet 4.5 는 effort 없음 <span class="src">(문장의 '유일한'에서)</span></p>
-            <p>effort 를 모델 교체와 비교하는 판단 = <a href="effort-vs-model.html">◆ effort 조정 vs 모델 교체</a> · 지연(latency) 쪽 = <a href="latency-levers.html">■ 지연 줄이기 lever</a></p>
+            <p><span class="lead">effort :</span> <code>output_config.effort</code> 에 넣는다(thinking 객체 안이 아니다). 단계는 low · medium · high · xhigh · max 다</p>
+            <p>기본은 high 이고, Opus 5.5 만 medium 이다 <span class="note">(2026-09-28 조회 · 시험 뒤 변경 — Opus 5.5 2026-09-22 출시)</span></p>
+            <p>effort 는 모든 출력 토큰(답 · 도구 호출 · thinking)에 걸린다. 그래서 thinking 이 꺼져도 작동한다. effort 가 thinking 의 주 lever 인 것은 adaptive 모드에서만이다. extended thinking 전용 모델은 budget_tokens 가 깊이를 정한다</p>
+            <p>지원 단계는 모델마다 다르다 (2026-09-28 조회)</p>
+            <ul class="dash">
+              <li><code>max</code> 지원 모델 : Fable·Mythos 계열 · Opus 5.5·5·4.8·4.7·4.6 · Sonnet 5·4.6</li>
+              <li><code>xhigh</code> 지원 모델 : Fable·Mythos 5.x·5 · Opus 5.5·5·4.8·4.7 · Sonnet 5 <span class="note">(4.6 은 xhigh 가 없다)</span></li>
+            </ul>
+            <p><code>adaptive</code> 는 effort 값이 아니다(thinking 모드다)</p>
+            <p>Opus 4.5 는 effort 를 지원하는 유일한 extended thinking 전용 모델이다. 그래서 Haiku 4.5·Sonnet 4.5 에는 effort 가 없다 <span class="src">(문장의 '유일한'에서)</span></p>
+            <p>effort 를 모델 교체와 비교하는 판단은 <a href="effort-vs-model.html">◆ effort 조정 vs 모델 교체</a> 에 있다. 지연(latency) 쪽은 <a href="latency-levers.html">■ 지연 줄이기 lever</a> 에 있다</p>
           </div>
         </li>
         <li id="thinking-controls-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
             <p>budget_tokens (수동 extended thinking)</p>
-            <p>최소 1,024 · <code>max_tokens</code> 보다 작게(interleaved thinking 은 예외) · 목표치이지 엄격한 상한 아님 → 엄격한 상한은 <code>max_tokens</code></p>
-            <p>시작점 = 단순한 일 1,024 근처 · 복잡한 일 16,000 이상. 32k 넘는 예산은 배치 처리로</p>
-            <p>예측 가능한 지연·thinking 비용 정밀 제어가 필요하면 수동 모드가 여전히 유용</p>
-            <p>고정 예산은 매 요청 thinking · adaptive 는 요청마다 thinking 할지 정함(낮은 effort 면 쉬운 입력은 건너뜀)</p>
-            <p>Haiku 4.5 는 interleaved thinking(도구 호출 사이 thinking) 없음</p>
+            <p>최소값은 1,024 다. <code>max_tokens</code> 보다 작게 잡는다(interleaved thinking 은 예외). budget_tokens 는 목표치이지 엄격한 상한이 아니다. 엄격한 상한은 <code>max_tokens</code> 다</p>
+            <p>시작점은 단순한 일이면 1,024 근처, 복잡한 일이면 16,000 이상이다. 32k 넘는 예산은 배치 처리로 돌린다</p>
+            <p>예측 가능한 지연이나 thinking 비용의 정밀 제어가 필요하면 수동 모드가 여전히 유용하다</p>
+            <p>고정 예산이면 매 요청 thinking 한다. adaptive 는 요청마다 thinking 할지 정한다(낮은 effort 면 쉬운 입력은 건너뛴다)</p>
+            <p>Haiku 4.5 에는 interleaved thinking(도구 호출 사이 thinking)이 없다</p>
           </div>
         </li>
         <li id="thinking-controls-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
             <p>비용 묶기 <span class="pg">[2.3③]</span> <span class="pg">[4.5]</span></p>
-            <p><code>max_tokens</code> = thinking + 답 합계의 엄격한 한도 · effort = 유연한 지침(토큰 수 보장 안 함)</p>
-            <p>평균 비용·지연을 줄이려면 effort ↓ 먼저 → thinking 포함 전체 응답이 줄어듦</p>
-            <p>도구 루프는 요청마다 <code>max_tokens</code> 가 따로 → 턴 전체 지출은 못 묶음</p>
-            <p>thinking 토큰 = 출력 토큰 단가로 청구. display "omitted" 로 숨겨도 똑같이 청구(숨기면 지연만 줄어듦)</p>
-            <p>실제 thinking 양 = <code>usage.output_tokens_details.thinking_tokens</code></p>
-            <p><code>stop_reason: "max_tokens"</code> → 추론이 필요했으면 max_tokens ↑, 과하게 생각했으면 effort ↓</p>
+            <p><code>max_tokens</code> 는 thinking + 답 합계의 엄격한 한도다. effort 는 유연한 지침이다(토큰 수를 보장하지 않는다)</p>
+            <p>평균 비용과 지연을 줄이려면 effort 를 먼저 낮춘다. 그러면 thinking 을 포함한 전체 응답이 줄어든다</p>
+            <p>도구 루프는 요청마다 <code>max_tokens</code> 가 따로 있다. 그래서 턴 전체 지출은 못 묶는다</p>
+            <p>thinking 토큰은 출력 토큰 단가로 청구된다. display "omitted" 로 숨겨도 똑같이 청구된다. 숨기면 지연만 줄어든다</p>
+            <p>실제 thinking 양은 <code>usage.output_tokens_details.thinking_tokens</code> 에 있다</p>
+            <p><code>stop_reason: "max_tokens"</code> 로 잘리면 이렇게 한다. 추론이 필요했으면 max_tokens 를 올린다. 과하게 생각했으면 effort 를 낮춘다</p>
           </div>
         </li>
       </ol>
@@ -641,17 +668,17 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">4.7 이후 모델(Opus 4.7~5.5 · Sonnet 5 · Fable)</td><td data-label="답" role="cell">adaptive + effort. budget_tokens 는 400</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" lang="en" rel="noopener">prompting-best-practices</a> "On Claude 4.7 and later models, setting <code>budget_<wbr>tokens</code> returns a 400 error." · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Haiku 4.5 · Sonnet 4.5</td><td data-label="답" role="cell">budget_tokens 만. adaptive 는 400. effort 없음</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/extended-thinking" lang="en" rel="noopener">extended-thinking</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Opus 4.5</td><td data-label="답" role="cell">budget_tokens + effort 둘 다 설정</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/extended-thinking" lang="en" rel="noopener">extended-thinking</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> en-2026-09-28</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Opus 4.6 · Sonnet 4.6</td><td data-label="답" role="cell">adaptive 권장. budget_tokens 는 지원 중단이지만 요청은 성공</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Fable 5.1 · Fable 5 · Opus 5.5 에서 thinking 을 끄려 함</td><td data-label="답" role="cell">못 끔(<code>disabled</code> 400). effort ↓</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> en-2026-09-28</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Opus 5 에서 xhigh·max + <code>disabled</code></td><td data-label="답" role="cell">400. effort 를 high 이하로 또는 켜 둠</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">지출의 엄격한 상한</td><td data-label="답" role="cell"><code>max_<wbr>tokens</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a> "Effort is soft guidance. <code>max_<wbr>tokens</code> is a strict limit."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">평균 비용·지연(latency)을 줄임</td><td data-label="답" role="cell">effort ↓ 먼저</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell"><code>stop_<wbr>reason: "max_<wbr>tokens"</code> 로 잘림</td><td data-label="답" role="cell">추론(reasoning)이 필요했으면 max_tokens ↑, 과하게 생각했으면 effort ↓</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-steering-and-cost" lang="en" rel="noopener">thinking-steering-and-cost</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">캐시 쓰는 대화 중간에 깊이를 바꾸고 싶음</td><td data-label="답" role="cell">요청 단위(top-level) effort 는 고정. 되는 모델이면 메시지별 effort(베타)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> en-2026-09-28 · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">thinking 예산 32k 초과</td><td data-label="답" role="cell">배치 처리</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/extended-thinking" lang="en" rel="noopener">extended-thinking</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">4.7 이후 모델(Opus 4.7~5.5 · Sonnet 5 · Fable)이다</td><td data-label="답" role="cell">adaptive + effort 를 쓴다. budget_tokens 는 400 이다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" lang="en" rel="noopener">prompting-best-practices</a> "On Claude 4.7 and later models, setting <code>budget_<wbr>tokens</code> returns a 400 error." · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Haiku 4.5 · Sonnet 4.5 다</td><td data-label="답" role="cell">budget_tokens 만 쓴다. adaptive 는 400 이다. effort 는 없다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/extended-thinking" lang="en" rel="noopener">extended-thinking</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Opus 4.5 다</td><td data-label="답" role="cell">budget_tokens 와 effort 를 둘 다 설정한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/extended-thinking" lang="en" rel="noopener">extended-thinking</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> en-2026-09-28</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Opus 4.6 · Sonnet 4.6 이다</td><td data-label="답" role="cell">adaptive 를 권장한다. budget_tokens 는 지원 중단이지만 요청은 성공한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Fable 5.1 · Fable 5 · Opus 5.5 에서 thinking 을 끄려 한다</td><td data-label="답" role="cell">못 끈다(<code>disabled</code> 400). effort 를 낮춘다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> en-2026-09-28</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Opus 5 에서 xhigh·max 와 <code>disabled</code> 를 같이 쓴다</td><td data-label="답" role="cell">400 이다. effort 를 high 이하로 내리거나 thinking 을 켜 둔다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">지출의 엄격한 상한이 필요하다</td><td data-label="답" role="cell"><code>max_<wbr>tokens</code> 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a> "Effort is soft guidance. <code>max_<wbr>tokens</code> is a strict limit."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">평균 비용·지연(latency)을 줄인다</td><td data-label="답" role="cell">effort 를 먼저 낮춘다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell"><code>stop_<wbr>reason: "max_<wbr>tokens"</code> 로 잘렸다</td><td data-label="답" role="cell">추론(reasoning)이 필요했으면 max_tokens 를 올린다. 과하게 생각했으면 effort 를 낮춘다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-steering-and-cost" lang="en" rel="noopener">thinking-steering-and-cost</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">캐시를 쓰는 대화 중간에 깊이를 바꾸고 싶다</td><td data-label="답" role="cell">요청 단위(top-level) effort 는 고정한다. 되는 모델이면 메시지별 effort(베타)를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> en-2026-09-28 · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">thinking 예산이 32k 를 넘는다</td><td data-label="답" role="cell">배치 처리로 돌린다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/extended-thinking" lang="en" rel="noopener">extended-thinking</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -662,17 +689,17 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">모델 세대</td><td data-label="값" role="cell">4.5 이하</td><td data-label="답 쪽" role="cell">budget_tokens (Opus 4.5 만 + effort)</td><td data-label="근거" role="cell">판단 규칙 2·3</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델 세대</td><td data-label="값" role="cell">4.6</td><td data-label="답 쪽" role="cell">adaptive 권장, 옛 방식도 동작</td><td data-label="근거" role="cell">판단 규칙 4</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델 세대</td><td data-label="값" role="cell">4.7 이후</td><td data-label="답 쪽" role="cell">adaptive + effort</td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">effort 생략</td><td data-label="값" role="cell">Opus 5.5</td><td data-label="답 쪽" role="cell">medium 으로 실행됨 (다른 모델은 high)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> en-2026-09-28</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델 세대</td><td data-label="값" role="cell">4.5 이하</td><td data-label="답 쪽" role="cell">budget_tokens 를 쓴다 (Opus 4.5 만 effort 도 쓴다)</td><td data-label="근거" role="cell">판단 규칙 2·3</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델 세대</td><td data-label="값" role="cell">4.6</td><td data-label="답 쪽" role="cell">adaptive 를 권장한다. 옛 방식도 동작한다</td><td data-label="근거" role="cell">판단 규칙 4</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델 세대</td><td data-label="값" role="cell">4.7 이후</td><td data-label="답 쪽" role="cell">adaptive + effort 를 쓴다</td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">effort 생략</td><td data-label="값" role="cell">Opus 5.5</td><td data-label="답 쪽" role="cell">medium 으로 실행된다 (다른 모델은 high)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> en-2026-09-28</td></tr>
     <tr role="row"><td data-label="변수" role="cell">목적</td><td data-label="값" role="cell">엄격한 상한</td><td data-label="답 쪽" role="cell">max_tokens</td><td data-label="근거" role="cell">판단 규칙 7</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">목적</td><td data-label="값" role="cell">평균 비용 ↓</td><td data-label="답 쪽" role="cell">effort ↓ · (4.5 이하) budget_tokens ↓</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">목적</td><td data-label="값" role="cell">thinking 이 너무 드묾·얕음</td><td data-label="답 쪽" role="cell">effort ↑ 또는 프롬프트로 유도</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">대화 캐시</td><td data-label="값" role="cell">사용 중</td><td data-label="답 쪽" role="cell">thinking 설정·effort 고정</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">도구 루프</td><td data-label="값" role="cell">강제 도구 사용 필요</td><td data-label="답 쪽" role="cell">수동 extended thinking 과는 안 됨 · Opus 5.5·Fable 5.1 은 강제 자체가 400 → auto + strict tool use</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">도구 루프</td><td data-label="값" role="cell">도구 결과 사이 thinking 필요</td><td data-label="답 쪽" role="cell">adaptive 면 자동. Haiku 4.5 는 interleaved thinking 없음</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/extended-thinking" lang="en" rel="noopener">extended-thinking</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">샘플링 값</td><td data-label="값" role="cell">temperature·top_p·top_k 를 바꿈</td><td data-label="답 쪽" role="cell">새 모델은 thinking 과 무관하게 400</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">목적</td><td data-label="값" role="cell">평균 비용 ↓</td><td data-label="답 쪽" role="cell">effort 를 낮춘다. 4.5 이하는 budget_tokens 를 낮춘다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">목적</td><td data-label="값" role="cell">thinking 이 너무 드물거나 얕다</td><td data-label="답 쪽" role="cell">effort 를 올리거나 프롬프트로 유도한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">대화 캐시</td><td data-label="값" role="cell">사용 중이다</td><td data-label="답 쪽" role="cell">thinking 설정과 effort 를 고정한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">도구 루프</td><td data-label="값" role="cell">강제 도구 사용이 필요하다</td><td data-label="답 쪽" role="cell">수동 extended thinking 과는 안 된다. Opus 5.5·Fable 5.1 은 강제 자체가 400 이다. auto + strict tool use 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">도구 루프</td><td data-label="값" role="cell">도구 결과 사이에 thinking 이 필요하다</td><td data-label="답 쪽" role="cell">adaptive 면 자동이다. Haiku 4.5 에는 interleaved thinking 이 없다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a> · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/extended-thinking" lang="en" rel="noopener">extended-thinking</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">샘플링 값</td><td data-label="값" role="cell">temperature·top_p·top_k 를 바꾼다</td><td data-label="답 쪽" role="cell">새 모델은 thinking 과 무관하게 400 이다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -688,16 +715,16 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"budget_tokens 는 낡았으니 무조건 adaptive + effort 로" → Haiku 4.5·Sonnet 4.5·Opus 4.5 는 adaptive 가 400. 모델 이름 먼저</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"budget_tokens 보기는 무조건 지운다" → 4.6 은 지원 중단이지만 요청은 성공, 4.5 이하는 유일한 모드</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"budget_tokens = thinking 비용의 엄격한 상한" → 목표치. 엄격한 상한은 max_tokens</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Haiku 4.5 에서 effort 로 thinking 을 줄인다" → effort 는 Opus 4.5 만. Haiku 4.5 는 budget_tokens</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"effort 는 thinking 전용이라 thinking 끄면 소용없음" → 모든 출력 토큰에 걸림</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"effort 에 adaptive 를 넣는다" → adaptive 는 thinking 모드</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Opus 5.5 에서 thinking 을 꺼서 비용을 줄인다" → 못 끔(400). effort ↓</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"effort 를 안 주면 어디서나 high" → Opus 5.5 는 medium <span class="post">시험 뒤 변경</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"display omitted 로 숨기면 thinking 비용도 준다" → 지연만 줄고 비용은 그대로</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar(2025 제작) "thinking budget = thinking 에 쓸 최대 토큰" · 코드 키 <code>budget</code> → 지금 docs 는 <code>budget_tokens</code>, 목표치이지 엄격한 상한 아님 <span class="note">(Skilljar)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"budget_tokens 는 낡았으니 무조건 adaptive + effort 로" 는 함정이다. Haiku 4.5·Sonnet 4.5·Opus 4.5 는 adaptive 가 400 이다. 모델 이름을 먼저 본다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"budget_tokens 보기는 무조건 지운다" 는 함정이다. 4.6 은 지원 중단이지만 요청은 성공한다. 4.5 이하는 유일한 모드다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"budget_tokens = thinking 비용의 엄격한 상한" 은 함정이다. budget_tokens 는 목표치다. 엄격한 상한은 max_tokens 다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Haiku 4.5 에서 effort 로 thinking 을 줄인다" 는 함정이다. effort 는 Opus 4.5 만 받는다. Haiku 4.5 는 budget_tokens 를 쓴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"effort 는 thinking 전용이라 thinking 을 끄면 소용없다" 는 함정이다. effort 는 모든 출력 토큰에 걸린다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"effort 에 adaptive 를 넣는다" 는 함정이다. adaptive 는 thinking 모드다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Opus 5.5 에서 thinking 을 꺼서 비용을 줄인다" 는 함정이다. 못 끈다(400). effort 를 낮춘다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"effort 를 안 주면 어디서나 high" 는 함정이다. Opus 5.5 는 medium 이다 <span class="post">시험 뒤 변경</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"display omitted 로 숨기면 thinking 비용도 준다" 는 함정이다. 지연만 줄고 비용은 그대로다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar(2025 제작)의 "thinking budget = thinking 에 쓸 최대 토큰" 과 코드 키 <code>budget</code> 은 함정이다. 지금 docs 는 <code>budget_tokens</code> 를 쓰고, 목표치이지 엄격한 상한이 아니다 <span class="note">(Skilljar)</span></span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -721,33 +748,37 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. Haiku 4.5 대량 분류기의 "thinking 비용 상한" — 켜지 않는 게 가장 싼 상한</h4>
 <ul>
-<li><span class="lead">조건 :</span> Haiku 4.5 로 하루 30만 건 분류. thinking 비용에 상한을 걸라는 지문.</li>
-<li><span class="lead">계산 :</span> Haiku 4.5 출력 $5 / 백만 토큰. thinking 을 켜면 budget_tokens 최소 1,024 · <code>max_tokens</code> 는 그보다 커야 함 → <code>max_tokens</code> 1,300 이면 요청당 출력 최악 1,300 × $5 = $0.0065, 하루 최악 30만 × $0.0065 = $1,950. thinking 없이 라벨만 30 토큰이면 30 × $5 = $0.00015, 하루 $45. 배치로 돌리면 출력 $2.50 이라 둘 다 절반.</li>
-<li><span class="lead">전제 :</span> 입력 비용은 양쪽 같다고 보고 뺌 · thinking 켠 쪽은 최악(상한까지 씀) 기준 · 가격 = 2026-09-28 조회값.</li>
-<li><span class="lead">판단 :</span> 지문의 답은 "budget_tokens(adaptive·effort 아님) + 엄격한 상한은 max_tokens". 단 Haiku 4.5 는 thinking 이 기본 꺼짐이라, thinking 없이 eval 을 통과하면 "켜지 않음"이 가장 싸고 확실한 상한. 보기에 그게 있으면 그쪽이 설 자리가 있음.</li>
+<li><span class="lead">조건 :</span> Haiku 4.5 로 하루 30만 건을 분류한다. 지문은 thinking 비용에 상한을 걸라고 한다.</li>
+<li><span class="lead">계산 :</span> Haiku 4.5 출력은 $5 / 백만 토큰이다. thinking 을 켜면 budget_tokens 는 최소 1,024 이고, <code>max_tokens</code> 는 그보다 커야 한다. <code>max_tokens</code> 가 1,300 이면 요청당 출력은 최악 1,300 × $5 = $0.0065 다. 하루 최악은 30만 × $0.0065 = $1,950 이다. thinking 없이 라벨만 30 토큰이면 30 × $5 = $0.00015 이고, 하루 $45 다. 배치로 돌리면 출력이 $2.50 이라 둘 다 절반이 된다.</li>
+<li><span class="lead">전제 :</span> 입력 비용은 양쪽이 같다고 보고 뺐다. thinking 을 켠 쪽은 최악(상한까지 씀) 기준이다. 가격은 2026-09-28 조회값이다.</li>
+<li><span class="lead">판단 :</span> 지문의 답은 "budget_tokens(adaptive·effort 아님) + 엄격한 상한은 max_tokens" 다. 단 Haiku 4.5 는 thinking 이 기본으로 꺼져 있다. 그래서 thinking 없이 eval 을 통과하면 "켜지 않음"이 가장 싸고 확실한 상한이다. 보기에 그것이 있으면 그쪽이 설 자리가 있다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (단가·최소값·기본 꺼짐은 확인)</li>
 <li><span class="lead">근거 :</span> ko-pricing 표 · extended-thinking · thinking-troubleshooting</li>
 </ul>
 <h4>2. Opus 5 설정을 Opus 5.5 로 그대로 옮긴 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> effort 를 안 적은 채 Opus 5 → Opus 5.5 로 모델 문자열만 바꿈.</li>
-<li><span class="lead">판단 :</span> Opus 5 기본 high · Opus 5.5 기본 medium → 한 단계 낮게 실행됨. 복잡한 일에서 품질이 떨어지면 모델 탓이 아니라 기본값 차이일 수 있음 → 자기 eval 로 effort 스윕. 또 <code>thinking: {type: "disabled"}</code> 를 쓰던 코드는 Opus 5.5 에서 모든 effort 에서 400.</li>
+<li><span class="lead">조건 :</span> effort 를 적지 않은 채 Opus 5 에서 Opus 5.5 로 모델 문자열만 바꿨다.</li>
+<li><span class="lead">판단 :</span> Opus 5 기본은 high 이고 Opus 5.5 기본은 medium 이다. 그래서 한 단계 낮게 실행된다. 복잡한 일에서 품질이 떨어지면 모델 탓이 아니라 기본값 차이일 수 있다. 그러니 자기 eval 로 effort 를 스윕한다. 또 <code>thinking: {type: "disabled"}</code> 를 쓰던 코드는 Opus 5.5 에서 모든 effort 에서 400 이다.</li>
 
 <li><span class="lead">근거 :</span> effort en-2026-09-28</li>
 <li><span class="post">시험 뒤 변경</span> Opus 5.5 = 2026-09-22 출시 (릴리스 노트)</li>
 </ul>
 <h4>3. 대화 중간에 깊이를 바꾸면 캐시가 깨지는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 긴 대화를 캐싱으로 돌리다 "이번 턴만 더 깊게" 하려고 요청 단위 effort 를 high → max 로.</li>
-<li><span class="lead">판단 :</span> 요청 단위 effort 는 프롬프트에 렌더링 → 메시지 캐시가 전부 미스. Fable 5.1·Mythos 5.1·Opus 5.5·Opus 5 는 메시지별 effort(<code>role: "system"</code> 메시지, 베타)로 캐시를 지킴. 그 밖의 모델은 대화 시작에 정하고 고정하거나, 그 턴의 user 메시지 끝에 "Please think hard before responding." 같은 유도 문구(캐시 안 깨짐).</li>
+<li><span class="lead">조건 :</span> 긴 대화를 캐싱으로 돌리다가 "이번 턴만 더 깊게" 하려고 요청 단위 effort 를 high 에서 max 로 바꾼다.</li>
+<li>판단 : 요청 단위 effort 는 프롬프트에 렌더링된다. 그래서 메시지 캐시가 전부 미스가 난다. Fable 5.1·Mythos 5.1·Opus 5.5·Opus 5 는 메시지별 effort(<code>role: "system"</code> 메시지, 베타)로 캐시를 지킨다. 그 밖의 모델은 두 길이 있다.<ul>
+<li>대화 시작에 effort 를 정하고 고정한다.</li>
+<li>그 턴의 user 메시지 끝에 "Please think hard before responding." 같은 유도 문구를 넣는다(캐시가 깨지지 않는다).</li>
+</ul>
+</li>
 
 <li><span class="lead">근거 :</span> effort en-2026-09-28 · thinking-steering-and-cost</li>
 <li><span class="post">시험 뒤 변경</span> 메시지별 effort 베타 = 2026-09-01~ (릴리스 노트)</li>
 </ul>
 <h4>4. budget_tokens 가 "엄격한 상한"으로 불리는 문장</h4>
 <ul>
-<li><span class="lead">조건 :</span> 지문·보기에 "budget_tokens 로 thinking 비용에 hard cap".</li>
-<li><span class="lead">판단 :</span> 공식 문서끼리 표현이 다름. extended-thinking 은 "목표치이지 엄격한 상한 아님, 엄격한 상한은 max_tokens", prompting-best-practices 는 "hard ceiling on thinking costs … <code>budget_tokens</code> cap" 이라고 씀. 안전한 답 = 엄격한 상한은 max_tokens, budget_tokens 는 thinking 깊이 lever.</li>
+<li><span class="lead">조건 :</span> 지문이나 보기에 "budget_tokens 로 thinking 비용에 hard cap" 이 있다.</li>
+<li><span class="lead">판단 :</span> 공식 문서끼리 표현이 다르다. extended-thinking 은 "목표치이지 엄격한 상한이 아니다. 엄격한 상한은 max_tokens 다" 라고 쓴다. prompting-best-practices 는 "hard ceiling on thinking costs … <code>budget_tokens</code> cap" 이라고 쓴다. 안전한 답은 이렇다. 엄격한 상한은 max_tokens 다. budget_tokens 는 thinking 깊이 lever 다.</li>
 <li><span class="lead">등급 :</span> <span class="open">미해결</span> (문서 간 표현 충돌)</li>
 <li><span class="lead">근거 :</span> extended-thinking · prompting-best-practices</li>
 </ul>
@@ -758,15 +789,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"budget_tokens 는 제거된 낡은 기법이니 adaptive + effort 로 바꾼다" (Haiku 4.5 문항)</td><td data-label="왜 끌리나" role="cell">새 방식이 늘 정답 같음</td><td data-label="왜 틀리나" role="cell">Haiku 4.5 는 extended thinking 만, adaptive 는 400</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a> (목록 매력적인 오답)</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"budget_tokens 보기는 무조건 지운다"</td><td data-label="왜 끌리나" role="cell">영상 요령</td><td data-label="왜 틀리나" role="cell">4.6 은 지원 중단이지만 요청 성공, 4.5 이하는 유일한 모드</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Haiku 4.5 에 effort: low 로 thinking 을 줄인다"</td><td data-label="왜 끌리나" role="cell">effort 가 새 표준</td><td data-label="왜 틀리나" role="cell">effort 는 extended thinking 전용 모델 중 Opus 4.5 만</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Opus 5.5 는 thinking 을 꺼서 비용 절감"</td><td data-label="왜 끌리나" role="cell">끄면 0 같음</td><td data-label="왜 틀리나" role="cell">못 끔(400). effort ↓</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> en-2026-09-28</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"budget_tokens 로 thinking 비용 엄격 상한"</td><td data-label="왜 끌리나" role="cell">이름이 예산</td><td data-label="왜 틀리나" role="cell">목표치. 엄격한 상한은 max_tokens</td><td data-label="등급" role="cell"><span class="note">(문서 간 표현 차 있음)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/extended-thinking" lang="en" rel="noopener">extended-thinking</a> · 뒤집히는 때 4</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"effort: adaptive"</td><td data-label="왜 끌리나" role="cell">두 이름이 붙어 다님</td><td data-label="왜 틀리나" role="cell">adaptive 는 thinking 모드, effort 값 아님</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"display omitted 로 thinking 비용 절감"</td><td data-label="왜 끌리나" role="cell">안 보이면 안 셀 것 같음</td><td data-label="왜 틀리나" role="cell">똑같이 청구, 지연만 줄어듦</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"effort 를 낮추면 max_tokens 가 없어도 비용이 확실히 묶인다"</td><td data-label="왜 끌리나" role="cell">낮춤 = 상한</td><td data-label="왜 틀리나" role="cell">effort 는 토큰 수 보장 안 함</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-steering-and-cost" lang="en" rel="noopener">thinking-steering-and-cost</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"도구 루프 전체 비용을 max_tokens 하나로 묶는다"</td><td data-label="왜 끌리나" role="cell">한 턴 = 한 요청으로 착각</td><td data-label="왜 틀리나" role="cell">요청마다 max_tokens 따로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-steering-and-cost" lang="en" rel="noopener">thinking-steering-and-cost</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"budget_tokens 는 제거된 낡은 기법이니 adaptive + effort 로 바꾼다" (Haiku 4.5 문항)</td><td data-label="왜 끌리나" role="cell">새 방식이 늘 정답 같다</td><td data-label="왜 틀리나" role="cell">Haiku 4.5 는 extended thinking 만 받는다. adaptive 는 400 이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a> (목록 매력적인 오답)</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"budget_tokens 보기는 무조건 지운다"</td><td data-label="왜 끌리나" role="cell">영상 요령이다</td><td data-label="왜 틀리나" role="cell">4.6 은 지원 중단이지만 요청은 성공한다. 4.5 이하는 유일한 모드다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Haiku 4.5 에 effort: low 로 thinking 을 줄인다"</td><td data-label="왜 끌리나" role="cell">effort 가 새 표준이다</td><td data-label="왜 틀리나" role="cell">extended thinking 전용 모델 중 effort 를 받는 것은 Opus 4.5 뿐이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Opus 5.5 는 thinking 을 꺼서 비용 절감"</td><td data-label="왜 끌리나" role="cell">끄면 0 일 것 같다</td><td data-label="왜 틀리나" role="cell">못 끈다(400). effort 를 낮춘다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> en-2026-09-28</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"budget_tokens 로 thinking 비용 엄격 상한"</td><td data-label="왜 끌리나" role="cell">이름이 예산이다</td><td data-label="왜 틀리나" role="cell">목표치다. 엄격한 상한은 max_tokens 다</td><td data-label="등급" role="cell"><span class="note">(문서 간 표현 차 있음)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/extended-thinking" lang="en" rel="noopener">extended-thinking</a> · 뒤집히는 때 4</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"effort: adaptive"</td><td data-label="왜 끌리나" role="cell">두 이름이 붙어 다닌다</td><td data-label="왜 틀리나" role="cell">adaptive 는 thinking 모드다. effort 값이 아니다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"display omitted 로 thinking 비용 절감"</td><td data-label="왜 끌리나" role="cell">안 보이면 안 셀 것 같다</td><td data-label="왜 틀리나" role="cell">똑같이 청구된다. 지연만 줄어든다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"effort 를 낮추면 max_tokens 가 없어도 비용이 확실히 묶인다"</td><td data-label="왜 끌리나" role="cell">낮추면 상한이 생길 것 같다</td><td data-label="왜 틀리나" role="cell">effort 는 토큰 수를 보장하지 않는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-steering-and-cost" lang="en" rel="noopener">thinking-steering-and-cost</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"도구 루프 전체 비용을 max_tokens 하나로 묶는다"</td><td data-label="왜 끌리나" role="cell">한 턴을 한 요청으로 착각한다</td><td data-label="왜 틀리나" role="cell">요청마다 max_tokens 가 따로 있다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-steering-and-cost" lang="en" rel="noopener">thinking-steering-and-cost</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -774,13 +805,17 @@
   </details>
   <h2 class="sec-h" id="thinking-controls-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="thinking-vs-chaining.html">◆ 한 요청 안 thinking vs 여러 호출 체이닝</a></li>
         <li><a href="effort-vs-model.html">◆ effort 조정 vs 모델 교체</a></li>
         <li><a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
         <li><a href="caching.html">■ 프롬프트 캐싱</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 2.3</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -802,12 +837,18 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>budget_tokens 를 "hard ceiling/cap" 으로 부르는 문장(prompting-best-practices)과 "target rather than a strict cap"(extended-thinking)이 충돌 (뒤집히는 때 4).</li>
-<li>Opus 4.5 가 받는 effort 단계 : max 목록(effort en-2026-09-28)·xhigh 목록에 Opus 4.5 가 없음 → low·medium·high 만으로 추정되지만 표 끝 "Supported models" 가 접혀 받아지지 않아 못 확인(추론).</li>
-<li>목록 2.3③ 과 대조 : 모델별 규칙·effort 단계·기본값(대부분 high · Opus 5.5 medium)은 공식과 같음. 다만 목록 문제 상황 "사고 토큰 비용 상한 → budget_tokens" 는 공식 기준으로 "깊이는 budget_tokens, 엄격한 상한은 max_tokens" 로 고침. 목록 영어 신호 2문장은 원문에서 찾음(prompting-best-practices · thinking-troubleshooting).</li>
-<li>Skilljar 287773(2025 제작)은 코드 키를 <code>budget</code> 로 적음 · "thinking budget = 최대 토큰" → 지금 docs 는 <code>budget_tokens</code>, 목표치.</li>
+<li>budget_tokens 를 "hard ceiling/cap" 으로 부르는 문장(prompting-best-practices)과 "target rather than a strict cap"(extended-thinking)이 충돌한다 (뒤집히는 때 4).</li>
+<li>Opus 4.5 가 받는 effort 단계는 확인하지 못했다. max 목록(effort en-2026-09-28)과 xhigh 목록에 Opus 4.5 가 없다. 그래서 low·medium·high 만으로 추정된다. 그러나 표 끝 "Supported models" 가 접혀 받아지지 않아 못 확인했다(추론).</li>
+<li>목록 2.3③ 과 대조한 결과는 아래와 같다.<ul>
+<li>모델별 규칙, effort 단계, 기본값(대부분 high · Opus 5.5 medium)은 공식과 같다.</li>
+<li>다만 목록 문제 상황 "사고 토큰 비용 상한 → budget_tokens" 는 공식 기준으로 고쳤다. 깊이는 budget_tokens 로, 엄격한 상한은 max_tokens 로 정한다.</li>
+<li>목록 영어 신호 2문장은 원문에서 찾았다(prompting-best-practices · thinking-troubleshooting).</li>
+</ul>
+</li>
+<li>Skilljar 287773(2025 제작)은 코드 키를 <code>budget</code> 로 적었다. "thinking budget = 최대 토큰"이라고도 했다. 지금 docs 는 <code>budget_tokens</code> 이고, 목표치다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

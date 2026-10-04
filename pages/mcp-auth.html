@@ -370,9 +370,14 @@
   </div>
   <h2 class="sec-h" id="mcp-auth-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>MCP 에서 인가(authorization)는 **선택(OPTIONAL)**. 붙인다면 전송 방식이 방법을 정함 — stdio 는 환경에서 자격증명, HTTP 는 OAuth 2.1 기반 규격</p>
-      <p>HTTP 인가에서 MCP 서버 = OAuth resource server, MCP 클라이언트 = OAuth client, 토큰 발급 = authorization server</p>
-    <p class="t5-ana"><span class="lead">비유</span> 같은 파드 사이드카는 마운트된 시크릿·환경변수, 외부 API 는 OIDC/OAuth 토큰. 게이트웨이가 받은 JWT 를 제3자 API 에 재사용하지 않음</p>
+      <p>MCP 에서 인가(authorization)는 **선택(OPTIONAL)** 이다. 붙인다면 전송 방식이 방법을 정한다. stdio 는 환경에서 자격증명을 받는다. HTTP 는 OAuth 2.1 기반 규격을 따른다</p>
+      <p>HTTP 인가에서 역할은 셋이다</p>
+      <ul class="dash">
+        <li><span class="lead">MCP 서버 :</span> OAuth resource server</li>
+        <li><span class="lead">MCP 클라이언트 :</span> OAuth client</li>
+        <li><span class="lead">토큰 발급 :</span> authorization server</li>
+      </ul>
+    <p class="t5-ana"><span class="lead">비유</span> 같은 파드 사이드카는 마운트된 시크릿·환경변수를 쓴다. 외부 API 는 OIDC/OAuth 토큰을 쓴다. 게이트웨이가 받은 JWT 를 제3자 API 에 재사용하지 않는 것과 같다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/mcp-auth.webp"><img src="../images/mcp-auth.webp" alt="MCP 인가는 선택이고, 붙인다면 stdio 는 환경에서 자격증명, HTTP 는 OAuth 2.1 기반 규격(서버 = resource server, 클라이언트 = OAuth client)을 따른다는 비교 그림." loading="lazy" decoding="async"></a>
@@ -399,21 +404,26 @@
 <!-- /vx:figure -->
 <section class="ex-sec" id="principle" aria-labelledby="principle-h">
 <h3 id="principle-h">원리</h3>
-<p class="lead">인가(authorization)는 선택, 붙이면 전송이 방법을 정함</p>
+<p class="lead">인가(authorization)는 선택이다. 붙이면 전송이 방법을 정한다</p>
 <ul>
-<li>stdio 서버는 클라이언트가 띄운 같은 머신의 자식 프로세스 → 네트워크 경계가 없음. 자격증명은 환경(환경 변수)으로 주면 됨. OAuth 규격을 따르지 말라고(SHOULD NOT) 적혀 있음.</li>
-<li>HTTP 서버는 네트워크 너머 → OAuth 2.1. MCP 서버 = resource server(토큰 검사), 클라이언트 = OAuth client(토큰 받아 옴), authorization server = 토큰 발급.</li>
-<li>인가 자체가 OPTIONAL — 인증(authentication) 없는 공개 서버도 규격 위반은 아님.</li>
+<li>stdio 서버는 클라이언트가 띄운 같은 머신의 자식 프로세스다. 그래서 네트워크 경계가 없다. 자격증명은 환경(환경 변수)으로 주면 된다. 규격에는 OAuth 규격을 따르지 말라고(SHOULD NOT) 적혀 있다.</li>
+<li>HTTP 서버는 네트워크 너머에 있다. 그래서 OAuth 2.1 을 쓴다. 역할은 셋이다.<ul>
+<li>MCP 서버 : resource server(토큰을 검사한다)</li>
+<li>클라이언트 : OAuth client(토큰을 받아 온다)</li>
+<li>authorization server : 토큰을 발급한다</li>
+</ul>
+</li>
+<li>인가 자체가 OPTIONAL 이다. 인증(authentication) 없는 공개 서버도 규격 위반은 아니다.</li>
 </ul>
 <p class="lead">토큰은 한 곳 전용 (audience)</p>
 <ul>
-<li>클라이언트는 토큰을 받을 때 <code>resource</code> 파라미터로 "이 서버용"을 박음.</li>
-<li>서버는 자기용이 아닌 토큰은 거부. 그래야 다른 서비스용 토큰을 주워 와 재사용하는 공격이 막힘.</li>
-<li>서버가 뒤에서 제3자 API 를 부르면, 서버는 그 API 의 OAuth client 가 되어 <strong>새 토큰</strong>을 받음. 받은 토큰을 그대로 넘기면(passthrough) 업스트림이 "MCP 서버가 검증했겠지"라고 믿어 버림 → 통제(control)·감사·신뢰 경계가 다 깨짐.</li>
+<li>클라이언트는 토큰을 받을 때 <code>resource</code> 파라미터로 "이 서버용"을 박는다.</li>
+<li>서버는 자기용이 아닌 토큰은 거부한다. 그래야 다른 서비스용 토큰을 주워 와 재사용하는 공격이 막힌다.</li>
+<li>서버가 뒤에서 제3자 API 를 부르면, 서버는 그 API 의 OAuth client 가 되어 <strong>새 토큰</strong>을 받는다. 받은 토큰을 그대로 넘기면(passthrough) 업스트림이 "MCP 서버가 검증했겠지"라고 믿어 버린다. 그러면 통제(control)·감사·신뢰 경계가 다 깨진다.</li>
 </ul>
-<p class="lead">scope 는 점진 승격</p>
+<p class="lead">scope 는 점진적으로 올린다</p>
 <ul>
-<li>처음엔 읽기 수준 최소 scope. 권한이 더 필요한 작업을 처음 하려 할 때 서버가 <code>WWW-Authenticate</code> 로 필요한 scope 를 알려 주고 그때 올림.</li>
+<li>처음에는 읽기 수준 최소 scope 를 받는다. 권한이 더 필요한 작업을 처음 하려 할 때 서버가 <code>WWW-Authenticate</code> 로 필요한 scope 를 알려 준다. 그때 올린다.</li>
 </ul>
 </section>
   <h2 class="sec-h" id="mcp-auth-rules-h">규칙과 판단</h2>
@@ -425,19 +435,19 @@
   <section class="t5-flow tree" id="mcp-auth-tree-1" aria-labelledby="mcp-auth-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7">
     <div class="t5-fh"><h3 id="mcp-auth-tree-1-h">① 전송으로 가르기 <span class="pg">[3.2①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>전송은?<span class="t5-sub">인가(authorization)는 선택(OPTIONAL)</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>전송이 무엇인가?<span class="t5-sub">인가(authorization)는 선택(OPTIONAL)</span></div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>stdio <span class="note">(같은 머신 프로세스)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">환경에서</p><p>환경(환경 변수)에서. 인가 규격 따르지 말 것 (SHOULD NOT)</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">환경에서</p><p>자격증명은 환경(환경 변수)에서 받는다. 인가 규격은 따르지 않는다 (SHOULD NOT)</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>HTTP <span class="note">(Streamable HTTP 등)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">OAuth 2.1</p><p>OAuth 2.1 흐름으로 받은 액세스 토큰. 규격 따를 것 (SHOULD)</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">OAuth 2.1</p><p>OAuth 2.1 흐름으로 받은 액세스 토큰을 쓴다. 규격을 따른다 (SHOULD)</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>그 밖</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">그 프로토콜 보안 관행</p><p>그 밖 전송은 그 프로토콜 보안 관행 (MUST)</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">그 프로토콜 보안 관행</p><p>그 밖 전송은 그 프로토콜의 보안 관행을 따른다 (MUST)</p></div>
         </div>
       </div>
     </div>
@@ -445,11 +455,11 @@
   <section class="t5-flow tree" id="mcp-auth-tree-2" aria-labelledby="mcp-auth-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9|n1 n10 n11">
     <div class="t5-fh"><h3 id="mcp-auth-tree-2-h">②③ 토큰 경계 <span class="pg">[3.2②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>토큰의 어느 순간?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>토큰의 어느 순간인가?</div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>클라이언트가 토큰을 요청할 때</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>resource</code> 파라미터</p><p>클라이언트는 토큰 요청 때 <code>resource</code> 파라미터(RFC 8707)로 대상 서버를 박음 → 다른 서비스에 못 씀</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>resource</code> 파라미터</p><p>클라이언트는 토큰을 요청할 때 <code>resource</code> 파라미터(RFC 8707)로 대상 서버를 박는다. 그래서 다른 서비스에 못 쓴다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>MCP 서버가 받을 때</span>
@@ -457,17 +467,17 @@
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">받음</p><p>서버는 자기 앞으로 발급된(audience 에 자기가 든) 토큰만 받음</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">받는다</p><p>서버는 자기 앞으로 발급된(audience 에 자기가 든) 토큰만 받는다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">거부</p><p>나머지는 거부. 무효·만료 = HTTP 401</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">거부한다</p><p>나머지는 거부한다. 무효·만료 토큰에는 HTTP 401 을 준다</p></div>
             </div>
           </div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>업스트림을 부를 때</span>
-          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">따로 발급받은 토큰</p><p>서버가 그쪽의 OAuth client 가 되어 따로 발급받은 토큰. 받은 토큰을 그대로 넘기기(token passthrough) = 금지 (MUST NOT) · 넘기면 업스트림의 rate limit·요청 검증이 우회됨 · 로그에 누가 불렀는지 안 남음</p></div>
+          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">따로 발급받은 토큰</p><p>서버가 그쪽의 OAuth client 가 되어 따로 발급받은 토큰을 쓴다. 받은 토큰을 그대로 넘기기(token passthrough)는 금지다 (MUST NOT). 넘기면 업스트림의 rate limit·요청 검증이 우회된다. 로그에 누가 불렀는지 안 남는다</p></div>
         </div>
       </div>
     </div>
@@ -479,18 +489,18 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>처음</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">최소 scope</p><p>처음엔 읽기·탐색용 최소 scope</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">최소 scope</p><p>처음에는 읽기·탐색용 최소 scope 를 받는다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>권한 필요한 작업을 처음 할 때</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">요구(scope challenge)하면 올림</p><p>서버가 <code>WWW-Authenticate</code> 로 필요한 scope 를 요구(scope challenge)하면 올림. files:*·admin:* 를 한 번에 받으면 토큰 탈취 피해가 커짐</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">요구(scope challenge)하면 올린다</p><p>서버가 <code>WWW-Authenticate</code> 로 필요한 scope 를 요구(scope challenge)하면 올린다. files:*·admin:* 를 한 번에 받으면 토큰 탈취 피해가 커진다</p></div>
         </div>
       </div>
     </div>
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="mcp-auth-flow" aria-label="MCP 인증·인가 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["MCP 클라이언트","MCP 서버","업스트림"],"blocks":[{"name":"액세스 토큰","var":true}],"rules":[null,"자기 앞으로 발급된(audience 에 자기가 든) 토큰만",null],"question":"서버가 받은 토큰을 업스트림에 내밀어도 될까?","scenes":[{"name":"① 따로 발급","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["토큰 요청","resource=","https://mcp.shop.example"]}},{"kind":"move","step":"요청","from":{"block":"액세스 토큰"},"to":1,"label":"`resource`(RFC 8707)로 대상을 박음","art":{"kind":"slip","lines":["Authorization:","Bearer eyJ…","aud: mcp.shop.example"]}},{"kind":"mark","step":"검사","at":{"col":1},"label":"audience 에 자기가 든 토큰만","art":{"kind":"slip","lines":["aud 일치 → 받음"]}},{"kind":"move","step":"업스트림 호출","from":{"col":1},"to":2,"label":"따로 발급받은 토큰","art":{"kind":"slip","lines":["Authorization:","Bearer sf_9x…","(Salesforce 가 발급)"]}},{"kind":"end","label":"서버가 그쪽의 OAuth client 가 되어 따로 발급받은 토큰으로 부름"}]},{"name":"② 그대로 넘기기","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["토큰 요청","resource=","https://mcp.shop.example"]}},{"kind":"move","step":"요청","from":{"block":"액세스 토큰"},"to":1,"label":"받은 토큰","art":{"kind":"slip","lines":["Authorization:","Bearer eyJ…","aud: mcp.shop.example"]}},{"kind":"mark","step":"검사","at":{"col":1},"label":"audience 에 자기가 든 토큰만","art":{"kind":"slip","lines":["aud 일치 → 받음"]}},{"kind":"move","step":"넘기기","from":{"col":1},"to":2,"label":"그대로 넘김(passthrough)","art":{"kind":"slip","lines":["Authorization:","Bearer eyJ…","(받은 그 토큰)"]}},{"kind":"end","label":"받은 토큰을 그대로 넘기면 업스트림의 rate limit·요청 검증이 우회되고 로그에 누가 불렀는지 안 남음"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["MCP 클라이언트","MCP 서버","업스트림"],"blocks":[{"name":"액세스 토큰","var":true}],"rules":[null,"자기 앞으로 발급된(audience 에 자기가 든) 토큰만",null],"question":"서버가 받은 토큰을 업스트림에 내밀어도 될까?","scenes":[{"name":"① 따로 발급받는다","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["토큰 요청","resource=","https://mcp.shop.example"]}},{"kind":"move","step":"요청","from":{"block":"액세스 토큰"},"to":1,"label":"`resource`(RFC 8707)로 대상을 박는다","art":{"kind":"slip","lines":["Authorization:","Bearer eyJ…","aud: mcp.shop.example"]}},{"kind":"mark","step":"검사","at":{"col":1},"label":"audience 에 자기가 든 토큰만 받는다","art":{"kind":"slip","lines":["aud 일치 → 받음"]}},{"kind":"move","step":"업스트림 호출","from":{"col":1},"to":2,"label":"따로 발급받은 토큰을 쓴다","art":{"kind":"slip","lines":["Authorization:","Bearer sf_9x…","(Salesforce 가 발급)"]}},{"kind":"end","label":"서버가 그쪽의 OAuth client 가 되어 따로 발급받은 토큰으로 부른다"}]},{"name":"② 그대로 넘긴다","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["토큰 요청","resource=","https://mcp.shop.example"]}},{"kind":"move","step":"요청","from":{"block":"액세스 토큰"},"to":1,"label":"토큰을 받는다","art":{"kind":"slip","lines":["Authorization:","Bearer eyJ…","aud: mcp.shop.example"]}},{"kind":"mark","step":"검사","at":{"col":1},"label":"audience 에 자기가 든 토큰만 받는다","art":{"kind":"slip","lines":["aud 일치 → 받음"]}},{"kind":"move","step":"넘기기","from":{"col":1},"to":2,"label":"그대로 넘긴다(passthrough)","art":{"kind":"slip","lines":["Authorization:","Bearer eyJ…","(받은 그 토큰)"]}},{"kind":"end","label":"받은 토큰을 그대로 넘기면 업스트림의 rate limit·요청 검증이 우회된다. 로그에 누가 불렀는지 안 남는다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -498,21 +508,21 @@
       <p><span class="lead">블록 :</span> 액세스 토큰 (바뀌는 것)</p>
       <p><span class="lead">규칙 (MCP 서버) :</span> 자기 앞으로 발급된(audience 에 자기가 든) 토큰만</p>
       <p><span class="lead">질문 :</span> 서버가 받은 토큰을 업스트림에 내밀어도 될까?</p>
-      <p class="lead">① 따로 발급 <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">① 따로 발급받는다 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : MCP 클라이언트 — 쪽지 : <span class="flx-alt-slip">토큰 요청 / resource= / https://mcp.shop.example</span></li>
-        <li>요청 : 액세스 토큰 → MCP 서버 : <code>resource</code>(RFC 8707)로 대상을 박음 — 쪽지 : <span class="flx-alt-slip">Authorization: / Bearer eyJ… / aud: mcp.shop.example</span></li>
-        <li>검사 : MCP 서버 : audience 에 자기가 든 토큰만 — 쪽지 : <span class="flx-alt-slip">aud 일치 → 받음</span></li>
-        <li>업스트림 호출 : MCP 서버 → 업스트림 : 따로 발급받은 토큰 — 쪽지 : <span class="flx-alt-slip">Authorization: / Bearer sf_9x… / (Salesforce 가 발급)</span></li>
-        <li>끝 : 서버가 그쪽의 OAuth client 가 되어 따로 발급받은 토큰으로 부름</li>
+        <li>요청 : 액세스 토큰 → MCP 서버 : <code>resource</code>(RFC 8707)로 대상을 박는다 — 쪽지 : <span class="flx-alt-slip">Authorization: / Bearer eyJ… / aud: mcp.shop.example</span></li>
+        <li>검사 : MCP 서버 : audience 에 자기가 든 토큰만 받는다 — 쪽지 : <span class="flx-alt-slip">aud 일치 → 받음</span></li>
+        <li>업스트림 호출 : MCP 서버 → 업스트림 : 따로 발급받은 토큰을 쓴다 — 쪽지 : <span class="flx-alt-slip">Authorization: / Bearer sf_9x… / (Salesforce 가 발급)</span></li>
+        <li>끝 : 서버가 그쪽의 OAuth client 가 되어 따로 발급받은 토큰으로 부른다</li>
       </ol>
-      <p class="lead">② 그대로 넘기기 <span class="fl-v is-ng">≠</span></p>
+      <p class="lead">② 그대로 넘긴다 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : MCP 클라이언트 — 쪽지 : <span class="flx-alt-slip">토큰 요청 / resource= / https://mcp.shop.example</span></li>
-        <li>요청 : 액세스 토큰 → MCP 서버 : 받은 토큰 — 쪽지 : <span class="flx-alt-slip">Authorization: / Bearer eyJ… / aud: mcp.shop.example</span></li>
-        <li>검사 : MCP 서버 : audience 에 자기가 든 토큰만 — 쪽지 : <span class="flx-alt-slip">aud 일치 → 받음</span></li>
-        <li>넘기기 : MCP 서버 → 업스트림 : 그대로 넘김(passthrough) — 쪽지 : <span class="flx-alt-slip">Authorization: / Bearer eyJ… / (받은 그 토큰)</span></li>
-        <li>끝 : 받은 토큰을 그대로 넘기면 업스트림의 rate limit·요청 검증이 우회되고 로그에 누가 불렀는지 안 남음</li>
+        <li>요청 : 액세스 토큰 → MCP 서버 : 토큰을 받는다 — 쪽지 : <span class="flx-alt-slip">Authorization: / Bearer eyJ… / aud: mcp.shop.example</span></li>
+        <li>검사 : MCP 서버 : audience 에 자기가 든 토큰만 받는다 — 쪽지 : <span class="flx-alt-slip">aud 일치 → 받음</span></li>
+        <li>넘기기 : MCP 서버 → 업스트림 : 그대로 넘긴다(passthrough) — 쪽지 : <span class="flx-alt-slip">Authorization: / Bearer eyJ… / (받은 그 토큰)</span></li>
+        <li>끝 : 받은 토큰을 그대로 넘기면 업스트림의 rate limit·요청 검증이 우회된다. 로그에 누가 불렀는지 안 남는다</li>
       </ol>
     </details>
   </figure>
@@ -521,16 +531,22 @@
       <ol class="how">
         <li id="mcp-auth-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">그 밖의 필수 :</span> PKCE(S256) · 토큰은 <code>Authorization</code> 헤더로(URL 쿼리 금지) · 짧은 수명 토큰 권장 · 공개 클라이언트는 refresh 토큰 회전</p>
+            <p>그 밖의 필수</p>
+            <ul class="dash">
+              <li>PKCE(S256)를 쓴다</li>
+              <li>토큰은 <code>Authorization</code> 헤더로 보낸다(URL 쿼리 금지)</li>
+              <li>짧은 수명 토큰을 권장한다</li>
+              <li>공개 클라이언트는 refresh 토큰을 회전한다</li>
+            </ul>
           </div>
         </li>
         <li id="mcp-auth-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
             <p>Claude API 쪽</p>
             <ul class="dash">
-              <li>MCP connector : <code>authorization_token</code> 에 액세스 토큰. OAuth 흐름·갱신은 호출 전에 우리가 처리 → <a href="mcp-connector.html">■ MCP connector</a></li>
-              <li>Claude API 호출 자체 : <code>Authorization: Bearer &lt;API 키 또는 짧은 수명 토큰&gt;</code>. <code>x-api-key</code> 는 레거시 대체 수단(legacy fallback)으로 아직 지원됨. 짧은 수명 토큰 = Workload Identity Federation(2026-05-04 출시)</li>
-              <li>에이전트가 키를 아예 못 보게 하려면 프록시가 주입 → <a href="injection-egress.html">■ 프롬프트 인젝션 피해 경로 끊기</a></li>
+              <li>MCP connector : <code>authorization_token</code> 에 액세스 토큰을 넣는다. OAuth 흐름과 갱신은 호출 전에 우리가 처리한다. 자세한 것은 <a href="mcp-connector.html">■ MCP connector</a> 에 있다</li>
+              <li>Claude API 호출 자체 : <code>Authorization: Bearer &lt;API 키 또는 짧은 수명 토큰&gt;</code> 을 쓴다. <code>x-api-key</code> 는 레거시 대체 수단(legacy fallback)으로 아직 지원된다. 짧은 수명 토큰은 Workload Identity Federation(2026-05-04 출시)이다</li>
+              <li>에이전트가 키를 아예 못 보게 하려면 프록시가 주입한다. 자세한 것은 <a href="injection-egress.html">■ 프롬프트 인젝션 피해 경로 끊기</a> 에 있다</li>
             </ul>
           </div>
         </li>
@@ -540,13 +556,13 @@
       <ol class="how">
         <li id="mcp-auth-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p class="lead">전송별 <span class="pg">[3.2①]</span></p>
+            <p class="lead">전송별로 다르다 <span class="pg">[3.2①]</span></p>
             <div class="tscroll" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">전송</th><th scope="col" role="columnheader">자격증명</th><th scope="col" role="columnheader">규격 말</th></tr></thead>
               <tbody role="rowgroup">
-                <tr role="row"><td data-label="전송" role="cell">stdio <span class="note">(같은 머신 프로세스)</span></td><td data-label="자격증명" role="cell">환경(환경 변수)에서</td><td data-label="규격 말" role="cell">인가 규격 따르지 말 것 <span class="note">(SHOULD NOT)</span></td></tr>
-                <tr role="row"><td data-label="전송" role="cell">HTTP <span class="note">(Streamable HTTP 등)</span></td><td data-label="자격증명" role="cell">OAuth 2.1 흐름으로 받은 액세스 토큰</td><td data-label="규격 말" role="cell">규격 따를 것 <span class="note">(SHOULD)</span></td></tr>
+                <tr role="row"><td data-label="전송" role="cell">stdio <span class="note">(같은 머신 프로세스)</span></td><td data-label="자격증명" role="cell">환경(환경 변수)에서 받는다</td><td data-label="규격 말" role="cell">인가 규격을 따르지 않는다 <span class="note">(SHOULD NOT)</span></td></tr>
+                <tr role="row"><td data-label="전송" role="cell">HTTP <span class="note">(Streamable HTTP 등)</span></td><td data-label="자격증명" role="cell">OAuth 2.1 흐름으로 받은 액세스 토큰</td><td data-label="규격 말" role="cell">규격을 따른다 <span class="note">(SHOULD)</span></td></tr>
                 <tr role="row"><td data-label="전송" role="cell">그 밖</td><td data-label="자격증명" role="cell">그 프로토콜 보안 관행</td><td data-label="규격 말" role="cell">MUST</td></tr>
               </tbody>
             </table>
@@ -555,22 +571,29 @@
         </li>
         <li id="mcp-auth-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p>토큰 경계 = audience <span class="pg">[3.2②]</span></p>
+            <p>토큰 경계는 audience 다 <span class="pg">[3.2②]</span></p>
             <ul class="dash">
-              <li>서버는 자기 앞으로 발급된(audience 에 자기가 든) 토큰만 받고 나머지는 거부. 무효·만료 = HTTP 401</li>
-              <li>클라이언트는 토큰 요청 때 <code>resource</code> 파라미터(RFC 8707)로 대상 서버를 박음 → 다른 서비스에 못 씀</li>
-              <li>업스트림(Salesforce 등)을 부를 땐 서버가 그쪽의 OAuth client 가 되어 **따로 발급받은 토큰**. 받은 토큰을 그대로 넘기기(token passthrough) = 금지 <span class="note">(MUST NOT)</span></li>
+              <li>서버는 자기 앞으로 발급된(audience 에 자기가 든) 토큰만 받고 나머지는 거부한다. 무효·만료 토큰에는 HTTP 401 을 준다</li>
+              <li>클라이언트는 토큰을 요청할 때 <code>resource</code> 파라미터(RFC 8707)로 대상 서버를 박는다. 그래서 다른 서비스에 못 쓴다</li>
+              <li>업스트림(Salesforce 등)을 부를 때는 서버가 그쪽의 OAuth client 가 되어 **따로 발급받은 토큰**을 쓴다. 받은 토큰을 그대로 넘기기(token passthrough)는 금지다 <span class="note">(MUST NOT)</span></li>
             </ul>
           </div>
         </li>
         <li id="mcp-auth-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p>passthrough 가 왜 나쁜가 : 업스트림의 rate limit·요청 검증이 우회됨 · 로그에 누가 불렀는지 안 남음 · 훔친 토큰으로 서버를 데이터 유출 통로로 씀 · 한 서비스가 뚫리면 옆 서비스까지</p>
+            <p>passthrough 가 왜 나쁜가 : 까닭은 넷이다</p>
+            <ul class="dash">
+              <li>업스트림의 rate limit·요청 검증이 우회된다</li>
+              <li>로그에 누가 불렀는지 안 남는다</li>
+              <li>훔친 토큰으로 서버를 데이터 유출 통로로 쓴다</li>
+              <li>한 서비스가 뚫리면 옆 서비스까지 뚫린다</li>
+            </ul>
           </div>
         </li>
         <li id="mcp-auth-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p><span class="lead">scope 도 최소부터 :</span> 처음엔 읽기·탐색용 최소 scope, 권한 필요한 작업을 처음 할 때 서버가 <code>WWW-Authenticate</code> 로 필요한 scope 를 요구(scope challenge)하면 올림. files:*·admin:* 를 한 번에 받으면 토큰 탈취 피해가 커짐 → <a href="least-privilege.html">■ 최소 권한</a></p>
+            <p>scope 도 최소부터 받는다. 처음에는 읽기·탐색용 최소 scope 를 받는다. 권한이 필요한 작업을 처음 할 때 서버가 <code>WWW-Authenticate</code> 로 필요한 scope 를 요구(scope challenge)하면 올린다</p>
+            <p>files:*·admin:* 를 한 번에 받으면 토큰 탈취 피해가 커진다. 자세한 것은 <a href="least-privilege.html">■ 최소 권한</a> 에 있다</p>
           </div>
         </li>
       </ol>
@@ -584,15 +607,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">stdio 서버에 자격증명</td><td data-label="답" role="cell">환경(환경 변수)에서</td><td data-label="근거" role="cell">authorization</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">HTTP 서버에 인가를 붙임</td><td data-label="답" role="cell">이 규격(OAuth 2.1 기반)을 따름</td><td data-label="근거" role="cell">authorization</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">인가를 꼭 붙여야 하나</td><td data-label="답" role="cell">선택(OPTIONAL)</td><td data-label="근거" role="cell">authorization</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">서버가 받은 토큰의 audience 가 자기 아님</td><td data-label="답" role="cell">거부 (무효면 401)</td><td data-label="근거" role="cell">authorization</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">서버가 업스트림 API 를 부름</td><td data-label="답" role="cell">업스트림용 토큰을 따로 받음, 받은 토큰 그대로 넘기기 금지</td><td data-label="근거" role="cell">authorization · security best practices</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">클라이언트가 토큰 요청</td><td data-label="답" role="cell"><code>resource</code> 파라미터로 대상 서버 명시</td><td data-label="근거" role="cell">authorization</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">scope 범위</td><td data-label="답" role="cell">최소부터, 서버가 필요한 scope 를 요구(scope challenge)할 때 올림</td><td data-label="근거" role="cell">security best practices</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">토큰 전달</td><td data-label="답" role="cell"><code>Authorization</code> 헤더, URL 쿼리 금지</td><td data-label="근거" role="cell">authorization</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">connector 로 인증 서버에 붙음</td><td data-label="답" role="cell">우리가 OAuth 흐름을 먼저 돌려 <code>authorization_<wbr>token</code> 에 넣음</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">stdio 서버에 자격증명을 준다</td><td data-label="답" role="cell">환경(환경 변수)에서 준다</td><td data-label="근거" role="cell">authorization</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">HTTP 서버에 인가를 붙인다</td><td data-label="답" role="cell">이 규격(OAuth 2.1 기반)을 따른다</td><td data-label="근거" role="cell">authorization</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">인가를 꼭 붙여야 하나</td><td data-label="답" role="cell">선택(OPTIONAL)이다</td><td data-label="근거" role="cell">authorization</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">서버가 받은 토큰의 audience 가 자기가 아니다</td><td data-label="답" role="cell">거부한다 (무효면 401)</td><td data-label="근거" role="cell">authorization</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">서버가 업스트림 API 를 부른다</td><td data-label="답" role="cell">업스트림용 토큰을 따로 받는다. 받은 토큰을 그대로 넘기지 않는다</td><td data-label="근거" role="cell">authorization · security best practices</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">클라이언트가 토큰을 요청한다</td><td data-label="답" role="cell"><code>resource</code> 파라미터로 대상 서버를 명시한다</td><td data-label="근거" role="cell">authorization</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">scope 범위를 정한다</td><td data-label="답" role="cell">최소부터 받는다. 서버가 필요한 scope 를 요구(scope challenge)할 때 올린다</td><td data-label="근거" role="cell">security best practices</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">토큰을 전달한다</td><td data-label="답" role="cell"><code>Authorization</code> 헤더로 보낸다. URL 쿼리는 금지다</td><td data-label="근거" role="cell">authorization</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">connector 로 인증 서버에 붙는다</td><td data-label="답" role="cell">우리가 OAuth 흐름을 먼저 돌려 <code>authorization_<wbr>token</code> 에 넣는다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -603,14 +626,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">전송</td><td data-label="값" role="cell">stdio</td><td data-label="답 쪽" role="cell">환경 변수</td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">전송</td><td data-label="값" role="cell">Streamable HTTP</td><td data-label="답 쪽" role="cell">OAuth 2.1 (붙일 때)</td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">서버 성격</td><td data-label="값" role="cell">공개 읽기 전용 문서 서버</td><td data-label="답 쪽" role="cell">인가 없어도 규격 위반 아님</td><td data-label="근거" role="cell">authorization</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">서버 성격</td><td data-label="값" role="cell">사용자 데이터를 다룸</td><td data-label="답 쪽" role="cell">OAuth + audience 검증</td><td data-label="근거" role="cell">authorization</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">업스트림</td><td data-label="값" role="cell">있음(제3자 API)</td><td data-label="답 쪽" role="cell">서버가 별도 OAuth client</td><td data-label="근거" role="cell">authorization</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">서버 역할</td><td data-label="값" role="cell">정적 client ID 로 제3자 인가 서버에 중계하는 프록시</td><td data-label="답 쪽" role="cell">동적 등록 클라이언트마다 사용자 동의</td><td data-label="근거" role="cell">authorization</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">누가 흐름을 돌리나</td><td data-label="값" role="cell">MCP connector 경유</td><td data-label="답 쪽" role="cell">우리 앱 (호출 전 토큰 확보·갱신)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">에이전트가 키를 봐도 되나</td><td data-label="값" role="cell">안 됨(인젝션 위험)</td><td data-label="답 쪽" role="cell">경계 밖 프록시·MCP 서버가 주입</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/secure-deployment" lang="en" rel="noopener">secure-deployment</a> → ■ 프롬프트 인젝션 피해 경로 끊기</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">전송</td><td data-label="값" role="cell">stdio</td><td data-label="답 쪽" role="cell">환경 변수를 쓴다</td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">전송</td><td data-label="값" role="cell">Streamable HTTP</td><td data-label="답 쪽" role="cell">OAuth 2.1 을 쓴다 (붙일 때)</td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">서버 성격</td><td data-label="값" role="cell">공개 읽기 전용 문서 서버</td><td data-label="답 쪽" role="cell">인가가 없어도 규격 위반이 아니다</td><td data-label="근거" role="cell">authorization</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">서버 성격</td><td data-label="값" role="cell">사용자 데이터를 다룬다</td><td data-label="답 쪽" role="cell">OAuth 와 audience 검증을 쓴다</td><td data-label="근거" role="cell">authorization</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">업스트림</td><td data-label="값" role="cell">있다(제3자 API)</td><td data-label="답 쪽" role="cell">서버가 별도 OAuth client 가 된다</td><td data-label="근거" role="cell">authorization</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">서버 역할</td><td data-label="값" role="cell">정적 client ID 로 제3자 인가 서버에 중계하는 프록시다</td><td data-label="답 쪽" role="cell">동적 등록 클라이언트마다 사용자 동의를 받는다</td><td data-label="근거" role="cell">authorization</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">누가 흐름을 돌리나</td><td data-label="값" role="cell">MCP connector 를 거친다</td><td data-label="답 쪽" role="cell">우리 앱이 돌린다 (호출 전 토큰 확보·갱신)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/mcp-connector" lang="en" rel="noopener">mcp-connector</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">에이전트가 키를 봐도 되나</td><td data-label="값" role="cell">안 된다(인젝션 위험)</td><td data-label="답 쪽" role="cell">경계 밖 프록시·MCP 서버가 주입한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/secure-deployment" lang="en" rel="noopener">secure-deployment</a> · ■ 프롬프트 인젝션 피해 경로 끊기</td></tr>
   </tbody>
 </table>
 </div>
@@ -626,12 +649,12 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"stdio 서버에도 OAuth 2.1 흐름을 붙인다" → 규격은 SHOULD NOT, 환경에서</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"원격 MCP 는 반드시(MUST) OAuth" → 인가 자체가 OPTIONAL, HTTP 면 SHOULD</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"로컬 프로세스는 API 키 경계" (영상 표현) → 공식은 "환경에서 자격증명"</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"토큰을 그대로 넘기면 사용자 권한이 유지돼 오히려 안전(SSO 처럼)" → 명시 금지</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>용어 : 규격의 'Confused Deputy' 절은 좁게는 정적 client ID 를 쓰는 프록시 서버의 동의 문제(동적 등록 클라이언트마다 사용자 동의 필수). 토큰 그대로 넘기기는 별도 항목 — 다만 규격은 그것도 confused deputy 를 부를 수 있다고 적음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"scope 를 한 번에 넉넉히 받아 동의창을 줄인다" → 과한 scope 는 피해 반경↑, 동의 포기도 부름. 점진 승격</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"stdio 서버에도 OAuth 2.1 흐름을 붙인다" 는 함정이다. 규격은 SHOULD NOT 이다. 자격증명은 환경에서 받는다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"원격 MCP 는 반드시(MUST) OAuth 를 쓴다" 는 함정이다. 인가 자체가 OPTIONAL 이다. HTTP 면 SHOULD 다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"로컬 프로세스는 API 키 경계다" (영상 표현) 는 함정이다. 공식은 "환경에서 자격증명" 이라고 한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"토큰을 그대로 넘기면 사용자 권한이 유지돼 오히려 안전하다(SSO 처럼)" 는 함정이다. 규격이 명시적으로 금지한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>용어 : 규격의 'Confused Deputy' 절은 좁게는 정적 client ID 를 쓰는 프록시 서버의 동의 문제다(동적 등록 클라이언트마다 사용자 동의 필수). 토큰 그대로 넘기기는 별도 항목이다. 다만 규격은 그것도 confused deputy 를 부를 수 있다고 적는다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"scope 를 한 번에 넉넉히 받아 동의창을 줄인다" 는 함정이다. 과한 scope 는 피해 반경을 키우고, 동의 포기도 부른다. scope 는 점진적으로 올린다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -653,29 +676,29 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. "원격이니 OAuth 필수"가 틀리는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 사내망 안의 공개 사내 문서 검색 서버(Streamable HTTP), 사용자별 데이터 없음.</li>
-<li><span class="lead">판단 :</span> 인가는 OPTIONAL. 붙인다면 SHOULD 로 이 규격. "MUST OAuth" 라고 쓴 보기는 과장.</li>
+<li><span class="lead">조건 :</span> 사내망 안의 공개 사내 문서 검색 서버다(Streamable HTTP). 사용자별 데이터는 없다.</li>
+<li><span class="lead">판단 :</span> 인가는 OPTIONAL 이다. 붙인다면 이 규격을 따른다(SHOULD). "MUST OAuth" 라고 쓴 보기는 과장이다.</li>
 
 <li><span class="lead">근거 :</span> authorization</li>
 </ul>
 <h4>2. stdio 인데 OAuth 가 등장하는 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 로컬 stdio 서버가 뒤에서 원격 SaaS API 를 부른다.</li>
-<li><span class="lead">판단 :</span> 클라이언트 ↔ stdio 서버 구간은 환경 자격증명. 서버 ↔ SaaS 구간은 그 SaaS 의 인증 방식(OAuth 일 수 있음) — 두 구간을 섞어 "stdio 에도 OAuth 2.1 흐름" 이라 하면 틀림.</li>
+<li><span class="lead">판단 :</span> 클라이언트와 stdio 서버 사이 구간은 환경 자격증명을 쓴다. 서버와 SaaS 사이 구간은 그 SaaS 의 인증 방식을 쓴다(OAuth 일 수 있다). 두 구간을 섞어 "stdio 에도 OAuth 2.1 흐름" 이라 하면 틀린다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(stdio 구간) ·</span> <span class="gen">업계 일반</span><span class="note">(업스트림 구간의 방식)</span></li>
 <li><span class="lead">근거 :</span> authorization</li>
 </ul>
 <h4>3. "사용자 권한 그대로 쓰고 싶다"</h4>
 <ul>
-<li><span class="lead">조건 :</span> 사용자별 Salesforce 권한을 그대로 적용해야 해서 받은 토큰을 넘기자는 제안.</li>
-<li><span class="lead">판단 :</span> 뒤집히지 않음. 업스트림 토큰은 업스트림 authorization server 가 따로 발급. 사용자 권한을 살리는 건 업스트림 쪽 OAuth 에서 사용자 동의로 받는 것(방식 세부는 규격 밖).</li>
+<li><span class="lead">조건 :</span> 사용자별 Salesforce 권한을 그대로 적용해야 한다. 그래서 받은 토큰을 넘기자는 제안이 나온다.</li>
+<li><span class="lead">판단 :</span> 뒤집히지 않는다. 업스트림 토큰은 업스트림 authorization server 가 따로 발급한다. 사용자 권한을 살리려면 업스트림 쪽 OAuth 에서 사용자 동의로 받는다(방식 세부는 규격 밖).</li>
 <li><span class="lead">등급 :</span> <span class="note">(금지) ·</span> <span class="gen">업계 일반</span><span class="note">(대안 방식)</span></li>
 <li><span class="lead">근거 :</span> authorization "The access token used at the upstream API is a separate token, issued by the upstream authorization server."</li>
 </ul>
 <h4>4. scope 를 크게 받는 게 나아 보이는 때</h4>
 <ul>
 <li><span class="lead">조건 :</span> 동의창이 여러 번 떠서 사용자가 귀찮아한다.</li>
-<li><span class="lead">판단 :</span> 공식은 반대 — 과한 scope 목록이 오히려 동의 포기를 부르고, 토큰이 새면 피해가 큼. 최소 + 점진 승격, 거절된 scope 는 캐시해 반복 요청 방지.</li>
+<li><span class="lead">판단 :</span> 공식은 반대로 말한다. 과한 scope 목록이 오히려 동의 포기를 부른다. 토큰이 새면 피해도 크다. 최소로 받고 점진적으로 올린다. 거절된 scope 는 캐시해 반복 요청을 막는다.</li>
 
 <li><span class="lead">근거 :</span> security best practices</li>
 </ul>
@@ -686,19 +709,21 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"stdio 서버에도 OAuth 2.1 흐름"</td><td data-label="왜 끌리나" role="cell">보안이면 무조건 OAuth</td><td data-label="왜 틀리나" role="cell">stdio 는 SHOULD NOT, 환경에서</td><td data-label="근거" role="cell">authorization</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"원격 MCP 서버는 반드시(MUST) OAuth"</td><td data-label="왜 끌리나" role="cell">원격 = 인증 필수 감</td><td data-label="왜 틀리나" role="cell">인가 자체가 OPTIONAL, HTTP 면 SHOULD</td><td data-label="근거" role="cell">authorization</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"받은 사용자 토큰을 업스트림에 그대로 — 권한이 유지돼 안전"</td><td data-label="왜 끌리나" role="cell">SSO 처럼 편함</td><td data-label="왜 틀리나" role="cell">명시 금지. 통제 우회·감사 불가·유출 통로</td><td data-label="근거" role="cell">security best practices</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"audience 는 안 봐도 서명만 맞으면 됨"</td><td data-label="왜 끌리나" role="cell">JWT 서명 검증에 익숙</td><td data-label="왜 틀리나" role="cell">자기용 토큰인지 확인 필수</td><td data-label="근거" role="cell">authorization</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"토큰을 URL 쿼리로 넘김"</td><td data-label="왜 끌리나" role="cell">구현이 쉬움</td><td data-label="왜 틀리나" role="cell">금지 — 헤더로</td><td data-label="근거" role="cell">authorization</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"scope 는 처음에 전부 받는다"</td><td data-label="왜 끌리나" role="cell">동의창 한 번</td><td data-label="왜 틀리나" role="cell">피해 반경·동의 포기. 점진 승격</td><td data-label="근거" role="cell">security best practices</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Claude API 는 x-api-key 헤더만"</td><td data-label="왜 끌리나" role="cell">옛 예제에 익숙</td><td data-label="왜 틀리나" role="cell">지금 기본은 <code>Authorization: Bearer</code>, x-api-key 는 레거시 대체</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/overview" lang="en" rel="noopener">API overview</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"stdio 서버에도 OAuth 2.1 흐름"</td><td data-label="왜 끌리나" role="cell">보안이면 무조건 OAuth 라고 여긴다</td><td data-label="왜 틀리나" role="cell">stdio 는 SHOULD NOT 이다. 자격증명은 환경에서 받는다</td><td data-label="근거" role="cell">authorization</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"원격 MCP 서버는 반드시(MUST) OAuth"</td><td data-label="왜 끌리나" role="cell">원격이면 인증이 필수일 것 같다</td><td data-label="왜 틀리나" role="cell">인가 자체가 OPTIONAL 이다. HTTP 면 SHOULD 다</td><td data-label="근거" role="cell">authorization</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"받은 사용자 토큰을 업스트림에 그대로 넘기면 권한이 유지돼 안전"</td><td data-label="왜 끌리나" role="cell">SSO 처럼 편하다</td><td data-label="왜 틀리나" role="cell">규격이 명시적으로 금지한다. 통제가 우회되고, 감사가 안 되고, 유출 통로가 된다</td><td data-label="근거" role="cell">security best practices</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"audience 는 안 봐도 서명만 맞으면 됨"</td><td data-label="왜 끌리나" role="cell">JWT 서명 검증에 익숙하다</td><td data-label="왜 틀리나" role="cell">자기용 토큰인지 꼭 확인해야 한다</td><td data-label="근거" role="cell">authorization</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"토큰을 URL 쿼리로 넘김"</td><td data-label="왜 끌리나" role="cell">구현이 쉽다</td><td data-label="왜 틀리나" role="cell">금지다. 헤더로 보낸다</td><td data-label="근거" role="cell">authorization</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"scope 는 처음에 전부 받는다"</td><td data-label="왜 끌리나" role="cell">동의창이 한 번만 뜬다</td><td data-label="왜 틀리나" role="cell">피해 반경이 커지고 동의 포기를 부른다. 점진적으로 올린다</td><td data-label="근거" role="cell">security best practices</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Claude API 는 x-api-key 헤더만"</td><td data-label="왜 끌리나" role="cell">옛 예제에 익숙하다</td><td data-label="왜 틀리나" role="cell">지금 기본은 <code>Authorization: Bearer</code> 다. x-api-key 는 레거시 대체 수단이다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/overview" lang="en" rel="noopener">API overview</a></td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="mcp-auth-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
@@ -717,11 +742,12 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>목록 3.2① 은 "Claude API 호출 자체는 API 키(x-api-key 헤더 — 근거 확인 필요)"였음 → 지금 docs 는 <code>Authorization: Bearer</code> 가 기본, <code>x-api-key</code> 는 "Legacy fallback". 이 표기가 언제 바뀌었는지는 릴리스 노트에서 못 찾음(검색어 "x-api-key", "Authorization header"). WIF 출시는 2026-05-04(릴리스 노트).</li>
-<li>규격 버전 : 이번 원문 = 2025-11-25 버전. 시험이 이전 버전(2025-06-18) 기준이면 세부(client ID metadata 문서 등)가 다를 수 있음 — 이 카드의 규칙(OPTIONAL · stdio 환경 · audience · passthrough 금지)이 이전 버전에도 있었는지는 이전 버전을 받지 않아 미확인.</li>
-<li>목록의 "'lethal trifecta'·'Confused Deputy' 용어 주의"는 원문과 맞음 — confused deputy 절 = 정적 client ID 프록시의 동의 문제(authorization), passthrough = 별도 항목이지만 confused deputy 를 부를 수 있다고 적음.</li>
+<li>목록 3.2① 은 "Claude API 호출 자체는 API 키(x-api-key 헤더 — 근거 확인 필요)"였다. 지금 docs 는 <code>Authorization: Bearer</code> 가 기본이고, <code>x-api-key</code> 는 "Legacy fallback" 이다. 이 표기가 언제 바뀌었는지는 릴리스 노트에서 못 찾았다(검색어 "x-api-key", "Authorization header"). WIF 출시는 2026-05-04 다(릴리스 노트).</li>
+<li>규격 버전 : 이번 원문은 2025-11-25 버전이다. 시험이 이전 버전(2025-06-18) 기준이면 세부(client ID metadata 문서 등)가 다를 수 있다. 이 카드의 규칙(OPTIONAL · stdio 환경 · audience · passthrough 금지)이 이전 버전에도 있었는지는 확인하지 못했다. 이전 버전을 받지 않았다.</li>
+<li>목록의 "'lethal trifecta'·'Confused Deputy' 용어 주의"는 원문과 맞다. confused deputy 절은 정적 client ID 프록시의 동의 문제다(authorization). passthrough 는 별도 항목이지만, 규격은 그것도 confused deputy 를 부를 수 있다고 적는다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

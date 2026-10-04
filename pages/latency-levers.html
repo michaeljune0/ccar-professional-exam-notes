@@ -371,8 +371,16 @@
   </div>
   <h2 class="sec-h" id="latency-levers-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>"느리다"가 어느 쪽인지 먼저 구분 — 첫 글자까지(TTFT, time to first token) vs 다 받기까지(전체 시간). lever(조절 수단) = 스트리밍 · 캐싱 · 출력 길이 · effort · 모델(교체 · fast mode). 품질은 지켜야 하니 eval 로 확인하며 돌림</p>
-    <p class="t5-ana"><span class="lead">비유</span> 웹 응답 튜닝. chunked 전송(첫 바이트만 빨라짐) · CDN 캐시(오리진 안 감) · 응답 크기 줄이기 · 워커 설정 튜닝 · 인스턴스 타입 교체는 확인 뒤</p>
+      <p>"느리다"가 어느 쪽인지 먼저 가른다. 첫 글자까지(TTFT, time to first token)인가, 다 받기까지(전체 시간)인가? lever(조절 수단)는 다섯이다</p>
+      <ul class="dash">
+        <li>스트리밍</li>
+        <li>캐싱</li>
+        <li>출력 길이</li>
+        <li>effort</li>
+        <li>모델(교체 · fast mode)</li>
+      </ul>
+      <p>품질은 지켜야 하니 eval 로 확인하며 돌린다</p>
+    <p class="t5-ana"><span class="lead">비유</span> 웹 응답 튜닝과 같다. chunked 전송(첫 바이트만 빨라진다), CDN 캐시(오리진에 안 간다), 응답 크기 줄이기, 워커 설정 튜닝을 쓴다. 인스턴스 타입 교체는 확인한 뒤에 한다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/latency-levers.webp"><img src="../images/latency-levers.webp" alt="느림을 첫 글자까지(TTFT)와 다 받기까지로 가르고, 앞쪽은 스트리밍·캐싱, 전체 시간은 출력 길이·effort·모델로 줄이며 스트리밍은 체감만 바꾼다는 타임라인 그림." loading="lazy" decoding="async"></a>
@@ -399,30 +407,30 @@
 <!-- /vx:figure -->
 <section class="ex-sec" id="principle" aria-labelledby="principle-h">
 <h3 id="principle-h">원리</h3>
-<p class="lead">지연(latency)은 두 가지</p>
+<p class="lead">지연(latency)은 두 가지다</p>
 <ul>
-<li>첫 글자까지(TTFT) : 요청 보내고 첫 토큰이 나올 때까지. 입력 처리 시간이 큰 몫을 차지.</li>
-<li>다 받기까지 : TTFT + 출력 토큰을 다 생성하는 시간. 출력이 길수록 김.</li>
-<li>공식 : 처리·생성할 토큰이 적을수록 응답이 빠름.</li>
+<li>첫 글자까지(TTFT) : 요청을 보내고 첫 토큰이 나올 때까지다. 입력 처리 시간이 큰 몫을 차지한다.</li>
+<li>다 받기까지 : TTFT 에 출력 토큰을 다 생성하는 시간을 더한 것이다. 출력이 길수록 길다.</li>
+<li>공식 : 처리·생성할 토큰이 적을수록 응답이 빠르다.</li>
 </ul>
-<p class="lead">lever(조절 수단)마다 건드리는 곳</p>
+<p class="lead">lever(조절 수단)마다 건드리는 곳이 다르다</p>
 <ul>
-<li>스트리밍 : 생성은 그대로, 오는 대로 보여 줌 → 체감만 줄임.</li>
-<li>캐싱 : 매번 같은 앞부분 처리를 건너뜀 → TTFT · 입력 비용을 줄임. 출력 시간은 안 건드림.</li>
-<li>출력 길이 : 생성할 토큰 수 자체를 줄임 → 전체 시간.</li>
-<li>effort : 한 모델 안에서 thinking(사고)·도구 호출·텍스트 토큰 양을 줄임 → 전체 시간 · 비용. 대신 지능이 조금 내려감.</li>
-<li>모델 : 더 빠른 모델(Haiku 4.5) 또는 fast mode(같은 Opus, 출력 속도 최대 2.5배, 비쌈).</li>
+<li>스트리밍 : 생성은 그대로 두고 오는 대로 보여 준다. 그래서 체감만 줄인다.</li>
+<li>캐싱 : 매번 같은 앞부분 처리를 건너뛴다. 그래서 TTFT 와 입력 비용을 줄인다. 출력 시간은 건드리지 않는다.</li>
+<li>출력 길이 : 생성할 토큰 수 자체를 줄인다. 그래서 전체 시간이 준다.</li>
+<li>effort : 한 모델 안에서 thinking(사고)·도구 호출·텍스트 토큰 양을 줄인다. 그래서 전체 시간과 비용이 준다. 대신 지능이 조금 내려간다.</li>
+<li>모델 : 더 빠른 모델(Haiku 4.5)로 바꾸거나 fast mode 를 쓴다(같은 Opus, 출력 속도 최대 2.5배, 비싸다).</li>
 </ul>
 <p class="lead">왜 "모델부터"가 약한 답인가</p>
 <ul>
-<li>공식 지연 문서는 모델 선택을 가장 직접적인 방법 중 하나로 든다. 그러니 모델 교체 자체가 틀린 건 아님.</li>
-<li>다만 "effort 조정이 모델 교체보다 나은 경우가 많다"는 것도 공식이고, 과제 무시한 축소는 품질 위험(샘플 2).</li>
-<li>그래서 시험 답의 모양 = "증상을 가르고, 품질을 지키는 가장 싼 lever 부터, 모델 교체는 eval 로 확인하고".</li>
+<li>공식 지연 문서는 모델 선택을 가장 직접적인 방법 중 하나로 든다. 그러니 모델 교체 자체가 틀린 것은 아니다.</li>
+<li>다만 "effort 조정이 모델 교체보다 나은 경우가 많다"는 것도 공식이다. 과제를 무시한 축소는 품질을 해칠 위험이 있다(샘플 2).</li>
+<li>그래서 시험 답은 이런 모양이다. 증상을 가른다. 품질을 지키는 가장 싼 lever 부터 돌린다. 모델 교체는 eval 로 확인한 뒤에 한다.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
 <li>느린 게 첫 글자인가, 다 받기까지인가?</li>
-<li>이 lever 를 돌리면 품질이 떨어지나 — 떨어진다면 eval 로 확인했나?</li>
+<li>이 lever 를 돌리면 품질이 떨어지나? 떨어진다면 eval 로 확인했나?</li>
 </ul>
 </section>
   <h2 class="sec-h" id="latency-levers-rules-h">규칙과 판단</h2>
@@ -442,21 +450,21 @@
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">캐싱 + 스트리밍</p><p>TTFT 와 per-request cost(요청당 비용)를 같이 줄이고 필요한 문맥은 안 버림 (샘플 2 정답) · 첫 요청의 캐시 미스까지 없애려면 캐시 사전 워밍(pre-warming)</p></div>
+              <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">캐싱 + 스트리밍</p><p>TTFT 와 per-request cost(요청당 비용)를 같이 줄인다. 필요한 문맥은 버리지 않는다 (샘플 2 정답). 첫 요청의 캐시 미스까지 없애려면 캐시 사전 워밍(pre-warming)을 한다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">스트리밍</p><p>출력이 오는 대로 보여 줘서 체감 반응성을 크게 올림</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">스트리밍</p><p>출력이 오는 대로 보여 줘서 체감 반응성을 크게 올린다</p></div>
             </div>
           </div>
         </div>
         <div class="t5-arm">
-          <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(다 받기까지 김)</span></span>
-          <div class="t5-q" data-p="n9"><span class="t5-hl" aria-hidden="true"></span>답이 장황?</div>
+          <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(다 받기까지 길다)</span></span>
+          <div class="t5-q" data-p="n9"><span class="t5-hl" aria-hidden="true"></span>답이 장황한가?</div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">출력 길이</p><p>"짧게 답해"라고 요청 + <code>max_tokens</code> 로 상한 · effort 는 thinking(사고) 양을 줄이지 답 길이를 줄이는 게 아님</p></div>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">출력 길이</p><p>"짧게 답해"라고 요청하고 <code>max_tokens</code> 로 상한을 건다. effort 는 thinking(사고) 양을 줄일 뿐 답 길이를 줄이지 않는다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
@@ -470,23 +478,23 @@
   <section class="t5-flow tree" id="latency-levers-tree-2" aria-labelledby="latency-levers-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9">
     <div class="t5-fh"><h3 id="latency-levers-tree-2-h">④⑤⑥ lever 고르기 <span class="pg">[3.3①]</span> <span class="pg">[2.1②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>thinking·도구 호출이 과한가?<span class="t5-sub">품질 여유 있음</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>thinking·도구 호출이 과한가?<span class="t5-sub">품질 여유가 있다</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">effort 낮추기</p><p>모델 바꾸기보다 나은 경우가 많음</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">effort 를 낮춘다</p><p>모델 바꾸기보다 나은 경우가 많다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-          <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>eval 상 품질 여유?</div>
+          <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>eval 상 품질 여유가 있나?</div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>큼</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">더 빠른 모델</p><p>교체는 eval 로 정확도·품질·엣지 케이스를 비교한 뒤</p></div>
+              <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>크다</span>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">더 빠른 모델</p><p>교체는 eval 로 정확도·품질·엣지 케이스를 비교한 뒤에 한다</p></div>
             </div>
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>없음</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">fast mode</p><p>출력 속도 최대 2.5배, 비싼 요금, 리서치 프리뷰</p></div>
+              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>없다</span>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">fast mode</p><p>출력 속도가 최대 2.5배다. 요금이 비싸다. 리서치 프리뷰다</p></div>
             </div>
           </div>
         </div>
@@ -495,33 +503,33 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="latency-levers-flow" aria-label="지연 줄이기 lever 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["요청","모델","화면"],"blocks":[],"rules":[null,null,null],"question":"스트리밍을 켜면 다 받는 시간도 줄까?","scenes":[{"name":"① 스트리밍 → 첫 글자","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["stream: true","\"이 상담 요약해 줘\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"스트리밍","art":{"kind":"slip","lines":["출력 생성 시작"]}},{"kind":"move","step":"첫 글자","from":{"col":1},"to":2,"label":"출력이 오는 대로 보여 줌","art":{"kind":"slip","lines":["0.8초: \"고객은 배송…\""]}},{"kind":"end","label":"첫 글자가 바로 떠서 체감 반응성을 크게 올림"}]},{"name":"② 스트리밍 → 전체 시간","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["stream: true","\"이 상담 요약해 줘\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"스트리밍","art":{"kind":"slip","lines":["출력 생성 시작"]}},{"kind":"move","step":"첫 글자","from":{"col":1},"to":2,"label":"오는 대로 보여 줌","art":{"kind":"slip","lines":["0.8초: \"고객은 배송…\""]}},{"kind":"move","step":"전체","from":{"col":1},"to":2,"label":"총 생성 시간은 그대로 (업계 일반)","art":{"kind":"slip","lines":["20초: 900 토큰째","마지막 글자"]}},{"kind":"end","label":"스트리밍은 체감만 — 생성할 토큰 수가 같아 다 받는 시간은 안 줄어듦"}]},{"name":"③ 출력 줄이기 → 전체 시간","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["\"3줄로 짧게 요약해\"","max_tokens: 300"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"\"짧게 답해\" + `max_tokens` 상한","art":{"kind":"slip","lines":["출력 생성 시작"]}},{"kind":"move","step":"전체","from":{"col":1},"to":2,"label":"생성할 토큰이 줄어듦","art":{"kind":"slip","lines":["250 토큰째","마지막 글자"]}},{"kind":"end","label":"전체 시간이 문제면 토큰 줄이기"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["요청","모델","화면"],"blocks":[],"rules":[null,null,null],"question":"스트리밍을 켜면 다 받는 시간도 줄까?","scenes":[{"name":"① 스트리밍은 첫 글자를 당긴다","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["stream: true","\"이 상담 요약해 줘\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"스트리밍으로 보낸다","art":{"kind":"slip","lines":["출력 생성 시작"]}},{"kind":"move","step":"첫 글자","from":{"col":1},"to":2,"label":"출력이 오는 대로 보여 준다","art":{"kind":"slip","lines":["0.8초: \"고객은 배송…\""]}},{"kind":"end","label":"첫 글자가 바로 떠서 체감 반응성을 크게 올린다"}]},{"name":"② 스트리밍으로 전체 시간을 줄이려 한다","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["stream: true","\"이 상담 요약해 줘\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"스트리밍으로 보낸다","art":{"kind":"slip","lines":["출력 생성 시작"]}},{"kind":"move","step":"첫 글자","from":{"col":1},"to":2,"label":"오는 대로 보여 준다","art":{"kind":"slip","lines":["0.8초: \"고객은 배송…\""]}},{"kind":"move","step":"전체","from":{"col":1},"to":2,"label":"총 생성 시간은 그대로다 (업계 일반)","art":{"kind":"slip","lines":["20초: 900 토큰째","마지막 글자"]}},{"kind":"end","label":"스트리밍은 체감만 줄인다. 생성할 토큰 수가 같아 다 받는 시간은 안 줄어든다"}]},{"name":"③ 출력을 줄이면 전체 시간이 준다","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["\"3줄로 짧게 요약해\"","max_tokens: 300"]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"\"짧게 답해\" 에 `max_tokens` 상한을 건다","art":{"kind":"slip","lines":["출력 생성 시작"]}},{"kind":"move","step":"전체","from":{"col":1},"to":2,"label":"생성할 토큰이 줄어든다","art":{"kind":"slip","lines":["250 토큰째","마지막 글자"]}},{"kind":"end","label":"전체 시간이 문제면 토큰을 줄인다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> 요청 → 모델 → 화면</p>
       <p><span class="lead">질문 :</span> 스트리밍을 켜면 다 받는 시간도 줄까?</p>
-      <p class="lead">① 스트리밍 → 첫 글자 <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">① 스트리밍은 첫 글자를 당긴다 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 요청 — 쪽지 : <span class="flx-alt-slip">stream: true / "이 상담 요약해 줘"</span></li>
-        <li>요청 : 요청 → 모델 : 스트리밍 — 쪽지 : <span class="flx-alt-slip">출력 생성 시작</span></li>
-        <li>첫 글자 : 모델 → 화면 : 출력이 오는 대로 보여 줌 — 쪽지 : <span class="flx-alt-slip">0.8초: "고객은 배송…"</span></li>
-        <li>끝 : 첫 글자가 바로 떠서 체감 반응성을 크게 올림</li>
+        <li>요청 : 요청 → 모델 : 스트리밍으로 보낸다 — 쪽지 : <span class="flx-alt-slip">출력 생성 시작</span></li>
+        <li>첫 글자 : 모델 → 화면 : 출력이 오는 대로 보여 준다 — 쪽지 : <span class="flx-alt-slip">0.8초: "고객은 배송…"</span></li>
+        <li>끝 : 첫 글자가 바로 떠서 체감 반응성을 크게 올린다</li>
       </ol>
-      <p class="lead">② 스트리밍 → 전체 시간 <span class="fl-v is-ng">≠</span></p>
+      <p class="lead">② 스트리밍으로 전체 시간을 줄이려 한다 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 요청 — 쪽지 : <span class="flx-alt-slip">stream: true / "이 상담 요약해 줘"</span></li>
-        <li>요청 : 요청 → 모델 : 스트리밍 — 쪽지 : <span class="flx-alt-slip">출력 생성 시작</span></li>
-        <li>첫 글자 : 모델 → 화면 : 오는 대로 보여 줌 — 쪽지 : <span class="flx-alt-slip">0.8초: "고객은 배송…"</span></li>
-        <li>전체 : 모델 → 화면 : 총 생성 시간은 그대로 (업계 일반) — 쪽지 : <span class="flx-alt-slip">20초: 900 토큰째 / 마지막 글자</span></li>
-        <li>끝 : 스트리밍은 체감만 — 생성할 토큰 수가 같아 다 받는 시간은 안 줄어듦</li>
+        <li>요청 : 요청 → 모델 : 스트리밍으로 보낸다 — 쪽지 : <span class="flx-alt-slip">출력 생성 시작</span></li>
+        <li>첫 글자 : 모델 → 화면 : 오는 대로 보여 준다 — 쪽지 : <span class="flx-alt-slip">0.8초: "고객은 배송…"</span></li>
+        <li>전체 : 모델 → 화면 : 총 생성 시간은 그대로다 (업계 일반) — 쪽지 : <span class="flx-alt-slip">20초: 900 토큰째 / 마지막 글자</span></li>
+        <li>끝 : 스트리밍은 체감만 줄인다. 생성할 토큰 수가 같아 다 받는 시간은 안 줄어든다</li>
       </ol>
-      <p class="lead">③ 출력 줄이기 → 전체 시간 <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">③ 출력을 줄이면 전체 시간이 준다 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 요청 — 쪽지 : <span class="flx-alt-slip">"3줄로 짧게 요약해" / max_tokens: 300</span></li>
-        <li>요청 : 요청 → 모델 : "짧게 답해" + <code>max_tokens</code> 상한 — 쪽지 : <span class="flx-alt-slip">출력 생성 시작</span></li>
-        <li>전체 : 모델 → 화면 : 생성할 토큰이 줄어듦 — 쪽지 : <span class="flx-alt-slip">250 토큰째 / 마지막 글자</span></li>
-        <li>끝 : 전체 시간이 문제면 토큰 줄이기</li>
+        <li>요청 : 요청 → 모델 : "짧게 답해" 에 <code>max_tokens</code> 상한을 건다 — 쪽지 : <span class="flx-alt-slip">출력 생성 시작</span></li>
+        <li>전체 : 모델 → 화면 : 생성할 토큰이 줄어든다 — 쪽지 : <span class="flx-alt-slip">250 토큰째 / 마지막 글자</span></li>
+        <li>끝 : 전체 시간이 문제면 토큰을 줄인다</li>
       </ol>
     </details>
   </figure>
@@ -531,43 +539,47 @@
       <ol class="how">
         <li id="latency-levers-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p>체감(TTFT)이 문제 → 스트리밍. 출력이 오는 대로 보여 줘서 체감 반응성을 크게 올림. 총 생성 시간은 그대로 <span class="gen">업계 일반</span> <span class="note">공식은 "perceived"라고만 씀</span> <span class="pg">[3.3①]</span></p>
+            <p>체감(TTFT)이 문제면 스트리밍을 쓴다. 출력이 오는 대로 보여 줘서 체감 반응성을 크게 올린다 <span class="pg">[3.3①]</span></p>
+            <p>총 생성 시간은 그대로다 <span class="gen">업계 일반</span> <span class="note">공식은 "perceived"라고만 씀</span></p>
           </div>
         </li>
         <li id="latency-levers-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p>매번 같은 긴 앞부분 → 캐싱. TTFT 와 per-request cost 를 같이 줄이고 필요한 문맥은 안 버림 (샘플 2 정답). 첫 요청의 캐시 미스까지 없애려면 캐시 사전 워밍(pre-warming). 상세 = <a href="caching.html">■ 프롬프트 캐싱</a> <span class="pg">[3.3①]</span></p>
+            <p>매번 같은 긴 앞부분이 있으면 캐싱한다. TTFT 와 per-request cost 를 같이 줄인다. 필요한 문맥은 버리지 않는다 (샘플 2 정답) <span class="pg">[3.3①]</span></p>
+            <p>첫 요청의 캐시 미스까지 없애려면 캐시 사전 워밍(pre-warming)을 한다</p>
+            <p>자세한 것은 <a href="caching.html">■ 프롬프트 캐싱</a> 에 있다</p>
           </div>
         </li>
         <li id="latency-levers-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p>전체 시간이 문제 → 토큰 줄이기. 입력은 명확하되 간결히, 출력은 "짧게 답해"라고 요청 + <code>max_tokens</code> 로 상한 <span class="src">(너무 낮으면 잘림 → 4.5③)</span></p>
+            <p>전체 시간이 문제면 토큰을 줄인다. 입력은 명확하되 간결하게 쓴다. 출력은 "짧게 답해"라고 요청하고 <code>max_tokens</code> 로 상한을 건다. 너무 낮으면 잘린다(4.5③)</p>
           </div>
         </li>
         <li id="latency-levers-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p><span class="lead">effort 낮추기 :</span> 한 모델 안에서 지능 ↔ 지연(latency)·비용을 맞바꿈. 모든 출력 토큰(텍스트·도구 호출·thinking)에 걸리고, 낮추면 도구 호출도 적어짐. 모델 바꾸기보다 나은 경우가 많음 <span class="src">(규칙 본편 = 2.1②)</span></p>
-            <p>단 effort 는 thinking 양을 줄이지 답 길이를 줄이는 게 아님 → 답이 길면 ③ (Opus 5 문서)</p>
-            <p><span class="lead">기본값 :</span> 대부분 high · Opus 5.5 는 medium <span class="note">(2026-09-22 출시, 시험 뒤 변경)</span></p>
+            <p><span class="lead">effort 낮추기 :</span> 한 모델 안에서 지능과 지연(latency)·비용을 맞바꾼다. effort 는 모든 출력 토큰(텍스트·도구 호출·thinking)에 걸린다. 낮추면 도구 호출도 적어진다. 모델 바꾸기보다 나은 경우가 많다 <span class="src">(규칙 본편 = 2.1②)</span></p>
+            <p>단 effort 는 thinking 양을 줄일 뿐 답 길이를 줄이지 않는다. 답이 길면 ③ 을 쓴다 <span class="src">(Opus 5 문서)</span></p>
+            <p>기본값은 대부분 high 다. Opus 5.5 는 medium 이다 <span class="note">(2026-09-22 출시, 시험 뒤 변경)</span></p>
           </div>
         </li>
         <li id="latency-levers-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">모델 :</span> 속도 최우선이면 Haiku 4.5 가 가장 빠름 · Opus 5.5/5/4.8 은 fast mode(출력 속도 최대 2.5배, 비싼 요금, 리서치 프리뷰). 교체는 eval 로 정확도·품질·엣지 케이스를 비교한 뒤</p>
+            <p><span class="lead">모델 :</span> 속도가 최우선이면 Haiku 4.5 가 가장 빠르다. Opus 5.5/5/4.8 에는 fast mode 가 있다(출력 속도 최대 2.5배, 비싼 요금, 리서치 프리뷰)</p>
+            <p>교체는 eval 로 정확도·품질·엣지 케이스를 비교한 뒤에 한다</p>
           </div>
         </li>
         <li id="latency-levers-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
-            <p class="lead">증상으로 먼저 잡을 lever <span class="note">(각 칸 = 확인, 순서 자체는 업계 일반)</span></p>
+            <p class="lead">증상으로 먼저 잡을 lever 는 아래와 같다 <span class="note">(각 칸 = 확인, 순서 자체는 업계 일반)</span></p>
             <div class="tscroll" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">증상</th><th scope="col" role="columnheader">먼저</th></tr></thead>
               <tbody role="rowgroup">
-                <tr role="row"><td data-label="증상" role="cell">첫 글자까지 몇 초 · 앞부분 매번 같음</td><td data-label="먼저" role="cell">캐싱 + 스트리밍</td></tr>
-                <tr role="row"><td data-label="증상" role="cell">첫 글자는 빠른데 다 받기까지 김 · 답이 장황</td><td data-label="먼저" role="cell">출력 길이 <span class="note">(프롬프트 · max_tokens)</span></td></tr>
-                <tr role="row"><td data-label="증상" role="cell">thinking·도구 호출이 과함 · 품질 여유 있음</td><td data-label="먼저" role="cell">effort 낮추기</td></tr>
-                <tr role="row"><td data-label="증상" role="cell">위 lever 로도 부족 · eval 상 품질 여유 큼</td><td data-label="먼저" role="cell">더 빠른 모델</td></tr>
-                <tr role="row"><td data-label="증상" role="cell">품질 여유 없음 · 돈은 있음</td><td data-label="먼저" role="cell">fast mode</td></tr>
+                <tr role="row"><td data-label="증상" role="cell">첫 글자까지 몇 초 걸린다 · 앞부분이 매번 같다</td><td data-label="먼저" role="cell">캐싱 + 스트리밍</td></tr>
+                <tr role="row"><td data-label="증상" role="cell">첫 글자는 빠른데 다 받기까지 길다 · 답이 장황하다</td><td data-label="먼저" role="cell">출력 길이 <span class="note">(프롬프트 · max_tokens)</span></td></tr>
+                <tr role="row"><td data-label="증상" role="cell">thinking·도구 호출이 과하다 · 품질 여유가 있다</td><td data-label="먼저" role="cell">effort 낮추기</td></tr>
+                <tr role="row"><td data-label="증상" role="cell">위 lever 로도 부족하다 · eval 상 품질 여유가 크다</td><td data-label="먼저" role="cell">더 빠른 모델</td></tr>
+                <tr role="row"><td data-label="증상" role="cell">품질 여유가 없다 · 돈은 있다</td><td data-label="먼저" role="cell">fast mode</td></tr>
               </tbody>
             </table>
             </div>
@@ -584,16 +596,16 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">첫 글자까지 느리다는 체감 불만</td><td data-label="답" role="cell">스트리밍</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a> "This can significantly improve the perceived responsiveness of your application"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">매번 같은 긴 앞부분 + 지연·비용 둘 다 문제</td><td data-label="답" role="cell">고정 내용을 앞에 두기 + 캐싱</td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 정답 C "reducing both time-to-first-token and per-request cost without discarding required context"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">첫 요청의 캐시 미스 지연도 없애야 함</td><td data-label="답" role="cell">캐시 사전 워밍(pre-warming)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">답이 장황해 다 받기까지 김</td><td data-label="답" role="cell">짧게 답하라고 요청 + <code>max_<wbr>tokens</code> 상한</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">품질 여유가 있고 지연·비용을 줄여야 함</td><td data-label="답" role="cell">effort 낮추기 (모델 교체보다 먼저)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a> "Tuning effort is often a better lever than switching models." · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">effort 를 낮췄는데 답 길이가 그대로 (Opus 5)</td><td data-label="답" role="cell">길이는 프롬프트로</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> "Effort controls thinking volume, not visible response length"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">지연 요구가 엄격 · 단순 대량 작업</td><td data-label="답" role="cell">빠른 모델(Haiku 4.5)로 시작, 기능 격차 있을 때만 올림</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">모델을 바꾸려 함</td><td data-label="답" role="cell">실제 프롬프트·데이터로 정확도·품질·엣지 케이스 비교 뒤</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">품질을 못 내려놓고 출력 속도가 문제</td><td data-label="답" role="cell">fast mode (Opus 5.5 · 5 · 4.8, 비싼 요금)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">배치 작업의 지연</td><td data-label="답" role="cell">fast mode 불가 (동기 지연용)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">첫 글자까지 느리다는 체감 불만이 있다</td><td data-label="답" role="cell">스트리밍을 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a> "This can significantly improve the perceived responsiveness of your application"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">매번 같은 긴 앞부분이 있다. 지연·비용이 둘 다 문제다</td><td data-label="답" role="cell">고정 내용을 앞에 두고 캐싱한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 정답 C "reducing both time-to-first-token and per-request cost without discarding required context"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">첫 요청의 캐시 미스 지연도 없애야 한다</td><td data-label="답" role="cell">캐시 사전 워밍(pre-warming)을 한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">답이 장황해 다 받기까지 길다</td><td data-label="답" role="cell">짧게 답하라고 요청하고 <code>max_<wbr>tokens</code> 상한을 건다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">품질 여유가 있고 지연·비용을 줄여야 한다</td><td data-label="답" role="cell">effort 를 낮춘다 (모델 교체보다 먼저)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a> "Tuning effort is often a better lever than switching models." · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">effort 를 낮췄는데 답 길이가 그대로다 (Opus 5)</td><td data-label="답" role="cell">길이는 프롬프트로 줄인다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> "Effort controls thinking volume, not visible response length"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">지연 요구가 엄격하다. 단순 대량 작업이다</td><td data-label="답" role="cell">빠른 모델(Haiku 4.5)로 시작한다. 기능 격차가 있을 때만 올린다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">모델을 바꾸려 한다</td><td data-label="답" role="cell">실제 프롬프트·데이터로 정확도·품질·엣지 케이스를 비교한 뒤에 바꾼다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">품질을 못 내려놓고 출력 속도가 문제다</td><td data-label="답" role="cell">fast mode 를 쓴다 (Opus 5.5 · 5 · 4.8, 비싼 요금)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">배치 작업의 지연을 줄이려 한다</td><td data-label="답" role="cell">fast mode 는 못 쓴다 (동기 지연용)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -606,14 +618,14 @@
   <tbody role="rowgroup">
     <tr role="row"><td data-label="변수" role="cell">불만의 종류</td><td data-label="값" role="cell">첫 글자까지</td><td data-label="답 쪽" role="cell">스트리밍 · 캐싱</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1·2</td></tr>
     <tr role="row"><td data-label="변수" role="cell">불만의 종류</td><td data-label="값" role="cell">다 받기까지</td><td data-label="답 쪽" role="cell">출력 길이 · effort · 모델</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a> · 판단 규칙 5</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">앞부분</td><td data-label="값" role="cell">매번 같고 최소 캐시 길이 이상</td><td data-label="답 쪽" role="cell">캐싱이 TTFT 를 줄임</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a href="caching.html">■ 프롬프트 캐싱</a> <span class="rule-ref">· <a href="caching.html#caching-rule-2">규칙 ②</a></span></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">앞부분</td><td data-label="값" role="cell">짧거나 매번 다름</td><td data-label="답 쪽" role="cell">캐싱 효과 없음 → 다른 lever</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">소비자</td><td data-label="값" role="cell">사람이 화면을 봄</td><td data-label="답 쪽" role="cell">스트리밍이 쓸 만함</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">소비자</td><td data-label="값" role="cell">뒤 단계 코드가 결과 전체를 기다림</td><td data-label="답 쪽" role="cell">스트리밍 체감 이득 없음</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">품질 여유</td><td data-label="값" role="cell">있음 (eval 로 확인)</td><td data-label="답 쪽" role="cell">effort ↓ 또는 작은 모델</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">품질 여유</td><td data-label="값" role="cell">없음</td><td data-label="답 쪽" role="cell">fast mode · 출력 길이 · 캐싱</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Opus 5.5</td><td data-label="답 쪽" role="cell">effort 생략하면 medium 으로 실행됨</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> (시험 뒤 변경 2026-09-22)</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">대화 중 effort 변경</td><td data-label="값" role="cell">캐시에 기대는 대화</td><td data-label="답 쪽" role="cell">요청 수준(top-level) effort 는 대화 중 고정, 바꾸려면 메시지별 effort(베타)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">앞부분</td><td data-label="값" role="cell">매번 같고 최소 캐시 길이 이상이다</td><td data-label="답 쪽" role="cell">캐싱이 TTFT 를 줄인다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a href="caching.html">■ 프롬프트 캐싱</a> <span class="rule-ref">· <a href="caching.html#caching-rule-2">규칙 ②</a></span></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">앞부분</td><td data-label="값" role="cell">짧거나 매번 다르다</td><td data-label="답 쪽" role="cell">캐싱 효과가 없다. 다른 lever 를 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">소비자</td><td data-label="값" role="cell">사람이 화면을 본다</td><td data-label="답 쪽" role="cell">스트리밍이 쓸 만하다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">소비자</td><td data-label="값" role="cell">뒤 단계 코드가 결과 전체를 기다린다</td><td data-label="답 쪽" role="cell">스트리밍의 체감 이득이 없다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">품질 여유</td><td data-label="값" role="cell">있다 (eval 로 확인)</td><td data-label="답 쪽" role="cell">effort 를 낮추거나 작은 모델을 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">품질 여유</td><td data-label="값" role="cell">없다</td><td data-label="답 쪽" role="cell">fast mode · 출력 길이 · 캐싱</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Opus 5.5</td><td data-label="답 쪽" role="cell">effort 를 생략하면 medium 으로 실행된다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> (시험 뒤 변경 2026-09-22)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">대화 중 effort 변경</td><td data-label="값" role="cell">캐시에 기대는 대화다</td><td data-label="답 쪽" role="cell">요청 수준(top-level) effort 는 대화 중 고정한다. 바꾸려면 메시지별 effort(베타)를 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -622,19 +634,19 @@
   <h2 class="sec-h" id="latency-levers-practice-h">연습 문제</h2>
 
   <section class="csx" id="latency-levers-case" aria-labelledby="latency-levers-case-h" data-tree="latency-levers-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n8&quot;,&quot;첫 글자 빠름&quot;],[&quot;n9&quot;,null],[&quot;n10&quot;,&quot;장황&quot;],[&quot;n11&quot;,null]]" data-flow="latency-levers-flow" data-scene="2">
-    <p class="csx-text">상담 요약 기능에서 <mark class="csx-m" data-tag="첫 글자 빠름">첫 글자는 1초 안에 뜨는데<span class="csx-tag">첫 글자 빠름</span></mark> 전체 답이 끝나기까지 20초가 걸린다. 답을 보면 <mark class="csx-m" data-tag="장황">같은 말을 되풀이하며 장황하다<span class="csx-tag">장황</span></mark>. 팀은 스트리밍을 켜자고 한다. 먼저 돌릴 lever 는?</p>
+    <p class="csx-text">상담 요약 기능에서 <mark class="csx-m" data-tag="첫 글자 빠름">첫 글자는 1초 안에 뜨는데<span class="csx-tag">첫 글자 빠름</span></mark> 전체 답이 끝나기까지 20초가 걸린다. 답을 보면 <mark class="csx-m" data-tag="장황">같은 말을 되풀이하며 장황하다<span class="csx-tag">장황</span></mark>. 팀은 스트리밍을 켜자고 한다. 먼저 돌릴 lever 는 무엇인가?</p>
     <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
   </section>
   <h2 class="sec-h" id="latency-levers-exam-h">시험 대비</h2>
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>과제 무시하고 제일 작은 모델로 → 오답 (샘플 2 B)</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"스트리밍을 켜면 전체 처리 시간이 준다" → 체감만 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"effort 낮추면 답이 짧아진다" → thinking 양만 줄어듦, 길이는 프롬프트로</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>캐시 쓰는 대화 중간에 요청 수준(top-level) effort 값을 바꿈 → 캐시 무효화. 워크로드 단위로 바꾸거나 메시지별 effort(베타)</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"모델 교체는 항상 오답" → 아님. 공식 지연 문서는 모델 선택을 첫 방법으로 듦. eval 로 품질을 확인하면 맞는 답</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>fast mode 를 배치에 → 안 됨, 동기 지연용</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>과제를 무시하고 제일 작은 모델로 바꾸는 것은 함정이다. 오답이다 (샘플 2 B)</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"스트리밍을 켜면 전체 처리 시간이 준다" 는 함정이다. 스트리밍은 체감만 줄인다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"effort 를 낮추면 답이 짧아진다" 는 함정이다. thinking 양만 줄어든다. 길이는 프롬프트로 줄인다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>캐시를 쓰는 대화 중간에 요청 수준(top-level) effort 값을 바꾸는 것은 함정이다. 캐시가 무효가 된다. 워크로드 단위로 바꾸거나 메시지별 effort(베타)를 쓴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"모델 교체는 항상 오답이다" 는 함정이다. 공식 지연 문서는 모델 선택을 첫 방법으로 든다. eval 로 품질을 확인하면 맞는 답이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>fast mode 를 배치에 거는 것은 함정이다. 배치에서는 안 된다. fast mode 는 동기 지연용이다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -656,41 +668,41 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 스트리밍이 답이 아닌 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 사람이 보는 화면이 없음. 분류 결과를 다음 단계 코드가 통째로 받아 큐에 넣음.</li>
-<li><span class="lead">판단 :</span> 스트리밍은 "보이는" 반응성을 올리는 것이라 기다리는 쪽이 코드면 얻는 게 없음. 전체 시간을 줄이는 lever(출력 길이 · effort · 모델)로.</li>
-<li><span class="lead">전제 :</span> 부분 결과를 먼저 쓸 수 있는 흐름이 아님.</li>
-<li><span class="lead">등급 :</span> <span class="gen">업계 일반</span> (공식은 "perceived responsiveness"·"users can see the model's output"까지만 말함)</li>
+<li><span class="lead">조건 :</span> 사람이 보는 화면이 없다. 분류 결과를 다음 단계 코드가 통째로 받아 큐에 넣는다.</li>
+<li><span class="lead">판단 :</span> 스트리밍은 "보이는" 반응성을 올리는 것이다. 그래서 기다리는 쪽이 코드면 얻는 게 없다. 전체 시간을 줄이는 lever(출력 길이 · effort · 모델)를 쓴다.</li>
+<li><span class="lead">전제 :</span> 부분 결과를 먼저 쓸 수 있는 흐름이 아니다.</li>
+<li><span class="lead">등급 :</span> <span class="gen">업계 일반</span> (공식은 "perceived responsiveness"·"users can see the model's output"까지만 말한다)</li>
 <li><span class="lead">근거 :</span> reduce-latency</li>
-<li><span class="lead">곁가지 :</span> 긴 출력은 SDK 가 HTTP 타임아웃을 피하려고 스트리밍을 요구함 → 이때 스트리밍은 체감이 아니라 연결 유지용 (streaming · errors, 본편 4.5③).</li>
+<li><span class="lead">곁가지 :</span> 긴 출력은 SDK 가 HTTP 타임아웃을 피하려고 스트리밍을 요구한다. 이때 스트리밍은 체감이 아니라 연결 유지용이다 (streaming · errors, 본편 4.5③).</li>
 </ul>
 <h4>2. 캐싱을 켰는데 첫 글자가 안 빨라지는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 입력이 900 토큰 정도로 짧은 채팅, Haiku 4.5.</li>
-<li><span class="lead">계산 :</span> Haiku 4.5 최소 캐시 길이 4,096 &gt; 900 → 캐시가 아예 안 만들어짐. 그리고 입력이 짧으면 TTFT 에서 입력 처리 몫이 작아 캐싱으로 줄일 것도 적음.</li>
-<li><span class="lead">처방 :</span> 출력 길이 · effort · 스트리밍 쪽.</li>
-<li><span class="lead">등급 :</span> <span class="note">(최소 길이) ·</span> <span class="gen">업계 일반</span><span class="note">(입력이 짧으면 캐싱 이득 작음)</span></li>
+<li><span class="lead">조건 :</span> 입력이 900 토큰 정도로 짧은 채팅이다. 모델은 Haiku 4.5 다.</li>
+<li><span class="lead">계산 :</span> Haiku 4.5 최소 캐시 길이는 4,096 &gt; 900 이다. 그래서 캐시가 아예 안 만들어진다. 그리고 입력이 짧으면 TTFT 에서 입력 처리 몫이 작다. 그래서 캐싱으로 줄일 것도 적다.</li>
+<li><span class="lead">처방 :</span> 출력 길이 · effort · 스트리밍 쪽을 본다.</li>
+<li><span class="lead">등급 :</span> <span class="note">(최소 길이) ·</span> <span class="gen">업계 일반</span><span class="note">(입력이 짧으면 캐싱 이득이 작다)</span></li>
 <li><span class="lead">근거 :</span> <a href="caching.html">■ 프롬프트 캐싱</a> <span class="rule-ref">· <a href="caching.html#caching-rule-2">규칙 ②</a></span> prompt-caching</li>
 </ul>
 <h4>3. fast mode 로 얼마나 줄어드나</h4>
 <ul>
-<li><span class="lead">조건 :</span> 품질 때문에 Opus 를 못 내려놓음. 한 응답 12초 중 입력 처리·대기 2초, 출력 생성 10초라 치자.</li>
-<li><span class="lead">계산 :</span> fast mode 는 출력 속도 최대 2.5배 → 출력 10초 ÷ 2.5 = 4초 → 전체 약 6초 (최대치 기준, 입력 몫 2초는 그대로라고 가정).</li>
-<li><span class="lead">전제 :</span> "최대" 2.5배라 실제는 덜 줄 수 있음 · 요금은 프리미엄 · 리서치 프리뷰 · 배치 불가.</li>
+<li><span class="lead">조건 :</span> 품질 때문에 Opus 를 못 내려놓는다. 한 응답 12초 중 입력 처리·대기가 2초, 출력 생성이 10초라 치자.</li>
+<li><span class="lead">계산 :</span> fast mode 는 출력 속도가 최대 2.5배다. 출력 10초 ÷ 2.5 = 4초다. 그래서 전체는 약 6초다 (최대치 기준, 입력 몫 2초는 그대로라고 가정).</li>
+<li><span class="lead">전제 :</span> "최대" 2.5배라 실제는 덜 줄 수 있다. 요금은 프리미엄이다. 리서치 프리뷰다. 배치에서는 못 쓴다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (2.5배는 확인)</li>
 <li><span class="lead">근거 :</span> choosing-a-model · 릴리스 노트 · batch-processing</li>
 </ul>
 <h4>4. 모델 교체가 맞는 답인 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 지연 요구가 엄격한 대량·단순 작업. effort 를 낮춰도 목표 미달. 실제 데이터 eval 에서 작은 모델이 품질을 지킴.</li>
-<li><span class="lead">판단 :</span> 모델 교체(또는 처음부터 Haiku 4.5)가 정답. "모델 교체 = 오답"으로 외우면 여기서 틀림.</li>
+<li><span class="lead">조건 :</span> 지연 요구가 엄격한 대량·단순 작업이다. effort 를 낮춰도 목표에 못 미친다. 실제 데이터 eval 에서 작은 모델이 품질을 지킨다.</li>
+<li><span class="lead">판단 :</span> 모델 교체(또는 처음부터 Haiku 4.5)가 정답이다. "모델 교체 = 오답"으로 외우면 여기서 틀린다.</li>
 
 <li><span class="lead">근거 :</span> choosing-a-model · reduce-latency</li>
 </ul>
 <h4>5. 모델만 바꿨는데 지연·품질이 같이 달라진 때 (시험 뒤 변경)</h4>
 <ul>
-<li><span class="lead">조건 :</span> effort 를 명시하지 않은 채 Opus 5 → Opus 5.5 로 옮김.</li>
-<li><span class="lead">판단 :</span> Opus 5.5 기본 effort 는 medium(Opus 5 는 high) → 한 단계 낮게 실행됨. 지연·비용이 줄고 품질이 변할 수 있음 → effort 를 명시하고 eval 로 스윕.</li>
-<li><span class="lead">등급 :</span> <span class="post">시험 뒤 변경</span>(2026-09-22). 시험은 "대부분 모델 기본 high"로 물을 가능성(추론).</li>
+<li><span class="lead">조건 :</span> effort 를 명시하지 않은 채 Opus 5 에서 Opus 5.5 로 옮긴다.</li>
+<li><span class="lead">판단 :</span> Opus 5.5 기본 effort 는 medium 이다(Opus 5 는 high). 그래서 한 단계 낮게 실행된다. 지연·비용이 줄고 품질이 변할 수 있다. 그러니 effort 를 명시하고 eval 로 스윕한다.</li>
+<li><span class="lead">등급 :</span> <span class="post">시험 뒤 변경</span>(2026-09-22). 시험은 "대부분 모델 기본 high"로 물을 가능성이 있다(추론).</li>
 <li><span class="lead">근거 :</span> effort · 릴리스 노트</li>
 </ul>
 </section>
@@ -700,20 +712,22 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"과제와 상관없이 가장 작은 모델로"</td><td data-label="왜 끌리나" role="cell">작은 모델이 빠르고 쌈</td><td data-label="왜 틀리나" role="cell">품질 위험. 과제 적합도를 eval 로 봐야</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설 "downsizing blindly (B) risks quality"</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"정책 문서를 잘라 입력을 줄인다"</td><td data-label="왜 끌리나" role="cell">토큰이 줄면 빨라짐(공식)</td><td data-label="왜 틀리나" role="cell">필요한 내용을 잃음. 반복 앞부분은 캐싱</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설 "Truncation (A) loses needed policy"</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"스트리밍을 켜면 전체 처리 시간이 준다"</td><td data-label="왜 끌리나" role="cell">빨리 뜨니 빨라진 것 같음</td><td data-label="왜 틀리나" role="cell">체감만. 생성 토큰 수는 같음</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a> ("perceived")</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"effort 를 낮추면 답이 짧아진다"</td><td data-label="왜 끌리나" role="cell">적게 쓰라는 설정 같음</td><td data-label="왜 틀리나" role="cell">thinking 양만 줄어듦(Opus 5). 길이는 프롬프트로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"모델 교체는 항상 오답"</td><td data-label="왜 끌리나" role="cell">effort 먼저라는 말을 과하게 외움</td><td data-label="왜 틀리나" role="cell">공식 지연 문서의 첫 방법이 모델 선택. eval 로 확인하면 맞는 답</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a> · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"캐싱은 비용만 줄이고 지연엔 무관"</td><td data-label="왜 끌리나" role="cell">할인 얘기만 들음</td><td data-label="왜 틀리나" role="cell">TTFT 도 줄임</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설 · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"지연 줄이려고 대화 도중 effort 를 요청마다 바꾼다"</td><td data-label="왜 끌리나" role="cell">요청마다 최적값</td><td data-label="왜 틀리나" role="cell">요청 수준 effort 변경은 캐시를 무효화 → 오히려 느려질 수 있음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"fast mode 를 배치에 걸어 배치를 빠르게"</td><td data-label="왜 끌리나" role="cell">빠른 모드니까</td><td data-label="왜 틀리나" role="cell">배치에선 <code>speed</code> 미지원</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"과제와 상관없이 가장 작은 모델로"</td><td data-label="왜 끌리나" role="cell">작은 모델이 빠르고 싸다</td><td data-label="왜 틀리나" role="cell">품질이 위험하다. 과제 적합도를 eval 로 봐야 한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설 "downsizing blindly (B) risks quality"</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"정책 문서를 잘라 입력을 줄인다"</td><td data-label="왜 끌리나" role="cell">토큰이 줄면 빨라진다(공식)</td><td data-label="왜 틀리나" role="cell">필요한 내용을 잃는다. 반복 앞부분은 캐싱한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설 "Truncation (A) loses needed policy"</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"스트리밍을 켜면 전체 처리 시간이 준다"</td><td data-label="왜 끌리나" role="cell">빨리 뜨니 빨라진 것 같다</td><td data-label="왜 틀리나" role="cell">체감만 준다. 생성 토큰 수는 같다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a> ("perceived")</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"effort 를 낮추면 답이 짧아진다"</td><td data-label="왜 끌리나" role="cell">적게 쓰라는 설정 같다</td><td data-label="왜 틀리나" role="cell">thinking 양만 줄어든다(Opus 5). 길이는 프롬프트로 줄인다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모델 교체는 항상 오답"</td><td data-label="왜 끌리나" role="cell">effort 먼저라는 말을 과하게 외웠다</td><td data-label="왜 틀리나" role="cell">공식 지연 문서의 첫 방법이 모델 선택이다. eval 로 확인하면 맞는 답이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a> · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"캐싱은 비용만 줄이고 지연엔 무관"</td><td data-label="왜 끌리나" role="cell">할인 얘기만 들었다</td><td data-label="왜 틀리나" role="cell">TTFT 도 줄인다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설 · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"지연 줄이려고 대화 도중 effort 를 요청마다 바꾼다"</td><td data-label="왜 끌리나" role="cell">요청마다 최적값을 쓰고 싶다</td><td data-label="왜 틀리나" role="cell">요청 수준 effort 를 바꾸면 캐시가 무효가 된다. 그래서 오히려 느려질 수 있다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"fast mode 를 배치에 걸어 배치를 빠르게"</td><td data-label="왜 끌리나" role="cell">빠른 모드니까</td><td data-label="왜 틀리나" role="cell">배치에서는 <code>speed</code> 를 지원하지 않는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" lang="en" rel="noopener">batch-processing</a></td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="latency-levers-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
@@ -736,12 +750,13 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>lever 순서표(카드 ⑥)는 공식 한 문서에 없음 — 지연 문서(모델 · 길이 · 스트리밍), 캐싱 문서, effort 문서를 합쳐 만든 순서라 업계 일반.</li>
-<li>fast mode 가 TTFT 도 줄이는지 : 받은 원문은 "출력 속도(output speed)"만 말함 (choosing-a-model). fast-mode 문서는 받지 않았음.</li>
-<li><code>temperature</code> 를 낮추면 "때때로" 더 짧은 답 (reduce-latency) — 지연 lever 로 물을지 불확실, 카드엔 안 넣음.</li>
-<li>공식 지연 문서(reduce-latency)는 캐싱·effort 를 지연 방법으로 들지 않음. 캐싱의 지연 효과는 샘플 2 해설·캐싱 문서, effort 는 effort·모델 선택 문서가 근거.</li>
+<li>lever 순서표(카드 ⑥)는 공식 한 문서에 없다. 지연 문서(모델 · 길이 · 스트리밍), 캐싱 문서, effort 문서를 합쳐 만든 순서라 업계 일반이다.</li>
+<li>fast mode 가 TTFT 도 줄이는지 : 받은 원문은 "출력 속도(output speed)"만 말한다 (choosing-a-model). fast-mode 문서는 받지 않았다.</li>
+<li><code>temperature</code> 를 낮추면 "때때로" 더 짧은 답이 나온다 (reduce-latency). 지연 lever 로 물을지 불확실해서 카드에는 넣지 않았다.</li>
+<li>공식 지연 문서(reduce-latency)는 캐싱·effort 를 지연 방법으로 들지 않는다. 캐싱의 지연 효과는 샘플 2 해설과 캐싱 문서가 근거다. effort 는 effort 문서와 모델 선택 문서가 근거다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

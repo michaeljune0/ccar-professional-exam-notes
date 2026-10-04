@@ -368,10 +368,23 @@
   </div>
   <h2 class="sec-h" id="handoff-package-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>handoff(인계)가 넘기는 건 시스템이 아니라 운영 능력 — 증상별 런북 · 런북에 묶인 알림 · 지정된 담당자 · 버전 목록 · 되돌리기(rollback) 절차. "끝" 판정은 보낸 쪽이 아니라 받는 팀이 복구 연습으로 함 <span class="gen">업계 일반</span> <span class="note">패키지 목록·완료 판정은 Anthropic 문서 없음</span></p>
-      <p>공식에서 가장 가까운 것 : eval 셋은 명확한 소유권이 있어야 쓸모 · 도메인 전문가·제품팀이 eval 을 직접 돌림 · 에이전트 시스템 = 프롬프트·도구·실행 로직이 얽힌 stateful(상태를 가진) 시스템 · 모델 ID = 고정 버전 <span class="src">(좁은 문맥 — handoff 패키지로 넓힌 건 해석)</span></p>
-      <p>짓는 팀에게 주는 문서(인터페이스·도구 계약)는 <a href="implementation-guide.html">■ 구현 가이드</a>, "왜" 는 <a href="adr-package.html">■ ADR·아키텍처 패키지</a>, handoff 뒤 아키텍트가 계속 할 일은 <a href="lifecycle-loop.html">■ lifecycle 루프</a>. 여기는 운영 팀에게 넘기는 묶음과 "넘김 완료" 판정</p>
-    <p class="t5-ana"><span class="lead">비유</span> 운영 이관 체크리스트 — 알람마다 런북 링크 · 온콜 로테이션 · 배포 버전 표 · 롤백 버튼 · 게임데이(일부러 장애 내 보기) 통과. "위키에 다 올렸어요" 가 속이는 습관</p>
+      <p>handoff(인계)가 넘기는 것은 시스템이 아니라 운영 능력이다. 운영 능력은 아래 다섯 가지다.</p>
+      <ul class="dash">
+        <li>증상별 런북</li>
+        <li>런북에 묶인 알림</li>
+        <li>지정된 담당자</li>
+        <li>버전 목록</li>
+        <li>되돌리기(rollback) 절차</li>
+      </ul>
+      <p>"끝" 판정은 보낸 쪽이 아니라 받는 팀이 복구 연습으로 한다 <span class="gen">업계 일반</span> <span class="note">패키지 목록·완료 판정은 Anthropic 문서 없음</span></p>
+      <p>공식 문서에서 가장 가까운 것은 아래다 <span class="note">(좁은 문맥이다. handoff 패키지로 넓힌 것은 해석이다)</span></p>
+      <ul class="dash">
+        <li>eval 셋은 명확한 소유권이 있어야 쓸모가 있다. 도메인 전문가·제품팀이 eval 을 직접 돌린다</li>
+        <li>에이전트 시스템은 프롬프트·도구·실행 로직이 얽힌 stateful(상태를 가진) 시스템이다</li>
+        <li>모델 ID 는 고정 버전이다</li>
+      </ul>
+      <p>짓는 팀에게 주는 문서(인터페이스·도구 계약)는 <a href="implementation-guide.html">■ 구현 가이드</a> 에 있다. "왜" 는 <a href="adr-package.html">■ ADR·아키텍처 패키지</a> 에 있다. handoff 뒤 아키텍트가 계속 할 일은 <a href="lifecycle-loop.html">■ lifecycle 루프</a> 에 있다. 여기는 운영 팀에게 넘기는 묶음과 "넘김 완료" 판정을 다룬다</p>
+    <p class="t5-ana"><span class="lead">비유</span> 운영 이관 체크리스트와 같다. 알람마다 런북 링크 · 온콜 로테이션 · 배포 버전 표 · 롤백 버튼이 있고, 게임데이(일부러 장애 내 보기)를 통과한다. "위키에 다 올렸어요" 가 속이는 습관이다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/handoff-package.webp"><img src="../images/handoff-package.webp" alt="handoff 는 코드·자격증명·데모 영상이 아니라 증상별 런북·알림·소유자·버전 목록·되돌리기 절차라는 운영 능력을 넘기고, 끝 판정은 받는 팀이 복구 연습으로 한다." loading="lazy" decoding="async"></a>
@@ -401,26 +414,36 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">넘기는 것 = 운영 능력 (업계 일반)</p>
 <ul>
-<li>시스템(코드·자격증명)은 돌아가게 하는 재료일 뿐. 받는 팀이 새벽에 혼자 알아차리고 · 확인하고 · 고치고 · 되돌릴 수 있어야 넘긴 것.</li>
-<li>그래서 묶음 = 증상별 런북 · 런북에 묶인 알림 · 지정된 담당자 · 결정 근거 · eval 셋 · 버전 목록 · 되돌리기 절차 · on-call.</li>
-<li>공식 근거 : eval 셋은 살아 있는 산출물이라 명확한 소유권이 있어야 쓸모. 도메인 전문가·제품팀이 과제를 기여하고 직접 돌림 (demystifying-evals).</li>
+<li>시스템(코드·자격증명)은 돌아가게 하는 재료일 뿐이다. 받는 팀이 새벽에 혼자 알아차리고, 확인하고, 고치고, 되돌릴 수 있어야 넘긴 것이다.</li>
+<li>그래서 묶음에는 아래가 든다.<ul>
+<li>증상별 런북</li>
+<li>런북에 묶인 알림</li>
+<li>지정된 담당자</li>
+<li>결정 근거</li>
+<li>eval 셋</li>
+<li>버전 목록</li>
+<li>되돌리기 절차</li>
+<li>on-call</li>
+</ul>
+</li>
+<li>공식 근거 : eval 셋은 살아 있는 산출물이라 명확한 소유권이 있어야 쓸모가 있다. 도메인 전문가·제품팀이 과제를 기여하고 직접 돌린다 (demystifying-evals).</li>
 </ul>
 <p class="lead">왜 증상별인가 (업계 일반)</p>
 <ul>
-<li>새벽 on-call 은 "주문 API 가 고장" 이 아니라 "고객에게 환불액 0원이 안내됨" 을 먼저 봄. 부품 이름은 원인을 찾은 뒤에야 알게 됨.</li>
-<li>부품마다 장을 붙인 설명서는 "어느 장을 펼치지?" 에서 시간을 씀.</li>
+<li>새벽 on-call 은 "주문 API 가 고장" 이 아니라 "고객에게 환불액 0원이 안내됨" 을 먼저 본다. 부품 이름은 원인을 찾은 뒤에야 알게 된다.</li>
+<li>부품마다 장을 붙인 설명서는 "어느 장을 펼치지?" 에서 시간을 쓴다.</li>
 </ul>
 <p class="lead">왜 받는 팀이 판정하나 (업계 일반)</p>
 <ul>
-<li>보낸 쪽이 "다 적었다" 고 느끼는 것과, 받는 쪽이 혼자 해내는 것은 다름.</li>
-<li>공식 근거 : 같은 명세를 읽은 엔지니어 둘이 엣지 케이스를 다르게 읽음 (demystifying-evals) → 문서만으론 기대가 안 전해짐. 명세 문맥이라 handoff 로 넓힌 건 해석.</li>
-<li>넘긴 뒤 같은 장애로 아키텍트가 또 불리면, 그게 지식이 안 넘어갔다는 신호.</li>
+<li>보낸 쪽이 "다 적었다" 고 느끼는 것과, 받는 쪽이 혼자 해내는 것은 다르다.</li>
+<li>공식 근거 : 같은 명세를 읽은 엔지니어 둘이 엣지 케이스를 다르게 읽는다 (demystifying-evals). 그래서 문서만으로는 기대가 안 전해진다. 명세 문맥이라 handoff 로 넓힌 것은 해석이다.</li>
+<li>넘긴 뒤 같은 장애로 아키텍트가 또 불리면, 그것이 지식이 안 넘어갔다는 신호다.</li>
 </ul>
 <p class="lead">왜 버전 목록인가</p>
 <ul>
-<li>에이전트 시스템 = 프롬프트·도구·실행 로직이 얽힌 stateful(상태를 가진) 시스템 (multi-agent-research-system) → 모델만 적으면 무엇이 돌고 있는지 모름.</li>
-<li>모델 ID 는 고정 버전 — 같은 ID 면 가중치·구성이 안 바뀜. 단 이 보장은 ID 에만, 4.6 이전 일부 모델의 alias 는 아님 (model-ids-and-versions).</li>
-<li>기록과 실제가 어긋났으면 모델 사용 감사(Console Usage → Export → API 키·모델별 CSV)로 아직 옛 모델을 쓰는 곳부터 찾음 (model-deprecations).</li>
+<li>에이전트 시스템은 프롬프트·도구·실행 로직이 얽힌 stateful(상태를 가진) 시스템이다 (multi-agent-research-system). 그래서 모델만 적으면 무엇이 돌고 있는지 모른다.</li>
+<li>모델 ID 는 고정 버전이다. 같은 ID 면 가중치·구성이 안 바뀐다. 단 이 보장은 ID 에만 있고, 4.6 이전 일부 모델의 alias 에는 없다 (model-ids-and-versions).</li>
+<li>기록과 실제가 어긋났으면 모델 사용 감사로 아직 옛 모델을 쓰는 곳부터 찾는다 (model-deprecations). Console Usage 에서 Export 하면 API 키·모델별 CSV 가 나온다.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
@@ -441,7 +464,7 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>코드 · 자격증명 · 데모 영상만</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">미완</p><p>시스템이 아니라 운영 능력을 넘김 — 증상별 런북 · 알림 · 지정된 담당자 · 버전 목록 · 되돌리기 <span class="gen">업계 일반</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">미완이다</p><p>시스템이 아니라 운영 능력을 넘긴다. 증상별 런북 · 알림 · 지정된 담당자 · 버전 목록 · 되돌리기를 넘긴다 <span class="gen">업계 일반</span></p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>런북 · 담당자 · 버전 목록까지</span>
@@ -449,15 +472,15 @@
           <div class="t5-fork" style="--n:3">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>물려받는 엔지니어</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">런북 · 흐름 그림</p><p>증상별 런북 · 흐름 그림 — 새벽 on-call 은 어느 부품이 문제인지 모른 채 증상에서 시작 <span class="gen">업계 일반</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">런북 · 흐름 그림</p><p>증상별 런북과 흐름 그림을 준다. 새벽 on-call 은 어느 부품이 문제인지 모른 채 증상에서 시작한다 <span class="gen">업계 일반</span></p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>감사관</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">통제 + 담당자 + 증거</p><p>의무마다 통제 · 담당자 · 지금 보여 줄 수 있는 증거. 보여 줄 수 없는 통제는 없는 통제 <span class="gen">업계 일반</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">통제 + 담당자 + 증거</p><p>의무마다 통제 · 담당자 · 지금 보여 줄 수 있는 증거를 준다. 보여 줄 수 없는 통제는 없는 통제다 <span class="gen">업계 일반</span></p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>나중에 돌아온 설계자</span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">ADR</p><p>"왜" 는 → <a href="adr-package.html">■ ADR·아키텍처 패키지</a></p></div>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">ADR</p><p>"왜" 는 <a href="adr-package.html">■ ADR·아키텍처 패키지</a> 에 있다</p></div>
             </div>
           </div>
         </div>
@@ -471,15 +494,15 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>부품별 <span class="note">(주문 API 장 · 프롬프트 장)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">증상별로 다시</p><p>새벽 on-call 은 어느 부품이 문제인지 모른 채 증상에서 시작 <span class="gen">업계 일반</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">증상별로 다시 쓴다</p><p>새벽 on-call 은 어느 부품이 문제인지 모른 채 증상에서 시작한다 <span class="gen">업계 일반</span></p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>증상별</span>
           <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>알림과 묶였나?</div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(공용 채널에만 뜸)</span></span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">알림에 런북·담당자</p><p>알림마다 런북 링크와 지정된 담당자 <span class="gen">업계 일반</span> → <a href="feedback-loop-governance.html">■ feedback loop 책임 표</a></p></div>
+              <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(공용 채널에만 뜬다)</span></span>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">알림에 런북·담당자를 붙인다</p><p>알림마다 런북 링크와 지정된 담당자를 붙인다 <span class="gen">업계 일반</span>. 자세한 것은 <a href="feedback-loop-governance.html">■ feedback loop 책임 표</a> 에 있다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>예</span>
@@ -496,8 +519,8 @@
       <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>기록과 실제가 같나?<span class="t5-sub">모델 ID · 프롬프트 버전 · 도구</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(기록 없는 수정이 쌓임)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">목록부터</p><p>실제 돌고 있는 것을 먼저 목록·버전화 — 런북·브리핑·되돌릴 버전 결정은 그 뒤 <span class="gen">업계 일반</span> · 모델 사용 감사 = API 키·모델별 CSV <span class="src">(모델 폐기 문맥 — 인벤토리로 넓힌 건 해석)</span></p></div>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(기록 없는 수정이 쌓였다)</span></span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">목록부터 만든다</p><p>실제 돌고 있는 것을 먼저 목록·버전화한다. 런북·브리핑·되돌릴 버전 결정은 그 뒤다 <span class="gen">업계 일반</span>. 모델 사용 감사는 API 키·모델별 CSV 로 한다 <span class="src">(모델 폐기 문맥이다. 인벤토리로 넓힌 것은 해석이다)</span></p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>예</span>
@@ -505,15 +528,15 @@
           <div class="t5-fork" style="--n:3">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>문서 발송 · 아키텍트 사인오프</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">아직</p><p>완료 판정은 받는 팀이 — 워크스루 · 런북 따라 하기 · 일부러 심은 장애를 혼자 복구 <span class="gen">업계 일반</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">아직이다</p><p>완료 판정은 받는 팀이 한다. 워크스루 · 런북 따라 하기 · 일부러 심은 장애를 혼자 복구하기로 판정한다 <span class="gen">업계 일반</span></p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>받는 팀이 복구 연습 통과</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">완료</p><p>아키텍트 없이 복구 <span class="gen">업계 일반</span> · 받는 팀이 eval 을 스스로 돌릴 수 있어야 넘김 <span class="note">(해석)</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">완료다</p><p>아키텍트 없이 복구한다 <span class="gen">업계 일반</span>. 받는 팀이 eval 을 스스로 돌릴 수 있어야 넘긴 것이다 <span class="note">(해석)</span></p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>넘긴 뒤 같은 장애로 아키텍트 호출</span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">런북에 넣음</p><p>지식 이전 실패 → 그 경로를 런북에 넣고 다음엔 팀이 직접 <span class="gen">업계 일반</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">런북에 넣는다</p><p>지식 이전 실패다. 그 경로를 런북에 넣고 다음에는 팀이 직접 한다 <span class="gen">업계 일반</span></p></div>
             </div>
           </div>
         </div>
@@ -522,7 +545,7 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="handoff-package-flow" aria-label="handoff 패키지 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["아키텍트","handoff 패키지","복구 연습","on-call"],"blocks":[],"rules":[null,null,"일부러 심은 장애를 on-call 이 혼자 복구",null],"question":"이 묶음으로 새벽 장애를 혼자 풀 수 있을까?","scenes":[{"name":"① 증상별 런북 + 복구 연습","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["모델 ID","프롬프트 v7","도구 4개"]}},{"kind":"move","step":"묶음","from":{"col":0},"to":1,"label":"증상별 런북 + 버전 목록","art":{"kind":"slip","lines":["R-2 환불액 0원","확인: 주문 API","되돌림: v6"]}},{"kind":"move","step":"연습","from":{"col":1},"to":2,"label":"일부러 심은 장애","art":{"kind":"slip","lines":["심은 장애:","주문 API 끊김"]}},{"kind":"move","step":"복구","from":{"col":2},"to":3,"label":"혼자 복구","art":{"kind":"slip","lines":["R-2 대로","18분 복구","아키텍트 0회"]}},{"kind":"end","label":"완료 판정은 받는 팀이 — 아키텍트 없이 복구"}]},{"name":"② 문서 발송으로 끝","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["코드 · 자격증명","데모 영상"]}},{"kind":"move","step":"묶음","from":{"col":0},"to":1,"label":"부품마다 트러블슈팅 장","art":{"kind":"slip","lines":["1장 주문 API","2장 프롬프트","3장 검색"]}},{"kind":"skip","at":2},{"kind":"move","step":"장애","from":{"col":1},"to":3,"label":"증상에서 시작 ≠","art":{"kind":"slip","lines":["03:10","\"환불액 0원\"","몇 장을 보지?"]}},{"kind":"move","step":"호출","from":{"col":3},"to":0,"label":"같은 장애로 또 호출","art":{"kind":"say","text":"또 전화드려요."}},{"kind":"end","label":"같은 장애로 아키텍트가 또 호출되면 지식 이전 실패"}]},{"name":"③ 기록과 실제가 다름 → 목록부터","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["문서: v3","실제: 기록 없는","수정 11번"]}},{"kind":"move","step":"목록","from":{"col":0},"to":1,"label":"실제 돌고 있는 것부터","art":{"kind":"slip","lines":["Usage → Export","키·모델별 CSV","옛 모델 1곳"]}},{"kind":"mark","step":"버전화","at":{"col":1},"label":"버전 목록부터","art":{"kind":"slip","lines":["프롬프트 v14","= 지금 운영판"]}},{"kind":"end","label":"실제 돌고 있는 것을 먼저 목록·버전화 — 런북은 그 뒤"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["아키텍트","handoff 패키지","복구 연습","on-call"],"blocks":[],"rules":[null,null,"일부러 심은 장애를 on-call 이 혼자 복구",null],"question":"이 묶음으로 새벽 장애를 혼자 풀 수 있을까?","scenes":[{"name":"① 증상별 런북 + 복구 연습","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["모델 ID","프롬프트 v7","도구 4개"]}},{"kind":"move","step":"묶음","from":{"col":0},"to":1,"label":"증상별 런북과 버전 목록을 묶는다","art":{"kind":"slip","lines":["R-2 환불액 0원","확인: 주문 API","되돌림: v6"]}},{"kind":"move","step":"연습","from":{"col":1},"to":2,"label":"일부러 장애를 심는다","art":{"kind":"slip","lines":["심은 장애:","주문 API 끊김"]}},{"kind":"move","step":"복구","from":{"col":2},"to":3,"label":"혼자 복구한다","art":{"kind":"slip","lines":["R-2 대로","18분 복구","아키텍트 0회"]}},{"kind":"end","label":"완료 판정은 받는 팀이 한다. 아키텍트 없이 복구했다"}]},{"name":"② 문서 발송으로 끝","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["코드 · 자격증명","데모 영상"]}},{"kind":"move","step":"묶음","from":{"col":0},"to":1,"label":"부품마다 트러블슈팅 장을 붙인다","art":{"kind":"slip","lines":["1장 주문 API","2장 프롬프트","3장 검색"]}},{"kind":"skip","at":2},{"kind":"move","step":"장애","from":{"col":1},"to":3,"label":"증상에서 시작한다 ≠","art":{"kind":"slip","lines":["03:10","\"환불액 0원\"","몇 장을 보지?"]}},{"kind":"move","step":"호출","from":{"col":3},"to":0,"label":"같은 장애로 또 부른다","art":{"kind":"say","text":"또 전화드려요."}},{"kind":"end","label":"같은 장애로 아키텍트가 또 호출되면 지식 이전 실패다"}]},{"name":"③ 기록과 실제가 다르면 목록부터","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["문서: v3","실제: 기록 없는","수정 11번"]}},{"kind":"move","step":"목록","from":{"col":0},"to":1,"label":"실제 돌고 있는 것부터 적는다","art":{"kind":"slip","lines":["Usage → Export","키·모델별 CSV","옛 모델 1곳"]}},{"kind":"mark","step":"버전화","at":{"col":1},"label":"버전 목록부터 만든다","art":{"kind":"slip","lines":["프롬프트 v14","= 지금 운영판"]}},{"kind":"end","label":"실제 돌고 있는 것을 먼저 목록·버전화한다. 런북은 그 뒤다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -532,26 +555,26 @@
       <p class="lead">① 증상별 런북 + 복구 연습 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 아키텍트 — 쪽지 : <span class="flx-alt-slip">모델 ID / 프롬프트 v7 / 도구 4개</span></li>
-        <li>묶음 : 아키텍트 → handoff 패키지 : 증상별 런북 + 버전 목록 — 쪽지 : <span class="flx-alt-slip">R-2 환불액 0원 / 확인: 주문 API / 되돌림: v6</span></li>
-        <li>연습 : handoff 패키지 → 복구 연습 : 일부러 심은 장애 — 쪽지 : <span class="flx-alt-slip">심은 장애: / 주문 API 끊김</span></li>
-        <li>복구 : 복구 연습 → on-call : 혼자 복구 — 쪽지 : <span class="flx-alt-slip">R-2 대로 / 18분 복구 / 아키텍트 0회</span></li>
-        <li>끝 : 완료 판정은 받는 팀이 — 아키텍트 없이 복구</li>
+        <li>묶음 : 아키텍트 → handoff 패키지 : 증상별 런북과 버전 목록을 묶는다 — 쪽지 : <span class="flx-alt-slip">R-2 환불액 0원 / 확인: 주문 API / 되돌림: v6</span></li>
+        <li>연습 : handoff 패키지 → 복구 연습 : 일부러 장애를 심는다 — 쪽지 : <span class="flx-alt-slip">심은 장애: / 주문 API 끊김</span></li>
+        <li>복구 : 복구 연습 → on-call : 혼자 복구한다 — 쪽지 : <span class="flx-alt-slip">R-2 대로 / 18분 복구 / 아키텍트 0회</span></li>
+        <li>끝 : 완료 판정은 받는 팀이 한다. 아키텍트 없이 복구했다</li>
       </ol>
       <p class="lead">② 문서 발송으로 끝 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 아키텍트 — 쪽지 : <span class="flx-alt-slip">코드 · 자격증명 / 데모 영상</span></li>
-        <li>묶음 : 아키텍트 → handoff 패키지 : 부품마다 트러블슈팅 장 — 쪽지 : <span class="flx-alt-slip">1장 주문 API / 2장 프롬프트 / 3장 검색</span></li>
+        <li>묶음 : 아키텍트 → handoff 패키지 : 부품마다 트러블슈팅 장을 붙인다 — 쪽지 : <span class="flx-alt-slip">1장 주문 API / 2장 프롬프트 / 3장 검색</span></li>
         <li>건너뜀 : 복구 연습</li>
-        <li>장애 : handoff 패키지 → on-call : 증상에서 시작 ≠ — 쪽지 : <span class="flx-alt-slip">03:10 / "환불액 0원" / 몇 장을 보지?</span></li>
-        <li>호출 : on-call → 아키텍트 : 같은 장애로 또 호출 — 말 : <span class="flx-alt-say">“또 전화드려요.”</span></li>
-        <li>끝 : 같은 장애로 아키텍트가 또 호출되면 지식 이전 실패</li>
+        <li>장애 : handoff 패키지 → on-call : 증상에서 시작한다 ≠ — 쪽지 : <span class="flx-alt-slip">03:10 / "환불액 0원" / 몇 장을 보지?</span></li>
+        <li>호출 : on-call → 아키텍트 : 같은 장애로 또 부른다 — 말 : <span class="flx-alt-say">“또 전화드려요.”</span></li>
+        <li>끝 : 같은 장애로 아키텍트가 또 호출되면 지식 이전 실패다</li>
       </ol>
-      <p class="lead">③ 기록과 실제가 다름 → 목록부터 <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">③ 기록과 실제가 다르면 목록부터 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 아키텍트 — 쪽지 : <span class="flx-alt-slip">문서: v3 / 실제: 기록 없는 / 수정 11번</span></li>
-        <li>목록 : 아키텍트 → handoff 패키지 : 실제 돌고 있는 것부터 — 쪽지 : <span class="flx-alt-slip">Usage → Export / 키·모델별 CSV / 옛 모델 1곳</span></li>
-        <li>버전화 : handoff 패키지 : 버전 목록부터 — 쪽지 : <span class="flx-alt-slip">프롬프트 v14 / = 지금 운영판</span></li>
-        <li>끝 : 실제 돌고 있는 것을 먼저 목록·버전화 — 런북은 그 뒤</li>
+        <li>목록 : 아키텍트 → handoff 패키지 : 실제 돌고 있는 것부터 적는다 — 쪽지 : <span class="flx-alt-slip">Usage → Export / 키·모델별 CSV / 옛 모델 1곳</span></li>
+        <li>버전화 : handoff 패키지 : 버전 목록부터 만든다 — 쪽지 : <span class="flx-alt-slip">프롬프트 v14 / = 지금 운영판</span></li>
+        <li>끝 : 실제 돌고 있는 것을 먼저 목록·버전화한다. 런북은 그 뒤다</li>
       </ol>
     </details>
   </figure>
@@ -561,44 +584,72 @@
       <ol class="how">
         <li id="handoff-package-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p>넘기는 것 = 운영 능력 : 증상별 런북 · 런북에 묶인 알림 · 지정된 담당자 · 결정 근거 · eval 셋 · 버전 목록 · 되돌리기 절차 · on-call <span class="gen">업계 일반</span> <span class="note">목록은 공식 문서 없음</span> <span class="pg">[6.4]</span></p>
-            <p>코드 + 자격증명 · 데모 영상 + 슬라이드 · 빌드 채팅 로그 · 담당자 없는 런북 초안만으로는 미완 <span class="gen">업계 일반</span></p>
-            <p>팀이 여럿이면 서비스 전체를 책임지는 담당자 한 명 + 같이 보는 지표 + 심각도·에스컬레이션 규칙. 부품별 소유권만으로는 장애가 길어짐 <span class="gen">업계 일반</span></p>
-            <p><span class="lead">eval 셋 :</span> 살아 있는 산출물 · 명확한 소유권이 있어야 쓸모 · 전담 팀이 인프라, 도메인 전문가·제품팀이 과제를 기여하고 직접 돌림 → 누가 맡나는 <a href="lifecycle-loop.html">■ lifecycle 루프</a> <span class="rule-ref">· <a href="lifecycle-loop.html#lifecycle-loop-rule-4">규칙 ④</a></span></p>
-            <p><span class="lead">버전 목록 :</span> 에이전트 시스템 = 프롬프트·도구·실행 로직이 얽힌 stateful 시스템 → 모델만이 아니라 프롬프트 버전 · 도구 정의 · 데이터·정책 버전도 적음 <span class="note">(넓힌 건 해석)</span></p>
-            <p><span class="lead">모델은 ID 로 :</span> 모델 ID = 고정 버전, 같은 ID 면 가중치·구성이 안 바뀜 · 이 보장은 ID 에만, 4.6 이전 일부 모델의 alias 는 아님 · ID 마다 지원 중단·종료 일정 → <a href="lifecycle-loop.html">■ lifecycle 루프</a> <span class="rule-ref">· <a href="lifecycle-loop.html#lifecycle-loop-rule-5">규칙 ⑤</a></span></p>
-            <p><span class="lead">되돌리기 :</span> 정상이 확인된 버전(프롬프트·모델 ID)으로 돌아가는 절차와 누가 실행하나 <span class="gen">업계 일반</span> · 구버전·신버전을 함께 돌리며 트래픽을 조금씩 옮기는 배포 → <a href="agent-resilience.html">■ 에이전트 상태·실패·배포</a></p>
+            <p>넘기는 것 = 운영 능력 : 아래를 넘긴다 <span class="gen">업계 일반</span> <span class="note">목록은 공식 문서 없음</span> <span class="pg">[6.4]</span></p>
+            <ul class="dash">
+              <li>증상별 런북</li>
+              <li>런북에 묶인 알림</li>
+              <li>지정된 담당자</li>
+              <li>결정 근거</li>
+              <li>eval 셋</li>
+              <li>버전 목록</li>
+              <li>되돌리기 절차</li>
+              <li>on-call</li>
+            </ul>
+            <p>코드 + 자격증명 · 데모 영상 + 슬라이드 · 빌드 채팅 로그 · 담당자 없는 런북 초안만으로는 미완이다 <span class="gen">업계 일반</span></p>
+            <p>팀이 여럿이면 서비스 전체를 책임지는 담당자 한 명, 같이 보는 지표, 심각도·에스컬레이션 규칙을 둔다. 부품별 소유권만으로는 장애가 길어진다 <span class="gen">업계 일반</span></p>
+            <p><span class="lead">eval 셋 :</span> 살아 있는 산출물이다. 명확한 소유권이 있어야 쓸모가 있다. 전담 팀이 인프라를 맡고, 도메인 전문가·제품팀이 과제를 기여하고 직접 돌린다</p>
+            <p>누가 맡나는 <a href="lifecycle-loop.html">■ lifecycle 루프</a> <span class="rule-ref">· <a href="lifecycle-loop.html#lifecycle-loop-rule-4">규칙 ④</a></span> 에 있다</p>
+            <p><span class="lead">버전 목록 :</span> 에이전트 시스템은 프롬프트·도구·실행 로직이 얽힌 stateful 시스템이다</p>
+            <p>그래서 모델만이 아니라 프롬프트 버전 · 도구 정의 · 데이터·정책 버전도 적는다 <span class="note">(넓힌 것은 해석이다)</span></p>
+            <p>모델은 ID 로 적는다. 모델 ID 는 고정 버전이라 같은 ID 면 가중치·구성이 안 바뀐다. 이 보장은 ID 에만 있고, 4.6 이전 일부 모델의 alias 에는 없다</p>
+            <p>ID 마다 지원 중단·종료 일정이 있다. 자세한 것은 <a href="lifecycle-loop.html">■ lifecycle 루프</a> <span class="rule-ref">· <a href="lifecycle-loop.html#lifecycle-loop-rule-5">규칙 ⑤</a></span> 에 있다</p>
+            <p><span class="lead">되돌리기 :</span> 정상이 확인된 버전(프롬프트·모델 ID)으로 돌아가는 절차와 누가 실행하는지 적는다 <span class="gen">업계 일반</span>. 구버전·신버전을 함께 돌리며 트래픽을 조금씩 옮기는 배포는 <a href="agent-resilience.html">■ 에이전트 상태·실패·배포</a> 에 있다</p>
           </div>
         </li>
         <li id="handoff-package-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p><span class="lead">런북은 증상별 :</span> 컴포넌트별 장이 아니라 보이는 증상마다 한 줄 = 증상 → 확인할 것 → 조치 → 안 풀리면 누구 <span class="gen">업계 일반</span> <span class="note">공식 문서에 런북 없음</span> <span class="pg">[6.4]</span></p>
-            <p>새벽 on-call 은 어느 부품이 문제인지 모른 채 증상에서 시작 → 부품마다 붙인 트러블슈팅 장은 복구 시간을 못 맞춤 <span class="gen">업계 일반</span></p>
-            <p>알림마다 런북 링크와 지정된 담당자 <span class="gen">업계 일반</span> — 알림 한 행의 구조(신호 → 트리거 → 담당자 → 행동)는 <a href="feedback-loop-governance.html">■ feedback loop 책임 표</a> · 무엇부터 볼지는 <a href="observability-signals.html">■ observability 세 신호</a></p>
-            <p>짓는 팀용 런북 한 줄(알아보는 법 · 확인할 것 · 복구 방법)은 <a href="implementation-guide.html">■ 구현 가이드</a> <span class="rule-ref">· <a href="implementation-guide.html#implementation-guide-rule-5">규칙 ⑤</a></span> — 여기는 그것을 증상 기준으로 운영 팀에 넘기는 모양</p>
+            <p><span class="lead">런북은 증상별 :</span> 컴포넌트별 장이 아니라 보이는 증상마다 한 줄을 쓴다. 한 줄에는 증상, 확인할 것, 조치, 안 풀리면 부를 사람을 적는다 <span class="gen">업계 일반</span> <span class="note">공식 문서에 런북 없음</span> <span class="pg">[6.4]</span></p>
+            <p>새벽 on-call 은 어느 부품이 문제인지 모른 채 증상에서 시작한다. 그래서 부품마다 붙인 트러블슈팅 장으로는 복구 시간을 못 맞춘다 <span class="gen">업계 일반</span></p>
+            <p>알림마다 런북 링크와 지정된 담당자를 붙인다 <span class="gen">업계 일반</span>. 알림 한 행의 구조(신호, 트리거, 담당자, 행동)는 <a href="feedback-loop-governance.html">■ feedback loop 책임 표</a> 에 있다. 무엇부터 볼지는 <a href="observability-signals.html">■ observability 세 신호</a> 에 있다</p>
+            <p>짓는 팀용 런북 한 줄(알아보는 법 · 확인할 것 · 복구 방법)은 <a href="implementation-guide.html">■ 구현 가이드</a> <span class="rule-ref">· <a href="implementation-guide.html#implementation-guide-rule-5">규칙 ⑤</a></span> 에 있다. 여기는 그것을 증상 기준으로 운영 팀에 넘기는 모양이다</p>
           </div>
         </li>
         <li id="handoff-package-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">완료 판정은 받는 팀이 :</span> 문서 발송 · 아키텍트 사인오프 · "나중에 읽어 볼게요" 는 완료가 아님. 워크스루 + 런북 따라 하기 + 일부러 심은 장애를 on-call 이 혼자 복구 = 완료 <span class="gen">업계 일반</span> <span class="pg">[6.4]</span> <span class="pg">[6.5①]</span></p>
-            <p>합격 기준 = 아키텍트 없이 복구 <span class="gen">업계 일반</span> <span class="note"><a href="implementation-guide.html">■ 구현 가이드</a> 의 "아키텍트 없이 빌드·복구" 와 같은 기준</span></p>
-            <p><span class="lead">공식 근거 :</span> 같은 명세를 읽은 엔지니어 둘이 엣지 케이스를 다르게 읽음 → 문서만으론 기대가 안 전해짐 (명세 문맥 — handoff 로 넓힌 건 해석) · 도메인 전문가·제품팀이 eval 을 직접 돌림 → 받는 팀이 eval 을 스스로 돌릴 수 있어야 넘김</p>
-            <p>넘긴 뒤 같은 장애로 아키텍트가 또 호출되면 지식 이전 실패 → 그 경로를 런북에 넣고 다음엔 팀이 직접. 아키텍트가 더 빨리 고치는 스크립트를 짜 주면 의존이 굳음 <span class="gen">업계 일반</span></p>
-            <p><span class="lead">반대 쪽 :</span> 받는 팀이 혼자 복구한다 ≠ 아키텍트가 모니터링·반복에서 빠짐 → <a href="lifecycle-loop.html">■ lifecycle 루프</a> <span class="rule-ref">· <a href="lifecycle-loop.html#lifecycle-loop-rule-2">규칙 ②</a></span></p>
+            <p><span class="lead">완료 판정은 받는 팀이 :</span> 문서 발송 · 아키텍트 사인오프 · "나중에 읽어 볼게요" 는 완료가 아니다. 아래 셋을 마치면 완료다 <span class="gen">업계 일반</span> <span class="pg">[6.4]</span> <span class="pg">[6.5①]</span></p>
+            <ul class="dash">
+              <li>워크스루</li>
+              <li>런북 따라 하기</li>
+              <li>일부러 심은 장애를 on-call 이 혼자 복구하기</li>
+            </ul>
+            <p>합격 기준은 아키텍트 없이 복구하는 것이다 <span class="gen">업계 일반</span> <span class="note"><a href="implementation-guide.html">■ 구현 가이드</a> 의 "아키텍트 없이 빌드·복구" 와 같은 기준</span></p>
+            <p><span class="lead">공식 근거 :</span> 같은 명세를 읽은 엔지니어 둘이 엣지 케이스를 다르게 읽는다. 문서만으로는 기대가 안 전해진다 <span class="src">(명세 문맥이다. handoff 로 넓힌 것은 해석이다)</span></p>
+            <p>도메인 전문가·제품팀이 eval 을 직접 돌린다</p>
+            <p>그래서 받는 팀이 eval 을 스스로 돌릴 수 있어야 넘긴 것이다</p>
+            <p>넘긴 뒤 같은 장애로 아키텍트가 또 호출되면 지식 이전 실패다. 그 경로를 런북에 넣고 다음에는 팀이 직접 한다. 아키텍트가 더 빨리 고치는 스크립트를 짜 주면 의존이 굳는다 <span class="gen">업계 일반</span></p>
+            <p><span class="lead">반대 쪽 :</span> 받는 팀이 혼자 복구한다고 아키텍트가 모니터링·반복에서 빠지는 것은 아니다. 자세한 것은 <a href="lifecycle-loop.html">■ lifecycle 루프</a> <span class="rule-ref">· <a href="lifecycle-loop.html#lifecycle-loop-rule-2">규칙 ②</a></span> 에 있다</p>
           </div>
         </li>
         <li id="handoff-package-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p>기록과 실제가 어긋났으면 목록부터 : 기록 없는 프롬프트 수정이 쌓였으면 실제 돌고 있는 것(모델 ID · 프롬프트 버전 · 도구)을 먼저 목록·버전화하고, 런북·브리핑·되돌릴 버전 결정은 그 뒤 <span class="gen">업계 일반</span> <span class="pg">[6.4]</span></p>
-            <p><span class="lead">공식 근거 :</span> 모델 사용 감사 = Console Usage → Export → API 키·모델별 CSV 로 아직 옛 모델을 쓰는 곳을 찾음 <span class="src">(모델 폐기 문맥 — 인벤토리로 넓힌 건 해석)</span></p>
-            <p><span class="lead">문서도 낡음 :</span> CLAUDE.md 는 주기적으로 검토해 낡거나 충돌하는 지시를 뺌 (Claude 가 읽는 문서 기준) → 런북에도 갱신 담당자와 갱신 계기(배포 · 장애 뒤) <span class="note">(넓힌 건 해석)</span></p>
+            <p>기록과 실제가 어긋났으면 목록부터 : 기록 없는 프롬프트 수정이 쌓였으면 실제 돌고 있는 것(모델 ID · 프롬프트 버전 · 도구)을 먼저 목록·버전화한다. 런북·브리핑·되돌릴 버전 결정은 그 뒤에 한다 <span class="gen">업계 일반</span> <span class="pg">[6.4]</span></p>
+            <p><span class="lead">공식 근거 :</span> 모델 사용 감사로 아직 옛 모델을 쓰는 곳을 찾는다. Console Usage 에서 Export 하면 API 키·모델별 CSV 가 나온다 <span class="src">(모델 폐기 문맥이다. 인벤토리로 넓힌 것은 해석이다)</span></p>
+            <p>문서도 낡는다. CLAUDE.md 는 주기적으로 검토해 낡거나 충돌하는 지시를 뺀다 <span class="src">(Claude 가 읽는 문서 기준)</span></p>
+            <p>그래서 런북에도 갱신 담당자와 갱신 계기(배포 · 장애 뒤)를 적는다 <span class="note">(넓힌 것은 해석이다)</span></p>
           </div>
         </li>
         <li id="handoff-package-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">독자 셋 :</span> 물려받는 엔지니어(증상별 런북 · 흐름 그림) · 감사관(의무마다 통제 · 담당자 · 지금 보여 줄 수 있는 증거) · 나중에 돌아온 설계자(ADR). 한 독자용으로만 두꺼운 문서는 미완 <span class="gen">업계 일반</span> <span class="pg">[6.4]</span></p>
-            <p>보여 줄 수 없는 통제는 없는 통제 <span class="gen">업계 일반</span> · 증거 장치 예 : 최종 사용자 신원을 붙이면 Claude Code 의 도구 결정·결과 이벤트가 사용자별 감사 기록 → SIEM → <a href="telemetry-scope.html">■ 텔레메트리 기록 범위</a> <span class="note">(감사 증거로 넓힌 건 해석)</span></p>
-            <p>말로 브리핑할 때 청중별 깊이는 <a href="audience-briefing.html">■ 청중별 브리핑</a></p>
+            <p><span class="lead">독자 셋 :</span> 독자마다 필요한 것이 다르다. 한 독자용으로만 두꺼운 문서는 미완이다 <span class="gen">업계 일반</span> <span class="pg">[6.4]</span></p>
+            <ul class="dash">
+              <li><span class="lead">물려받는 엔지니어 :</span> 증상별 런북 · 흐름 그림</li>
+              <li><span class="lead">감사관 :</span> 의무마다 통제 · 담당자 · 지금 보여 줄 수 있는 증거</li>
+              <li><span class="lead">나중에 돌아온 설계자 :</span> ADR</li>
+            </ul>
+            <p>보여 줄 수 없는 통제는 없는 통제다 <span class="gen">업계 일반</span></p>
+            <p><span class="lead">증거 장치 예 :</span> 최종 사용자 신원을 붙이면 Claude Code 의 도구 결정·결과 이벤트가 사용자별 감사 기록이 된다. 이 기록은 SIEM 으로 간다 <span class="src">(감사 증거로 넓힌 것은 해석이다)</span></p>
+            <p>자세한 것은 <a href="telemetry-scope.html">■ 텔레메트리 기록 범위</a> 에 있다</p>
+            <p>말로 브리핑할 때 청중별 깊이는 <a href="audience-briefing.html">■ 청중별 브리핑</a> 에 있다</p>
           </div>
         </li>
       </ol>
@@ -612,15 +663,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">넘길 묶음에 코드 · 자격증명 · 데모 영상만</td><td data-label="답" role="cell">미완 — 증상별 런북 · 알림 · 담당자 · 버전 목록 · 되돌리기를 더함</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">후보 절 규칙 1 — 공식 문서에 패키지 목록 없음</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">런북을 부품마다 한 장씩</td><td data-label="답" role="cell">증상별로 다시 (증상 → 확인할 것 → 조치 → 안 풀리면 누구)</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">runbook 공식 0건 (미해결 1)</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">알림이 공용 채널에만 뜸</td><td data-label="답" role="cell">알림마다 런북 링크 + 지정된 담당자</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">한 행 구조 = ■ feedback loop 책임 표</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">"문서 보냈고 사인했으니 끝"</td><td data-label="답" role="cell">받는 팀의 워크스루 + 런북 따라 하기 + 심은 장애 혼자 복구</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">eval 셋</td><td data-label="답" role="cell">담당자를 정하고, 받는 팀이 직접 돌릴 수 있게</td><td data-label="등급" role="cell"><span class="note">(소유권·직접 돌림) · 해석 (handoff 조건으로)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">버전 목록에 무엇을</td><td data-label="답" role="cell">모델 ID · 프롬프트 버전 · 도구 정의 · 데이터·정책 버전</td><td data-label="등급" role="cell"><span class="note">(프롬프트·도구도 시스템의 일부 · 모델 ID 고정) · 해석 (목록으로)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a> · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">기록 없는 수정이 쌓여 문서와 실제가 다름</td><td data-label="답" role="cell">실제 돌고 있는 것을 먼저 목록·버전화 → 런북은 그 뒤</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> (순서) · 확인 (모델 사용 감사 방법)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/model-deprecations" lang="en" rel="noopener">model-deprecations</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">넘긴 뒤 같은 장애로 아키텍트 호출</td><td data-label="답" role="cell">그 경로를 런북에 넣고 다음엔 팀이 직접</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">감사관이 읽을 문서</td><td data-label="답" role="cell">의무마다 통제 · 담당자 · 지금 보여 줄 수 있는 증거</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 확인 (감사 기록 장치 예)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/observability" lang="en" rel="noopener">agent-sdk-observability</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">넘길 묶음에 코드 · 자격증명 · 데모 영상만 있다</td><td data-label="답" role="cell">미완이다. 증상별 런북 · 알림 · 담당자 · 버전 목록 · 되돌리기를 더한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">후보 절 규칙 1. 공식 문서에 패키지 목록이 없다</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">런북을 부품마다 한 장씩 썼다</td><td data-label="답" role="cell">증상별로 다시 쓴다 (증상, 확인할 것, 조치, 안 풀리면 부를 사람)</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">runbook 공식 0건 (미해결 1)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">알림이 공용 채널에만 뜬다</td><td data-label="답" role="cell">알림마다 런북 링크와 지정된 담당자를 붙인다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">한 행 구조 = ■ feedback loop 책임 표</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">"문서 보냈고 사인했으니 끝" 이라고 한다</td><td data-label="답" role="cell">받는 팀이 워크스루와 런북 따라 하기를 하고, 심은 장애를 혼자 복구해야 끝이다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">eval 셋을 넘긴다</td><td data-label="답" role="cell">담당자를 정한다. 받는 팀이 직접 돌릴 수 있게 한다</td><td data-label="등급" role="cell"><span class="note">(소유권·직접 돌림) · 해석 (handoff 조건으로)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">버전 목록에 무엇을 적나?</td><td data-label="답" role="cell">모델 ID · 프롬프트 버전 · 도구 정의 · 데이터·정책 버전을 적는다</td><td data-label="등급" role="cell"><span class="note">(프롬프트·도구도 시스템의 일부 · 모델 ID 고정) · 해석 (목록으로)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a> · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">기록 없는 수정이 쌓여 문서와 실제가 다르다</td><td data-label="답" role="cell">실제 돌고 있는 것을 먼저 목록·버전화한다. 런북은 그 뒤다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> (순서) · 확인 (모델 사용 감사 방법)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/model-deprecations" lang="en" rel="noopener">model-deprecations</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">넘긴 뒤 같은 장애로 아키텍트를 부른다</td><td data-label="답" role="cell">그 경로를 런북에 넣고 다음에는 팀이 직접 한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">감사관이 읽을 문서를 쓴다</td><td data-label="답" role="cell">의무마다 통제 · 담당자 · 지금 보여 줄 수 있는 증거를 적는다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 확인 (감사 기록 장치 예)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/observability" lang="en" rel="noopener">agent-sdk-observability</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -631,15 +682,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">받는 팀의 복구 경험</td><td data-label="값" role="cell">혼자 복구 0회</td><td data-label="답 쪽" role="cell">아직 넘긴 게 아님 → 복구 연습</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 4</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">받는 팀의 복구 경험</td><td data-label="값" role="cell">심은 장애를 혼자 복구</td><td data-label="답 쪽" role="cell">넘김 완료</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">런북 모양</td><td data-label="값" role="cell">부품별 장</td><td data-label="답 쪽" role="cell">증상별로 다시</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">문서 vs 실제</td><td data-label="값" role="cell">같음</td><td data-label="답 쪽" role="cell">런북·복구 연습으로 진행</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">문서 vs 실제</td><td data-label="값" role="cell">다름 (기록 없는 수정)</td><td data-label="답 쪽" role="cell">목록·버전화 먼저</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 확인(감사 방법)</td><td data-label="근거" role="cell">판단 규칙 7</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델 표기</td><td data-label="값" role="cell">4.6 이후 dateless ID</td><td data-label="답 쪽" role="cell">그 ID 가 곧 고정 버전</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델 표기</td><td data-label="값" role="cell">4.6 이전 모델 alias</td><td data-label="답 쪽" role="cell">고정 보장 밖 → 날짜 붙은 ID 로 적음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">팀 수</td><td data-label="값" role="cell">여럿이 부품을 나눠 가짐</td><td data-label="답 쪽" role="cell">서비스 전체 담당자 한 명 + 같이 보는 지표 + 심각도 규칙</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">독자</td><td data-label="값" role="cell">엔지니어 · 감사관 · 돌아온 설계자</td><td data-label="답 쪽" role="cell">셋 다 덮는지 봄</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">ADR 은 ■ ADR·아키텍처 패키지</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">받는 팀의 복구 경험</td><td data-label="값" role="cell">혼자 복구 0회다</td><td data-label="답 쪽" role="cell">아직 넘긴 것이 아니다. 복구 연습을 한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 4</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">받는 팀의 복구 경험</td><td data-label="값" role="cell">심은 장애를 혼자 복구했다</td><td data-label="답 쪽" role="cell">넘김이 끝났다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">런북 모양</td><td data-label="값" role="cell">부품별 장이다</td><td data-label="답 쪽" role="cell">증상별로 다시 쓴다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">문서 vs 실제</td><td data-label="값" role="cell">같다</td><td data-label="답 쪽" role="cell">런북·복구 연습으로 진행한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">문서 vs 실제</td><td data-label="값" role="cell">다르다 (기록 없는 수정)</td><td data-label="답 쪽" role="cell">목록·버전화를 먼저 한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 확인(감사 방법)</td><td data-label="근거" role="cell">판단 규칙 7</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델 표기</td><td data-label="값" role="cell">4.6 이후 dateless ID 다</td><td data-label="답 쪽" role="cell">그 ID 가 곧 고정 버전이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델 표기</td><td data-label="값" role="cell">4.6 이전 모델 alias 다</td><td data-label="답 쪽" role="cell">고정 보장 밖이다. 날짜 붙은 ID 로 적는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">팀 수</td><td data-label="값" role="cell">여럿이 부품을 나눠 가진다</td><td data-label="답 쪽" role="cell">서비스 전체 담당자 한 명, 같이 보는 지표, 심각도 규칙을 둔다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">독자</td><td data-label="값" role="cell">엔지니어 · 감사관 · 돌아온 설계자</td><td data-label="답 쪽" role="cell">셋 다 덮는지 본다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">ADR 은 ■ ADR·아키텍처 패키지</td></tr>
   </tbody>
 </table>
 </div>
@@ -655,15 +706,15 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"코드 · 자격증명 · 데모 영상 · 빌드 채팅 로그를 넘겼으니 handoff 끝" → 운영 능력(런북 · 알림 · 담당자 · 버전 목록 · 되돌리기)이 빠짐 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"런북은 부품마다 트러블슈팅 장을 붙임" → 증상별. 새벽 on-call 은 증상에서 시작 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"문서를 보냈고 아키텍트가 사인했으니 완료" → 완료 판정은 받는 팀이, 복구 연습으로 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"같은 장애로 또 호출됐으니 아키텍트가 빨리 고치는 스크립트를 짜 준다" → 의존이 굳음. 경로를 런북에 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"기록과 실제가 달라도 문서 기준으로 런북부터" → 실제 돌고 있는 것을 먼저 목록·버전화 <span class="gen">업계 일반</span> · 모델 사용 감사</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"버전 목록엔 모델 이름(alias)만" → 고정 보장은 모델 ID 에만</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"런북 초안은 있는데 담당자는 나중에" → 살아 있는 산출물은 명확한 소유권이 있어야 쓸모 <span class="src">(eval 셋 문맥 — 넓힌 건 해석)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"감사관에겐 정책 문서면 충분" → 통제마다 담당자 + 지금 보여 줄 수 있는 증거 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "handoff 했으니 아키텍트는 이제 손 뗌" → 복구는 팀이 혼자, 모니터링·반복은 계속 → <a href="lifecycle-loop.html">■ lifecycle 루프</a></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"코드 · 자격증명 · 데모 영상 · 빌드 채팅 로그를 넘겼으니 handoff 끝" 은 함정이다. 운영 능력(런북 · 알림 · 담당자 · 버전 목록 · 되돌리기)이 빠진다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"런북은 부품마다 트러블슈팅 장을 붙임" 은 함정이다. 런북은 증상별로 쓴다. 새벽 on-call 은 증상에서 시작한다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"문서를 보냈고 아키텍트가 사인했으니 완료" 는 함정이다. 완료 판정은 받는 팀이 복구 연습으로 한다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"같은 장애로 또 호출됐으니 아키텍트가 빨리 고치는 스크립트를 짜 준다" 는 함정이다. 의존이 굳는다. 경로를 런북에 넣는다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"기록과 실제가 달라도 문서 기준으로 런북부터" 는 함정이다. 실제 돌고 있는 것을 먼저 목록·버전화한다 <span class="gen">업계 일반</span>. 방법은 모델 사용 감사다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"버전 목록엔 모델 이름(alias)만" 은 함정이다. 고정 보장은 모델 ID 에만 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"런북 초안은 있는데 담당자는 나중에" 는 함정이다. 살아 있는 산출물은 명확한 소유권이 있어야 쓸모가 있다 <span class="src">(eval 셋 문맥이다. 넓힌 것은 해석이다)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"감사관에겐 정책 문서면 충분" 은 함정이다. 통제마다 담당자와 지금 보여 줄 수 있는 증거가 있어야 한다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>반대쪽 함정도 있다. "handoff 했으니 아키텍트는 이제 손 뗌" 은 함정이다. 복구는 팀이 혼자 한다. 모니터링·반복은 계속한다. 자세한 것은 <a href="lifecycle-loop.html">■ lifecycle 루프</a> 에 있다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -689,38 +740,38 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 부품별 장이 맞는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 받는 쪽이 부품마다 따로 on-call 을 둔 팀(주문 API 팀 · 검색 팀 · 프롬프트 팀). 첫 알림은 이미 부품 팀으로 갈라져 옴.</li>
-<li><span class="lead">판단 :</span> 그 팀들 안에선 부품별 장이 맞음. 그래도 맨 앞 한 쪽은 "증상 → 어느 팀" 표 — 고객 불만처럼 부품을 모르는 채 들어오는 신호가 있음.</li>
+<li><span class="lead">조건 :</span> 받는 쪽이 부품마다 따로 on-call 을 둔 팀이다(주문 API 팀 · 검색 팀 · 프롬프트 팀). 첫 알림은 이미 부품 팀으로 갈라져 온다.</li>
+<li><span class="lead">판단 :</span> 그 팀들 안에서는 부품별 장이 맞다. 그래도 맨 앞 한 쪽에는 증상마다 어느 팀인지 적은 표를 둔다. 고객 불만처럼 부품을 모르는 채 들어오는 신호가 있기 때문이다.</li>
 <li><span class="lead">등급 :</span> <span class="gen">업계 일반</span></li>
-<li><span class="lead">근거 :</span> 공식 문장 없음.</li>
+<li><span class="lead">근거 :</span> 공식 문장이 없다.</li>
 </ul>
 <h4>2. 아키텍트가 다시 불려도 실패가 아닌 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 넘긴 지 3주, 런북 어디에도 없는 새 증상("반품 사진 업로드 뒤 답이 영어로만 나옴")이 처음 생김.</li>
-<li><span class="lead">판단 :</span> 처음 보는 장애에 설계자가 불리는 건 정상. 실패 신호는 <strong>같은 장애로 또</strong> 불리는 것. 이번 일의 몫 = 원인·확인·조치를 런북 새 줄로 넣고, 다음 발생은 팀이 직접.</li>
+<li><span class="lead">조건 :</span> 넘긴 지 3주가 됐다. 런북 어디에도 없는 새 증상("반품 사진 업로드 뒤 답이 영어로만 나옴")이 처음 생겼다.</li>
+<li><span class="lead">판단 :</span> 처음 보는 장애에 설계자가 불리는 것은 정상이다. 실패 신호는 <strong>같은 장애로 또</strong> 불리는 것이다. 이번 일의 몫은 원인·확인·조치를 런북 새 줄로 넣는 것이다. 다음 발생은 팀이 직접 처리한다.</li>
 <li><span class="lead">등급 :</span> <span class="gen">업계 일반</span></li>
-<li><span class="lead">근거 :</span> 공식 문장 없음.</li>
+<li><span class="lead">근거 :</span> 공식 문장이 없다.</li>
 </ul>
 <h4>3. 목록보다 먼저 막아야 할 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 기록 없는 프롬프트 수정이 쌓여 문서와 실제가 다른데, 오늘 하루 3,400건 중 60건(약 1.8%)에서 반품 배송비를 빼고 환불액을 안내 중.</li>
-<li><span class="lead">판단 :</span> 피해가 진행 중이면 먼저 사람 검토 경로를 넓혀 막고, 그다음 목록·버전화. 기록이 틀려 "정상이 확인된 버전" 자체를 모르면 버전 되돌리기부터 하는 것도 위험 — 목록이 되돌리기의 전제.</li>
+<li><span class="lead">조건 :</span> 기록 없는 프롬프트 수정이 쌓여 문서와 실제가 다르다. 그런데 오늘 하루 3,400건 중 60건(약 1.8%)에서 반품 배송비를 빼고 환불액을 안내하고 있다.</li>
+<li><span class="lead">판단 :</span> 피해가 진행 중이면 먼저 사람 검토 경로를 넓혀 막는다. 그다음 목록·버전화한다. 기록이 틀려 "정상이 확인된 버전" 자체를 모르면 버전 되돌리기부터 하는 것도 위험하다. 목록이 되돌리기의 전제다.</li>
 <li><span class="lead">등급 :</span> <span class="gen">업계 일반</span> (계산 = 60 ÷ 3,400)</li>
-<li><span class="lead">근거 :</span> 공식 순서 문장 없음. 사람 경로는 ◆ 100% 약속 vs 측정된 SLO + 사람 안전망 · ■ human-in-the-loop 게이트 위치</li>
+<li><span class="lead">근거 :</span> 공식 순서 문장은 없다. 사람 경로는 ◆ 100% 약속 vs 측정된 SLO + 사람 안전망 · ■ human-in-the-loop 게이트 위치 에 있다</li>
 </ul>
 <h4>4. alias 걱정이 필요 없는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 버전 목록에 <code>claude-opus-5-5</code> 처럼 날짜 없는 ID 만 있음.</li>
-<li><span class="lead">판단 :</span> 4.6 세대 이후는 날짜 없는 ID 가 곧 그 버전의 정식 ID 이고 고정 버전. alias 가 가리키는 버전이 바뀔 수 있다는 걱정은 4.6 이전 일부 모델 alias 에만 해당.</li>
+<li><span class="lead">조건 :</span> 버전 목록에 <code>claude-opus-5-5</code> 처럼 날짜 없는 ID 만 있다.</li>
+<li><span class="lead">판단 :</span> 4.6 세대 이후는 날짜 없는 ID 가 곧 그 버전의 정식 ID 이고 고정 버전이다. alias 가 가리키는 버전이 바뀔 수 있다는 걱정은 4.6 이전 일부 모델 alias 에만 해당한다.</li>
 
 <li><span class="lead">근거 :</span> model-ids-and-versions</li>
 </ul>
 <h4>5. 복구 연습을 짧게 해도 되는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 같은 팀이 이미 같은 구조의 Agent 두 개를 운영 중이고, 이번 것은 셋째(도구 하나만 다름).</li>
-<li><span class="lead">판단 :</span> 전부 다시 연습할 필요는 없지만, 달라진 부분(새 도구가 끊기는 장애) 하나는 심어 봄. "비슷하니 생략" 은 달라진 곳에서 깨짐.</li>
+<li><span class="lead">조건 :</span> 같은 팀이 이미 같은 구조의 Agent 두 개를 운영 중이다. 이번 것은 셋째다(도구 하나만 다르다).</li>
+<li><span class="lead">판단 :</span> 전부 다시 연습할 필요는 없다. 그러나 달라진 부분(새 도구가 끊기는 장애) 하나는 심어 본다. "비슷하니 생략" 은 달라진 곳에서 깨진다.</li>
 <li><span class="lead">등급 :</span> <span class="gen">업계 일반</span></li>
-<li><span class="lead">근거 :</span> 공식 문장 없음.</li>
+<li><span class="lead">근거 :</span> 공식 문장이 없다.</li>
 </ul>
 </section>
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
@@ -729,15 +780,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"코드 · 자격증명 · 데모 영상을 넘겼으니 handoff 끝"</td><td data-label="왜 끌리나" role="cell">돌아가는 건 다 넘긴 것 같음</td><td data-label="왜 틀리나" role="cell">운영 능력(런북 · 알림 · 담당자 · 버전 목록 · 되돌리기)이 빠짐</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">카드 함정 1</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"빠른 인계를 위해 코드·프롬프트만 넘기고 질문은 그때그때"</td><td data-label="왜 끌리나" role="cell">빠름</td><td data-label="왜 틀리나" role="cell">"왜" 가 빠지고, 질문이 곧 아키텍트 의존</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.4① 매력적인 오답 — "왜" 본편 = ■ ADR·아키텍처 패키지</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"부품마다 트러블슈팅 장을 붙인 42쪽 설명서"</td><td data-label="왜 끌리나" role="cell">빠짐없어 보임</td><td data-label="왜 틀리나" role="cell">on-call 은 증상에서 시작 — 어느 장인지 모름</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">카드 함정 2</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"문서를 보냈고 아키텍트가 사인했으니 완료"</td><td data-label="왜 끌리나" role="cell">절차가 끝남</td><td data-label="왜 틀리나" role="cell">완료 판정은 받는 팀이, 혼자 복구로</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">카드 함정 3</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"또 불렸으니 아키텍트가 더 빨리 고치는 스크립트를 짜 준다"</td><td data-label="왜 끌리나" role="cell">친절하고 빠름</td><td data-label="왜 틀리나" role="cell">의존이 굳음. 경로를 런북에</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">카드 함정 4</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"기록과 달라도 문서 기준으로 런북부터"</td><td data-label="왜 끌리나" role="cell">문서가 있으니</td><td data-label="왜 틀리나" role="cell">틀린 버전 위에 런북이 섬. 목록부터</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 확인(감사 방법)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/model-deprecations" lang="en" rel="noopener">model-deprecations</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"버전 목록엔 모델 이름만"</td><td data-label="왜 끌리나" role="cell">모델이 핵심 같음</td><td data-label="왜 틀리나" role="cell">프롬프트·도구도 시스템의 일부 · 고정은 모델 ID 에만</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a> · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"handoff 했으니 아키텍트는 손 뗌"</td><td data-label="왜 끌리나" role="cell">인계 = 책임 이전</td><td data-label="왜 틀리나" role="cell">복구는 팀이 혼자, 모니터링·반복은 계속</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">■ lifecycle 루프 (<a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a>)</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"eval 셋은 만든 사람이 가지고 감"</td><td data-label="왜 끌리나" role="cell">만든 사람이 제일 잘 알고 있음</td><td data-label="왜 틀리나" role="cell">살아 있는 산출물 · 명확한 소유권 · 받는 쪽 전문가가 기여하고 돌림</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"코드 · 자격증명 · 데모 영상을 넘겼으니 handoff 끝"</td><td data-label="왜 끌리나" role="cell">돌아가는 것은 다 넘긴 것 같다</td><td data-label="왜 틀리나" role="cell">운영 능력(런북 · 알림 · 담당자 · 버전 목록 · 되돌리기)이 빠진다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">카드 함정 1</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"빠른 인계를 위해 코드·프롬프트만 넘기고 질문은 그때그때"</td><td data-label="왜 끌리나" role="cell">빠르다</td><td data-label="왜 틀리나" role="cell">"왜" 가 빠진다. 질문이 곧 아키텍트 의존이 된다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.4① 매력적인 오답. "왜" 본편은 ■ ADR·아키텍처 패키지</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"부품마다 트러블슈팅 장을 붙인 42쪽 설명서"</td><td data-label="왜 끌리나" role="cell">빠짐없어 보인다</td><td data-label="왜 틀리나" role="cell">on-call 은 증상에서 시작한다. 어느 장인지 모른다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">카드 함정 2</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"문서를 보냈고 아키텍트가 사인했으니 완료"</td><td data-label="왜 끌리나" role="cell">절차가 끝났다</td><td data-label="왜 틀리나" role="cell">완료 판정은 받는 팀이 혼자 복구로 한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">카드 함정 3</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"또 불렸으니 아키텍트가 더 빨리 고치는 스크립트를 짜 준다"</td><td data-label="왜 끌리나" role="cell">친절하고 빠르다</td><td data-label="왜 틀리나" role="cell">의존이 굳는다. 경로를 런북에 넣는다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">카드 함정 4</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"기록과 달라도 문서 기준으로 런북부터"</td><td data-label="왜 끌리나" role="cell">문서가 이미 있다</td><td data-label="왜 틀리나" role="cell">틀린 버전 위에 런북이 선다. 목록부터 만든다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 확인(감사 방법)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/model-deprecations" lang="en" rel="noopener">model-deprecations</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"버전 목록엔 모델 이름만"</td><td data-label="왜 끌리나" role="cell">모델이 핵심 같다</td><td data-label="왜 틀리나" role="cell">프롬프트·도구도 시스템의 일부다. 고정은 모델 ID 에만 있다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a> · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions" lang="en" rel="noopener">model-ids</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"handoff 했으니 아키텍트는 손 뗌"</td><td data-label="왜 끌리나" role="cell">인계를 책임 이전으로 본다</td><td data-label="왜 틀리나" role="cell">복구는 팀이 혼자 한다. 모니터링·반복은 계속한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">■ lifecycle 루프 (<a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a>)</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"eval 셋은 만든 사람이 가지고 감"</td><td data-label="왜 끌리나" role="cell">만든 사람이 제일 잘 알고 있다</td><td data-label="왜 틀리나" role="cell">살아 있는 산출물이다. 명확한 소유권이 필요하다. 받는 쪽 전문가가 기여하고 돌린다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -745,7 +796,7 @@
   </details>
   <h2 class="sec-h" id="handoff-package-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="implementation-guide.html">■ 구현 가이드</a></li>
         <li><a href="adr-package.html">■ ADR·아키텍처 패키지</a></li>
@@ -756,6 +807,10 @@
         <li><a href="telemetry-scope.html">■ 텔레메트리 기록 범위</a></li>
         <li><a href="audience-briefing.html">■ 청중별 브리핑</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 6.4</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -776,13 +831,14 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>런북·on-call·드릴 : 공식 문장 못 찾음. 검색 = <code>ccarp/raw/official-docs/en-*.md</code> 에서 "runbook|on-call|oncall|rollback|roll back|revert|walkthrough" (스크래치 <code>w3_grep.py</code>) → runbook 0 · on-call 0 · rollback 2건(코드 리뷰 · 서브에이전트 문맥, 운영 되돌리기 절차 아님). 같은 검색이 revert · walkthrough 는 여러 건 잡음(검색 양성 대조 — 뜻은 파일 되돌리기 · 문서 안내). 제외 = 받지 않은 공식 페이지 · ko 판.</li>
-<li>"완료 판정은 받는 팀이 · 심은 장애 복구 연습" : 공식 문장 없음 (검색어 drill · walkthrough · handover · hand off → 멀티 에이전트·코드 리뷰 뜻뿐). 후보 절 규칙 3 을 업계 일반으로만.</li>
-<li>감사관용 "살아 있는 증거 산출물" : 공식에 이 틀 없음. 가까운 건 Claude Code 사용자별 감사 기록(agent-sdk-observability — 텔레메트리 문맥) 뿐.</li>
-<li>후보 절 "공식 근거 후보" 는 모두 원문에서 찾음. 단 <code>en-claude-code-memory.md</code> 271줄은 CLAUDE.md 규칙끼리 충돌할 때의 "Consistency" 문맥 — 문서 부패 일반·런북 갱신으로 넓힌 건 해석.</li>
-<li>서비스 전체 담당자 한 명 · 공유 지표 · 심각도 규칙 (후보 절 규칙 6) : 공식 문장 없음.</li>
+<li>런북·on-call·드릴은 공식 문장을 못 찾았다. 검색 대상은 <code>ccarp/raw/official-docs/en-*.md</code> 이고, 검색어는 "runbook|on-call|oncall|rollback|roll back|revert|walkthrough" 다(스크래치 <code>w3_grep.py</code>). 결과는 runbook 0 · on-call 0 · rollback 2건이다. rollback 결과는 코드 리뷰 · 서브에이전트 문맥이고, 운영 되돌리기 절차가 아니다. 같은 검색이 revert · walkthrough 는 여러 건 잡았다(검색 양성 대조). 그 뜻은 파일 되돌리기 · 문서 안내다. 제외 = 받지 않은 공식 페이지 · ko 판.</li>
+<li>"완료 판정은 받는 팀이 · 심은 장애 복구 연습" 은 공식 문장이 없다. 검색어 drill · walkthrough · handover · hand off 는 멀티 에이전트·코드 리뷰 뜻으로만 나왔다. 그래서 후보 절 규칙 3 을 업계 일반으로만 둔다.</li>
+<li>감사관용 "살아 있는 증거 산출물" 은 공식에 이 틀이 없다. 가까운 것은 Claude Code 사용자별 감사 기록뿐이다(agent-sdk-observability, 텔레메트리 문맥).</li>
+<li>후보 절 "공식 근거 후보" 는 모두 원문에서 찾았다. 단 <code>en-claude-code-memory.md</code> 271줄은 CLAUDE.md 규칙끼리 충돌할 때의 "Consistency" 문맥이다. 문서 부패 일반·런북 갱신으로 넓힌 것은 해석이다.</li>
+<li>서비스 전체 담당자 한 명 · 공유 지표 · 심각도 규칙(후보 절 규칙 6)은 공식 문장이 없다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

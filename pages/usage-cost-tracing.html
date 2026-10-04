@@ -370,9 +370,15 @@
   </div>
   <h2 class="sec-h" id="usage-cost-tracing-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>비용 알림·대시보드 합계는 "얼마가 움직였나"만 말함. 원인은 차원(워크스페이스 · API 키 · 모델 · 서비스 티어 · 속도 · 지역)으로 쪼개 "어디서", 토큰 종류(캐시 안 된 입력 · 캐시 읽기 · 캐시 생성 · 출력)로 "무엇이" 늘었나를 좁힌 뒤, 그 실행의 요청 <code>usage</code>·트레이스로 "왜"를 봄. 순서 = 알림 → 쪼개기 → 해당 실행 → 원인 <span class="note">(도구는 확인, 순서 자체는 업계 일반)</span></p>
-      <p>조직 단위 도구 = Usage &amp; Cost Admin API (Console 의 Usage·Cost 페이지와 같은 데이터를 프로그램으로, Admin API 키)</p>
-    <p class="t5-ana"><span class="lead">비유</span> 클라우드 청구 급증. Cost Explorer 로 계정·서비스·태그별로 쪼개고 → 늘어난 줄의 사용 유형(데이터 전송·스토리지)을 보고 → CloudTrail·X-Ray 로 그 호출을 찾음</p>
+      <p>비용 알림·대시보드 합계는 "얼마가 움직였나" 만 말한다. 원인은 아래 차례로 좁힌다.</p>
+      <ul class="dash">
+        <li><span class="lead">어디서 :</span> 차원(워크스페이스 · API 키 · 모델 · 서비스 티어 · 속도 · 지역)으로 쪼갠다</li>
+        <li><span class="lead">무엇이 :</span> 토큰 종류(캐시 안 된 입력 · 캐시 읽기 · 캐시 생성 · 출력)로 쪼갠다</li>
+        <li><span class="lead">왜 :</span> 그 실행의 요청 <code>usage</code> 와 트레이스를 본다</li>
+      </ul>
+      <p>순서는 알림, 쪼개기, 해당 실행, 원인이다 <span class="note">(도구는 확인, 순서 자체는 업계 일반)</span></p>
+      <p>조직 단위 도구는 Usage &amp; Cost Admin API 다. Console 의 Usage·Cost 페이지와 같은 데이터를 프로그램으로 받는다(Admin API 키)</p>
+    <p class="t5-ana"><span class="lead">비유</span> 클라우드 청구 급증과 같다. Cost Explorer 로 계정·서비스·태그별로 쪼갠다. 늘어난 줄의 사용 유형(데이터 전송·스토리지)을 본다. 그리고 CloudTrail·X-Ray 로 그 호출을 찾는다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/usage-cost-tracing.webp"><img src="../images/usage-cost-tracing.webp" alt="비용 알림·합계는 얼마가 움직였나만 말하므로, Usage &amp; Cost Admin API 로 차원과 토큰 종류로 쪼갠 뒤 요청 usage·트레이스로 왜를 본다는 흐름 그림." loading="lazy" decoding="async"></a>
@@ -399,27 +405,27 @@
 <!-- /vx:figure -->
 <section class="ex-sec" id="principle" aria-labelledby="principle-h">
 <h3 id="principle-h">원리</h3>
-<p class="lead">모니터링과 추적은 다른 질문에 답함</p>
+<p class="lead">모니터링과 추적은 다른 질문에 답한다</p>
 <ul>
-<li>알림·대시보드 합계 = "얼마가 움직였나". 원인은 안 알려 줌.</li>
-<li>차원별로 쪼개기 = "어디서" (워크스페이스 · API 키 · 모델 · 서비스 티어 · 속도 · 지역).</li>
-<li>토큰 종류로 쪼개기 = "무엇이" (캐시 안 된 입력 · 캐시 읽기 · 캐시 생성 · 출력).</li>
-<li>요청 한 건의 <code>usage</code> 와 트레이스 = "왜" (어느 단계·어느 설정).</li>
+<li>알림·대시보드 합계는 "얼마가 움직였나" 에 답한다. 원인은 알려 주지 않는다.</li>
+<li>차원별로 쪼개면 "어디서" 가 보인다(워크스페이스 · API 키 · 모델 · 서비스 티어 · 속도 · 지역).</li>
+<li>토큰 종류로 쪼개면 "무엇이" 가 보인다(캐시 안 된 입력 · 캐시 읽기 · 캐시 생성 · 출력).</li>
+<li>요청 한 건의 <code>usage</code> 와 트레이스는 "왜" 에 답한다(어느 단계·어느 설정).</li>
 </ul>
 <p class="lead">비용 = 토큰 수 × 단가</p>
 <ul>
-<li>비용이 오르는 길은 둘 : 토큰이 늘거나(요청 수 · 입력 · 출력 · 캐시 깨짐), 단가가 오르거나(모델 · fast mode · 미국 전용 추론).</li>
-<li>그래서 토큰 그래프가 멀쩡해도 비용이 오를 수 있고, 토큰이 늘어도 비용이 줄 수 있음.</li>
+<li>비용이 오르는 길은 둘이다. 토큰이 늘거나(요청 수 · 입력 · 출력 · 캐시 깨짐), 단가가 오른다(모델 · fast mode · 미국 전용 추론).</li>
+<li>그래서 토큰 그래프가 멀쩡해도 비용이 오를 수 있다. 토큰이 늘어도 비용이 줄 수 있다.</li>
 </ul>
 <p class="lead">데이터의 한계</p>
 <ul>
-<li>조직 데이터는 보통 요청 끝나고 5분 안에 반영(가끔 더 늦음). Cost API 는 하루 단위만.</li>
-<li>실제 청구액은 Console 등 제공자 기준. Claude Code 의 비용 메트릭은 근사치.</li>
+<li>조직 데이터는 보통 요청이 끝나고 5분 안에 반영된다(가끔 더 늦다). Cost API 는 하루 단위만 있다.</li>
+<li>실제 청구액은 Console 등 제공자 기준이다. Claude Code 의 비용 메트릭은 근사치다.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
 <li>토큰이 늘었나, 단가가 올랐나?</li>
-<li>토큰이 늘었다면 어느 종류(캐시 읽기·생성·일반 입력·출력)가, 어느 차원에서?</li>
+<li>토큰이 늘었다면 어느 종류(캐시 읽기·생성·일반 입력·출력)가 늘었나? 어느 차원에서 늘었나?</li>
 </ul>
 </section>
   <h2 class="sec-h" id="usage-cost-tracing-rules-h">규칙과 판단</h2>
@@ -431,27 +437,27 @@
   <section class="t5-flow tree" id="usage-cost-tracing-tree-1" aria-labelledby="usage-cost-tracing-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9|n1 n10 n11">
     <div class="t5-fh"><h3 id="usage-cost-tracing-tree-1-h">①③⑤ 어느 도구 <span class="pg">[4.6①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇을 보려나?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇을 보려 하나?</div>
       <div class="t5-fork" style="--n:5">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>조직 토큰을 차원별로</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Usage API</p><p><code>usage_report/messages</code> — 모델 · 워크스페이스 · 서비스 티어 등으로 거르고 묶음, 1m·1h·1d</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Usage API</p><p><code>usage_report/messages</code> 를 쓴다. 모델 · 워크스페이스 · 서비스 티어 등으로 거르고 묶는다. 시간 버킷은 1m·1h·1d 다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>달러 · 부서별 청구 나누기</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Cost API</p><p><code>cost_report</code> — USD, 워크스페이스·description 으로 묶음, 1d 만</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Cost API</p><p><code>cost_report</code> 를 쓴다. USD 로 나오고 워크스페이스·description 으로 묶는다. 시간 버킷은 1d 만 있다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>요청 한 건</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">응답 <code>usage</code></p><p><code>input_tokens</code> · <code>cache_creation_input_tokens</code> · <code>cache_read_input_tokens</code> · 출력</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">응답 <code>usage</code></p><p><code>input_tokens</code> · <code>cache_creation_input_tokens</code> · <code>cache_read_input_tokens</code> · 출력을 본다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>한 실행의 어느 단계</span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">트레이스</p><p><a href="observability-signals.html">■ observability 세 신호</a></p></div>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">트레이스</p><p>자세한 것은 <a href="observability-signals.html">■ observability 세 신호</a> 에 있다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>Claude Code 사용자별</span>
-          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Claude Code Analytics API</p><p>사용자별 예상 비용 · 생산성 지표</p></div>
+          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Claude Code Analytics API</p><p>사용자별 예상 비용과 생산성 지표를 준다</p></div>
         </div>
       </div>
     </div>
@@ -459,27 +465,27 @@
   <section class="t5-flow tree" id="usage-cost-tracing-tree-2" aria-labelledby="usage-cost-tracing-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9|n1 n4 n5 n10 n11">
     <div class="t5-fh"><h3 id="usage-cost-tracing-tree-2-h">② 무엇이 늘었나 <span class="pg">[4.6①]</span> <span class="pg">[1.6③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>요청 수도 늘었나?<span class="t5-sub">내 앱·게이트웨이 로그로</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>요청 수도 늘었나?<span class="t5-sub">내 앱·게이트웨이 로그로 본다</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">트래픽 · 루프</p><p>쓰는 곳이 늘었나(워크스페이스·API 키) · 에이전트 구조가 바뀌었나 (<a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a>) <span class="gen">업계 일반</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">트래픽 · 루프</p><p>쓰는 곳이 늘었는지 본다(워크스페이스·API 키). 에이전트 구조가 바뀌었는지도 본다 (<a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a>) <span class="gen">업계 일반</span></p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-          <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>어느 토큰 항목?</div>
+          <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>어느 토큰 항목이 바뀌었나?</div>
           <div class="t5-fork" style="--n:3">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>캐시 읽기 ↓ · 캐시 생성·일반 입력 ↑</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">캐시가 깨짐</p><p>앞부분에 매번 바뀌는 값(날짜 등) · thinking·effort 설정 변경 · 수명 지남 (<a href="caching.html">■ 프롬프트 캐싱</a>)</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">캐시가 깨졌다</p><p>앞부분에 매번 바뀌는 값(날짜 등)이 있는지, thinking·effort 설정이 바뀌었는지, 수명이 지났는지 본다 (<a href="caching.html">■ 프롬프트 캐싱</a>)</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>출력 ↑</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">답 길이 · effort · <code>max_tokens</code> 부터</p><p>답 길이 · 높은 effort · <code>max_tokens</code> (<a href="max-tokens.html">■ max_tokens 와 긴 출력</a>)</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">답 길이 · effort · <code>max_tokens</code> 부터 본다</p><p>답 길이, 높은 effort, <code>max_tokens</code> 를 본다 (<a href="max-tokens.html">■ max_tokens 와 긴 출력</a>)</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>토큰은 그대로</span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">단가 쪽</p><p>fast mode(<code>speed</code>) · 미국 전용 추론 1.1배(<code>inference_geo</code>) · 모델 바뀜</p></div>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">단가 쪽</p><p>fast mode(<code>speed</code>)를 켰는지, 미국 전용 추론 1.1배(<code>inference_geo</code>)인지, 모델이 바뀌었는지 본다</p></div>
             </div>
           </div>
         </div>
@@ -487,25 +493,25 @@
     </div>
   </section>
   <section class="t5-flow tree" id="usage-cost-tracing-tree-3" aria-labelledby="usage-cost-tracing-tree-3-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9">
-    <div class="t5-fh"><h3 id="usage-cost-tracing-tree-3-h">④⑤ 숫자가 안 맞음 <span class="pg">[4.6①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
+    <div class="t5-fh"><h3 id="usage-cost-tracing-tree-3-h">④⑤ 숫자가 안 맞을 때 <span class="pg">[4.6①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇과 무엇이?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇과 무엇이 안 맞나?</div>
       <div class="t5-fork" style="--n:4">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>대시보드 ↔ 청구서</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">실제 청구액은 Console 등 제공자 기준</p><p>Claude Code 비용 메트릭은 근사치</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">실제 청구액은 Console 등 제공자 기준이다</p><p>Claude Code 비용 메트릭은 근사치다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>방금 급증했는데 API 에 안 보임</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">반영 지연</p><p>보통 요청 끝나고 5분 안, 가끔 더 늦음</p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>방금 급증했는데 API 에 안 보인다</span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">반영 지연</p><p>보통 요청이 끝나고 5분 안에 반영된다. 가끔 더 늦는다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>Priority Tier 비용이 없음</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">사용량 쪽으로</p><p>Cost API 에 없음 → Usage API 의 <code>service_tier</code> = <code>priority</code></p></div>
+          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>Priority Tier 비용이 없다</span>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">사용량 쪽에서 본다</p><p>Cost API 에는 없다. Usage API 의 <code>service_tier</code> = <code>priority</code> 로 본다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>워크스페이스·API 키가 null</span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">기본 워크스페이스 · 플레이그라운드</p><p>기본 워크스페이스 = <code>workspace_id</code> null · 콘솔 플레이그라운드 = <code>api_key_id</code> null</p></div>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">기본 워크스페이스 · 플레이그라운드</p><p>기본 워크스페이스는 <code>workspace_id</code> 가 null 이다. 콘솔 플레이그라운드는 <code>api_key_id</code> 가 null 이다</p></div>
         </div>
       </div>
     </div>
@@ -515,7 +521,7 @@
       <ol class="how">
         <li id="usage-cost-tracing-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
-            <p>원인 찾자고 프롬프트·응답 원문을 기본으로 다 남기지 않음 → 기본은 구조만 <span class="note">(■ 텔레메트리 기록 범위)</span></p>
+            <p>원인을 찾으려고 프롬프트·응답 원문을 기본으로 다 남기지 않는다. 기본은 구조만 남긴다 <span class="note">(■ 텔레메트리 기록 범위)</span></p>
           </div>
         </li>
       </ol>
@@ -524,7 +530,7 @@
       <ol class="how">
         <li id="usage-cost-tracing-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p class="lead">조직 단위 = Usage &amp; Cost Admin API (Admin API 키 <code>sk-ant-admin01-...</code>) <span class="pg">[4.6①]</span></p>
+            <p class="lead">조직 단위로는 Usage &amp; Cost Admin API 를 쓴다 (Admin API 키 <code>sk-ant-admin01-...</code>) <span class="pg">[4.6①]</span></p>
             <div class="tscroll t-wide" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">엔드포인트</th><th scope="col" role="columnheader">단위</th><th scope="col" role="columnheader">거르기·묶기</th><th scope="col" role="columnheader">시간 버킷</th></tr></thead>
@@ -534,24 +540,24 @@
               </tbody>
             </table>
             </div>
-            <p><span class="lead">토큰 종류를 따로 셈 :</span> 캐시 안 된 입력 · 캐시된 입력 · 캐시 생성 · 출력 · 웹 검색 등 서버 도구 사용도</p>
-            <p>Enterprise 조직(claude.ai)은 Admin API 키가 없음 → Enterprise Analytics API 키</p>
+            <p>토큰 종류를 따로 센다. 캐시 안 된 입력·캐시된 입력·캐시 생성·출력이다. 웹 검색 등 서버 도구 사용도 센다</p>
+            <p>Enterprise 조직(claude.ai)은 Admin API 키가 없다. 그래서 Enterprise Analytics API 키를 쓴다</p>
           </div>
         </li>
         <li id="usage-cost-tracing-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p class="lead">늘어난 줄 → 먼저 볼 곳 (각 원인 =, 짝짓기 자체는 업계 일반) <span class="pg">[4.6①]</span> <span class="pg">[1.6③]</span></p>
+            <p class="lead">늘어난 줄마다 먼저 볼 곳은 아래 표와 같다 (각 원인 =, 짝짓기 자체는 업계 일반) <span class="pg">[4.6①]</span> <span class="pg">[1.6③]</span></p>
             <div class="tscroll" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">늘어난 것</th><th scope="col" role="columnheader">먼저 볼 곳</th></tr></thead>
               <tbody role="rowgroup">
-                <tr role="row"><td data-label="늘어난 것" role="cell">캐시 읽기 ↓ · 캐시 생성·일반 입력 ↑</td><td data-label="먼저 볼 곳" role="cell">캐시가 깨짐 — 앞부분에 매번 바뀌는 값(날짜 등) · thinking·effort 설정 변경(메시지 캐시 무효화) · 수명 지남 <span class="note">(■ 프롬프트 캐싱)</span></td></tr>
+                <tr role="row"><td data-label="늘어난 것" role="cell">캐시 읽기 ↓ · 캐시 생성·일반 입력 ↑</td><td data-label="먼저 볼 곳" role="cell">캐시가 깨졌다. 앞부분에 매번 바뀌는 값(날짜 등), thinking·effort 설정 변경(메시지 캐시 무효화), 수명 경과를 본다 <span class="note">(■ 프롬프트 캐싱)</span></td></tr>
                 <tr role="row"><td data-label="늘어난 것" role="cell">출력 ↑</td><td data-label="먼저 볼 곳" role="cell">답 길이 · 높은 effort · <code>max_<wbr>tokens</code> <span class="note">(■ max_tokens 와 긴 출력)</span></td></tr>
-                <tr role="row"><td data-label="늘어난 것" role="cell">특정 모델 ↑</td><td data-label="먼저 볼 곳" role="cell">라우팅·기본 모델이 바뀜 · 새 토크나이저는 같은 글에 약 30% 더 <span class="note">(■ per-request cost)</span></td></tr>
-                <tr role="row"><td data-label="늘어난 것" role="cell"><code>speed</code> = fast ↑</td><td data-label="먼저 볼 곳" role="cell">fast mode 요금 <span class="note">(Opus 5.5 $8/$40 — 표준의 2배)</span></td></tr>
-                <tr role="row"><td data-label="늘어난 것" role="cell"><code>inference_<wbr>geo</code> = us ↑</td><td data-label="먼저 볼 곳" role="cell">모든 토큰 1.1배</td></tr>
-                <tr role="row"><td data-label="늘어난 것" role="cell">특정 워크스페이스·API 키 ↑</td><td data-label="먼저 볼 곳" role="cell">그 팀·서비스로 좁혀 요청 단위로</td></tr>
-                <tr role="row"><td data-label="늘어난 것" role="cell">요청 수 ↑</td><td data-label="먼저 볼 곳" role="cell">트래픽 · 에이전트 구조 <span class="note">(에이전트 약 4배 · 멀티 약 15배, 채팅 대비 → ◆ 단일 vs 멀티 에이전트)</span></td></tr>
+                <tr role="row"><td data-label="늘어난 것" role="cell">특정 모델 ↑</td><td data-label="먼저 볼 곳" role="cell">라우팅·기본 모델이 바뀌었다. 새 토크나이저는 같은 글을 약 30% 더 센다 <span class="note">(■ per-request cost)</span></td></tr>
+                <tr role="row"><td data-label="늘어난 것" role="cell"><code>speed</code> = fast ↑</td><td data-label="먼저 볼 곳" role="cell">fast mode 요금이다 <span class="note">(Opus 5.5 $8/$40, 표준의 2배)</span></td></tr>
+                <tr role="row"><td data-label="늘어난 것" role="cell"><code>inference_<wbr>geo</code> = us ↑</td><td data-label="먼저 볼 곳" role="cell">모든 토큰이 1.1배다</td></tr>
+                <tr role="row"><td data-label="늘어난 것" role="cell">특정 워크스페이스·API 키 ↑</td><td data-label="먼저 볼 곳" role="cell">그 팀·서비스로 좁혀 요청 단위로 본다</td></tr>
+                <tr role="row"><td data-label="늘어난 것" role="cell">요청 수 ↑</td><td data-label="먼저 볼 곳" role="cell">트래픽 · 에이전트 구조 <span class="note">(에이전트 약 4배 · 멀티 약 15배, 채팅 대비. ◆ 단일 vs 멀티 에이전트)</span></td></tr>
               </tbody>
             </table>
             </div>
@@ -559,17 +565,36 @@
         </li>
         <li id="usage-cost-tracing-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">요청 한 건 :</span> 응답 <code>usage</code> (스트리밍이면 <code>message_start</code>) — <code>input_tokens</code> = 캐시에서 읽지도, 캐시에 쓰지도 않은 입력(마지막 break point 뒤) · <code>cache_creation_input_tokens</code> · <code>cache_read_input_tokens</code>. 어느 단계(검색(retrieval)·도구·생성)가 먹었나 = 트레이스 → <a href="observability-signals.html">■ observability 세 신호</a></p>
+            <p><span class="lead">요청 한 건 :</span> 응답 <code>usage</code> 를 본다(스트리밍이면 <code>message_start</code>). 입력 필드는 셋이다</p>
+            <ul class="dash">
+              <li><code>input_tokens</code> : 캐시에서 읽지도, 캐시에 쓰지도 않은 입력이다(마지막 break point 뒤)</li>
+              <li><code>cache_creation_input_tokens</code></li>
+              <li><code>cache_read_input_tokens</code></li>
+            </ul>
+            <p>어느 단계(검색(retrieval)·도구·생성)가 토큰을 먹었는지는 트레이스로 본다. 자세한 것은 <a href="observability-signals.html">■ observability 세 신호</a> 에 있다</p>
           </div>
         </li>
         <li id="usage-cost-tracing-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p><span class="lead">숫자 믿기 :</span> 실제 청구액은 Console 등 제공자 기준, Claude Code 비용 메트릭은 근사치 · 반영은 보통 5분 안(가끔 더 늦음) · 폴링은 분당 1회가 지속 사용 기준, 대시보드는 결과를 캐시 · Cost API 에 없는 것 = Priority Tier 비용(Usage API <code>service_tier</code> 로) · 코드 실행은 Cost API 에만(<code>Code Execution Usage</code>)</p>
+            <p><span class="lead">숫자 믿기 :</span> 숫자를 읽을 때 아래를 알아 둔다</p>
+            <ul class="dash">
+              <li>실제 청구액은 Console 등 제공자 기준이다. Claude Code 비용 메트릭은 근사치다</li>
+              <li>반영은 보통 5분 안에 된다(가끔 더 늦다)</li>
+              <li>폴링은 분당 1회가 지속 사용 기준이다. 대시보드는 결과를 캐시한다</li>
+              <li>Priority Tier 비용은 Cost API 에 없다. Usage API <code>service_tier</code> 로 본다</li>
+              <li>코드 실행은 Cost API 에만 있다(<code>Code Execution Usage</code>)</li>
+            </ul>
           </div>
         </li>
         <li id="usage-cost-tracing-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">누가 썼나 :</span> Claude Code 사용자별 = Claude Code Analytics API · 키가 많은 일반 API = Usage API 토큰을 비용 대용으로 · Claude Code 메트릭은 <code>skill.name</code>·<code>plugin.name</code>·<code>agent.name</code> 으로 지출을 스킬·플러그인·서브에이전트에 귀속, 흔한 알림 = 비용 급증 · 이상한 토큰 소비 · 기본 워크스페이스 = <code>workspace_id</code> null · 플레이그라운드 = <code>api_key_id</code> null</p>
+            <p><span class="lead">누가 썼나 :</span> 아래처럼 가린다</p>
+            <ul class="dash">
+              <li>Claude Code 사용자별 비용은 Claude Code Analytics API 로 본다</li>
+              <li>키가 많은 일반 API 는 Usage API 토큰을 비용 대용으로 쓴다</li>
+              <li>Claude Code 메트릭은 <code>skill.name</code>·<code>plugin.name</code>·<code>agent.name</code> 으로 지출을 스킬·플러그인·서브에이전트에 귀속한다. 흔한 알림은 비용 급증과 이상한 토큰 소비다</li>
+              <li>기본 워크스페이스는 <code>workspace_id</code> 가 null 이다. 플레이그라운드는 <code>api_key_id</code> 가 null 이다</li>
+            </ul>
           </div>
         </li>
       </ol>
@@ -579,21 +604,21 @@
     <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
-<div class="tscroll" role="region" aria-label="표" tabindex="0">
+<div class="tscroll t-wide" role="region" aria-label="표" tabindex="0">
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">조직 토큰을 모델·워크스페이스·서비스 티어별로</td><td data-label="답" role="cell">Usage API <code>usage_<wbr>report/<wbr>messages</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a> "Track token consumption across your organization with detailed breakdowns by model, workspace, and service tier"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">토큰을 종류별로</td><td data-label="답" role="cell">캐시 안 된 입력 · 캐시된 입력 · 캐시 생성 · 출력 따로</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">더 좁히기</td><td data-label="답" role="cell">API 키 · 워크스페이스 · 모델 · 서비스 티어 · 컨텍스트 창 · 데이터 레지던시 · 속도로 거르고 묶음</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">달러로 · 부서별 청구 나누기</td><td data-label="답" role="cell">Cost API <code>cost_<wbr>report</code> (USD, 1d 만)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">요청 한 건</td><td data-label="답" role="cell">응답 <code>usage</code> 의 세 입력 필드 + 출력</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">캐시 읽기가 0 으로 떨어짐 (전엔 적중)</td><td data-label="답" role="cell">thinking·effort 설정 변경을 의심</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Priority Tier 비용</td><td data-label="답" role="cell">Usage API <code>service_<wbr>tier</code> = <code>priority</code> (Cost API 에 없음)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Claude Code 사용자별 비용</td><td data-label="답" role="cell">Claude Code Analytics API</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Claude Code 비용 메트릭을 청구에</td><td data-label="답" role="cell">쓰지 않음 — 근사치</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">스킬·플러그인·서브에이전트별 지출 (Claude Code)</td><td data-label="답" role="cell"><code>skill.<wbr>name</code> · <code>plugin.<wbr>name</code> · <code>agent.<wbr>name</code> 속성</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Enterprise(claude.ai) 조직</td><td data-label="답" role="cell">Analytics API 키 (Admin API 키 없음)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">조직 토큰을 모델·워크스페이스·서비스 티어별로 보려 한다</td><td data-label="답" role="cell">Usage API <code>usage_<wbr>report/<wbr>messages</code> 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a> "Track token consumption across your organization with detailed breakdowns by model, workspace, and service tier"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">토큰을 종류별로 보려 한다</td><td data-label="답" role="cell">캐시 안 된 입력 · 캐시된 입력 · 캐시 생성 · 출력을 따로 본다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">더 좁히려 한다</td><td data-label="답" role="cell">API 키 · 워크스페이스 · 모델 · 서비스 티어 · 컨텍스트 창 · 데이터 레지던시 · 속도로 거르고 묶는다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">달러로 보거나 부서별로 청구를 나누려 한다</td><td data-label="답" role="cell">Cost API <code>cost_<wbr>report</code> 를 쓴다 (USD, 1d 만)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">요청 한 건을 본다</td><td data-label="답" role="cell">응답 <code>usage</code> 의 세 입력 필드와 출력을 본다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">캐시 읽기가 0 으로 떨어졌다 (전에는 적중)</td><td data-label="답" role="cell">thinking·effort 설정 변경을 의심한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-troubleshooting" lang="en" rel="noopener">thinking-troubleshooting</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Priority Tier 비용을 본다</td><td data-label="답" role="cell">Usage API <code>service_<wbr>tier</code> = <code>priority</code> 로 본다 (Cost API 에는 없다)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Claude Code 사용자별 비용을 본다</td><td data-label="답" role="cell">Claude Code Analytics API 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Claude Code 비용 메트릭을 청구에 쓰려 한다</td><td data-label="답" role="cell">쓰지 않는다. 근사치다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">스킬·플러그인·서브에이전트별 지출을 본다 (Claude Code)</td><td data-label="답" role="cell"><code>skill.<wbr>name</code> · <code>plugin.<wbr>name</code> · <code>agent.<wbr>name</code> 속성으로 본다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Enterprise(claude.ai) 조직이다</td><td data-label="답" role="cell">Analytics API 키를 쓴다 (Admin API 키는 없다)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -604,15 +629,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">요청 수</td><td data-label="값" role="cell">늘어남</td><td data-label="답 쪽" role="cell">트래픽 · 에이전트 구조 변화</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">◆ 단일 vs 멀티 에이전트(에이전트 약 4배 · 멀티 약 15배)</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">캐시 읽기 · 생성</td><td data-label="값" role="cell">읽기 ↓ 생성 ↑</td><td data-label="답 쪽" role="cell">캐시가 깨짐</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">토큰</td><td data-label="값" role="cell">그대로, 비용 ↑</td><td data-label="답 쪽" role="cell">단가 쪽 (<code>speed</code> · <code>inference_<wbr>geo</code> · 모델)</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">토큰</td><td data-label="값" role="cell">늘었는데 모델을 옮긴 직후</td><td data-label="답 쪽" role="cell">새 토크나이저일 수 있음 — 비용은 오히려 줄 수도</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">급증 시각</td><td data-label="값" role="cell">방금 (5분 안)</td><td data-label="답 쪽" role="cell">Usage API 에 아직 없을 수 있음 → 요청 <code>usage</code>·앱 로그</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 4</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">도구</td><td data-label="값" role="cell">Claude Code 팀 사용</td><td data-label="답 쪽" role="cell">Claude Code Analytics API · OTel 비용 메트릭(근사치)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a> · <a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">서비스 티어</td><td data-label="값" role="cell">Priority</td><td data-label="답 쪽" role="cell">Usage API 로만</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">비용 종류</td><td data-label="값" role="cell">코드 실행</td><td data-label="답 쪽" role="cell">Cost API 의 <code>Code Execution Usage</code> 로만</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">워크스페이스</td><td data-label="값" role="cell">기본</td><td data-label="답 쪽" role="cell"><code>workspace_<wbr>id</code> null</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">요청 수</td><td data-label="값" role="cell">늘었다</td><td data-label="답 쪽" role="cell">트래픽이나 에이전트 구조 변화를 본다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">◆ 단일 vs 멀티 에이전트(에이전트 약 4배 · 멀티 약 15배)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">캐시 읽기 · 생성</td><td data-label="값" role="cell">읽기 ↓ 생성 ↑</td><td data-label="답 쪽" role="cell">캐시가 깨졌다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">토큰</td><td data-label="값" role="cell">그대로인데 비용 ↑</td><td data-label="답 쪽" role="cell">단가 쪽을 본다 (<code>speed</code> · <code>inference_<wbr>geo</code> · 모델)</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">토큰</td><td data-label="값" role="cell">늘었는데 모델을 옮긴 직후다</td><td data-label="답 쪽" role="cell">새 토크나이저일 수 있다. 비용은 오히려 줄 수도 있다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">급증 시각</td><td data-label="값" role="cell">방금이다 (5분 안)</td><td data-label="답 쪽" role="cell">Usage API 에 아직 없을 수 있다. 요청 <code>usage</code> 와 앱 로그를 본다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 4</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">도구</td><td data-label="값" role="cell">Claude Code 팀 사용</td><td data-label="답 쪽" role="cell">Claude Code Analytics API 와 OTel 비용 메트릭(근사치)을 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a> · <a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">서비스 티어</td><td data-label="값" role="cell">Priority</td><td data-label="답 쪽" role="cell">Usage API 로만 본다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">비용 종류</td><td data-label="값" role="cell">코드 실행</td><td data-label="답 쪽" role="cell">Cost API 의 <code>Code Execution Usage</code> 로만 본다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">워크스페이스</td><td data-label="값" role="cell">기본</td><td data-label="답 쪽" role="cell"><code>workspace_<wbr>id</code> 가 null 이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -628,14 +653,14 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"대시보드(메트릭) 합계만 보면 원인이 나온다" → 합계는 '얼마가' 만 답하고, '어디서·왜' 는 쪼개기·트레이스가 답함</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"알림 임계값을 더 촘촘히" → 알림이 늘 뿐 원인은 그대로 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"모든 프롬프트·응답 원문을 기본 저장해 두고 뒤진다" → 기본은 구조만, 승인된 파이프라인만 (<a href="telemetry-scope.html">■ 텔레메트리 기록 범위</a>)</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>캐시 적중이 무너진 급증을 "트래픽 증가"로 봄 → 요청 수 그대로 · 캐시 읽기 ↓ 생성 ↑ 면 캐시가 깨짐</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Claude Code 비용 메트릭을 청구 근거로 → 근사치, 청구는 Console 등</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Cost API 로 Priority Tier 비용을 찾음 → 없음, Usage API <code>service_tier</code></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>방금 뜬 급증이 API 에 안 보이니 "오탐" → 반영이 보통 5분 안, 더 늦을 수 있음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>토큰이 그대로라 "비용 변화 없음"으로 닫음 → 단가 쪽(fast · 미국 전용 1.1배 · 모델)도 봄</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"대시보드(메트릭) 합계만 보면 원인이 나온다" 는 함정이다. 합계는 '얼마가' 만 답한다. '어디서·왜' 는 쪼개기와 트레이스가 답한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"알림 임계값을 더 촘촘히 건다" 는 함정이다. 알림이 늘 뿐 원인은 그대로다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"모든 프롬프트·응답 원문을 기본 저장해 두고 뒤진다" 는 함정이다. 기본은 구조만 남긴다. 승인된 파이프라인만 쓴다 (<a href="telemetry-scope.html">■ 텔레메트리 기록 범위</a>)</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>캐시 적중이 무너진 급증을 "트래픽 증가" 로 보는 것은 함정이다. 요청 수는 그대로이고 캐시 읽기 ↓ 생성 ↑ 면 캐시가 깨진 것이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Claude Code 비용 메트릭을 청구 근거로 쓰는 것은 함정이다. 근사치다. 청구는 Console 등을 기준으로 한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Cost API 로 Priority Tier 비용을 찾는 것은 함정이다. 거기에는 없다. Usage API <code>service_tier</code> 로 본다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>방금 뜬 급증이 API 에 안 보인다고 "오탐" 으로 보는 것은 함정이다. 반영은 보통 5분 안에 된다. 더 늦을 수 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>토큰이 그대로라고 "비용 변화 없음" 으로 닫는 것은 함정이다. 단가 쪽(fast · 미국 전용 1.1배 · 모델)도 본다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -658,61 +683,59 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. "비용이 급증 = 트래픽이 늘었다" 가 틀리는 때 — 캐시가 깨짐</h4>
 <ul>
-<li><span class="lead">조건 :</span> Sonnet 5 · 고정 앞부분 1만 2천 토큰 · 질문 400 · 출력 250 · 하루 3만 요청. 요청 수는 그대로인데 하루 비용이 급증.</li>
-<li>계산 (백만 토큰당 입력 $2 · 출력 $10 · 5분 쓰기 $2.50 · 읽기 $0.20) :</li>
-<li>적중 때 = 12,000 × $0.20 + 400 × $2 + 250 × $10 = $0.0024 + $0.0008 + $0.0025 = $0.0057 → 하루 $171</li>
-<li>
-<p class="lead">매번 새로 쓰기 = 12,000 × $2.50 + $0.0008 + $0.0025 = $0.0333 → 하루 $999 (약 5.8배)</p>
+<li><span class="lead">조건 :</span> Sonnet 5 를 쓴다. 고정 앞부분 1만 2천 토큰, 질문 400, 출력 250, 하루 3만 요청이다. 요청 수는 그대로인데 하루 비용이 급증했다.</li>
+<li>계산 (백만 토큰당 입력 $2 · 출력 $10 · 5분 쓰기 $2.50 · 읽기 $0.20) :<ul>
+<li>적중 때 = 12,000 × $0.20 + 400 × $2 + 250 × $10 = $0.0024 + $0.0008 + $0.0025 = $0.0057 이다. 하루 $171 이다.</li>
+<li>매번 새로 쓰기 = 12,000 × $2.50 + $0.0008 + $0.0025 = $0.0333 이다. 하루 $999 다(약 5.8배).</li>
+</ul>
 </li>
-<li>
-<p>판단 : 요청 수·출력이 그대로면 트래픽이 아님. Usage API 를 토큰 종류로 쪼개면 캐시 읽기가 0 근처 · 캐시 생성이 하루 약 3억 6천만 토큰으로 튐 → 캐시가 깨짐. 먼저 볼 것 : 최근 thinking·effort 설정을 바꿨나 · 앞부분에 날짜 같은 바뀌는 값이 들어갔나.</p>
+<li>판단 : 요청 수와 출력이 그대로면 트래픽 문제가 아니다. Usage API 를 토큰 종류로 쪼개면 캐시 읽기가 0 근처다. 캐시 생성은 하루 약 3억 6천만 토큰으로 튄다. 그래서 캐시가 깨진 것이다. 먼저 볼 것은 둘이다.<ul>
+<li>최근 thinking·effort 설정을 바꿨나?</li>
+<li>앞부분에 날짜 같은 바뀌는 값이 들어갔나?</li>
+</ul>
 </li>
-<li><span class="lead">전제 :</span> 요청마다 캐시 쓰기가 일어난다고 봄(호출 간격이 수명 안) · 가격 = 2026-09-28 조회값.</li>
+<li><span class="lead">전제 :</span> 요청마다 캐시 쓰기가 일어난다고 봤다(호출 간격이 수명 안이다). 가격은 2026-09-28 조회값이다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (배수·증상·원인은 확인)</li>
 <li><span class="lead">근거 :</span> prompt-caching 표 · usage-cost-api · thinking-troubleshooting</li>
 </ul>
 <h4>2. 토큰 그래프는 그대로인데 비용이 오르는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> Opus 5.5 · 월 입력 2억 · 출력 3천만 토큰, 토큰 수는 지난달과 같음.</li>
-<li>계산 :</li>
+<li><span class="lead">조건 :</span> Opus 5.5 를 쓴다. 월 입력 2억, 출력 3천만 토큰이다. 토큰 수는 지난달과 같다.</li>
+<li>계산 :<ul>
 <li>표준 = 200 × $4 + 30 × $20 = $800 + $600 = $1,400</li>
-<li>미국 전용 추론(<code>inference_geo: "us"</code>) = × 1.1 → $1,540</li>
+<li>미국 전용 추론(<code>inference_geo: "us"</code>)은 × 1.1 이라 $1,540 이다.</li>
 <li>fast mode = 200 × $8 + 30 × $40 = $2,800 (2배)</li>
-<li>
-<p class="lead">둘 다 = × 1.1 → $3,080 (fast mode 에도 지역 배수가 곱해짐)</p>
+<li>둘 다면 × 1.1 이라 $3,080 이다(fast mode 에도 지역 배수가 곱해진다).</li>
+</ul>
 </li>
-<li>
-<p>판단 : 토큰만 보면 "변화 없음". Usage API 를 <code>speed</code> · <code>inference_geo</code> · 모델로 묶어야 보임. 누가 fast mode 를 켰는지는 워크스페이스·API 키로 좁힘.</p>
-</li>
+<li><span class="lead">판단 :</span> 토큰만 보면 "변화 없음" 이다. Usage API 를 <code>speed</code> · <code>inference_geo</code> · 모델로 묶어야 보인다. 누가 fast mode 를 켰는지는 워크스페이스·API 키로 좁힌다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (단가·배수는 확인)</li>
 <li><span class="lead">근거 :</span> pricing · usage-cost-api</li>
 </ul>
 <h4>3. 토큰 알림이 울렸는데 비용은 준 때 — 모델 이관</h4>
 <ul>
-<li><span class="lead">조건 :</span> Sonnet 4.6($3/$15)에서 Sonnet 5($2/$10)로 옮김. 같은 글을 새 토크나이저가 약 30% 더 셈. 지난달 입력 1억 · 출력 2천만.</li>
-<li>계산 :</li>
+<li><span class="lead">조건 :</span> Sonnet 4.6($3/$15)에서 Sonnet 5($2/$10)로 옮겼다. 새 토크나이저는 같은 글을 약 30% 더 센다. 지난달은 입력 1억, 출력 2천만이었다.</li>
+<li>계산 :<ul>
 <li>이관 전 = 100 × $3 + 20 × $15 = $300 + $300 = $600</li>
-<li>
-<p class="lead">이관 뒤 = 130 × $2 + 26 × $10 = $260 + $260 = $520 (토큰은 30% 늘고 비용은 약 13% 줄어듦)</p>
+<li>이관 뒤 = 130 × $2 + 26 × $10 = $260 + $260 = $520 (토큰은 30% 늘고 비용은 약 13% 준다)</li>
+</ul>
 </li>
-<li>
-<p>판단 : 토큰 수 알림만 걸어 두면 "급증"으로 오판. 비용은 Cost API(USD)로, 토큰은 모델별로 나눠 같이 봄.</p>
-</li>
-<li><span class="lead">전제 :</span> 출력도 같은 비율로 30% 늘었다고 봄(내용 따라 다름) · 가격 = 2026-09-28 조회값.</li>
+<li><span class="lead">판단 :</span> 토큰 수 알림만 걸어 두면 "급증" 으로 오판한다. 비용은 Cost API(USD)로 본다. 토큰은 모델별로 나눠 같이 본다.</li>
+<li><span class="lead">전제 :</span> 출력도 같은 비율로 30% 늘었다고 봤다(내용에 따라 다르다). 가격은 2026-09-28 조회값이다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span></li>
 <li><span class="lead">근거 :</span> 릴리스 노트 · prompt-caching 표</li>
 </ul>
 <h4>4. 방금 뜬 급증이 조직 데이터에 안 보이는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 알림이 3분 전에 떴는데 Usage API 에 아직 없음.</li>
-<li><span class="lead">판단 :</span> 반영은 보통 요청 끝나고 5분 안, 가끔 더 늦음 → "오탐"으로 닫지 않음. 기다리는 동안은 내 앱이 남긴 요청 <code>usage</code>(응답마다 옴)로 봄 (앱 쪽 계측은 업계 일반). 폴링은 분당 1회가 지속 사용 기준.</li>
+<li><span class="lead">조건 :</span> 알림이 3분 전에 떴다. 그런데 Usage API 에는 아직 없다.</li>
+<li><span class="lead">판단 :</span> 반영은 보통 요청이 끝나고 5분 안에 된다. 가끔 더 늦는다. 그래서 "오탐" 으로 닫지 않는다. 기다리는 동안은 내 앱이 남긴 요청 <code>usage</code>(응답마다 온다)로 본다 (앱 쪽 계측은 업계 일반). 폴링은 분당 1회가 지속 사용 기준이다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(5분 · 분당 1회) ·</span> <span class="gen">업계 일반</span> <span class="note">(앱 쪽 계측)</span></li>
 <li><span class="lead">근거 :</span> usage-cost-api · prompt-caching</li>
 </ul>
 <h4>5. 사용자·스킬별로 나눠야 하는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 사내 개발자 수백 명이 Claude Code 를 쓰고, 비용이 누구·어느 스킬에서 늘었는지 알아야 함.</li>
-<li><span class="lead">판단 :</span> API 키를 사람마다 나눠 Usage API 로 쪼개는 건 느림 → Claude Code Analytics API(사용자별 예상 비용). OTel 비용 메트릭은 <code>skill.name</code>·<code>plugin.name</code>·<code>agent.name</code> 으로 귀속하되 근사치라 실제 청구액은 Console 기준.</li>
+<li><span class="lead">조건 :</span> 사내 개발자 수백 명이 Claude Code 를 쓴다. 비용이 누구에게서, 어느 스킬에서 늘었는지 알아야 한다.</li>
+<li><span class="lead">판단 :</span> API 키를 사람마다 나눠 Usage API 로 쪼개는 것은 느리다. 그래서 Claude Code Analytics API(사용자별 예상 비용)를 쓴다. OTel 비용 메트릭은 <code>skill.name</code>·<code>plugin.name</code>·<code>agent.name</code> 으로 귀속한다. 다만 근사치라 실제 청구액은 Console 기준이다.</li>
 
 <li><span class="lead">근거 :</span> usage-cost-api · monitoring-usage</li>
 </ul>
@@ -723,14 +746,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"비용 대시보드를 보면 원인이 나온다"</td><td data-label="왜 끌리나" role="cell">숫자가 다 있어 보임</td><td data-label="왜 틀리나" role="cell">합계는 얼마가 움직였는지만. 차원·토큰 종류로 쪼개고 해당 실행을 봐야</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a> · ■ observability 세 신호</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"알림 임계값을 더 촘촘히"</td><td data-label="왜 끌리나" role="cell">빨리 알면 해결될 것 같음</td><td data-label="왜 틀리나" role="cell">알림만 늘고 원인은 그대로</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 4.6① "매력적인 오답"</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"모든 프롬프트·응답 원문을 기본 저장해 두고 뒤진다"</td><td data-label="왜 끌리나" role="cell">다 있으면 안심</td><td data-label="왜 틀리나" role="cell">기본은 구조만, 승인된 파이프라인만. 규제 환경이면 보존 문제</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">■ 텔레메트리 기록 범위 · <a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"요청 수가 그대로니 비용 급증은 오류"</td><td data-label="왜 끌리나" role="cell">트래픽만 원인으로 봄</td><td data-label="왜 틀리나" role="cell">캐시가 깨지면 요청 수 그대로 약 5.8배</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"토큰이 그대로면 비용도 그대로"</td><td data-label="왜 끌리나" role="cell">비용 = 토큰으로 외움</td><td data-label="왜 틀리나" role="cell">fast mode 2배 · 미국 전용 1.1배 · 모델 단가</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"토큰이 30% 늘었으니 비용 급증"</td><td data-label="왜 끌리나" role="cell">토큰 알림이 울림</td><td data-label="왜 틀리나" role="cell">새 토크나이저 이관이면 비용은 줄 수도</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Claude Code 비용 메트릭으로 부서에 청구"</td><td data-label="왜 끌리나" role="cell">숫자가 USD 로 나옴</td><td data-label="왜 틀리나" role="cell">근사치, 실제 청구액은 제공자 기준</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Cost API 로 Priority Tier 비용을 본다"</td><td data-label="왜 끌리나" role="cell">비용이니 Cost API</td><td data-label="왜 틀리나" role="cell">Cost API 에 없음 → Usage API <code>service_<wbr>tier</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"비용 대시보드를 보면 원인이 나온다"</td><td data-label="왜 끌리나" role="cell">숫자가 다 있어 보인다</td><td data-label="왜 틀리나" role="cell">합계는 얼마가 움직였는지만 말한다. 차원과 토큰 종류로 쪼개고 해당 실행을 봐야 한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a> · ■ observability 세 신호</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"알림 임계값을 더 촘촘히"</td><td data-label="왜 끌리나" role="cell">빨리 알면 해결될 것 같다</td><td data-label="왜 틀리나" role="cell">알림만 늘고 원인은 그대로다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 4.6① "매력적인 오답"</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모든 프롬프트·응답 원문을 기본 저장해 두고 뒤진다"</td><td data-label="왜 끌리나" role="cell">다 있으면 안심이 된다</td><td data-label="왜 틀리나" role="cell">기본은 구조만 남긴다. 승인된 파이프라인만 쓴다. 규제 환경이면 보존 문제가 생긴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">■ 텔레메트리 기록 범위 · <a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"요청 수가 그대로니 비용 급증은 오류"</td><td data-label="왜 끌리나" role="cell">트래픽만 원인으로 본다</td><td data-label="왜 틀리나" role="cell">캐시가 깨지면 요청 수가 그대로여도 약 5.8배가 된다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"토큰이 그대로면 비용도 그대로"</td><td data-label="왜 끌리나" role="cell">비용 = 토큰으로 외웠다</td><td data-label="왜 틀리나" role="cell">fast mode 2배 · 미국 전용 1.1배 · 모델 단가가 있다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"토큰이 30% 늘었으니 비용 급증"</td><td data-label="왜 끌리나" role="cell">토큰 알림이 울렸다</td><td data-label="왜 틀리나" role="cell">새 토크나이저 이관이면 비용은 줄 수도 있다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Claude Code 비용 메트릭으로 부서에 청구"</td><td data-label="왜 끌리나" role="cell">숫자가 USD 로 나온다</td><td data-label="왜 틀리나" role="cell">근사치다. 실제 청구액은 제공자 기준이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Cost API 로 Priority Tier 비용을 본다"</td><td data-label="왜 끌리나" role="cell">비용이니 Cost API 라고 생각한다</td><td data-label="왜 틀리나" role="cell">Cost API 에는 없다. Usage API <code>service_<wbr>tier</code> 로 본다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -738,13 +761,17 @@
   </details>
   <h2 class="sec-h" id="usage-cost-tracing-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="observability-signals.html">■ observability 세 신호</a></li>
         <li><a href="telemetry-scope.html">■ 텔레메트리 기록 범위</a></li>
         <li><a href="cost-per-request.html">■ per-request cost</a></li>
         <li><a href="caching.html">■ 프롬프트 캐싱</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 4.6</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -764,12 +791,13 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>목록 4.6① 의 "root trace 아래 검색·도구·생성 span, 토큰·지연·TTFT·stop_reason·도구 호출" 필드 목록은 목록 스스로 "영상 기준 — 근거 확인 필요"라고 적음. 직접 API 앱용 공식 필드 목록은 받은 원문에 없음 → 카드는 Claude Code·Agent SDK 트레이스(■ observability 세 신호)로 가리키기만.</li>
-<li>Usage API 가 요청 수(건수)를 주는지 : 받은 원문 key concepts 에는 토큰만 있음(usage-cost-api) → 카드는 요청 수를 앱·게이트웨이 로그로 봄(업계 일반).</li>
-<li>Cost API 의 <code>description</code> 묶음에서 fast mode·Priority 가 어떻게 찍히는지 : 원문엔 <code>model</code>·<code>inference_geo</code> 파싱만 나옴.</li>
-<li>영어 신호 "User prompt content is not collected by default. Only prompt length is recorded." 는 monitoring-usage에 있음 — 본문은 ■ 텔레메트리 기록 범위 몫이라 여기선 인용 안 함.</li>
+<li>목록 4.6① 의 "root trace 아래 검색·도구·생성 span, 토큰·지연·TTFT·stop_reason·도구 호출" 필드 목록은 목록 스스로 "영상 기준 — 근거 확인 필요" 라고 적었다. 직접 API 앱용 공식 필드 목록은 받은 원문에 없다. 그래서 카드는 Claude Code·Agent SDK 트레이스(■ observability 세 신호)를 가리키기만 한다.</li>
+<li>Usage API 가 요청 수(건수)를 주는지 모른다. 받은 원문 key concepts 에는 토큰만 있다(usage-cost-api). 그래서 카드는 요청 수를 앱·게이트웨이 로그로 본다(업계 일반).</li>
+<li>Cost API 의 <code>description</code> 묶음에서 fast mode·Priority 가 어떻게 찍히는지 모른다. 원문에는 <code>model</code>·<code>inference_geo</code> 파싱만 나온다.</li>
+<li>영어 신호 "User prompt content is not collected by default. Only prompt length is recorded." 는 monitoring-usage에 있다. 본문은 ■ 텔레메트리 기록 범위 에 있으므로 여기서는 인용하지 않는다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

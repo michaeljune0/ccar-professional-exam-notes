@@ -392,27 +392,27 @@
 <!-- /vx:figure -->
 <section class="ex-sec" id="principle" aria-labelledby="principle-h">
 <h3 id="principle-h">원리</h3>
-<p class="lead">static decomposition(정적 분해) — 코드가 미리 나눔</p>
+<p class="lead">static decomposition(정적 분해)은 코드가 미리 나눈다</p>
 <ul>
-<li>워크플로 = LLM 과 도구를 미리 정한 코드 경로로 엮음. 잘 정의된 일엔 예측 가능성·일관성을 줌.</li>
-<li>prompt chaining(체이닝) : 앞 호출의 출력이 다음 호출의 입력. 사이에 코드 검사(gate)를 넣을 수 있음. 호출마다 쉬운 일로 만들어 정확도를 얻고, 그 대신 지연(latency)을 씀.</li>
-<li>나눠 돌리기(sectioning) : 서로 독립인 하위작업을 병렬로 돌린 뒤 코드가 모음. 조각끼리 독립이어야 성립.</li>
-<li>routing(라우팅) : 입력을 분류해 전문 경로로 보냄. 입력이 다양해 보여도 유형 목록이 정해져 있으면 여기서 끝남.</li>
+<li>워크플로는 LLM 과 도구를 미리 정한 코드 경로로 엮는다. 잘 정의된 일에 예측 가능성과 일관성을 준다.</li>
+<li>prompt chaining(체이닝) : 앞 호출의 출력이 다음 호출의 입력이 된다. 사이에 코드 검사(gate)를 넣을 수 있다. 호출마다 쉬운 일로 만들어 정확도를 얻는다. 그 대신 지연(latency)을 쓴다.</li>
+<li>나눠 돌리기(sectioning) : 서로 독립인 하위작업을 병렬로 돌린 뒤 코드가 모은다. 조각끼리 독립이어야 성립한다.</li>
+<li>routing(라우팅) : 입력을 분류해 전문 경로로 보낸다. 입력이 다양해 보여도 유형 목록이 정해져 있으면 여기서 끝난다.</li>
 </ul>
-<p class="lead">dynamic decomposition(동적 분해) — orchestrator 가 입력을 보고 나눔</p>
+<p class="lead">dynamic decomposition(동적 분해)은 orchestrator 가 입력을 보고 나눈다</p>
 <ul>
-<li>orchestrator-workers : 중앙 LLM 이 입력을 보고 하위작업을 정하고, worker LLM 에 맡기고, 결과를 합침.</li>
-<li>나눠 돌리기와 모양이 같음. 차이는 하위작업이 미리 정해졌느냐(정적) 입력이 정하느냐(동적) 하나.</li>
-<li>여전히 공식 글에선 "워크플로" 칸에 들어감. 에이전트는 그다음 칸.</li>
+<li>orchestrator-workers : 중앙 LLM 이 입력을 보고 하위작업을 정하고, worker LLM 에 맡기고, 결과를 합친다.</li>
+<li>나눠 돌리기와 모양이 같다. 차이는 하나다. 하위작업이 미리 정해졌느냐(정적), 입력이 정하느냐(동적)다.</li>
+<li>공식 글에서는 여전히 "워크플로" 칸에 들어간다. 에이전트는 그다음 칸이다.</li>
 </ul>
 <p class="lead">에이전트</p>
 <ul>
-<li>단계 수조차 예측할 수 없고 경로를 미리 정해 둘 수 없는 열린 문제. LLM 이 자기 과정과 도구 사용을 스스로 정함.</li>
-<li>대가 : 비용↑ · 오류 누적 → 샌드박스 시험 + 가드레일.</li>
+<li>단계 수조차 예측할 수 없고 경로를 미리 정해 둘 수 없는 열린 문제에 쓴다. LLM 이 자기 과정과 도구 사용을 스스로 정한다.</li>
+<li>대가 : 비용이 오르고 오류가 쌓인다. 그래서 샌드박스에서 시험하고 가드레일을 둔다.</li>
 </ul>
 <p class="lead">맨 앞에 서는 원칙</p>
 <ul>
-<li>가장 단순한 것부터. 검색(retrieval) + 예시를 붙인 단일 호출로 충분한 경우가 많음. 복잡도(쪼개기 단계를 더하는 것)는 필요할 때만 올림.</li>
+<li>가장 단순한 것부터 시작한다. 검색(retrieval)과 예시를 붙인 단일 호출로 충분한 경우가 많다. 복잡도(쪼개기 단계를 더하는 것)는 필요할 때만 올린다.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
@@ -433,7 +433,7 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">단일 호출</p><p>가장 단순한 것부터, 필요할 때만 복잡도</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">단일 호출</p><p>가장 단순한 것부터 시작한다. 복잡도는 필요할 때만 더한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
@@ -452,34 +452,34 @@
           <div class="t5-q" data-p="n3"><span class="t5-hl" aria-hidden="true"></span>조각끼리 의존하나?</div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>앞 출력이 다음 입력</span>
-              <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">prompt chaining</p><p>사이에 코드 검사(gate). 지연(latency)을 감수하고 정확도를 얻음</p></div>
+              <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>앞 출력이 다음 입력이다</span>
+              <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">prompt chaining</p><p>사이에 코드 검사(gate)를 둔다. 지연(latency)을 감수하고 정확도를 얻는다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>서로 독립</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">나눠 돌리기</p><p>sectioning, 병렬 뒤 코드가 모음. 안전 조건 = 조각끼리 독립</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">나눠 돌리기</p><p>sectioning 이다. 병렬로 돌린 뒤 코드가 모은다. 안전 조건은 조각끼리 독립인 것이다</p></div>
             </div>
           </div>
         </div>
         <div class="t5-arm">
-          <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(입력마다 다름)</span></span>
-          <div class="t5-q" data-p="n9"><span class="t5-hl" aria-hidden="true"></span>유형이 몇 가지로 정해져 있나?<span class="t5-sub">분류가 정확한가도 같이</span></div>
+          <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(입력마다 다르다)</span></span>
+          <div class="t5-q" data-p="n9"><span class="t5-hl" aria-hidden="true"></span>유형이 몇 가지로 정해져 있나?<span class="t5-sub">분류가 정확한지도 같이 본다</span></div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>예, 분류도 정확</span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">routing</p><p>유형이 몇 가지로 정해져 있고 분류가 정확하면 routing(정적)으로 충분 → <a href="workflow-patterns.html">■ 워크플로 5패턴</a></p></div>
+              <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>예, 분류도 정확하다</span>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">routing</p><p>유형이 몇 가지로 정해져 있고 분류가 정확하면 routing(정적)으로 충분하다. 자세한 것은 <a href="workflow-patterns.html">■ 워크플로 5패턴</a> 에 있다</p></div>
             </div>
             <div class="t5-arm">
               <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
               <div class="t5-q" data-p="n13"><span class="t5-hl" aria-hidden="true"></span>단계 수도 모르나?</div>
               <div class="t5-fork" style="--n:2">
                 <div class="t5-arm is-leaf">
-                  <span class="t5-edge" data-p="n14"><span class="t5-hl" aria-hidden="true"></span>하위작업만 입력마다 다름</span>
-                  <div class="t5-leaf t5-ans" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">orchestrator-workers</p><p>orchestrator LLM 이 입력을 보고 나누고 맡기고 합침</p></div>
+                  <span class="t5-edge" data-p="n14"><span class="t5-hl" aria-hidden="true"></span>하위작업만 입력마다 다르다</span>
+                  <div class="t5-leaf t5-ans" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">orchestrator-workers</p><p>orchestrator LLM 이 입력을 보고 나누고, 맡기고, 합친다</p></div>
                 </div>
                 <div class="t5-arm is-leaf">
-                  <span class="t5-edge" data-p="n16"><span class="t5-hl" aria-hidden="true"></span>몇 단계일지도 모름 · 경로를 미리 정해 둘 수 없음</span>
-                  <div class="t5-leaf t5-ans" data-p="n17"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">에이전트</p><p>열린 문제. 멀티로 갈지는 <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></p></div>
+                  <span class="t5-edge" data-p="n16"><span class="t5-hl" aria-hidden="true"></span>몇 단계일지도 모른다 · 경로를 미리 정해 둘 수 없다</span>
+                  <div class="t5-leaf t5-ans" data-p="n17"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">에이전트</p><p>열린 문제다. 멀티로 갈지는 <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a> 에서 다룬다</p></div>
                 </div>
               </div>
             </div>
@@ -490,34 +490,34 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="static-vs-dynamic-decomp-flow" aria-label="static vs dynamic decomposition 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["입력","decomposition","workers","합치기"],"blocks":[],"rules":[null,null,null,null],"question":"하위작업을 입력 전에 적을 수 있나?","scenes":[{"name":"① 하위작업이 미리 정해짐 → 정적","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["티켓: \"배송이 2주째","안 와요, 화나네요\""]}},{"kind":"move","step":"나누기","from":{"col":0},"to":1,"label":"코드가 미리 나눔","art":{"kind":"slip","lines":["판정 목록 (코드에 고정)","의도 · 감정 · 요약"]}},{"kind":"move","step":"돌리기","from":{"col":1},"to":2,"label":"서로 독립이라 병렬","art":{"kind":"slip","lines":["호출 3개를 동시에"]}},{"kind":"move","step":"모으기","from":{"col":2},"to":3,"label":"코드가 모음","art":{"kind":"slip","lines":["{ 의도: \"배송 문의\",","감정: \"화남\",","요약: \"2주째 미배송\" }"]}},{"kind":"end","label":"잘 정의된 일엔 예측 가능성·일관성"}]},{"name":"② 입력마다 하위작업이 다름 → 동적","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["버그: \"환불 버튼이","가끔 두 번 눌려요\""]}},{"kind":"move","step":"보기","from":{"col":0},"to":1,"label":"orchestrator LLM 이 보고 나눔","art":{"kind":"slip","lines":["orchestrator:","고칠 파일 3개","button.tsx · refund.ts","· refund.test.ts"]}},{"kind":"move","step":"맡기기","from":{"col":1},"to":2,"label":"파일 수·내용이 작업마다 다름","art":{"kind":"slip","lines":["worker 3개에","파일 하나씩"]}},{"kind":"move","step":"모으기","from":{"col":2},"to":3,"label":"orchestrator 가 합침","art":{"kind":"slip","lines":["수정 3건","orchestrator 가","하나로 합침"]}},{"kind":"end","label":"입력마다 다름 → dynamic decomposition"}]},{"name":"③ 미리 아는데 orchestrator 에게","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["티켓: \"배송이 2주째","안 와요, 화나네요\""]}},{"kind":"move","step":"보기","from":{"col":0},"to":1,"label":"매 티켓 똑같은 세 판정을 orchestrator 가","art":{"kind":"slip","lines":["orchestrator","호출 1번 더","→ 의도 · 감정 · 요약"]}},{"kind":"move","step":"맡기기","from":{"col":1},"to":2,"label":"예측 가능성을 내줌","art":{"kind":"slip","lines":["늘 같은 세 판정인데","나누기를 매번 LLM 이 정함"]}},{"kind":"end","label":"하위작업이 여러 개라는 것만으로는 동적 이유가 안 됨"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["입력","decomposition","workers","합치기"],"blocks":[],"rules":[null,null,null,null],"question":"하위작업을 입력 전에 적을 수 있나?","scenes":[{"name":"① 미리 정해지면 정적","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["티켓: \"배송이 2주째","안 와요, 화나네요\""]}},{"kind":"move","step":"나누기","from":{"col":0},"to":1,"label":"코드가 미리 나눈다","art":{"kind":"slip","lines":["판정 목록 (코드에 고정)","의도 · 감정 · 요약"]}},{"kind":"move","step":"돌리기","from":{"col":1},"to":2,"label":"서로 독립이라 병렬로 돌린다","art":{"kind":"slip","lines":["호출 3개를 동시에"]}},{"kind":"move","step":"모으기","from":{"col":2},"to":3,"label":"코드가 모은다","art":{"kind":"slip","lines":["{ 의도: \"배송 문의\",","감정: \"화남\",","요약: \"2주째 미배송\" }"]}},{"kind":"end","label":"잘 정의된 일에 예측 가능성과 일관성을 준다"}]},{"name":"② 입력마다 다르면 동적","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["버그: \"환불 버튼이","가끔 두 번 눌려요\""]}},{"kind":"move","step":"보기","from":{"col":0},"to":1,"label":"orchestrator LLM 이 보고 나눈다","art":{"kind":"slip","lines":["orchestrator:","고칠 파일 3개","button.tsx · refund.ts","· refund.test.ts"]}},{"kind":"move","step":"맡기기","from":{"col":1},"to":2,"label":"파일 수·내용이 작업마다 다르다","art":{"kind":"slip","lines":["worker 3개에","파일 하나씩"]}},{"kind":"move","step":"모으기","from":{"col":2},"to":3,"label":"orchestrator 가 합친다","art":{"kind":"slip","lines":["수정 3건","orchestrator 가","하나로 합침"]}},{"kind":"end","label":"입력마다 다르면 dynamic decomposition 이다"}]},{"name":"③ 미리 아는데 orchestrator 에게","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["티켓: \"배송이 2주째","안 와요, 화나네요\""]}},{"kind":"move","step":"보기","from":{"col":0},"to":1,"label":"매 티켓 똑같은 세 판정을 orchestrator 가 나눈다","art":{"kind":"slip","lines":["orchestrator","호출 1번 더","→ 의도 · 감정 · 요약"]}},{"kind":"move","step":"맡기기","from":{"col":1},"to":2,"label":"예측 가능성을 내준다","art":{"kind":"slip","lines":["늘 같은 세 판정인데","나누기를 매번 LLM 이 정함"]}},{"kind":"end","label":"하위작업이 여러 개라는 것만으로는 동적 이유가 안 된다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> 입력 → decomposition → workers → 합치기</p>
       <p><span class="lead">질문 :</span> 하위작업을 입력 전에 적을 수 있나?</p>
-      <p class="lead">① 하위작업이 미리 정해짐 → 정적 <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">① 미리 정해지면 정적 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 입력 — 쪽지 : <span class="flx-alt-slip">티켓: "배송이 2주째 / 안 와요, 화나네요"</span></li>
-        <li>나누기 : 입력 → decomposition : 코드가 미리 나눔 — 쪽지 : <span class="flx-alt-slip">판정 목록 (코드에 고정) / 의도 · 감정 · 요약</span></li>
-        <li>돌리기 : decomposition → workers : 서로 독립이라 병렬 — 쪽지 : <span class="flx-alt-slip">호출 3개를 동시에</span></li>
-        <li>모으기 : workers → 합치기 : 코드가 모음 — 쪽지 : <span class="flx-alt-slip">{ 의도: "배송 문의", / 감정: "화남", / 요약: "2주째 미배송" }</span></li>
-        <li>끝 : 잘 정의된 일엔 예측 가능성·일관성</li>
+        <li>나누기 : 입력 → decomposition : 코드가 미리 나눈다 — 쪽지 : <span class="flx-alt-slip">판정 목록 (코드에 고정) / 의도 · 감정 · 요약</span></li>
+        <li>돌리기 : decomposition → workers : 서로 독립이라 병렬로 돌린다 — 쪽지 : <span class="flx-alt-slip">호출 3개를 동시에</span></li>
+        <li>모으기 : workers → 합치기 : 코드가 모은다 — 쪽지 : <span class="flx-alt-slip">{ 의도: "배송 문의", / 감정: "화남", / 요약: "2주째 미배송" }</span></li>
+        <li>끝 : 잘 정의된 일에 예측 가능성과 일관성을 준다</li>
       </ol>
-      <p class="lead">② 입력마다 하위작업이 다름 → 동적 <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">② 입력마다 다르면 동적 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 입력 — 쪽지 : <span class="flx-alt-slip">버그: "환불 버튼이 / 가끔 두 번 눌려요"</span></li>
-        <li>보기 : 입력 → decomposition : orchestrator LLM 이 보고 나눔 — 쪽지 : <span class="flx-alt-slip">orchestrator: / 고칠 파일 3개 / button.tsx · refund.ts / · refund.test.ts</span></li>
-        <li>맡기기 : decomposition → workers : 파일 수·내용이 작업마다 다름 — 쪽지 : <span class="flx-alt-slip">worker 3개에 / 파일 하나씩</span></li>
-        <li>모으기 : workers → 합치기 : orchestrator 가 합침 — 쪽지 : <span class="flx-alt-slip">수정 3건 / orchestrator 가 / 하나로 합침</span></li>
-        <li>끝 : 입력마다 다름 → dynamic decomposition</li>
+        <li>보기 : 입력 → decomposition : orchestrator LLM 이 보고 나눈다 — 쪽지 : <span class="flx-alt-slip">orchestrator: / 고칠 파일 3개 / button.tsx · refund.ts / · refund.test.ts</span></li>
+        <li>맡기기 : decomposition → workers : 파일 수·내용이 작업마다 다르다 — 쪽지 : <span class="flx-alt-slip">worker 3개에 / 파일 하나씩</span></li>
+        <li>모으기 : workers → 합치기 : orchestrator 가 합친다 — 쪽지 : <span class="flx-alt-slip">수정 3건 / orchestrator 가 / 하나로 합침</span></li>
+        <li>끝 : 입력마다 다르면 dynamic decomposition 이다</li>
       </ol>
       <p class="lead">③ 미리 아는데 orchestrator 에게 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 입력 — 쪽지 : <span class="flx-alt-slip">티켓: "배송이 2주째 / 안 와요, 화나네요"</span></li>
-        <li>보기 : 입력 → decomposition : 매 티켓 똑같은 세 판정을 orchestrator 가 — 쪽지 : <span class="flx-alt-slip">orchestrator / 호출 1번 더 / → 의도 · 감정 · 요약</span></li>
-        <li>맡기기 : decomposition → workers : 예측 가능성을 내줌 — 쪽지 : <span class="flx-alt-slip">늘 같은 세 판정인데 / 나누기를 매번 LLM 이 정함</span></li>
-        <li>끝 : 하위작업이 여러 개라는 것만으로는 동적 이유가 안 됨</li>
+        <li>보기 : 입력 → decomposition : 매 티켓 똑같은 세 판정을 orchestrator 가 나눈다 — 쪽지 : <span class="flx-alt-slip">orchestrator / 호출 1번 더 / → 의도 · 감정 · 요약</span></li>
+        <li>맡기기 : decomposition → workers : 예측 가능성을 내준다 — 쪽지 : <span class="flx-alt-slip">늘 같은 세 판정인데 / 나누기를 매번 LLM 이 정함</span></li>
+        <li>끝 : 하위작업이 여러 개라는 것만으로는 동적 이유가 안 된다</li>
       </ol>
     </details>
   </figure>
@@ -525,20 +525,21 @@
     <details class="t5-orig">
       <summary>규칙 원문 <span class="note">갈림 기준 (갈림길로 그린 규칙)</span></summary>
       <p class="lead orig-h">갈림 기준</p>
-      <p class="lead">하위작업을 입력 전에 적을 수 있나</p>
-      <p>쪼개기 전에 : 검색(retrieval) + 예시를 붙인 단일 호출로 충분한 경우가 많음. 가장 단순한 것부터, 필요할 때만 복잡도</p>
+      <p class="lead">기준은 하위작업을 입력 전에 적을 수 있나다</p>
+      <p>쪼개기 전에 : 검색(retrieval)과 예시를 붙인 단일 호출로 충분한 경우가 많다. 가장 단순한 것부터 시작하고, 필요할 때만 복잡도를 더한다</p>
       <ul class="plain">
-        <li>미리 정해짐(늘 같은 목록) → static decomposition(정적 분해) = 코드가 미리 나눔. 워크플로는 잘 정의된 일엔 예측 가능성·일관성
+        <li>미리 정해져 있으면(늘 같은 목록) static decomposition(정적 분해)이다. 코드가 미리 나눈다. 워크플로는 잘 정의된 일에 예측 가능성과 일관성을 준다
           <ul class="dash">
-            <li>앞 출력이 다음 입력 → prompt chaining(체이닝). 사이에 코드 검사(gate). 지연을 감수하고 정확도를 얻음(호출마다 쉬운 일로)</li>
-            <li>서로 독립 → 나눠 돌리기(sectioning — parallelization 의 한 변형) 뒤 코드가 모음. 안전 조건 = 조각끼리 독립</li>
+            <li>앞 출력이 다음 입력이면 prompt chaining(체이닝)이다. 사이에 코드 검사(gate)를 둔다. 지연을 감수하고 정확도를 얻는다(호출마다 쉬운 일로 만든다)</li>
+            <li>서로 독립이면 나눠 돌리기(sectioning)를 하고 코드가 모은다. sectioning 은 parallelization 의 한 변형이다. 안전 조건은 조각끼리 독립인 것이다</li>
           </ul>
         </li>
-        <li>입력마다 다름 → dynamic decomposition(동적 분해) = orchestrator-workers. orchestrator LLM 이 입력을 보고 나누고 맡기고 합침. 예 : 코딩에서 고칠 파일 수·내용이 작업마다 다름</li>
-        <li>단계 수도 예측 못 함 · 경로를 미리 정해 둘 수 없음 → 에이전트 (열린 문제). 자율 = 비용↑ · 오류 누적 → 샌드박스 시험·가드레일. 멀티로 갈지는 <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></li>
-        <li>나눠 돌리기 vs orchestrator-workers : 모양은 비슷, 차이는 유연성 — 하위작업이 미리 정해졌나(정적) orchestrator 가 입력을 보고 정하나(동적)</li>
-        <li>되는 곳은 워크플로, 에이전트는 정말 필요할 때만 <span class="src">(Skilljar)</span></li>
-        <li>패턴 하나하나(routing(라우팅) · evaluator-optimizer(평가자-개선자) 포함)의 설명 → <a href="workflow-patterns.html">■ 워크플로 5패턴</a></li>
+        <li>입력마다 다르면 dynamic decomposition(동적 분해)이다. 곧 orchestrator-workers 다. orchestrator LLM 이 입력을 보고 나누고, 맡기고, 합친다. 예 : 코딩에서는 고칠 파일 수·내용이 작업마다 다르다</li>
+        <li>단계 수도 예측 못 하고 경로를 미리 정해 둘 수 없으면 에이전트다 (열린 문제). 자율에는 비용 증가와 오류 누적이 따른다. 그래서 샌드박스에서 시험하고 가드레일을 둔다</li>
+        <li>멀티로 갈지는 <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a> 에서 다룬다</li>
+        <li>나눠 돌리기 vs orchestrator-workers : 모양은 비슷하다. 차이는 유연성이다. 하위작업이 미리 정해졌나(정적), 아니면 orchestrator 가 입력을 보고 정하나(동적)다</li>
+        <li>되는 곳은 워크플로로 한다. 에이전트는 정말 필요할 때만 쓴다 <span class="src">(Skilljar)</span></li>
+        <li>패턴 하나하나의 설명(routing(라우팅) · evaluator-optimizer(평가자-개선자)까지)은 <a href="workflow-patterns.html">■ 워크플로 5패턴</a> 에 있다</li>
       </ul>
     </details>
   </div>
@@ -550,13 +551,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">단일 호출 + 검색 + 예시로 충분</td><td data-label="답" role="cell">쪼개지 않음</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a> "optimizing single LLM calls with retrieval and in-context examples is usually enough"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">하위작업이 고정 · 순서 의존</td><td data-label="답" role="cell">prompt chaining (gate 선택)</td><td data-label="근거" role="cell"> "easily and cleanly decomposed into fixed subtasks"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">하위작업이 고정 · 서로 독립</td><td data-label="답" role="cell">나눠 돌리기(sectioning — parallelization 의 한 변형)</td><td data-label="근거" role="cell"> "Breaking a task into independent subtasks run in parallel."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">유형이 몇 가지로 정해져 있고 분류가 정확</td><td data-label="답" role="cell">routing (정적)</td><td data-label="근거" role="cell"> "distinct categories that are better handled separately, and where classification can be handled accurately"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">하위작업이 입력마다 다름 (고칠 파일 수 등)</td><td data-label="답" role="cell">orchestrator-workers</td><td data-label="근거" role="cell"> "subtasks aren't pre-defined, but determined by the orchestrator based on the specific input"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">단계 수도 모름 · 경로를 미리 정해 둘 수 없음</td><td data-label="답" role="cell">에이전트 (+ 샌드박스·가드레일)</td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">워크플로로 될 일인데 에이전트를 고려</td><td data-label="답" role="cell">워크플로</td><td data-label="근거" role="cell">Skilljar 287794 "only resort to agents when they are truly required"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">단일 호출 + 검색 + 예시로 충분하다</td><td data-label="답" role="cell">쪼개지 않는다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a> "optimizing single LLM calls with retrieval and in-context examples is usually enough"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">하위작업이 고정이고 순서에 의존한다</td><td data-label="답" role="cell">prompt chaining 을 쓴다 (gate 는 선택)</td><td data-label="근거" role="cell"> "easily and cleanly decomposed into fixed subtasks"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">하위작업이 고정이고 서로 독립이다</td><td data-label="답" role="cell">나눠 돌리기(sectioning)를 쓴다. parallelization 의 한 변형이다</td><td data-label="근거" role="cell"> "Breaking a task into independent subtasks run in parallel."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">유형이 몇 가지로 정해져 있고 분류가 정확하다</td><td data-label="답" role="cell">routing (정적)</td><td data-label="근거" role="cell"> "distinct categories that are better handled separately, and where classification can be handled accurately"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">하위작업이 입력마다 다르다 (고칠 파일 수 등)</td><td data-label="답" role="cell">orchestrator-workers</td><td data-label="근거" role="cell"> "subtasks aren't pre-defined, but determined by the orchestrator based on the specific input"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">단계 수도 모른다 · 경로를 미리 정해 둘 수 없다</td><td data-label="답" role="cell">에이전트 (+ 샌드박스·가드레일)</td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">워크플로로 될 일인데 에이전트를 고려한다</td><td data-label="답" role="cell">워크플로</td><td data-label="근거" role="cell">Skilljar 287794 "only resort to agents when they are truly required"</td></tr>
   </tbody>
 </table>
 </div>
@@ -567,15 +568,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">하위작업 목록</td><td data-label="값" role="cell">매번 같음</td><td data-label="답 쪽" role="cell">정적</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 2·3</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">하위작업 목록</td><td data-label="값" role="cell">입력이 정함</td><td data-label="답 쪽" role="cell">동적 (orchestrator-workers)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 5</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">입력 유형</td><td data-label="값" role="cell">소수로 닫힘 · 분류 정확</td><td data-label="답 쪽" role="cell">routing</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 4</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">조각끼리 관계</td><td data-label="값" role="cell">앞 출력이 뒤 입력</td><td data-label="답 쪽" role="cell">prompt chaining</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">조각끼리 관계</td><td data-label="값" role="cell">독립</td><td data-label="답 쪽" role="cell">나눠 돌리기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">조각끼리 관계</td><td data-label="값" role="cell">공유 상태·잦은 동기화</td><td data-label="답 쪽" role="cell">같이 둠 (쪼개지 않음)</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">building-multi-agent-systems은 에이전트 분할 기준 — 워크플로 조각에도 같은 원리로 봄</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">지연 여유</td><td data-label="값" role="cell">빡빡함</td><td data-label="답 쪽" role="cell">prompt chaining 단계 수를 줄임 (prompt chaining 은 지연을 씀)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">중간 검사</td><td data-label="값" role="cell">필요</td><td data-label="답 쪽" role="cell">prompt chaining + gate</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">신뢰·통제(control)</td><td data-label="값" role="cell">낮음 (되돌리기 어려운 동작)</td><td data-label="답 쪽" role="cell">워크플로 쪽 · 에이전트면 가드레일</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">하위작업 목록</td><td data-label="값" role="cell">매번 같다</td><td data-label="답 쪽" role="cell">정적</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 2·3</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">하위작업 목록</td><td data-label="값" role="cell">입력이 정한다</td><td data-label="답 쪽" role="cell">동적 (orchestrator-workers)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 5</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">입력 유형</td><td data-label="값" role="cell">소수로 닫혀 있다 · 분류가 정확하다</td><td data-label="답 쪽" role="cell">routing</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 4</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">조각끼리 관계</td><td data-label="값" role="cell">앞 출력이 뒤 입력이다</td><td data-label="답 쪽" role="cell">prompt chaining</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">조각끼리 관계</td><td data-label="값" role="cell">독립이다</td><td data-label="답 쪽" role="cell">나눠 돌리기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">조각끼리 관계</td><td data-label="값" role="cell">공유 상태·잦은 동기화가 있다</td><td data-label="답 쪽" role="cell">같이 둔다 (쪼개지 않는다)</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">building-multi-agent-systems은 에이전트 분할 기준이다. 워크플로 조각에도 같은 원리로 본다</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">지연 여유</td><td data-label="값" role="cell">빡빡하다</td><td data-label="답 쪽" role="cell">prompt chaining 단계 수를 줄인다 (prompt chaining 은 지연을 쓴다)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">중간 검사</td><td data-label="값" role="cell">필요하다</td><td data-label="답 쪽" role="cell">prompt chaining + gate</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">신뢰·통제(control)</td><td data-label="값" role="cell">낮다 (되돌리기 어려운 동작)</td><td data-label="답 쪽" role="cell">워크플로 쪽이다. 에이전트면 가드레일을 둔다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
   </tbody>
 </table>
 </div>
@@ -584,20 +585,20 @@
   <h2 class="sec-h" id="static-vs-dynamic-decomp-practice-h">연습 문제</h2>
 
   <section class="csx" id="static-vs-dynamic-decomp-case" aria-labelledby="static-vs-dynamic-decomp-case-h" data-tree="static-vs-dynamic-decomp-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;늘 같은 목록&quot;],[&quot;n3&quot;,null],[&quot;n6&quot;,&quot;서로 독립&quot;],[&quot;n7&quot;,null]]" data-flow="static-vs-dynamic-decomp-flow" data-scene="0">
-    <p class="csx-text">고객지원 티켓이 들어올 때마다 <mark class="csx-m" data-tag="늘 같은 목록">의도 분류 · 감정 · 요약 세 판정을 늘 똑같이<span class="csx-tag">늘 같은 목록</span></mark> 해야 한다. <mark class="csx-m" data-tag="서로 독립">세 판정은 서로의 결과를 쓰지 않는다<span class="csx-tag">서로 독립</span></mark>. 팀은 "하위작업이 여러 개니 orchestrator LLM 이 나누게 하자"고 한다. 어떻게 쪼갤까?</p>
+    <p class="csx-text">고객지원 티켓이 들어올 때마다 <mark class="csx-m" data-tag="늘 같은 목록">의도 분류 · 감정 · 요약 세 판정을 늘 똑같이<span class="csx-tag">늘 같은 목록</span></mark> 해야 한다. <mark class="csx-m" data-tag="서로 독립">세 판정은 서로의 결과를 쓰지 않는다<span class="csx-tag">서로 독립</span></mark>. 팀은 "하위작업이 여러 개니 orchestrator LLM 이 나누게 하자"고 한다. 어떻게 쪼개야 하나?</p>
     <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
   </section>
   <h2 class="sec-h" id="static-vs-dynamic-decomp-exam-h">시험 대비</h2>
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"하위작업이 여러 개니 orchestrator-workers" → 하위작업이 여러 개라는 것만으로는 동적 이유가 안 됨. 먼저 미리 아는지 물음. 미리 알면 정적</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>미리 아는 일(예 : 매 티켓 똑같은 세 판정 = 의도 분류·감정·요약)을 orchestrator 에게 → orchestrator 호출이 더 들고 예측 가능성을 내줌 <span class="gen">업계 일반</span> <span class="note">호출 수는 공식 숫자 없음</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"유연한 쪽이 항상 낫다" → 잘 정의된 일엔 워크플로가 예측 가능·일관. 에이전트 자율 = 비용↑ · 오류 누적</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"prompt chaining 으로 나누면 더 빠르고 싸다" → prompt chaining 은 지연을 감수하고 정확도를 얻음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"병렬로 나누면 무조건 이득" → 조각끼리 독립일 때만</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"입력마다 다르니 무조건 동적" → 유형이 몇 가지로 정해져 있고 분류가 정확하면 routing(정적)으로 충분 → <a href="workflow-patterns.html">■ 워크플로 5패턴</a></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"orchestrator-workers = 멀티 에이전트" → 공식 글에선 워크플로 패턴 하나(중앙 LLM + worker LLM). 멀티 에이전트 비용 판단은 <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"하위작업이 여러 개니 orchestrator-workers 를 쓴다" 는 함정이다. 하위작업이 여러 개라는 것만으로는 동적 이유가 안 된다. 먼저 미리 아는지 묻는다. 미리 알면 정적이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>미리 아는 일(예 : 매 티켓 똑같은 세 판정인 의도 분류·감정·요약)을 orchestrator 에게 맡기는 것은 함정이다. orchestrator 호출이 더 들고 예측 가능성을 내준다 <span class="gen">업계 일반</span> <span class="note">호출 수는 공식 숫자 없음</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"유연한 쪽이 항상 낫다" 는 함정이다. 잘 정의된 일에는 워크플로가 예측 가능하고 일관된다. 에이전트 자율에는 비용 증가와 오류 누적이 따른다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"prompt chaining 으로 나누면 더 빠르고 싸다" 는 함정이다. prompt chaining 은 지연을 감수하고 정확도를 얻는다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"병렬로 나누면 무조건 이득이다" 는 함정이다. 조각끼리 독립일 때만 이득이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"입력마다 다르니 무조건 동적이다" 는 함정이다. 유형이 몇 가지로 정해져 있고 분류가 정확하면 routing(정적)으로 충분하다. 자세한 것은 <a href="workflow-patterns.html">■ 워크플로 5패턴</a> 에 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"orchestrator-workers 는 곧 멀티 에이전트다" 는 함정이다. 공식 글에서는 워크플로 패턴 하나다(중앙 LLM + worker LLM). 멀티 에이전트 비용 판단은 <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a> 에서 다룬다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -620,28 +621,28 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. "입력마다 달라 보이는데" routing 으로 끝나는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 고객 문의가 일반 질문 · 환불 · 기술 지원으로 들어옴. 문의마다 처리 경로가 다름.</li>
-<li><span class="lead">판단 :</span> 경로가 다를 뿐 경로 목록은 정해져 있음(3개). 분류가 정확하면 routing = 정적. orchestrator-workers 는 하위작업 "목록 자체"가 입력마다 바뀔 때.</li>
+<li><span class="lead">조건 :</span> 고객 문의가 일반 질문 · 환불 · 기술 지원으로 들어온다. 문의마다 처리 경로가 다르다.</li>
+<li><span class="lead">판단 :</span> 경로가 다를 뿐 경로 목록은 정해져 있다(3개). 분류가 정확하면 routing 이고, 이것은 정적이다. orchestrator-workers 는 하위작업 "목록 자체" 가 입력마다 바뀔 때 쓴다.</li>
 
 <li><span class="lead">근거 :</span> building-effective-agents (고객 문의 유형을 다른 프로세스·프롬프트·도구로 보내는 공식 예)</li>
 </ul>
 <h4>2. 고정 목록인데 병렬이 깨지는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 티켓 한 건에 "환불 가능 판정"과 "답장 초안"을 나눠 병렬로 돌림.</li>
-<li><span class="lead">판단 :</span> 답장 초안이 환불 판정 결과를 알아야 함 → 독립이 아님 → sectioning(작업을 나눠 병렬 실행)이 아니라 prompt chaining(판정 → 초안). 목록이 고정이라는 것만으로 병렬이 되진 않음.</li>
-<li><span class="lead">등급 :</span> <span class="note">(독립 조건 · prompt chaining 정의) — 이 예시 자체는 새로 만든 것</span></li>
+<li><span class="lead">조건 :</span> 티켓 한 건에 "환불 가능 판정" 과 "답장 초안" 을 나눠 병렬로 돌린다.</li>
+<li><span class="lead">판단 :</span> 답장 초안이 환불 판정 결과를 알아야 한다. 그래서 독립이 아니다. sectioning(작업을 나눠 병렬 실행)이 아니라 prompt chaining(판정 다음 초안)이다. 목록이 고정이라는 것만으로 병렬이 되지는 않는다.</li>
+<li><span class="lead">등급 :</span> <span class="note">(독립 조건 · prompt chaining 정의). 이 예시 자체는 새로 만든 것이다</span></li>
 </ul>
 <h4>3. prompt chaining 이 지연 예산을 넘는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 3단계 prompt chaining, 단계마다 약 1.2초 → 합 약 3.6초. 약속한 응답 지연이 2.5초.</li>
-<li><span class="lead">판단 :</span> prompt chaining 은 지연을 감수하고 정확도를 얻는 trade-off(절충)라 예산을 넘으면 단계 수를 줄이거나, 독립인 단계는 병렬로 돌리거나, 한 호출 안에서 thinking(사고)으로 처리. → ■ decomposition 단위 정하기 · ■ 지연 줄이기 lever</li>
-<li><span class="lead">등급 :</span> <span class="gen">업계 일반</span> (단계당 시간은 가정 숫자 · 공식 숫자 없음). trade-off 방향 자체는 확인.</li>
+<li><span class="lead">조건 :</span> 3단계 prompt chaining 이다. 단계마다 약 1.2초가 걸려 합이 약 3.6초다. 약속한 응답 지연은 2.5초다.</li>
+<li><span class="lead">판단 :</span> prompt chaining 은 지연을 감수하고 정확도를 얻는 trade-off(절충)다. 그래서 예산을 넘으면 길은 셋이다. 단계 수를 줄인다. 독립인 단계는 병렬로 돌린다. 한 호출 안에서 thinking(사고)으로 처리한다. 자세한 것은 ■ decomposition 단위 정하기 · ■ 지연 줄이기 lever 에 있다.</li>
+<li><span class="lead">등급 :</span> <span class="gen">업계 일반</span> (단계당 시간은 가정 숫자 · 공식 숫자 없음). trade-off 방향 자체는 확인이다.</li>
 <li><span class="lead">근거 :</span> prompting-best-practices</li>
 </ul>
 <h4>4. 동적이 맞는데 멀티 에이전트까진 아닌 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 요청마다 고칠 파일 수가 다른 버그 수정.</li>
-<li><span class="lead">판단 :</span> dynamic decomposition(orchestrator-workers)은 맞음. 하지만 코딩은 진짜 병렬 조각이 적어 작업 가치가 멀티 에이전트 비용(채팅 대비 약 15배)을 넘기 어려움 → 비용 판단은 ◆ 단일 vs 멀티 에이전트.</li>
+<li><span class="lead">조건 :</span> 요청마다 고칠 파일 수가 다른 버그 수정이다.</li>
+<li><span class="lead">판단 :</span> dynamic decomposition(orchestrator-workers)은 맞다. 하지만 코딩은 진짜 병렬 조각이 적다. 그래서 작업 가치가 멀티 에이전트 비용(채팅 대비 약 15배)을 넘기 어렵다. 비용 판단은 ◆ 단일 vs 멀티 에이전트 에서 한다.</li>
 
 <li><span class="lead">근거 :</span> multi-agent-research-system</li>
 </ul>
@@ -652,13 +653,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"하위작업이 여러 개니 orchestrator-workers"</td><td data-label="왜 끌리나" role="cell">여러 개 = 나눠 맡길 사람이 필요해 보임</td><td data-label="왜 틀리나" role="cell">개수가 아니라 미리 아느냐가 기준</td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"유연한 dynamic decomposition 이 항상 낫다"</td><td data-label="왜 끌리나" role="cell">유연성은 좋은 말</td><td data-label="왜 틀리나" role="cell">잘 정의된 일엔 워크플로가 예측 가능·일관. 에이전트 자율은 비용↑·오류 누적</td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"prompt chaining 으로 나누면 더 빠르고 싸다"</td><td data-label="왜 끌리나" role="cell">작은 호출 = 빠를 것 같음</td><td data-label="왜 틀리나" role="cell">prompt chaining 은 지연을 쓰고 정확도를 얻음</td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"고정 목록이면 전부 병렬"</td><td data-label="왜 끌리나" role="cell">병렬 = 빠름</td><td data-label="왜 틀리나" role="cell">조각끼리 독립일 때만. 의존이 있으면 prompt chaining</td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"입력마다 다르면 무조건 에이전트"</td><td data-label="왜 끌리나" role="cell">입력이 다양 = 유연성 필요</td><td data-label="왜 틀리나" role="cell">유형 목록이 정해져 있으면 routing, 하위작업만 다르면 orchestrator-workers, 단계 수조차 모를 때 에이전트</td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"orchestrator-workers 를 쓰면 곧 멀티 에이전트 구축"</td><td data-label="왜 끌리나" role="cell">orchestrator·worker = 여러 에이전트처럼 들림</td><td data-label="왜 틀리나" role="cell">공식 글에선 워크플로 패턴 하나</td><td data-label="근거" role="cell"> ("Workflow: Orchestrator-workers")</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"처음부터 프레임워크로 에이전트를"</td><td data-label="왜 끌리나" role="cell">엔터프라이즈다워 보임</td><td data-label="왜 틀리나" role="cell">LLM API 를 직접 쓰는 단순한 패턴부터</td><td data-label="근거" role="cell"> "We suggest that developers start by using LLM APIs directly"</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"하위작업이 여러 개니 orchestrator-workers"</td><td data-label="왜 끌리나" role="cell">여러 개면 나눠 맡길 사람이 필요해 보인다</td><td data-label="왜 틀리나" role="cell">기준은 개수가 아니라 미리 아느냐다</td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"유연한 dynamic decomposition 이 항상 낫다"</td><td data-label="왜 끌리나" role="cell">유연성은 좋은 말이다</td><td data-label="왜 틀리나" role="cell">잘 정의된 일에는 워크플로가 예측 가능하고 일관된다. 에이전트 자율은 비용이 오르고 오류가 쌓인다</td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"prompt chaining 으로 나누면 더 빠르고 싸다"</td><td data-label="왜 끌리나" role="cell">작은 호출은 빠를 것 같다</td><td data-label="왜 틀리나" role="cell">prompt chaining 은 지연을 쓰고 정확도를 얻는다</td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"고정 목록이면 전부 병렬"</td><td data-label="왜 끌리나" role="cell">병렬은 빨라 보인다</td><td data-label="왜 틀리나" role="cell">조각끼리 독립일 때만 된다. 의존이 있으면 prompt chaining 이다</td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"입력마다 다르면 무조건 에이전트"</td><td data-label="왜 끌리나" role="cell">입력이 다양하면 유연성이 필요해 보인다</td><td data-label="왜 틀리나" role="cell">셋으로 나뉜다. 유형 목록이 정해져 있으면 routing 이다. 하위작업만 다르면 orchestrator-workers 다. 단계 수조차 모를 때 에이전트다</td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"orchestrator-workers 를 쓰면 곧 멀티 에이전트 구축"</td><td data-label="왜 끌리나" role="cell">orchestrator·worker 가 여러 에이전트처럼 들린다</td><td data-label="왜 틀리나" role="cell">공식 글에서는 워크플로 패턴 하나다</td><td data-label="근거" role="cell"> ("Workflow: Orchestrator-workers")</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"처음부터 프레임워크로 에이전트를"</td><td data-label="왜 끌리나" role="cell">엔터프라이즈다워 보인다</td><td data-label="왜 틀리나" role="cell">LLM API 를 직접 쓰는 단순한 패턴부터 시작한다</td><td data-label="근거" role="cell"> "We suggest that developers start by using LLM APIs directly"</td></tr>
   </tbody>
 </table>
 </div>
@@ -666,13 +667,17 @@
   </details>
   <h2 class="sec-h" id="static-vs-dynamic-decomp-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="workflow-patterns.html">■ 워크플로 5패턴</a></li>
         <li><a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></li>
         <li><a href="decomposition-unit.html">■ decomposition 단위 정하기</a></li>
-        <li><a href="query-routing.html">■ 질의 패턴별 검색 (검색 질의 쪼개기 — 같은 "decomposition"이라도 다른 말)</a></li>
+        <li><a href="query-routing.html">■ 질의 패턴별 검색 (검색 질의 쪼개기. 같은 "decomposition" 이라도 다른 말이다)</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.5</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -687,13 +692,14 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>building-effective-agents 는 2024-12 글이고 머리에 "도구 생태계는 바뀌었다" 주석이 있음. 패턴·판단 기준은 그대로라고 봄(추론) — 지금 문서에서 같은 기준을 다시 확인한 곳은 prompting-best-practices(prompt chaining 조건)뿐.</li>
-<li>"미리 아는 일을 orchestrator 에게 맡기면 orchestrator 호출이 더 든다"는 공식 숫자·문장 없음(업계 일반).</li>
-<li>이 글은 한국어판이 없어 영어 원문만 대조함.</li>
-<li>■ 워크플로 5패턴 카드는 다른 작성자 몫 — 제목을 브리프 제안대로 가리킴. 확정 제목이 다르면 이 카드 "개념"·"갈림 기준"·"함정" 줄을 맞춰야 함.</li>
-<li>목록 1.5① 의 영어 신호 두 문장은 원문에서 찾음. 못 찾은 인용 없음.</li>
+<li>building-effective-agents 는 2024-12 글이다. 머리에 "도구 생태계는 바뀌었다" 주석이 있다. 패턴·판단 기준은 그대로라고 본다(추론). 지금 문서에서 같은 기준을 다시 확인한 곳은 prompting-best-practices(prompt chaining 조건)뿐이다.</li>
+<li>"미리 아는 일을 orchestrator 에게 맡기면 orchestrator 호출이 더 든다" 는 공식 숫자·문장이 없다(업계 일반).</li>
+<li>이 글은 한국어판이 없어 영어 원문만 대조했다.</li>
+<li>■ 워크플로 5패턴 카드는 다른 작성자 몫이다. 제목을 브리프 제안대로 가리킨다. 확정 제목이 다르면 이 카드 "개념"·"갈림 기준"·"함정" 줄을 맞춰야 한다.</li>
+<li>목록 1.5① 의 영어 신호 두 문장은 원문에서 찾았다. 못 찾은 인용은 없다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

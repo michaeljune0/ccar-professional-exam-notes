@@ -424,28 +424,28 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">full context(문서 전체를 넣기)</p>
 <ul>
-<li>모델이 문서 전부를 봄 → 검색(retrieval)이 빗나갈 일이 없음.</li>
-<li>매번 전부 읽는 비용은 캐싱이 흡수함. 캐시 읽기 = 입력 단가 0.1배.</li>
-<li>한계 1 : 창보다 크면 못 넣음.</li>
-<li>한계 2 : 토큰이 늘수록 정확도·재현율이 떨어짐 (context rot). 컨텍스트는 한정 자원.</li>
-<li>한계 3 : 캐싱해도 매 턴 문서 전체의 10% 만큼은 비용이 듦 (0.1배 × 전체).</li>
+<li>모델이 문서 전부를 본다. 그래서 검색(retrieval)이 빗나갈 일이 없다.</li>
+<li>매번 전부 읽는 비용은 캐싱이 흡수한다. 캐시 읽기 단가는 입력 단가의 0.1배다.</li>
+<li>한계 1 : 컨텍스트 창보다 크면 넣지 못한다.</li>
+<li>한계 2 : 토큰이 늘수록 정확도와 재현율이 떨어진다(context rot). 컨텍스트는 한정 자원이다.</li>
+<li>한계 3 : 캐싱해도 호출마다 문서 전체의 10% 만큼은 비용이 든다 (0.1배 × 전체).</li>
 </ul>
 <p class="lead">RAG</p>
 <ul>
-<li>미리 chunk 로 나눠 index(색인) → 질문마다 관련 chunk 만 넣음 → 작고 싸고 커져도 버팀.</li>
-<li>한계 1 : 검색이 빗나가면 모델은 틀린 chunk 로 자신 있게 틀림. 문서 갱신 뒤 이상하면 검색·indexing 부터 의심 (공식 샘플 3).</li>
-<li>한계 2 : chunk 만 봐선 맥락이 빠짐 → chunk 앞에 문맥 설명을 붙임 (Contextual Retrieval).</li>
-<li>한계 3 : 전처리·검색 장치를 만들고 돌려야 함. 단순함을 포기하고 확장성을 얻는 trade-off(절충).</li>
+<li>문서를 미리 chunk 로 나눠 index(색인)한다. 질문마다 관련 chunk 만 넣는다. 그래서 입력이 작고 싸다. 지식이 커져도 버틴다.</li>
+<li>한계 1 : 검색이 빗나가면 모델은 틀린 chunk 를 보고 자신 있게 틀린다. 문서 갱신 뒤 답이 이상하면 검색과 indexing 부터 의심한다 (가이드 샘플 3).</li>
+<li>한계 2 : chunk 만 보면 맥락이 빠진다. 그래서 chunk 앞에 문맥 설명을 붙인다 (Contextual Retrieval).</li>
+<li>한계 3 : 전처리와 검색 장치를 만들고 돌려야 한다. RAG 는 단순함을 포기하고 확장성을 얻는 trade-off(절충)다.</li>
 </ul>
-<p class="lead">JIT 검색 (just in time — 필요할 때 가져오기)</p>
+<p class="lead">JIT 검색 (just in time, 필요할 때 가져오기)</p>
 <ul>
-<li>RAG 의 에이전트판. 가벼운 식별자(파일 경로·쿼리)만 들고 있다가 필요할 때 도구로 가져옴.</li>
-<li>섞어 쓰기도 됨 : 자주 쓰는 건 미리 넣고, 나머지는 필요할 때.</li>
+<li>JIT 검색은 RAG 의 에이전트판이다. 에이전트는 가벼운 식별자(파일 경로·쿼리)만 들고 있다. 필요할 때 도구로 내용을 가져온다.</li>
+<li>섞어 써도 된다. 자주 쓰는 것은 미리 넣는다. 나머지는 필요할 때 가져온다.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
-<li>모델이 봐야 하는 게 문서 전부인가, 일부인가?</li>
-<li>전부를 매번 읽는 비용(캐싱 뒤)이, 일부만 가져오는 비용보다 싼가?</li>
+<li>모델이 봐야 하는 것이 문서 전부인가, 일부인가?</li>
+<li>전부를 매번 읽는 비용(캐싱 뒤)이 일부만 가져오는 비용보다 싼가?</li>
 </ul>
 </section>
   <h2 class="sec-h" id="rag-vs-full-rules-h">규칙과 판단</h2>
@@ -457,18 +457,18 @@
   <section class="t5-flow tree" id="rag-vs-full-tree-1" aria-labelledby="rag-vs-full-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7">
     <div class="t5-fh"><h3 id="rag-vs-full-tree-1-h">크기 먼저 <span class="pg">[2.4①]</span> <span class="pg">[3.8①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>지식 크기는?<span class="t5-sub">500쪽 ≈ 20만 → 300쪽 ≈ 12만 · 100쪽 계약 ≈ 4만 <span class="note">(환산은 계산값)</span></span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>지식 크기가 얼마인가?<span class="t5-sub">500쪽 ≈ 20만이면 300쪽 ≈ 12만, 100쪽 계약 ≈ 4만이다 <span class="note">(환산은 계산값)</span></span></div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>20만 토큰 미만</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">full context + 캐싱</p><p>RAG 없이 full context(문서 전체를 넣기)로 넣고 <a href="caching.html">■ 프롬프트 캐싱</a>으로 빠르고 싸게</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">full context + 캐싱</p><p>RAG 없이 full context(문서 전체를 넣기)로 넣는다. <a href="caching.html">■ 프롬프트 캐싱</a>으로 빠르고 싸게 만든다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>컨텍스트 창에 안 들어감</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">RAG</p><p>임베딩 + BM25 + chunk 앞 문맥 붙이기 + 리랭킹</p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>컨텍스트 창에 안 들어간다</span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">RAG</p><p>임베딩 + BM25 + chunk 앞 문맥 설명 붙이기 + 리랭킹으로 찾는다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>20만 이상 · 창엔 들어감</span>
+          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>20만 이상 · 컨텍스트 창엔 들어간다</span>
           <div class="t5-leaf t5-ans t5-ref" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#rag-vs-full-tree-2">↓ 아래 「크기 밖의 조건」 갈림길로 이어짐</a></p><p>다음 물음 — 무엇이 걸리나?</p></div>
         </div>
       </div>
@@ -477,26 +477,26 @@
   <section class="t5-flow tree" id="rag-vs-full-tree-2" aria-labelledby="rag-vs-full-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7">
     <div class="t5-fh"><h3 id="rag-vs-full-tree-2-h">크기 밖의 조건 <span class="pg">[2.4①]</span> <span class="pg">[6.4③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇이 걸리나?<span class="t5-sub">크기 먼저 나무를 거친 뒤 — 20만 미만이면 full context 가 공식이 먼저 드는 답</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇이 걸리나?<span class="t5-sub">크기 먼저 나무를 거친 뒤에 본다. 20만 미만이면 공식 글이 먼저 드는 답은 full context 다</span></div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>문서가 아주 많음 · 비용·성능을 더 짜내야 함</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">RAG 쪽</p><p>RAG = 단순함을 포기하고 확장성·효율을 얻는 trade-off <span class="src">(Skilljar)</span></p></div>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>문서가 아주 많거나 비용·성능을 더 짜내야 한다</span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">RAG 쪽</p><p>RAG 는 단순함을 포기하고 확장성과 효율을 얻는 trade-off 다 <span class="src">(Skilljar)</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>자주 바뀜</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">RAG</p><p><span class="gen">업계 일반</span> <span class="note">공식 글·Skilljar 강의 모두 이 조건 없음</span> · 20만 미만이면 full context 가 공식이 먼저 드는 답</p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>자주 바뀐다</span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">RAG</p><p>자주 바뀌면 RAG 를 쓴다 <span class="gen">업계 일반</span> <span class="note">공식 글·Skilljar 강의 모두 이 조건 없음</span>. 20만 미만이면 공식 글이 먼저 드는 답은 full context 다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>전체를 봐야 함 <span class="note">('빠진 조항 찾기')</span></span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">full context</p><p>전체를 봐야 하는 일 → full context. chunk 검색은 안 맞음, 없는 건 검색(retrieval)해도 안 나옴 <span class="gen">업계 일반</span></p></div>
+          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>전체를 봐야 한다 <span class="note">('빠진 조항 찾기')</span></span>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">full context</p><p>전체를 봐야 하는 일은 full context 로 넣는다. chunk 검색은 이 일에 안 맞는다. 없는 것은 검색(retrieval)해도 안 나온다 <span class="gen">업계 일반</span></p></div>
         </div>
       </div>
     </div>
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="rag-vs-full-flow" aria-label="RAG vs full context 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["지식","캐시","검색","모델"],"blocks":[],"rules":[null,null,null,null],"question":"검색을 거쳐야 할까?","scenes":[{"name":"① full context + 캐싱","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["제품 매뉴얼 300쪽","≈ 12만 토큰"]}},{"kind":"move","step":"넣기","from":{"col":0},"to":1,"label":"full context 로 넣고","art":{"kind":"slip","lines":["system: 매뉴얼 전문","+ cache_control"]}},{"kind":"skip","at":2},{"kind":"move","step":"읽기","from":{"col":1},"to":3,"label":"캐싱으로 빠르고 싸게","art":{"kind":"slip","lines":["cache_read: 120000","질문: \"X200 필터 주기?\""]}},{"kind":"end","label":"20만 토큰(약 500쪽) 미만 → RAG 없이 full context 로"}]},{"name":"② 창에 안 들어감 → RAG","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["제품 매뉴얼 40종 · 2만 쪽","컨텍스트 창보다 큼"]}},{"kind":"skip","at":1},{"kind":"move","step":"찾기","from":{"col":0},"to":2,"label":"임베딩 + BM25 + 문맥 + 리랭킹","art":{"kind":"slip","lines":["검색어: \"X200 필터 주기\"","chunk 5개 뽑힘"]}},{"kind":"move","step":"넣기","from":{"col":2},"to":3,"label":"뽑힌 chunk","art":{"kind":"slip","lines":["chunk #4812","\"X200 필터는 6개월마다…\""]}},{"kind":"end","label":"컨텍스트 창에 안 들어갈 만큼 큼 → RAG"}]},{"name":"③ 빠진 조항 찾기 → 검색","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["계약서 100쪽","질문: \"빠진 필수 조항은?\""]}},{"kind":"skip","at":1},{"kind":"move","step":"찾기","from":{"col":0},"to":2,"label":"chunk 검색","art":{"kind":"slip","lines":["검색어: \"개인정보 파기\"","결과 0건"]}},{"kind":"move","step":"넣기","from":{"col":2},"to":3,"label":"없는 건 검색해도 안 나옴 ≠","art":{"kind":"say","text":"빠진 조항은 없어 보여요."}},{"kind":"end","label":"전체를 봐야 하는 일 → chunk 검색이 안 맞음"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["지식","캐시","검색","모델"],"blocks":[],"rules":[null,null,null,null],"question":"검색을 거쳐야 할까?","scenes":[{"name":"① full context + 캐싱","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["제품 매뉴얼 300쪽","≈ 12만 토큰"]}},{"kind":"move","step":"넣기","from":{"col":0},"to":1,"label":"full context 로 넣는다","art":{"kind":"slip","lines":["system: 매뉴얼 전문","+ cache_control"]}},{"kind":"skip","at":2},{"kind":"move","step":"읽기","from":{"col":1},"to":3,"label":"캐싱으로 빠르고 싸게 읽는다","art":{"kind":"slip","lines":["cache_read: 120000","질문: \"X200 필터 주기?\""]}},{"kind":"end","label":"20만 토큰(약 500쪽) 미만이다. RAG 없이 full context 로 넣는다"}]},{"name":"② 창에 안 들어가면 RAG","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["제품 매뉴얼 40종 · 2만 쪽","컨텍스트 창보다 큼"]}},{"kind":"skip","at":1},{"kind":"move","step":"찾기","from":{"col":0},"to":2,"label":"임베딩 + BM25 + 문맥 + 리랭킹으로 찾는다","art":{"kind":"slip","lines":["검색어: \"X200 필터 주기\"","chunk 5개 뽑힘"]}},{"kind":"move","step":"넣기","from":{"col":2},"to":3,"label":"뽑힌 chunk 만 넣는다","art":{"kind":"slip","lines":["chunk #4812","\"X200 필터는 6개월마다…\""]}},{"kind":"end","label":"컨텍스트 창에 안 들어갈 만큼 크다. 그래서 RAG 를 쓴다"}]},{"name":"③ 빠진 조항을 검색으로 찾기","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["계약서 100쪽","질문: \"빠진 필수 조항은?\""]}},{"kind":"skip","at":1},{"kind":"move","step":"찾기","from":{"col":0},"to":2,"label":"chunk 를 검색한다","art":{"kind":"slip","lines":["검색어: \"개인정보 파기\"","결과 0건"]}},{"kind":"move","step":"넣기","from":{"col":2},"to":3,"label":"없는 것은 검색해도 안 나온다 ≠","art":{"kind":"say","text":"빠진 조항은 없어 보여요."}},{"kind":"end","label":"전체를 봐야 하는 일에는 chunk 검색이 안 맞는다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -505,26 +505,26 @@
       <p class="lead">① full context + 캐싱 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 지식 — 쪽지 : <span class="flx-alt-slip">제품 매뉴얼 300쪽 / ≈ 12만 토큰</span></li>
-        <li>넣기 : 지식 → 캐시 : full context 로 넣고 — 쪽지 : <span class="flx-alt-slip">system: 매뉴얼 전문 / + cache_control</span></li>
+        <li>넣기 : 지식 → 캐시 : full context 로 넣는다 — 쪽지 : <span class="flx-alt-slip">system: 매뉴얼 전문 / + cache_control</span></li>
         <li>건너뜀 : 검색</li>
-        <li>읽기 : 캐시 → 모델 : 캐싱으로 빠르고 싸게 — 쪽지 : <span class="flx-alt-slip">cache_read: 120000 / 질문: "X200 필터 주기?"</span></li>
-        <li>끝 : 20만 토큰(약 500쪽) 미만 → RAG 없이 full context 로</li>
+        <li>읽기 : 캐시 → 모델 : 캐싱으로 빠르고 싸게 읽는다 — 쪽지 : <span class="flx-alt-slip">cache_read: 120000 / 질문: "X200 필터 주기?"</span></li>
+        <li>끝 : 20만 토큰(약 500쪽) 미만이다. RAG 없이 full context 로 넣는다</li>
       </ol>
-      <p class="lead">② 창에 안 들어감 → RAG <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">② 창에 안 들어가면 RAG <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 지식 — 쪽지 : <span class="flx-alt-slip">제품 매뉴얼 40종 · 2만 쪽 / 컨텍스트 창보다 큼</span></li>
         <li>건너뜀 : 캐시</li>
-        <li>찾기 : 지식 → 검색 : 임베딩 + BM25 + 문맥 + 리랭킹 — 쪽지 : <span class="flx-alt-slip">검색어: "X200 필터 주기" / chunk 5개 뽑힘</span></li>
-        <li>넣기 : 검색 → 모델 : 뽑힌 chunk — 쪽지 : <span class="flx-alt-slip">chunk #4812 / "X200 필터는 6개월마다…"</span></li>
-        <li>끝 : 컨텍스트 창에 안 들어갈 만큼 큼 → RAG</li>
+        <li>찾기 : 지식 → 검색 : 임베딩 + BM25 + 문맥 + 리랭킹으로 찾는다 — 쪽지 : <span class="flx-alt-slip">검색어: "X200 필터 주기" / chunk 5개 뽑힘</span></li>
+        <li>넣기 : 검색 → 모델 : 뽑힌 chunk 만 넣는다 — 쪽지 : <span class="flx-alt-slip">chunk #4812 / "X200 필터는 6개월마다…"</span></li>
+        <li>끝 : 컨텍스트 창에 안 들어갈 만큼 크다. 그래서 RAG 를 쓴다</li>
       </ol>
-      <p class="lead">③ 빠진 조항 찾기 → 검색 <span class="fl-v is-ng">≠</span></p>
+      <p class="lead">③ 빠진 조항을 검색으로 찾기 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 지식 — 쪽지 : <span class="flx-alt-slip">계약서 100쪽 / 질문: "빠진 필수 조항은?"</span></li>
         <li>건너뜀 : 캐시</li>
-        <li>찾기 : 지식 → 검색 : chunk 검색 — 쪽지 : <span class="flx-alt-slip">검색어: "개인정보 파기" / 결과 0건</span></li>
-        <li>넣기 : 검색 → 모델 : 없는 건 검색해도 안 나옴 ≠ — 말 : <span class="flx-alt-say">“빠진 조항은 없어 보여요.”</span></li>
-        <li>끝 : 전체를 봐야 하는 일 → chunk 검색이 안 맞음</li>
+        <li>찾기 : 지식 → 검색 : chunk 를 검색한다 — 쪽지 : <span class="flx-alt-slip">검색어: "개인정보 파기" / 결과 0건</span></li>
+        <li>넣기 : 검색 → 모델 : 없는 것은 검색해도 안 나온다 ≠ — 말 : <span class="flx-alt-say">“빠진 조항은 없어 보여요.”</span></li>
+        <li>끝 : 전체를 봐야 하는 일에는 chunk 검색이 안 맞는다</li>
       </ol>
     </details>
   </figure>
@@ -532,17 +532,17 @@
     <details class="t5-orig">
       <summary>규칙 원문 <span class="note">갈림 기준 (갈림길로 그린 규칙)</span></summary>
       <p class="lead orig-h">갈림 기준</p>
-      <p class="lead">지식 크기가 먼저</p>
+      <p class="lead">지식 크기를 먼저 본다</p>
       <ul class="plain">
-        <li>20만 토큰(약 500쪽) 미만 → RAG 없이 full context 로 넣고 <a href="caching.html">■ 프롬프트 캐싱</a>으로 빠르고 싸게</li>
-        <li>컨텍스트 창에 안 들어갈 만큼 큼 → RAG (임베딩 + BM25 + chunk 앞 문맥 붙이기 + 리랭킹)</li>
-        <li>20만 이상인데 창엔 들어감(1M 창) → 크기로는 안 갈림. 공식 글은 지식이 커지면 더 확장성 있는 방법이 필요하다고만 함 → 아래 조건으로 판단</li>
-        <li>문서가 아주 많거나 여러 개 · 비용·성능을 더 짜내야 함 → RAG 쪽. RAG = 단순함을 포기하고 확장성·효율을 얻는 trade-off <span class="src">(Skilljar)</span></li>
-        <li>자주 바뀌면 RAG <span class="gen">업계 일반</span> <span class="note">공식 글·Skilljar 강의 모두 이 조건 없음</span></li>
-        <li>전체를 봐야 하는 일('빠진 조항 찾기') → full context. chunk 검색은 안 맞음, 없는 건 검색해도 안 나옴 <span class="gen">업계 일반</span></li>
-        <li>RAG 결과를 넣되 고정 앞부분은 캐싱, 같이 써도 됨 <span class="gen">업계 일반</span></li>
+        <li>지식이 20만 토큰(약 500쪽) 미만이면 RAG 없이 full context 로 넣는다. <a href="caching.html">■ 프롬프트 캐싱</a>으로 빠르고 싸게 만든다</li>
+        <li>컨텍스트 창에 안 들어갈 만큼 크면 RAG 를 쓴다. 임베딩 + BM25 + chunk 앞 문맥 설명 붙이기 + 리랭킹으로 찾는다</li>
+        <li>20만 이상이지만 컨텍스트 창에는 들어갈 때(1M 컨텍스트 창)는 크기로 갈리지 않는다. 아래 조건으로 판단한다. 공식 글은 지식이 커지면 더 확장성 있는 방법이 필요하다고만 적는다</li>
+        <li>문서가 아주 많거나 여러 개이면 RAG 쪽이다. 비용과 성능을 더 짜내야 할 때도 RAG 쪽이다. RAG 는 단순함을 포기하고 확장성과 효율을 얻는 trade-off 다 <span class="src">(Skilljar)</span></li>
+        <li>자주 바뀌면 RAG 를 쓴다 <span class="gen">업계 일반</span> <span class="note">공식 글·Skilljar 강의 모두 이 조건 없음</span></li>
+        <li>전체를 봐야 하는 일('빠진 조항 찾기')은 full context 로 넣는다. chunk 검색은 이 일에 안 맞는다. 없는 것은 검색해도 안 나온다 <span class="gen">업계 일반</span></li>
+        <li>RAG 와 캐싱은 같이 써도 된다. RAG 결과를 넣고 고정 앞부분은 캐싱한다 <span class="gen">업계 일반</span></li>
+        <li>쪽수로 나오면 토큰으로 환산한다. 500쪽 ≈ 20만이면 300쪽 ≈ 12만, 100쪽 계약 ≈ 4만이다 <span class="note">(환산은 계산값)</span></li>
       </ul>
-      <p>쪽수로 나오면 환산 : 500쪽 ≈ 20만 → 300쪽 ≈ 12만 · 100쪽 계약 ≈ 4만 <span class="note">(환산은 계산값)</span></p>
     </details>
   </div>
   <details class="t5-orig v3-more">
@@ -553,12 +553,12 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">지식이 20만 토큰(약 500쪽) 미만</td><td data-label="답" role="cell">RAG 없이 full context + 캐싱</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "If your knowledge base is smaller than 200,000 tokens (about 500 pages of material), you can just include the entire knowledge base in the prompt"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">창에 안 들어갈 만큼 큼</td><td data-label="답" role="cell">RAG</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "For larger knowledge bases that don't fit within the context window, RAG is the typical solution."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">아주 큰 문서 · 여러 문서 · 비용·성능을 더 짜내야 함</td><td data-label="답" role="cell">RAG 쪽</td><td data-label="근거" role="cell">Skilljar 287763 "especially valuable when working with very large documents, multiple documents, or when you need to optimize for cost and performance"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">full context 로 넣기로 했으면</td><td data-label="답" role="cell">긴 문서는 맨 위, 질문·지시는 그 아래. 관련 부분을 먼저 인용하게 함</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" lang="en" rel="noopener">prompting-best-practices</a> (20k+ 토큰 입력)</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">에이전트가 긴 작업 중 필요한 것만 가져와야 함</td><td data-label="답" role="cell">JIT 검색 또는 섞어 쓰기</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">문서 갱신 뒤 자신 있게 틀림, 모델·지연(latency) 그대로</td><td data-label="답" role="cell">검색·indexing 단계부터 조사</td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 3</a> 정답 B</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">지식이 20만 토큰(약 500쪽) 미만이다</td><td data-label="답" role="cell">RAG 없이 full context 로 넣고 캐싱한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "If your knowledge base is smaller than 200,000 tokens (about 500 pages of material), you can just include the entire knowledge base in the prompt"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">컨텍스트 창에 안 들어갈 만큼 크다</td><td data-label="답" role="cell">RAG 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "For larger knowledge bases that don't fit within the context window, RAG is the typical solution."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">문서가 아주 크거나, 여러 개이거나, 비용·성능을 더 짜내야 한다</td><td data-label="답" role="cell">RAG 쪽이다</td><td data-label="근거" role="cell">Skilljar 287763 "especially valuable when working with very large documents, multiple documents, or when you need to optimize for cost and performance"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">full context 로 넣기로 했다</td><td data-label="답" role="cell">긴 문서는 맨 위에 둔다. 질문과 지시는 그 아래에 둔다. 모델이 관련 부분을 먼저 인용하게 한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" lang="en" rel="noopener">prompting-best-practices</a> (20k+ 토큰 입력)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">에이전트가 긴 작업 중에 필요한 것만 가져와야 한다</td><td data-label="답" role="cell">JIT 검색을 쓰거나 섞어 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">문서 갱신 뒤 모델이 자신 있게 틀린다. 모델과 지연(latency)은 그대로다</td><td data-label="답" role="cell">검색·indexing 단계부터 조사한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 3</a> 정답 B</td></tr>
   </tbody>
 </table>
 </div>
@@ -569,15 +569,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">지식 크기</td><td data-label="값" role="cell">20만 미만</td><td data-label="답 쪽" role="cell">full context + 캐싱</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">지식 크기</td><td data-label="값" role="cell">창(모델에 따라 200k 또는 1M) 초과</td><td data-label="답 쪽" role="cell">RAG</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 2 · context-windows</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">문서 개수</td><td data-label="값" role="cell">여러 개 · 계속 늘어남</td><td data-label="답 쪽" role="cell">RAG 쪽</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Skilljar 287763</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">한 턴에 필요한 양</td><td data-label="값" role="cell">문서의 10% 미만 + 호출이 아주 많음</td><td data-label="답 쪽" role="cell">RAG·JIT 검색이 쌈</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">호출 간격</td><td data-label="값" role="cell">캐시 수명(5분)보다 긺</td><td data-label="답 쪽" role="cell">full context 가 매번 캐시 쓰기 비용(1.25배)을 냄 → 크게 비쌈</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">과제 모양</td><td data-label="값" role="cell">전체를 대조 · 빠진 것 찾기 · 어디 있을지 모르는 변형 찾기</td><td data-label="답 쪽" role="cell">full context</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">없는 건 검색해도 안 나옴</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">과제 모양</td><td data-label="값" role="cell">한두 구절만 찾아 답함</td><td data-label="답 쪽" role="cell">RAG 쪽</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">갱신 빈도</td><td data-label="값" role="cell">자주 바뀜</td><td data-label="답 쪽" role="cell">둘 다 가능. full context 는 바뀔 때마다 캐시 쓰기 1번, RAG 는 re-index</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">쪽수로 주어짐</td><td data-label="값" role="cell">500쪽</td><td data-label="답 쪽" role="cell">약 20만 (옛 토크나이저 기준)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1 — 새 토크나이저는 흔들림, 미해결 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">지식 크기</td><td data-label="값" role="cell">20만 미만이다</td><td data-label="답 쪽" role="cell">full context 로 넣고 캐싱한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">지식 크기</td><td data-label="값" role="cell">컨텍스트 창(모델에 따라 200k 또는 1M)보다 크다</td><td data-label="답 쪽" role="cell">RAG 를 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 2 · context-windows</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">문서 개수</td><td data-label="값" role="cell">여러 개이고 계속 늘어난다</td><td data-label="답 쪽" role="cell">RAG 쪽이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Skilljar 287763</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">한 호출에 필요한 양</td><td data-label="값" role="cell">문서의 10% 미만이고 호출이 아주 많다</td><td data-label="답 쪽" role="cell">RAG·JIT 검색이 싸다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">호출 간격</td><td data-label="값" role="cell">캐시 수명(5분)보다 길다</td><td data-label="답 쪽" role="cell">full context 는 매번 캐시 쓰기 비용(1.25배)을 낸다. 그래서 크게 비싸다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">과제 모양</td><td data-label="값" role="cell">전체를 대조하거나, 빠진 것을 찾거나, 어디 있을지 모르는 변형을 찾는다</td><td data-label="답 쪽" role="cell">full context 로 넣는다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">없는 것은 검색해도 안 나온다</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">과제 모양</td><td data-label="값" role="cell">한두 구절만 찾아 답한다</td><td data-label="답 쪽" role="cell">RAG 쪽이다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">갱신 빈도</td><td data-label="값" role="cell">자주 바뀐다</td><td data-label="답 쪽" role="cell">둘 다 된다. full context 는 바뀔 때마다 캐시 쓰기를 1번 한다. RAG 는 re-index 한다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">쪽수로 주어졌나</td><td data-label="값" role="cell">500쪽이다</td><td data-label="답 쪽" role="cell">약 20만이다 (옛 토크나이저 기준)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1. 새 토크나이저에서는 값이 흔들린다(미해결 2)</td></tr>
   </tbody>
 </table>
 </div>
@@ -593,11 +593,11 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"full context 로 넣는 보기는 항상 오답, context rot 이니 무조건 RAG" → 크기 먼저. 긴 프롬프트가 덜 효과적인 건 맞지만(Skilljar) 20만 미만이면 full context 가 공식이 먼저 드는 답</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"300쪽 = 100만 토큰이라 RAG 필수" → 환산 틀림</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"검색 인프라가 있어야 엔터프라이즈답다" → 과설계 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>'빠진 조항 찾기'처럼 전체를 봐야 하는 일 → chunk 검색이 안 맞음, 없는 건 검색해도 안 나옴 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>RAG 약점 : 뽑힌 chunk 에 필요한 맥락이 없을 수 있음 → 그래서 chunk 앞에 문맥 붙이기(Contextual Retrieval)</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"full context 로 넣는 보기는 항상 오답이다. context rot 이 있으니 무조건 RAG 다" 는 함정이다. 크기를 먼저 본다. 긴 프롬프트가 덜 효과적인 것은 맞다(Skilljar). 그래도 20만 미만이면 공식 글이 먼저 드는 답은 full context 다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"300쪽은 100만 토큰이라 RAG 가 필수다" 는 함정이다. 환산이 틀렸다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"검색 인프라가 있어야 엔터프라이즈답다" 는 함정이다. 과설계다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>'빠진 조항 찾기'처럼 전체를 봐야 하는 일에는 chunk 검색이 안 맞는다. 없는 것은 검색해도 안 나온다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>RAG 에도 약점이 있다. 뽑힌 chunk 에 필요한 맥락이 없을 수 있다. 그래서 chunk 앞에 문맥 설명을 붙인다(Contextual Retrieval)</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -617,33 +617,33 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 20만 미만인데 JIT 검색이 더 싼 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 문서가 20만 미만이라 full context 로 들어가지만, 턴(호출)이 아주 많고 한 턴에 필요한 건 문서의 일부뿐.</li>
-<li><span class="lead">계산 :</span> 문서 D 토큰을 full context 로 두면 캐시 적중 턴마다 D × 0.1 만큼 입력 단가를 냄. JIT 검색은 그 턴에 가져온 N 토큰만 냄(캐시 안 됨). 그래서 N &lt; 0.1 × D 면 JIT 검색이 쌈.</li>
-<li><span class="lead">예 :</span> D = 16만(약 400쪽) · Sonnet 5 입력 $2, 캐시 읽기 $0.20 (백만 토큰당) → full context 적중 턴 = 16만 × $0.20 = $0.032. 점진 N = 4천 → 4천 × $2 = $0.008. 손익 N = 1만 6천.</li>
-<li><span class="lead">전제 :</span> 캐시가 매 턴 적중 · 검색 장치 비용·지연은 뺌 · 대화 기록 증가는 양쪽이 같다고 봄 · 가격 = 2026-09-28 조회값.</li>
-<li><span class="lead">등급 :</span> <span class="calc">계산</span>. 공식은 "20만 미만이면 full context 로 넣어도 된다(can)"라고 했지 "넣어야 한다"고 하지 않음. 컨텍스트는 한정 자원이라 매 턴 작게 두라는 공식 원칙(context rot)도 같은 방향 → 지문이 "비용이 제약 + 턴이 많음 + 필요한 건 일부"를 모두 말하면 JIT 검색 쪽이 설 자리가 있음.</li>
+<li><span class="lead">조건 :</span> 문서가 20만 미만이라 full context 로 들어간다. 그런데 호출(턴)이 아주 많다. 한 호출에 필요한 것은 문서의 일부뿐이다.</li>
+<li><span class="lead">계산 :</span> 문서 D 토큰을 full context 로 두면, 캐시가 적중한 호출마다 D × 0.1 만큼 입력 단가를 낸다. JIT 검색은 그 호출에 가져온 N 토큰만 낸다. 이 N 토큰은 캐시되지 않는다. 그래서 N &lt; 0.1 × D 면 JIT 검색이 싸다.</li>
+<li><span class="lead">예 :</span> D = 16만(약 400쪽)이다. Sonnet 5 가격은 백만 토큰당 입력 $2, 캐시 읽기 $0.20 이다. full context 적중 호출 1번 = 16만 × $0.20 = $0.032. JIT 검색 N = 4천이면 4천 × $2 = $0.008. 손익 N = 1만 6천.</li>
+<li><span class="lead">전제 :</span> 캐시가 호출마다 적중한다. 검색 장치의 비용과 지연은 뺀다. 대화 기록 증가는 양쪽이 같다고 본다. 가격은 2026-09-28 조회값이다.</li>
+<li><span class="lead">등급 :</span> <span class="calc">계산</span>. 공식 글은 "20만 미만이면 full context 로 넣어도 된다(can)"라고 했다. "넣어야 한다"고 하지는 않았다. 공식 원칙은 컨텍스트가 한정 자원이니 호출마다 작게 두라고 한다(context rot). 이 원칙도 같은 방향이다. 지문이 아래 세 가지를 모두 말하면 JIT 검색 쪽이 설 자리가 있다. 비용이 제약이다. 호출이 많다. 필요한 것은 일부다.</li>
 <li><span class="lead">근거 :</span> pricing(0.1배) · prompt-caching 표(Sonnet 5 가격) · context-windows(context rot) · effective-context-engineering(한정 자원, 가장 작은 고신호 집합)</li>
-<li><span class="post">시험 뒤 변경</span> Opus 5.5 는 읽기 0.05배(2026-09-22) → 손익 N 이 문서의 5% 로 내려감.</li>
+<li><span class="post">시험 뒤 변경</span> Opus 5.5 는 캐시 읽기가 0.05배다(2026-09-22). 그래서 손익 N 이 문서의 5% 로 내려간다.</li>
 </ul>
 <h4>2. 호출 간격이 캐시 수명보다 긴 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 같은 문서를 쓰지만 호출이 드문드문(5분 넘게 간격).</li>
-<li><span class="lead">계산 :</span> 매 호출이 캐시 쓰기 1.25배 → 16만 × $2.50 = $0.40 / 호출. 적중 때($0.032)의 12.5배.</li>
-<li><span class="lead">처방 순서 :</span> 1시간 캐시(쓰기 2배, 읽기 2번부터 이득) → 그래도 드물면 캐싱 이득 없음 → full context 의 비용은 매번 전체 입력 × 입력 단가.</li>
+<li><span class="lead">조건 :</span> 같은 문서를 쓴다. 그런데 호출이 드문드문하다(간격이 5분을 넘는다).</li>
+<li><span class="lead">계산 :</span> 호출마다 캐시 쓰기 1.25배를 낸다. 호출 1번 = 16만 × $2.50 = $0.40. 적중 때($0.032)의 12.5배다.</li>
+<li><span class="lead">처방 순서 :</span> 먼저 1시간 캐시를 쓴다(쓰기 2배, 읽기 2번부터 이득). 그래도 호출이 드물면 캐싱 이득이 없다. 그때 full context 의 비용은 매번 전체 입력 × 입력 단가다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (수명·배수는 확인)</li>
 <li><span class="lead">근거 :</span> prompt-caching(기본 5분) · pricing</li>
 </ul>
 <h4>3. 자주 바뀌니까 RAG? — 잘 안 뒤집힘</h4>
 <ul>
-<li><span class="lead">조건 :</span> 문서가 하루 몇 번 바뀜.</li>
-<li><span class="lead">계산 :</span> full context 는 바뀔 때마다 캐시 쓰기 1번(1.25배)이면 다시 적중. 하루 몇 번이면 작은 비용. RAG 도 바뀔 때마다 re-index 가 필요함.</li>
-<li><span class="lead">등급 :</span> <span class="calc">계산</span>. "자주 바뀌면 RAG" 는 공식 문장 없음(업계 일반). 갱신 빈도만으로는 답이 잘 안 바뀜 → 이 조건만 걸어 놓은 보기는 약함.</li>
-<li><span class="lead">근거 :</span> pricing · contextual-retrieval en 전문(이 조건 없음)</li>
+<li><span class="lead">조건 :</span> 문서가 하루에 몇 번 바뀐다.</li>
+<li><span class="lead">계산 :</span> full context 는 바뀔 때마다 캐시 쓰기 1번(1.25배)이면 다시 적중한다. 하루 몇 번이면 작은 비용이다. RAG 도 바뀔 때마다 re-index 해야 한다.</li>
+<li><span class="lead">등급 :</span> <span class="calc">계산</span>. "자주 바뀌면 RAG" 는 공식 문장이 없다(업계 일반). 갱신 빈도만으로는 답이 잘 안 바뀐다. 그래서 이 조건만 걸어 놓은 보기는 약하다.</li>
+<li><span class="lead">근거 :</span> pricing · contextual-retrieval en 전문(이 조건이 없다)</li>
 </ul>
 <h4>4. 창이 1M 인데 20만 기준은 그대로?</h4>
 <ul>
-<li><span class="lead">조건 :</span> 2026 모델 다수가 1M 창이 기본(Opus·Sonnet 4.6 은 2026-03-13 부터).</li>
-<li><span class="lead">판단 :</span> 20만 기준 문장은 2024 글. 창이 커져서 "창에 들어감" 범위는 넓어졌지만, context rot 때문에 크게 넣을수록 정확도가 떨어진다는 것도 공식. 20만~1M 구간은 공식 문장 없음.</li>
+<li><span class="lead">조건 :</span> 2026 모델 다수는 1M 컨텍스트 창이 기본이다(Opus·Sonnet 4.6 은 2026-03-13 부터).</li>
+<li><span class="lead">판단 :</span> 20만 기준 문장은 2024 글에 있다. 컨텍스트 창이 커져서 "창에 들어가는" 범위는 넓어졌다. 그러나 크게 넣을수록 정확도가 떨어진다는 것(context rot)도 공식 글에 있다. 20만~1M 구간은 공식 문장이 없다.</li>
 <li><span class="lead">등급 :</span> <span class="open">미해결</span></li>
 <li><span class="lead">근거 :</span> context-windows · 릴리스 노트</li>
 </ul>
@@ -654,14 +654,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"full context 로 넣는 보기는 항상 오답, context rot 이니 무조건 RAG"</td><td data-label="왜 끌리나" role="cell">context rot 은 공식도 인정 · 긴 프롬프트는 덜 효과적(Skilljar)</td><td data-label="왜 틀리나" role="cell">20만 미만이면 full context 가 공식이 먼저 드는 선택. context rot 은 "크기 먼저 보라"는 말이지 "항상 RAG"가 아님</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> · context-windows</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"300쪽이면 100만 토큰쯤이라 RAG 필수"</td><td data-label="왜 끌리나" role="cell">쪽수 감이 없음</td><td data-label="왜 틀리나" role="cell">500쪽 ≈ 20만 → 300쪽 ≈ 12만</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"정책을 5천 토큰으로 요약·잘라서 넣기"</td><td data-label="왜 끌리나" role="cell">비용이 바로 줄어 보임</td><td data-label="왜 틀리나" role="cell">필요한 내용을 잃음. 공식 샘플 2 의 A(잘라내기)와 같은 원리</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설 "Truncation (A) loses needed policy"</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"지식을 파인튜닝으로 넣기"</td><td data-label="왜 끌리나" role="cell">한 번 학습하면 매번 안 보내도 될 것 같음</td><td data-label="왜 틀리나" role="cell">문서 지식 주입 수단으로 공식이 드는 건 full context·RAG. 파인튜닝은 이 판단의 보기로 약함</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"검색 개수(top-k)를 늘리면 빠진 걸 찾음"</td><td data-label="왜 끌리나" role="cell">더 많이 가져오면 더 잘 찾을 것 같음</td><td data-label="왜 틀리나" role="cell">유사도 검색은 문구가 다른 변형을 못 찾음. 문서가 창에 들어가면 full context 가 답</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"더 큰 창 모델로 바꾸면 해결"</td><td data-label="왜 끌리나" role="cell">창이 크면 다 넣을 수 있음</td><td data-label="왜 틀리나" role="cell">창은 목표가 아니라 상한. 크게 넣을수록 context rot</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">context-windows (제3자 문항 유형 요약)</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"검색 인프라(벡터 DB)부터 깔아야 엔터프라이즈답다"</td><td data-label="왜 끌리나" role="cell">규모 있어 보임</td><td data-label="왜 틀리나" role="cell">과설계. 공식은 "가장 단순한 것이 최선일 때가 있다"</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "Sometimes the simplest solution is the best."</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"JIT 검색은 항상 full context 보다 쌈"</td><td data-label="왜 끌리나" role="cell">적게 넣으니 쌀 것 같음</td><td data-label="왜 틀리나" role="cell">캐시 읽기 0.1배라 한 턴에 문서의 10% 넘게 가져오면 오히려 비쌈</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1 (제3자 문항 유형 요약)</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"full context 로 넣는 보기는 항상 오답, context rot 이니 무조건 RAG"</td><td data-label="왜 끌리나" role="cell">context rot 은 공식 글도 인정한다. 긴 프롬프트는 덜 효과적이다(Skilljar)</td><td data-label="왜 틀리나" role="cell">20만 미만이면 공식 글이 먼저 드는 답은 full context 다. context rot 은 크기를 먼저 보라는 말이다. 항상 RAG 를 쓰라는 말이 아니다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> · context-windows</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"300쪽이면 100만 토큰쯤이라 RAG 필수"</td><td data-label="왜 끌리나" role="cell">쪽수 감이 없다</td><td data-label="왜 틀리나" role="cell">500쪽 ≈ 20만이면 300쪽 ≈ 12만이다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"정책을 5천 토큰으로 요약·잘라서 넣기"</td><td data-label="왜 끌리나" role="cell">비용이 바로 줄어 보인다</td><td data-label="왜 틀리나" role="cell">필요한 내용을 잃는다. 가이드 샘플 2 의 A(잘라내기)와 같은 원리다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설 "Truncation (A) loses needed policy"</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"지식을 파인튜닝으로 넣기"</td><td data-label="왜 끌리나" role="cell">한 번 학습하면 매번 안 보내도 될 것 같다</td><td data-label="왜 틀리나" role="cell">공식 글이 문서 지식을 넣는 수단으로 드는 것은 full context 와 RAG 다. 파인튜닝은 이 판단의 보기로 약하다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"검색 개수(top-k)를 늘리면 빠진 걸 찾음"</td><td data-label="왜 끌리나" role="cell">더 많이 가져오면 더 잘 찾을 것 같다</td><td data-label="왜 틀리나" role="cell">유사도 검색은 문구가 다른 변형을 못 찾는다. 문서가 컨텍스트 창에 들어가면 full context 가 답이다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"더 큰 창 모델로 바꾸면 해결"</td><td data-label="왜 끌리나" role="cell">컨텍스트 창이 크면 다 넣을 수 있다</td><td data-label="왜 틀리나" role="cell">컨텍스트 창은 목표가 아니라 상한이다. 크게 넣을수록 context rot 으로 정확도가 떨어진다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">context-windows (제3자 문항 유형 요약)</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"검색 인프라(벡터 DB)부터 깔아야 엔터프라이즈답다"</td><td data-label="왜 끌리나" role="cell">규모 있어 보인다</td><td data-label="왜 틀리나" role="cell">과설계다. 공식 글은 "가장 단순한 것이 최선일 때가 있다"고 적는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "Sometimes the simplest solution is the best."</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"JIT 검색은 항상 full context 보다 쌈"</td><td data-label="왜 끌리나" role="cell">적게 넣으니 쌀 것 같다</td><td data-label="왜 틀리나" role="cell">캐시 읽기는 0.1배다. 그래서 한 호출에 문서의 10% 넘게 가져오면 JIT 검색이 오히려 비싸다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1 (제3자 문항 유형 요약)</td></tr>
   </tbody>
 </table>
 </div>
@@ -669,11 +669,15 @@
   </details>
   <h2 class="sec-h" id="rag-vs-full-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="caching.html">■ 프롬프트 캐싱</a></li>
         <li><a href="rag-pipeline.html">■ RAG 파이프라인</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 2.4</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -689,12 +693,13 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>20만~1M 구간 : 1M 창이 기본이 된 뒤 "full context 로 넣어도 되는 크기"가 커졌는지 공식 문장 없음 (뒤집히는 때 4). 공식 글은 20만 문장 다음에 "as your knowledge base grows, you'll need a more scalable solution"까지만 말함 — 카드엔 "크기로는 안 갈림 → 다른 조건으로" 로 적음.</li>
-<li>쪽수 환산 : 500쪽 ≈ 20만은 2024 글 기준. 새 토크나이저는 같은 글을 약 30% 더 셈(Sonnet 5, 릴리스 노트) → 같은 500쪽이 약 26만일 수 있음. 시험 지문이 쪽수로만 주면 20만 기준으로 환산하는 게 안전(추론).</li>
-<li>JIT 검색 손익의 "검색 장치 비용·지연"은 공식 숫자가 없어 계산에서 뺐음.</li>
-<li>(이 카드 밖) 목록 2.4③ 이 인용한 "질문을 끝에 두면 최대 30% 향상" 문장이 지금 prompting-best-practices 문서엔 없음 — 2.4③ 을 카드로 만들 때 확인.</li>
+<li>20만~1M 구간 : 1M 컨텍스트 창이 기본이 된 뒤 "full context 로 넣어도 되는 크기"가 커졌는지 알려 주는 공식 문장이 없다 (뒤집히는 때 4). 공식 글은 20만 문장 다음에 "as your knowledge base grows, you'll need a more scalable solution"까지만 말한다. 카드에는 "크기로 갈리지 않는다. 아래 조건으로 판단한다" 로 적었다.</li>
+<li>쪽수 환산 : 500쪽 ≈ 20만은 2024 글 기준이다. 새 토크나이저는 같은 글을 약 30% 더 센다(Sonnet 5, 릴리스 노트). 그래서 같은 500쪽이 약 26만일 수 있다. 시험 지문이 쪽수로만 주면 20만 기준으로 환산하는 것이 안전하다(추론).</li>
+<li>JIT 검색 손익의 "검색 장치 비용·지연"은 공식 숫자가 없어 계산에서 뺐다.</li>
+<li>(이 카드 밖) 목록 2.4③ 이 인용한 "질문을 끝에 두면 최대 30% 향상" 문장이 지금 prompting-best-practices 문서에는 없다. 2.4③ 을 카드로 만들 때 확인한다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

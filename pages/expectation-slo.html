@@ -394,21 +394,31 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">왜 100% 를 약속 못 하나</p>
 <ul>
-<li>가장 발전된 모델도 때때로 사실과 다른 답을 냄 (공식). 모델을 키워도 이 문장은 안 바뀜.</li>
-<li>에이전트는 실행마다 결과가 다름 (공식). 같은 질문도 매번 같게 나오지 않음.</li>
-<li>그래서 "정확하다" 는 약속할 수 없는 것. 약속할 수 있는 건 잰 값(통과율·분위수)과 틀렸을 때의 경로.</li>
+<li>가장 발전된 모델도 때때로 사실과 다른 답을 낸다 (공식). 모델을 키워도 이 문장은 바뀌지 않는다.</li>
+<li>에이전트는 실행마다 결과가 다르다 (공식). 같은 질문도 매번 같게 나오지 않는다.</li>
+<li>그래서 "정확하다" 는 약속할 수 없다. 약속할 수 있는 것은 잰 값(통과율·분위수)과 틀렸을 때의 경로다.</li>
 </ul>
 <p class="lead">무엇을 약속하나</p>
 <ul>
-<li>품질 : held-out 평가셋 통과율 + 오류 심각도. 한 차원이 아니라 여러 차원.</li>
-<li>지연 : 평균이 아니라 분위수 ("응답 95% 가 200ms 미만").</li>
-<li>가용성 : 내가 올라탄 윗단(API)이 무엇을 약속하는지부터. Standard 티어 = best-effort, Priority Tier = 99.5% 가동 목표.</li>
-<li>틀렸을 때 : 위험 등급별 사람 검토 · 에스컬레이션 · "모르겠다" 허용.</li>
+<li>품질 : held-out 평가셋 통과율과 오류 심각도를 약속한다. 한 차원이 아니라 여러 차원으로 잰다.</li>
+<li>지연 : 평균이 아니라 분위수로 약속한다 ("응답 95% 가 200ms 미만").</li>
+<li>가용성 : 내가 올라탄 윗단(API)이 무엇을 약속하는지부터 본다. Standard 티어는 best-effort 다. Priority Tier 는 99.5% 가동이 목표다.</li>
+<li>틀렸을 때 : 아래 경로를 약속한다.<ul>
+<li>위험 등급별 사람 검토</li>
+<li>에스컬레이션</li>
+<li>"모르겠다" 허용</li>
+</ul>
+</li>
 </ul>
 <p class="lead">숫자를 거는 순서 (업계 일반 — SRE 습관)</p>
 <ul>
-<li>SLI(실제로 잰 값) → SLO(내부 목표) → SLA(어기면 결과가 따르는 외부 약속).</li>
-<li>재기 전에 확인할, 숫자를 흔드는 요인 : effort 기본값(모델마다 다름) · rate limit(속도 제한 — 보장 아닌 최대치, 짧은 폭주도 429) · 인프라.</li>
+<li>순서는 SLI(실제로 잰 값), SLO(내부 목표), SLA(어기면 결과가 따르는 외부 약속)다.</li>
+<li>재기 전에 숫자를 흔드는 요인을 확인한다.<ul>
+<li>effort 기본값 : 모델마다 다르다.</li>
+<li>rate limit(속도 제한) : 보장이 아니라 최대치다. 짧은 폭주에도 429 가 난다.</li>
+<li>인프라</li>
+</ul>
+</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
@@ -425,35 +435,35 @@
   <section class="t5-flow tree" id="expectation-slo-tree-1" aria-labelledby="expectation-slo-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9|n1 n10 n11 n12 n13|n1 n10 n11 n14 n15">
     <div class="t5-fh"><h3 id="expectation-slo-tree-1-h">무엇을 약속 <span class="pg">[6.3①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>약속 문구는?<span class="t5-sub">계약서 · 제안서</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>약속 문구가 무엇인가?<span class="t5-sub">계약서 · 제안서</span></div>
       <div class="t5-fork" style="--n:5">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>"항상 정확 · 100%"</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">약속 안 함</p><p>가장 발전된 모델도 때때로 사실과 다른 답 · 에이전트는 실행마다 결과가 다름</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">약속하지 않는다</p><p>가장 발전된 모델도 때때로 사실과 다른 답을 낸다. 에이전트는 실행마다 결과가 다르다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>코드·권한이 막는 한도</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">약속 가능</p><p>모델 행동이 아니라 결정적(deterministic) 장치가 보장 — CLAUDE.md 지시는 권고, hook 은 결정적이고 반드시 실행 · 코드·권한 검사로 넓힌 건 해석</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">약속할 수 있다</p><p>모델 행동이 아니라 결정적(deterministic) 장치가 보장한다 (코드·권한 검사로 넓힌 것은 해석이다). CLAUDE.md 지시는 권고다. hook 은 결정적이고 반드시 실행된다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>품질 숫자</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">평가셋 통과율</p><p>held-out 평가셋 통과율 + 오류 심각도</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">평가셋 통과율로 건다</p><p>held-out 평가셋 통과율과 오류 심각도로 건다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>지연 숫자</span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">분위수</p><p>예 "응답 95% 가 200ms 미만"</p></div>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">분위수로 건다</p><p>예 : "응답 95% 가 200ms 미만"</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>가용성</span>
-          <div class="t5-q" data-p="n11"><span class="t5-hl" aria-hidden="true"></span>어느 티어?<span class="t5-sub">Standard vs Priority Tier</span></div>
+          <div class="t5-q" data-p="n11"><span class="t5-hl" aria-hidden="true"></span>어느 티어인가?<span class="t5-sub">Standard vs Priority Tier</span></div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>Standard</span>
-              <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">윗단(API)보다 센 약속 금지</p><p>Standard 티어 = best-effort 가용성 · 윗단이 약속 안 한 가동률을 내 SLA 로 걸지 않음 <span class="gen">업계 일반</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">윗단(API)보다 센 약속은 하지 않는다</p><p>윗단이 약속하지 않은 가동률을 내 SLA 로 걸지 않는다 <span class="gen">업계 일반</span>. Standard 티어는 best-effort 가용성이다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n14"><span class="t5-hl" aria-hidden="true"></span>Priority Tier 약정</span>
-              <div class="t5-leaf t5-ans" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">99.5% 는 윗단(API) 목표</p><p>Priority Tier = 99.5% 가동 목표, 약정 넘는 요청은 Standard 로 · Opus 5.5 · Sonnet 5 · Fable 5.1 등은 Priority Tier 미지원 · 그 가동률을 약속으로 걸려면 대비책(재시도·대체 경로)부터 <span class="gen">업계 일반</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">99.5% 는 윗단(API) 목표다</p><p>이 가동률을 약속으로 걸려면 대비책(재시도·대체 경로)부터 만든다 <span class="gen">업계 일반</span>. Priority Tier 는 99.5% 가동을 목표로 한다. 약정을 넘는 요청은 Standard 로 간다. Opus 5.5 · Sonnet 5 · Fable 5.1 등은 Priority Tier 를 지원하지 않는다</p></div>
             </div>
           </div>
         </div>
@@ -467,19 +477,19 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(감으로)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">먼저 재기</p><p>실측(SLI) → 내부 목표(SLO) → 외부 약속(SLA) <span class="gen">업계 일반</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">먼저 잰다</p><p>실측(SLI), 내부 목표(SLO), 외부 약속(SLA) 순서로 간다 <span class="gen">업계 일반</span></p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>숫자를 흔드는 요인 확인?<span class="t5-sub">effort · 429 · 모델 교체</span></div>
+          <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>숫자를 흔드는 요인을 확인했나?<span class="t5-sub">effort · 429 · 모델 교체</span></div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>아직</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">변동 확인</p><p>effort 를 명시 · rate limit(속도 제한)은 보장된 최소가 아니라 허용 최대치 · 짧은 폭주도 429</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">변동을 확인한다</p><p>effort 를 명시한다. rate limit(속도 제한)은 보장된 최소가 아니라 허용 최대치다. 짧은 폭주에도 429 가 난다</p></div>
             </div>
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>확인함</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">약속으로</p><p>잰 값보다 여유를 두고 걸기 <span class="gen">업계 일반</span></p></div>
+              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>확인했다</span>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">약속으로 건다</p><p>잰 값보다 여유를 두고 건다 <span class="gen">업계 일반</span></p></div>
             </div>
           </div>
         </div>
@@ -493,19 +503,19 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">넘김</p><p>사람에게 넘길 대화를 붙잡지 않게 — 에스컬레이션 놓침을 따로 셈 · 에스컬레이션 정확도 95% 이상을 목표로</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">넘긴다</p><p>사람에게 넘길 대화를 붙잡지 않게 한다. 에스컬레이션 놓침을 따로 센다. 에스컬레이션 정확도 95% 이상을 목표로 한다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
           <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>틀리면 비용이 큰가?<span class="t5-sub">돈 · 법 · 안전</span></div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>큼</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">사람 검토로</p><p>위험 등급을 나눠 사람 검토 대상으로 표시 · "모르겠다" 허용 — 불확실하다고 말해도 된다고 분명히 허용 → 거짓 정보를 크게 줄임 → <a href="moderation-tiers.html">■ moderation 위험 등급</a></p></div>
+              <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>크다</span>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">사람 검토로 보낸다</p><p>위험 등급을 나눠 사람 검토 대상으로 표시한다. "모르겠다" 를 허용한다. 불확실하다고 말해도 된다고 분명히 허용하면 거짓 정보를 크게 줄일 수 있다. 자세한 것은 <a href="moderation-tiers.html">■ moderation 위험 등급</a> 에 있다</p></div>
             </div>
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>작음</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">자동 + 표본 확인</p><p><span class="gen">업계 일반</span></p></div>
+              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>작다</span>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">자동 + 표본 확인</p><p>자동으로 처리하고 표본을 확인한다 <span class="gen">업계 일반</span></p></div>
             </div>
           </div>
         </div>
@@ -514,20 +524,20 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="expectation-slo-flow" aria-label="100% 약속 vs 측정된 SLO + 사람 안전망 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["Claude","라우팅","사람 검토","고객"],"blocks":[],"rules":[null,"틀리면 비용이 큰 결과는 사람 검토",null,null],"question":"이 답은 바로 고객에게 가도 될까?","scenes":[{"name":"① 위험 등급으로 나눔","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["A 배송 조회 링크","B 환불 58,000원"]}},{"kind":"move","step":"답","from":{"col":0},"to":1,"label":"위험 등급을 나눔","art":{"kind":"slip","lines":["A = 낮음","B = 높음","(돈이 나감)"]}},{"kind":"move","step":"통과","from":{"col":1},"to":3,"label":"틀려도 비용이 작은 결과","art":{"kind":"say","text":"배송 조회는 이 링크에서 돼요."}},{"kind":"move","step":"검토","from":{"col":1},"to":2,"label":"틀리면 비용이 큰 결과","art":{"kind":"slip","lines":["B 환불 58,000원","상담원 확인 대기"]}},{"kind":"end","label":"약속 = 잰 숫자 + 틀렸을 때의 경로"}]},{"name":"② \"100% 정확\" 약속","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["계약서:","\"100% 정확\"","→ 검토 단계 없음"]}},{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["B 환불 58,000원"]}},{"kind":"skip","at":1},{"kind":"skip","at":2},{"kind":"move","step":"답","from":{"col":0},"to":3,"label":"사람 검토 없음","art":{"kind":"say","text":"58,000원 환불됐어요."}},{"kind":"mark","step":"틀림","at":{"col":3},"label":"가장 발전된 모델도 때때로 틀림 ≠","art":{"kind":"slip","lines":["규정대로면","52,000원"]}},{"kind":"end","label":"\"100% 정확\"은 약속 안 함"}]},{"name":"③ 넘길 대화를 붙잡음","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["대화:","\"사람 바꿔 줘요\"","(같은 말 3번째)"]}},{"kind":"move","step":"답","from":{"col":0},"to":1,"label":"사람에게 넘길 대화","art":{"kind":"slip","lines":["분류:","자동 응대 계속"]}},{"kind":"skip","at":2},{"kind":"move","step":"붙잡음","from":{"col":1},"to":3,"label":"에스컬레이션 놓침 ≠","art":{"kind":"say","text":"제가 계속 도와드릴게요."}},{"kind":"end","label":"넘길 대화를 붙잡음 — 에스컬레이션 놓침은 따로 셈 (목표 : 에스컬레이션 정확도 95% 이상)"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["Claude","라우팅","사람 검토","고객"],"blocks":[],"rules":[null,"틀리면 비용이 큰 결과는 사람 검토",null,null],"question":"이 답은 바로 고객에게 가도 될까?","scenes":[{"name":"① 위험 등급으로 나눈다","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["A 배송 조회 링크","B 환불 58,000원"]}},{"kind":"move","step":"답","from":{"col":0},"to":1,"label":"위험 등급을 나눈다","art":{"kind":"slip","lines":["A = 낮음","B = 높음","(돈이 나감)"]}},{"kind":"move","step":"통과","from":{"col":1},"to":3,"label":"틀려도 비용이 작은 결과다","art":{"kind":"say","text":"배송 조회는 이 링크에서 돼요."}},{"kind":"move","step":"검토","from":{"col":1},"to":2,"label":"틀리면 비용이 큰 결과다","art":{"kind":"slip","lines":["B 환불 58,000원","상담원 확인 대기"]}},{"kind":"end","label":"약속하는 것은 잰 숫자와 틀렸을 때의 경로다"}]},{"name":"② \"100% 정확\" 약속","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["계약서:","\"100% 정확\"","→ 검토 단계 없음"]}},{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["B 환불 58,000원"]}},{"kind":"skip","at":1},{"kind":"skip","at":2},{"kind":"move","step":"답","from":{"col":0},"to":3,"label":"사람 검토 없이 간다","art":{"kind":"say","text":"58,000원 환불됐어요."}},{"kind":"mark","step":"틀림","at":{"col":3},"label":"가장 발전된 모델도 때때로 틀린다 ≠","art":{"kind":"slip","lines":["규정대로면","52,000원"]}},{"kind":"end","label":"\"100% 정확\"은 약속하지 않는다"}]},{"name":"③ 넘길 대화를 붙잡는다","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["대화:","\"사람 바꿔 줘요\"","(같은 말 3번째)"]}},{"kind":"move","step":"답","from":{"col":0},"to":1,"label":"사람에게 넘길 대화다","art":{"kind":"slip","lines":["분류:","자동 응대 계속"]}},{"kind":"skip","at":2},{"kind":"move","step":"붙잡음","from":{"col":1},"to":3,"label":"에스컬레이션을 놓친다 ≠","art":{"kind":"say","text":"제가 계속 도와드릴게요."}},{"kind":"end","label":"넘길 대화를 붙잡았다. 에스컬레이션 놓침은 따로 센다 (목표 : 에스컬레이션 정확도 95% 이상)"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> Claude → 라우팅 → 사람 검토 → 고객</p>
       <p><span class="lead">규칙 (라우팅) :</span> 틀리면 비용이 큰 결과는 사람 검토</p>
       <p><span class="lead">질문 :</span> 이 답은 바로 고객에게 가도 될까?</p>
-      <p class="lead">① 위험 등급으로 나눔 <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">① 위험 등급으로 나눈다 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : Claude — 쪽지 : <span class="flx-alt-slip">A 배송 조회 링크 / B 환불 58,000원</span></li>
-        <li>답 : Claude → 라우팅 : 위험 등급을 나눔 — 쪽지 : <span class="flx-alt-slip">A = 낮음 / B = 높음 / (돈이 나감)</span></li>
-        <li>통과 : 라우팅 → 고객 : 틀려도 비용이 작은 결과 — 말 : <span class="flx-alt-say">“배송 조회는 이 링크에서 돼요.”</span></li>
-        <li>검토 : 라우팅 → 사람 검토 : 틀리면 비용이 큰 결과 — 쪽지 : <span class="flx-alt-slip">B 환불 58,000원 / 상담원 확인 대기</span></li>
-        <li>끝 : 약속 = 잰 숫자 + 틀렸을 때의 경로</li>
+        <li>답 : Claude → 라우팅 : 위험 등급을 나눈다 — 쪽지 : <span class="flx-alt-slip">A = 낮음 / B = 높음 / (돈이 나감)</span></li>
+        <li>통과 : 라우팅 → 고객 : 틀려도 비용이 작은 결과다 — 말 : <span class="flx-alt-say">“배송 조회는 이 링크에서 돼요.”</span></li>
+        <li>검토 : 라우팅 → 사람 검토 : 틀리면 비용이 큰 결과다 — 쪽지 : <span class="flx-alt-slip">B 환불 58,000원 / 상담원 확인 대기</span></li>
+        <li>끝 : 약속하는 것은 잰 숫자와 틀렸을 때의 경로다</li>
       </ol>
       <p class="lead">② "100% 정확" 약속 <span class="fl-v is-ng">≠</span></p>
       <ol>
@@ -535,17 +545,17 @@
         <li>시작 : Claude — 쪽지 : <span class="flx-alt-slip">B 환불 58,000원</span></li>
         <li>건너뜀 : 라우팅</li>
         <li>건너뜀 : 사람 검토</li>
-        <li>답 : Claude → 고객 : 사람 검토 없음 — 말 : <span class="flx-alt-say">“58,000원 환불됐어요.”</span></li>
-        <li>틀림 : 고객 : 가장 발전된 모델도 때때로 틀림 ≠ — 쪽지 : <span class="flx-alt-slip">규정대로면 / 52,000원</span></li>
-        <li>끝 : "100% 정확"은 약속 안 함</li>
+        <li>답 : Claude → 고객 : 사람 검토 없이 간다 — 말 : <span class="flx-alt-say">“58,000원 환불됐어요.”</span></li>
+        <li>틀림 : 고객 : 가장 발전된 모델도 때때로 틀린다 ≠ — 쪽지 : <span class="flx-alt-slip">규정대로면 / 52,000원</span></li>
+        <li>끝 : "100% 정확"은 약속하지 않는다</li>
       </ol>
-      <p class="lead">③ 넘길 대화를 붙잡음 <span class="fl-v is-ng">≠</span></p>
+      <p class="lead">③ 넘길 대화를 붙잡는다 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : Claude — 쪽지 : <span class="flx-alt-slip">대화: / "사람 바꿔 줘요" / (같은 말 3번째)</span></li>
-        <li>답 : Claude → 라우팅 : 사람에게 넘길 대화 — 쪽지 : <span class="flx-alt-slip">분류: / 자동 응대 계속</span></li>
+        <li>답 : Claude → 라우팅 : 사람에게 넘길 대화다 — 쪽지 : <span class="flx-alt-slip">분류: / 자동 응대 계속</span></li>
         <li>건너뜀 : 사람 검토</li>
-        <li>붙잡음 : 라우팅 → 고객 : 에스컬레이션 놓침 ≠ — 말 : <span class="flx-alt-say">“제가 계속 도와드릴게요.”</span></li>
-        <li>끝 : 넘길 대화를 붙잡음 — 에스컬레이션 놓침은 따로 셈 (목표 : 에스컬레이션 정확도 95% 이상)</li>
+        <li>붙잡음 : 라우팅 → 고객 : 에스컬레이션을 놓친다 ≠ — 말 : <span class="flx-alt-say">“제가 계속 도와드릴게요.”</span></li>
+        <li>끝 : 넘길 대화를 붙잡았다. 에스컬레이션 놓침은 따로 센다 (목표 : 에스컬레이션 정확도 95% 이상)</li>
       </ol>
     </details>
   </figure>
@@ -553,32 +563,41 @@
     <details class="t5-orig">
       <summary>규칙 원문 <span class="note">갈림 기준 거는 순서 사람 안전망 (갈림길로 그린 규칙)</span></summary>
       <p class="lead orig-h">갈림 기준</p>
-      <p class="lead">약속하는 것 = 잰 숫자 + 틀렸을 때의 경로. "정확하다"는 약속 안 함</p>
+      <p class="lead">약속하는 것은 잰 숫자와 틀렸을 때의 경로다. "정확하다"는 약속하지 않는다</p>
       <ul class="plain">
-        <li>"100% 정확"은 약속 안 함 — 가장 발전된 모델도 때때로 사실과 다른 답을 냄 · 에이전트는 실행마다 결과가 다름. 더 큰 모델로 바꿔도 이 문장은 그대로</li>
-      </ul>
-      <p>대신 거는 것 : 품질 = held-out 평가셋 통과율 + 오류 심각도(공식 예 "오류의 90% 는 불편 수준") · 지연(latency) = 분위수(예 "응답 95% 가 200ms 미만") · 틀렸을 때 = 사람 검토 · 에스컬레이션 경로 → 기준 문장 쓰는 법 = <a href="success-criteria.html">■ 성공 기준</a></p>
-      <ul class="plain">
-        <li>"약속 안 함" 은 모델 행동에만 : 코드·권한이 강제하는 한도(권한 없는 자격증명 · 서비스 쪽 검사가 막는 금액·동작)는 그 장치를 근거로 약속해도 됨 — CLAUDE.md 지시는 권고, hook 은 결정적이고 반드시 실행 (코드·권한 검사로 넓힌 건 해석). 프롬프트 지시로 막은 한도는 권고일 뿐이라 약속 근거가 못 됨</li>
-        <li>목표는 현재 프런티어 모델 역량에 비춰 현실적으로(달성 가능) · 대부분 여러 차원</li>
-        <li>"매번 맞아야" 하는 고객 대면이면 pass^k 로 측정 — 시도당 75% 면 3번 모두 성공 ≈ 42% → <a href="pass-at-k.html">◆ pass@k vs pass^k</a></li>
-        <li>내부 eval 목표 100% 는 다른 말 : regression(회귀) eval 은 거의 100% 통과가 정상 · 맥락에 준 회사·상품 정보 정확도는 100% 목표 — 고객 약속이 아니라 평가 목표</li>
-        <li>SLA 를 아예 없애는 것도 답 아님 : 가이드 목표 6.3 이 "(including SLAs)", 1.6 value pillars(핵심 가치 항목)에 성능 SLA → <a href="value-pillars.html">■ value pillars 5개</a></li>
+        <li>"100% 정확"은 약속하지 않는다. 가장 발전된 모델도 때때로 사실과 다른 답을 낸다. 에이전트는 실행마다 결과가 다르다. 더 큰 모델로 바꿔도 이 문장은 그대로다</li>
+        <li>대신 거는 것은 셋이다
+          <ul class="dash">
+            <li><span class="lead">품질 :</span> held-out 평가셋 통과율과 오류 심각도다(공식 예 "오류의 90% 는 불편 수준")</li>
+            <li>지연(latency) : 분위수다(예 "응답 95% 가 200ms 미만")</li>
+            <li><span class="lead">틀렸을 때 :</span> 사람 검토 · 에스컬레이션 경로다</li>
+          </ul>
+        </li>
+        <li>기준 문장 쓰는 법은 <a href="success-criteria.html">■ 성공 기준</a> 에 있다</li>
+        <li>"약속하지 않는다" 는 모델 행동에만 해당한다. 코드·권한이 강제하는 한도는 그 장치를 근거로 약속해도 된다. 권한 없는 자격증명이나 서비스 쪽 검사가 막는 금액·동작이 그런 한도다. CLAUDE.md 지시는 권고다. hook 은 결정적이고 반드시 실행된다 <span class="src">(코드·권한 검사로 넓힌 것은 해석이다)</span></li>
+        <li>프롬프트 지시로 막은 한도는 권고일 뿐이다. 그래서 약속 근거가 되지 못한다</li>
+        <li>목표는 현재 프런티어 모델 역량에 비춰 현실적으로(달성 가능하게) 잡는다. 대부분은 여러 차원으로 잰다</li>
+        <li>"매번 맞아야" 하는 고객 대면이면 pass^k 로 잰다. 시도당 75% 면 3번 모두 성공은 ≈ 42% 다. 자세한 것은 <a href="pass-at-k.html">◆ pass@k vs pass^k</a> 에 있다</li>
+        <li>내부 eval 목표 100% 는 다른 말이다. regression(회귀) eval 은 거의 100% 통과가 정상이다. 맥락에 준 회사·상품 정보 정확도는 100% 를 목표로 한다. 이것은 고객 약속이 아니라 평가 목표다</li>
+        <li>SLA 를 아예 없애는 것도 답이 아니다. 가이드 목표 6.3 에 "(including SLAs)" 가 있다. 1.6 value pillars(핵심 가치 항목)에도 성능 SLA 가 있다. 자세한 것은 <a href="value-pillars.html">■ value pillars 5개</a> 에 있다</li>
       </ul>
       <p class="lead orig-h">거는 순서</p>
-      <p>실측(SLI) → 내부 목표(SLO) → 외부 약속(SLA = 어기면 보상 등 결과가 따르는 약속). 용어·순서는 업계 일반 — Anthropic 문서에 SLA/SLO 정의 없음</p>
-      <p>지연은 모델 크기 · 프롬프트 복잡성 · 기반 인프라에 따라 달라짐 → 재 보기 전 숫자는 못 믿음</p>
-      <p>effort 를 명시 : low effort 는 응답 시간·비용을 크게 줄임. 생략하면 모델 기본값 — Opus 5.5 는 <code>medium</code>, Opus 5 이전은 <code>high</code> → 모델만 바꿔도 지연·품질이 움직임 <span class="post">시험 뒤 변경</span> <span class="note">Opus 5.5 출시 2026-09-22</span> → <a href="latency-levers.html">■ 지연 줄이기 lever</a></p>
-      <p>rate limit 은 보장된 최소가 아니라 허용 최대치 · 넘으면 429 + 어느 한도인지 + <code>retry-after</code> · 짧은 폭주도 429 → <a href="rate-limits.html">■ rate limit</a></p>
-      <p>가용성 : Standard 티어 = best-effort 가용성 · Priority Tier = 99.5% 가동 목표, 약정(분당 입력·출력 토큰 · 1/3/6/12개월 · 특정 모델 버전) 넘는 요청은 Standard 로 · Opus 5.5 · Sonnet 5 · Fable 5.1 등은 Priority Tier 미지원 <span class="src">(2026-09-28 조회)</span></p>
-      <p>윗단(API)이 약속 안 한 가동률을 내 SLA 로 걸지 않음 — 그 가동률을 약속으로 걸려면 대비책(재시도·대체 경로)부터 <span class="gen">업계 일반</span></p>
-      <p>변동을 확인한 뒤 : 잰 값보다 여유를 두고 걸기 <span class="gen">업계 일반</span> <span class="note">에러 버짓 개념</span></p>
+      <p>순서는 실측(SLI), 내부 목표(SLO), 외부 약속(SLA) 이다. SLA 는 어기면 보상 등 결과가 따르는 약속이다. 용어와 순서는 업계 일반이다. Anthropic 문서에는 SLA/SLO 정의가 없다</p>
+      <p>지연은 모델 크기 · 프롬프트 복잡성 · 기반 인프라에 따라 달라진다</p>
+      <p>그래서 재 보기 전의 숫자는 믿지 못한다</p>
+      <p>effort 를 명시한다. low effort 는 응답 시간과 비용을 크게 줄일 수 있다</p>
+      <p>effort 를 생략하면 모델 기본값이 쓰인다. Opus 5.5 는 <code>medium</code>, Opus 5 이전은 <code>high</code> 다. 그래서 모델만 바꿔도 지연·품질이 움직인다 <span class="post">시험 뒤 변경</span> <span class="note">Opus 5.5 출시 2026-09-22</span>. 자세한 것은 <a href="latency-levers.html">■ 지연 줄이기 lever</a> 에 있다</p>
+      <p>rate limit 은 보장된 최소가 아니라 허용 최대치다. 넘으면 429 와 함께 어느 한도인지와 <code>retry-after</code> 가 온다. 짧은 폭주에도 429 가 난다. 자세한 것은 <a href="rate-limits.html">■ rate limit</a> 에 있다</p>
+      <p>가용성 : Standard 티어는 best-effort 가용성이다. Priority Tier 는 99.5% 가동을 목표로 한다. 약정(분당 입력·출력 토큰 · 1/3/6/12개월 · 특정 모델 버전)을 넘는 요청은 Standard 로 간다. Opus 5.5 · Sonnet 5 · Fable 5.1 등은 Priority Tier 를 지원하지 않는다 <span class="src">(2026-09-28 조회)</span></p>
+      <p>윗단(API)이 약속하지 않은 가동률을 내 SLA 로 걸지 않는다. 그 가동률을 약속으로 걸려면 대비책(재시도·대체 경로)부터 만든다 <span class="gen">업계 일반</span></p>
+      <p>변동을 확인한 뒤에는 잰 값보다 여유를 두고 건다 <span class="gen">업계 일반</span> <span class="note">에러 버짓 개념</span></p>
       <p class="lead orig-h">사람 안전망</p>
-      <p>틀리면 비용이 큰 결과 → 사람 검토. 위험 등급을 나눠 고위험(high-risk)은 자동 차단, 중위험이 쌓이면 사람 검토 대상으로 표시 → <a href="moderation-tiers.html">■ moderation 위험 등급</a> · 행동 앞 승인은 <a href="human-approval-gates.html">■ human-in-the-loop 게이트 위치</a></p>
-      <p>"모르겠다" 허용 : 불확실을 인정할 권한을 명시적으로 줌 → 거짓 정보를 크게 줄임. 주장마다 인용을 달게 해 감사 가능하게</p>
-      <p>사람에게 넘길 대화를 붙잡지 않게(에스컬레이션 놓침을 따로 셈) : 에스컬레이션 정확도 95% 이상을 목표로</p>
-      <p>틀려도 비용이 작은 결과 → 자동 + 표본 확인 <span class="gen">업계 일반</span></p>
-      <p>기대는 계약 전에 eval 로 드러냄 — 초기 테스트에서 "되는" 기능이 말하지 않은 기대를 못 채워 몇 주를 날림</p>
+      <p>틀리면 비용이 큰 결과는 사람이 검토한다. 위험 등급을 나눈다. 고위험(high-risk)은 자동으로 차단한다. 중위험이 쌓이면 사람 검토 대상으로 표시한다</p>
+      <p>자세한 것은 <a href="moderation-tiers.html">■ moderation 위험 등급</a> 에 있다. 행동 앞 승인은 <a href="human-approval-gates.html">■ human-in-the-loop 게이트 위치</a> 에 있다</p>
+      <p>"모르겠다" 를 허용한다. 불확실을 인정할 권한을 명시적으로 주면 거짓 정보를 크게 줄일 수 있다. 주장마다 인용을 달게 해 감사할 수 있게 한다</p>
+      <p>사람에게 넘길 대화를 붙잡지 않게 한다(에스컬레이션 놓침을 따로 센다). 에스컬레이션 정확도 95% 이상을 목표로 한다</p>
+      <p>틀려도 비용이 작은 결과는 자동으로 처리하고 표본을 확인한다 <span class="gen">업계 일반</span></p>
+      <p>기대는 계약 전에 eval 로 드러낸다. 초기 테스트에서 "되는" 기능이 말하지 않은 기대를 못 채워 몇 주를 날릴 수 있다</p>
     </details>
   </div>
   <details class="t5-orig v3-more">
@@ -589,19 +608,19 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">고객이 "항상 정확 · 100%" 를 계약에 넣자 함</td><td data-label="답" role="cell">약속 안 함. 잰 통과율 + 사람 안전망(safety net)으로 바꿈</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a> "Even the most advanced language models, like Claude, can sometimes generate text that is factually incorrect" · <a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a> "agent behavior varies between runs"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">"더 큰 모델이면 확실"</td><td data-label="답" role="cell">아님</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a> (most advanced 도 틀림)</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">품질 약속 문장</td><td data-label="답" role="cell">held-out 평가셋 통과율 + 오류 심각도 · 여러 차원</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">지연(latency) 약속 문장</td><td data-label="답" role="cell">분위수</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full "95% response time &lt; 200ms"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">목표치 정하기</td><td data-label="답" role="cell">현재 프런티어 모델 역량에 비춰 현실적으로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">가용성 약속 · Standard 티어</td><td data-label="답" role="cell">윗단은 best-effort → 내 SLA 를 그보다 세게 걸지 않음(대비책 없으면)</td><td data-label="등급" role="cell"><span class="note">(티어 성격) ·</span> <span class="gen">업계 일반</span><span class="note">(판단)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/service-tiers" lang="en" rel="noopener">service-tiers</a> "best-effort availability"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">가용성 약속 · Priority Tier 약정</td><td data-label="답" role="cell">윗단 목표 = 99.5% 가동, 약정 넘는 요청은 Standard 로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/service-tiers" lang="en" rel="noopener">service-tiers</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">처리량 약속</td><td data-label="답" role="cell">rate limit 은 최대치일 뿐 · 초 단위 폭주도 429</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/rate-limits" lang="en" rel="noopener">rate-limits</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">지연 숫자를 걸기 전</td><td data-label="답" role="cell">effort 를 명시하고 재기 (기본값이 모델마다 다름)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> (Opus 5.5 기본 medium — 시험 뒤 변경)</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">틀리면 비용이 큰 결과</td><td data-label="답" role="cell">위험 등급별 사람 검토</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/content-moderation" lang="en" rel="noopener">content-moderation</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">모델이 확신 못 함</td><td data-label="답" role="cell">"모르겠다" 허용 → 사람에게</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">사람에게 넘길 대화</td><td data-label="답" role="cell">에스컬레이션 정확도 95% 이상 목표</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat-full</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">SLI → SLO → SLA 순서</td><td data-label="답" role="cell">재고 → 내부 목표 → 외부 약속</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">Anthropic 문서에 SLA/SLO 정의 없음 (미해결 1)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">고객이 "항상 정확 · 100%" 를 계약에 넣자고 한다</td><td data-label="답" role="cell">약속하지 않는다. 잰 통과율과 사람 안전망(safety net)으로 바꾼다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a> "Even the most advanced language models, like Claude, can sometimes generate text that is factually incorrect" · <a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a> "agent behavior varies between runs"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">"더 큰 모델이면 확실" 이라고 한다</td><td data-label="답" role="cell">그렇지 않다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a> (most advanced 도 틀림)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">품질 약속 문장을 쓴다</td><td data-label="답" role="cell">held-out 평가셋 통과율과 오류 심각도로 쓴다. 여러 차원으로 잰다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">지연(latency) 약속 문장을 쓴다</td><td data-label="답" role="cell">분위수로 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full "95% response time &lt; 200ms"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">목표치를 정한다</td><td data-label="답" role="cell">현재 프런티어 모델 역량에 비춰 현실적으로 정한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">가용성을 약속한다. Standard 티어다</td><td data-label="답" role="cell">윗단은 best-effort 다. 대비책이 없으면 내 SLA 를 그보다 세게 걸지 않는다</td><td data-label="등급" role="cell"><span class="note">(티어 성격) ·</span> <span class="gen">업계 일반</span><span class="note">(판단)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/service-tiers" lang="en" rel="noopener">service-tiers</a> "best-effort availability"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">가용성을 약속한다. Priority Tier 약정이다</td><td data-label="답" role="cell">윗단 목표는 99.5% 가동이다. 약정을 넘는 요청은 Standard 로 간다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/service-tiers" lang="en" rel="noopener">service-tiers</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">처리량을 약속한다</td><td data-label="답" role="cell">rate limit 은 최대치일 뿐이다. 초 단위 폭주에도 429 가 난다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/rate-limits" lang="en" rel="noopener">rate-limits</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">지연 숫자를 걸기 전이다</td><td data-label="답" role="cell">effort 를 명시하고 잰다 (기본값이 모델마다 다르다)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> (Opus 5.5 기본 medium — 시험 뒤 변경)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">틀리면 비용이 큰 결과다</td><td data-label="답" role="cell">위험 등급별로 사람이 검토한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/content-moderation" lang="en" rel="noopener">content-moderation</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">모델이 확신하지 못한다</td><td data-label="답" role="cell">"모르겠다" 를 허용하고 사람에게 넘긴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">사람에게 넘길 대화다</td><td data-label="답" role="cell">에스컬레이션 정확도 95% 이상을 목표로 한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat-full</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">SLI, SLO, SLA 의 순서를 묻는다</td><td data-label="답" role="cell">먼저 재고, 내부 목표를 정한 뒤, 외부 약속을 건다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">Anthropic 문서에 SLA/SLO 정의가 없다 (미해결 1)</td></tr>
   </tbody>
 </table>
 </div>
@@ -612,15 +631,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">약속 대상</td><td data-label="값" role="cell">정확성 자체 ("틀리지 않음")</td><td data-label="답 쪽" role="cell">약속 안 함</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">약속 대상</td><td data-label="값" role="cell">잰 통과율 · 분위수 지연</td><td data-label="답 쪽" role="cell">약속 가능 (여유 두고)</td><td data-label="등급" role="cell"><span class="note">(형식) ·</span> <span class="gen">업계 일반</span><span class="note">(여유)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">약속 대상</td><td data-label="값" role="cell">내부 eval 목표</td><td data-label="답 쪽" role="cell">100% 도 됨 (약속 아님)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">고객 대면 · 매번 맞아야</td><td data-label="값" role="cell">pass^k 로 측정</td><td data-label="답 쪽" role="cell">시도당 비율보다 훨씬 낮게 나옴</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">가용성 목표</td><td data-label="값" role="cell">99.5% 초과</td><td data-label="답 쪽" role="cell">윗단 목표보다 셈 → 대비책 없으면 못 지킴</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">트래픽 모양</td><td data-label="값" role="cell">짧은 폭주</td><td data-label="답 쪽" role="cell">분당 한도 안이어도 429</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/rate-limits" lang="en" rel="noopener">rate-limits</a> · 뒤집히는 때 4</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델 교체</td><td data-label="값" role="cell">Opus 5 → Opus 5.5 · effort 생략</td><td data-label="답 쪽" role="cell">한 단계 낮은 effort → 지연·품질 달라짐 → 다시 측정</td><td data-label="등급" role="cell"><span class="post">시험 뒤 변경</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> · 뒤집히는 때 5</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">오류 비용</td><td data-label="값" role="cell">돈 · 법 · 안전</td><td data-label="답 쪽" role="cell">사람 검토</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/content-moderation" lang="en" rel="noopener">content-moderation</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">오류 비용</td><td data-label="값" role="cell">작음</td><td data-label="답 쪽" role="cell">자동 + 표본 확인</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">약속 대상</td><td data-label="값" role="cell">정확성 자체다 ("틀리지 않음")</td><td data-label="답 쪽" role="cell">약속하지 않는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">약속 대상</td><td data-label="값" role="cell">잰 통과율과 분위수 지연이다</td><td data-label="답 쪽" role="cell">여유를 두고 약속할 수 있다</td><td data-label="등급" role="cell"><span class="note">(형식) ·</span> <span class="gen">업계 일반</span><span class="note">(여유)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">약속 대상</td><td data-label="값" role="cell">내부 eval 목표다</td><td data-label="답 쪽" role="cell">100% 도 된다 (약속이 아니다)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">고객 대면 · 매번 맞아야</td><td data-label="값" role="cell">pass^k 로 잰다</td><td data-label="답 쪽" role="cell">시도당 비율보다 훨씬 낮게 나온다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">가용성 목표</td><td data-label="값" role="cell">99.5% 를 넘는다</td><td data-label="답 쪽" role="cell">윗단 목표보다 세다. 대비책이 없으면 지키지 못한다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">트래픽 모양</td><td data-label="값" role="cell">짧은 폭주다</td><td data-label="답 쪽" role="cell">분당 한도 안이어도 429 가 난다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/rate-limits" lang="en" rel="noopener">rate-limits</a> · 뒤집히는 때 4</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델 교체</td><td data-label="값" role="cell">Opus 5 에서 Opus 5.5 로 바꾸고 effort 를 생략한다</td><td data-label="답 쪽" role="cell">한 단계 낮은 effort 로 돈다. 그래서 지연·품질이 달라진다. 다시 잰다</td><td data-label="등급" role="cell"><span class="post">시험 뒤 변경</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/effort" lang="en" rel="noopener">effort</a> · 뒤집히는 때 5</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">오류 비용</td><td data-label="값" role="cell">돈 · 법 · 안전</td><td data-label="답 쪽" role="cell">사람이 검토한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/content-moderation" lang="en" rel="noopener">content-moderation</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">오류 비용</td><td data-label="값" role="cell">작다</td><td data-label="답 쪽" role="cell">자동으로 처리하고 표본을 확인한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
   </tbody>
 </table>
 </div>
@@ -636,16 +655,16 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"더 큰 모델로 바꾸면 100% 가 된다" → 가장 발전된 모델도 때때로 틀림</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>사람 검토 없음 + "100% 정확" 약속 → 틀린 답이 그대로 고객에게 <span class="gen">업계 일반</span> · 틀리면 비용이 큰 결과는 사람 검토</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"'빠르고 정확함'을 마케팅 문구로 약속" → 숫자 없는 말. 구체적·측정 가능해야 <span class="src">(■ 성공 기준)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"약속이 위험하니 SLA 자체를 없앤다" → 가이드 목표가 SLA 를 관리 대상으로 둠. 잰 숫자로 거는 게 답 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"regression eval 이 거의 100% 통과하니 서비스 정확도 100% 약속" → regression eval = 예전에 되던 과제를 아직 하나. 고객 약속과 다른 말</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "모델은 보장 못 하니 어떤 것도 약속 안 함 · 정확도 숫자만 제시" → 코드·권한이 막는 한도는 그 장치를 근거로 약속 가능 <span class="src">(적용은 해석)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"프롬프트를 다듬었으니 정책대로 동작한다고 약속" → 프롬프트 지시는 권고</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"평균 지연 2초 약속" → 분위수로</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"rate limit 만큼 처리량 보장" → 허용 최대치일 뿐</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Standard 티어 위에 99.9% 가동 SLA" → best-effort 위에 윗단보다 센 약속 <span class="gen">업계 일반</span> <span class="note">계산 = 설명 쪽</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"더 큰 모델로 바꾸면 100% 가 된다" 는 함정이다. 가장 발전된 모델도 때때로 틀린다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>사람 검토 없이 "100% 정확" 을 약속하는 것은 함정이다. 틀린 답이 그대로 고객에게 간다 <span class="gen">업계 일반</span>. 틀리면 비용이 큰 결과는 사람이 검토한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"'빠르고 정확함'을 마케팅 문구로 약속" 은 함정이다. 숫자가 없는 말이다. 기준은 구체적이고 측정 가능해야 한다 <span class="src">(■ 성공 기준)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"약속이 위험하니 SLA 자체를 없앤다" 는 함정이다. 잰 숫자로 거는 것이 답이다 <span class="gen">업계 일반</span>. 가이드 목표가 SLA 를 관리 대상으로 둔다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"regression eval 이 거의 100% 통과하니 서비스 정확도 100% 약속" 은 함정이다. regression eval 은 예전에 되던 과제를 아직 하는지 본다. 고객 약속과 다른 말이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>반대쪽 함정도 있다. "모델은 보장 못 하니 어떤 것도 약속 안 함 · 정확도 숫자만 제시" 는 함정이다. 코드·권한이 막는 한도는 그 장치를 근거로 약속할 수 있다 <span class="src">(적용은 해석이다)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"프롬프트를 다듬었으니 정책대로 동작한다고 약속" 은 함정이다. 프롬프트 지시는 권고다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"평균 지연 2초 약속" 은 함정이다. 지연은 분위수로 건다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"rate limit 만큼 처리량 보장" 은 함정이다. rate limit 은 허용 최대치일 뿐이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Standard 티어 위에 99.9% 가동 SLA" 는 함정이다. best-effort 위에 윗단보다 센 약속을 건 것이다 <span class="gen">업계 일반</span> <span class="note">계산 = 설명 쪽</span></span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -674,42 +693,42 @@
 <h4>1. "100%" 가 맞는 답일 때 — 내부 eval 목표</h4>
 <ul>
 <li><span class="lead">조건 :</span> 지문이 계약 약속이 아니라 내부 평가 목표를 묻는다.</li>
-<li><span class="lead">판단 :</span> 공식 고객지원 가이드는 맥락에 준 회사·상품 정보 정확도와 견적 정확도에 "100% 목표"를 둠. regression(회귀) eval 도 거의 100% 통과가 정상.</li>
+<li><span class="lead">판단 :</span> 공식 고객지원 가이드는 맥락에 준 회사·상품 정보 정확도와 견적 정확도에 "100% 목표"를 둔다. regression(회귀) eval 도 거의 100% 통과가 정상이다.</li>
 
 <li><span class="lead">근거 :</span> customer-support-chat-full "Target 100% accuracy" · demystifying-evals "should have a nearly 100% pass rate"</li>
-<li><span class="lead">주의 :</span> "100% 가 나오면 항상 오답" 으로 외우면 여기서 틀림. 가르는 말 = 약속(외부)인가 목표(내부)인가.</li>
+<li><span class="lead">주의 :</span> "100% 가 나오면 항상 오답" 으로 외우면 여기서 틀린다. 가르는 질문은 이것이다. 약속(외부)인가, 목표(내부)인가?</li>
 </ul>
 <h4>2. 시도당 정확도가 높아도 "매번" 은 훨씬 낮을 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 고객 대면 에이전트, 같은 유형 요청을 반복 처리. 지문이 "사용자는 매번 같은 결과를 기대"라고 함.</li>
-<li><span class="lead">계산 :</span> pass^k = (시도당 성공률)^k. 시도당 92% · k = 5 → 0.92^5 ≈ 0.659 → 약 66%.</li>
-<li><span class="lead">전제 :</span> 시도끼리 독립이라고 봄 (공식 예 0.75³ ≈ 42% 와 같은 식).</li>
+<li><span class="lead">조건 :</span> 고객 대면 에이전트가 같은 유형 요청을 반복 처리한다. 지문이 "사용자는 매번 같은 결과를 기대"라고 한다.</li>
+<li><span class="lead">계산 :</span> pass^k = (시도당 성공률)^k 이다. 시도당 92% 이고 k = 5 이면 0.92^5 ≈ 0.659 다. 약 66% 다.</li>
+<li><span class="lead">전제 :</span> 시도끼리 독립이라고 본다 (공식 예 0.75³ ≈ 42% 와 같은 식).</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (식은 확인)</li>
 <li><span class="lead">근거 :</span> demystifying-evals</li>
-<li><span class="lead">뜻 :</span> "정확도 92%" 를 "거의 항상 맞음" 으로 약속하면 사용자 체감과 어긋남 → 약속 문장에 무엇을 셌는지(시도당 vs k번 모두)를 적음.</li>
+<li><span class="lead">뜻 :</span> "정확도 92%" 를 "거의 항상 맞음" 으로 약속하면 사용자 체감과 어긋난다. 그래서 약속 문장에 무엇을 셌는지(시도당 vs k번 모두)를 적는다.</li>
 </ul>
 <h4>3. 윗단보다 센 가용성 약속</h4>
 <ul>
-<li><span class="lead">조건 :</span> Priority Tier 약정 위에서 고객에게 99.9% 가동 SLA 를 걸려 함.</li>
-<li><span class="lead">계산 :</span> 30일 = 43,200분. 99.5% → 허용 중단 216분(3.6시간). 99.9% → 43.2분. 내 약속이 윗단 목표보다 5배 빡빡.</li>
-<li><span class="lead">전제 :</span> 윗단 중단이 곧 내 중단(대체 경로 없음). Standard 티어는 목표 숫자조차 없음(best-effort).</li>
+<li><span class="lead">조건 :</span> Priority Tier 약정 위에서 고객에게 99.9% 가동 SLA 를 걸려 한다.</li>
+<li><span class="lead">계산 :</span> 30일은 43,200분이다. 99.5% 면 허용 중단은 216분(3.6시간)이다. 99.9% 면 43.2분이다. 내 약속이 윗단 목표보다 5배 빡빡하다.</li>
+<li><span class="lead">전제 :</span> 윗단 중단이 곧 내 중단이다(대체 경로가 없다). Standard 티어는 목표 숫자조차 없다(best-effort).</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (99.5% · best-effort 는 확인)</li>
 <li><span class="lead">근거 :</span> service-tiers</li>
-<li><span class="lead">처방 :</span> 대비책(재시도 · 대체 모델·경로)을 먼저 설계하거나 약속을 낮춤 (업계 일반).</li>
+<li><span class="lead">처방 :</span> 대비책(재시도 · 대체 모델·경로)을 먼저 설계하거나 약속을 낮춘다 (업계 일반).</li>
 </ul>
 <h4>4. 분당 한도 안인데 429</h4>
 <ul>
-<li><span class="lead">조건 :</span> 분당 300 RPM 한도, 평균은 분당 200건인데 매시 정각에 1초에 12건이 몰림.</li>
-<li><span class="lead">계산 :</span> 공식 예 "60 RPM 이 초당 1건으로 적용될 수 있음" 과 같은 비율이면 300 RPM ≈ 초당 5건 → 12건 폭주는 초과.</li>
-<li><span class="lead">등급 :</span> <span class="calc">계산</span> (비율 적용은 추론 — 공식은 60→1 예만 듦)</li>
+<li><span class="lead">조건 :</span> 한도는 분당 300 RPM 이다. 평균은 분당 200건이다. 그런데 매시 정각에 1초에 12건이 몰린다.</li>
+<li><span class="lead">계산 :</span> 공식 예는 "60 RPM 이 초당 1건으로 적용될 수 있음" 이다. 같은 비율이면 300 RPM ≈ 초당 5건이다. 그러면 12건 폭주는 한도를 넘는다.</li>
+<li><span class="lead">등급 :</span> <span class="calc">계산</span> (비율 적용은 추론이다. 공식은 60 대 1 예만 든다)</li>
 <li><span class="lead">근거 :</span> rate-limits</li>
-<li><span class="lead">뜻 :</span> 처리량 약속은 평균이 아니라 폭주 모양까지 재고 나서.</li>
+<li><span class="lead">뜻 :</span> 처리량 약속은 평균이 아니라 폭주 모양까지 재고 나서 건다.</li>
 </ul>
 <h4>5. 모델만 바꿨는데 지연 SLO 가 흔들림</h4>
 <ul>
-<li><span class="lead">조건 :</span> Opus 5 에서 effort 를 안 적고 쓰다가 Opus 5.5 로 교체.</li>
-<li><span class="lead">판단 :</span> Opus 5.5 기본 = medium (Opus 5 이전 = high) → 생략한 요청은 한 단계 낮게 실행됨 → 지연·비용·품질이 함께 움직임. 이전 설정을 가져오지 말고 effort 스윕.</li>
-<li><span class="lead">등급 :</span> <span class="post">시험 뒤 변경</span> <span class="note">2026-09-22 출시. 시험은 "effort 를 명시해 예상치 못한 지연 피하기" 로 물을 가능성 — Sonnet 4.6 문장</span></li>
+<li><span class="lead">조건 :</span> Opus 5 에서 effort 를 안 적고 쓰다가 Opus 5.5 로 바꿨다.</li>
+<li><span class="lead">판단 :</span> Opus 5.5 기본값은 medium 이다 (Opus 5 이전은 high). 그래서 effort 를 생략한 요청은 한 단계 낮게 실행된다. 지연·비용·품질이 함께 움직인다. 이전 설정을 가져오지 말고 effort 를 다시 훑어 본다(스윕).</li>
+<li><span class="lead">등급 :</span> <span class="post">시험 뒤 변경</span> <span class="note">2026-09-22 출시. 시험은 "effort 를 명시해 예상치 못한 지연 피하기" 로 물을 수 있다. 이것은 Sonnet 4.6 문장이다</span></li>
 <li><span class="lead">근거 :</span> effort · 릴리스 노트</li>
 </ul>
 </section>
@@ -719,14 +738,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"더 큰 모델로 바꾸면 100% 정확을 약속할 수 있다"</td><td data-label="왜 끌리나" role="cell">큰 모델 = 더 정확</td><td data-label="왜 틀리나" role="cell">가장 발전된 모델도 때때로 틀림</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"'빠르고 정확함' 을 마케팅 문구로 약속"</td><td data-label="왜 끌리나" role="cell">부드럽고 무난해 보임</td><td data-label="왜 틀리나" role="cell">숫자·데이터 없는 말 → 측정 못 함, 분쟁 때 기준이 없음</td><td data-label="등급" role="cell"><span class="note">(구체적·측정 가능 원칙) ·</span> <span class="gen">업계 일반</span><span class="note">(분쟁)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"약속이 위험하니 SLA 자체를 없앤다"</td><td data-label="왜 끌리나" role="cell">위험 회피</td><td data-label="왜 틀리나" role="cell">가이드 목표 6.3 은 SLA 를 관리 대상으로 둠. 잰 숫자로 걸면 됨</td><td data-label="등급" role="cell"><span class="note">(목표 문구) ·</span> <span class="gen">업계 일반</span><span class="note">(판단)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 6.3</a> "(including SLAs)"</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"regression eval 이 거의 100% 라 서비스 정확도 100% 약속"</td><td data-label="왜 끌리나" role="cell">숫자가 100% 에 가까움</td><td data-label="왜 틀리나" role="cell">regression eval = 예전에 되던 과제를 아직 하나. 실사용 전체의 정확도가 아님</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"평균 응답 2초를 SLA 로"</td><td data-label="왜 끌리나" role="cell">평균이 익숙</td><td data-label="왜 틀리나" role="cell">공식 예는 분위수</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"rate limit 만큼은 처리량이 보장된다"</td><td data-label="왜 끌리나" role="cell">한도 = 할당량처럼 보임</td><td data-label="왜 틀리나" role="cell">보장된 최소가 아니라 허용 최대치</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/rate-limits" lang="en" rel="noopener">rate-limits</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"모든 답을 사람이 검토하면 100% 약속 가능"</td><td data-label="왜 끌리나" role="cell">사람 = 안전</td><td data-label="왜 틀리나" role="cell">사람도 틀림 · 비용·지연이 커짐 → 위험 등급별로 나눔</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span>(사람 오류) · 확인(등급 나누기)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/content-moderation" lang="en" rel="noopener">content-moderation</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"P95 2초 for 99% of requests" 같은 문장</td><td data-label="왜 끌리나" role="cell">숫자가 많아 정밀해 보임</td><td data-label="왜 틀리나" role="cell">분위수(95%)와 비율(99%)이 섞임 — 분위수 하나에 목표 하나</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.3① 영상 표현</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"더 큰 모델로 바꾸면 100% 정확을 약속할 수 있다"</td><td data-label="왜 끌리나" role="cell">큰 모델이 더 정확할 것 같다</td><td data-label="왜 틀리나" role="cell">가장 발전된 모델도 때때로 틀린다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"'빠르고 정확함' 을 마케팅 문구로 약속"</td><td data-label="왜 끌리나" role="cell">부드럽고 무난해 보인다</td><td data-label="왜 틀리나" role="cell">숫자·데이터가 없는 말이다. 그래서 측정하지 못한다. 분쟁 때 기준이 없다</td><td data-label="등급" role="cell"><span class="note">(구체적·측정 가능 원칙) ·</span> <span class="gen">업계 일반</span><span class="note">(분쟁)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"약속이 위험하니 SLA 자체를 없앤다"</td><td data-label="왜 끌리나" role="cell">위험을 피할 수 있어 보인다</td><td data-label="왜 틀리나" role="cell">가이드 목표 6.3 은 SLA 를 관리 대상으로 둔다. 잰 숫자로 걸면 된다</td><td data-label="등급" role="cell"><span class="note">(목표 문구) ·</span> <span class="gen">업계 일반</span><span class="note">(판단)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 6.3</a> "(including SLAs)"</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"regression eval 이 거의 100% 라 서비스 정확도 100% 약속"</td><td data-label="왜 끌리나" role="cell">숫자가 100% 에 가깝다</td><td data-label="왜 틀리나" role="cell">regression eval 은 예전에 되던 과제를 아직 하는지 본다. 실사용 전체의 정확도가 아니다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"평균 응답 2초를 SLA 로"</td><td data-label="왜 끌리나" role="cell">평균이 익숙하다</td><td data-label="왜 틀리나" role="cell">공식 예는 분위수다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"rate limit 만큼은 처리량이 보장된다"</td><td data-label="왜 끌리나" role="cell">한도가 할당량처럼 보인다</td><td data-label="왜 틀리나" role="cell">보장된 최소가 아니라 허용 최대치다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/api/rate-limits" lang="en" rel="noopener">rate-limits</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모든 답을 사람이 검토하면 100% 약속 가능"</td><td data-label="왜 끌리나" role="cell">사람이 보면 안전할 것 같다</td><td data-label="왜 틀리나" role="cell">사람도 틀린다. 비용과 지연도 커진다. 그래서 위험 등급별로 나눈다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span>(사람 오류) · 확인(등급 나누기)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/content-moderation" lang="en" rel="noopener">content-moderation</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"P95 2초 for 99% of requests" 같은 문장</td><td data-label="왜 끌리나" role="cell">숫자가 많아 정밀해 보인다</td><td data-label="왜 틀리나" role="cell">분위수(95%)와 비율(99%)이 섞였다. 분위수 하나에 목표 하나를 둔다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.3① 영상 표현</td></tr>
   </tbody>
 </table>
 </div>
@@ -734,7 +753,7 @@
   </details>
   <h2 class="sec-h" id="expectation-slo-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="success-criteria.html">■ 성공 기준</a></li>
         <li><a href="pass-at-k.html">◆ pass@k vs pass^k</a></li>
@@ -745,6 +764,10 @@
         <li><a href="production-feedback-loop.html">■ 운영 → eval feedback loop</a></li>
         <li><a href="lifecycle-loop.html">■ lifecycle 루프</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 6.3</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -770,13 +793,14 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>SLA · SLO · SLI 의 정의와 순서를 말하는 Anthropic 공식 문장 없음 (<code>grep -rn -w "SLA\|SLAs\|SLO\|SLOs\|SLI" ccarp/raw/official-docs/</code> → advanced-tool-use 1건, 무관한 예시 · 제외 = 받지 않은 문서). 카드에선 업계 일반.</li>
-<li>목록 6.3① 의 "저신뢰 결과를 사람에게 보내는 라우팅" — 공식 문서에서 "confidence" 로 라우팅하는 문장은 못 찾음(en 문서 <code>low confidence\|confidence score</code> grep 0건). 공식에 있는 건 위험 등급별 사람 검토 · 에스컬레이션 정확도 · "모르겠다" 허용 → 카드는 그 셋으로 고쳐 씀.</li>
-<li>목록의 "지연 변동(effort·thinking)" 중 thinking 이 지연을 흔든다는 직접 문장은 reduce-latency · thinking-troubleshooting 에서 못 찾음. effort 문장만 확인.</li>
-<li>Priority Tier 99.5% 는 "목표(targets)" — 계약상 보상 조건 같은 SLA 세부는 받은 문서에 없음.</li>
-<li>목록 영어 신호 3개는 모두 원문에서 찾음 (reduce-hallucinations · rate-limits · effort).</li>
+<li>SLA · SLO · SLI 의 정의와 순서를 말하는 Anthropic 공식 문장은 없다. <code>grep -rn -w "SLA\|SLAs\|SLO\|SLOs\|SLI" ccarp/raw/official-docs/</code> 로 찾았다. 결과는 advanced-tool-use 1건이고 무관한 예시다 (제외 = 받지 않은 문서). 그래서 카드에서는 업계 일반으로 둔다.</li>
+<li>목록 6.3① 에 "저신뢰 결과를 사람에게 보내는 라우팅" 이 있다. 공식 문서에서 "confidence" 로 라우팅하는 문장은 못 찾았다(en 문서 <code>low confidence\|confidence score</code> grep 0건). 공식에 있는 것은 위험 등급별 사람 검토, 에스컬레이션 정확도, "모르겠다" 허용이다. 그래서 카드는 그 셋으로 고쳐 썼다.</li>
+<li>목록의 "지연 변동(effort·thinking)" 중 thinking 이 지연을 흔든다는 직접 문장은 reduce-latency · thinking-troubleshooting 에서 못 찾았다. effort 문장만 확인했다.</li>
+<li>Priority Tier 99.5% 는 "목표(targets)" 다. 계약상 보상 조건 같은 SLA 세부는 받은 문서에 없다.</li>
+<li>목록 영어 신호 3개는 모두 원문에서 찾았다 (reduce-hallucinations · rate-limits · effort).</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

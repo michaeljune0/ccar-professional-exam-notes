@@ -369,9 +369,16 @@
   </div>
   <h2 class="sec-h" id="hipaa-config-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>PHI(개인을 식별할 수 있는 건강 정보)를 Claude API 로 처리하려면 = BAA 서명 + HIPAA readiness 를 켠 조직 + 지원 기능만 + PHI 는 메시지 본문·첨부 같은 보호 필드에만(스키마엔 금지). PHI 면 HIPAA readiness 가 쓸 방식이고 ZDR 은 따로 필요 없음 (2026-09-28 조회)</p>
-      <p>HIPAA readiness ≠ 즉시 삭제. 암호화·접근 통제(access control)·감사 로그로 PHI 를 수명 내내 보호하고, 데이터는 그 보호 아래 남을 수 있음. ZDR = 응답 뒤 저장 안 함. 둘은 덮는 기능 목록도 다름</p>
-    <p class="t5-ana"><span class="lead">비유</span> PCI 범위 줄이기. 카드 데이터는 전용 계정에만 두고 리소스 태그·메타데이터엔 안 넣음</p>
+      <p>PHI(개인을 식별할 수 있는 건강 정보)를 Claude API 로 처리하려면 아래 넷을 갖춘다.</p>
+      <ul class="dash">
+        <li>BAA 에 서명한다</li>
+        <li>HIPAA readiness 를 켠 조직을 쓴다</li>
+        <li>지원 기능만 쓴다</li>
+        <li>PHI 는 메시지 본문·첨부 같은 보호 필드에만 넣는다. 스키마에는 넣지 않는다</li>
+      </ul>
+      <p>PHI 면 HIPAA readiness 가 쓸 방식이다. ZDR 은 따로 필요 없다 (2026-09-28 조회)</p>
+      <p>HIPAA readiness 는 즉시 삭제가 아니다. 암호화·접근 통제(access control)·감사 로그로 PHI 를 수명 내내 보호한다. 데이터는 그 보호 아래 남을 수 있다. ZDR 은 응답 뒤 저장하지 않는 약정이다. 둘은 덮는 기능 목록도 다르다</p>
+    <p class="t5-ana"><span class="lead">비유</span> PCI 범위 줄이기와 같다. 카드 데이터는 전용 계정에만 둔다. 리소스 태그·메타데이터에는 넣지 않는다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/hipaa-config.webp"><img src="../images/hipaa-config.webp" alt="PHI 를 Claude API 로 다루려면 BAA 서명, HIPAA readiness 조직, 지원 기능만, 보호 칸에만 네 조건이 동시에 필요하고 ZDR 은 따로 필요 없다는 그림" loading="lazy" decoding="async"></a>
@@ -398,29 +405,29 @@
 <!-- /vx:figure -->
 <section class="ex-sec" id="principle" aria-labelledby="principle-h">
 <h3 id="principle-h">원리</h3>
-<p class="lead">두 약정은 목적이 다름</p>
+<p class="lead">두 약정은 목적이 다르다</p>
 <ul>
-<li>ZDR : 응답을 돌려준 뒤 프롬프트·응답을 저장하지 않음. "남기지 않기"로 지킴.</li>
-<li>HIPAA readiness : 암호화·접근 통제(access control)·감사 로그로 PHI 를 수명 내내 보호. 데이터는 그 보호 아래 남을 수 있음. "남겨도 잠가 두기"로 지킴.</li>
-<li>그래서 PHI + Claude API 면 HIPAA readiness 하나로 충분. ZDR 을 더 붙인다고 HIPAA 가 되지 않음.</li>
-<li>덮는 기능 목록도 다름 (예 : 구조화 출력은 ZDR 에선 "qualified", HIPAA 에선 Yes · tool search 는 ZDR Yes, HIPAA No).</li>
+<li>ZDR : 응답을 돌려준 뒤 프롬프트·응답을 저장하지 않는다. "남기지 않기"로 지킨다.</li>
+<li>HIPAA readiness : 암호화·접근 통제(access control)·감사 로그로 PHI 를 수명 내내 보호한다. 데이터는 그 보호 아래 남을 수 있다. "남겨도 잠가 두기"로 지킨다.</li>
+<li>그래서 PHI 를 Claude API 로 다루면 HIPAA readiness 하나로 충분하다. ZDR 을 더 붙인다고 HIPAA 가 되지 않는다.</li>
+<li>덮는 기능 목록도 다르다. 예를 들어 구조화 출력은 ZDR 에서 "qualified" 이고 HIPAA 에서 Yes 다. tool search 는 ZDR 에서 Yes 이고 HIPAA 에서 No 다.</li>
 </ul>
-<p class="lead">조직이 경계</p>
+<p class="lead">조직이 경계다</p>
 <ul>
-<li>HIPAA readiness 는 조직 단위로 강제. 그 조직 안의 요청은 전부 기능 제한을 받음.</li>
-<li>켜면 영구 → 일반 업무가 같은 조직에 있으면 일반 업무도 묶여 버림 → 조직을 나눔.</li>
-<li>BAA 는 수락한 그 한 조직에만 적용.</li>
+<li>HIPAA readiness 는 조직 단위로 강제된다. 그 조직 안의 요청은 전부 기능 제한을 받는다.</li>
+<li>켜면 영구다. 그래서 일반 업무가 같은 조직에 있으면 일반 업무도 묶여 버린다. 그러니 조직을 나눈다.</li>
+<li>BAA 는 수락한 그 한 조직에만 적용된다.</li>
 </ul>
-<p class="lead">PHI 는 "보호되는 칸"에만</p>
+<p class="lead">PHI 는 "보호되는 칸"에만 둔다</p>
 <ul>
-<li>보호되는 칸 = 메시지 본문·첨부·파일 이름·메타데이터.</li>
-<li>JSON 스키마는 생성 제약용 문법(grammar)으로 컴파일돼 따로 캐시(최대 24시간)되고 같은 보호를 못 받음 → 스키마에 환자 값 금지.</li>
-<li>워크스페이스 이름·사용자 정보·청구·지원 티켓은 애초에 PHI 가 없어야 하는 칸.</li>
+<li>보호되는 칸은 메시지 본문·첨부·파일 이름·메타데이터다.</li>
+<li>JSON 스키마는 생성 제약용 문법(grammar)으로 컴파일돼 따로 캐시된다(최대 24시간). 그래서 같은 보호를 못 받는다. 스키마에는 환자 값을 넣지 않는다.</li>
+<li>워크스페이스 이름·사용자 정보·청구·지원 티켓은 애초에 PHI 가 없어야 하는 칸이다.</li>
 </ul>
 <p class="lead">어디서 켜지나</p>
 <ul>
-<li>Anthropic 이 처리자인 Claude API 에서만. Claude Platform on AWS·Microsoft Foundry 는 Anthropic 이 처리자인데도 HIPAA readiness 가 없음.</li>
-<li>Bedrock·Google Cloud 는 클라우드 사업자가 처리자 → 그쪽 규정.</li>
+<li>Anthropic 이 처리자인 Claude API 에서만 켜진다. Claude Platform on AWS·Microsoft Foundry 는 Anthropic 이 처리자인데도 HIPAA readiness 가 없다.</li>
+<li>Bedrock·Google Cloud 는 클라우드 사업자가 처리자다. 그래서 그쪽 규정을 따른다.</li>
 </ul>
 </section>
   <h2 class="sec-h" id="hipaa-config-rules-h">규칙과 판단</h2>
@@ -436,19 +443,19 @@
       <div class="t5-fork" style="--n:4">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>Claude API</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">HIPAA readiness</p><p>BAA + HIPAA readiness 조직. ZDR 따로 필요 없음</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">HIPAA readiness</p><p>BAA 와 HIPAA readiness 조직을 쓴다. ZDR 은 따로 필요 없다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>Claude Platform on AWS·Foundry</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">못 씀</p><p>Claude Platform on AWS·Microsoft Foundry 는 HIPAA readiness 를 못 씀</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">못 쓴다</p><p>Claude Platform on AWS·Microsoft Foundry 는 HIPAA readiness 를 못 쓴다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>Bedrock·Google Cloud</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">그쪽 규정 문서</p><p>클라우드 사업자가 처리자 → 그쪽 규정 문서</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">그쪽 규정 문서</p><p>클라우드 사업자가 처리자다. 그래서 그쪽 규정 문서를 따른다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>Claude Code</span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">HIPAA readiness 대상 아님</p><p>Claude Code 는 HIPAA readiness 대상 아님 → <a href="baa-scope.html">■ BAA 적용 범위</a></p></div>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">HIPAA readiness 대상이 아니다</p><p>Claude Code 는 HIPAA readiness 대상이 아니다. 자세한 것은 <a href="baa-scope.html">■ BAA 적용 범위</a> 에 있다</p></div>
         </div>
       </div>
     </div>
@@ -456,15 +463,15 @@
   <section class="t5-flow tree" id="hipaa-config-tree-2" aria-labelledby="hipaa-config-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5">
     <div class="t5-fh"><h3 id="hipaa-config-tree-2-h">② 조직 나누기 <span class="pg">[5.4①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>일반 업무도 같이?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>일반 업무도 같은 조직에서 하나?</div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">따로 조직</p><p>HIPAA 와 일반 업무는 같은 조직 불가 → 따로 조직</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">조직을 따로 둔다</p><p>HIPAA 와 일반 업무는 같은 조직에 둘 수 없다. 그래서 조직을 따로 둔다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(HIPAA 전용 조직)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">켜면 영구, 관리자가 못 끔</p><p>HIPAA readiness 는 조직 단위로 강제. 켜면 영구, 관리자가 못 끔 · BAA 는 수락한 그 한 조직만</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">켜면 영구다</p><p>HIPAA readiness 는 조직 단위로 강제된다. 켜면 영구이고, 관리자가 끌 수 없다. BAA 는 수락한 그 한 조직에만 적용된다</p></div>
         </div>
       </div>
     </div>
@@ -476,43 +483,43 @@
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>프롬프트·응답·첨부·파일 이름</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">보호 대상</p><p>메시지 본문(프롬프트·응답)·첨부(이미지·PDF)·파일 이름·메타데이터 → 여기가 보호 대상</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">보호 대상</p><p>메시지 본문(프롬프트·응답)·첨부(이미지·PDF)·파일 이름·메타데이터가 보호 대상이다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>JSON 스키마</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">PHI 금지</p><p>속성 이름·<code>enum</code>·<code>const</code>·<code>pattern</code> 에 PHI 금지, 환자 정보는 메시지 본문·첨부 같은 보호 필드에만</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">PHI 를 넣지 않는다</p><p>속성 이름·<code>enum</code>·<code>const</code>·<code>pattern</code> 에 PHI 를 넣지 않는다. 환자 정보는 메시지 본문·첨부 같은 보호 필드에만 넣는다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>워크스페이스 이름·청구·지원 티켓</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">넣지 않음</p><p>BAA 상 PHI 가 없다고 보는 칸</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">넣지 않는다</p><p>BAA 상 PHI 가 없다고 보는 칸이다</p></div>
         </div>
       </div>
     </div>
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="hipaa-config-flow" aria-label="HIPAA 구성 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["앱","HIPAA 조직","스키마 캐시"],"blocks":[{"name":"프롬프트","var":false},{"name":"첨부","var":false},{"name":"JSON 스키마","var":true}],"rules":[null,null,"따로 캐시(마지막 사용부터 최대 24시간) — 같은 PHI 보호 없음"],"question":"환자 이름은 어느 칸에 둬야 할까?","scenes":[{"name":"① PHI 는 본문에","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["진료 기록 #M-5520","환자 최서연 · 52세","흉통 3일"]}},{"kind":"move","step":"보내기","from":{"block":"프롬프트"},"to":1,"label":"환자 정보는 메시지 본문·첨부 같은 보호 필드에만","art":{"kind":"slip","lines":["messages:","\"최서연 52세, 흉통 3일\"","분류해 줘"]}},{"kind":"move","step":"첨부","from":{"block":"첨부"},"to":1,"label":"첨부도 보호 필드","art":{"kind":"slip","lines":["첨부: 흉부_X-ray.png"]}},{"kind":"move","step":"스키마","from":{"block":"JSON 스키마"},"to":2,"label":"스키마엔 환자 값 없음","art":{"kind":"slip","lines":["{ 분류: enum [ \"심장\",","\"호흡기\", \"기타\" ] }"]}},{"kind":"end","label":"PHI 는 본문·첨부에만 — 암호화·접근 통제·감사 로그로 수명 내내 보호"}]},{"name":"② 스키마 enum 에 환자 값","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["진료 기록 #M-5520","환자 최서연 · 52세","흉통 3일"]}},{"kind":"move","step":"보내기","from":{"block":"프롬프트"},"to":1,"label":"메시지 본문","art":{"kind":"slip","lines":["messages:","\"흉통 3일, 분류해 줘\""]}},{"kind":"move","step":"스키마","from":{"block":"JSON 스키마"},"to":2,"label":"`enum` 에 PHI","art":{"kind":"slip","lines":["{ 환자: enum [ \"최서연\",","\"박지호\", \"이하준\" ] }"]}},{"kind":"end","label":"따로 캐시된 스키마는 같은 PHI 보호를 못 받음"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["앱","HIPAA 조직","스키마 캐시"],"blocks":[{"name":"프롬프트","var":false},{"name":"첨부","var":false},{"name":"JSON 스키마","var":true}],"rules":[null,null,"따로 캐시한다(마지막 사용부터 최대 24시간). 같은 PHI 보호가 없다"],"question":"환자 이름은 어느 칸에 둬야 할까?","scenes":[{"name":"① PHI 는 본문에","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["진료 기록 #M-5520","환자 최서연 · 52세","흉통 3일"]}},{"kind":"move","step":"보내기","from":{"block":"프롬프트"},"to":1,"label":"환자 정보는 본문·첨부 같은 보호 필드에만 넣는다","art":{"kind":"slip","lines":["messages:","\"최서연 52세, 흉통 3일\"","분류해 줘"]}},{"kind":"move","step":"첨부","from":{"block":"첨부"},"to":1,"label":"첨부도 보호 필드다","art":{"kind":"slip","lines":["첨부: 흉부_X-ray.png"]}},{"kind":"move","step":"스키마","from":{"block":"JSON 스키마"},"to":2,"label":"스키마에는 환자 값이 없다","art":{"kind":"slip","lines":["{ 분류: enum [ \"심장\",","\"호흡기\", \"기타\" ] }"]}},{"kind":"end","label":"PHI 는 본문·첨부에만 둔다. 암호화·접근 통제·감사 로그로 수명 내내 보호한다"}]},{"name":"② 스키마 enum 에 환자 값","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["진료 기록 #M-5520","환자 최서연 · 52세","흉통 3일"]}},{"kind":"move","step":"보내기","from":{"block":"프롬프트"},"to":1,"label":"메시지 본문을 보낸다","art":{"kind":"slip","lines":["messages:","\"흉통 3일, 분류해 줘\""]}},{"kind":"move","step":"스키마","from":{"block":"JSON 스키마"},"to":2,"label":"`enum` 에 PHI 를 넣는다","art":{"kind":"slip","lines":["{ 환자: enum [ \"최서연\",","\"박지호\", \"이하준\" ] }"]}},{"kind":"end","label":"따로 캐시된 스키마는 같은 PHI 보호를 못 받는다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> 앱 → HIPAA 조직 → 스키마 캐시</p>
       <p><span class="lead">블록 :</span> 프롬프트, 첨부, JSON 스키마 (바뀌는 것)</p>
-      <p><span class="lead">규칙 (스키마 캐시) :</span> 따로 캐시(마지막 사용부터 최대 24시간) — 같은 PHI 보호 없음</p>
+      <p><span class="lead">규칙 (스키마 캐시) :</span> 따로 캐시한다(마지막 사용부터 최대 24시간). 같은 PHI 보호가 없다</p>
       <p><span class="lead">질문 :</span> 환자 이름은 어느 칸에 둬야 할까?</p>
       <p class="lead">① PHI 는 본문에 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 앱 — 쪽지 : <span class="flx-alt-slip">진료 기록 #M-5520 / 환자 최서연 · 52세 / 흉통 3일</span></li>
-        <li>보내기 : 프롬프트 → HIPAA 조직 : 환자 정보는 메시지 본문·첨부 같은 보호 필드에만 — 쪽지 : <span class="flx-alt-slip">messages: / "최서연 52세, 흉통 3일" / 분류해 줘</span></li>
-        <li>첨부 : 첨부 → HIPAA 조직 : 첨부도 보호 필드 — 쪽지 : <span class="flx-alt-slip">첨부: 흉부_X-ray.png</span></li>
-        <li>스키마 : JSON 스키마 → 스키마 캐시 : 스키마엔 환자 값 없음 — 쪽지 : <span class="flx-alt-slip">{ 분류: enum [ "심장", / "호흡기", "기타" ] }</span></li>
-        <li>끝 : PHI 는 본문·첨부에만 — 암호화·접근 통제·감사 로그로 수명 내내 보호</li>
+        <li>보내기 : 프롬프트 → HIPAA 조직 : 환자 정보는 본문·첨부 같은 보호 필드에만 넣는다 — 쪽지 : <span class="flx-alt-slip">messages: / "최서연 52세, 흉통 3일" / 분류해 줘</span></li>
+        <li>첨부 : 첨부 → HIPAA 조직 : 첨부도 보호 필드다 — 쪽지 : <span class="flx-alt-slip">첨부: 흉부_X-ray.png</span></li>
+        <li>스키마 : JSON 스키마 → 스키마 캐시 : 스키마에는 환자 값이 없다 — 쪽지 : <span class="flx-alt-slip">{ 분류: enum [ "심장", / "호흡기", "기타" ] }</span></li>
+        <li>끝 : PHI 는 본문·첨부에만 둔다. 암호화·접근 통제·감사 로그로 수명 내내 보호한다</li>
       </ol>
       <p class="lead">② 스키마 enum 에 환자 값 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 앱 — 쪽지 : <span class="flx-alt-slip">진료 기록 #M-5520 / 환자 최서연 · 52세 / 흉통 3일</span></li>
-        <li>보내기 : 프롬프트 → HIPAA 조직 : 메시지 본문 — 쪽지 : <span class="flx-alt-slip">messages: / "흉통 3일, 분류해 줘"</span></li>
-        <li>스키마 : JSON 스키마 → 스키마 캐시 : <code>enum</code> 에 PHI — 쪽지 : <span class="flx-alt-slip">{ 환자: enum [ "최서연", / "박지호", "이하준" ] }</span></li>
-        <li>끝 : 따로 캐시된 스키마는 같은 PHI 보호를 못 받음</li>
+        <li>보내기 : 프롬프트 → HIPAA 조직 : 메시지 본문을 보낸다 — 쪽지 : <span class="flx-alt-slip">messages: / "흉통 3일, 분류해 줘"</span></li>
+        <li>스키마 : JSON 스키마 → 스키마 캐시 : <code>enum</code> 에 PHI 를 넣는다 — 쪽지 : <span class="flx-alt-slip">{ 환자: enum [ "최서연", / "박지호", "이하준" ] }</span></li>
+        <li>끝 : 따로 캐시된 스키마는 같은 PHI 보호를 못 받는다</li>
       </ol>
     </details>
   </figure>
@@ -521,7 +528,9 @@
       <ol class="how">
         <li id="hipaa-config-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p><span class="lead">켜는 길 :</span> 표준 BAA = Console &gt; Settings &gt; Privacy 에서 BAA·HIPAA Implementation Guide 를 받고 법적 대리인이 수락 → 즉시 적용, 받은 그 BAA 버전에 묶임(docs). 협상 BAA 가 필요하거나 셀프가 안 되는 조직 = 영업팀. privacy 글은 "Primary Owner 가 BAA 서명 뒤 Anthropic 담당·영업팀에 연락해 켜기" → 공식 문서끼리 다름 (설명 쪽 미해결) <span class="pg">[5.4①]</span></p>
+            <p><span class="lead">켜는 길 :</span> 표준 BAA 는 Console &gt; Settings &gt; Privacy 에서 켠다. 여기서 BAA 와 HIPAA Implementation Guide 를 받고 법적 대리인이 수락한다. 그러면 즉시 적용되고, 받은 그 BAA 버전에 묶인다(docs) <span class="pg">[5.4①]</span></p>
+            <p>협상 BAA 가 필요하거나 셀프가 안 되는 조직은 영업팀을 거친다</p>
+            <p>privacy 글은 "Primary Owner 가 BAA 서명 뒤 Anthropic 담당·영업팀에 연락해 켜기" 라고 적는다. 공식 문서끼리 다르다 <span class="note">(설명 쪽 미해결)</span></p>
           </div>
         </li>
       </ol>
@@ -530,17 +539,29 @@
       <ol class="how">
         <li id="hipaa-config-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p><span class="lead">약정 고르기 :</span> PHI + Claude API → BAA + HIPAA readiness 조직. ZDR 따로 필요 없음. HIPAA readiness 는 Claude API(<code>api.anthropic.com</code>)의 지원 기능에만. Claude Platform on AWS·Microsoft Foundry 는 HIPAA readiness 를 못 씀. Bedrock·Google Cloud Agent Platform 은 클라우드 사업자가 처리자 → 그쪽 규정 문서. 3P 클라우드로 산 서비스엔 Anthropic BAA 가 적용 안 됨. Console 에서 켜기는 되지만 Console 로 PHI 처리는 대상 아님. Claude Code 는 HIPAA readiness 대상 아님 → <a href="baa-scope.html">■ BAA 적용 범위</a> <span class="pg">[5.4①]</span></p>
+            <p><span class="lead">약정 고르기 :</span> PHI 를 Claude API 로 다루면 BAA 와 HIPAA readiness 조직을 쓴다. ZDR 은 따로 필요 없다 <span class="pg">[5.4①]</span></p>
+            <p>HIPAA readiness 는 Claude API(<code>api.anthropic.com</code>)의 지원 기능에만 적용된다</p>
+            <p>Claude Platform on AWS·Microsoft Foundry 는 HIPAA readiness 를 못 쓴다</p>
+            <p>Bedrock·Google Cloud Agent Platform 은 클라우드 사업자가 처리자다. 그래서 그쪽 규정 문서를 따른다</p>
+            <p>3P 클라우드로 산 서비스에는 Anthropic BAA 가 적용되지 않는다</p>
+            <p>Console 에서 켤 수는 있지만, Console 로 PHI 를 처리하는 것은 대상이 아니다</p>
+            <p>Claude Code 는 HIPAA readiness 대상이 아니다. 자세한 것은 <a href="baa-scope.html">■ BAA 적용 범위</a> 에 있다</p>
           </div>
         </li>
         <li id="hipaa-config-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p><span class="lead">조직 단위 :</span> HIPAA readiness 는 조직 단위로 강제. 켜면 영구, 관리자가 못 끔. HIPAA 와 일반 업무는 같은 조직 불가 → 따로 조직. BAA 는 수락한 그 한 조직만. HIPAA readiness 와 ZDR 을 한 조직에 같이 두는 문제 → <a href="baa-scope.html">■ BAA 적용 범위</a> <span class="rule-ref">· <a href="baa-scope.html#baa-scope-rule-4">규칙 ④</a></span> <span class="pg">[5.4①]</span></p>
+            <p><span class="lead">조직 단위 :</span> HIPAA readiness 는 조직 단위로 강제된다. 켜면 영구이고, 관리자가 끌 수 없다 <span class="pg">[5.4①]</span></p>
+            <p>HIPAA 와 일반 업무는 같은 조직에 둘 수 없다. 그래서 조직을 따로 둔다</p>
+            <p>BAA 는 수락한 그 한 조직에만 적용된다</p>
+            <p>HIPAA readiness 와 ZDR 을 한 조직에 같이 두는 문제는 <a href="baa-scope.html">■ BAA 적용 범위</a> <span class="rule-ref">· <a href="baa-scope.html#baa-scope-rule-4">규칙 ④</a></span> 에 있다</p>
           </div>
         </li>
         <li id="hipaa-config-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">PHI 경계 :</span> PHI 는 메시지 본문(프롬프트·응답)·첨부(이미지·PDF)·파일 이름·메타데이터에 나타남 → 여기가 보호 대상. 구조화 출력·<code>strict: true</code> 도구의 JSON 스키마는 생성 제약용 문법(grammar)으로 컴파일돼 따로 캐시(마지막 사용부터 최대 24시간) → 같은 PHI 보호를 못 받음. 속성 이름·<code>enum</code>·<code>const</code>·<code>pattern</code> 에 PHI 금지, 환자 정보는 메시지 본문·첨부 같은 보호 필드에만. 워크스페이스 이름·사용자 정보(이름·이메일·전화)·청구 데이터·지원 티켓 = BAA 상 PHI 가 없다고 보는 칸 <span class="pg">[5.4①]</span></p>
+            <p><span class="lead">PHI 경계 :</span> PHI 는 메시지 본문(프롬프트·응답)·첨부(이미지·PDF)·파일 이름·메타데이터에 나타난다. 여기가 보호 대상이다 <span class="pg">[5.4①]</span></p>
+            <p>구조화 출력과 <code>strict: true</code> 도구의 JSON 스키마는 생성 제약용 문법(grammar)으로 컴파일된다. 그리고 따로 캐시된다(마지막 사용부터 최대 24시간). 그래서 같은 PHI 보호를 못 받는다</p>
+            <p>속성 이름·<code>enum</code>·<code>const</code>·<code>pattern</code> 에 PHI 를 넣지 않는다. 환자 정보는 메시지 본문·첨부 같은 보호 필드에만 넣는다</p>
+            <p>워크스페이스 이름·사용자 정보(이름·이메일·전화)·청구 데이터·지원 티켓은 BAA 상 PHI 가 없다고 보는 칸이다</p>
           </div>
         </li>
       </ol>
@@ -554,16 +575,16 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">PHI 를 Claude API 로</td><td data-label="답" role="cell">BAA + HIPAA readiness 조직, ZDR 불필요</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-zero-data-retention "If your organization handles PHI, HIPAA readiness is the arrangement to use; you do not also need ZDR." · -full FAQ "No. HIPAA-ready API access is designed as an alternative to ZDR"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">HIPAA 와 일반 업무를 같이</td><td data-label="답" role="cell">조직 분리</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">-full "use separate organizations for each" · FAQ</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">HIPAA readiness 를 켠 뒤 끄고 싶음</td><td data-label="답" role="cell">못 끔 (영구)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">환자별 값을 스키마 enum·속성 이름에</td><td data-label="답" role="cell">금지, 본문으로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">첨부·파일 이름에 PHI</td><td data-label="답" role="cell">보호 대상 칸</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Claude Platform on AWS·Foundry 로 PHI</td><td data-label="답" role="cell">HIPAA readiness 못 씀</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Bedrock·Google Cloud 로 PHI</td><td data-label="답" role="cell">그 사업자의 규정 문서</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-zero-data-retention · -full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">3P 클라우드로 산 서비스</td><td data-label="답" role="cell">Anthropic BAA 적용 안 됨</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-covered-models-baa</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Console(playground)로 PHI 처리</td><td data-label="답" role="cell">대상 아님 (켜기만 Console 에서)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">표준 BAA 로 켜기</td><td data-label="답" role="cell">Console &gt; Settings &gt; Privacy 셀프, 즉시 적용</td><td data-label="등급" role="cell"><span class="note">(docs) · 공식 문서끼리 다름</span></td><td data-label="근거" role="cell">en-zero-data-retention vs en-privacy-baa (미해결 1)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">PHI 를 Claude API 로 다룬다</td><td data-label="답" role="cell">BAA 와 HIPAA readiness 조직을 쓴다. ZDR 은 필요 없다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-zero-data-retention "If your organization handles PHI, HIPAA readiness is the arrangement to use; you do not also need ZDR." · -full FAQ "No. HIPAA-ready API access is designed as an alternative to ZDR"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">HIPAA 와 일반 업무를 같이 한다</td><td data-label="답" role="cell">조직을 나눈다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">-full "use separate organizations for each" · FAQ</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">HIPAA readiness 를 켠 뒤 끄고 싶다</td><td data-label="답" role="cell">끌 수 없다 (영구)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">환자별 값을 스키마 enum·속성 이름에 넣으려 한다</td><td data-label="답" role="cell">넣지 않는다. 본문으로 보낸다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">첨부·파일 이름에 PHI 가 있다</td><td data-label="답" role="cell">보호 대상 칸이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Claude Platform on AWS·Foundry 로 PHI 를 다룬다</td><td data-label="답" role="cell">HIPAA readiness 를 못 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Bedrock·Google Cloud 로 PHI 를 다룬다</td><td data-label="답" role="cell">그 사업자의 규정 문서를 따른다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-zero-data-retention · -full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">3P 클라우드로 산 서비스다</td><td data-label="답" role="cell">Anthropic BAA 가 적용되지 않는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-covered-models-baa</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Console(playground)로 PHI 를 처리한다</td><td data-label="답" role="cell">대상이 아니다 (Console 에서는 켜기만 한다)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">표준 BAA 로 켠다</td><td data-label="답" role="cell">Console &gt; Settings &gt; Privacy 에서 셀프로 켠다. 즉시 적용된다</td><td data-label="등급" role="cell"><span class="note">(docs) · 공식 문서끼리 다름</span></td><td data-label="근거" role="cell">en-zero-data-retention vs en-privacy-baa (미해결 1)</td></tr>
   </tbody>
 </table>
 </div>
@@ -574,15 +595,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">배포 경로</td><td data-label="값" role="cell">Claude API (<code>api.<wbr>anthropic.<wbr>com</code>)</td><td data-label="답 쪽" role="cell">HIPAA readiness</td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">배포 경로</td><td data-label="값" role="cell">Claude Platform on AWS · Foundry</td><td data-label="답 쪽" role="cell">불가 → 1P API 로 옮기거나 다른 경로</td><td data-label="근거" role="cell">판단 규칙 6</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">배포 경로</td><td data-label="값" role="cell">Bedrock · Google Cloud</td><td data-label="답 쪽" role="cell">사업자 규정</td><td data-label="근거" role="cell">판단 규칙 7</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">도구</td><td data-label="값" role="cell">Claude Code</td><td data-label="답 쪽" role="cell">HIPAA readiness 아님 → ■ BAA 적용 범위 (ZDR 켰을 때만)</td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">같은 조직의 다른 업무</td><td data-label="값" role="cell">있음</td><td data-label="답 쪽" role="cell">조직 분리</td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">PHI 위치</td><td data-label="값" role="cell">스키마(<code>enum</code>·<code>const</code>·<code>pattern</code>·속성 이름)</td><td data-label="답 쪽" role="cell">금지</td><td data-label="근거" role="cell">판단 규칙 4</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Covered Models(Fable 5.1 등) 필요</td><td data-label="답 쪽" role="cell">HIPAA-ready API 는 표준 보존이라 가능</td><td data-label="근거" role="cell">en-covered-models-baa</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">이미 ZDR 조직임</td><td data-label="값" role="cell">같은 조직에 HIPAA readiness 추가</td><td data-label="답 쪽" role="cell">불가 → 조직 ID 따로</td><td data-label="근거" role="cell">en-covered-models-baa</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">BAA 종류</td><td data-label="값" role="cell">협상·맞춤 BAA</td><td data-label="답 쪽" role="cell">영업팀</td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">배포 경로</td><td data-label="값" role="cell">Claude API (<code>api.<wbr>anthropic.<wbr>com</code>)</td><td data-label="답 쪽" role="cell">HIPAA readiness 를 쓴다</td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">배포 경로</td><td data-label="값" role="cell">Claude Platform on AWS · Foundry</td><td data-label="답 쪽" role="cell">쓸 수 없다. 1P API 로 옮기거나 다른 경로를 쓴다</td><td data-label="근거" role="cell">판단 규칙 6</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">배포 경로</td><td data-label="값" role="cell">Bedrock · Google Cloud</td><td data-label="답 쪽" role="cell">사업자 규정을 따른다</td><td data-label="근거" role="cell">판단 규칙 7</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">도구</td><td data-label="값" role="cell">Claude Code</td><td data-label="답 쪽" role="cell">HIPAA readiness 대상이 아니다. ZDR 을 켰을 때만 BAA 대상이다. 자세한 것은 ■ BAA 적용 범위 에 있다</td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">같은 조직의 다른 업무</td><td data-label="값" role="cell">있다</td><td data-label="답 쪽" role="cell">조직을 나눈다</td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">PHI 위치</td><td data-label="값" role="cell">스키마(<code>enum</code>·<code>const</code>·<code>pattern</code>·속성 이름)</td><td data-label="답 쪽" role="cell">넣지 않는다</td><td data-label="근거" role="cell">판단 규칙 4</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Covered Models(Fable 5.1 등)가 필요하다</td><td data-label="답 쪽" role="cell">HIPAA-ready API 는 표준 보존이라 쓸 수 있다</td><td data-label="근거" role="cell">en-covered-models-baa</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">이미 ZDR 조직이다</td><td data-label="값" role="cell">같은 조직에 HIPAA readiness 를 추가하려 한다</td><td data-label="답 쪽" role="cell">그럴 수 없다. 조직 ID 를 따로 둔다</td><td data-label="근거" role="cell">en-covered-models-baa</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">BAA 종류</td><td data-label="값" role="cell">협상·맞춤 BAA</td><td data-label="답 쪽" role="cell">영업팀을 거친다</td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
   </tbody>
 </table>
 </div>
@@ -598,13 +619,13 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"ZDR 을 켜서 HIPAA 준수" / "HIPAA 에 ZDR 도 추가" → PHI + API 면 HIPAA readiness, ZDR 따로 필요 없음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"BAA 만 서명하면 PHI 를 어디든" → 수락한 그 한 조직만 · 지원 기능만 · 보호 필드에만</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>환자별 값을 구조화 출력 스키마 <code>enum</code> 에 → 스키마는 따로 캐시돼 같은 보호 없음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"HIPAA readiness = 바로 지움" → 암호화·접근 통제·감사 로그. 즉시 삭제 아님</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"시범 끝나면 끄면 됨" / 한 조직에서 HIPAA·일반 업무 같이 → 켜면 영구, 따로 조직</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"AWS 를 쓰니 Claude Platform on AWS 로 HIPAA" → 거기선 HIPAA readiness 못 씀</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"HIPAA 면 아무것도 안 남음" → 법적 요구가 있거나 자동 안전 시스템에 걸리면 남을 수 있음(걸리면 입력·출력 최대 2년)</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"ZDR 을 켜서 HIPAA 준수" 나 "HIPAA 에 ZDR 도 추가" 는 함정이다. PHI 를 API 로 다루면 HIPAA readiness 를 쓴다. ZDR 은 따로 필요 없다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"BAA 만 서명하면 PHI 를 어디든" 은 함정이다. PHI 는 수락한 그 한 조직에서, 지원 기능으로, 보호 필드에만 보낸다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>환자별 값을 구조화 출력 스키마 <code>enum</code> 에 넣는 것은 함정이다. 스키마는 따로 캐시돼 같은 보호를 못 받는다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"HIPAA readiness = 바로 지움" 은 함정이다. 암호화·접근 통제·감사 로그로 지킨다. 즉시 삭제가 아니다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"시범 끝나면 끄면 됨" 이나 한 조직에서 HIPAA 와 일반 업무를 같이 하는 것은 함정이다. 켜면 영구다. 조직을 따로 둔다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"AWS 를 쓰니 Claude Platform on AWS 로 HIPAA" 는 함정이다. 거기서는 HIPAA readiness 를 못 쓴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"HIPAA 면 아무것도 안 남음" 은 함정이다. 법적 요구가 있거나 자동 안전 시스템에 걸리면 남을 수 있다(걸리면 입력·출력 최대 2년)</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -626,30 +647,30 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. "ZDR 불필요" 가 뒤집히는 곳 — Claude Code</h4>
 <ul>
-<li><span class="lead">조건 :</span> 같은 병원 개발팀이 PHI 가 섞인 저장소를 Claude Code 로 다룸.</li>
-<li><span class="lead">판단 :</span> Claude Code 는 HIPAA readiness 대상이 아님 → BAA 를 받으려면 ZDR 을 켜야 함. API 앱과는 답이 반대.</li>
-<li><span class="lead">결과 :</span> HIPAA API 조직 하나 + ZDR Claude Code 조직 하나 (둘은 한 조직에 공존 불가).</li>
+<li><span class="lead">조건 :</span> 같은 병원 개발팀이 PHI 가 섞인 저장소를 Claude Code 로 다룬다.</li>
+<li><span class="lead">판단 :</span> Claude Code 는 HIPAA readiness 대상이 아니다. 그래서 BAA 를 받으려면 ZDR 을 켜야 한다. API 앱과는 답이 반대다.</li>
+<li><span class="lead">결과 :</span> HIPAA API 조직 하나와 ZDR Claude Code 조직 하나를 둔다. 둘은 한 조직에 같이 둘 수 없다.</li>
 
 <li><span class="lead">근거 :</span> en-zero-data-retention · en-privacy-baa · en-covered-models-baa</li>
 </ul>
 <h4>2. 이름은 AWS 인데 답이 둘로 갈림</h4>
 <ul>
-<li><span class="lead">조건 :</span> "AWS 위에서 쓰고 싶다".</li>
-<li><span class="lead">판단 :</span> Bedrock 이면 AWS 가 처리자 → AWS 규정. Claude Platform on AWS 면 Anthropic 이 처리자인데도 HIPAA readiness 가 없음 → 이 경로로는 PHI 불가.</li>
+<li><span class="lead">조건 :</span> "AWS 위에서 쓰고 싶다" 는 요구다.</li>
+<li><span class="lead">판단 :</span> Bedrock 이면 AWS 가 처리자다. 그래서 AWS 규정을 따른다. Claude Platform on AWS 면 Anthropic 이 처리자인데도 HIPAA readiness 가 없다. 그래서 이 경로로는 PHI 를 다룰 수 없다.</li>
 
 <li><span class="lead">근거 :</span> en-zero-data-retention · -full</li>
 </ul>
 <h4>3. 시범 조직에서 켜 버린 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 일반 챗봇을 돌리던 조직에서 "잠깐 시험해 보자"며 HIPAA readiness 를 켬.</li>
-<li><span class="lead">판단 :</span> 영구라 못 끔. 그 조직의 일반 업무도 기능 제한(예 : Batch 막힘)을 받게 됨 → 처음부터 HIPAA 전용 조직을 새로 만드는 게 맞음.</li>
+<li><span class="lead">조건 :</span> 일반 챗봇을 돌리던 조직에서 "잠깐 시험해 보자"며 HIPAA readiness 를 켰다.</li>
+<li><span class="lead">판단 :</span> 영구라서 끌 수 없다. 그 조직의 일반 업무도 기능 제한(예 : Batch 막힘)을 받게 된다. 그래서 처음부터 HIPAA 전용 조직을 새로 만드는 것이 맞다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(영구·조직 단위·분리는 확인, "일반 업무가 막힘"은 그 두 사실에서 나온 결론)</span></li>
 <li><span class="lead">근거 :</span> en-zero-data-retention · -full</li>
 </ul>
 <h4>4. 최신 큰 모델이 필요한 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 진료 기록 요약에 Fable 5.1 이 필요.</li>
-<li><span class="lead">판단 :</span> HIPAA-ready API 는 표준 보존이라 Covered Models 사용 가능. 반대로 "더 안전하게 ZDR 도" 를 붙이면 Covered Models 를 못 씀 → ZDR 을 더하는 건 손해만.</li>
+<li><span class="lead">조건 :</span> 진료 기록 요약에 Fable 5.1 이 필요하다.</li>
+<li><span class="lead">판단 :</span> HIPAA-ready API 는 표준 보존이라 Covered Models 를 쓸 수 있다. 반대로 "더 안전하게 ZDR 도" 를 붙이면 Covered Models 를 못 쓴다. 그래서 ZDR 을 더하는 것은 손해만 낸다.</li>
 
 <li><span class="lead">근거 :</span> en-covered-models-baa · en-zero-data-retention</li>
 </ul>
@@ -660,20 +681,22 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"ZDR 을 켜서 HIPAA 준수"</td><td data-label="왜 끌리나" role="cell">안 남기면 가장 안전해 보임</td><td data-label="왜 틀리나" role="cell">PHI + API 면 HIPAA readiness 가 쓸 방식. ZDR 은 다른 약정</td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"HIPAA readiness 에 ZDR 도 추가"</td><td data-label="왜 끌리나" role="cell">겹쳐 걸면 더 안전해 보임</td><td data-label="왜 틀리나" role="cell">필요 없음 + 한 1P API 조직에 공존 불가 + Covered Models 를 잃음</td><td data-label="근거" role="cell">-full · en-covered-models-baa</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"BAA 만 서명하면 PHI 를 어디든 보내도 됨"</td><td data-label="왜 끌리나" role="cell">계약 = 전부 허용처럼 들림</td><td data-label="왜 틀리나" role="cell">수락한 그 한 조직만 · 지원 기능만 · 보호 필드에만</td><td data-label="근거" role="cell"><a class="src-link" href="https://support.claude.com/en/articles/8114513-business-associate-agreements-baa-for-commercial-customers" lang="en" rel="noopener">en-privacy-baa</a> · en-zero-data-retention</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">환자별 값을 구조화 출력 <code>enum</code> 에</td><td data-label="왜 끌리나" role="cell">분류 정확도가 올라 보임</td><td data-label="왜 틀리나" role="cell">스키마는 따로 캐시돼 같은 PHI 보호 없음</td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"HIPAA readiness = 즉시 삭제"</td><td data-label="왜 끌리나" role="cell">ZDR 과 섞어 외움</td><td data-label="왜 틀리나" role="cell">암호화·접근 통제·감사 로그. 즉시 삭제 요구 아님</td><td data-label="근거" role="cell">en-zero-data-retention · -full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"한 조직에서 HIPAA·일반 업무를 워크스페이스로 나눔"</td><td data-label="왜 끌리나" role="cell">워크스페이스로 나누면 될 것 같음</td><td data-label="왜 틀리나" role="cell">HIPAA readiness 는 조직 단위 강제 → 조직을 나눠야 함</td><td data-label="근거" role="cell">-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Claude Platform on AWS 로 HIPAA"</td><td data-label="왜 끌리나" role="cell">Anthropic 이 처리자라 1P 와 같아 보임</td><td data-label="왜 틀리나" role="cell">HIPAA readiness 가 없음</td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"HIPAA 조직이면 아무것도 안 남음"</td><td data-label="왜 끌리나" role="cell">보호 = 삭제로 오해</td><td data-label="왜 틀리나" role="cell">법적 요구·자동 안전 시스템에 걸리면 남을 수 있음(걸리면 최대 2년)</td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"ZDR 을 켜서 HIPAA 준수"</td><td data-label="왜 끌리나" role="cell">안 남기면 가장 안전해 보인다</td><td data-label="왜 틀리나" role="cell">PHI 를 API 로 다루면 HIPAA readiness 가 쓸 방식이다. ZDR 은 다른 약정이다</td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"HIPAA readiness 에 ZDR 도 추가"</td><td data-label="왜 끌리나" role="cell">겹쳐 걸면 더 안전해 보인다</td><td data-label="왜 틀리나" role="cell">필요 없다. 한 1P API 조직에 같이 둘 수 없다. Covered Models 도 잃는다</td><td data-label="근거" role="cell">-full · en-covered-models-baa</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"BAA 만 서명하면 PHI 를 어디든 보내도 됨"</td><td data-label="왜 끌리나" role="cell">계약이 곧 전부 허용처럼 들린다</td><td data-label="왜 틀리나" role="cell">PHI 는 수락한 그 한 조직에서, 지원 기능으로, 보호 필드에만 보낸다</td><td data-label="근거" role="cell"><a class="src-link" href="https://support.claude.com/en/articles/8114513-business-associate-agreements-baa-for-commercial-customers" lang="en" rel="noopener">en-privacy-baa</a> · en-zero-data-retention</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">환자별 값을 구조화 출력 <code>enum</code> 에</td><td data-label="왜 끌리나" role="cell">분류 정확도가 올라 보인다</td><td data-label="왜 틀리나" role="cell">스키마는 따로 캐시돼 같은 PHI 보호를 못 받는다</td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"HIPAA readiness = 즉시 삭제"</td><td data-label="왜 끌리나" role="cell">ZDR 과 섞어 외운다</td><td data-label="왜 틀리나" role="cell">암호화·접근 통제·감사 로그로 지킨다. 즉시 삭제를 요구하지 않는다</td><td data-label="근거" role="cell">en-zero-data-retention · -full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"한 조직에서 HIPAA·일반 업무를 워크스페이스로 나눔"</td><td data-label="왜 끌리나" role="cell">워크스페이스로 나누면 될 것 같다</td><td data-label="왜 틀리나" role="cell">HIPAA readiness 는 조직 단위로 강제된다. 그래서 조직을 나눠야 한다</td><td data-label="근거" role="cell">-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Claude Platform on AWS 로 HIPAA"</td><td data-label="왜 끌리나" role="cell">Anthropic 이 처리자라 1P 와 같아 보인다</td><td data-label="왜 틀리나" role="cell">HIPAA readiness 가 없다</td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"HIPAA 조직이면 아무것도 안 남음"</td><td data-label="왜 끌리나" role="cell">보호를 삭제로 오해한다</td><td data-label="왜 틀리나" role="cell">법적 요구가 있거나 자동 안전 시스템에 걸리면 남을 수 있다(걸리면 최대 2년)</td><td data-label="근거" role="cell">en-zero-data-retention</td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="hipaa-config-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
@@ -690,14 +713,15 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>켜는 절차가 공식 문서끼리 다름 : docs 는 "적격 조직은 Console 에서 직접 BAA 를 체결하고 켤 수 있음"(en-zero-data-retention), privacy BAA 글은 "1P API 로 PHI 를 쓰려면 Primary Owner 가 BAA 에 서명한 뒤 Anthropic 담당·영업팀에 연락해 켜야"(en-privacy-baa). 시험이 절차를 물으면 "BAA 서명 + HIPAA readiness 조직" 까지만 확실.</li>
-<li>공공부문 FAQ(en-public-sector-faqs)는 BAA 가 "It requires a Zero Data Retention (ZDR) agreement" 라 적음 → docs 의 "you do not also need ZDR"와 반대. 같은 FAQ 가 "web search is excluded"라 한 것도 지금 BAA 글(en-privacy-baa 웹 검색 대상)과 다름 → 옛 문장으로 봄(추론). 자세한 건 ■ BAA 적용 범위 미해결.</li>
-<li>목록 5.4① 의 "규제 업무는 전용 조직으로 분리 = 근거 확인 필요, 추론" → 원문에서 확인됨. 목록은 추론 표시였음.</li>
-<li>목록 5.4① 의 "PHI 는 메시지 본문에만" → 원문은 첨부(이미지·PDF)·파일 이름·메타데이터도 PHI 가 나타나는 보호 필드으로 적음. 금지 필드는 스키마. 카드엔 고친 값.</li>
-<li>HIPAA Implementation Guide(Trust Portal PDF)는 받지 않음 — 서명한 BAA 와 이 가이드가 기능 목록의 최종 기준이라 docs·privacy 글과 다를 수 있음(미확인).</li>
-<li>Skilljar "Deploying Claude Enterprise with Confidence" 과정은 세션 <code>skjd5-3</code> 에서 미등록(Enroll 버튼) → 건너뜀.</li>
+<li>켜는 절차가 공식 문서끼리 다르다. docs 는 "적격 조직은 Console 에서 직접 BAA 를 체결하고 켤 수 있음" 이라 적는다(en-zero-data-retention). privacy BAA 글은 "1P API 로 PHI 를 쓰려면 Primary Owner 가 BAA 에 서명한 뒤 Anthropic 담당·영업팀에 연락해 켜야" 한다고 적는다(en-privacy-baa). 시험이 절차를 물으면 "BAA 서명 + HIPAA readiness 조직" 까지만 확실하다.</li>
+<li>공공부문 FAQ(en-public-sector-faqs)는 BAA 가 "It requires a Zero Data Retention (ZDR) agreement" 라 적는다. 이것은 docs 의 "you do not also need ZDR"와 반대다. 같은 FAQ 가 "web search is excluded"라 한 것도 지금 BAA 글과 다르다(en-privacy-baa에서 웹 검색은 대상이다). 그래서 옛 문장으로 본다(추론). 자세한 것은 ■ BAA 적용 범위 의 미해결에 있다.</li>
+<li>목록 5.4① 은 "규제 업무는 전용 조직으로 분리 = 근거 확인 필요, 추론" 이라 적었다. 이것은 원문에서 확인됐다. 목록은 추론 표시였다.</li>
+<li>목록 5.4① 은 "PHI 는 메시지 본문에만" 이라 적었다. 원문은 첨부(이미지·PDF)·파일 이름·메타데이터도 PHI 가 나타나는 보호 필드로 적는다. 금지 필드는 스키마다. 카드에는 고친 값을 적었다.</li>
+<li>HIPAA Implementation Guide(Trust Portal PDF)는 받지 않았다. 서명한 BAA 와 이 가이드가 기능 목록의 최종 기준이다. 그래서 docs·privacy 글과 다를 수 있다(미확인).</li>
+<li>Skilljar "Deploying Claude Enterprise with Confidence" 과정은 세션 <code>skjd5-3</code> 에서 등록되지 않았다(Enroll 버튼). 그래서 건너뛰었다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

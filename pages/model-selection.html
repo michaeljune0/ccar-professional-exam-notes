@@ -369,9 +369,14 @@
   </div>
   <h2 class="sec-h" id="model-selection-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>모델 고르기 = 어디서 출발해 어느 쪽으로 움직이나. 출발법 두 가지 — 효율 우선(Haiku 4.5 로 시작 → 특정 능력 격차가 있을 때만 올림) · 능력 우선(Opus 5.5 로 시작 → effort 를 낮추거나 모델을 내림). 모르면 대부분 Opus 5.5 로 시작 <span class="src">(2026-09-28 조회)</span></p>
-      <p>어느 쪽이든 판정은 eval. 좋은 평가 세트가 가장 중요한 단계</p>
-    <p class="t5-ana"><span class="lead">비유</span> 인스턴스 사이징. 배치 워커는 작은 타입으로 시작해 부하 테스트 보고 키우고, 핵심 DB 는 넉넉히 잡은 뒤 지표 보며 줄임</p>
+      <p>모델 고르기는 어디서 출발해 어느 쪽으로 움직일지 정하는 일이다. 출발법은 두 가지다.</p>
+      <ul class="dash">
+        <li><span class="lead">효율 우선 :</span> Haiku 4.5 로 시작한다. 특정 능력 격차가 있을 때만 올린다.</li>
+        <li><span class="lead">능력 우선 :</span> Opus 5.5 로 시작한다. 그다음 effort 를 낮추거나 모델을 내린다.</li>
+      </ul>
+      <p>모르면 대부분 Opus 5.5 로 시작한다 <span class="src">(2026-09-28 조회)</span></p>
+      <p>어느 쪽이든 판정은 eval 로 한다. 좋은 평가 세트가 가장 중요한 단계다</p>
+    <p class="t5-ana"><span class="lead">비유</span> 인스턴스 사이징과 같다. 배치 워커는 작은 타입으로 시작해 부하 테스트를 보고 키운다. 핵심 DB 는 넉넉히 잡은 뒤 지표를 보며 줄인다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/model-selection.webp"><img src="../images/model-selection.webp" alt="모델 네 개가 비용·능력 순으로 Haiku 4.5, Sonnet 5, Opus 5.5, Fable 5.1. 효율 우선은 Haiku 4.5 에서 시작해 격차가 있을 때만 올리고, 능력 우선은 Opus 5.5 에서 시작해 effort 를 낮추거나 내린다. 모르면 대부분 Opus 5.5 로 시작하고 판정은 eval." loading="lazy" decoding="async"></a>
@@ -400,27 +405,27 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">출발법이 둘인 이유</p>
 <ul>
-<li>효율 우선 : 빠르고 싼 모델(Haiku 4.5)로 시작하면 반복이 빠르고 개발비가 싸고, 흔한 일은 그걸로 충분한 경우가 많음. 모자란 능력이 보일 때만 올림.</li>
-<li>능력 우선 : 가장 강한 출발점(Opus 5.5)으로 먼저 "되는지"를 확인하고, 그다음 effort 를 낮추거나 모델을 내리며 효율을 찾음. 정확도가 비용보다 중요한 일이면 이쪽.</li>
-<li>둘 다 판정은 eval. 좋은 평가 세트가 가장 중요한 단계.</li>
+<li>효율 우선 : 빠르고 싼 모델(Haiku 4.5)로 시작하면 반복이 빠르고 개발비가 싸다. 흔한 일은 그 모델로 충분한 경우가 많다. 모자란 능력이 보일 때만 올린다.</li>
+<li>능력 우선 : 가장 강한 출발점(Opus 5.5)으로 먼저 "되는지"를 확인한다. 그다음 effort 를 낮추거나 모델을 내리며 효율을 찾는다. 정확도가 비용보다 중요한 일이면 이쪽이다.</li>
+<li>둘 다 판정은 eval 로 한다. 좋은 평가 세트가 가장 중요한 단계다.</li>
 </ul>
 <p class="lead">왜 기본이 Opus 5.5 인가 (2026-09-28 조회)</p>
 <ul>
-<li>공식 문장 = "대부분의 워크로드는 Opus 5.5 로 시작".</li>
-<li>Anthropic 내부 측정(코딩 벤치마크 일부)에서 Opus 5.5 기본(<code>medium</code>)이 Fable 5.1 기본과 같은 점수를 해결당 약 5분의 1 비용에 냄 ($0.22 vs $1.19).</li>
-<li>그래서 최상위(Fable 5.1)는 "Opus 5.5 를 <code>xhigh</code>·<code>max</code> 로 돌려도 모자랄 때"로 밀려남.</li>
+<li>공식 문장은 "대부분의 워크로드는 Opus 5.5 로 시작한다" 다.</li>
+<li>Anthropic 내부 측정(코딩 벤치마크 일부)에서 Opus 5.5 기본(<code>medium</code>)이 Fable 5.1 기본과 같은 점수를 냈다. 비용은 해결당 약 5분의 1 이었다 ($0.22 vs $1.19).</li>
+<li>그래서 최상위(Fable 5.1)는 "Opus 5.5 를 <code>xhigh</code>·<code>max</code> 로 돌려도 모자랄 때"로 밀려난다.</li>
 </ul>
 <p class="lead">비용은 토큰당이 아니라 과제당</p>
 <ul>
-<li>강한 모델은 턴·검색·되짚기가 적어서 토큰당 더 비싼 단가를 상쇄하기도 함.</li>
-<li>반대로 긴 연구 루프에선 강한 모델이 더 많이 일해서 과제당 더 비쌈. 순위는 워크로드마다 뒤집힘 → 자기 트래픽으로 재야 함.</li>
-<li>가장 어려운 10% 로 비교 : 쉬운 과제에선 다 비슷해 보이고 싼 게 이겨 보이지만, 청구서는 싼 모델이 실패한 과제(토큰 비용 + 재시도 + 실패가 뒤에 부르는 비용)가 정함.</li>
-<li>새 토크나이저(Claude 4.7 이후)는 같은 글에 약 30% 더 많은 토큰 → 토큰당 비교는 새 모델을 구조적으로 비싸 보이게 함.</li>
+<li>강한 모델은 턴·검색·되짚기가 적어서 토큰당 더 비싼 단가를 상쇄하기도 한다.</li>
+<li>반대로 긴 연구 루프에서는 강한 모델이 더 많이 일해서 과제당 더 비싸다. 순위는 워크로드마다 뒤집힌다. 그래서 자기 트래픽으로 재야 한다.</li>
+<li>비교는 가장 어려운 10% 로 한다. 쉬운 과제에서는 다 비슷해 보이고 싼 모델이 이겨 보인다. 그러나 청구서는 싼 모델이 실패한 과제가 정한다. 실패한 과제에는 토큰 비용, 재시도, 실패가 뒤에 부르는 비용이 든다.</li>
+<li>새 토크나이저(Claude 4.7 이후)는 같은 글에 약 30% 더 많은 토큰을 쓴다. 그래서 토큰당 비교는 새 모델을 구조적으로 비싸 보이게 한다.</li>
 </ul>
 <p class="lead">Haiku 4.5 가 맞는 곳</p>
 <ul>
-<li>출력을 검사할 수 있는 대량 작업. 긴 에이전트 루프는 아님.</li>
-<li>측정 예 : 대학원 수준 문항에서 Opus 5.5 의 약 5분의 1 비용에 정확도 63% (Opus 5.5 = 92%), 긴 코딩에선 훨씬 뒤처짐.</li>
+<li>출력을 검사할 수 있는 대량 작업에 맞다. 긴 에이전트 루프에는 맞지 않는다.</li>
+<li>측정 예 : 대학원 수준 문항에서 Opus 5.5 의 약 5분의 1 비용에 정확도 63% 였다 (Opus 5.5 = 92%). 긴 코딩에서는 훨씬 뒤처졌다.</li>
 </ul>
 </section>
   <h2 class="sec-h" id="model-selection-rules-h">규칙과 판단</h2>
@@ -432,19 +437,19 @@
   <section class="t5-flow tree" id="model-selection-tree-1" aria-labelledby="model-selection-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7">
     <div class="t5-fh"><h3 id="model-selection-tree-1-h">① 출발 모델 <span class="pg">[2.1①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇이 먼저?<span class="t5-sub">정확도 vs 지연·비용</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇이 먼저인가?<span class="t5-sub">정확도인가, 지연·비용인가</span></div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>정확도 · 복잡 추론 · 자율성 높은 에이전트</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">능력 우선</p><p>Opus 5.5 로 시작 → effort 를 낮추거나 모델을 내림</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">능력 우선</p><p>Opus 5.5 로 시작한다. 그다음 effort 를 낮추거나 모델을 내린다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>지연 · 비용 · 대량 단순 · 시제품</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">효율 우선</p><p>Haiku 4.5 로 시작 → 특정 능력 격차가 있을 때만 올림</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">효율 우선</p><p>Haiku 4.5 로 시작한다. 특정 능력 격차가 있을 때만 올린다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>딱히 없음</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Opus 5.5</p><p>모르면 대부분 Opus 5.5 로 시작</p></div>
+          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>딱히 없다</span>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Opus 5.5</p><p>모르면 대부분 Opus 5.5 로 시작한다</p></div>
         </div>
       </div>
     </div>
@@ -452,15 +457,15 @@
   <section class="t5-flow tree" id="model-selection-tree-2" aria-labelledby="model-selection-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5">
     <div class="t5-fh"><h3 id="model-selection-tree-2-h">① 위로 갈 때 <span class="pg">[2.1①]</span> <span class="pg">[2.1②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>Opus 5.5 가 모자랄 때, effort 는?<span class="t5-sub">eval 기준</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>Opus 5.5 가 모자랄 때 effort 를 어디까지 올려 봤나?<span class="t5-sub">eval 기준</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>effort 를 아직 안 올려 봄</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">effort 먼저</p><p>올리기 전 effort 부터 → <a href="effort-vs-model.html">◆ effort 조정 vs 모델 교체</a></p></div>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>effort 를 아직 안 올려 봤다</span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">effort 먼저</p><p>모델을 올리기 전에 effort 부터 본다. 자세한 것은 <a href="effort-vs-model.html">◆ effort 조정 vs 모델 교체</a> 에 있다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span><code>xhigh</code>·<code>max</code> 도 모자람</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Fable 5.1</p><p>Fable 5.1 은 Opus 5.5 를 <code>xhigh</code>·<code>max</code> 로 돌려도 모자랄 때</p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span><code>xhigh</code>·<code>max</code> 도 모자란다</span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Fable 5.1</p><p>Fable 5.1 은 Opus 5.5 를 <code>xhigh</code>·<code>max</code> 로 돌려도 모자랄 때 쓴다</p></div>
         </div>
       </div>
     </div>
@@ -471,20 +476,20 @@
       <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>문항에 모델명이 있나?</div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>있음</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">그 모델 기준</p><p>그 모델의 기능·제약으로 풀기 (예 Haiku 4.5 = effort 미지원 · extended thinking · 창 200K)</p></div>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>있다</span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">그 모델 기준</p><p>그 모델의 기능과 제약으로 푼다. 예를 들어 Haiku 4.5 는 effort 를 지원하지 않고, extended thinking 을 쓰고, 창이 200K 다</p></div>
         </div>
         <div class="t5-arm">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>없음</span>
-          <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>보기가 단가 계산을 근거로?</div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>없다</span>
+          <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>보기가 단가 계산을 근거로 하나?</div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">과제당 비용</p><p>토큰당이 아니라 완료된 과제당 비용으로 비교</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">과제당 비용</p><p>토큰당이 아니라 완료된 과제당 비용으로 비교한다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">역할로</p><p>숫자 말고 역할로 구분 — 빠르고 싼 모델 ↔ 능력 높은 모델 <span class="gen">업계 일반</span> <span class="note">시험 요령</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">역할로</p><p>숫자 말고 역할로 구분한다. 빠르고 싼 모델인가, 능력 높은 모델인가로 본다 <span class="gen">업계 일반</span> <span class="note">시험 요령</span></p></div>
             </div>
           </div>
         </div>
@@ -496,8 +501,15 @@
       <ol class="how">
         <li id="model-selection-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p><span class="lead">바꿀지 판단 :</span> 사용 사례 전용 벤치마크 → 실제 프롬프트·데이터로 테스트 → 정확도 · 품질 · 엣지 케이스 비교 → 성능·비용 저울질. 비교는 쉬운 과제가 아니라 가장 어려운 10% 로 (실패한 과제도 토큰 비용이 듦) <span class="pg">[2.1①]</span></p>
-            <p>형식이 계속 깨질 때 프롬프트 탓인지 모델 탓인지 = <a href="prompt-vs-model-mismatch.html">◆ prompt failure vs model mismatch</a></p>
+            <p><span class="lead">바꿀지 판단 :</span> 아래 순서로 판단한다 <span class="pg">[2.1①]</span></p>
+            <ul class="dash">
+              <li>사용 사례 전용 벤치마크를 만든다</li>
+              <li>실제 프롬프트와 데이터로 테스트한다</li>
+              <li>정확도, 품질, 엣지 케이스를 비교한다</li>
+              <li>성능과 비용을 저울질한다</li>
+            </ul>
+            <p>비교는 쉬운 과제가 아니라 가장 어려운 10% 로 한다. 실패한 과제도 토큰 비용이 든다</p>
+            <p>형식이 계속 깨질 때 프롬프트 탓인지 모델 탓인지는 <a href="prompt-vs-model-mismatch.html">◆ prompt failure vs model mismatch</a> 에 있다</p>
           </div>
         </li>
       </ol>
@@ -506,43 +518,46 @@
       <ol class="how">
         <li id="model-selection-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p class="lead">출발법 두 가지 (2026-09-28 조회) <span class="pg">[2.1①]</span></p>
+            <p class="lead">출발법은 두 가지다 (2026-09-28 조회) <span class="pg">[2.1①]</span></p>
             <div class="tscroll t-wide" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">출발</th><th scope="col" role="columnheader">시작 모델</th><th scope="col" role="columnheader">맞는 일</th><th scope="col" role="columnheader">그다음</th></tr></thead>
               <tbody role="rowgroup">
-                <tr role="row"><td data-label="출발" role="cell">효율 우선</td><td data-label="시작 모델" role="cell">Haiku 4.5</td><td data-label="맞는 일" role="cell">초기 시제품 · 지연(latency) 요구가 엄격 · 비용 민감 · 대량의 단순 작업</td><td data-label="그다음" role="cell">철저히 테스트 → 평가 → 특정 능력 격차가 있을 때만 올림</td></tr>
-                <tr role="row"><td data-label="출발" role="cell">능력 우선</td><td data-label="시작 모델" role="cell">Opus 5.5</td><td data-label="맞는 일" role="cell">복잡한 추론 · 과학·수학 · 미묘한 이해 · 정확도가 비용보다 중요 · 고급 코딩·자율성 높은 에이전트</td><td data-label="그다음" role="cell">이 모델에 맞게 프롬프트 최적화 → 평가 → effort 를 낮추거나 모델을 내림 → <code>xhigh</code>·<code>max</code> 에서도 모자라면 Fable 5.1</td></tr>
+                <tr role="row"><td data-label="출발" role="cell">효율 우선</td><td data-label="시작 모델" role="cell">Haiku 4.5</td><td data-label="맞는 일" role="cell">초기 시제품 · 지연(latency) 요구가 엄격 · 비용 민감 · 대량의 단순 작업</td><td data-label="그다음" role="cell">철저히 테스트하고 평가한다. 특정 능력 격차가 있을 때만 올린다</td></tr>
+                <tr role="row"><td data-label="출발" role="cell">능력 우선</td><td data-label="시작 모델" role="cell">Opus 5.5</td><td data-label="맞는 일" role="cell">복잡한 추론 · 과학·수학 · 미묘한 이해 · 정확도가 비용보다 중요 · 고급 코딩·자율성 높은 에이전트</td><td data-label="그다음" role="cell">이 모델에 맞게 프롬프트를 최적화하고 평가한다. 그다음 effort 를 낮추거나 모델을 내린다. <code>xhigh</code>·<code>max</code> 에서도 모자라면 Fable 5.1 로 간다</td></tr>
               </tbody>
             </table>
             </div>
-            <p><span class="lead">기본 :</span> 모르면 대부분 Opus 5.5 로 시작 · 올리기 전 effort 부터 = <a href="effort-vs-model.html">◆ effort 조정 vs 모델 교체</a></p>
+            <p>기본은 이렇다. 모르면 대부분 Opus 5.5 로 시작한다. 모델을 올리기 전에는 effort 부터 본다. 자세한 것은 <a href="effort-vs-model.html">◆ effort 조정 vs 모델 교체</a> 에 있다</p>
           </div>
         </li>
         <li id="model-selection-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p class="lead">역할표 — 공식 한 줄 설명 그대로 (2026-09-28 조회) <span class="pg">[2.1③]</span></p>
+            <p class="lead">역할표다. 역할 칸은 공식 한 줄 설명 그대로다 (2026-09-28 조회) <span class="pg">[2.1③]</span></p>
             <div class="tscroll t-wide" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">모델</th><th scope="col" role="columnheader">역할</th><th scope="col" role="columnheader">지연</th><th scope="col" role="columnheader">입력/출력 <span class="note">(백만 토큰당)</span></th><th scope="col" role="columnheader">기본 effort</th><th scope="col" role="columnheader">thinking</th><th scope="col" role="columnheader">창</th></tr></thead>
               <tbody role="rowgroup">
-                <tr role="row"><td data-label="모델" role="cell">Fable 5.1</td><td data-label="역할" role="cell">까다로운 추론 · 장기 에이전트 작업</td><td data-label="지연" role="cell">느림</td><td data-label="입력/출력 (백만 토큰당)" role="cell">$10 / $50</td><td data-label="기본 effort" role="cell"><code>high</code></td><td data-label="thinking" role="cell">adaptive 항상 켜짐</td><td data-label="창" role="cell">1M</td></tr>
-                <tr role="row"><td data-label="모델" role="cell">Opus 5.5</td><td data-label="역할" role="cell">장시간 에이전트 코딩 · 지식 작업</td><td data-label="지연" role="cell">중간</td><td data-label="입력/출력 (백만 토큰당)" role="cell">$4 / $20</td><td data-label="기본 effort" role="cell"><code>medium</code></td><td data-label="thinking" role="cell">adaptive 항상 켜짐</td><td data-label="창" role="cell">1M</td></tr>
-                <tr role="row"><td data-label="모델" role="cell">Sonnet 5</td><td data-label="역할" role="cell">속도와 지능의 최적 조합</td><td data-label="지연" role="cell">빠름</td><td data-label="입력/출력 (백만 토큰당)" role="cell">$2 / $10</td><td data-label="기본 effort" role="cell"><code>high</code></td><td data-label="thinking" role="cell">adaptive</td><td data-label="창" role="cell">1M</td></tr>
-                <tr role="row"><td data-label="모델" role="cell">Haiku 4.5</td><td data-label="역할" role="cell">가장 빠름, 최상위급에 가까운 지능</td><td data-label="지연" role="cell">가장 빠름</td><td data-label="입력/출력 (백만 토큰당)" role="cell">$1 / $5</td><td data-label="기본 effort" role="cell">미지원</td><td data-label="thinking" role="cell">extended</td><td data-label="창" role="cell">200K</td></tr>
+                <tr role="row"><td data-label="모델" role="cell">Fable 5.1</td><td data-label="역할" role="cell">까다로운 추론 · 장기 에이전트 작업</td><td data-label="지연" role="cell">느리다</td><td data-label="입력/출력 (백만 토큰당)" role="cell">$10 / $50</td><td data-label="기본 effort" role="cell"><code>high</code></td><td data-label="thinking" role="cell">adaptive <span class="note">(항상 켜져 있다)</span></td><td data-label="창" role="cell">1M</td></tr>
+                <tr role="row"><td data-label="모델" role="cell">Opus 5.5</td><td data-label="역할" role="cell">장시간 에이전트 코딩 · 지식 작업</td><td data-label="지연" role="cell">중간</td><td data-label="입력/출력 (백만 토큰당)" role="cell">$4 / $20</td><td data-label="기본 effort" role="cell"><code>medium</code></td><td data-label="thinking" role="cell">adaptive <span class="note">(항상 켜져 있다)</span></td><td data-label="창" role="cell">1M</td></tr>
+                <tr role="row"><td data-label="모델" role="cell">Sonnet 5</td><td data-label="역할" role="cell">속도와 지능의 최적 조합</td><td data-label="지연" role="cell">빠르다</td><td data-label="입력/출력 (백만 토큰당)" role="cell">$2 / $10</td><td data-label="기본 effort" role="cell"><code>high</code></td><td data-label="thinking" role="cell">adaptive</td><td data-label="창" role="cell">1M</td></tr>
+                <tr role="row"><td data-label="모델" role="cell">Haiku 4.5</td><td data-label="역할" role="cell">가장 빠름, 최상위급에 가까운 지능</td><td data-label="지연" role="cell">가장 빠르다</td><td data-label="입력/출력 (백만 토큰당)" role="cell">$1 / $5</td><td data-label="기본 effort" role="cell">미지원</td><td data-label="thinking" role="cell">extended</td><td data-label="창" role="cell">200K</td></tr>
               </tbody>
             </table>
             </div>
-            <p>비용·능력 낮은 순 = Haiku 4.5 → Sonnet 5 → Opus 5.5 → Fable 5.1. 단가 비율 1:2:4:10 <span class="calc">계산</span></p>
-            <p><span class="post">시험 뒤 변경</span> <span class="note">Opus 5 2026-07-24 · Fable 5.1 2026-09-01 · Opus 5.5 2026-09-22 출시 · Sonnet 5 $2/$10 정가 확정 2026-08-10. 가이드(2026-07</span>는 이 이름들을 모를 수 있음 → 시험은 역할로 물을 가능성 (추론))</p>
-            <p>캐시·배치·토크나이저까지 넣은 건당 비용 = <a href="cost-per-request.html">■ per-request cost</a> · 속도 lever(조절 수단) = <a href="latency-levers.html">■ 지연 줄이기 lever</a></p>
+            <p>비용과 능력이 낮은 순서는 Haiku 4.5, Sonnet 5, Opus 5.5, Fable 5.1 이다</p>
+            <p>단가 비율은 1:2:4:10 이다 <span class="calc">계산</span></p>
+            <p><span class="post">시험 뒤 변경</span> <span class="note">Opus 5 는 2026-07-24, Fable 5.1 은 2026-09-01, Opus 5.5 는 2026-09-22 에 출시됐다. Sonnet 5 $2/$10 정가는 2026-08-10 에 확정됐다. 가이드(2026-07</span>는 이 이름들을 모를 수 있다. 그래서 시험은 역할로 물을 가능성이 있다 (추론))</p>
+            <p>캐시·배치·토크나이저까지 넣은 건당 비용은 <a href="cost-per-request.html">■ per-request cost</a> 에 있다. 속도 lever(조절 수단)는 <a href="latency-levers.html">■ 지연 줄이기 lever</a> 에 있다</p>
           </div>
         </li>
         <li id="model-selection-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p>보기에 모델명·단가가 섞여 나옴 → 숫자 말고 역할로 구분 — 빠르고 싼 모델 ↔ 능력 높은 모델 <span class="gen">업계 일반</span> <span class="note">시험 요령</span>. 문항이 모델을 적으면 그 모델의 기능·제약으로 풀기 — 예 Haiku 4.5 = effort 미지원 · extended thinking · 창 200K. thinking(사고) 제어 차이 = <a href="thinking-controls.html">■ 모델별 thinking 제어</a> <span class="pg">[2.1③]</span></p>
-            <p>단가를 계산해야 하면 토큰당이 아니라 완료된 과제당 비용으로 비교. 강한 모델은 턴·검색·되짚기가 적어 토큰당 더 비싼 단가를 상쇄하기도 함</p>
-            <p><span class="lead">예 :</span> Fable 5.1 <code>low</code> = 88.6% · 해결당 $0.54 vs Sonnet 5 기본 = 77.4% · $0.84 — 토큰당 5배 비싼데 해결당 35% 쌈 (Anthropic 내부 측정, 방향성). 순위는 워크로드마다 뒤집힘</p>
+            <p>보기에 모델명과 단가가 섞여 나오면 숫자 말고 역할로 구분한다. 빠르고 싼 모델인가, 능력 높은 모델인가로 본다 <span class="gen">업계 일반</span> <span class="note">시험 요령</span> <span class="pg">[2.1③]</span></p>
+            <p>문항이 모델을 적으면 그 모델의 기능과 제약으로 푼다. 예를 들어 Haiku 4.5 는 effort 를 지원하지 않고, extended thinking 을 쓰고, 창이 200K 다</p>
+            <p>thinking(사고) 제어 차이는 <a href="thinking-controls.html">■ 모델별 thinking 제어</a> 에 있다</p>
+            <p>단가를 계산해야 하면 토큰당이 아니라 완료된 과제당 비용으로 비교한다. 강한 모델은 턴·검색·되짚기가 적어 토큰당 더 비싼 단가를 상쇄하기도 한다</p>
+            <p>예를 들어 Fable 5.1 <code>low</code> 는 88.6% 에 해결당 $0.54 다. Sonnet 5 기본은 77.4% 에 $0.84 다. 앞의 모델이 토큰당 5배 비싼데 해결당 35% 싸다 (Anthropic 내부 측정, 방향성). 순위는 워크로드마다 뒤집힌다</p>
           </div>
         </li>
       </ol>
@@ -556,14 +571,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">복잡 추론(reasoning) · 과학·수학 · 미묘한 이해 · 정확도가 비용보다 중요 · 고급 코딩·자율성 높은 에이전트</td><td data-label="답" role="cell">능력 우선 : Opus 5.5 로 시작 → effort 낮추기·모델 내리기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a> en-2026-09-28 "For complex tasks where intelligence and advanced capabilities are paramount, you may want to start capability-first"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">초기 시제품 · 지연(latency) 요구 엄격 · 비용 민감 · 대량의 단순 작업</td><td data-label="답" role="cell">효율 우선 : Haiku 4.5 로 시작 → 특정 능력 격차가 있을 때만 올림</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">같은 글 "Upgrade only if necessary for specific capability gaps."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">뚜렷한 기준이 없음</td><td data-label="답" role="cell">Opus 5.5 로 시작</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">같은 글 "Most workloads start with Claude Opus 5.5." · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/overview" lang="en" rel="noopener">models overview</a> en-2026-09-28-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Opus 5.5 를 <code>xhigh</code>·<code>max</code> 로 돌려도 까다로운 추론·장기 에이전트 작업에서 모자람</td><td data-label="답" role="cell">Fable 5.1</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">출력을 검사할 수 있는 대량 작업</td><td data-label="답" role="cell">Haiku 4.5 가 맞음 · 긴 에이전트 루프엔 안 맞음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing-cost-intelligence</a> "It fits high-volume work with checkable outputs, not long agentic loops."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">모델 둘을 비교</td><td data-label="답" role="cell">완료된 과제당 비용 · 가장 어려운 10% 로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">모델을 바꿀지</td><td data-label="답" role="cell">사용 사례 벤치마크 → 실제 프롬프트·데이터 → 정확도·품질·엣지 케이스 → 성능·비용 저울질</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">문항이 특정 모델을 적음</td><td data-label="답" role="cell">그 모델의 기능·제약으로 풀기</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> (시험 요령) — 기능 값 자체는 확인</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/overview" lang="en" rel="noopener">models overview</a> full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">복잡 추론(reasoning) · 과학·수학 · 미묘한 이해 · 정확도가 비용보다 중요 · 고급 코딩·자율성 높은 에이전트</td><td data-label="답" role="cell">능력 우선이다. Opus 5.5 로 시작하고, effort 를 낮추거나 모델을 내린다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a> en-2026-09-28 "For complex tasks where intelligence and advanced capabilities are paramount, you may want to start capability-first"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">초기 시제품 · 지연(latency) 요구 엄격 · 비용 민감 · 대량의 단순 작업</td><td data-label="답" role="cell">효율 우선이다. Haiku 4.5 로 시작하고, 특정 능력 격차가 있을 때만 올린다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">같은 글 "Upgrade only if necessary for specific capability gaps."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">뚜렷한 기준이 없다</td><td data-label="답" role="cell">Opus 5.5 로 시작한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">같은 글 "Most workloads start with Claude Opus 5.5." · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/overview" lang="en" rel="noopener">models overview</a> en-2026-09-28-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Opus 5.5 를 <code>xhigh</code>·<code>max</code> 로 돌려도 까다로운 추론·장기 에이전트 작업에서 모자란다</td><td data-label="답" role="cell">Fable 5.1 로 간다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">출력을 검사할 수 있는 대량 작업이다</td><td data-label="답" role="cell">Haiku 4.5 가 맞다. 긴 에이전트 루프에는 맞지 않는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing-cost-intelligence</a> "It fits high-volume work with checkable outputs, not long agentic loops."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">모델 둘을 비교한다</td><td data-label="답" role="cell">완료된 과제당 비용으로, 가장 어려운 10% 로 비교한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">모델을 바꿀지 정한다</td><td data-label="답" role="cell">사용 사례 벤치마크, 실제 프롬프트·데이터, 정확도·품질·엣지 케이스 순서로 본다. 끝으로 성능과 비용을 저울질한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">문항이 특정 모델을 적었다</td><td data-label="답" role="cell">그 모델의 기능과 제약으로 푼다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> (시험 요령) — 기능 값 자체는 확인</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/overview" lang="en" rel="noopener">models overview</a> full</td></tr>
   </tbody>
 </table>
 </div>
@@ -574,16 +589,16 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">정확도 vs 비용</td><td data-label="값" role="cell">정확도가 비용보다 중요</td><td data-label="답 쪽" role="cell">능력 우선 (Opus 5.5)</td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">지연 요구</td><td data-label="값" role="cell">실시간 · 엄격</td><td data-label="답 쪽" role="cell">Haiku 4.5 (가장 빠름)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a> · overview full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">지연 요구</td><td data-label="값" role="cell">엄격한데 품질 여유 없음 · 돈은 있음</td><td data-label="답 쪽" role="cell">fast mode (Opus 5.5·5·4.8, 출력 속도 최대 2.5배, 웃돈) → ■ 지연 줄이기 lever</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">한 요청 입력 크기</td><td data-label="값" role="cell">20만 토큰 넘음</td><td data-label="답 쪽" role="cell">Haiku 4.5 는 빠짐 (창 200K, 나머지 1M)</td><td data-label="근거" role="cell">overview full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">작업 길이</td><td data-label="값" role="cell">수 시간짜리 에이전트 세션 · 다단계 심층 리서치</td><td data-label="답 쪽" role="cell">Fable 5.1 고려</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">정확도 vs 비용</td><td data-label="값" role="cell">정확도가 비용보다 중요하다</td><td data-label="답 쪽" role="cell">능력 우선 (Opus 5.5)</td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">지연 요구</td><td data-label="값" role="cell">실시간이고 엄격하다</td><td data-label="답 쪽" role="cell">Haiku 4.5 (가장 빠르다)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a> · overview full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">지연 요구</td><td data-label="값" role="cell">엄격한데 품질 여유가 없다. 돈은 있다</td><td data-label="답 쪽" role="cell">fast mode 를 쓴다 (Opus 5.5·5·4.8, 출력 속도 최대 2.5배, 웃돈). 자세한 것은 ■ 지연 줄이기 lever 에 있다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">한 요청 입력 크기</td><td data-label="값" role="cell">20만 토큰을 넘는다</td><td data-label="답 쪽" role="cell">Haiku 4.5 는 빠진다 (창 200K, 나머지는 1M)</td><td data-label="근거" role="cell">overview full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">작업 길이</td><td data-label="값" role="cell">수 시간짜리 에이전트 세션 · 다단계 심층 리서치</td><td data-label="답 쪽" role="cell">Fable 5.1 을 고려한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">작업 길이</td><td data-label="값" role="cell">수 시간 자율 코딩 · 대규모 리팩터링 · 컴퓨터 사용</td><td data-label="답 쪽" role="cell">Opus 5.5</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">작업 성격</td><td data-label="값" role="cell">일상 코딩 · 데이터 분석 · 콘텐츠 · 에이전트 도구 사용</td><td data-label="답 쪽" role="cell">Sonnet 5</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">출력 검증</td><td data-label="값" role="cell">테스트·검증기 있음</td><td data-label="답 쪽" role="cell">싼 모델·낮은 effort 쪽이 설 자리가 있음 (실패만 재실행 = ◆ effort 조정 vs 모델 교체)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">출력 검증</td><td data-label="값" role="cell">테스트·검증기가 있다</td><td data-label="답 쪽" role="cell">싼 모델과 낮은 effort 쪽이 설 자리가 있다 (실패만 재실행은 ◆ effort 조정 vs 모델 교체 에 있다)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">개발 단계</td><td data-label="값" role="cell">초기 시제품</td><td data-label="답 쪽" role="cell">효율 우선</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">입력이 쪽수·글자로만 주어짐</td><td data-label="값" role="cell">새 토크나이저 모델</td><td data-label="답 쪽" role="cell">같은 글이 약 30% 더 많은 토큰</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a> en-2026-09-28</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">입력이 쪽수·글자로만 주어진다</td><td data-label="값" role="cell">새 토크나이저 모델이다</td><td data-label="답 쪽" role="cell">같은 글이 약 30% 더 많은 토큰이 된다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a> en-2026-09-28</td></tr>
   </tbody>
 </table>
 </div>
@@ -599,13 +614,13 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"평가를 통과하는 가장 싼 모델(Haiku)부터만 시작" → 출발법은 둘. 정확도 우선 · 복잡 추론이면 Opus 5.5 부터</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"안전하게 무조건 최상위(Fable 5.1)" → Fable 5.1 은 Opus 5.5 를 <code>xhigh</code>·<code>max</code> 로 돌려도 모자랄 때</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"과제와 상관없이 제일 작은 모델로" → 품질 위험 (샘플 2 B)</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>토큰 단가로 암산해 "싼 모델이 싸다" → 완료된 과제당 비용으로 비교</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Sonnet $3/$15" → Sonnet 4.6·4.5 가격. Sonnet 5 는 $2/$10 (2026-09-28 조회) · Opus 4.8 · Fable 5 는 옛 모델(legacy)</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Haiku 4.5 문항에 "effort 를 낮춘다" 보기 → Haiku 4.5 는 effort 미지원</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Haiku 4.5 에 1M 토큰 넣기 → 창 200K</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"평가를 통과하는 가장 싼 모델(Haiku)부터만 시작한다" 는 함정이다. 출발법은 둘이다. 정확도가 먼저이거나 복잡 추론이면 Opus 5.5 부터 시작한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"안전하게 무조건 최상위(Fable 5.1)" 는 함정이다. Fable 5.1 은 Opus 5.5 를 <code>xhigh</code>·<code>max</code> 로 돌려도 모자랄 때 쓴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"과제와 상관없이 제일 작은 모델로" 는 함정이다. 품질 위험이 있다 (샘플 2 B)</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>토큰 단가로 암산해 "싼 모델이 싸다" 고 보는 것은 함정이다. 완료된 과제당 비용으로 비교한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Sonnet $3/$15" 는 함정이다. 이것은 Sonnet 4.6·4.5 가격이다. Sonnet 5 는 $2/$10 이다 (2026-09-28 조회). Opus 4.8 과 Fable 5 는 옛 모델(legacy)이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Haiku 4.5 문항에서 "effort 를 낮춘다" 보기는 함정이다. Haiku 4.5 는 effort 를 지원하지 않는다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Haiku 4.5 에 1M 토큰을 넣는 것은 함정이다. 창이 200K 다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -629,36 +644,36 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 토큰당 싼 모델이 해결당 비쌀 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 싼 모델이 과제당 토큰을 더 쓰고 더 자주 실패함.</li>
-<li><span class="lead">식 :</span> 해결당 비용 = (토큰당 가격 × 시도당 토큰) ÷ 성공률 (실패하면 같은 값으로 다시 시도한다고 봄).</li>
-<li><span class="lead">예 :</span> Sonnet 5 단가를 1, Opus 5.5 를 2 로 둠(입력·출력 모두 2배, 2026-09-28 조회). Sonnet 5 가 시도당 토큰 1.5배 · 성공률 60%, Opus 5.5 가 1배 · 90% 라면 → Sonnet 5 = 1 × 1.5 ÷ 0.6 = 2.5, Opus 5.5 = 2 × 1 ÷ 0.9 ≈ 2.2. 토큰당 절반 단가인 Sonnet 5 가 해결당 약 13% 더 비쌈.</li>
-<li><span class="lead">손익 :</span> Sonnet 5 의 (시도당 토큰 ÷ 성공률) 이 Opus 5.5 의 2배를 넘으면 뒤집힘.</li>
-<li><span class="lead">전제 :</span> 입력·출력 비율 같음 · 캐시 무시 · 실패가 뒤에 부르는 비용은 뺌. 숫자는 가정.</li>
-<li>공식 측정 예(확인) : Fable 5.1 <code>low</code> 가 Sonnet 5 기본보다 토큰당 5배 비싼데 해결당 35% 쌌음 (optimizing). 단 긴 연구 루프에선 반대로 Fable 5.1 이 과제당 약 4배 (같은 줄).</li>
+<li><span class="lead">조건 :</span> 싼 모델이 과제당 토큰을 더 쓰고 더 자주 실패한다.</li>
+<li><span class="lead">식 :</span> 해결당 비용 = (토큰당 가격 × 시도당 토큰) ÷ 성공률 이다. 실패하면 같은 값으로 다시 시도한다고 본다.</li>
+<li><span class="lead">예 :</span> Sonnet 5 단가를 1, Opus 5.5 를 2 로 둔다(입력·출력 모두 2배, 2026-09-28 조회). Sonnet 5 가 시도당 토큰 1.5배에 성공률 60% 이고, Opus 5.5 가 1배에 90% 라고 하자. 그러면 Sonnet 5 = 1 × 1.5 ÷ 0.6 = 2.5 이고, Opus 5.5 = 2 × 1 ÷ 0.9 ≈ 2.2 다. 토큰당 절반 단가인 Sonnet 5 가 해결당 약 13% 더 비싸다.</li>
+<li><span class="lead">손익 :</span> Sonnet 5 의 (시도당 토큰 ÷ 성공률) 이 Opus 5.5 의 2배를 넘으면 뒤집힌다.</li>
+<li><span class="lead">전제 :</span> 입력·출력 비율이 같다고 본다. 캐시는 무시한다. 실패가 뒤에 부르는 비용은 뺀다. 숫자는 가정이다.</li>
+<li>공식 측정 예(확인) : Fable 5.1 <code>low</code> 가 Sonnet 5 기본보다 토큰당 5배 비싼데 해결당 35% 쌌다 (optimizing). 단 긴 연구 루프에서는 반대로 Fable 5.1 이 과제당 약 4배였다 (같은 줄).</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (측정 예는 확인)</li>
 </ul>
 <h4>2. 캐시 읽기가 대부분인 루프에선 단가 비율이 줄어듦</h4>
 <ul>
-<li><span class="lead">조건 :</span> 에이전트 루프처럼 입력 대부분이 캐시 읽기.</li>
-<li><span class="lead">사실 :</span> 캐시 읽기 단가가 Opus 5.5 = $4 × 0.05 = $0.20, Sonnet 5 = $2 × 0.1 = $0.20 로 같음 (2026-09-28 조회).</li>
-<li><span class="lead">계산 :</span> 한 턴 = 캐시 읽기 12만 + 새 입력 3천 + 출력 1천 5백. Sonnet 5 = 0.12 × $0.20 + 0.003 × $2 + 0.0015 × $10 = $0.024 + $0.006 + $0.015 = $0.045. Opus 5.5 = $0.024 + $0.012 + $0.030 = $0.066. 표 단가는 2배인데 이 턴은 약 1.47배.</li>
-<li><span class="lead">전제 :</span> 새 입력의 캐시 쓰기 할증(1.25배)은 뺌 · 두 모델 턴 수 같다고 봄. 턴 수가 줄면 더 좁혀짐.</li>
+<li><span class="lead">조건 :</span> 에이전트 루프처럼 입력 대부분이 캐시 읽기다.</li>
+<li><span class="lead">사실 :</span> 캐시 읽기 단가는 Opus 5.5 = $4 × 0.05 = $0.20, Sonnet 5 = $2 × 0.1 = $0.20 로 같다 (2026-09-28 조회).</li>
+<li><span class="lead">계산 :</span> 한 턴은 캐시 읽기 12만 + 새 입력 3천 + 출력 1천 5백이다. Sonnet 5 = 0.12 × $0.20 + 0.003 × $2 + 0.0015 × $10 = $0.024 + $0.006 + $0.015 = $0.045 다. Opus 5.5 = $0.024 + $0.012 + $0.030 = $0.066 이다. 표 단가는 2배인데 이 턴은 약 1.47배다.</li>
+<li><span class="lead">전제 :</span> 새 입력의 캐시 쓰기 할증(1.25배)은 뺀다. 두 모델의 턴 수가 같다고 본다. 턴 수가 줄면 차이가 더 좁혀진다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (단가·배수는 확인)</li>
 <li><span class="lead">근거 :</span> pricing en-2026-09-28</li>
-<li><span class="post">시험 뒤 변경</span> Opus 5.5 읽기 0.05배는 2026-09-22 출시 값. 시험은 0.1배로 물을 가능성.</li>
+<li><span class="post">시험 뒤 변경</span> Opus 5.5 읽기 0.05배는 2026-09-22 출시 값이다. 시험은 0.1배로 물을 가능성이 있다.</li>
 </ul>
 <h4>3. 효율 우선인데 긴 에이전트 루프</h4>
 <ul>
-<li><span class="lead">조건 :</span> 비용 민감이라 Haiku 4.5 로 시작하려는데 일이 긴 에이전트 루프.</li>
-<li><span class="lead">판단 :</span> 공식은 Haiku 4.5 를 "출력을 검사할 수 있는 대량 작업"용으로 두고 긴 에이전트 루프엔 안 맞는다고 씀. 이 경우 "효율 우선"이라는 말만 보고 Haiku 를 고르면 틀림.</li>
+<li><span class="lead">조건 :</span> 비용에 민감해 Haiku 4.5 로 시작하려 한다. 그런데 일이 긴 에이전트 루프다.</li>
+<li><span class="lead">판단 :</span> 공식은 Haiku 4.5 를 "출력을 검사할 수 있는 대량 작업"용으로 두고, 긴 에이전트 루프에는 맞지 않는다고 쓴다. 이 경우 "효율 우선"이라는 말만 보고 Haiku 를 고르면 틀린다.</li>
 
 <li><span class="lead">근거 :</span> optimizing</li>
 </ul>
 <h4>4. 가이드 시점의 이름</h4>
 <ul>
-<li><span class="lead">조건 :</span> 가이드는 2026-07 판인데 Opus 5.5(2026-09-22)·Fable 5.1(2026-09-01)은 그 뒤 출시.</li>
-<li><span class="lead">판단 :</span> 시험 보기가 옛 이름(예 Opus 4.8·Fable 5)을 쓸 수 있음 → 이름이 아니라 역할(가장 빠르고 싼 · 균형 · 강한 · 최상위)과 출발법으로 풀기.</li>
-<li><span class="lead">등급 :</span> <span class="open">미해결</span> (가이드 시점 choosing-a-model 판을 못 봄)</li>
+<li><span class="lead">조건 :</span> 가이드는 2026-07 판이다. Opus 5.5(2026-09-22)와 Fable 5.1(2026-09-01)은 그 뒤에 출시됐다.</li>
+<li><span class="lead">판단 :</span> 시험 보기가 옛 이름(예 Opus 4.8·Fable 5)을 쓸 수 있다. 그래서 이름이 아니라 역할과 출발법으로 푼다. 역할은 가장 빠르고 싼 모델, 균형 모델, 강한 모델, 최상위 모델로 나눈다.</li>
+<li><span class="lead">등급 :</span> <span class="open">미해결</span> (가이드 시점의 choosing-a-model 판을 못 봤다)</li>
 <li><span class="lead">근거 :</span> 릴리스 노트</li>
 </ul>
 </section>
@@ -668,23 +683,25 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"평가를 통과하는 가장 싼 모델(Haiku)부터 시작해 실패할 때만 올린다" (어떤 일이든)</td><td data-label="왜 끌리나" role="cell">공식 효율 우선 길과 문장이 같음</td><td data-label="왜 틀리나" role="cell">출발법은 둘. 정확도가 비용보다 중요한 복잡 추론이면 Opus 5.5 부터</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"안전하게 최상위 Fable 5.1 로"</td><td data-label="왜 끌리나" role="cell">가장 정확할 것 같음</td><td data-label="왜 틀리나" role="cell">Opus 5.5 를 <code>xhigh</code>·<code>max</code> 로 돌려도 모자랄 때만. 코딩 측정에선 Opus 5.5 기본이 같은 점수를 약 5분의 1 비용에</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a> · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"과제와 상관없이 제일 작은 모델로"</td><td data-label="왜 끌리나" role="cell">비용이 바로 줄어 보임</td><td data-label="왜 틀리나" role="cell">품질 위험 (공식 샘플 2 B)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설 "downsizing blindly (B) risks quality"</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Sonnet $3/$15 라 비용 40%" 처럼 단가로 암산</td><td data-label="왜 끌리나" role="cell">숫자라 정확해 보임</td><td data-label="왜 틀리나" role="cell">$3/$15 는 Sonnet 4.6·4.5 가격(Sonnet 5 = $2/$10). 그리고 비교는 과제당</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a> en-2026-09-28 · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Opus 4.8 이 최상위 Opus · Fable 5 가 최고 등급"</td><td data-label="왜 끌리나" role="cell">영상이 그렇게 말함(목록 인용)</td><td data-label="왜 틀리나" role="cell">둘 다 옛 모델(legacy). 현행 = Opus 5.5 · Fable 5.1</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"등급 단가 비율 1:3:5:10"</td><td data-label="왜 끌리나" role="cell">영상 비율(목록 인용)</td><td data-label="왜 틀리나" role="cell">현행 입력 단가 $1·$2·$4·$10 = 1:2:4:10</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">overview full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Haiku 4.5 에 1M 토큰 문서를 통째로"</td><td data-label="왜 끌리나" role="cell">현행 모델 대부분이 1M</td><td data-label="왜 틀리나" role="cell">Haiku 4.5 창 = 200K</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"모델을 바꾸는 보기는 늘 오답"</td><td data-label="왜 끌리나" role="cell">CCA-F 에선 모델 교체가 오답 보기였음</td><td data-label="왜 틀리나" role="cell">CCAR-P 는 모델 선택 자체가 목표 2.1. eval 로 확인하면 맞는 답일 수 있음</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 2.1</a> · CCA-F 가이드 문제 35·52</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"평가를 통과하는 가장 싼 모델(Haiku)부터 시작해 실패할 때만 올린다" (어떤 일이든)</td><td data-label="왜 끌리나" role="cell">공식 효율 우선 길과 문장이 같다</td><td data-label="왜 틀리나" role="cell">출발법은 둘이다. 정확도가 비용보다 중요한 복잡 추론이면 Opus 5.5 부터 시작한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"안전하게 최상위 Fable 5.1 로"</td><td data-label="왜 끌리나" role="cell">가장 정확할 것 같다</td><td data-label="왜 틀리나" role="cell">Opus 5.5 를 <code>xhigh</code>·<code>max</code> 로 돌려도 모자랄 때만 쓴다. 코딩 측정에서는 Opus 5.5 기본이 같은 점수를 약 5분의 1 비용에 냈다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model" lang="en" rel="noopener">choosing-a-model</a> · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"과제와 상관없이 제일 작은 모델로"</td><td data-label="왜 끌리나" role="cell">비용이 바로 줄어 보인다</td><td data-label="왜 틀리나" role="cell">품질 위험이 있다 (공식 샘플 2 B)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설 "downsizing blindly (B) risks quality"</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Sonnet $3/$15 라 비용 40%" 처럼 단가로 암산</td><td data-label="왜 끌리나" role="cell">숫자라 정확해 보인다</td><td data-label="왜 틀리나" role="cell">$3/$15 는 Sonnet 4.6·4.5 가격이다(Sonnet 5 = $2/$10). 그리고 비교는 과제당으로 한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/pricing" lang="en" rel="noopener">pricing</a> en-2026-09-28 · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Opus 4.8 이 최상위 Opus · Fable 5 가 최고 등급"</td><td data-label="왜 끌리나" role="cell">영상이 그렇게 말했다(목록 인용)</td><td data-label="왜 틀리나" role="cell">둘 다 옛 모델(legacy)이다. 현행은 Opus 5.5 와 Fable 5.1 이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"등급 단가 비율 1:3:5:10"</td><td data-label="왜 끌리나" role="cell">영상 비율이다(목록 인용)</td><td data-label="왜 틀리나" role="cell">현행 입력 단가 $1·$2·$4·$10 은 1:2:4:10 이다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">overview full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Haiku 4.5 에 1M 토큰 문서를 통째로"</td><td data-label="왜 끌리나" role="cell">현행 모델 대부분이 1M 이다</td><td data-label="왜 틀리나" role="cell">Haiku 4.5 창은 200K 다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모델을 바꾸는 보기는 늘 오답"</td><td data-label="왜 끌리나" role="cell">CCA-F 에서는 모델 교체가 오답 보기였다</td><td data-label="왜 틀리나" role="cell">CCAR-P 는 모델 선택 자체가 목표 2.1 이다. eval 로 확인하면 맞는 답일 수 있다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 2.1</a> · CCA-F 가이드 문제 35·52</td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="model-selection-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : CCA-F · 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>CCA-F</h3>
-      <p>겹침 — CCA-F 는 모델 교체를 주로 **오답 보기**로 냈음(Skill 에 <code>model: haiku</code> · 복잡한 케이스를 Haiku→Sonnet 으로 라우팅 — CCA-F 가이드 문제 35·52). 여기선 출발 모델 · 역할 · 문항에 적힌 모델명을 **설계 판단**으로 물음</p>
+      <p>겹침. CCA-F 는 모델 교체를 주로 **오답 보기**로 냈다(Skill 에 <code>model: haiku</code> · 복잡한 케이스를 Haiku 에서 Sonnet 으로 라우팅, CCA-F 가이드 문제 35·52). 여기서는 출발 모델, 역할, 문항에 적힌 모델명을 **설계 판단**으로 묻는다</p>
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 2.1</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -706,14 +723,15 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>목록 2.1③ 의 "시험 가이드 v1.0 에는 모델 이름·가격이 한 줄도 없다" — 받아 둔 가이드 원문은 6~7쪽(<code>ccarp/raw/official/sample-questions-p6-7.txt</code>)뿐이라 전체는 확인 못 함. 그 두 쪽(목표 7 · 준비 · 샘플 3문항)엔 모델 이름·가격 없음(확인). 준비 항목에 "model selection" 연습은 있음.</li>
-<li>가이드(2026-07) 시점의 공식 출발 권고가 무엇이었는지 모름 → 시험 키가 "Opus 5.5" 가 아닌 옛 이름일 수 있음 (뒤집히는 때 4).</li>
-<li>Haiku 4.5 최소 지원 기한 = 2026-10-15 (overview full). 효율 우선의 공식 예시 모델이 곧 바뀔 수 있음.</li>
-<li>"문항에 모델명이 있으면 그 모델 기준" 은 공식 문장이 아니라 시험 요령(업계 일반).</li>
-<li>과제당 비용 수치는 Anthropic 내부 벤치마크 · 방향성이지 보장 아님 (optimizing "directional, not guarantees").</li>
-<li>목록 영어 신호 3개("Most workloads start…" · "For complex tasks…" · "Upgrade only if necessary…")는 원문에서 모두 찾음 — 못 찾은 인용 없음.</li>
+<li>목록 2.1③ 은 "시험 가이드 v1.0 에는 모델 이름·가격이 한 줄도 없다" 고 했다. 받아 둔 가이드 원문은 6~7쪽(<code>ccarp/raw/official/sample-questions-p6-7.txt</code>)뿐이라 전체는 확인하지 못했다. 그 두 쪽(목표 7 · 준비 · 샘플 3문항)에는 모델 이름과 가격이 없다(확인). 준비 항목에 "model selection" 연습은 있다.</li>
+<li>가이드(2026-07) 시점의 공식 출발 권고가 무엇이었는지 모른다. 그래서 시험 키가 "Opus 5.5" 가 아닌 옛 이름일 수 있다 (뒤집히는 때 4).</li>
+<li>Haiku 4.5 최소 지원 기한은 2026-10-15 다 (overview full). 효율 우선의 공식 예시 모델이 곧 바뀔 수 있다.</li>
+<li>"문항에 모델명이 있으면 그 모델 기준" 은 공식 문장이 아니라 시험 요령이다(업계 일반).</li>
+<li>과제당 비용 수치는 Anthropic 내부 벤치마크이고 방향성이지 보장이 아니다 (optimizing "directional, not guarantees").</li>
+<li>목록 영어 신호 3개("Most workloads start…" · "For complex tasks…" · "Upgrade only if necessary…")는 원문에서 모두 찾았다. 못 찾은 인용은 없다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

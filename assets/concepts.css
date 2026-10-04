@@ -280,10 +280,10 @@ p.st-dh { margin: 0; padding: 8px 8px 0 calc(1.1em + 8px); color: var(--ink2); }
      남는 폭(main 안쪽 폭 = 100cqi)만큼 양쪽으로 똑같이 넓어져 최대 --wide — 좌우 여백 = (글 칸 폭 − 그림 폭) / 2 (음수)라
      그림 가운데 = 글 칸 가운데. 그림의 부모 왼쪽 = 글 칸 왼쪽이어야 성립 (카드 · 설명 절은 여백 없는 블록 안).
      main = 크기 질의 컨테이너 (문서 : MDN container query length units — cqi = 가장 가까운 조상 질의 컨테이너 inline 크기의 1%).
-     세로 나무(is-deep)는 글 줄이 길어져 넓히지 않는다 */
+     갈림길 나무는 갈래 줄(2026-10-04)이 글 줄이라 넓히지 않는다 */
   .shell main { container: shell-main / inline-size; }
   .shell main figure.v3-img { --wide: 1200px; }  /* 정리 그림 원본 폭 — 그보다 늘리면 흐려짐 */
-  .shell main :is(figure.fl, figure.vx, figure.v3-img, .rpx, .tree:has(> .tree-body:not(.is-deep))) {
+  .shell main :is(figure.fl, figure.vx, figure.v3-img, .rpx) {
     width: min(var(--wide), 100cqi); max-width: none;
     margin-inline: calc((min(var(--measure), 100cqi) - min(var(--wide), 100cqi)) / 2);
   }
@@ -610,50 +610,46 @@ dl.meta { row-gap: 2px; font-family: var(--sans); font-size: 15px; line-height: 
   transition: background-color 0.12s, color 0.12s;
 }
 .t5-pp:active, .fl-sb:active, .fl-play:active, .csx-ctl button:active, .t5-go:active, .rpx-go:active, .rpx-rerun:active, .rpx-pick:active { background: var(--sky); }
-.tree-body { container-type: inline-size; padding: 6px; font-family: var(--sans); font-size: 16px; line-height: 1.5; }
-.t5-q {
-  position: relative; max-width: 26em; margin: 0 auto; padding: 10px 16px;
-  border: 2px solid var(--flow); background: var(--sheet); text-align: center; font-weight: 600; line-height: 1.5;
+/* 갈림길 = 갈래 줄 (2026-10-04 사용자 "이 부분 어떻게 못하니 — 모양을 바꿔도 되고") : 물음 = 상자 없는 굵은 글,
+   갈래마다 한 줄 — 왼쪽 칸 = 고르는 조건(갈래), 오른쪽 칸 = 그 결과(답 상자 · 다음 물음 · 다른 갈림길로).
+   옛 모양(가로 조직도 · 세로 가지)은 물음 · 갈래 · 답이 모두 굵은 테두리 상자라 무게가 같았고, 고르는 조건인 갈래가 가장 작은
+   딱지였으며, 갈래 딱지와 그 결과가 다른 줄로 떨어져 있었다. 가로 · 세로 두 모양을 이 한 모양으로 합친다 —
+   is-deep(생성기) · data-auto-deep(concepts.js fitTree)은 그대로 붙지만 모양은 같고, 갈래(fork)가 grid 가 아니라
+   evenLeaves(답 상자 높이 맞춤)는 건너뛴다. 경로 따라가기 강조(.t5-hl)는 물음 · 갈래 · 답 요소에 그대로 걸린다. */
+.tree-body { container-type: inline-size; padding: 6px 8px; font-family: var(--sans); font-size: 16px; line-height: 1.55; }  /* 옆 8px = 경로 강조(.t5-hl inset −6px)가 나무 밖으로 안 나가게 */
+.t5-q { position: relative; padding: 2px 0; font-size: 17px; font-weight: 600; line-height: 1.5; }
+.t5-sub { display: block; margin-top: 2px; font-size: 14px; font-weight: 400; color: var(--muted); }
+.t5-fork { margin-top: 10px; border-top: 1px solid var(--rule); }
+.t5-arm {
+  position: relative; display: grid; grid-template-columns: minmax(6.5em, 11em) minmax(0, 1fr);
+  column-gap: 18px; row-gap: 8px; align-items: start; padding: 12px 0; border-bottom: 1px solid var(--rule);
 }
-.t5-sub { display: block; font-size: 14px; font-weight: 400; color: var(--muted); }
-.t5-fork { position: relative; display: grid; grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr)); padding-top: 32px; }
-.t5-fork::before { content: ""; position: absolute; top: 0; left: 50%; height: 16px; border-left: 2px solid var(--ink); }
-.t5-fork::after { content: ""; position: absolute; top: 16px; left: calc(50% / var(--n, 2)); right: calc(50% / var(--n, 2)); border-top: 2px solid var(--ink); }
-.t5-arm { position: relative; display: flex; flex-direction: column; align-items: stretch; padding: 0 10px; min-width: 0; }
-.t5-arm::before { content: ""; position: absolute; top: -16px; left: 50%; height: 16px; border-left: 2px solid var(--ink); }
-.t5-arm > .t5-q { margin-bottom: 0; }
-.t5-edge {
-  position: relative; align-self: center; margin-bottom: 10px; padding: 0 0.6em;
-  font-size: 14px; font-weight: 600; line-height: 1.6; border: 1px solid var(--ink); background: var(--paper);
-}
-.t5-leaf { position: relative; border: 1px solid var(--rule); background: var(--sheet); padding: 10px 14px; line-height: 1.6; }
-.t5-leaf > * + * { margin-top: 6px; }
-.t5-ans { border: 2px solid var(--ink); background: var(--sky); }
+.t5-arm > :not(.t5-edge) { grid-column: 2; min-width: 0; }
+.t5-edge { position: relative; grid-column: 1; padding: 5px 0; font-size: 15px; font-weight: 600; line-height: 1.5; }
+.t5-edge .note { font-weight: 400; }
+/* 안쪽 갈래(다음 물음 아래) : 줄 사이만 가는 선, 마지막 줄 아래 선은 바깥 줄 선과 겹쳐 뺀다 */
+.t5-arm .t5-fork { margin-top: 8px; }
+.t5-arm .t5-arm { padding: 10px 0; }
+.t5-arm .t5-arm:last-child { border-bottom: 0; padding-bottom: 0; }
+.t5-leaf { position: relative; padding: 6px 12px 7px 14px; border-left: 4px solid var(--rule); line-height: 1.6; }
+.t5-leaf > * + * { margin-top: 4px; }
+.t5-ans { border-left-color: var(--flow); background: var(--sky); }
+.t5-ans.t5-ref { border-left-style: dashed; background: none; }
 .t5-ans-h { font-weight: 600; }
+/* 좁은 칸 : 갈래 이름이 위, 결과가 아래로 한 칸 들여 — 두 칸이 나란히 서기에 좁을 때 */
+@container (max-width: 479px) {
+  .t5-arm { grid-template-columns: minmax(0, 1fr); row-gap: 6px; }
+  .t5-edge { padding: 0; }
+  .t5-arm > :not(.t5-edge) { grid-column: 1; margin-left: 14px; }
+}
 .t5-ans .ok { color: var(--flow-strong); }
 .t5-ans .note, .t5-ans .src, .t5-ans .pg, .t5-ans .gen, .t5-ans .missing { color: var(--ink); }
 .t5-ans .gen { border-color: var(--ink); }
 .t5-ans .post { color: var(--ink); }
 .t5-hl { position: absolute; inset: -6px; border: 3px solid var(--flow); opacity: 0; pointer-events: none; }
 .t5-hl.is-lit { opacity: 1; }
-/* 지문 따라가기가 닿은 답 바로 아래의 '흐르는 모습 보기' (지문 칸 단추가 화면 위 밖일 때) */
-.t5-at { margin-top: 10px; }
-/* 좁은 나무 · is-deep(답 5개 이상 · 질문 중첩 2단 이상 · 답 4개 이상 + 중첩 = build-concepts.py render_tree,
-   배치 뒤 답 상자 140px 밑 = concepts.js fitTree) = 세로 나무 */
-@container (max-width: 639px) {
-  .t5-fork { display: block; padding: 4px 0 0 18px; margin-left: 12px; border-left: 2px solid var(--ink); }
-  .t5-fork::before, .t5-fork::after { display: none; }
-  .t5-arm { padding: 0; margin-top: 12px; }
-  .t5-arm::before { top: 12px; left: -18px; width: 14px; height: 0; border-left: 0; border-top: 2px solid var(--ink); }
-  .t5-edge { align-self: flex-start; }
-  .t5-q { margin: 0; text-align: left; }
-}
-.tree-body.is-deep .t5-fork { display: block; padding: 4px 0 0 18px; margin-left: 12px; border-left: 2px solid var(--ink); }
-.tree-body.is-deep .t5-fork::before, .tree-body.is-deep .t5-fork::after { display: none; }
-.tree-body.is-deep .t5-arm { padding: 0; margin-top: 12px; }
-.tree-body.is-deep .t5-arm::before { top: 12px; left: -18px; width: 14px; height: 0; border-left: 0; border-top: 2px solid var(--ink); }
-.tree-body.is-deep .t5-edge { align-self: flex-start; }
-.tree-body.is-deep .t5-q { margin: 0; text-align: left; }
+/* 지문 따라가기가 닿은 답 바로 아래의 '흐르는 모습 보기' (지문 칸 단추가 화면 위 밖일 때 · 답과 같은 오른쪽 칸) */
+.t5-at { margin-top: 2px; }
 
 /* 나머지 규칙 · 규칙 원문 · 함정 · 신호 · 출처 */
 .t5-rest > h2 { margin: 44px 0 16px; }

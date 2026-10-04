@@ -393,26 +393,26 @@
 <!-- /vx:figure -->
 <section class="ex-sec" id="principle" aria-labelledby="principle-h">
 <h3 id="principle-h">원리</h3>
-<p class="lead">네 가지는 "누가 무엇을 돌리나"로 갈림</p>
+<p class="lead">네 가지는 "누가 무엇을 돌리나"로 갈린다</p>
 <ul>
-<li>직접 API : 모델 호출만 받음. 도구 루프(부르고·결과 넣고·다시 부르기)를 내가 짬. SDK tool runner(베타)가 루프를 대신 돌려 줄 수도.</li>
-<li>Agent SDK : Claude Code 의 내장 도구·권한·세션·훅·서브에이전트·MCP 를 라이브러리로. 루프는 들어 있고, <strong>프로세스는 내가 운영</strong>.</li>
-<li>CLI <code>-p</code> : 같은 루프를 명령 한 줄로. 스크립트·CI/CD·Python·TS 밖 언어의 하위 프로세스.</li>
-<li>Managed Agents : 루프·도구 실행·샌드박스를 Anthropic 이 호스팅. 세션·기록·샌드박스 상태가 서버에 남음(상태 유지 설계).</li>
+<li>직접 API : 모델 호출만 받는다. 도구 루프(부르고, 결과를 넣고, 다시 부르기)는 내가 짠다. SDK tool runner(베타)가 루프를 대신 돌려 줄 수도 있다.</li>
+<li>Agent SDK : Claude Code 의 내장 도구·권한·세션·훅·서브에이전트·MCP 를 라이브러리로 쓴다. 루프는 들어 있다. <strong>프로세스는 내가 운영한다</strong>.</li>
+<li>CLI <code>-p</code> : 같은 루프를 명령 한 줄로 돌린다. 스크립트·CI/CD·Python·TS 밖 언어에서 하위 프로세스로 쓴다.</li>
+<li>Managed Agents : 루프·도구 실행·샌드박스를 Anthropic 이 호스팅한다. 세션·기록·샌드박스 상태가 서버에 남는다(상태 유지 설계).</li>
 </ul>
-<p class="lead">단순함이 먼저</p>
+<p class="lead">단순함이 먼저다</p>
 <ul>
-<li>공식은 "가장 단순한 해법부터, 필요할 때만 복잡하게". 많은 패턴이 API 직접 호출 몇 줄. 에이전트 자체가 필요 없을 수도.</li>
-<li>프레임워크는 추상화 층이 프롬프트·응답을 가려 디버깅이 어려워짐.</li>
+<li>공식은 "가장 단순한 해법부터, 필요할 때만 복잡하게" 라고 한다. 많은 패턴이 API 직접 호출 몇 줄이면 된다. 에이전트 자체가 필요 없을 수도 있다.</li>
+<li>프레임워크는 추상화 층이 프롬프트와 응답을 가린다. 그래서 디버깅이 어려워진다.</li>
 </ul>
 <p class="lead">상태 유지의 대가</p>
 <ul>
-<li>Managed Agents 는 서버에 세션을 저장 → ZDR·HIPAA BAA 대상이 아님. 규정 요구가 있으면 여기서 갈림.</li>
-<li>자체 호스팅 샌드박스는 "실행 위치"를 우리 인프라로 옮기는 것(규정 준수·데이터 상주용). ZDR 적격을 바꾼다는 문장은 없음.</li>
+<li>Managed Agents 는 서버에 세션을 저장한다. 그래서 ZDR·HIPAA BAA 대상이 아니다. 규정 요구가 있으면 여기서 갈린다.</li>
+<li>자체 호스팅 샌드박스는 "실행 위치"를 우리 인프라로 옮기는 것이다(규정 준수·데이터 상주용). 이것이 ZDR 적격을 바꾼다는 문장은 없다.</li>
 </ul>
-<p class="lead">MCP 는 연결 규격이지 보안 결정이 아님</p>
+<p class="lead">MCP 는 연결 규격이지 보안 결정이 아니다</p>
 <ul>
-<li>MCP 규격 스스로 "프로토콜 수준에서 보안 원칙을 강제할 수 없다, 구현자가 해야 한다"고 적음.</li>
+<li>MCP 규격은 스스로 "프로토콜 수준에서 보안 원칙을 강제할 수 없다. 구현자가 해야 한다"고 적는다.</li>
 </ul>
 </section>
   <h2 class="sec-h" id="integration-options-rules-h">규칙과 판단</h2>
@@ -428,21 +428,21 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-q" data-p="n3"><span class="t5-hl" aria-hidden="true"></span>ZDR·HIPAA BAA 필요?</div>
+          <div class="t5-q" data-p="n3"><span class="t5-hl" aria-hidden="true"></span>ZDR·HIPAA BAA 가 필요한가?</div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-              <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Managed Agents</p><p>루프 = Anthropic. 샌드박스 = Anthropic 클라우드 또는 자체 호스팅</p></div>
+              <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Managed Agents</p><p>루프는 Anthropic 이 돌린다. 샌드박스는 Anthropic 클라우드나 자체 호스팅이다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">직접 API·Agent SDK 쪽</p><p>Managed Agents 는 지금 대상 아님(세션·샌드박스 상태를 서버에 저장하는 설계라) · 둘 중 어느 쪽인지는 → 내가 돌릴 때</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">직접 API·Agent SDK 쪽</p><p>둘 중 어느 쪽인지는 아래 「내가 돌릴 때」 에서 고른다. Managed Agents 는 지금 대상이 아니다. 세션·샌드박스 상태를 서버에 저장하는 설계이기 때문이다</p></div>
             </div>
           </div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(내가 돌림)</span></span>
-          <div class="t5-leaf t5-ans t5-ref" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#integration-options-tree-2">↓ 아래 「내가 돌릴 때」 갈림길로 이어짐</a></p><p>다음 물음 — Claude Code 의 도구·루프·컨텍스트 관리가 필요?</p></div>
+          <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(내가 돌린다)</span></span>
+          <div class="t5-leaf t5-ans t5-ref" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#integration-options-tree-2">↓ 아래 「내가 돌릴 때」 갈림길로 이어짐</a></p><p>다음 물음 — Claude Code 의 도구·루프·컨텍스트 관리가 필요한가?</p></div>
         </div>
       </div>
     </div>
@@ -450,11 +450,11 @@
   <section class="t5-flow tree" id="integration-options-tree-2" aria-labelledby="integration-options-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9">
     <div class="t5-fh"><h3 id="integration-options-tree-2-h">내가 돌릴 때 <span class="pg">[3.7②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>Claude Code 의 도구·루프·컨텍스트 관리가 필요?<span class="t5-sub">많은 패턴은 몇 줄 — 먼저 단순하게</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>Claude Code 의 도구·루프·컨텍스트 관리가 필요한가?<span class="t5-sub">많은 패턴은 몇 줄이면 된다. 먼저 단순하게</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">직접 API</p><p>도구 루프는 내가 짜거나 SDK 의 tool runner(베타). 먼저 단순하게 : 직접 API 부터 — 많은 패턴이 몇 줄</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">직접 API</p><p>도구 루프는 내가 짜거나 SDK 의 tool runner(베타)가 돌린다. 먼저 단순하게 직접 API 부터 쓴다. 많은 패턴이 몇 줄이면 된다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>예</span>
@@ -462,11 +462,11 @@
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>내 Python·TypeScript 앱</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Agent SDK</p><p>내가 운영하는 프로세스에서. 프로세스·자격증명·observability(관측 가능성) = 나</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Agent SDK</p><p>내가 운영하는 프로세스에서 돌린다. 프로세스·자격증명·observability(관측 가능성)는 내가 맡는다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>스크립트·CI/CD · Python·TS 밖 언어</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">CLI <code>claude -p</code></p><p>(+ <code>--output-format json</code>, CI 는 <code>--bare</code>)</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">CLI <code>claude -p</code></p><p><code>--output-format json</code> 을 붙이고, CI 에서는 <code>--bare</code> 를 붙인다</p></div>
             </div>
           </div>
         </div>
@@ -477,25 +477,25 @@
     <details class="t5-orig">
       <summary>규칙 원문 <span class="note">갈림 기준 (갈림길로 그린 규칙)</span></summary>
       <p class="lead orig-h">갈림 기준</p>
-      <p class="lead">에이전트 루프·도구 실행·인프라를 **누가 돌리나**</p>
+      <p class="lead">에이전트 루프·도구 실행·인프라를 **누가 돌리나** 가 기준이다</p>
       <div class="tscroll t-wide" role="region" aria-label="표" tabindex="0">
       <table class="t-stack" role="table">
         <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">원하는 것</th><th scope="col" role="columnheader">고름</th><th scope="col" role="columnheader">운영은</th></tr></thead>
         <tbody role="rowgroup">
-          <tr role="row"><td data-label="원하는 것" role="cell">내 코드에서 Claude API 를 직접. 도구 루프는 내가 짜거나 SDK 의 tool runner(베타)</td><td data-label="고름" role="cell">직접 API <span class="note">(Client SDK)</span></td><td data-label="운영은" role="cell">전부 나</td></tr>
-          <tr role="row"><td data-label="원하는 것" role="cell">Claude Code 의 도구·루프·컨텍스트 관리를 내 Python·TypeScript 앱에, 내가 운영하는 프로세스에서</td><td data-label="고름" role="cell">Agent SDK</td><td data-label="운영은" role="cell">프로세스·자격증명·observability = 나</td></tr>
-          <tr role="row"><td data-label="원하는 것" role="cell">스크립트·CI/CD · Python·TS 밖 언어에서 같은 루프</td><td data-label="고름" role="cell">CLI <code>claude -p</code> <span class="note">(+ <code>--<wbr>output-<wbr>format json</code>, CI 는 <code>--<wbr>bare</code>)</span></td><td data-label="운영은" role="cell">파이프라인 = 나</td></tr>
-          <tr role="row"><td data-label="원하는 것" role="cell">루프·샌드박스·도구 실행 층을 안 만듦 · 장기 실행·비동기 · cron 예약</td><td data-label="고름" role="cell">Managed Agents</td><td data-label="운영은" role="cell">루프 = Anthropic. 샌드박스 = Anthropic 클라우드 또는 자체 호스팅</td></tr>
+          <tr role="row"><td data-label="원하는 것" role="cell">내 코드에서 Claude API 를 직접 부른다. 도구 루프는 내가 짜거나 SDK 의 tool runner(베타)가 돌린다</td><td data-label="고름" role="cell">직접 API <span class="note">(Client SDK)</span></td><td data-label="운영은" role="cell">전부 내가 한다</td></tr>
+          <tr role="row"><td data-label="원하는 것" role="cell">Claude Code 의 도구·루프·컨텍스트 관리를 내 Python·TypeScript 앱에 넣는다. 내가 운영하는 프로세스에서 돌린다</td><td data-label="고름" role="cell">Agent SDK</td><td data-label="운영은" role="cell">프로세스·자격증명·observability 는 내가 한다</td></tr>
+          <tr role="row"><td data-label="원하는 것" role="cell">스크립트·CI/CD · Python·TS 밖 언어에서 같은 루프를 쓴다</td><td data-label="고름" role="cell">CLI <code>claude -p</code> <span class="note">(+ <code>--<wbr>output-<wbr>format json</code>, CI 는 <code>--<wbr>bare</code>)</span></td><td data-label="운영은" role="cell">파이프라인은 내가 한다</td></tr>
+          <tr role="row"><td data-label="원하는 것" role="cell">루프·샌드박스·도구 실행 층을 안 만든다. 장기 실행·비동기 · cron 예약이 필요하다</td><td data-label="고름" role="cell">Managed Agents</td><td data-label="운영은" role="cell">루프는 Anthropic 이 돌린다. 샌드박스는 Anthropic 클라우드나 자체 호스팅이다</td></tr>
         </tbody>
       </table>
       </div>
-      <p>먼저 단순하게 : 직접 API 부터 — 많은 패턴이 몇 줄. 프레임워크는 그 밑에서 도는 코드를 알 때만. 에이전트가 아예 필요 없을 수도</p>
       <ul class="plain">
-        <li>Managed Agents 자체 호스팅 샌드박스 = 규정 준수·데이터 상주용. 그만큼 운영 일부가 우리 쪽에 남음 <span class="note">(추론)</span></li>
-        <li>ZDR·HIPAA BAA 필요 → Managed Agents 는 지금 대상 아님(세션·샌드박스 상태를 서버에 저장하는 설계라) → 직접 API·Agent SDK 쪽</li>
-        <li>MCP 는 도구·데이터 연결을 표준화할 뿐 : 보안 원칙을 프로토콜이 강제 못 함 — 동의·인가(authorization)·접근 통제(access control)는 구현자 몫</li>
-        <li>MCP 서버 vs 직접 API 호출 : MCP 서버는 도구 정의·실행이 이미 만들어져 있음, API 를 직접 부르면 도구 정의를 내가 씀 <span class="note">(Skilljar)</span></li>
-        <li>CLI <code>-p</code> 주의 : <code>--bare</code> 없이 돌리면 그 폴더의 <code>.claude/settings.json</code> 훅·<code>.mcp.json</code> 서버가 신뢰 확인창 없이 돔 → CI·스크립트는 <code>--bare</code> 권장</li>
+        <li>먼저 단순하게 직접 API 부터 쓴다. 많은 패턴이 몇 줄이면 된다. 프레임워크는 그 밑에서 도는 코드를 알 때만 쓴다. 에이전트가 아예 필요 없을 수도 있다</li>
+        <li>Managed Agents 의 자체 호스팅 샌드박스는 규정 준수와 데이터 상주를 위한 것이다. 그만큼 운영 일부가 우리 쪽에 남는다 <span class="note">(추론)</span></li>
+        <li>ZDR·HIPAA BAA 가 필요하면 직접 API·Agent SDK 쪽으로 간다. Managed Agents 는 지금 대상이 아니다. 세션·샌드박스 상태를 서버에 저장하는 설계이기 때문이다</li>
+        <li>MCP 는 도구·데이터 연결을 표준화할 뿐이다. 프로토콜은 보안 원칙을 강제하지 못한다. 동의·인가(authorization)·접근 통제(access control)는 구현자가 맡는다</li>
+        <li>MCP 서버와 직접 API 호출의 차이 : MCP 서버는 도구 정의와 실행이 이미 만들어져 있다. API 를 직접 부르면 도구 정의를 내가 쓴다 <span class="note">(Skilljar)</span></li>
+        <li>CLI <code>-p</code> 주의 : <code>--bare</code> 없이 돌리면 그 폴더의 <code>.claude/settings.json</code> 훅과 <code>.mcp.json</code> 서버가 신뢰 확인창 없이 돈다. 그래서 CI 와 스크립트는 <code>--bare</code> 를 권장한다</li>
       </ul>
     </details>
   </div>
@@ -507,14 +507,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">루프·세밀한 통제(control)를 내가 원함</td><td data-label="답" role="cell">직접 API</td><td data-label="근거" role="cell">managed-agents "Custom agent loops and fine-grained control" · <a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Claude Code 급 도구·루프를 내 앱 프로세스에</td><td data-label="답" role="cell">Agent SDK</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">스크립트·CI/CD · 다른 언어에서 같은 루프</td><td data-label="답" role="cell">CLI <code>-p</code> (<code>--<wbr>output-<wbr>format json</code>, CI 는 <code>--<wbr>bare</code>)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a> · <a class="src-link" href="https://code.claude.com/docs/en/headless" lang="en" rel="noopener">headless</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">장기 실행·비동기 · 루프·샌드박스를 안 만들고 싶음</td><td data-label="답" role="cell">Managed Agents</td><td data-label="근거" role="cell">managed-agents</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">규정 준수·데이터 상주 + 관리형 루프</td><td data-label="답" role="cell">Managed Agents 자체 호스팅 샌드박스</td><td data-label="근거" role="cell">managed-agents</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">ZDR 또는 HIPAA BAA 필요</td><td data-label="답" role="cell">Managed Agents 제외</td><td data-label="근거" role="cell">managed-agents</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">뭘 할지 모르겠음</td><td data-label="답" role="cell">가장 단순한 것(API 직접)부터</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">"MCP 를 쓰니 보안은 됐다"</td><td data-label="답" role="cell">아님 — 구현자가 동의·인가(authorization)·접근 통제</td><td data-label="근거" role="cell">MCP spec</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">루프와 세밀한 통제(control)를 내가 원한다</td><td data-label="답" role="cell">직접 API</td><td data-label="근거" role="cell">managed-agents "Custom agent loops and fine-grained control" · <a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Claude Code 급 도구·루프를 내 앱 프로세스에 넣는다</td><td data-label="답" role="cell">Agent SDK</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">스크립트·CI/CD · 다른 언어에서 같은 루프를 쓴다</td><td data-label="답" role="cell">CLI <code>-p</code> (<code>--<wbr>output-<wbr>format json</code>, CI 는 <code>--<wbr>bare</code>)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a> · <a class="src-link" href="https://code.claude.com/docs/en/headless" lang="en" rel="noopener">headless</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">장기 실행·비동기이고, 루프·샌드박스를 안 만들고 싶다</td><td data-label="답" role="cell">Managed Agents</td><td data-label="근거" role="cell">managed-agents</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">규정 준수·데이터 상주가 필요하고 관리형 루프를 원한다</td><td data-label="답" role="cell">Managed Agents 자체 호스팅 샌드박스</td><td data-label="근거" role="cell">managed-agents</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">ZDR 또는 HIPAA BAA 가 필요하다</td><td data-label="답" role="cell">Managed Agents 는 뺀다</td><td data-label="근거" role="cell">managed-agents</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">뭘 할지 모르겠다</td><td data-label="답" role="cell">가장 단순한 것(API 직접)부터 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">"MCP 를 쓰니 보안은 됐다" 고 한다</td><td data-label="답" role="cell">아니다. 동의·인가(authorization)·접근 통제는 구현자가 한다</td><td data-label="근거" role="cell">MCP spec</td></tr>
   </tbody>
 </table>
 </div>
@@ -525,15 +525,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">운영 인력</td><td data-label="값" role="cell">없음</td><td data-label="답 쪽" role="cell">Managed Agents</td><td data-label="근거" role="cell">managed-agents "Minimal infrastructure"</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">운영 인력</td><td data-label="값" role="cell">있음 + 루프 통제 원함</td><td data-label="답 쪽" role="cell">직접 API 또는 Agent SDK</td><td data-label="근거" role="cell">판단 규칙 1·2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">운영 인력</td><td data-label="값" role="cell">없다</td><td data-label="답 쪽" role="cell">Managed Agents</td><td data-label="근거" role="cell">managed-agents "Minimal infrastructure"</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">운영 인력</td><td data-label="값" role="cell">있고, 루프 통제를 원한다</td><td data-label="답 쪽" role="cell">직접 API 또는 Agent SDK</td><td data-label="근거" role="cell">판단 규칙 1·2</td></tr>
     <tr role="row"><td data-label="변수" role="cell">규정</td><td data-label="값" role="cell">ZDR · HIPAA BAA</td><td data-label="답 쪽" role="cell">직접 API·Agent SDK 쪽</td><td data-label="근거" role="cell">managed-agents</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">규정</td><td data-label="값" role="cell">데이터 상주만(ZDR 불필요)</td><td data-label="답 쪽" role="cell">Managed Agents 자체 호스팅 샌드박스도 가능</td><td data-label="근거" role="cell">managed-agents</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">작업 길이</td><td data-label="값" role="cell">한 번 호출로 끝(분류·요약)</td><td data-label="답 쪽" role="cell">직접 API (에이전트 불필요)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">작업 길이</td><td data-label="값" role="cell">수 분~수 시간, 도구 여러 번</td><td data-label="답 쪽" role="cell">Agent SDK 또는 Managed Agents</td><td data-label="근거" role="cell">managed-agents</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">규정</td><td data-label="값" role="cell">데이터 상주만 필요하다(ZDR 불필요)</td><td data-label="답 쪽" role="cell">Managed Agents 자체 호스팅 샌드박스도 가능하다</td><td data-label="근거" role="cell">managed-agents</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">작업 길이</td><td data-label="값" role="cell">한 번 호출로 끝난다(분류·요약)</td><td data-label="답 쪽" role="cell">직접 API (에이전트가 필요 없다)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">작업 길이</td><td data-label="값" role="cell">수 분~수 시간이고 도구를 여러 번 쓴다</td><td data-label="답 쪽" role="cell">Agent SDK 또는 Managed Agents</td><td data-label="근거" role="cell">managed-agents</td></tr>
     <tr role="row"><td data-label="변수" role="cell">실행 계기</td><td data-label="값" role="cell">CI 파이프라인·크론 스크립트</td><td data-label="답 쪽" role="cell">CLI <code>-p --<wbr>bare</code> (또는 Managed Agents 예약 배포)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/headless" lang="en" rel="noopener">headless</a> · managed-agents</td></tr>
     <tr role="row"><td data-label="변수" role="cell">언어</td><td data-label="값" role="cell">Go·Java 등</td><td data-label="답 쪽" role="cell">직접 API(Client SDK) 또는 CLI 하위 프로세스</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">인증(authentication)</td><td data-label="값" role="cell">우리 제품에 claude.ai 로그인</td><td data-label="답 쪽" role="cell">사전 승인 없인 불가 → API 키</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">인증(authentication)</td><td data-label="값" role="cell">우리 제품에 claude.ai 로그인을 붙인다</td><td data-label="답 쪽" role="cell">사전 승인 없이는 안 된다. API 키를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -542,21 +542,21 @@
   <h2 class="sec-h" id="integration-options-practice-h">연습 문제</h2>
 
   <section class="csx" id="integration-options-case" aria-labelledby="integration-options-case-h" data-tree="integration-options-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;안 만들고 싶음&quot;],[&quot;n3&quot;,null],[&quot;n6&quot;,&quot;BAA 필수&quot;],[&quot;n7&quot;,null]]">
-    <p class="csx-text">운영 인력이 2명뿐인 병원이 <mark class="csx-m" data-tag="안 만들고 싶음">에이전트 루프·샌드박스는 직접 만들고 싶지 않다<span class="csx-tag">안 만들고 싶음</span></mark>며, 환자 메시지를 분류하고 답장 초안을 쓰는 장기 실행 에이전트를 원한다. 계약상 <mark class="csx-m" data-tag="BAA 필수">HIPAA BAA 적용이 필수<span class="csx-tag">BAA 필수</span></mark>다. 어떤 방식으로 붙일까?</p>
+    <p class="csx-text">운영 인력이 2명뿐인 병원이 <mark class="csx-m" data-tag="안 만들고 싶음">에이전트 루프·샌드박스는 직접 만들고 싶지 않다<span class="csx-tag">안 만들고 싶음</span></mark>며, 환자 메시지를 분류하고 답장 초안을 쓰는 장기 실행 에이전트를 원한다. 계약상 <mark class="csx-m" data-tag="BAA 필수">HIPAA BAA 적용이 필수<span class="csx-tag">BAA 필수</span></mark>다. 어떤 방식으로 붙여야 하나?</p>
     <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
   </section>
   <h2 class="sec-h" id="integration-options-exam-h">시험 대비</h2>
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"MCP 표준을 쓰니 보안·규정 검토는 끝났다" → 프로토콜은 강제 못 함</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"추상화 프레임워크부터 깐다" → API 직접부터</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"운영 인력 없는 작은 팀이 Agent SDK 로 직접 호스팅" → 프로세스 운영이 우리 몫. "최소 인프라"는 공식이 Managed Agents 에 붙인 조건 <span class="src">(단 ZDR·BAA 필요하면 Managed Agents 탈락)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Managed Agents 면 ZDR 도 해결" → 대상 아님</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Agent SDK 제품에 claude.ai 로그인을 붙여 출시" → 사전 승인 없인 안 됨, API 키 인증(authentication)</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"integration continuum" 은 강의가 만든 이름 — 공식 용어 아님 <span class="note">(목록 메모)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"좁은 연동 경계가 중요하면 직접 API" → 공식 기준 없음. 공식 근거는 단순성 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"에이전트끼리 연결(agent-to-agent)이 더 고급" → 적합성·비용 판단은 <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"MCP 표준을 쓰니 보안·규정 검토는 끝났다" 는 함정이다. 프로토콜은 보안을 강제하지 못한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"추상화 프레임워크부터 깐다" 는 함정이다. API 직접부터 쓴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"운영 인력 없는 작은 팀이 Agent SDK 로 직접 호스팅한다" 는 함정이다. 프로세스 운영이 우리 몫이 된다. "최소 인프라"는 공식이 Managed Agents 에 붙인 조건이다 <span class="src">(단 ZDR·BAA 가 필요하면 Managed Agents 는 빠진다)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Managed Agents 면 ZDR 도 해결된다" 는 함정이다. Managed Agents 는 ZDR 대상이 아니다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Agent SDK 제품에 claude.ai 로그인을 붙여 출시한다" 는 함정이다. 사전 승인 없이는 안 된다. API 키 인증(authentication)을 쓴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"integration continuum" 은 강의가 만든 이름이다. 공식 용어가 아니다 <span class="note">(목록 메모)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"좁은 연동 경계가 중요하면 직접 API 를 쓴다" 는 함정이다. 공식 기준이 없다. 공식 근거는 단순성이다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"에이전트끼리 연결(agent-to-agent)이 더 고급이다" 는 함정이다. 적합성과 비용 판단은 <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a> 에 있다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -579,29 +579,29 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 작은 팀인데 Managed Agents 가 안 되는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 운영 인력 2명, 병원 환자 메시지를 처리(HIPAA BAA 필수).</li>
-<li><span class="lead">판단 :</span> "최소 인프라"만 보면 Managed Agents 지만 BAA 대상이 아님 → 직접 API 또는 Agent SDK 로 우리가 호스팅. 규정 조건이 운영 편의를 이김.</li>
+<li><span class="lead">조건 :</span> 운영 인력이 2명이다. 병원 환자 메시지를 처리한다(HIPAA BAA 필수).</li>
+<li><span class="lead">판단 :</span> "최소 인프라"만 보면 Managed Agents 다. 그러나 Managed Agents 는 BAA 대상이 아니다. 그래서 직접 API 나 Agent SDK 로 우리가 호스팅한다. 규정 조건이 운영 편의를 이긴다.</li>
 
 <li><span class="lead">근거 :</span> managed-agents</li>
 </ul>
 <h4>2. 에이전트가 필요 없는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 들어오는 티켓을 5개 범주로 나누기만.</li>
-<li><span class="lead">판단 :</span> 호출 1번 + 구조화 출력이면 끝. Agent SDK·Managed Agents 는 과설계. 공식 "에이전트 시스템을 아예 안 만드는 것일 수도".</li>
+<li><span class="lead">조건 :</span> 들어오는 티켓을 5개 범주로 나누기만 한다.</li>
+<li><span class="lead">판단 :</span> 호출 1번과 구조화 출력이면 끝난다. Agent SDK 나 Managed Agents 는 과설계다. 공식 글도 "에이전트 시스템을 아예 안 만드는 것일 수도" 있다고 한다.</li>
 
 <li><span class="lead">근거 :</span> building-effective-agents</li>
 </ul>
 <h4>3. CLI 가 SDK 보다 나은 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> PR 마다 GitHub Actions 에서 리뷰 한 번, 팀은 셸 스크립트만 씀.</li>
-<li><span class="lead">판단 :</span> 앱을 짤 필요 없이 <code>claude -p --bare --output-format json</code>. <code>--bare</code> 로 러너 머신의 훅·MCP·CLAUDE.md 가 섞이지 않게.</li>
+<li><span class="lead">조건 :</span> PR 마다 GitHub Actions 에서 리뷰를 한 번 한다. 팀은 셸 스크립트만 쓴다.</li>
+<li><span class="lead">판단 :</span> 앱을 짤 필요 없이 <code>claude -p --bare --output-format json</code> 을 쓴다. <code>--bare</code> 를 붙이면 러너 머신의 훅·MCP·CLAUDE.md 가 섞이지 않는다.</li>
 
 <li><span class="lead">근거 :</span> headless</li>
 </ul>
 <h4>4. 자체 호스팅 샌드박스를 ZDR 해법으로 착각하는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> "샌드박스를 우리 인프라에 두면 ZDR 도 된다"는 제안.</li>
-<li><span class="lead">판단 :</span> 공식은 자체 호스팅을 "규정 준수·데이터 상주"용이라 하고, Managed Agents 전체를 ZDR·BAA 대상 아님으로 적음. 예외 문장 없음 → ZDR 해법으로 보면 안 됨.</li>
+<li><span class="lead">조건 :</span> "샌드박스를 우리 인프라에 두면 ZDR 도 된다"는 제안이 나온다.</li>
+<li><span class="lead">판단 :</span> 공식은 자체 호스팅을 "규정 준수·데이터 상주"용이라고 한다. 그리고 Managed Agents 전체를 ZDR·BAA 대상이 아니라고 적는다. 예외 문장은 없다. 그래서 ZDR 해법으로 보면 안 된다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(두 문장) ·</span> <span class="open">미해결</span><span class="note">(자체 호스팅 적격 여부를 직접 말한 문장 없음)</span></li>
 <li><span class="lead">근거 :</span> managed-agents</li>
 </ul>
@@ -612,13 +612,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"MCP 표준을 쓰니 보안·규정 검토는 끝"</td><td data-label="왜 끌리나" role="cell">표준 = 검증됨 감</td><td data-label="왜 틀리나" role="cell">프로토콜이 강제 못 함, 구현자 몫</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">MCP spec</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"추상화 프레임워크부터 깐다"</td><td data-label="왜 끌리나" role="cell">빨리 시작</td><td data-label="왜 틀리나" role="cell">API 직접부터. 추상화가 디버깅을 가림</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Managed Agents 로 가면 ZDR 도 해결"</td><td data-label="왜 끌리나" role="cell">관리형 = 규정 해결 감</td><td data-label="왜 틀리나" role="cell">ZDR·BAA 대상 아님</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">managed-agents</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"운영 인력 없어도 Agent SDK 로 직접 호스팅이 표준"</td><td data-label="왜 끌리나" role="cell">SDK = 공식 권장 같음</td><td data-label="왜 틀리나" role="cell">프로세스 운영이 우리 몫</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a> "in a process you operate"</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"CLI <code>-p</code> 는 개발자 터미널 전용"</td><td data-label="왜 끌리나" role="cell">대화형 도구로만 알고 있음</td><td data-label="왜 틀리나" role="cell">스크립트·CI/CD 용으로 명시</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/headless" lang="en" rel="noopener">headless</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Agent SDK 제품에 claude.ai 로그인 제공"</td><td data-label="왜 끌리나" role="cell">사용자 편의</td><td data-label="왜 틀리나" role="cell">사전 승인 없인 불가</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"좁은 연동 경계가 표준보다 중요하면 직접 API"</td><td data-label="왜 끌리나" role="cell">그럴듯한 원칙</td><td data-label="왜 틀리나" role="cell">공식 기준 없음. 공식 근거는 단순성</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 3.7② 메모</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"MCP 표준을 쓰니 보안·규정 검토는 끝"</td><td data-label="왜 끌리나" role="cell">표준이면 검증된 것 같다</td><td data-label="왜 틀리나" role="cell">프로토콜은 강제하지 못한다. 구현자가 맡는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">MCP spec</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"추상화 프레임워크부터 깐다"</td><td data-label="왜 끌리나" role="cell">빨리 시작할 수 있다</td><td data-label="왜 틀리나" role="cell">API 직접부터 쓴다. 추상화가 디버깅을 가린다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Managed Agents 로 가면 ZDR 도 해결"</td><td data-label="왜 끌리나" role="cell">관리형이면 규정도 해결될 것 같다</td><td data-label="왜 틀리나" role="cell">ZDR·BAA 대상이 아니다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">managed-agents</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"운영 인력 없어도 Agent SDK 로 직접 호스팅이 표준"</td><td data-label="왜 끌리나" role="cell">SDK 가 공식 권장 같다</td><td data-label="왜 틀리나" role="cell">프로세스 운영이 우리 몫이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a> "in a process you operate"</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"CLI <code>-p</code> 는 개발자 터미널 전용"</td><td data-label="왜 끌리나" role="cell">대화형 도구로만 알고 있다</td><td data-label="왜 틀리나" role="cell">공식 문서가 스크립트·CI/CD 용이라고 밝힌다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/headless" lang="en" rel="noopener">headless</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Agent SDK 제품에 claude.ai 로그인 제공"</td><td data-label="왜 끌리나" role="cell">사용자가 편하다</td><td data-label="왜 틀리나" role="cell">사전 승인 없이는 안 된다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"좁은 연동 경계가 표준보다 중요하면 직접 API"</td><td data-label="왜 끌리나" role="cell">그럴듯한 원칙이다</td><td data-label="왜 틀리나" role="cell">공식 기준이 없다. 공식 근거는 단순성이다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 3.7② 메모</td></tr>
   </tbody>
 </table>
 </div>
@@ -626,12 +626,16 @@
   </details>
   <h2 class="sec-h" id="integration-options-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="mcp-connector.html">■ MCP connector</a></li>
         <li><a href="least-privilege.html">■ 최소 권한</a></li>
         <li><a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 3.7</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -651,11 +655,12 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>Managed Agents 자체 호스팅 샌드박스의 ZDR·BAA 적격을 직접 말한 문장 없음 — overview 는 Managed Agents 전체를 대상 아님으로 적음. api-and-data-retention 문서는 안 받음.</li>
-<li>목록 3.7② 인용 5개 모두 원문에서 찾음. 단 "A hosted agent harness…" 문장은 원문에 링크가 섞여 있어 링크를 뺀 형태로 옮김.</li>
-<li>3.7③(에이전트끼리 연결)의 비용·적합성(토큰 4배·15배 등)은 ◆ 단일 vs 멀티 에이전트 카드 몫이라 여기서 확인하지 않음.</li>
+<li>Managed Agents 자체 호스팅 샌드박스의 ZDR·BAA 적격을 직접 말한 문장은 없다. overview 는 Managed Agents 전체를 대상이 아니라고 적는다. api-and-data-retention 문서는 받지 않았다.</li>
+<li>목록 3.7② 인용 5개는 모두 원문에서 찾았다. 단 "A hosted agent harness…" 문장은 원문에 링크가 섞여 있다. 그래서 링크를 뺀 형태로 옮겼다.</li>
+<li>3.7③(에이전트끼리 연결)의 비용·적합성(토큰 4배·15배 등)은 ◆ 단일 vs 멀티 에이전트 카드가 다룬다. 그래서 여기서는 확인하지 않았다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

@@ -372,9 +372,13 @@
   </div>
   <h2 class="sec-h" id="rag-pipeline-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>지식을 미리 chunk 로 나눠 index(색인)해 두고, 질문마다 관련 chunk 만 찾아 프롬프트에 붙임. 미리 하는 일 = chunking → 임베딩 + BM25 index / 질문 때 = 두 검색(retrieval) → rank fusion 으로 합치고 중복 제거 → (리랭킹) → top-K 를 프롬프트에</p>
-      <p>full context(문서 전체를 넣기)로 할지 RAG 할지(크기 판단)는 <a href="rag-vs-full.html">◆ RAG vs full context</a>. 검색 방식 고르기는 <a href="retrieval-shape.html">◆ 임베딩 vs BM25 vs hybrid</a></p>
-    <p class="t5-ana"><span class="lead">비유</span> 로그 파이프라인. 수집할 때 host·service 라벨을 붙여 index 해 두고(문맥 없는 줄은 못 찾음), 조회할 때 넓게 뽑은 뒤 정밀 필터</p>
+      <p>지식을 미리 chunk 로 나눠 index(색인)해 둔다. 질문마다 관련 chunk 만 찾아 프롬프트에 붙인다</p>
+      <ul class="dash">
+        <li><span class="lead">미리 하는 일 :</span> chunking 을 하고, 임베딩과 BM25 index 를 만든다</li>
+        <li><span class="lead">질문 때 하는 일 :</span> 두 검색(retrieval) 결과를 rank fusion 으로 합치고 중복을 없앤다. 그다음 (리랭킹을 거쳐) top-K 를 프롬프트에 넣는다</li>
+      </ul>
+      <p>full context(문서 전체를 넣기)로 할지 RAG 를 할지(크기 판단)는 <a href="rag-vs-full.html">◆ RAG vs full context</a> 에 있다. 검색 방식 고르기는 <a href="retrieval-shape.html">◆ 임베딩 vs BM25 vs hybrid</a> 에 있다</p>
+    <p class="t5-ana"><span class="lead">비유</span> 로그 파이프라인과 같다. 수집할 때 host·service 라벨을 붙여 index 해 둔다(문맥 없는 줄은 못 찾는다). 조회할 때는 넓게 뽑은 뒤 정밀하게 거른다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/rag-pipeline.webp"><img src="../images/rag-pipeline.webp" alt="미리 chunk 로 자르고 문맥을 붙여 임베딩·BM25 에 index 하고, 질문 때 두 검색을 rank fusion 으로 합쳐 리랭킹한 뒤 top-K 를 프롬프트에 넣는다. 실패율 5.7%→1.9%." loading="lazy" decoding="async"></a>
@@ -403,25 +407,30 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">미리 하는 일 (indexing · 색인)</p>
 <ul>
-<li>문서를 chunk 로 자름. 보통 수백 토큰 이하. 크기·경계·겹침이 검색(retrieval) 성능을 바꿈.</li>
-<li>chunk 마다 임베딩(뜻을 숫자로)과 BM25 index(단어 일치)를 만듦.</li>
-<li>약점 : chunk 만 보면 "어느 회사 몇 분기 얘기"인지 빠짐 → 검색에서 빗나감.</li>
-<li>처방 : Contextual Retrieval. 문서 전체와 chunk 를 Claude 에 주고 "이 chunk 가 문서 어디인지" 50~100토큰 설명을 받아 chunk 앞에 붙인 뒤 두 index 에 넣음. 문서는 캐시에 한 번 올려 두고 chunk 마다 재사용해 비용이 적음.</li>
+<li>문서를 chunk 로 자른다. 보통 수백 토큰 이하다. 크기·경계·겹침이 검색(retrieval) 성능을 바꾼다.</li>
+<li>chunk 마다 임베딩(뜻을 숫자로)과 BM25 index(단어 일치)를 만든다.</li>
+<li>약점 : chunk 만 보면 "어느 회사 몇 분기 얘기"인지 빠진다. 그래서 검색에서 빗나간다.</li>
+<li>처방 : Contextual Retrieval 을 쓴다. 문서 전체와 chunk 를 Claude 에 주고 "이 chunk 가 문서 어디인지" 50~100토큰 설명을 받는다. 그 설명을 chunk 앞에 붙인 뒤 두 index 에 넣는다. 문서는 캐시에 한 번 올려 두고 chunk 마다 재사용해 비용이 적다.</li>
 </ul>
 <p class="lead">질문 때 하는 일 (검색)</p>
 <ul>
-<li>임베딩 검색과 BM25 검색을 따로 돌려 순위로 합치고 중복 제거.</li>
-<li>1차로 넓게 뽑고(실험 150개) 리랭커로 다시 점수를 매겨 상위 몇 개(실험 20개)만 모델에 넣음.</li>
-<li>리랭킹은 단계를 하나 더해 지연(latency)이 조금 늘지만, 모델이 읽을 양이 줄어 생성 쪽 비용·지연은 줄어듦.</li>
+<li>임베딩 검색과 BM25 검색을 따로 돌려 순위로 합치고 중복을 없앤다.</li>
+<li>1차로 넓게 뽑는다(실험 150개). 리랭커로 다시 점수를 매겨 상위 몇 개(실험 20개)만 모델에 넣는다.</li>
+<li>리랭킹은 단계를 하나 더해 지연(latency)이 조금 늘지만, 모델이 읽을 양이 줄어 생성 쪽 비용·지연은 줄어든다.</li>
 </ul>
 <p class="lead">저장 쪽 lever(조절 수단)</p>
 <ul>
-<li>임베딩 값의 정밀도를 낮추면(int8 4배, binary 32배) 저장·메모리·비용이 줄고 정확도를 조금 내줌.</li>
-<li>차원을 줄여도(1024 → 256) 같은 trade-off(절충).</li>
+<li>임베딩 값의 정밀도를 낮추면(int8 4배, binary 32배) 저장·메모리·비용이 줄고 정확도를 조금 내준다.</li>
+<li>차원을 줄여도(1024 에서 256 으로) 같은 trade-off(절충)가 생긴다.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
-<li>빗나감의 원인이 어디인가? (chunk 에 문맥이 없음 · 정확 일치를 못 함 · 후보는 맞는데 순위가 틀림)</li>
+<li>빗나감의 원인이 어디인가? 아래 셋 중 어디인지 본다.<ul>
+<li>chunk 에 문맥이 없다</li>
+<li>정확 일치를 못 한다</li>
+<li>후보는 맞는데 순위가 틀렸다</li>
+</ul>
+</li>
 <li>정확도 이득이 늘어나는 지연·비용·저장을 감당하나?</li>
 </ul>
 </section>
@@ -438,7 +447,7 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>크기·겹침 숫자</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">eval 로</p><p>공식 숫자 없음 → 숫자는 내 데이터 검색 eval 로 정함</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">eval 로</p><p>공식 숫자가 없다. 숫자는 내 데이터 검색 eval 로 정한다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>자르는 방식</span>
@@ -446,11 +455,11 @@
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">구조 기준</p><p>서식이 보장될 때 가장 깔끔 <span class="src">(Skilljar)</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">구조 기준</p><p>서식이 보장될 때 가장 깔끔하다 <span class="src">(Skilljar)</span></p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">크기 기준 + 겹침</p><p>흔한 기본(어떤 문서에도 됨) <span class="src">(Skilljar)</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">크기 기준 + 겹침</p><p>흔한 기본이다(어떤 문서에도 된다) <span class="src">(Skilljar)</span></p></div>
             </div>
           </div>
         </div>
@@ -464,11 +473,11 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>성능</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">많이 리랭킹</p><p>많이 리랭킹 = 성능</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">많이 리랭킹</p><p>많이 리랭킹하면 성능이 좋아진다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>지연·비용</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">적게 리랭킹</p><p>적게 = 지연·비용 ↓ → 내 사례로 실험해 균형. 리랭킹은 없는 것보다 나음</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">적게 리랭킹</p><p>적게 리랭킹하면 지연·비용이 준다. 내 사례로 실험해 균형을 맞춘다. 리랭킹은 없는 것보다 낫다</p></div>
         </div>
       </div>
     </div>
@@ -480,7 +489,7 @@
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>공급자</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">여러 공급자 평가</p><p>Anthropic 은 자체 임베딩 모델이 없음 → Voyage 는 공급자 "하나", 여러 공급자를 평가하라</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">여러 공급자 평가</p><p>Anthropic 은 자체 임베딩 모델이 없다. Voyage 는 공급자 "하나"다. 여러 공급자를 평가한다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span><code>input_type</code></span>
@@ -488,11 +497,11 @@
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>문서</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>"document"</code></p><p>검색(RAG)이면 <code>input_type</code> 을 문서엔 <code>"document"</code></p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>"document"</code></p><p>검색(RAG)이면 문서의 <code>input_type</code> 은 <code>"document"</code> 다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>질문</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>"query"</code></p><p>질문엔 <code>"query"</code> — 생략·None 금지</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>"query"</code></p><p>질문의 <code>input_type</code> 은 <code>"query"</code> 다. 생략·None 은 금지다</p></div>
             </div>
           </div>
         </div>
@@ -502,11 +511,11 @@
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">기본 float</p><p>기본 float 가 정확도 최고</p></div>
+              <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">기본 float</p><p>기본 float 가 정확도가 가장 높다</p></div>
             </div>
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n14"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(저장이 커짐)</span></span>
-              <div class="t5-leaf t5-ans" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">양자화</p><p>float32 → int8 = 저장·메모리·비용 4배 ↓, binary = 32배 ↓ (<code>output_dtype</code>). 줄인 만큼 정확도를 내줌</p></div>
+              <span class="t5-edge" data-p="n14"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(저장이 커진다)</span></span>
+              <div class="t5-leaf t5-ans" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">양자화</p><p>float32 를 int8 로 줄이면 저장·메모리·비용이 4배 준다. binary 면 32배 준다 (<code>output_dtype</code>). 줄인 만큼 정확도를 내준다</p></div>
             </div>
           </div>
         </div>
@@ -515,7 +524,7 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="rag-pipeline-flow" aria-label="RAG 파이프라인 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["문서","chunk+문맥","index","리랭크","모델"],"blocks":[],"rules":[null,null,null,"많이 리랭킹 = 성능, 적게 = 지연·비용 ↓",null],"question":"상위 20개에 정답 chunk 가 들어올까?","scenes":[{"name":"① 맥락 + 리랭킹","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["출장비 규정","PDF 12쪽"]}},{"kind":"move","step":"자르기","from":{"col":0},"to":1,"label":"보통 수백 토큰 이하","art":{"kind":"slip","lines":["\"상한은 1박","12만 원\""]}},{"kind":"mark","step":"문맥 붙이기","at":{"col":1},"label":"50~100토큰 설명을 앞에","art":{"kind":"slip","lines":["[출장비 규정","3절: 숙박비]","+ \"상한은…\""]}},{"kind":"move","step":"index","from":{"col":1},"to":2,"label":"임베딩과 BM25 양쪽에","art":{"kind":"slip","lines":["벡터","[0.12, …]","BM25","숙박비·상한"]}},{"kind":"move","step":"1차 검색","from":{"col":2},"to":3,"label":"질문으로 넓게(실험 150개)","art":{"kind":"slip","lines":["후보 150개"]}},{"kind":"move","step":"넣기","from":{"col":3},"to":4,"label":"상위 K(실험 20개)만","art":{"kind":"slip","lines":["상위 20개","1위: 숙박비"]}},{"kind":"end","label":"맥락 임베딩 + 맥락 BM25 + 리랭킹이면 상위 20개 실패율 5.7% → 1.9%"}]},{"name":"② 문서 요약을 통째로","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["출장비 규정","PDF 12쪽"]}},{"kind":"move","step":"자르기","from":{"col":0},"to":1,"label":"보통 수백 토큰 이하","art":{"kind":"slip","lines":["\"상한은 1박","12만 원\""]}},{"kind":"mark","step":"붙이기","at":{"col":1},"label":"문서 요약을 통째로","art":{"kind":"slip","lines":["[문서 요약:","출장 전반]","+ \"상한은…\""]}},{"kind":"move","step":"index","from":{"col":1},"to":2,"label":"임베딩과 BM25 양쪽에","art":{"kind":"slip","lines":["chunk 마다","같은 요약"]}},{"kind":"end","label":"chunk 에 문서 요약을 통째로 붙이면 이득이 \"매우 작았음\" — 붙이는 건 chunk 별 설명"}]},{"name":"③ 지연 때문에 리랭킹 뺌","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["출장비 규정","PDF 12쪽"]}},{"kind":"move","step":"자르기","from":{"col":0},"to":1,"label":"보통 수백 토큰 이하","art":{"kind":"slip","lines":["\"상한은 1박","12만 원\""]}},{"kind":"mark","step":"문맥 붙이기","at":{"col":1},"label":"50~100토큰 설명을 앞에","art":{"kind":"slip","lines":["[출장비 규정","3절: 숙박비]","+ \"상한은…\""]}},{"kind":"move","step":"index","from":{"col":1},"to":2,"label":"임베딩과 BM25 양쪽에","art":{"kind":"slip","lines":["벡터","[0.12, …]","BM25","숙박비·상한"]}},{"kind":"skip","at":3},{"kind":"move","step":"넣기","from":{"col":2},"to":4,"label":"리랭킹을 뺀다","art":{"kind":"slip","lines":["1차 순위","그대로 20개"]}},{"kind":"end","label":"공식 방향은 리랭킹을 빼는 게 아니라 리랭킹 개수를 실험으로 맞추기"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["문서","chunk+문맥","index","리랭크","모델"],"blocks":[],"rules":[null,null,null,"많이 리랭킹 = 성능, 적게 = 지연·비용 ↓",null],"question":"상위 20개에 정답 chunk 가 들어올까?","scenes":[{"name":"① 맥락 + 리랭킹","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["출장비 규정","PDF 12쪽"]}},{"kind":"move","step":"자르기","from":{"col":0},"to":1,"label":"보통 수백 토큰 이하로 자른다","art":{"kind":"slip","lines":["\"상한은 1박","12만 원\""]}},{"kind":"mark","step":"문맥 붙이기","at":{"col":1},"label":"50~100토큰 설명을 앞에 붙인다","art":{"kind":"slip","lines":["[출장비 규정","3절: 숙박비]","+ \"상한은…\""]}},{"kind":"move","step":"index","from":{"col":1},"to":2,"label":"임베딩과 BM25 양쪽에 넣는다","art":{"kind":"slip","lines":["벡터","[0.12, …]","BM25","숙박비·상한"]}},{"kind":"move","step":"1차 검색","from":{"col":2},"to":3,"label":"질문으로 넓게 뽑는다(실험 150개)","art":{"kind":"slip","lines":["후보 150개"]}},{"kind":"move","step":"넣기","from":{"col":3},"to":4,"label":"상위 K(실험 20개)만 넣는다","art":{"kind":"slip","lines":["상위 20개","1위: 숙박비"]}},{"kind":"end","label":"맥락 임베딩, 맥락 BM25, 리랭킹을 다 쓰면 상위 20개 실패율이 5.7% 에서 1.9% 로 준다"}]},{"name":"② 문서 요약을 통째로 붙인다","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["출장비 규정","PDF 12쪽"]}},{"kind":"move","step":"자르기","from":{"col":0},"to":1,"label":"보통 수백 토큰 이하로 자른다","art":{"kind":"slip","lines":["\"상한은 1박","12만 원\""]}},{"kind":"mark","step":"붙이기","at":{"col":1},"label":"문서 요약을 통째로 붙인다","art":{"kind":"slip","lines":["[문서 요약:","출장 전반]","+ \"상한은…\""]}},{"kind":"move","step":"index","from":{"col":1},"to":2,"label":"임베딩과 BM25 양쪽에 넣는다","art":{"kind":"slip","lines":["chunk 마다","같은 요약"]}},{"kind":"end","label":"chunk 에 문서 요약을 통째로 붙이면 이득이 매우 작았다. 붙이는 것은 chunk 별 설명이다"}]},{"name":"③ 지연 때문에 리랭킹을 뺀다","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["출장비 규정","PDF 12쪽"]}},{"kind":"move","step":"자르기","from":{"col":0},"to":1,"label":"보통 수백 토큰 이하로 자른다","art":{"kind":"slip","lines":["\"상한은 1박","12만 원\""]}},{"kind":"mark","step":"문맥 붙이기","at":{"col":1},"label":"50~100토큰 설명을 앞에 붙인다","art":{"kind":"slip","lines":["[출장비 규정","3절: 숙박비]","+ \"상한은…\""]}},{"kind":"move","step":"index","from":{"col":1},"to":2,"label":"임베딩과 BM25 양쪽에 넣는다","art":{"kind":"slip","lines":["벡터","[0.12, …]","BM25","숙박비·상한"]}},{"kind":"skip","at":3},{"kind":"move","step":"넣기","from":{"col":2},"to":4,"label":"리랭킹을 뺀다","art":{"kind":"slip","lines":["1차 순위","그대로 20개"]}},{"kind":"end","label":"공식 방향은 리랭킹을 빼지 않고 리랭킹 개수를 실험으로 맞추는 것이다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -525,30 +534,30 @@
       <p class="lead">① 맥락 + 리랭킹 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 문서 — 쪽지 : <span class="flx-alt-slip">출장비 규정 / PDF 12쪽</span></li>
-        <li>자르기 : 문서 → chunk+문맥 : 보통 수백 토큰 이하 — 쪽지 : <span class="flx-alt-slip">"상한은 1박 / 12만 원"</span></li>
-        <li>문맥 붙이기 : chunk+문맥 : 50~100토큰 설명을 앞에 — 쪽지 : <span class="flx-alt-slip">[출장비 규정 / 3절: 숙박비] / + "상한은…"</span></li>
-        <li>index : chunk+문맥 → index : 임베딩과 BM25 양쪽에 — 쪽지 : <span class="flx-alt-slip">벡터 / [0.12, …] / BM25 / 숙박비·상한</span></li>
-        <li>1차 검색 : index → 리랭크 : 질문으로 넓게(실험 150개) — 쪽지 : <span class="flx-alt-slip">후보 150개</span></li>
-        <li>넣기 : 리랭크 → 모델 : 상위 K(실험 20개)만 — 쪽지 : <span class="flx-alt-slip">상위 20개 / 1위: 숙박비</span></li>
-        <li>끝 : 맥락 임베딩 + 맥락 BM25 + 리랭킹이면 상위 20개 실패율 5.7% → 1.9%</li>
+        <li>자르기 : 문서 → chunk+문맥 : 보통 수백 토큰 이하로 자른다 — 쪽지 : <span class="flx-alt-slip">"상한은 1박 / 12만 원"</span></li>
+        <li>문맥 붙이기 : chunk+문맥 : 50~100토큰 설명을 앞에 붙인다 — 쪽지 : <span class="flx-alt-slip">[출장비 규정 / 3절: 숙박비] / + "상한은…"</span></li>
+        <li>index : chunk+문맥 → index : 임베딩과 BM25 양쪽에 넣는다 — 쪽지 : <span class="flx-alt-slip">벡터 / [0.12, …] / BM25 / 숙박비·상한</span></li>
+        <li>1차 검색 : index → 리랭크 : 질문으로 넓게 뽑는다(실험 150개) — 쪽지 : <span class="flx-alt-slip">후보 150개</span></li>
+        <li>넣기 : 리랭크 → 모델 : 상위 K(실험 20개)만 넣는다 — 쪽지 : <span class="flx-alt-slip">상위 20개 / 1위: 숙박비</span></li>
+        <li>끝 : 맥락 임베딩, 맥락 BM25, 리랭킹을 다 쓰면 상위 20개 실패율이 5.7% 에서 1.9% 로 준다</li>
       </ol>
-      <p class="lead">② 문서 요약을 통째로 <span class="fl-v is-ng">≠</span></p>
+      <p class="lead">② 문서 요약을 통째로 붙인다 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 문서 — 쪽지 : <span class="flx-alt-slip">출장비 규정 / PDF 12쪽</span></li>
-        <li>자르기 : 문서 → chunk+문맥 : 보통 수백 토큰 이하 — 쪽지 : <span class="flx-alt-slip">"상한은 1박 / 12만 원"</span></li>
-        <li>붙이기 : chunk+문맥 : 문서 요약을 통째로 — 쪽지 : <span class="flx-alt-slip">[문서 요약: / 출장 전반] / + "상한은…"</span></li>
-        <li>index : chunk+문맥 → index : 임베딩과 BM25 양쪽에 — 쪽지 : <span class="flx-alt-slip">chunk 마다 / 같은 요약</span></li>
-        <li>끝 : chunk 에 문서 요약을 통째로 붙이면 이득이 "매우 작았음" — 붙이는 건 chunk 별 설명</li>
+        <li>자르기 : 문서 → chunk+문맥 : 보통 수백 토큰 이하로 자른다 — 쪽지 : <span class="flx-alt-slip">"상한은 1박 / 12만 원"</span></li>
+        <li>붙이기 : chunk+문맥 : 문서 요약을 통째로 붙인다 — 쪽지 : <span class="flx-alt-slip">[문서 요약: / 출장 전반] / + "상한은…"</span></li>
+        <li>index : chunk+문맥 → index : 임베딩과 BM25 양쪽에 넣는다 — 쪽지 : <span class="flx-alt-slip">chunk 마다 / 같은 요약</span></li>
+        <li>끝 : chunk 에 문서 요약을 통째로 붙이면 이득이 매우 작았다. 붙이는 것은 chunk 별 설명이다</li>
       </ol>
-      <p class="lead">③ 지연 때문에 리랭킹 뺌 <span class="fl-v is-ng">≠</span></p>
+      <p class="lead">③ 지연 때문에 리랭킹을 뺀다 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 문서 — 쪽지 : <span class="flx-alt-slip">출장비 규정 / PDF 12쪽</span></li>
-        <li>자르기 : 문서 → chunk+문맥 : 보통 수백 토큰 이하 — 쪽지 : <span class="flx-alt-slip">"상한은 1박 / 12만 원"</span></li>
-        <li>문맥 붙이기 : chunk+문맥 : 50~100토큰 설명을 앞에 — 쪽지 : <span class="flx-alt-slip">[출장비 규정 / 3절: 숙박비] / + "상한은…"</span></li>
-        <li>index : chunk+문맥 → index : 임베딩과 BM25 양쪽에 — 쪽지 : <span class="flx-alt-slip">벡터 / [0.12, …] / BM25 / 숙박비·상한</span></li>
+        <li>자르기 : 문서 → chunk+문맥 : 보통 수백 토큰 이하로 자른다 — 쪽지 : <span class="flx-alt-slip">"상한은 1박 / 12만 원"</span></li>
+        <li>문맥 붙이기 : chunk+문맥 : 50~100토큰 설명을 앞에 붙인다 — 쪽지 : <span class="flx-alt-slip">[출장비 규정 / 3절: 숙박비] / + "상한은…"</span></li>
+        <li>index : chunk+문맥 → index : 임베딩과 BM25 양쪽에 넣는다 — 쪽지 : <span class="flx-alt-slip">벡터 / [0.12, …] / BM25 / 숙박비·상한</span></li>
         <li>건너뜀 : 리랭크</li>
         <li>넣기 : index → 모델 : 리랭킹을 뺀다 — 쪽지 : <span class="flx-alt-slip">1차 순위 / 그대로 20개</span></li>
-        <li>끝 : 공식 방향은 리랭킹을 빼는 게 아니라 리랭킹 개수를 실험으로 맞추기</li>
+        <li>끝 : 공식 방향은 리랭킹을 빼지 않고 리랭킹 개수를 실험으로 맞추는 것이다</li>
       </ol>
     </details>
   </figure>
@@ -557,9 +566,9 @@
       <ol class="how">
         <li id="rag-pipeline-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p>Contextual Retrieval : chunk 마다 "이 chunk 가 문서 어디 얘기인지" 50~100토큰 설명을 Claude 로 만들어 앞에 붙인 뒤, 임베딩과 BM25 index 양쪽에 넣음 <span class="pg">[3.5②]</span></p>
-            <p><span class="lead">비용 :</span> 문서를 캐시에 한 번 올려 두고 chunk 마다 재사용 → 문서 100만 토큰당 $1.02 1회 (가정 = chunk 800 · 문서 8천 · 지시 50 · 설명 100토큰, 2024 글 가격) → <a href="caching.html">■ 프롬프트 캐싱</a></p>
-            <p class="lead">이득은 쌓임 <span class="src">(지표 = 상위 20개에 정답 chunk 가 없는 비율, 1 − recall@20)</span></p>
+            <p>Contextual Retrieval : chunk 마다 "이 chunk 가 문서 어디 얘기인지" 50~100토큰 설명을 Claude 로 만들어 앞에 붙인다. 그 뒤 임베딩과 BM25 index 양쪽에 넣는다 <span class="pg">[3.5②]</span></p>
+            <p><span class="lead">비용 :</span> 문서를 캐시에 한 번 올려 두고 chunk 마다 재사용한다. 그러면 문서 100만 토큰당 $1.02 를 1회 낸다 (가정 = chunk 800 · 문서 8천 · 지시 50 · 설명 100토큰, 2024 글 가격). 자세한 것은 <a href="caching.html">■ 프롬프트 캐싱</a> 에 있다</p>
+            <p class="lead">이득은 쌓인다 <span class="src">(지표 = 상위 20개에 정답 chunk 가 없는 비율, 1 − recall@20)</span></p>
             <div class="tscroll" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">구성</th><th scope="col" role="columnheader">실패율</th><th scope="col" role="columnheader">줄어든 비율</th></tr></thead>
@@ -571,12 +580,12 @@
               </tbody>
             </table>
             </div>
-            <p>chunk 에 문서 요약을 통째로 붙이는 방식은 이득이 "매우 작았음"</p>
+            <p>chunk 에 문서 요약을 통째로 붙이는 방식은 공식 실험에서 이득이 매우 작았다</p>
           </div>
         </li>
         <li id="rag-pipeline-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
-            <p>쉬운 질문 → 작은 모델 routing(라우팅)은 <a href="query-routing.html">■ 질의 패턴별 검색</a> <span class="rule-ref">· <a href="query-routing.html#query-routing-rule-2">규칙 ②</a></span> <span class="pg">[3.3③]</span></p>
+            <p>쉬운 질문을 작은 모델로 보내는 routing(라우팅)은 <a href="query-routing.html">■ 질의 패턴별 검색</a> <span class="rule-ref">· <a href="query-routing.html#query-routing-rule-2">규칙 ②</a></span> 에 있다 <span class="pg">[3.3③]</span></p>
           </div>
         </li>
       </ol>
@@ -585,34 +594,35 @@
       <ol class="how">
         <li id="rag-pipeline-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p><span class="lead">chunking :</span> 공식 숫자 없음. "보통 수백 토큰 이하"로 자르고, 크기·경계·겹침이 검색 성능을 바꾼다고만 함 → 숫자는 내 데이터 검색 eval 로 정함 <span class="pg">[3.5①]</span></p>
-            <p><span class="lead">방식 :</span></p>
-            <ul class="pairs">
-              <li>크기 기준 + 겹침 = 흔한 기본(어떤 문서에도 됨)</li>
-              <li>구조 기준(제목·절) = 서식이 보장될 때 가장 깔끔</li>
-              <li>의미 기준 = 비싸고 복잡. "정답 전략은 없다" <span class="src">(Skilljar)</span></li>
+            <p><span class="lead">chunking :</span> 공식 숫자는 없다. 공식은 "보통 수백 토큰 이하"로 자르고, 크기·경계·겹침이 검색 성능을 바꾼다고만 한다. 그래서 숫자는 내 데이터 검색 eval 로 정한다 <span class="pg">[3.5①]</span></p>
+            <p>자르는 방식은 아래와 같다. "정답 전략은 없다" <span class="src">(Skilljar)</span></p>
+            <ul class="dash">
+              <li><span class="lead">크기 기준 + 겹침 :</span> 흔한 기본이다(어떤 문서에도 된다)</li>
+              <li>구조 기준(제목·절) : 서식이 보장될 때 가장 깔끔하다</li>
+              <li><span class="lead">의미 기준 :</span> 비싸고 복잡하다</li>
             </ul>
           </div>
         </li>
         <li id="rag-pipeline-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">리랭킹 :</span> 1차 검색은 넓게(실험 150개) → 리랭커가 질문과의 관련도로 점수 → 상위 K(실험 20개)만 모델에 <span class="pg">[3.3③]</span></p>
-            <p>많이 리랭킹 = 성능, 적게 = 지연·비용 ↓ → 내 사례로 실험해 균형. 리랭킹은 없는 것보다 나음</p>
-            <p>리랭킹은 단계를 하나 더해 지연을 조금 늘리지만, 모델이 읽을 양이 줄어 생성 쪽 비용·지연은 줄임</p>
-            <p>모델에 넣는 chunk 수 : 5·10·20 중 20이 가장 좋았음. 더 넣으면 모델이 산만해져 한계 있음 → 실험</p>
+            <p><span class="lead">리랭킹 :</span> 1차 검색은 넓게 뽑는다(실험 150개). 리랭커가 질문과의 관련도로 점수를 매긴다. 상위 K(실험 20개)만 모델에 넣는다 <span class="pg">[3.3③]</span></p>
+            <p>많이 리랭킹하면 성능이 좋아지고, 적게 하면 지연·비용이 준다. 내 사례로 실험해 균형을 맞춘다. 리랭킹은 없는 것보다 낫다</p>
+            <p>리랭킹은 단계를 하나 더해 지연을 조금 늘리지만, 모델이 읽을 양이 줄어 생성 쪽 비용·지연은 줄인다</p>
+            <p>모델에 넣는 chunk 수 : 5·10·20 중 20이 가장 좋았다. 더 넣으면 모델이 산만해지는 한계가 있다. 그래서 실험으로 정한다</p>
           </div>
         </li>
         <li id="rag-pipeline-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p><span class="lead">임베딩 :</span> Anthropic 은 자체 임베딩 모델이 없음 → Voyage 는 공급자 "하나", 여러 공급자를 평가하라 <span class="pg">[3.5②]</span></p>
-            <p>검색(RAG)이면 <code>input_type</code> 을 문서엔 <code>"document"</code>, 질문엔 <code>"query"</code> — 생략·None 금지</p>
-            <p>Voyage 에는 문서 맥락을 chunk 벡터에 담는 모델(<code>contextualized_embed()</code>)과 리랭커(<code>rerank()</code>)도 있음</p>
+            <p><span class="lead">임베딩 :</span> Anthropic 은 자체 임베딩 모델이 없다. Voyage 는 공급자 "하나"다. 여러 공급자를 평가한다 <span class="pg">[3.5②]</span></p>
+            <p>검색(RAG)이면 <code>input_type</code> 을 문서에는 <code>"document"</code>, 질문에는 <code>"query"</code> 로 준다. 생략·None 은 금지다</p>
+            <p>Voyage 에는 문서 맥락을 chunk 벡터에 담는 모델(<code>contextualized_embed()</code>)과 리랭커(<code>rerank()</code>)도 있다</p>
           </div>
         </li>
         <li id="rag-pipeline-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">저장이 커지면 양자화 :</span> float32 → int8 = 저장·메모리·비용 4배 ↓, binary = 32배 ↓ (<code>output_dtype</code>). 기본 float 가 정확도 최고 → 줄인 만큼 정확도를 내줌 <span class="pg">[3.3③]</span></p>
-            <p>차원 줄이기(1024 → 256 등, Matryoshka 앞부분만 남기기)도 같은 lever(조절 수단) · 줄이기 전 검색 eval 로 확인 <span class="gen">업계 일반</span></p>
+            <p>저장이 커지면 양자화한다. float32 를 int8 로 줄이면 저장·메모리·비용이 4배 준다. binary 면 32배 준다 (<code>output_dtype</code>). 기본 float 가 정확도가 가장 높다. 그래서 줄인 만큼 정확도를 내준다 <span class="pg">[3.3③]</span></p>
+            <p>차원 줄이기(1024 에서 256 등으로, Matryoshka 앞부분만 남기기)도 같은 lever(조절 수단)다</p>
+            <p>줄이기 전에 검색 eval 로 확인한다 <span class="gen">업계 일반</span></p>
           </div>
         </li>
       </ol>
@@ -626,14 +636,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">chunk 크기·겹침을 정해야 함</td><td data-label="답" role="cell">외운 숫자 말고 내 데이터 검색 eval 로 정함</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "usually no more than a few hundred tokens" · "The choice of chunk size, chunk boundary, and chunk overlap can affect retrieval performance"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">chunking 방식을 고름</td><td data-label="답" role="cell">서식 보장 → 구조 기준 · 대부분 문서 → 문장 기준 · 아무 문서나(코드 포함) → 크기 기준 + 겹침</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Skilljar 287776 "Choosing Your Strategy"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">chunk 만 봐선 어느 문서 얘기인지 모름</td><td data-label="답" role="cell">Contextual Retrieval (chunk 별 설명을 앞에 붙여 임베딩·BM25 양쪽에)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">맞는 chunk 가 후보엔 있는데 순위가 낮음</td><td data-label="답" role="cell">리랭킹 추가</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "Reranking is better than no reranking"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">리랭킹 뒤 p95 지연이 목표를 넘음</td><td data-label="답" role="cell">리랭킹 개수를 줄이며 실험 (빼지 않음)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "There is an inherent trade-off between reranking more chunks … vs. reranking fewer for lower latency and cost."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">검색용으로 임베딩</td><td data-label="답" role="cell">문서 = <code>input_<wbr>type="document"</code>, 질문 = <code>"query"</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본 "Do not omit <code>input_<wbr>type</code>"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">벡터 저장·메모리가 부담</td><td data-label="답" role="cell">int8(4배) · binary(32배) 양자화, 또는 차원 줄이기 — 정확도 대가를 eval 로 확인</td><td data-label="등급" role="cell"><span class="note">(eval 부분은</span> <span class="gen">업계 일반</span><span class="note">)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">임베딩 공급자 고르기</td><td data-label="답" role="cell">여러 공급자를 내 사례로 평가 (Anthropic 자체 모델 없음)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">chunk 크기·겹침을 정해야 한다</td><td data-label="답" role="cell">외운 숫자 말고 내 데이터 검색 eval 로 정한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "usually no more than a few hundred tokens" · "The choice of chunk size, chunk boundary, and chunk overlap can affect retrieval performance"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">chunking 방식을 고른다</td><td data-label="답" role="cell">서식이 보장되면 구조 기준을 쓴다. 대부분 문서에는 문장 기준을 쓴다. 아무 문서나(코드 포함) 받으면 크기 기준 + 겹침을 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Skilljar 287776 "Choosing Your Strategy"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">chunk 만 봐선 어느 문서 얘기인지 모른다</td><td data-label="답" role="cell">Contextual Retrieval 을 쓴다 (chunk 별 설명을 앞에 붙여 임베딩·BM25 양쪽에 넣는다)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">맞는 chunk 가 후보엔 있는데 순위가 낮다</td><td data-label="답" role="cell">리랭킹을 더한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "Reranking is better than no reranking"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">리랭킹 뒤 p95 지연이 목표를 넘는다</td><td data-label="답" role="cell">리랭킹 개수를 줄이며 실험한다 (빼지 않는다)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "There is an inherent trade-off between reranking more chunks … vs. reranking fewer for lower latency and cost."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">검색용으로 임베딩한다</td><td data-label="답" role="cell">문서는 <code>input_<wbr>type="document"</code>, 질문은 <code>"query"</code> 로 준다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본 "Do not omit <code>input_<wbr>type</code>"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">벡터 저장·메모리가 부담이다</td><td data-label="답" role="cell">int8(4배) · binary(32배)로 양자화하거나 차원을 줄인다. 정확도 대가를 eval 로 확인한다</td><td data-label="등급" role="cell"><span class="note">(eval 부분은</span> <span class="gen">업계 일반</span><span class="note">)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">임베딩 공급자를 고른다</td><td data-label="답" role="cell">여러 공급자를 내 사례로 평가한다 (Anthropic 자체 모델이 없다)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본</td></tr>
   </tbody>
 </table>
 </div>
@@ -644,14 +654,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">지식 크기</td><td data-label="값" role="cell">20만 토큰 미만</td><td data-label="답 쪽" role="cell">RAG 없이 full context(문서 전체를 넣기) + 캐싱</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">◆ RAG vs full context (본편)</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">chunk 의 자기완결성</td><td data-label="값" role="cell">chunk 하나로 주어·시점이 다 보임(FAQ 한 항목 등)</td><td data-label="답 쪽" role="cell">맥락 붙이기 이득이 작을 수 있음</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">공식은 "모든 조합에서 개선"이라고만 함</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">chunk 의 자기완결성</td><td data-label="값" role="cell">"그 회사는 3% 성장" 식으로 대명사·생략이 많음</td><td data-label="답 쪽" role="cell">Contextual Retrieval 이득 큼</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">질문 모양</td><td data-label="값" role="cell">고유 ID·에러 코드</td><td data-label="답 쪽" role="cell">BM25 를 더함</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">◆ 임베딩 vs BM25 vs hybrid</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">지연 예산</td><td data-label="값" role="cell">빡빡함</td><td data-label="답 쪽" role="cell">리랭킹 개수 ↓ · 넣는 chunk 수 실험</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">저장 규모</td><td data-label="값" role="cell">벡터 수천만 개</td><td data-label="답 쪽" role="cell">양자화·차원 축소 검토</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">전처리 모델 가격</td><td data-label="값" role="cell">지금 가격</td><td data-label="답 쪽" role="cell">문서 100만 토큰당 약 $3.8 (Haiku 4.5, 캐싱 사용)</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">캐싱 가능 여부</td><td data-label="값" role="cell">캐싱 못 씀</td><td data-label="답 쪽" role="cell">전처리 비용이 약 3배</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">지식 크기</td><td data-label="값" role="cell">20만 토큰 미만</td><td data-label="답 쪽" role="cell">RAG 없이 full context(문서 전체를 넣기)로 넣고 캐싱한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">◆ RAG vs full context (본편)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">chunk 의 자기완결성</td><td data-label="값" role="cell">chunk 하나로 주어·시점이 다 보인다(FAQ 한 항목 등)</td><td data-label="답 쪽" role="cell">맥락 붙이기 이득이 작을 수 있다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">공식은 "모든 조합에서 개선"이라고만 한다</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">chunk 의 자기완결성</td><td data-label="값" role="cell">"그 회사는 3% 성장" 식으로 대명사·생략이 많다</td><td data-label="답 쪽" role="cell">Contextual Retrieval 이득이 크다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">질문 모양</td><td data-label="값" role="cell">고유 ID·에러 코드</td><td data-label="답 쪽" role="cell">BM25 를 더한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">◆ 임베딩 vs BM25 vs hybrid</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">지연 예산</td><td data-label="값" role="cell">빡빡하다</td><td data-label="답 쪽" role="cell">리랭킹 개수를 줄인다. 넣는 chunk 수를 실험한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">저장 규모</td><td data-label="값" role="cell">벡터 수천만 개</td><td data-label="답 쪽" role="cell">양자화·차원 축소를 검토한다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">전처리 모델 가격</td><td data-label="값" role="cell">지금 가격</td><td data-label="답 쪽" role="cell">문서 100만 토큰당 약 $3.8 이다 (Haiku 4.5, 캐싱 사용)</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">캐싱 가능 여부</td><td data-label="값" role="cell">캐싱을 못 쓴다</td><td data-label="답 쪽" role="cell">전처리 비용이 약 3배다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
   </tbody>
 </table>
 </div>
@@ -667,14 +677,14 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"256~512토큰·겹침 10~20% 가 공식 권장" → 공식 숫자 없음. 'eval 로 정한다' 보기가 공식과 같음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"고정 크기 chunk 는 안티패턴, semantic chunking 이 정답" → 공식 근거 없음. Skilljar 는 오히려 크기+겹침이 흔한 기본이라 함 <span class="src">(Skilljar)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"리랭킹까지 하면 실패율이 67%" → 67% 는 줄어든 비율. 남은 실패율은 1.9%</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"지연 때문에 리랭킹을 뺀다" / "후보를 더 늘린다" → 공식 방향은 리랭킹 개수를 실험으로 맞추기</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span><code>input_type</code> 빼먹음 · 질문도 document 로 임베딩 → 검색 품질 ↓</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Anthropic 이 Voyage 를 공식 권장" → 공식은 '공급자 하나로 Voyage + 여러 공급자 평가' <span class="src">(Skilljar 강의는 Voyage 를 "recommended provider" 라고 부름 — docs 보다 강한 표현)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"chunk 앞에 문서 요약을 붙이면 된다" → 공식 실험에서 이득 매우 작음. 붙이는 건 chunk 별 설명</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"양자화는 공짜 절감" → 정확도가 가장 높은 건 기본 float</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"256~512토큰·겹침 10~20% 가 공식 권장이다" 는 함정이다. 공식 숫자는 없다. 'eval 로 정한다' 보기가 공식과 같다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"고정 크기 chunk 는 안티패턴이고 semantic chunking 이 정답이다" 는 함정이다. 공식 근거가 없다. Skilljar 는 오히려 크기+겹침이 흔한 기본이라고 한다 <span class="src">(Skilljar)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"리랭킹까지 하면 실패율이 67% 다" 는 함정이다. 67% 는 줄어든 비율이다. 남은 실패율은 1.9% 다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"지연 때문에 리랭킹을 뺀다" 와 "후보를 더 늘린다" 는 함정이다. 공식 방향은 리랭킹 개수를 실험으로 맞추는 것이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span><code>input_type</code> 을 빼먹거나 질문도 document 로 임베딩하는 것은 함정이다. 검색 품질이 떨어진다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Anthropic 이 Voyage 를 공식 권장한다" 는 함정이다. 공식은 '공급자 하나로 Voyage + 여러 공급자 평가' 다 <span class="src">(Skilljar 강의는 Voyage 를 "recommended provider" 라고 부른다. docs 보다 강한 표현이다)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"chunk 앞에 문서 요약을 붙이면 된다" 는 함정이다. 공식 실험에서 이득이 매우 작았다. 붙이는 것은 chunk 별 설명이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"양자화는 공짜 절감이다" 는 함정이다. 정확도가 가장 높은 것은 기본 float 다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -698,40 +708,44 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. "Contextual Retrieval 은 싸다" — 캐싱이 없으면 약 3배</h4>
 <ul>
-<li><span class="lead">조건 :</span> 문서마다 chunk 가 많아, chunk 별 설명을 만들 때 매번 문서 전체를 다시 읽힘.</li>
-<li><span class="lead">계산 :</span> 공식 가정(chunk 800 · 문서 8천 → 문서당 chunk 10개 · 지시 50 · 설명 출력 100)을 Haiku 4.5 가격(입력 $1 · 출력 $5 · 5분 캐시 쓰기 $1.25 · 읽기 $0.10, 백만 토큰당)에 대입.</li>
-<li><span class="lead">캐싱 :</span> 문서 쓰기 1번 8천 × $1.25 = $0.0100 · 읽기 9번 7만 2천 × $0.10 = $0.0072 · chunk+지시 850 × 10 = 8,500 × $1 = $0.0085 · 출력 1,000 × $5 = $0.0050 → 문서당 $0.0307 → 문서 100만 토큰(문서 125개)당 약 $3.84.</li>
-<li><span class="lead">캐싱 없음 :</span> 입력 8,850 × 10 = 8만 8,500 × $1 = $0.0885 + 출력 $0.0050 → 문서당 $0.0935 → 100만 토큰당 약 $11.69.</li>
-<li>
-<p class="lead">비율 : 약 3.0배.</p>
+<li><span class="lead">조건 :</span> 문서마다 chunk 가 많다. chunk 별 설명을 만들 때 매번 문서 전체를 다시 읽힌다.</li>
+<li>계산 : 공식 가정(chunk 800 · 문서 8천이면 문서당 chunk 10개 · 지시 50 · 설명 출력 100)을 Haiku 4.5 가격(입력 $1 · 출력 $5 · 5분 캐시 쓰기 $1.25 · 읽기 $0.10, 백만 토큰당)에 대입한다.<ul>
+<li><span class="lead">캐싱 :</span> 문서 쓰기 1번은 8천 × $1.25 = $0.0100 이다. 읽기 9번은 7만 2천 × $0.10 = $0.0072 이다. chunk+지시는 850 × 10 = 8,500 × $1 = $0.0085 이다. 출력은 1,000 × $5 = $0.0050 이다. 합하면 문서당 $0.0307 이다. 문서 100만 토큰(문서 125개)당 약 $3.84 다.</li>
+<li><span class="lead">캐싱 없음 :</span> 입력은 8,850 × 10 = 8만 8,500 × $1 = $0.0885 다. 출력 $0.0050 을 더하면 문서당 $0.0935 다. 100만 토큰당 약 $11.69 다.</li>
+<li><span class="lead">비율 :</span> 약 3.0배다.</li>
+</ul>
 </li>
-<li>
-<p>예 : 코퍼스 3,000만 토큰 → 캐싱 약 $115 1회 / 캐싱 없음 약 $351 1회.</p>
+<li><span class="lead">예 :</span> 코퍼스가 3,000만 토큰이면 캐싱 시 약 $115 를 1회, 캐싱 없이 약 $351 을 1회 낸다.</li>
+<li>전제 : 아래 네 가지다.<ul>
+<li>한 문서의 chunk 10개를 5분 안에 이어서 처리한다(캐시 적중).</li>
+<li>문서 8천은 Haiku 4.5 최소 캐시 길이(4,096) 이상이다.</li>
+<li>가격은 2026-09-28 조회값이다.</li>
+<li>공식 $1.02 는 2024 글의 옛 모델 가격이라 지금 값과 다르다.</li>
+</ul>
 </li>
-<li><span class="lead">전제 :</span> 한 문서의 chunk 10개를 5분 안에 이어서 처리(캐시 적중) · 문서 8천은 Haiku 4.5 최소 캐시 길이(4,096) 이상 · 가격 = 2026-09-28 조회값 · 공식 $1.02 는 2024 글의 옛 모델 가격이라 지금 값과 다름.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (가정·배수는 확인)</li>
 <li><span class="lead">근거 :</span> contextual-retrieval · ko-pricing <a href="caching.html">■ 프롬프트 캐싱</a> <span class="rule-ref">· <a href="caching.html#caching-rule-2">규칙 ②</a></span></li>
 </ul>
 <h4>2. 벡터가 너무 많아 메모리에 안 올라감 — 양자화 쪽으로</h4>
 <ul>
-<li><span class="lead">조건 :</span> chunk 3,000만 개 · 1024차원 임베딩.</li>
-<li><span class="lead">계산 :</span> float32 = 1024 × 4바이트 = 4,096바이트/개 → 약 123GB. int8(4배 ↓) → 약 31GB. binary(32배 ↓) → 약 3.8GB. 차원을 256 으로 줄이면 float 도 약 31GB.</li>
-<li><span class="lead">판단 :</span> 저장·메모리가 제약이면 정밀도나 차원을 낮추는 쪽. 정확도가 가장 높은 건 기본 float 이므로, 낮춘 뒤 검색 eval 로 재확인.</li>
+<li><span class="lead">조건 :</span> chunk 가 3,000만 개다. 임베딩은 1024차원이다.</li>
+<li><span class="lead">계산 :</span> float32 는 1024 × 4바이트 = 4,096바이트/개 라 약 123GB 다. int8(4배 ↓)은 약 31GB 다. binary(32배 ↓)는 약 3.8GB 다. 차원을 256 으로 줄이면 float 도 약 31GB 다.</li>
+<li><span class="lead">판단 :</span> 저장·메모리가 제약이면 정밀도나 차원을 낮춘다. 정확도가 가장 높은 것은 기본 float 다. 그래서 낮춘 뒤 검색 eval 로 다시 확인한다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (4배·32배·기본 float 최고 정확도는 확인)</li>
 <li><span class="lead">근거 :</span> embeddings 전체본 en 31~34(차원 옵션)·</li>
 </ul>
 <h4>3. 리랭킹이 지연을 넘김 — 빼는 게 아니라 줄임</h4>
 <ul>
-<li><span class="lead">조건 :</span> 후보 전부를 리랭킹해 p95 가 목표를 넘음.</li>
-<li><span class="lead">판단 :</span> 공식은 "많이 = 성능, 적게 = 지연·비용" trade-off 라 하고 내 사례로 실험하라 함. 리랭킹은 없는 것보다 나음 → 후보 수를 줄여 가며 eval·지연을 함께 봄. 빼는 보기는 약함.</li>
-<li><span class="lead">반대 방향 :</span> 리랭킹이 모델에 넣는 chunk 를 줄이면 생성 단계 지연은 오히려 줄어듦 → 전체 지연으로 판단.</li>
-<li><span class="lead">등급 :</span> <span class="note">(방향) · 개수 숫자는</span> <span class="open">미해결</span><span class="note">(공식 숫자 = 실험값 150 → 20 뿐)</span></li>
+<li><span class="lead">조건 :</span> 후보 전부를 리랭킹해 p95 가 목표를 넘는다.</li>
+<li><span class="lead">판단 :</span> 공식은 "많이 = 성능, 적게 = 지연·비용" trade-off 라 하고 내 사례로 실험하라고 한다. 리랭킹은 없는 것보다 낫다. 그래서 후보 수를 줄여 가며 eval 과 지연을 함께 본다. 빼는 보기는 약하다.</li>
+<li><span class="lead">반대 방향 :</span> 리랭킹이 모델에 넣는 chunk 를 줄이면 생성 단계 지연은 오히려 줄어든다. 그래서 전체 지연으로 판단한다.</li>
+<li><span class="lead">등급 :</span> <span class="note">(방향) · 개수 숫자는</span> <span class="open">미해결</span><span class="note">(공식 숫자는 실험값 150 과 20 뿐)</span></li>
 <li><span class="lead">근거 :</span> contextual-retrieval</li>
 </ul>
 <h4>4. 넣는 chunk 수를 늘리면 더 잘 찾나?</h4>
 <ul>
-<li><span class="lead">조건 :</span> 답에 필요한 chunk 가 가끔 빠짐.</li>
-<li><span class="lead">판단 :</span> 5·10·20 중 20이 가장 좋았지만, 더 넣을수록 모델이 산만해지는 한계가 있다고 공식이 명시 → "많을수록 좋다"는 틀림. 내 사례로 실험.</li>
+<li><span class="lead">조건 :</span> 답에 필요한 chunk 가 가끔 빠진다.</li>
+<li><span class="lead">판단 :</span> 5·10·20 중 20이 가장 좋았다. 그러나 더 넣을수록 모델이 산만해지는 한계가 있다고 공식이 명시한다. 그래서 "많을수록 좋다"는 틀리다. 내 사례로 실험한다.</li>
 
 <li><span class="lead">근거 :</span> contextual-retrieval</li>
 </ul>
@@ -742,21 +756,23 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"공식 권장은 256~512토큰 · 겹침 10~20%"</td><td data-label="왜 끌리나" role="cell">블로그·강의에서 흔히 봄</td><td data-label="왜 틀리나" role="cell">Anthropic 글·Skilljar 강의 모두 이 숫자 없음. 공식은 "수백 토큰 이하 + 성능에 영향" 뿐</td><td data-label="근거" role="cell"> Skilljar 287776</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"고정 크기 chunk 는 안티패턴, semantic chunking 이 정답"</td><td data-label="왜 끌리나" role="cell">semantic 이 가장 정교해 보임</td><td data-label="왜 틀리나" role="cell">공식 근거 없음. Skilljar 는 크기+겹침이 흔한 기본, semantic 은 비싸고 복잡하다고 함</td><td data-label="근거" role="cell">Skilljar 287776</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"리랭킹까지 하면 실패율이 67%"</td><td data-label="왜 끌리나" role="cell">숫자 67% 가 눈에 띔</td><td data-label="왜 틀리나" role="cell">67% 는 줄어든 비율. 실패율은 5.7% → 1.9%</td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"지연 때문에 리랭킹을 빼고 임베딩만"</td><td data-label="왜 끌리나" role="cell">단계를 없애면 빨라 보임</td><td data-label="왜 틀리나" role="cell">공식은 개수 조절을 권함. 리랭킹은 없는 것보다 나음</td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"정확도 단계는 많을수록 좋으니 후보를 더 늘림"</td><td data-label="왜 끌리나" role="cell">더 보면 더 찾을 것 같음</td><td data-label="왜 틀리나" role="cell">리랭킹을 늘리면 지연·비용이 늘고, 모델에 넣는 chunk 가 많으면 산만해짐</td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"chunk 앞에 문서 요약을 붙이면 됨"</td><td data-label="왜 끌리나" role="cell">문맥을 더한다는 점이 비슷함</td><td data-label="왜 틀리나" role="cell">공식 실험에서 이득 매우 작음. 붙이는 건 chunk 별 설명</td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"질문도 문서처럼 임베딩 (input_type 생략)"</td><td data-label="왜 끌리나" role="cell">같은 모델이면 같게 넣을 것 같음</td><td data-label="왜 틀리나" role="cell">생략·None 금지. 질의·문서 구분이 검색 품질을 올림</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Anthropic 공식 권장 임베딩 = Voyage"</td><td data-label="왜 끌리나" role="cell">문서가 Voyage 예시로 채워짐</td><td data-label="왜 틀리나" role="cell">Voyage 는 '공급자 하나'. 여러 공급자를 평가하라</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"양자화는 정확도 손실 없는 공짜 절감"</td><td data-label="왜 끌리나" role="cell">4배·32배가 커 보임</td><td data-label="왜 틀리나" role="cell">정확도가 가장 높은 건 기본 float</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"공식 권장은 256~512토큰 · 겹침 10~20%"</td><td data-label="왜 끌리나" role="cell">블로그·강의에서 흔히 본다</td><td data-label="왜 틀리나" role="cell">Anthropic 글과 Skilljar 강의 모두 이 숫자가 없다. 공식은 "수백 토큰 이하 + 성능에 영향" 뿐이다</td><td data-label="근거" role="cell"> Skilljar 287776</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"고정 크기 chunk 는 안티패턴, semantic chunking 이 정답"</td><td data-label="왜 끌리나" role="cell">semantic 이 가장 정교해 보인다</td><td data-label="왜 틀리나" role="cell">공식 근거가 없다. Skilljar 는 크기+겹침이 흔한 기본이고 semantic 은 비싸고 복잡하다고 한다</td><td data-label="근거" role="cell">Skilljar 287776</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"리랭킹까지 하면 실패율이 67%"</td><td data-label="왜 끌리나" role="cell">숫자 67% 가 눈에 띈다</td><td data-label="왜 틀리나" role="cell">67% 는 줄어든 비율이다. 실패율은 5.7% 에서 1.9% 로 줄었다</td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"지연 때문에 리랭킹을 빼고 임베딩만"</td><td data-label="왜 끌리나" role="cell">단계를 없애면 빨라 보인다</td><td data-label="왜 틀리나" role="cell">공식은 개수 조절을 권한다. 리랭킹은 없는 것보다 낫다</td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"정확도 단계는 많을수록 좋으니 후보를 더 늘림"</td><td data-label="왜 끌리나" role="cell">더 보면 더 찾을 것 같다</td><td data-label="왜 틀리나" role="cell">리랭킹을 늘리면 지연·비용이 늘어난다. 모델에 넣는 chunk 가 많으면 산만해진다</td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"chunk 앞에 문서 요약을 붙이면 됨"</td><td data-label="왜 끌리나" role="cell">문맥을 더한다는 점이 비슷하다</td><td data-label="왜 틀리나" role="cell">공식 실험에서 이득이 매우 작았다. 붙이는 것은 chunk 별 설명이다</td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"질문도 문서처럼 임베딩 (input_type 생략)"</td><td data-label="왜 끌리나" role="cell">같은 모델이면 같게 넣을 것 같다</td><td data-label="왜 틀리나" role="cell">생략·None 은 금지다. 질의·문서 구분이 검색 품질을 올린다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Anthropic 공식 권장 임베딩 = Voyage"</td><td data-label="왜 끌리나" role="cell">문서가 Voyage 예시로 채워져 있다</td><td data-label="왜 틀리나" role="cell">Voyage 는 '공급자 하나'다. 여러 공급자를 평가한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"양자화는 정확도 손실 없는 공짜 절감"</td><td data-label="왜 끌리나" role="cell">4배·32배가 커 보인다</td><td data-label="왜 틀리나" role="cell">정확도가 가장 높은 것은 기본 float 다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/embeddings" lang="en" rel="noopener">embeddings</a> 전체본</td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="rag-pipeline-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
@@ -776,13 +792,14 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>리랭킹 개수 : 공식 숫자는 실험 설정(150 → 20)뿐. "몇 개면 된다"는 기준 없음.</li>
-<li>Contextual Retrieval 비용 $1.02 는 2024 글의 가격 기준. 지금 가격으로는 설명 쪽 계산(Haiku 4.5 약 $3.84)이 추정이며, 공식 재계산 문장 없음.</li>
-<li>Voyage 의 맥락 chunk 임베딩 모델(<code>contextualized_embed()</code>)과 Contextual Retrieval(Claude 로 설명 붙이기) 중 무엇이 나은지 공식 비교 없음.</li>
-<li>목록 3.3③ "양자화는 eval 뒤에" : docs 문장은 없음(기본 float 가 정확도 최고라는 문장만) → eval 부분은 업계 일반으로 낮춤.</li>
-<li>목록 3.5② 메모(Voyage 권장이라는 말은 조금 강한 표현) : Skilljar 287759 강의는 "the recommended provider is VoyageAI" 라고 말함 → docs 가 이김(공급자 하나 + 여러 공급자 평가).</li>
+<li>리랭킹 개수 : 공식 숫자는 실험 설정(후보 150 개에서 20 개)뿐이다. "몇 개면 된다"는 기준은 없다.</li>
+<li>Contextual Retrieval 비용 $1.02 는 2024 글의 가격 기준이다. 지금 가격으로는 설명 쪽 계산(Haiku 4.5 약 $3.84)이 추정이다. 공식 재계산 문장은 없다.</li>
+<li>Voyage 의 맥락 chunk 임베딩 모델(<code>contextualized_embed()</code>)과 Contextual Retrieval(Claude 로 설명 붙이기) 중 무엇이 나은지 공식 비교가 없다.</li>
+<li>목록 3.3③ "양자화는 eval 뒤에" : docs 문장은 없다(기본 float 가 정확도 최고라는 문장만 있다). 그래서 eval 부분은 업계 일반으로 낮췄다.</li>
+<li>목록 3.5② 메모(Voyage 권장이라는 말은 조금 강한 표현) : Skilljar 287759 강의는 "the recommended provider is VoyageAI" 라고 말한다. docs 가 이긴다(공급자 하나 + 여러 공급자 평가).</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

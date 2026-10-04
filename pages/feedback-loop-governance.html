@@ -369,10 +369,22 @@
   </div>
   <h2 class="sec-h" id="feedback-loop-governance-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>운영 중 신호마다 한 행 = 신호(무엇을 보나) → 트리거(언제 움직이나) → 지정된 담당자(누가) → 반드시 하는 행동(런북 실행 · 프롬프트 되돌리기 · 이해관계자 검토). 대시보드 · 주간 품질 보고 · 공용 채널 알림은 모니터링만 — 담당자와 행동이 없으면 아무 일도 안 생김 <span class="gen">업계 일반</span> <span class="note">표 구조는 Anthropic 문서 없음</span></p>
-      <p>공식에서 가장 가까운 것 : eval 셋은 명확한 소유권이 있어야 쓸모 · 알림은 내 observability 백엔드의 몫 · 정기 작업엔 성공이 무엇인지와 결과로 무엇을 할지를 적음 <span class="src">(셋 다 좁은 문맥 — 루프 표로 넓힌 건 해석)</span></p>
-      <p>기술 루프(실패 → eval 과제 → CI)는 <a href="production-feedback-loop.html">■ 운영 → eval feedback loop</a>, 핸드오프 뒤 두 가지 일은 <a href="lifecycle-loop.html">■ lifecycle 루프</a>. 여기는 사람 쪽 feedback loop — 누가 무엇에 반응하고 언제 이해관계자(stakeholder)에게 올리나</p>
-    <p class="t5-ana"><span class="lead">비유</span> 온콜 에스컬레이션 정책 — 알림마다 받는 사람 · 응답 없으면 다음 사람 · 런북 링크. 공용 채널에만 쏘는 알림은 아무도 안 받는 알림</p>
+      <p>운영 중 신호마다 한 행을 적는다. 한 행에는 네 칸이 있다.</p>
+      <ul class="dash">
+        <li><span class="lead">신호 :</span> 무엇을 보나?</li>
+        <li><span class="lead">트리거 :</span> 언제 움직이나?</li>
+        <li><span class="lead">지정된 담당자 :</span> 누가 움직이나?</li>
+        <li><span class="lead">반드시 하는 행동 :</span> 런북 실행 · 프롬프트 되돌리기 · 이해관계자 검토</li>
+      </ul>
+      <p>대시보드 · 주간 품질 보고 · 공용 채널 알림은 모니터링일 뿐이다. 담당자와 행동이 없으면 아무 일도 생기지 않는다 <span class="gen">업계 일반</span> <span class="note">표 구조는 Anthropic 문서 없음</span></p>
+      <p>공식 문서에서 가장 가까운 것은 셋이다 <span class="note">(셋 다 좁은 문맥이다. 루프 표로 넓힌 것은 해석이다)</span></p>
+      <ul class="dash">
+        <li>eval 셋은 명확한 소유권이 있어야 쓸모가 있다</li>
+        <li>알림은 내 observability 백엔드의 몫이다</li>
+        <li>정기 작업에는 성공이 무엇인지와 결과로 무엇을 할지를 적는다</li>
+      </ul>
+      <p>기술 루프(실패, eval 과제, CI)는 <a href="production-feedback-loop.html">■ 운영 → eval feedback loop</a> 에 있다. 핸드오프 뒤 두 가지 일은 <a href="lifecycle-loop.html">■ lifecycle 루프</a> 에 있다. 여기는 사람 쪽 feedback loop 를 다룬다. 누가 무엇에 반응하고, 언제 이해관계자(stakeholder)에게 올리나?</p>
+    <p class="t5-ana"><span class="lead">비유</span> 온콜 에스컬레이션 정책과 같다. 알림마다 받는 사람, 응답이 없을 때의 다음 사람, 런북 링크가 정해져 있다. 공용 채널에만 쏘는 알림은 아무도 안 받는 알림이다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/feedback-loop-governance.webp"><img src="../images/feedback-loop-governance.webp" alt="신호, 트리거, 이름 있는 소유자, 반드시 하는 행동이 한 행으로 이어져야 하고 대시보드·주간 보고·공용 채널 알림은 모니터링만이라는 그림" loading="lazy" decoding="async"></a>
@@ -401,25 +413,25 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">보여 주기 ≠ 루프</p>
 <ul>
-<li>대시보드 · 주간 품질 보고 · 공용 채널 알림 = 보여 주기(모니터링)만. 루프 = 신호 → 트리거 → 지정된 담당자 → 반드시 하는 행동 (표 구조는 업계 일반).</li>
-<li>공식이 모니터링을 두고 하는 말 : 사후 대응(문제가 사용자에게 먼저 닿음) · 신호가 시끄러움 → 누군가 걸러 행동으로 바꿔야 의미가 생김.</li>
-<li>공식의 소유권 문장은 eval 셋에 있음 ("clear ownership"). 표의 모든 행으로 넓힌 건 해석.</li>
-<li>Claude Code 텔레메트리도 원시 이벤트만 내보내고 알림·기준선은 내 SIEM·observability(관측 가능성) 백엔드 몫 (공식) → 알림을 만들고 받는 사람을 정하는 건 늘 내 쪽 일.</li>
+<li>대시보드 · 주간 품질 보고 · 공용 채널 알림은 보여 주기(모니터링)일 뿐이다. 루프는 신호, 트리거, 지정된 담당자, 반드시 하는 행동이 이어진 것이다 (표 구조는 업계 일반).</li>
+<li>공식 문서는 모니터링을 두고 두 가지를 말한다. 사후 대응이라 문제가 사용자에게 먼저 닿는다. 신호가 시끄럽다. 그래서 누군가 걸러 행동으로 바꿔야 의미가 생긴다.</li>
+<li>공식의 소유권 문장은 eval 셋에 있다 ("clear ownership"). 표의 모든 행으로 넓힌 것은 해석이다.</li>
+<li>Claude Code 텔레메트리도 원시 이벤트만 내보낸다. 알림·기준선은 내 SIEM·observability(관측 가능성) 백엔드 몫이다 (공식). 그래서 알림을 만들고 받는 사람을 정하는 것은 늘 내 쪽 일이다.</li>
 </ul>
 <p class="lead">트리거 세 종류</p>
 <ul>
-<li>임계값 : 선을 넘으면 — 지출 임계값 알림 · 비용 급증 알림 (공식 장치).</li>
-<li>품질 상시 : 통과율 높은 과제를 regression suite 로 계속 돌려 drift 를 잡음 (공식).</li>
-<li>정기 : 지표와 상관없이 정해진 때 — 매주 transcript 표본 · 사람 정기 검토로 보정 (공식) · 규제 정기 감사 · 마일스톤 시연 (업계 일반).</li>
+<li>임계값 : 선을 넘으면 돈다. 지출 임계값 알림과 비용 급증 알림이 공식 장치다.</li>
+<li>품질 상시 : 통과율 높은 과제를 regression suite 로 계속 돌려 drift 를 잡는다 (공식).</li>
+<li>정기 : 지표와 상관없이 정해진 때 돈다. 매주 transcript 표본을 읽고 사람 정기 검토로 보정한다 (공식). 규제 정기 감사와 마일스톤 시연도 여기에 든다 (업계 일반).</li>
 </ul>
 <p class="lead">넘으면 이해관계자 검토로 올리는 선</p>
 <ul>
-<li>미리 합의한 선(비용 한도 · 합격 기준 · 규제 점검) = 팀 혼자 정해도 되는 범위의 경계. 넘으면 이해관계자(stakeholder) 검토.</li>
-<li>원인 먼저(정당한 성장인가 · 버그인가) → trade-off(절충)를 들고 감. 예산 재설정은 스폰서 (전부 업계 일반).</li>
+<li>미리 합의한 선(비용 한도 · 합격 기준 · 규제 점검)은 팀 혼자 정해도 되는 범위의 경계다. 넘으면 이해관계자(stakeholder)가 검토한다.</li>
+<li>원인을 먼저 밝힌다(정당한 성장인가 · 버그인가). 그다음 trade-off(절충)를 들고 간다. 예산 재설정은 스폰서가 한다 (전부 업계 일반).</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
-<li>이 신호가 울리면 누가, 무엇을 하나 — 사람 이름과 동작으로 답할 수 있나?</li>
+<li>이 신호가 울리면 누가, 무엇을 하나? 사람 이름과 동작으로 답할 수 있나?</li>
 <li>이 신호가 선을 넘으면 팀이 정하나, 이해관계자가 정하나?</li>
 </ul>
 </section>
@@ -435,19 +447,19 @@
       <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>신호마다 지정된 담당자가 있나?<span class="t5-sub">대시보드 · 주간 보고 · 공용 채널 알림</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>없음 <span class="note">(보기만)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">담당자·행동부터</p><p>대시보드 · 주간 품질 보고 · 공용 채널 알림은 모니터링만 — 담당자와 행동이 없으면 아무 일도 안 생김 <span class="gen">업계 일반</span> · eval 셋도 명확한 소유권이 있어야 쓸모</p></div>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>없다 <span class="note">(보기만)</span></span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">담당자·행동부터 채운다</p><p>대시보드 · 주간 품질 보고 · 공용 채널 알림은 모니터링일 뿐이다. 담당자와 행동이 없으면 아무 일도 생기지 않는다 <span class="gen">업계 일반</span>. eval 셋도 명확한 소유권이 있어야 쓸모가 있다</p></div>
         </div>
         <div class="t5-arm">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>있음</span>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>있다</span>
           <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>행동이 정해졌나?<span class="t5-sub">"살펴본다" vs 런북</span></div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>"살펴본다 · 주의 당부"</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">행동을 적음</p><p>런북 실행 · 프롬프트 되돌리기 · 이해관계자 검토처럼 반드시 하는 행동 <span class="gen">업계 일반</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">행동을 적는다</p><p>런북 실행 · 프롬프트 되돌리기 · 이해관계자 검토처럼 반드시 하는 행동을 적는다 <span class="gen">업계 일반</span></p></div>
             </div>
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>정해짐</span>
+              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>정해졌다</span>
               <div class="t5-leaf t5-ans t5-ref" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#feedback-loop-governance-tree-2">↓ 아래 「언제 도나」 갈림길로 이어짐</a></p><p>다음 물음 — 무엇이 움직이면 도나?</p></div>
             </div>
           </div>
@@ -461,16 +473,16 @@
       <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇이 움직이면 도나?</div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>지표가 선을 넘음 <span class="note">(비용 · 이관률)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">임계값 트리거</p><p>지출 임계값 알림 · 비용 급증 알림</p></div>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>지표가 선을 넘는다 <span class="note">(비용 · 이관률)</span></span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">임계값 트리거</p><p>지출 임계값 알림과 비용 급증 알림을 쓴다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>조금씩 떨어짐 <span class="note">(선 안)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">품질 행 · 정기 행</p><p>통과율 높은 capability eval 은 regression suite 로 옮겨 계속 돌며 drift 를 잡음 → 표의 품질 행 = 상시 도는 regression suite (해석) · 품질 트리거는 출시 전에 표에 <span class="gen">업계 일반</span> · 지표가 선을 안 넘어도 정해진 때 도는 행이 서서히 떨어지는 품질을 잡음 <span class="gen">업계 일반</span></p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>조금씩 떨어진다 <span class="note">(선 안)</span></span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">품질 행 · 정기 행</p><p>표의 품질 행은 상시 도는 regression suite 로 본다 (해석). 품질 트리거는 출시 전에 표에 적는다 <span class="gen">업계 일반</span>. 지표가 선을 안 넘어도 정해진 때 도는 행이 서서히 떨어지는 품질을 잡는다 <span class="gen">업계 일반</span>. 통과율 높은 capability eval 은 regression suite 로 옮겨 계속 돌며 drift 를 잡는다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>지표와 상관없이 정해진 때</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">정기 트리거</p><p>피드백은 계속 분류 · transcript 는 매주 표본 · 사람 정기 검토로 보정</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">정기 트리거</p><p>피드백은 계속 분류한다. transcript 는 매주 표본을 뽑아 읽는다. 사람 정기 검토로 보정한다</p></div>
         </div>
       </div>
     </div>
@@ -482,7 +494,7 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(선 안의 흔들림)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">팀 안에서</p><p>선 안의 작은 흔들림은 팀이 처리하고 기록 <span class="gen">업계 일반</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">팀 안에서 처리한다</p><p>선 안의 작은 흔들림은 팀이 처리하고 기록한다 <span class="gen">업계 일반</span></p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>예</span>
@@ -490,11 +502,11 @@
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>아직</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">원인부터</p><p>정당한 성장인가 · 버그인가부터 밝힘 → <a href="usage-cost-tracing.html">■ 비용 급증 추적</a> <span class="gen">업계 일반</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">원인부터 밝힌다</p><p>정당한 성장인가, 버그인가부터 밝힌다 <span class="gen">업계 일반</span>. 자세한 것은 <a href="usage-cost-tracing.html">■ 비용 급증 추적</a> 에 있다</p></div>
             </div>
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>밝힘</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">이해관계자 검토로</p><p>팀 안에서 조용히 고치지 않고 trade-off 를 들고 감 · 예산 재설정은 스폰서 결정 <span class="gen">업계 일반</span> → <a href="tradeoff-communication.html">■ trade-off 전달</a></p></div>
+              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>밝혔다</span>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">이해관계자 검토로 올린다</p><p>팀 안에서 조용히 고치지 않고 trade-off 를 들고 간다. 예산 재설정은 스폰서가 결정한다 <span class="gen">업계 일반</span>. 자세한 것은 <a href="tradeoff-communication.html">■ trade-off 전달</a> 에 있다</p></div>
             </div>
           </div>
         </div>
@@ -503,7 +515,7 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="feedback-loop-governance-flow" aria-label="feedback loop 책임 표 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["신호","트리거","담당자","행동"],"blocks":[],"rules":[null,null,"지정된 한 사람",null],"question":"이 신호가 뜨면 누가 움직일까?","scenes":[{"name":"① 담당자 있는 행","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["환불 문의","사람 이관률","12% → 21%"]}},{"kind":"move","step":"발동","from":{"col":0},"to":1,"label":"선을 넘음","art":{"kind":"slip","lines":["선: 18% 초과","이틀 연속"]}},{"kind":"move","step":"받음","from":{"col":1},"to":2,"label":"지정된 담당자","art":{"kind":"slip","lines":["지원 품질 리드","당일 확인"]}},{"kind":"move","step":"실행","from":{"col":2},"to":3,"label":"반드시 하는 행동","art":{"kind":"slip","lines":["런북 R-4","transcript 30건","원인 기록"]}},{"kind":"end","label":"신호 → 트리거 → 담당자 → 행동이 한 행에"}]},{"name":"② 공용 채널 알림만","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["환불 문의","사람 이관률","12% → 21%"]}},{"kind":"move","step":"발동","from":{"col":0},"to":1,"label":"공용 채널에 뜸","art":{"kind":"slip","lines":["#cs-alerts","3주째 매일"]}},{"kind":"skip","at":2},{"kind":"move","step":"멈춤","from":{"col":1},"to":3,"label":"담당자 없는 알림 ≠","art":{"kind":"slip","lines":["조치 0건","3주째 21%"]}},{"kind":"end","label":"담당자와 행동이 없으면 아무 일도 안 생김"}]},{"name":"③ 서서히 떨어짐 → 정기 행","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["정답률","88 → 87 → 86%","알림 선 80%"]}},{"kind":"mark","step":"조용함","at":{"col":1},"label":"선 안이라 알림은 안 울림","art":{"kind":"slip","lines":["알림 0건"]}},{"kind":"timer","at":1,"label":"매주 월요일 transcript 표본"},{"kind":"move","step":"발동","from":{"col":1},"to":2,"label":"정기 트리거","art":{"kind":"slip","lines":["매주 표본 30개","3주째 하락"]}},{"kind":"move","step":"실행","from":{"col":2},"to":3,"label":"반복인지 재설계인지 진단","art":{"kind":"slip","lines":["주제별 쪼개기","트레이스 확인"]}},{"kind":"end","label":"지표가 선을 안 넘어도 정해진 때 도는 행이 서서히 떨어지는 품질을 잡음"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["신호","트리거","담당자","행동"],"blocks":[],"rules":[null,null,"지정된 한 사람",null],"question":"이 신호가 뜨면 누가 움직일까?","scenes":[{"name":"① 담당자 있는 행","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["환불 문의","사람 이관률","12% → 21%"]}},{"kind":"move","step":"발동","from":{"col":0},"to":1,"label":"선을 넘는다","art":{"kind":"slip","lines":["선: 18% 초과","이틀 연속"]}},{"kind":"move","step":"받음","from":{"col":1},"to":2,"label":"지정된 담당자가 받는다","art":{"kind":"slip","lines":["지원 품질 리드","당일 확인"]}},{"kind":"move","step":"실행","from":{"col":2},"to":3,"label":"반드시 하는 행동을 한다","art":{"kind":"slip","lines":["런북 R-4","transcript 30건","원인 기록"]}},{"kind":"end","label":"신호, 트리거, 담당자, 행동이 한 행에 있다"}]},{"name":"② 공용 채널 알림만","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["환불 문의","사람 이관률","12% → 21%"]}},{"kind":"move","step":"발동","from":{"col":0},"to":1,"label":"공용 채널에 뜬다","art":{"kind":"slip","lines":["#cs-alerts","3주째 매일"]}},{"kind":"skip","at":2},{"kind":"move","step":"멈춤","from":{"col":1},"to":3,"label":"담당자가 없는 알림이다 ≠","art":{"kind":"slip","lines":["조치 0건","3주째 21%"]}},{"kind":"end","label":"담당자와 행동이 없으면 아무 일도 생기지 않는다"}]},{"name":"③ 서서히 떨어지면 정기 행","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["정답률","88 → 87 → 86%","알림 선 80%"]}},{"kind":"mark","step":"조용함","at":{"col":1},"label":"선 안이라 알림은 울리지 않는다","art":{"kind":"slip","lines":["알림 0건"]}},{"kind":"timer","at":1,"label":"매주 월요일 transcript 표본"},{"kind":"move","step":"발동","from":{"col":1},"to":2,"label":"정기 트리거가 돈다","art":{"kind":"slip","lines":["매주 표본 30개","3주째 하락"]}},{"kind":"move","step":"실행","from":{"col":2},"to":3,"label":"반복인지 재설계인지 진단한다","art":{"kind":"slip","lines":["주제별 쪼개기","트레이스 확인"]}},{"kind":"end","label":"지표가 선을 안 넘어도 정해진 때 도는 행이 서서히 떨어지는 품질을 잡는다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -513,27 +525,27 @@
       <p class="lead">① 담당자 있는 행 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 신호 — 쪽지 : <span class="flx-alt-slip">환불 문의 / 사람 이관률 / 12% → 21%</span></li>
-        <li>발동 : 신호 → 트리거 : 선을 넘음 — 쪽지 : <span class="flx-alt-slip">선: 18% 초과 / 이틀 연속</span></li>
-        <li>받음 : 트리거 → 담당자 : 지정된 담당자 — 쪽지 : <span class="flx-alt-slip">지원 품질 리드 / 당일 확인</span></li>
-        <li>실행 : 담당자 → 행동 : 반드시 하는 행동 — 쪽지 : <span class="flx-alt-slip">런북 R-4 / transcript 30건 / 원인 기록</span></li>
-        <li>끝 : 신호 → 트리거 → 담당자 → 행동이 한 행에</li>
+        <li>발동 : 신호 → 트리거 : 선을 넘는다 — 쪽지 : <span class="flx-alt-slip">선: 18% 초과 / 이틀 연속</span></li>
+        <li>받음 : 트리거 → 담당자 : 지정된 담당자가 받는다 — 쪽지 : <span class="flx-alt-slip">지원 품질 리드 / 당일 확인</span></li>
+        <li>실행 : 담당자 → 행동 : 반드시 하는 행동을 한다 — 쪽지 : <span class="flx-alt-slip">런북 R-4 / transcript 30건 / 원인 기록</span></li>
+        <li>끝 : 신호, 트리거, 담당자, 행동이 한 행에 있다</li>
       </ol>
       <p class="lead">② 공용 채널 알림만 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 신호 — 쪽지 : <span class="flx-alt-slip">환불 문의 / 사람 이관률 / 12% → 21%</span></li>
-        <li>발동 : 신호 → 트리거 : 공용 채널에 뜸 — 쪽지 : <span class="flx-alt-slip">#cs-alerts / 3주째 매일</span></li>
+        <li>발동 : 신호 → 트리거 : 공용 채널에 뜬다 — 쪽지 : <span class="flx-alt-slip">#cs-alerts / 3주째 매일</span></li>
         <li>건너뜀 : 담당자</li>
-        <li>멈춤 : 트리거 → 행동 : 담당자 없는 알림 ≠ — 쪽지 : <span class="flx-alt-slip">조치 0건 / 3주째 21%</span></li>
-        <li>끝 : 담당자와 행동이 없으면 아무 일도 안 생김</li>
+        <li>멈춤 : 트리거 → 행동 : 담당자가 없는 알림이다 ≠ — 쪽지 : <span class="flx-alt-slip">조치 0건 / 3주째 21%</span></li>
+        <li>끝 : 담당자와 행동이 없으면 아무 일도 생기지 않는다</li>
       </ol>
-      <p class="lead">③ 서서히 떨어짐 → 정기 행 <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">③ 서서히 떨어지면 정기 행 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 신호 — 쪽지 : <span class="flx-alt-slip">정답률 / 88 → 87 → 86% / 알림 선 80%</span></li>
-        <li>조용함 : 트리거 : 선 안이라 알림은 안 울림 — 쪽지 : <span class="flx-alt-slip">알림 0건</span></li>
+        <li>조용함 : 트리거 : 선 안이라 알림은 울리지 않는다 — 쪽지 : <span class="flx-alt-slip">알림 0건</span></li>
         <li>타이머 : 트리거 : 매주 월요일 transcript 표본</li>
-        <li>발동 : 트리거 → 담당자 : 정기 트리거 — 쪽지 : <span class="flx-alt-slip">매주 표본 30개 / 3주째 하락</span></li>
-        <li>실행 : 담당자 → 행동 : 반복인지 재설계인지 진단 — 쪽지 : <span class="flx-alt-slip">주제별 쪼개기 / 트레이스 확인</span></li>
-        <li>끝 : 지표가 선을 안 넘어도 정해진 때 도는 행이 서서히 떨어지는 품질을 잡음</li>
+        <li>발동 : 트리거 → 담당자 : 정기 트리거가 돈다 — 쪽지 : <span class="flx-alt-slip">매주 표본 30개 / 3주째 하락</span></li>
+        <li>실행 : 담당자 → 행동 : 반복인지 재설계인지 진단한다 — 쪽지 : <span class="flx-alt-slip">주제별 쪼개기 / 트레이스 확인</span></li>
+        <li>끝 : 지표가 선을 안 넘어도 정해진 때 도는 행이 서서히 떨어지는 품질을 잡는다</li>
       </ol>
     </details>
   </figure>
@@ -543,52 +555,68 @@
       <ol class="how">
         <li id="feedback-loop-governance-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p class="lead">한 행 = 신호 → 트리거 → 지정된 담당자 → 반드시 하는 행동 <span class="gen">업계 일반</span> <span class="pg">[6.3②]</span></p>
+            <p><span class="lead">한 행 :</span> 한 행에 신호, 트리거, 지정된 담당자, 반드시 하는 행동을 적는다 <span class="gen">업계 일반</span> <span class="pg">[6.3②]</span></p>
             <div class="tscroll t-wide" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">신호</th><th scope="col" role="columnheader">트리거</th><th scope="col" role="columnheader">담당자</th><th scope="col" role="columnheader">행동</th></tr></thead>
               <tbody role="rowgroup">
-                <tr role="row"><td data-label="신호" role="cell">환불 문의 사람 이관률</td><td data-label="트리거" role="cell">18% 초과 이틀 연속</td><td data-label="담당자" role="cell">지원 품질 리드</td><td data-label="행동" role="cell">런북 · transcript 표본 읽고 원인 기록</td></tr>
-                <tr role="row"><td data-label="신호" role="cell">월 API 지출</td><td data-label="트리거" role="cell">지출 임계값 알림</td><td data-label="담당자" role="cell">플랫폼 리드</td><td data-label="행동" role="cell">원인 추적 → 합의한 선을 넘으면 스폰서 검토</td></tr>
-                <tr role="row"><td data-label="신호" role="cell">regression suite 정답률</td><td data-label="트리거" role="cell">배포마다 · 매일</td><td data-label="담당자" role="cell">eval 셋 담당자</td><td data-label="행동" role="cell">떨어진 과제 확인 → 프롬프트 되돌리기</td></tr>
-                <tr role="row"><td data-label="신호" role="cell">transcript 표본</td><td data-label="트리거" role="cell">매주 월요일</td><td data-label="담당자" role="cell">지원 품질 리드</td><td data-label="행동" role="cell">30개 읽고 새 실패는 eval 과제로</td></tr>
+                <tr role="row"><td data-label="신호" role="cell">환불 문의 사람 이관률</td><td data-label="트리거" role="cell">18% 초과 이틀 연속</td><td data-label="담당자" role="cell">지원 품질 리드</td><td data-label="행동" role="cell">런북을 실행한다. transcript 표본을 읽고 원인을 기록한다</td></tr>
+                <tr role="row"><td data-label="신호" role="cell">월 API 지출</td><td data-label="트리거" role="cell">지출 임계값 알림</td><td data-label="담당자" role="cell">플랫폼 리드</td><td data-label="행동" role="cell">원인을 추적한다. 합의한 선을 넘으면 스폰서가 검토한다</td></tr>
+                <tr role="row"><td data-label="신호" role="cell">regression suite 정답률</td><td data-label="트리거" role="cell">배포마다 · 매일</td><td data-label="담당자" role="cell">eval 셋 담당자</td><td data-label="행동" role="cell">떨어진 과제를 확인하고 프롬프트를 되돌린다</td></tr>
+                <tr role="row"><td data-label="신호" role="cell">transcript 표본</td><td data-label="트리거" role="cell">매주 월요일</td><td data-label="담당자" role="cell">지원 품질 리드</td><td data-label="행동" role="cell">30개를 읽고 새 실패는 eval 과제로 만든다</td></tr>
               </tbody>
             </table>
             </div>
-            <p>(표 값은 예시 — 업계 일반)</p>
-            <p>대시보드 · 주간 품질 보고 · 위험 메모 · 공용 채널 알림은 모니터링만 — 담당자와 행동이 없으면 아무 일도 안 생김. 원인은 라우팅·모델이 아니라 비어 있는 책임 <span class="gen">업계 일반</span></p>
-            <p>담당자 = 지정된 한 사람 · 행동 = "살펴본다" 가 아니라 런북 실행 · 프롬프트 되돌리기 · 이해관계자 검토처럼 반드시 하는 행동 <span class="gen">업계 일반</span></p>
-            <p><span class="lead">공식 근거 :</span> eval 셋 = 계속 손보고 명확한 소유권이 있어야 쓸모 · Claude Code 는 원시 이벤트만 내보내고 이상 탐지·기준선·알림은 내 SIEM·observability(관측 가능성) 백엔드 몫 · 정기 작업 프롬프트엔 성공이 무엇인지와 결과로 무엇을 할지를 분명히 (좁은 문맥 — 루프 표로 넓힌 건 해석) → <a href="observability-signals.html">■ observability 세 신호</a></p>
+            <p>(표 값은 예시다 · 업계 일반)</p>
+            <p>대시보드 · 주간 품질 보고 · 위험 메모 · 공용 채널 알림은 모니터링일 뿐이다. 담당자와 행동이 없으면 아무 일도 생기지 않는다. 원인은 라우팅·모델이 아니라 비어 있는 책임이다 <span class="gen">업계 일반</span></p>
+            <p>담당자는 지정된 한 사람이다. 행동은 "살펴본다" 가 아니라 반드시 하는 행동이다. 런북 실행 · 프롬프트 되돌리기 · 이해관계자 검토가 그런 행동이다 <span class="gen">업계 일반</span></p>
+            <p>공식 근거는 아래 셋이다 <span class="note">(좁은 문맥이다. 루프 표로 넓힌 것은 해석이다)</span></p>
+            <ul class="dash">
+              <li>eval 셋은 계속 손보고 명확한 소유권이 있어야 쓸모가 있다</li>
+              <li>Claude Code 는 원시 이벤트만 내보낸다. 이상 탐지·기준선·알림은 내 SIEM·observability(관측 가능성) 백엔드 몫이다</li>
+              <li>정기 작업 프롬프트에는 성공이 무엇인지와 결과로 무엇을 할지를 분명히 적는다</li>
+            </ul>
+            <p>자세한 것은 <a href="observability-signals.html">■ observability 세 신호</a> 에 있다</p>
           </div>
         </li>
         <li id="feedback-loop-governance-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p><span class="lead">품질 행은 출시 전에 :</span> 임계값 알림만으로는 서서히 떨어지는 품질을 못 잡음(어느 알림도 안 넘음) → 품질 트리거는 출시 전에 표에, 담당자·행동과 함께 <span class="gen">업계 일반</span> <span class="pg">[6.3②]</span> <span class="pg">[6.5①]</span></p>
-            <p><span class="lead">공식 :</span> 운영 모니터링은 사후 대응 — 문제가 사용자에게 먼저 닿음 · 신호가 시끄러움 · 통과율 높은 capability eval 은 regression suite 로 옮겨 계속 돌며 drift 를 잡음 → 표의 품질 행 = 상시 도는 regression suite (해석) → <a href="eval-layers.html">■ 검증 층</a></p>
-            <p>출시 뒤에 쓰는 표는 막았어야 할 사고 뒤에 써짐 <span class="gen">업계 일반</span></p>
-            <p>떨어졌을 때 무엇부터(트레이스 · 주제별 쪼개기 · 반복 vs 재설계)는 <a href="lifecycle-loop.html">■ lifecycle 루프</a></p>
+            <p><span class="lead">품질 행은 출시 전에 :</span> 임계값 알림만으로는 서서히 떨어지는 품질을 못 잡는다(어느 알림도 선을 안 넘는다). 그래서 품질 트리거는 출시 전에 담당자·행동과 함께 표에 적는다 <span class="gen">업계 일반</span> <span class="pg">[6.3②]</span> <span class="pg">[6.5①]</span></p>
+            <p>공식 문서는 운영 모니터링을 사후 대응이라고 한다. 문제가 사용자에게 먼저 닿는다. 신호도 시끄럽다</p>
+            <p>통과율 높은 capability eval 은 regression suite 로 옮겨 계속 돌며 drift 를 잡는다</p>
+            <p>그래서 표의 품질 행은 상시 도는 regression suite 로 본다 (해석). 자세한 것은 <a href="eval-layers.html">■ 검증 층</a> 에 있다</p>
+            <p>출시 뒤에 쓰는 표는 막았어야 할 사고 뒤에 써진다 <span class="gen">업계 일반</span></p>
+            <p>떨어졌을 때 무엇부터 할지(트레이스 · 주제별 쪼개기 · 반복 vs 재설계)는 <a href="lifecycle-loop.html">■ lifecycle 루프</a> 에 있다</p>
           </div>
         </li>
         <li id="feedback-loop-governance-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p>정기 트리거 = 지표가 선을 안 넘어도 정해진 때 도는 행 <span class="pg">[6.3②]</span> <span class="pg">[6.5①]</span></p>
-            <p><span class="lead">공식 :</span> 피드백은 계속 분류 · transcript 는 매주 일부를 뽑아 읽고 필요하면 더 깊이 · 가장 잘하는 팀 = 자동 eval + 운영 모니터링 + 사람 정기 검토(보정) · Claude Code 정기 작업 예 = 매일 아침 PR 검토 · 매주 의존성 감사 · 밤새 CI 실패 확인</p>
-            <p>규제 배포의 정기 출력 감사 · 마일스톤마다 합의한 합격 기준에 대고 실제 동작 시연도 정기 행 — 긴 상태 보고나 불만 폭발을 기다리지 않음 <span class="gen">업계 일반</span></p>
-            <p>지표가 선을 안 넘어도 정해진 때 도는 행이 서서히 떨어지는 품질을 잡음 <span class="gen">업계 일반</span></p>
+            <p><span class="lead">정기 트리거 :</span> 지표가 선을 안 넘어도 정해진 때 도는 행이다 <span class="pg">[6.3②]</span> <span class="pg">[6.5①]</span></p>
+            <p>공식 문서는 피드백을 계속 분류하라고 한다. transcript 는 매주 일부를 뽑아 읽고 필요하면 더 깊이 본다</p>
+            <p>가장 잘하는 팀은 자동 eval, 운영 모니터링, 사람 정기 검토(보정)를 함께 쓴다</p>
+            <p>Claude Code 정기 작업 예는 매일 아침 PR 검토 · 매주 의존성 감사 · 밤새 CI 실패 확인이다</p>
+            <p>규제 배포의 정기 출력 감사도 정기 행이다. 마일스톤마다 합의한 합격 기준에 대고 실제 동작을 시연하는 것도 정기 행이다. 긴 상태 보고나 불만 폭발을 기다리지 않는다 <span class="gen">업계 일반</span></p>
+            <p>지표가 선을 안 넘어도 정해진 때 도는 행이 서서히 떨어지는 품질을 잡는다 <span class="gen">업계 일반</span></p>
           </div>
         </li>
         <li id="feedback-loop-governance-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p>넘으면 이해관계자 검토로 올리는 선 : 미리 합의한 선(비용 한도 · 합격 기준 · 규제 점검)을 넘은 신호는 팀 안에서 조용히 고치지 않고 이해관계자 검토로. 정당한 성장인가 · 버그인가부터 밝히고 trade-off 를 들고 감 <span class="gen">업계 일반</span> <span class="pg">[6.3①]</span> <span class="pg">[6.3②]</span></p>
-            <p>예산 재설정 · 범위 변경은 스폰서 결정 <span class="gen">업계 일반</span> → 선택지 표 만드는 법 = <a href="tradeoff-communication.html">■ trade-off 전달</a></p>
-            <p>선 안의 작은 흔들림은 팀이 처리하고 기록 <span class="gen">업계 일반</span></p>
-            <p><span class="lead">비용 행의 공식 장치 :</span> 지출 임계값 알림 · 비용 급증 알림 (Claude Code) · 워크스페이스 지출 한도 = 마지막 안전판(backstop) → 알림이 먼저, 한도는 멈추는 장치 (순서는 해석) · 원인 좁히기 = <a href="usage-cost-tracing.html">■ 비용 급증 추적</a></p>
-            <p>SLA 위반이면 무엇이 따르나(구제 · 축소 운영 · 통보 대상)는 조항에 미리 → <a href="sla-clause.html">■ SLA 조항 쓰기</a></p>
+            <p>넘으면 이해관계자 검토로 올리는 선 : 미리 합의한 선(비용 한도 · 합격 기준 · 규제 점검)을 넘은 신호는 팀 안에서 조용히 고치지 않는다. 이해관계자 검토로 올린다. 정당한 성장인가, 버그인가부터 밝히고 trade-off 를 들고 간다 <span class="gen">업계 일반</span> <span class="pg">[6.3①]</span> <span class="pg">[6.3②]</span></p>
+            <p>예산 재설정과 범위 변경은 스폰서가 결정한다 <span class="gen">업계 일반</span>. 선택지 표 만드는 법은 <a href="tradeoff-communication.html">■ trade-off 전달</a> 에 있다</p>
+            <p>선 안의 작은 흔들림은 팀이 처리하고 기록한다 <span class="gen">업계 일반</span></p>
+            <p>비용 행의 공식 장치는 셋이다</p>
+            <ul class="dash">
+              <li>지출 임계값 알림</li>
+              <li>비용 급증 알림 <span class="note">(Claude Code)</span></li>
+              <li><span class="lead">워크스페이스 지출 한도 :</span> 마지막 안전판(backstop)이다</li>
+            </ul>
+            <p>그래서 알림이 먼저이고, 한도는 멈추는 장치다 (순서는 해석). 원인 좁히기는 <a href="usage-cost-tracing.html">■ 비용 급증 추적</a> 에 있다</p>
+            <p>SLA 위반이면 무엇이 따르는지(구제 · 축소 운영 · 통보 대상)는 조항에 미리 적는다. 자세한 것은 <a href="sla-clause.html">■ SLA 조항 쓰기</a> 에 있다</p>
           </div>
         </li>
         <li id="feedback-loop-governance-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p>사람 피드백(override · 반려 · 불만)도 한 행 : 담당자가 분류 → 진짜 실패는 eval 과제로. 과정 본문 = <a href="production-feedback-loop.html">■ 운영 → eval feedback loop</a> <span class="pg">[6.3②]</span></p>
+            <p>사람 피드백(override · 반려 · 불만)도 한 행 : 담당자가 분류한다. 진짜 실패는 eval 과제로 만든다. 과정 본문은 <a href="production-feedback-loop.html">■ 운영 → eval feedback loop</a> 에 있다 <span class="pg">[6.3②]</span></p>
           </div>
         </li>
       </ol>
@@ -602,17 +630,17 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">대시보드·주간 보고는 있는데 담당자·행동이 없음</td><td data-label="답" role="cell">모니터링만 → 담당자·행동부터 채움</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> (공식 근거 확인)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a> "clear ownership" (eval 셋 문맥)</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">알림은 공용 채널에만 뜸</td><td data-label="답" role="cell">담당자 없는 알림 → 받는 사람 1명 + 행동</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">알림·기준선을 누가 만드나 (Claude Code)</td><td data-label="답" role="cell">내 SIEM·observability 백엔드</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">정기 작업(스케줄)의 지시</td><td data-label="답" role="cell">성공이 무엇인지 + 결과로 무엇을 할지</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/common-workflows" lang="en" rel="noopener">claude-code-common-workflows</a> (Claude Code 스케줄 문맥)</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">품질이 선 안에서 조금씩 떨어짐</td><td data-label="답" role="cell">regression suite 상시 + 정기 행</td><td data-label="등급" role="cell"><span class="note">(regression suite · 매주 표본) ·</span> <span class="gen">업계 일반</span><span class="note">(표의 행)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">품질 트리거를 언제 적나</td><td data-label="답" role="cell">출시 전</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">출시 뒤 표는 사고 뒤에 써짐</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">지표와 상관없이 정기 확인</td><td data-label="답" role="cell">정기 트리거 : 매주 transcript 표본 · 사람 정기 보정</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">비용 신호</td><td data-label="답" role="cell">지출 임계값 알림 · 비용 급증 알림, 지출 한도는 마지막 안전판</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a> · <a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a> · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing-cost-intelligence</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">합의한 선을 넘음</td><td data-label="답" role="cell">원인부터 → 이해관계자 검토, 예산 재설정은 스폰서</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">선 안의 흔들림</td><td data-label="답" role="cell">팀이 처리하고 기록</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">사람 피드백(override · 불만)</td><td data-label="답" role="cell">분류 → 진짜 실패는 eval 과제로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">■ 운영 → eval feedback loop (<a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a>)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">대시보드·주간 보고는 있는데 담당자·행동이 없다</td><td data-label="답" role="cell">모니터링일 뿐이다. 담당자·행동부터 채운다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> (공식 근거 확인)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a> "clear ownership" (eval 셋 문맥)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">알림이 공용 채널에만 뜬다</td><td data-label="답" role="cell">담당자 없는 알림이다. 받는 사람 1명과 행동을 정한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">알림·기준선을 누가 만드나? (Claude Code)</td><td data-label="답" role="cell">내 SIEM·observability 백엔드가 만든다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">정기 작업(스케줄)의 지시를 쓴다</td><td data-label="답" role="cell">성공이 무엇인지와 결과로 무엇을 할지를 적는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/common-workflows" lang="en" rel="noopener">claude-code-common-workflows</a> (Claude Code 스케줄 문맥)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">품질이 선 안에서 조금씩 떨어진다</td><td data-label="답" role="cell">regression suite 를 상시 돌리고 정기 행을 둔다</td><td data-label="등급" role="cell"><span class="note">(regression suite · 매주 표본) ·</span> <span class="gen">업계 일반</span><span class="note">(표의 행)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">품질 트리거를 언제 적나?</td><td data-label="답" role="cell">출시 전에 적는다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">출시 뒤 표는 사고 뒤에 써진다</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">지표와 상관없이 정기적으로 확인한다</td><td data-label="답" role="cell">정기 트리거를 둔다. 매주 transcript 표본을 읽고 사람이 정기적으로 보정한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">비용 신호다</td><td data-label="답" role="cell">지출 임계값 알림과 비용 급증 알림을 쓴다. 지출 한도는 마지막 안전판이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a> · <a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a> · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing-cost-intelligence</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">합의한 선을 넘었다</td><td data-label="답" role="cell">원인부터 밝히고 이해관계자 검토로 올린다. 예산 재설정은 스폰서가 한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">선 안의 흔들림이다</td><td data-label="답" role="cell">팀이 처리하고 기록한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">사람 피드백(override · 불만)이 온다</td><td data-label="답" role="cell">분류한다. 진짜 실패는 eval 과제로 만든다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">■ 운영 → eval feedback loop (<a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a>)</td></tr>
   </tbody>
 </table>
 </div>
@@ -623,14 +651,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">담당자</td><td data-label="값" role="cell">없음 · "팀 전체"</td><td data-label="답 쪽" role="cell">모니터링만</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">행동</td><td data-label="값" role="cell">"살펴본다 · 주의 당부"</td><td data-label="답 쪽" role="cell">행동 아님 → 런북 · 되돌리기 · 검토</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">하락 모양</td><td data-label="값" role="cell">선을 한 번에 넘음</td><td data-label="답 쪽" role="cell">임계값 트리거가 잡아냄</td><td data-label="등급" role="cell"><span class="note">(알림 장치)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">하락 모양</td><td data-label="값" role="cell">주마다 조금씩</td><td data-label="답 쪽" role="cell">임계값만으론 늦음 → 품질 행·정기 행</td><td data-label="등급" role="cell"><span class="calc">계산</span> · 업계 일반</td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">선을 넘은 원인</td><td data-label="값" role="cell">내 쪽 버그 · 되돌리면 끝</td><td data-label="답 쪽" role="cell">팀이 고치고 사실은 알림</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">선을 넘은 원인</td><td data-label="값" role="cell">정당한 성장 · 예산을 다시 정해야</td><td data-label="답 쪽" role="cell">이해관계자 검토 · 스폰서 결정</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 9</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">알림 선</td><td data-label="값" role="cell">더 낮춤</td><td data-label="답 쪽" role="cell">알림이 늘어 담당자가 못 걸러 봄</td><td data-label="등급" role="cell"><span class="calc">계산</span> · 업계 일반</td><td data-label="근거" role="cell">뒤집히는 때 4</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">비용 알림</td><td data-label="값" role="cell">없음 · 지출 한도만</td><td data-label="답 쪽" role="cell">첫 신호가 "요청이 막힘"</td><td data-label="등급" role="cell"><span class="note">(한도 = backstop) · 추론</span></td><td data-label="근거" role="cell">뒤집히는 때 5</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">담당자</td><td data-label="값" role="cell">없다 · "팀 전체"</td><td data-label="답 쪽" role="cell">모니터링일 뿐이다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">행동</td><td data-label="값" role="cell">"살펴본다 · 주의 당부"</td><td data-label="답 쪽" role="cell">행동이 아니다. 런북 · 되돌리기 · 검토로 바꾼다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">하락 모양</td><td data-label="값" role="cell">선을 한 번에 넘는다</td><td data-label="답 쪽" role="cell">임계값 트리거가 잡아낸다</td><td data-label="등급" role="cell"><span class="note">(알림 장치)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">하락 모양</td><td data-label="값" role="cell">주마다 조금씩 떨어진다</td><td data-label="답 쪽" role="cell">임계값만으로는 늦다. 품질 행·정기 행을 둔다</td><td data-label="등급" role="cell"><span class="calc">계산</span> · 업계 일반</td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">선을 넘은 원인</td><td data-label="값" role="cell">내 쪽 버그다. 되돌리면 끝난다</td><td data-label="답 쪽" role="cell">팀이 고치고 사실은 알린다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">선을 넘은 원인</td><td data-label="값" role="cell">정당한 성장이다. 예산을 다시 정해야 한다</td><td data-label="답 쪽" role="cell">이해관계자가 검토하고 스폰서가 결정한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 9</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">알림 선</td><td data-label="값" role="cell">더 낮춘다</td><td data-label="답 쪽" role="cell">알림이 늘어 담당자가 걸러 보지 못한다</td><td data-label="등급" role="cell"><span class="calc">계산</span> · 업계 일반</td><td data-label="근거" role="cell">뒤집히는 때 4</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">비용 알림</td><td data-label="값" role="cell">없고 지출 한도만 있다</td><td data-label="답 쪽" role="cell">첫 신호가 "요청이 막힘" 이 된다</td><td data-label="등급" role="cell"><span class="note">(한도 = backstop) · 추론</span></td><td data-label="근거" role="cell">뒤집히는 때 5</td></tr>
   </tbody>
 </table>
 </div>
@@ -639,22 +667,22 @@
   <h2 class="sec-h" id="feedback-loop-governance-practice-h">연습 문제</h2>
 
   <section class="csx" id="feedback-loop-governance-case" aria-labelledby="feedback-loop-governance-case-h" data-tree="feedback-loop-governance-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,[&quot;대시보드만&quot;,&quot;알림 3주째&quot;]],[&quot;n3&quot;,null]]" data-flow="feedback-loop-governance-flow" data-scene="1">
-    <p class="csx-text">고객지원 Agent 운영 석 달째. <mark class="csx-m" data-tag="대시보드만">주간 품질 대시보드<span class="csx-tag">대시보드만</span></mark>는 매주 회의에서 공유되고, <code>#cs-alerts</code> 채널에는 <mark class="csx-m" data-tag="알림 3주째">"환불 문의 사람 이관률 21%" 알림이 3주째 뜬다<span class="csx-tag">알림 3주째</span></mark>. 아무도 손대지 않았다. 팀장은 "알림 선을 더 낮춰 더 자주 울리게 하자"고 한다. 먼저 무엇을 채울까?</p>
+    <p class="csx-text">고객지원 Agent 를 운영한 지 석 달째다. <mark class="csx-m" data-tag="대시보드만">주간 품질 대시보드<span class="csx-tag">대시보드만</span></mark>는 매주 회의에서 공유되고, <code>#cs-alerts</code> 채널에는 <mark class="csx-m" data-tag="알림 3주째">"환불 문의 사람 이관률 21%" 알림이 3주째 뜬다<span class="csx-tag">알림 3주째</span></mark>. 아무도 손대지 않았다. 팀장은 "알림 선을 더 낮춰 더 자주 울리게 하자"고 한다. 먼저 무엇을 채울까?</p>
     <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
   </section>
   <h2 class="sec-h" id="feedback-loop-governance-exam-h">시험 대비</h2>
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"주간 품질 대시보드를 매주 회의에서 공유하니 루프가 있다" → 모니터링만. 담당자와 행동 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"공용 채널 알림이 매일 뜨니 누군가 볼 것" → 담당자 없는 알림은 아무 일도 안 생김 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"알림 선을 낮춰 더 자주 울리게" → 받는 사람이 없으면 소리만 커짐. 담당자·행동부터 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"놓친 사례를 주간 상태 회의에서 공유하고 주의 당부" → 행동이 아님 · eval 셋에 안 들어가면 루프가 안 닫힘 <span class="gen">업계 일반</span> → <a href="production-feedback-loop.html">■ 운영 → eval feedback loop</a></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"품질은 임계값 알림으로 충분" → 서서히 떨어지면 어느 알림도 안 넘음 <span class="gen">업계 일반</span> · 운영 모니터링은 사후 대응</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"표는 출시 뒤 운영팀이 정리" → 막았어야 할 사고 뒤에 써짐 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"비용 선을 넘었지만 팀 안에서 조용히 튜닝" → 이해관계자 검토로 · 예산 재설정은 스폰서 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"지출 한도가 있으니 비용 알림은 필요 없다" → 한도 = 마지막 안전판. 닿으면 요청이 막힘 → <a href="api-errors.html">■ API 오류별 대응</a></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "선 안의 작은 흔들림도 전부 스폰서에게" → 선 안은 팀이 처리하고 기록 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"주간 품질 대시보드를 매주 회의에서 공유하니 루프가 있다" 는 함정이다. 그것은 모니터링일 뿐이다. 담당자와 행동을 채운다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"공용 채널 알림이 매일 뜨니 누군가 볼 것" 은 함정이다. 담당자 없는 알림으로는 아무 일도 생기지 않는다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"알림 선을 낮춰 더 자주 울리게" 는 함정이다. 받는 사람이 없으면 소리만 커진다. 담당자·행동부터 채운다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"놓친 사례를 주간 상태 회의에서 공유하고 주의 당부" 는 함정이다. 주의 당부는 행동이 아니다. eval 셋에 안 들어가면 루프가 닫히지 않는다 <span class="gen">업계 일반</span>. 자세한 것은 <a href="production-feedback-loop.html">■ 운영 → eval feedback loop</a> 에 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"품질은 임계값 알림으로 충분" 은 함정이다. 서서히 떨어지면 어느 알림도 선을 안 넘는다 <span class="gen">업계 일반</span>. 운영 모니터링은 사후 대응이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"표는 출시 뒤 운영팀이 정리" 는 함정이다. 그 표는 막았어야 할 사고 뒤에 써진다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"비용 선을 넘었지만 팀 안에서 조용히 튜닝" 은 함정이다. 이해관계자 검토로 올린다. 예산 재설정은 스폰서가 정한다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"지출 한도가 있으니 비용 알림은 필요 없다" 는 함정이다. 한도에 닿으면 요청이 막힌다. 자세한 것은 <a href="api-errors.html">■ API 오류별 대응</a> 에 있다. 한도는 마지막 안전판이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>반대쪽 함정도 있다. "선 안의 작은 흔들림도 전부 스폰서에게" 는 함정이다. 선 안은 팀이 처리하고 기록한다 <span class="gen">업계 일반</span></span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -682,36 +710,36 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 서서히 떨어지면 임계값은 한참 늦음</h4>
 <ul>
-<li><span class="lead">조건 :</span> 주 4,000건 · 정답률 87% 에서 시작해 주마다 0.6%p 씩 떨어짐 · 알림 선 = 80% 미만.</li>
-<li><span class="lead">계산 :</span> 87 − 0.6 × k &lt; 80 → k &gt; 11.7 → 12주째에야 알림. 그동안 늘어난 실패 = 4,000 × 0.006 × (1 + 2 + … + 11) = 4,000 × 0.006 × 66 ≈ 1,580건.</li>
-<li><span class="lead">전제 :</span> 하락이 일정하다고 봄(그림용 가정) · 건수는 주마다 같음.</li>
-<li><span class="lead">처방 :</span> 품질 행(regression suite 상시)과 정기 행(매주 transcript 표본)을 출시 전에 표에. 매주 표본은 비율보다 <strong>새 실패 모양</strong>을 먼저 보여 줌 — 표본 30개로 0.6%p 차이를 숫자로 가리긴 어려움 (추론).</li>
+<li><span class="lead">조건 :</span> 주 4,000건을 처리한다. 정답률은 87% 에서 시작해 주마다 0.6%p 씩 떨어진다. 알림 선은 80% 미만이다.</li>
+<li><span class="lead">계산 :</span> 87 − 0.6 × k &lt; 80 이면 k &gt; 11.7 이다. 그래서 12주째에야 알림이 울린다. 그동안 늘어난 실패는 4,000 × 0.006 × (1 + 2 + … + 11) = 4,000 × 0.006 × 66 ≈ 1,580건이다.</li>
+<li><span class="lead">전제 :</span> 하락이 일정하다고 본다(그림용 가정). 건수는 주마다 같다.</li>
+<li><span class="lead">처방 :</span> 품질 행(regression suite 상시)과 정기 행(매주 transcript 표본)을 출시 전에 표에 넣는다. 매주 표본은 비율보다 <strong>새 실패 모양</strong>을 먼저 보여 준다. 표본 30개로 0.6%p 차이를 숫자로 가리기는 어렵다 (추론).</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (하락 모양은 가정) · 처방은 업계 일반 (regression suite · 매주 표본은 확인)</li>
 <li><span class="lead">근거 :</span> demystifying-evals</li>
 </ul>
 <h4>2. 선을 넘었는데 팀 안에서 끝나는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 월 비용 선 $9,000 인데 사흘 만에 $4,200. 원인 = 배포한 재시도 코드가 실패 요청을 끝없이 다시 보냄. 되돌리니 평소 속도로 돌아옴.</li>
-<li><span class="lead">판단 :</span> 다시 정할 예산도, 고를 trade-off 도 없음 → 팀이 고치고, 선을 넘었다는 사실과 원인·조치는 이해관계자에게 알림 (업계 일반). "조용히 고치지 않음" 은 고치되 <strong>반드시 알린다</strong>는 뜻이지, 모든 수정을 스폰서 결정으로 올리라는 뜻이 아님.</li>
-<li>가르는 말 = 원인이 <strong>정당한 성장</strong>이라 예산·범위를 다시 정해야 하나 → 그때 이해관계자 검토로.</li>
-<li><span class="lead">등급 :</span> <span class="gen">업계 일반</span> · 원인 좁히기 = ■ 비용 급증 추적</li>
+<li><span class="lead">조건 :</span> 월 비용 선은 $9,000 인데 사흘 만에 $4,200 를 썼다. 원인은 배포한 재시도 코드다. 이 코드가 실패 요청을 끝없이 다시 보냈다. 되돌리니 평소 속도로 돌아왔다.</li>
+<li><span class="lead">판단 :</span> 다시 정할 예산도, 고를 trade-off 도 없다. 그래서 팀이 고친다. 선을 넘었다는 사실과 원인·조치는 이해관계자에게 알린다 (업계 일반). "조용히 고치지 않는다" 는 고치되 <strong>반드시 알린다</strong>는 뜻이다. 모든 수정을 스폰서 결정으로 올리라는 뜻이 아니다.</li>
+<li><span class="lead">가르는 말 :</span> 원인이 <strong>정당한 성장</strong>이라 예산·범위를 다시 정해야 하나? 그렇다면 그때 이해관계자 검토로 올린다.</li>
+<li><span class="lead">등급 :</span> <span class="gen">업계 일반</span>. 원인 좁히기는 ■ 비용 급증 추적 에 있다</li>
 </ul>
 <h4>3. 선 안인데도 올리는 때 — 정기 행</h4>
 <ul>
-<li><span class="lead">조건 :</span> 규제가 걸린 배포의 분기 출력 감사, 또는 계약 마일스톤의 합격 기준 확인 날.</li>
-<li><span class="lead">판단 :</span> 지표가 하나도 안 움직여도 그날 행이 실행됨 — 결과를 이해관계자가 봐야 하는 행 (업계 일반).</li>
-<li><span class="lead">등급 :</span> <span class="gen">업계 일반</span> (정기 사람 검토 자체는 확인 — demystifying-evals)</li>
+<li><span class="lead">조건 :</span> 규제가 걸린 배포의 분기 출력 감사 날이다. 또는 계약 마일스톤의 합격 기준을 확인하는 날이다.</li>
+<li><span class="lead">판단 :</span> 지표가 하나도 안 움직여도 그날 행이 실행된다. 결과를 이해관계자가 봐야 하는 행이다 (업계 일반).</li>
+<li><span class="lead">등급 :</span> <span class="gen">업계 일반</span> (정기 사람 검토 자체는 확인이다. demystifying-evals)</li>
 </ul>
 <h4>4. 알림 선을 낮추자 — 소리만 커짐</h4>
 <ul>
-<li><span class="lead">조건 :</span> 담당자 없는 이관률 알림이 하루 3건. 선을 18% → 12% 로 낮췄더니 하루 40건.</li>
-<li><span class="lead">판단 :</span> 받는 사람이 없으면 3건이든 40건이든 조치 0건. 받는 사람이 있어도 하루 40건이면 걸러 보지 못함 (업계 일반 — 승인 피로와 같은 모양, ■ human-in-the-loop 게이트 위치).</li>
+<li><span class="lead">조건 :</span> 담당자 없는 이관률 알림이 하루 3건 뜬다. 선을 18% 에서 12% 로 낮췄더니 하루 40건이 됐다.</li>
+<li><span class="lead">판단 :</span> 받는 사람이 없으면 3건이든 40건이든 조치는 0건이다. 받는 사람이 있어도 하루 40건이면 걸러 보지 못한다 (업계 일반 — 승인 피로와 같은 모양, ■ human-in-the-loop 게이트 위치).</li>
 <li><span class="lead">등급 :</span> <span class="gen">업계 일반</span></li>
 </ul>
 <h4>5. 비용 알림 없이 지출 한도만 있을 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 워크스페이스 지출 한도만 걸고 지출 임계값 알림은 안 만듦.</li>
-<li><span class="lead">판단 :</span> 공식은 지출 한도를 마지막 안전판(backstop)으로 둠 → 알림 행이 없으면 첫 신호가 "요청이 막힘"(서비스가 멈춤) → ■ API 오류별 대응 (지출 상한 429). 알림 행이 먼저, 한도는 멈추는 장치 (순서는 추론).</li>
+<li><span class="lead">조건 :</span> 워크스페이스 지출 한도만 걸고 지출 임계값 알림은 만들지 않았다.</li>
+<li><span class="lead">판단 :</span> 공식 문서는 지출 한도를 마지막 안전판(backstop)으로 둔다. 그래서 알림 행이 없으면 첫 신호가 "요청이 막힘"(서비스가 멈춘다)이 된다. 자세한 것은 ■ API 오류별 대응 (지출 상한 429) 에 있다. 알림 행이 먼저이고, 한도는 멈추는 장치다 (순서는 추론).</li>
 <li><span class="lead">등급 :</span> <span class="note">(한도 = backstop · 임계값 알림 장치) · 추론(순서)</span></li>
 <li><span class="lead">근거 :</span> optimizing-cost-intelligence · usage-cost-api</li>
 </ul>
@@ -722,15 +750,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"주간 품질 대시보드를 매주 공유하니 루프는 있다"</td><td data-label="왜 끌리나" role="cell">눈에 보이니 관리되는 것 같음</td><td data-label="왜 틀리나" role="cell">보여 주기만. 담당자·행동이 없으면 아무 일도 안 생김 · 모니터링은 사후 대응</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 확인(사후 대응)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"놓친 사례를 주간 상태 회의에서 공유하고 담당자에게 주의 당부"</td><td data-label="왜 끌리나" role="cell">소통한 것 같음</td><td data-label="왜 틀리나" role="cell">행동이 아님 · eval 셋에 안 들어가면 루프가 안 닫힘</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.3② 매력적인 오답 · ■ 운영 → eval feedback loop</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"알림 선을 낮춰 더 자주 울리게"</td><td data-label="왜 끌리나" role="cell">더 민감하면 더 안전해 보임</td><td data-label="왜 틀리나" role="cell">받는 사람이 없으면 소리만 커짐</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 4</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"품질은 임계값 알림 하나면 충분"</td><td data-label="왜 끌리나" role="cell">설정이 간단</td><td data-label="왜 틀리나" role="cell">서서히 떨어지면 어느 알림도 안 넘음</td><td data-label="등급" role="cell"><span class="calc">계산</span> · 업계 일반</td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"표는 출시 뒤 운영팀이 정리"</td><td data-label="왜 끌리나" role="cell">출시가 급함</td><td data-label="왜 틀리나" role="cell">막았어야 할 사고 뒤에 써짐</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"비용 선을 넘었지만 팀이 조용히 튜닝"</td><td data-label="왜 끌리나" role="cell">스폰서를 번거롭게 안 함</td><td data-label="왜 틀리나" role="cell">알리지 않고 고치지 않음 · 예산 재설정은 스폰서</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"선 안의 흔들림도 전부 스폰서에게" (반대)</td><td data-label="왜 끌리나" role="cell">투명해 보임</td><td data-label="왜 틀리나" role="cell">선 안은 팀이 처리하고 기록</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"지출 한도가 있으니 비용 알림은 필요 없다"</td><td data-label="왜 끌리나" role="cell">한도가 막아 줌</td><td data-label="왜 틀리나" role="cell">한도는 마지막 안전판 — 닿으면 요청이 막힘</td><td data-label="등급" role="cell"><span class="note">추론</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing-cost-intelligence</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"놓친 사례가 나왔으니 더 큰 모델로 교체"</td><td data-label="왜 끌리나" role="cell">모델 탓이 쉬움</td><td data-label="왜 틀리나" role="cell">먼저 eval 과제로 · 변경부터 물음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">목록 6.3② 매력적인 오답 · ■ 운영 → eval feedback loop · ■ 변경부터 묻는 진단</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"주간 품질 대시보드를 매주 공유하니 루프는 있다"</td><td data-label="왜 끌리나" role="cell">눈에 보이니 관리되는 것 같다</td><td data-label="왜 틀리나" role="cell">보여 주기일 뿐이다. 담당자·행동이 없으면 아무 일도 생기지 않는다. 모니터링은 사후 대응이다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 확인(사후 대응)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"놓친 사례를 주간 상태 회의에서 공유하고 담당자에게 주의 당부"</td><td data-label="왜 끌리나" role="cell">소통한 것 같다</td><td data-label="왜 틀리나" role="cell">행동이 아니다. eval 셋에 안 들어가면 루프가 닫히지 않는다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.3② 매력적인 오답 · ■ 운영 → eval feedback loop</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"알림 선을 낮춰 더 자주 울리게"</td><td data-label="왜 끌리나" role="cell">더 민감하면 더 안전해 보인다</td><td data-label="왜 틀리나" role="cell">받는 사람이 없으면 소리만 커진다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 4</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"품질은 임계값 알림 하나면 충분"</td><td data-label="왜 끌리나" role="cell">설정이 간단하다</td><td data-label="왜 틀리나" role="cell">서서히 떨어지면 어느 알림도 선을 안 넘는다</td><td data-label="등급" role="cell"><span class="calc">계산</span> · 업계 일반</td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"표는 출시 뒤 운영팀이 정리"</td><td data-label="왜 끌리나" role="cell">출시가 급하다</td><td data-label="왜 틀리나" role="cell">막았어야 할 사고 뒤에 써진다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"비용 선을 넘었지만 팀이 조용히 튜닝"</td><td data-label="왜 끌리나" role="cell">스폰서를 번거롭게 하지 않는다</td><td data-label="왜 틀리나" role="cell">알리지 않고 고치지 않는다. 예산 재설정은 스폰서가 한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"선 안의 흔들림도 전부 스폰서에게" (반대)</td><td data-label="왜 끌리나" role="cell">투명해 보인다</td><td data-label="왜 틀리나" role="cell">선 안은 팀이 처리하고 기록한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"지출 한도가 있으니 비용 알림은 필요 없다"</td><td data-label="왜 끌리나" role="cell">한도가 막아 준다</td><td data-label="왜 틀리나" role="cell">한도는 마지막 안전판이다. 닿으면 요청이 막힌다</td><td data-label="등급" role="cell"><span class="note">추론</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing-cost-intelligence</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"놓친 사례가 나왔으니 더 큰 모델로 교체"</td><td data-label="왜 끌리나" role="cell">모델 탓을 하기 쉽다</td><td data-label="왜 틀리나" role="cell">먼저 eval 과제로 만든다. 변경부터 묻는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">목록 6.3② 매력적인 오답 · ■ 운영 → eval feedback loop · ■ 변경부터 묻는 진단</td></tr>
   </tbody>
 </table>
 </div>
@@ -738,7 +766,7 @@
   </details>
   <h2 class="sec-h" id="feedback-loop-governance-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="production-feedback-loop.html">■ 운영 → eval feedback loop</a></li>
         <li><a href="lifecycle-loop.html">■ lifecycle 루프</a></li>
@@ -750,6 +778,10 @@
         <li><a href="api-errors.html">■ API 오류별 대응</a></li>
         <li><a href="e2e-architecture.html">■ input → processing → output → feedback loop</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 6.3</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -770,13 +802,20 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>신호 → 트리거 → 담당자 → 행동 표 구조 · 담당자 1명 · 올리는 선 · 스폰서 결정 — Anthropic 공식 문장 없음 (<code>ccarp/raw/official-docs/en-*.md</code> 에서 <code>owner</code> · <code>clear ownership</code> · <code>on-call</code> · <code>escalat</code> · <code>stakeholder</code> · <code>governance</code> grep → eval 셋 소유권(demystifying-evals) · 고객 에스컬레이션(customer-support-chat-full) · 가이드 목표 6.3 문구 · 스킬 기업 배포 안내(agent-skills-overview)만 · 제외 = ko 판 · 받지 않은 문서). 카드에선 업계 일반.</li>
-<li>규제 정기 감사(정기 일정) — 공식 문장 못 찾음. <code>periodic</code> · <code>quarterly</code> grep → dpa은 Anthropic 자기 조직의 정기 위험 평가라 고객 배포 규칙으로 쓰지 않음.</li>
-<li>"대시보드 ≠ 루프" 의 공식 문장은 모니터링이 사후 대응 · 시끄러움 · 채점할 정답 없음(demystifying-evals)까지 — "담당자가 없어 안 움직임" 은 업계 일반.</li>
-<li>후보 절 규칙 2 의 "계획이 handoff 에서 끝나면 이 층이 비어 있다" 는 <a href="lifecycle-loop.html">■ lifecycle 루프</a> <span class="rule-ref">· <a href="lifecycle-loop.html#lifecycle-loop-rule-2">규칙 ②</a></span>(핸드오프 뒤 모니터링 + 반복)와 같은 말이라 여기서 따로 쓰지 않음.</li>
-<li>monitoring-usage 의 비용 급증 알림은 Claude Code 텔레메트리 문맥 — API 앱의 비용 알림은 usage-cost-api 문장을 씀.</li>
+<li>신호, 트리거, 담당자, 행동의 표 구조와 담당자 1명, 올리는 선, 스폰서 결정은 Anthropic 공식 문장이 없다. 그래서 카드에서는 업계 일반으로 둔다. <code>ccarp/raw/official-docs/en-*.md</code> 에서 <code>owner</code> · <code>clear ownership</code> · <code>on-call</code> · <code>escalat</code> · <code>stakeholder</code> · <code>governance</code> 를 grep 했다(제외 = ko 판 · 받지 않은 문서). 나온 것은 아래뿐이다.<ul>
+<li>eval 셋 소유권(demystifying-evals)</li>
+<li>고객 에스컬레이션(customer-support-chat-full)</li>
+<li>가이드 목표 6.3 문구</li>
+<li>스킬 기업 배포 안내(agent-skills-overview)</li>
+</ul>
+</li>
+<li>규제 정기 감사(정기 일정)는 공식 문장을 못 찾았다. <code>periodic</code> · <code>quarterly</code> 를 grep 하면 dpa이 나온다. 이것은 Anthropic 자기 조직의 정기 위험 평가다. 그래서 고객 배포 규칙으로 쓰지 않는다.</li>
+<li>"대시보드 ≠ 루프" 에 대한 공식 문장은 세 가지까지다(demystifying-evals). 모니터링은 사후 대응이다. 신호가 시끄럽다. 채점할 정답이 없다. "담당자가 없어 안 움직임" 은 업계 일반이다.</li>
+<li>후보 절 규칙 2 의 "계획이 handoff 에서 끝나면 이 층이 비어 있다" 는 <a href="lifecycle-loop.html">■ lifecycle 루프</a> <span class="rule-ref">· <a href="lifecycle-loop.html#lifecycle-loop-rule-2">규칙 ②</a></span>(핸드오프 뒤 모니터링 + 반복)와 같은 말이다. 그래서 여기서 따로 쓰지 않는다.</li>
+<li>monitoring-usage 의 비용 급증 알림은 Claude Code 텔레메트리 문맥이다. API 앱의 비용 알림은 usage-cost-api 문장을 쓴다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

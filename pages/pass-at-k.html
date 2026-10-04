@@ -394,30 +394,30 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">왜 여러 번 돌리나</p>
 <ul>
-<li>에이전트는 같은 과제도 실행마다 결과가 다름. 한 번 통과한 과제가 다음엔 실패할 수 있음.</li>
-<li>그래서 과제마다 여러 번 시도(trial)하고, "얼마나 자주" 성공하는지를 봄.</li>
-<li>과제마다 성공률도 다름(어떤 건 90%, 어떤 건 50%).</li>
+<li>에이전트는 같은 과제도 실행마다 결과가 다르다. 한 번 통과한 과제가 다음에는 실패할 수 있다.</li>
+<li>그래서 과제마다 여러 번 시도(trial)한다. 그리고 "얼마나 자주" 성공하는지를 본다.</li>
+<li>과제마다 성공률도 다르다(어떤 것은 90%, 어떤 것은 50%).</li>
 </ul>
 <p class="lead">두 지표</p>
 <ul>
-<li>pass@k : k번 중 적어도 한 번 성공할 확률. k 가 커질수록 오름("슛 기회"가 많을수록).</li>
-<li>pass^k : k번 모두 성공할 확률. k 가 커질수록 내림(일관성 요구가 커짐).</li>
-<li>k = 1 이면 둘 다 1회 성공률로 같음. k = 10 이면 pass@k 는 100% 쪽, pass^k 는 0% 쪽 — 정반대 이야기를 함.</li>
+<li>pass@k : k번 중 적어도 한 번 성공할 확률이다. k 가 커질수록 오른다("슛 기회"가 많을수록).</li>
+<li>pass^k : k번 모두 성공할 확률이다. k 가 커질수록 내린다(일관성 요구가 커진다).</li>
+<li>k = 1 이면 둘 다 1회 성공률로 같다. k = 10 이면 pass@k 는 100% 쪽, pass^k 는 0% 쪽으로 간다. 두 지표가 정반대 이야기를 한다.</li>
 </ul>
-<p class="lead">고르는 기준 = 제품 요구</p>
+<p class="lead">고르는 기준은 제품 요구다</p>
 <ul>
-<li>후보를 여러 개 내고 하나만 맞으면 되는 일 → pass@k.</li>
-<li>사용자가 매번 믿을 만한 동작을 기대하는 고객 대면 에이전트 → pass^k.</li>
-<li>코딩은 첫 시도 해결(pass@1)을 가장 중시.</li>
+<li>후보를 여러 개 내고 하나만 맞으면 되는 일에는 pass@k 를 쓴다.</li>
+<li>사용자가 매번 믿을 만한 동작을 기대하는 고객 대면 에이전트에는 pass^k 를 쓴다.</li>
+<li>코딩은 첫 시도 해결(pass@1)을 가장 중시한다.</li>
 </ul>
 <p class="lead">숫자가 믿을 만하려면</p>
 <ul>
-<li>시도가 서로 독립이어야 함. 깨끗한 환경에서 시작하지 않으면 남은 파일·캐시·자원 고갈로 같이 실패하거나, 앞 시도의 흔적을 보고 점수가 부풀려짐.</li>
-<li>프런티어 모델이 여러 번 다 0% 면 대개 과제가 잘못됨.</li>
+<li>시도가 서로 독립이어야 한다. 깨끗한 환경에서 시작하지 않으면 남은 파일·캐시·자원 고갈로 같이 실패할 수 있다. 또는 앞 시도의 흔적을 보고 점수가 부풀려진다.</li>
+<li>프런티어 모델이 여러 번 다 0% 면 대개 과제가 잘못된 것이다.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
-<li>사용자(또는 다음 단계)가 받는 건 k번 중 가장 좋은 하나인가, 매번의 결과인가?</li>
+<li>사용자(또는 다음 단계)가 받는 것은 k번 중 가장 좋은 하나인가, 매번의 결과인가?</li>
 <li>이 k번은 서로 독립인가?</li>
 </ul>
 </section>
@@ -430,19 +430,19 @@
   <section class="t5-flow tree" id="pass-at-k-tree-1" aria-labelledby="pass-at-k-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7">
     <div class="t5-fh"><h3 id="pass-at-k-tree-1-h">어느 지표 <span class="pg">[4.1③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>제품이 원하는 건?<span class="t5-sub">한 번 성공 vs 매번 성공</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>제품이 무엇을 원하나?<span class="t5-sub">한 번 성공 vs 매번 성공</span></div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>후보 중 하나만 맞으면 됨</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">pass@k</p><p>k번 중 적어도 한 번 성공할 확률. 하나만 되면 되는 도구에</p></div>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>후보 중 하나만 맞으면 된다</span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">pass@k</p><p>pass@k 는 k번 중 적어도 한 번 성공할 확률이다. 하나만 되면 되는 도구에 쓴다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>매번 맞아야 함 <span class="note">(고객 대면)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">pass^k</p><p>k번 모두 성공할 확률. 일관성이 핵심인 에이전트에</p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>매번 맞아야 한다 <span class="note">(고객 대면)</span></span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">pass^k</p><p>pass^k 는 k번 모두 성공할 확률이다. 일관성이 핵심인 에이전트에 쓴다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>첫 시도가 중요 <span class="note">(코딩)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">pass@1</p><p>코딩은 첫 시도 해결을 가장 중시</p></div>
+          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>첫 시도가 중요하다 <span class="note">(코딩)</span></span>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">pass@1</p><p>코딩은 첫 시도 해결을 가장 중시한다</p></div>
         </div>
       </div>
     </div>
@@ -450,19 +450,19 @@
   <section class="t5-flow tree" id="pass-at-k-tree-2" aria-labelledby="pass-at-k-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7">
     <div class="t5-fh"><h3 id="pass-at-k-tree-2-h">숫자 읽기 <span class="pg">[4.1③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>k 가 달라지면?<span class="t5-sub">k ↑ vs k = 1</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>k 가 달라지면 어떻게 되나?<span class="t5-sub">k ↑ vs k = 1</span></div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>k ↑ 일 때 pass@k</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">오름</p><p>기회가 많을수록 한 번은 성공할 확률 ↑. k=10 이면 100% 에 다가감</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">오른다</p><p>기회가 많을수록 한 번은 성공할 확률이 오른다. k=10 이면 100% 에 다가간다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>k ↑ 일 때 pass^k</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">내림</p><p>모두 성공을 요구해 더 어려움. k=10 이면 0% 로</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">내린다</p><p>모두 성공해야 해서 더 어렵다. k=10 이면 0% 로 내려간다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>k = 1</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">같음</p><p>둘 다 1회 성공률</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">같다</p><p>둘 다 1회 성공률과 같다</p></div>
         </div>
       </div>
     </div>
@@ -470,58 +470,58 @@
   <section class="t5-flow tree" id="pass-at-k-tree-3" aria-labelledby="pass-at-k-tree-3-h" data-paths="n1 n2 n3|n1 n4 n5">
     <div class="t5-fh"><h3 id="pass-at-k-tree-3-h">결과가 이상할 때 <span class="pg">[4.1③]</span> <span class="pg">[4.2]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇이 이상?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇이 이상한가?</div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>여러 번 다 0% <span class="note">(0% pass@100)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">과제부터 의심</p><p>프런티어 모델에서 여러 시도 0% 는 대개 과제가 잘못됨, 에이전트가 못해서가 아님 → 과제 명세·grader(채점기) 확인</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">과제부터 의심한다</p><p>프런티어 모델에서 여러 시도가 0% 면 대개 과제가 잘못된 것이다. 에이전트가 못해서가 아니다. 그래서 과제 명세와 grader(채점기)를 확인한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>여러 시도가 같이 실패</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">환경 공유 확인</p><p>시도마다 깨끗한 환경에서 시작. 공유 상태 → 인프라 때문에 같이 실패(독립 아님)</p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>여러 시도가 같이 실패한다</span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">환경 공유를 확인한다</p><p>시도마다 깨끗한 환경에서 시작한다. 공유 상태가 있으면 인프라 때문에 같이 실패한다(독립이 아니다)</p></div>
         </div>
       </div>
     </div>
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="pass-at-k-flow" aria-label="pass@k vs pass^k 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["과제","시도 k번","판정"],"blocks":[],"rules":[null,null,"pass@k 는 한 번이라도 · pass^k 는 k번 모두"],"question":"3번 중 몇 번 성공해야 통과일까?","scenes":[{"name":"① 하나만 되면 되는 도구 → pass@k","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["상담원용 답 초안","후보 3개 중 하나만 쓰면 됨"]}},{"kind":"move","step":"시도","from":{"col":0},"to":1,"label":"3번 · 1회 성공률 75%","art":{"kind":"slip","lines":["시도 1 ✓","시도 2 ✗","시도 3 ✓"]}},{"kind":"move","step":"판정","from":{"col":1},"to":2,"label":"한 번이라도 성공이면 통과","art":{"kind":"slip","lines":["이 과제 : ✓ 있음","→ 통과"]}},{"kind":"mark","step":"셈","at":{"col":2},"label":"k번 중 적어도 한 번 성공할 확률","art":{"kind":"slip","lines":["pass@3 = 1 − 0.25³","≈ 98%"]}},{"kind":"end","label":"후보 중 하나만 맞으면 되는 도구엔 pass@k — pass@3 ≈ 98%"}]},{"name":"② 고객 대면 에이전트 → pass^k","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["고객 문의에 바로 답함","재시도 없음"]}},{"kind":"move","step":"시도","from":{"col":0},"to":1,"label":"3번 · 1회 성공률 75%","art":{"kind":"slip","lines":["시도 1 ✓","시도 2 ✗","시도 3 ✓"]}},{"kind":"move","step":"판정","from":{"col":1},"to":2,"label":"k번 모두 성공해야 통과","art":{"kind":"slip","lines":["이 과제 : ✗ 하나","→ 통과 못 함"]}},{"kind":"mark","step":"셈","at":{"col":2},"label":"k번 모두 성공할 확률","art":{"kind":"slip","lines":["pass^3 = (0.75)³","≈ 42%"]}},{"kind":"end","label":"매번 맞아야 하는 고객 대면 에이전트엔 pass^k — pass^3 ≈ 42%"}]},{"name":"③ 고객 대면을 pass@k 로 봄","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["고객 문의에 바로 답함","재시도 없음"]}},{"kind":"move","step":"시도","from":{"col":0},"to":1,"label":"3번 · 1회 성공률 75%","art":{"kind":"slip","lines":["시도 1 ✓","시도 2 ✗","시도 3 ✓"]}},{"kind":"move","step":"판정","from":{"col":1},"to":2,"label":"한 번이라도 성공이면 통과","art":{"kind":"slip","lines":["이 과제 : ✓ 있음","→ 통과"]}},{"kind":"mark","step":"보고","at":{"col":2},"label":"한 번 성공 기준으로 보고","art":{"kind":"slip","lines":["보고서 : \"pass@3 ≈ 98%\""]}},{"kind":"end","label":"고객 대면을 pass@k 로 보면 높게 나와 신뢰성을 과대평가 — 사용자는 매번 믿을 만한 동작을 기대"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["과제","시도 k번","판정"],"blocks":[],"rules":[null,null,"pass@k 는 한 번이라도 · pass^k 는 k번 모두"],"question":"3번 중 몇 번 성공해야 통과일까?","scenes":[{"name":"① 하나만 되면 되는 도구는 pass@k","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["상담원용 답 초안","후보 3개 중 하나만 쓰면 됨"]}},{"kind":"move","step":"시도","from":{"col":0},"to":1,"label":"3번 · 1회 성공률 75%","art":{"kind":"slip","lines":["시도 1 ✓","시도 2 ✗","시도 3 ✓"]}},{"kind":"move","step":"판정","from":{"col":1},"to":2,"label":"한 번이라도 성공하면 통과한다","art":{"kind":"slip","lines":["이 과제 : ✓ 있음","→ 통과"]}},{"kind":"mark","step":"셈","at":{"col":2},"label":"k번 중 적어도 한 번 성공할 확률","art":{"kind":"slip","lines":["pass@3 = 1 − 0.25³","≈ 98%"]}},{"kind":"end","label":"후보 중 하나만 맞으면 되는 도구에는 pass@k 를 쓴다. pass@3 ≈ 98% 다"}]},{"name":"② 고객 대면 에이전트는 pass^k","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["고객 문의에 바로 답함","재시도 없음"]}},{"kind":"move","step":"시도","from":{"col":0},"to":1,"label":"3번 · 1회 성공률 75%","art":{"kind":"slip","lines":["시도 1 ✓","시도 2 ✗","시도 3 ✓"]}},{"kind":"move","step":"판정","from":{"col":1},"to":2,"label":"k번 모두 성공해야 통과한다","art":{"kind":"slip","lines":["이 과제 : ✗ 하나","→ 통과 못 함"]}},{"kind":"mark","step":"셈","at":{"col":2},"label":"k번 모두 성공할 확률","art":{"kind":"slip","lines":["pass^3 = (0.75)³","≈ 42%"]}},{"kind":"end","label":"매번 맞아야 하는 고객 대면 에이전트에는 pass^k 를 쓴다. pass^3 ≈ 42% 다"}]},{"name":"③ 고객 대면을 pass@k 로 본다","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["고객 문의에 바로 답함","재시도 없음"]}},{"kind":"move","step":"시도","from":{"col":0},"to":1,"label":"3번 · 1회 성공률 75%","art":{"kind":"slip","lines":["시도 1 ✓","시도 2 ✗","시도 3 ✓"]}},{"kind":"move","step":"판정","from":{"col":1},"to":2,"label":"한 번이라도 성공하면 통과한다","art":{"kind":"slip","lines":["이 과제 : ✓ 있음","→ 통과"]}},{"kind":"mark","step":"보고","at":{"col":2},"label":"한 번 성공 기준으로 보고한다","art":{"kind":"slip","lines":["보고서 : \"pass@3 ≈ 98%\""]}},{"kind":"end","label":"고객 대면을 pass@k 로 보면 높게 나온다. 그래서 신뢰성을 과대평가한다. 사용자는 매번 믿을 만한 동작을 기대한다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> 과제 → 시도 k번 → 판정</p>
       <p><span class="lead">규칙 (판정) :</span> pass@k 는 한 번이라도 · pass^k 는 k번 모두</p>
       <p><span class="lead">질문 :</span> 3번 중 몇 번 성공해야 통과일까?</p>
-      <p class="lead">① 하나만 되면 되는 도구 → pass@k <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">① 하나만 되면 되는 도구는 pass@k <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 과제 — 쪽지 : <span class="flx-alt-slip">상담원용 답 초안 / 후보 3개 중 하나만 쓰면 됨</span></li>
         <li>시도 : 과제 → 시도 k번 : 3번 · 1회 성공률 75% — 쪽지 : <span class="flx-alt-slip">시도 1 ✓ / 시도 2 ✗ / 시도 3 ✓</span></li>
-        <li>판정 : 시도 k번 → 판정 : 한 번이라도 성공이면 통과 — 쪽지 : <span class="flx-alt-slip">이 과제 : ✓ 있음 / → 통과</span></li>
+        <li>판정 : 시도 k번 → 판정 : 한 번이라도 성공하면 통과한다 — 쪽지 : <span class="flx-alt-slip">이 과제 : ✓ 있음 / → 통과</span></li>
         <li>셈 : 판정 : k번 중 적어도 한 번 성공할 확률 — 쪽지 : <span class="flx-alt-slip">pass@3 = 1 − 0.25³ / ≈ 98%</span></li>
-        <li>끝 : 후보 중 하나만 맞으면 되는 도구엔 pass@k — pass@3 ≈ 98%</li>
+        <li>끝 : 후보 중 하나만 맞으면 되는 도구에는 pass@k 를 쓴다. pass@3 ≈ 98% 다</li>
       </ol>
-      <p class="lead">② 고객 대면 에이전트 → pass^k <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">② 고객 대면 에이전트는 pass^k <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 과제 — 쪽지 : <span class="flx-alt-slip">고객 문의에 바로 답함 / 재시도 없음</span></li>
         <li>시도 : 과제 → 시도 k번 : 3번 · 1회 성공률 75% — 쪽지 : <span class="flx-alt-slip">시도 1 ✓ / 시도 2 ✗ / 시도 3 ✓</span></li>
-        <li>판정 : 시도 k번 → 판정 : k번 모두 성공해야 통과 — 쪽지 : <span class="flx-alt-slip">이 과제 : ✗ 하나 / → 통과 못 함</span></li>
+        <li>판정 : 시도 k번 → 판정 : k번 모두 성공해야 통과한다 — 쪽지 : <span class="flx-alt-slip">이 과제 : ✗ 하나 / → 통과 못 함</span></li>
         <li>셈 : 판정 : k번 모두 성공할 확률 — 쪽지 : <span class="flx-alt-slip">pass^3 = (0.75)³ / ≈ 42%</span></li>
-        <li>끝 : 매번 맞아야 하는 고객 대면 에이전트엔 pass^k — pass^3 ≈ 42%</li>
+        <li>끝 : 매번 맞아야 하는 고객 대면 에이전트에는 pass^k 를 쓴다. pass^3 ≈ 42% 다</li>
       </ol>
-      <p class="lead">③ 고객 대면을 pass@k 로 봄 <span class="fl-v is-ng">≠</span></p>
+      <p class="lead">③ 고객 대면을 pass@k 로 본다 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 과제 — 쪽지 : <span class="flx-alt-slip">고객 문의에 바로 답함 / 재시도 없음</span></li>
         <li>시도 : 과제 → 시도 k번 : 3번 · 1회 성공률 75% — 쪽지 : <span class="flx-alt-slip">시도 1 ✓ / 시도 2 ✗ / 시도 3 ✓</span></li>
-        <li>판정 : 시도 k번 → 판정 : 한 번이라도 성공이면 통과 — 쪽지 : <span class="flx-alt-slip">이 과제 : ✓ 있음 / → 통과</span></li>
-        <li>보고 : 판정 : 한 번 성공 기준으로 보고 — 쪽지 : <span class="flx-alt-slip">보고서 : "pass@3 ≈ 98%"</span></li>
-        <li>끝 : 고객 대면을 pass@k 로 보면 높게 나와 신뢰성을 과대평가 — 사용자는 매번 믿을 만한 동작을 기대</li>
+        <li>판정 : 시도 k번 → 판정 : 한 번이라도 성공하면 통과한다 — 쪽지 : <span class="flx-alt-slip">이 과제 : ✓ 있음 / → 통과</span></li>
+        <li>보고 : 판정 : 한 번 성공 기준으로 보고한다 — 쪽지 : <span class="flx-alt-slip">보고서 : "pass@3 ≈ 98%"</span></li>
+        <li>끝 : 고객 대면을 pass@k 로 보면 높게 나온다. 그래서 신뢰성을 과대평가한다. 사용자는 매번 믿을 만한 동작을 기대한다</li>
       </ol>
     </details>
   </figure>
   <h3 class="v3-sub" id="pass-at-k-rep-h">반복</h3>
   <section class="rpx" id="pass-at-k-rep" aria-labelledby="pass-at-k-rep-h">
     <h3>과제 100개를 k번씩 모의로 돌려 보기</h3>
-    <p class="rpx-assume"><span class="rpx-chip">가정</span>1회 성공률 75% 는 공식 글의 예시 값 — 과제마다 같고 시도끼리 독립이라고 봄. 실제 측정값 아님</p>
+    <p class="rpx-assume"><span class="rpx-chip">가정</span>1회 성공률 75% 는 공식 글의 예시 값이다. 과제마다 같고 시도끼리 독립이라고 본다. 실제 측정값이 아니다</p>
     <div class="rpx-sim" data-p="75" data-k="3">
       <p class="rpx-sim-h">1회 성공률 75% 과제 100개 — 과제마다 k 번 시도 (모의)</p>
       <div class="rpx-ks" role="group" aria-label="시도 횟수 k"><span>k =</span><button type="button" data-k="1" aria-pressed="false">1</button><button type="button" data-k="3" aria-pressed="true">3</button><button type="button" data-k="5" aria-pressed="false">5</button><button type="button" data-k="10" aria-pressed="false">10</button></div>
@@ -539,25 +539,25 @@
     <details class="t5-orig">
       <summary>규칙 원문 <span class="note">갈림 기준 셈 시도 믿기 (갈림길로 그린 규칙)</span></summary>
       <p class="lead orig-h">갈림 기준</p>
-      <p class="lead">제품이 "한 번 성공"을 원하나 "매번 성공"을 원하나</p>
+      <p class="lead">제품이 "한 번 성공"을 원하나, "매번 성공"을 원하나?</p>
       <ul class="plain">
-        <li>에이전트 동작은 실행마다 다름 → 한 번 돌려 판단 안 함. 과제마다 여러 번 시도(trial)</li>
-        <li>pass@k = k번 시도 중 적어도 한 번 맞을 확률. 하나만 되면 되는 도구에 · 여러 해답을 내고 하나만 맞으면 되는 일에</li>
-        <li>pass^k = k번 모두 맞을 확률. 일관성이 핵심인 에이전트에 · 사용자가 매번 믿을 만한 동작을 기대하는 고객 대면 에이전트에 특히</li>
-        <li>코딩은 첫 시도 해결 = pass@1 을 가장 중시</li>
-        <li>둘 다 쓸모 있음. 고르는 기준은 제품 요구</li>
+        <li>에이전트 동작은 실행마다 다르다. 그래서 한 번 돌려서 판단하지 않는다. 과제마다 여러 번 시도(trial)한다</li>
+        <li>pass@k 는 k번 시도 중 적어도 한 번 맞을 확률이다. 하나만 되면 되는 도구에 쓴다. 여러 해답을 내고 하나만 맞으면 되는 일에도 쓴다</li>
+        <li>pass^k 는 k번 모두 맞을 확률이다. 일관성이 핵심인 에이전트에 쓴다. 사용자가 매번 믿을 만한 동작을 기대하는 고객 대면 에이전트에는 특히 중요하다</li>
+        <li>코딩은 첫 시도 해결, 곧 pass@1 을 가장 중시한다</li>
+        <li>둘 다 쓸모 있다. 고르는 기준은 제품 요구다</li>
       </ul>
       <p class="lead orig-h">셈</p>
       <ul class="dash">
-        <li>pass^k = p^k (1회 성공률 p) : 75% · 3번 → (0.75)³ ≈ 42%</li>
-        <li>pass@k = 1 − (1 − p)^k : 75% · 3번 → 1 − 0.25³ ≈ 98% <span class="calc">계산</span> <span class="note">공식은 식 없이 정의만, 시도 독립 가정</span></li>
-        <li>k = 1 이면 둘 다 1회 성공률 · k = 10 이면 pass@k → 100%, pass^k → 0%</li>
-        <li>"50% pass@1" = 첫 시도에 과제 절반을 성공</li>
+        <li>pass^k = p^k (1회 성공률 p) : 75% 로 3번이면 (0.75)³ ≈ 42% 다</li>
+        <li>pass@k = 1 − (1 − p)^k 다. 75% 로 3번이면 1 − 0.25³ ≈ 98% 다 <span class="calc">계산</span> <span class="note">공식은 식 없이 정의만, 시도 독립 가정</span></li>
+        <li>k = 1 이면 둘 다 1회 성공률과 같다. k = 10 이면 pass@k 는 100% 로, pass^k 는 0% 로 간다</li>
+        <li>"50% pass@1" 은 첫 시도에 과제 절반을 성공했다는 뜻이다</li>
       </ul>
       <p class="lead orig-h">시도 믿기 <span class="src">(과제·환경 만들기 본문 = ■ 첫 eval 셋 만들기)</span></p>
       <ul class="dash">
-        <li>시도마다 깨끗한 환경에서 시작. 남은 파일 · 캐시 데이터 · 자원 고갈 같은 공유 상태 → 에이전트가 아니라 인프라 때문에 같이 실패(독립 아님). 앞 시도의 git 기록을 보고 점수가 부풀기도 함</li>
-        <li>프런티어 모델이 여러 시도에서 0%(0% pass@100) → 대개 과제가 잘못됨. 과제 명세·grader 확인, 과제마다 참고 해답(reference solution)</li>
+        <li>시도마다 깨끗한 환경에서 시작한다. 남은 파일 · 캐시 데이터 · 자원 고갈 같은 공유 상태가 있으면, 에이전트가 아니라 인프라 때문에 같이 실패한다(독립이 아니다). 앞 시도의 git 기록을 보고 점수가 부풀기도 한다</li>
+        <li>프런티어 모델이 여러 시도에서 0%(0% pass@100)면 대개 과제가 잘못된 것이다. 과제 명세와 grader 를 확인한다. 과제마다 참고 해답(reference solution)을 둔다</li>
       </ul>
     </details>
   </div>
@@ -569,14 +569,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">에이전트 성능을 잴 때</td><td data-label="답" role="cell">과제마다 여러 번 시도</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">하나만 성공하면 되는 도구 · 여러 해답 중 하나만 맞으면 됨</td><td data-label="답" role="cell">pass@k</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">매번 성공해야 하는 고객 대면 에이전트</td><td data-label="답" role="cell">pass^k</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a> "This metric especially matters for customer-facing agents where users expect reliable behavior every time."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">코딩 에이전트</td><td data-label="답" role="cell">pass@1 중시</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">1회 성공률 p, k번 모두 성공</td><td data-label="답" role="cell">p^k (75% · 3번 ≈ 42%)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">1회 성공률 p, 적어도 한 번</td><td data-label="답" role="cell">1 − (1 − p)^k</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">정의에서 (시도 독립 가정)</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">여러 시도 전부 0%</td><td data-label="답" role="cell">과제 명세 · grader(채점기)부터 확인</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">시도끼리 같이 실패</td><td data-label="답" role="cell">환경 공유 상태 제거, 시도마다 깨끗한 환경</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">에이전트 성능을 잴 때</td><td data-label="답" role="cell">과제마다 여러 번 시도한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">하나만 성공하면 되는 도구다 · 여러 해답 중 하나만 맞으면 된다</td><td data-label="답" role="cell">pass@k</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">매번 성공해야 하는 고객 대면 에이전트다</td><td data-label="답" role="cell">pass^k</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a> "This metric especially matters for customer-facing agents where users expect reliable behavior every time."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">코딩 에이전트다</td><td data-label="답" role="cell">pass@1 을 중시한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">1회 성공률 p 로 k번 모두 성공한다</td><td data-label="답" role="cell">p^k (75% 로 3번이면 ≈ 42%)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">1회 성공률 p 로 적어도 한 번 성공한다</td><td data-label="답" role="cell">1 − (1 − p)^k</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">정의에서 (시도 독립 가정)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">여러 시도가 전부 0% 다</td><td data-label="답" role="cell">과제 명세와 grader(채점기)부터 확인한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">시도끼리 같이 실패한다</td><td data-label="답" role="cell">환경 공유 상태를 없앤다. 시도마다 깨끗한 환경에서 시작한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -587,13 +587,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">결과를 받는 쪽</td><td data-label="값" role="cell">사용자가 매 상호작용을 받음</td><td data-label="답 쪽" role="cell">pass^k</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">결과를 받는 쪽</td><td data-label="값" role="cell">여러 후보 중 맞는 걸 고를 수 있음</td><td data-label="답 쪽" role="cell">pass@k</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">성공 판별</td><td data-label="값" role="cell">자동으로 가능(테스트 통과 · 스키마 검증)</td><td data-label="답 쪽" role="cell">자동 재시도 + pass@k 가 설 자리</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">k</td><td data-label="값" role="cell">1</td><td data-label="답 쪽" role="cell">두 지표 같음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">k</td><td data-label="값" role="cell">크게(10)</td><td data-label="답 쪽" role="cell">pass@k → 100%, pass^k → 0%</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">과제별 성공률</td><td data-label="값" role="cell">들쭉날쭉</td><td data-label="답 쪽" role="cell">과제마다 계산한 뒤 평균</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">환경</td><td data-label="값" role="cell">시도 사이 공유 상태 있음</td><td data-label="답 쪽" role="cell">숫자를 못 믿음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">결과를 받는 쪽</td><td data-label="값" role="cell">사용자가 매 상호작용을 받는다</td><td data-label="답 쪽" role="cell">pass^k</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">결과를 받는 쪽</td><td data-label="값" role="cell">여러 후보 중 맞는 것을 고를 수 있다</td><td data-label="답 쪽" role="cell">pass@k</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">성공 판별</td><td data-label="값" role="cell">자동으로 할 수 있다(테스트 통과 · 스키마 검증)</td><td data-label="답 쪽" role="cell">자동 재시도와 pass@k 가 설 자리가 있다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">k</td><td data-label="값" role="cell">1</td><td data-label="답 쪽" role="cell">두 지표가 같다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">k</td><td data-label="값" role="cell">크게(10)</td><td data-label="답 쪽" role="cell">pass@k 는 100% 로, pass^k 는 0% 로 간다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">과제별 성공률</td><td data-label="값" role="cell">들쭉날쭉하다</td><td data-label="답 쪽" role="cell">과제마다 계산한 뒤 평균한다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">환경</td><td data-label="값" role="cell">시도 사이에 공유 상태가 있다</td><td data-label="답 쪽" role="cell">숫자를 믿지 못한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -609,13 +609,13 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>재시도 없는 고객 대면 에이전트를 pass@k 로 → 높게 나와 신뢰성을 과대평가. pass^k</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"몇 번 돌려 한 번 되면 됐다" → 그건 pass@k. 매번 돼야 하면 pass^k</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>실행 1회 정확도로 판단 → 실행마다 달라서 여러 번 시도</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>pass^k 를 "k번의 평균 성공률"로 읽음 → 모두 성공할 확률, k 가 커질수록 내려감</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"pass@k 가 올랐으니 에이전트가 좋아졌다" → k 만 늘려도 오름</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>신뢰성을 물었는데 TTFT 같은 지연(latency) 지표를 고름 → 다른 차원 <span class="note">(◆ TTFT vs 응답 완료 지연)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>0% pass@100 을 "모델이 못 한다"로 → 과제 결함부터</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>재시도 없는 고객 대면 에이전트를 pass@k 로 보는 것은 함정이다. 높게 나와서 신뢰성을 과대평가한다. pass^k 를 쓴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"몇 번 돌려 한 번 되면 됐다" 는 함정이다. 그건 pass@k 다. 매번 돼야 하면 pass^k 를 쓴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>실행 1회 정확도로 판단하는 것은 함정이다. 실행마다 달라서 여러 번 시도한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>pass^k 를 "k번의 평균 성공률"로 읽는 것은 함정이다. pass^k 는 모두 성공할 확률이다. k 가 커질수록 내려간다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"pass@k 가 올랐으니 에이전트가 좋아졌다" 는 함정이다. k 만 늘려도 오른다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>신뢰성을 물었는데 TTFT 같은 지연(latency) 지표를 고르는 것은 함정이다. 다른 차원이다. 자세한 것은 <a href="ttft-vs-total.html">◆ TTFT vs 응답 완료 지연</a> 에 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>0% pass@100 을 "모델이 못 한다"로 읽는 것은 함정이다. 과제 결함부터 본다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -638,33 +638,38 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 고객 대면인데 pass@k 가 설 자리가 있는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 에이전트가 사용자에게 내보내기 전에 결과를 자동으로 검사할 수 있음(예 : 환불 금액이 규칙 범위 안인지, 응답이 스키마를 통과하는지). 실패하면 시스템이 조용히 다시 돌림, 최대 3번. 1회 성공률 70%.</li>
-<li><span class="lead">계산 :</span> 사용자가 받는 결과의 성공률 = 1 − 0.3³ = 97.3%. 평균 호출 수 = 1 + 0.3 + 0.09 = 1.39번.</li>
-<li><span class="lead">판단 :</span> 사용자가 받는 건 "검사를 통과한 하나"라 pass@3 이 사용자 체감에 가까움. 단 검사기가 성공을 정확히 가려야 하고, 호출 수만큼 비용·지연(latency)이 늘어남. 검사기가 없으면 원래대로 pass^k.</li>
-<li><span class="lead">전제 :</span> 시도 독립 · 검사기 오판 없음.</li>
+<li>조건 : 아래가 모두 맞다.<ul>
+<li>에이전트가 사용자에게 내보내기 전에 결과를 자동으로 검사할 수 있다(예 : 환불 금액이 규칙 범위 안인지, 응답이 스키마를 통과하는지)</li>
+<li>실패하면 시스템이 조용히 다시 돌린다. 최대 3번이다</li>
+<li>1회 성공률은 70% 다</li>
+</ul>
+</li>
+<li><span class="lead">계산 :</span> 사용자가 받는 결과의 성공률 = 1 − 0.3³ = 97.3% 다. 평균 호출 수 = 1 + 0.3 + 0.09 = 1.39번이다.</li>
+<li><span class="lead">판단 :</span> 사용자가 받는 것은 "검사를 통과한 하나"다. 그래서 pass@3 이 사용자 체감에 가깝다. 단 검사기가 성공을 정확히 가려야 한다. 그리고 호출 수만큼 비용과 지연(latency)이 늘어난다. 검사기가 없으면 원래대로 pass^k 를 쓴다.</li>
+<li><span class="lead">전제 :</span> 시도는 독립이다. 검사기는 오판하지 않는다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> · 업계 일반(공식 글은 이 경우를 말하지 않음)</li>
 <li><span class="lead">근거 :</span> demystifying-evals</li>
 </ul>
 <h4>2. k 를 안 적은 pass^k 목표는 뜻이 없다</h4>
 <ul>
-<li><span class="lead">조건 :</span> "pass^k 80% 이상"을 목표로 적음. 1회 성공률 90%.</li>
-<li><span class="lead">계산 :</span> pass^2 = 0.81 → 통과. pass^5 = 0.9⁵ ≈ 0.59 → 불합격. pass^10 = 0.9¹⁰ ≈ 0.35. 같은 에이전트가 k 에 따라 합격·불합격.</li>
-<li><span class="lead">판단 :</span> 기준 문장에 k 를 함께 적어야 함(■ 성공 기준 의 "측정 가능"). 공식 그림도 k 가 커질수록 두 지표가 벌어짐을 보여 줌.</li>
+<li><span class="lead">조건 :</span> "pass^k 80% 이상"을 목표로 적었다. 1회 성공률은 90% 다.</li>
+<li><span class="lead">계산 :</span> pass^2 = 0.81 이라 통과한다. pass^5 = 0.9⁵ ≈ 0.59 라 불합격이다. pass^10 = 0.9¹⁰ ≈ 0.35 다. 같은 에이전트가 k 에 따라 합격하기도 하고 불합격하기도 한다.</li>
+<li><span class="lead">판단 :</span> 기준 문장에 k 를 함께 적어야 한다(■ 성공 기준 의 "측정 가능"). 공식 그림도 k 가 커질수록 두 지표가 벌어지는 것을 보여 준다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span></li>
 <li><span class="lead">근거 :</span> demystifying-evals</li>
 </ul>
 <h4>3. 과제 평균 성공률로 pass^k 를 셈하면 틀린다</h4>
 <ul>
-<li><span class="lead">조건 :</span> 과제 A 성공률 95%, 과제 B 45% (평균 70%). k = 3.</li>
-<li><span class="lead">계산 :</span> 평균으로 셈 = 0.7³ ≈ 34%. 과제마다 셈 = (0.95³ + 0.45³) ÷ 2 = (0.857 + 0.091) ÷ 2 ≈ 47%.</li>
-<li><span class="lead">판단 :</span> 성공률은 과제마다 다르므로 과제별로 pass^k 를 구한 뒤 평균. 그리고 B 처럼 낮은 과제를 따로 봐야 어디서 깨지는지 보임.</li>
+<li><span class="lead">조건 :</span> 과제 A 성공률은 95%, 과제 B 는 45% 다(평균 70%). k = 3 이다.</li>
+<li><span class="lead">계산 :</span> 평균으로 세면 0.7³ ≈ 34% 다. 과제마다 세면 (0.95³ + 0.45³) ÷ 2 = (0.857 + 0.091) ÷ 2 ≈ 47% 다.</li>
+<li><span class="lead">판단 :</span> 성공률은 과제마다 다르다. 그래서 과제별로 pass^k 를 구한 뒤 평균한다. 그리고 B 처럼 낮은 과제를 따로 봐야 어디서 깨지는지 보인다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (과제마다 성공률이 다르다는 것은 확인)</li>
 <li><span class="lead">근거 :</span> demystifying-evals</li>
 </ul>
 <h4>4. 0% 인데 모델 탓이 아닐 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 과제 하나가 100번 시도 모두 실패(0% pass@100).</li>
-<li><span class="lead">판단 :</span> 프런티어 모델에서 이건 대개 과제 결함 신호 — 과제 설명에 없는 파일 경로를 grader 가 기대하는 식. 모델을 바꾸기 전에 과제 명세 · grader 를 보고, 참고 해답이 grader 를 통과하는지 확인.</li>
+<li><span class="lead">조건 :</span> 과제 하나가 100번 시도 모두 실패했다(0% pass@100).</li>
+<li><span class="lead">판단 :</span> 프런티어 모델에서 이것은 대개 과제 결함 신호다. 예를 들어 과제 설명에 없는 파일 경로를 grader 가 기대한다. 모델을 바꾸기 전에 과제 명세와 grader 를 본다. 그리고 참고 해답이 grader 를 통과하는지 확인한다.</li>
 
 <li><span class="lead">근거 :</span> demystifying-evals</li>
 </ul>
@@ -675,13 +680,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">재시도 없는 고객 대면 에이전트에 pass@k</td><td data-label="왜 끌리나" role="cell">숫자가 높고 흔히 들어 본 지표</td><td data-label="왜 틀리나" role="cell">한 번 성공이 중요한 도구용. 매번 성공해야 하면 pass^k</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">실행 1회 정확도로 판단</td><td data-label="왜 끌리나" role="cell">간단함</td><td data-label="왜 틀리나" role="cell">실행마다 결과가 달라 여러 번 시도해야</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"pass^k 는 k번 성공률의 평균"</td><td data-label="왜 끌리나" role="cell">이름이 평균처럼 보임</td><td data-label="왜 틀리나" role="cell">모두 성공할 확률, k 가 커질수록 내림</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"75% 로 3번이면 pass^3 = 75%"</td><td data-label="왜 끌리나" role="cell">1회 성공률을 그대로 옮김</td><td data-label="왜 틀리나" role="cell">(0.75)³ ≈ 42%</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"pass@k 가 올랐으니 개선"</td><td data-label="왜 끌리나" role="cell">점수가 오름</td><td data-label="왜 틀리나" role="cell">k 만 늘려도 오름</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">신뢰성 문항에서 TTFT 같은 지연 지표</td><td data-label="왜 끌리나" role="cell">같은 "지표 고르기" 목표(4.1)</td><td data-label="왜 틀리나" role="cell">다른 차원 → ◆ TTFT vs 응답 완료 지연</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"0% 면 모델이 못 하는 것"</td><td data-label="왜 끌리나" role="cell">결과가 명확해 보임</td><td data-label="왜 틀리나" role="cell">대개 과제 결함</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">재시도 없는 고객 대면 에이전트에 pass@k</td><td data-label="왜 끌리나" role="cell">숫자가 높고 흔히 들어 본 지표다</td><td data-label="왜 틀리나" role="cell">pass@k 는 한 번 성공이 중요한 도구용이다. 매번 성공해야 하면 pass^k 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">실행 1회 정확도로 판단</td><td data-label="왜 끌리나" role="cell">간단하다</td><td data-label="왜 틀리나" role="cell">실행마다 결과가 달라서 여러 번 시도해야 한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"pass^k 는 k번 성공률의 평균"</td><td data-label="왜 끌리나" role="cell">이름이 평균처럼 보인다</td><td data-label="왜 틀리나" role="cell">모두 성공할 확률이다. k 가 커질수록 내린다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"75% 로 3번이면 pass^3 = 75%"</td><td data-label="왜 끌리나" role="cell">1회 성공률을 그대로 옮겼다</td><td data-label="왜 틀리나" role="cell">(0.75)³ ≈ 42% 다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"pass@k 가 올랐으니 개선"</td><td data-label="왜 끌리나" role="cell">점수가 올랐다</td><td data-label="왜 틀리나" role="cell">k 만 늘려도 오른다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">신뢰성 문항에서 TTFT 같은 지연 지표</td><td data-label="왜 끌리나" role="cell">같은 "지표 고르기" 목표(4.1)다</td><td data-label="왜 틀리나" role="cell">다른 차원이다. 자세한 것은 ◆ TTFT vs 응답 완료 지연 에 있다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"0% 면 모델이 못 하는 것"</td><td data-label="왜 끌리나" role="cell">결과가 명확해 보인다</td><td data-label="왜 틀리나" role="cell">대개 과제 결함이다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -689,12 +694,16 @@
   </details>
   <h2 class="sec-h" id="pass-at-k-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="success-criteria.html">■ 성공 기준</a></li>
         <li><a href="eval-dataset.html">■ 첫 eval 셋 만들기</a></li>
         <li><a href="capability-vs-regression.html">◆ capability eval vs regression eval</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 4.1</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -708,12 +717,13 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>목록 4.1③ 은 pass@k 를 "재시도 가능한 도구", pass^k 를 "재시도 없음"으로 적음. 공식 문장은 "one success matters" · "consistency is essential" · "reliable behavior every time" 이고 "재시도"라는 말은 없음 — 목록의 재시도 표현은 해석.</li>
-<li>pass@k 식 1 − (1 − p)^k 는 공식 글에 없음(정의만 있음, 링크된 2019 논문은 받지 않음). 시도 독립 가정.</li>
-<li>목록 4.1③ 의 영어 신호 두 문장은 원문에서 찾음. "pass^3 ≈ 42%" · "코딩은 pass@1" 도 확인.</li>
-<li>한국어판 없음 (anthropic.com/engineering 글) — 영어 원문만.</li>
+<li>목록 4.1③ 은 pass@k 를 "재시도 가능한 도구", pass^k 를 "재시도 없음"으로 적었다. 공식 문장은 "one success matters" · "consistency is essential" · "reliable behavior every time" 이고, "재시도"라는 말은 없다. 목록의 재시도 표현은 해석이다.</li>
+<li>pass@k 식 1 − (1 − p)^k 는 공식 글에 없다(정의만 있다. 링크된 2019 논문은 받지 않았다). 시도 독립을 가정한다.</li>
+<li>목록 4.1③ 의 영어 신호 두 문장은 원문에서 찾았다. "pass^3 ≈ 42%" 와 "코딩은 pass@1" 도 확인했다.</li>
+<li>한국어판은 없다 (anthropic.com/engineering 글). 영어 원문만 본다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

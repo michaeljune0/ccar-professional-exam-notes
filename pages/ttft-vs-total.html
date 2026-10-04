@@ -395,22 +395,22 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">두 지표</p>
 <ul>
-<li>TTFT : 프롬프트를 보낸 뒤 첫 토큰이 나올 때까지. 대기열 + 입력 처리(prefill) 구간.</li>
-<li>응답 완료 : 마지막 토큰까지. TTFT + 출력 토큰을 하나씩 만드는 시간(decode).</li>
-<li>OTel 정의를 거꾸로 풀면 : 완료 ≈ TTFT + 출력 토큰 수 × 토큰당 시간 (계산).</li>
-<li>그래서 TTFT 는 입력 쪽(프롬프트 복잡성 · 모델 · 네트워크)에, 완료는 거기에 출력 길이까지 얹혀 좌우됨. 공식 용어집도 TTFT 요인엔 "프롬프트 복잡성"만, 지연(latency) 요인엔 "생성된 응답의 복잡성"까지 넣음.</li>
+<li>TTFT : 프롬프트를 보낸 뒤 첫 토큰이 나올 때까지의 시간이다. 대기열 + 입력 처리(prefill) 구간이다.</li>
+<li>응답 완료 : 마지막 토큰까지의 시간이다. TTFT 에 출력 토큰을 하나씩 만드는 시간(decode)을 더한 것이다.</li>
+<li>OTel 정의를 거꾸로 풀면 완료 ≈ TTFT + 출력 토큰 수 × 토큰당 시간이다 (계산).</li>
+<li>그래서 TTFT 는 입력 쪽(프롬프트 복잡성 · 모델 · 네트워크)에 좌우된다. 완료는 거기에 출력 길이까지 얹혀 좌우된다. 공식 용어집도 TTFT 요인에는 "프롬프트 복잡성"만 넣는다. 지연(latency) 요인에는 "생성된 응답의 복잡성"까지 넣는다.</li>
 </ul>
 <p class="lead">스트리밍이 바꾸는 것</p>
 <ul>
-<li>출력이 다 끝나기 전에 보내기 시작 → 사용자가 실시간으로 봄 → 체감(perceived) 반응성이 크게 좋아짐.</li>
-<li>생성할 토큰 수는 그대로 → 마지막 토큰 시각은 그대로 (업계 일반 — 공식은 "perceived"라고만 씀).</li>
-<li>그래서 스트리밍 뒤 "TTFT 는 좋아졌는데 여전히 느리다"는 말이 나옴.</li>
+<li>출력이 다 끝나기 전에 보내기 시작한다. 그래서 사용자가 실시간으로 본다. 그 결과 체감(perceived) 반응성이 크게 좋아진다.</li>
+<li>생성할 토큰 수는 그대로다. 그래서 마지막 토큰 시각도 그대로다 (업계 일반 — 공식은 "perceived"라고만 씀).</li>
+<li>그래서 스트리밍 뒤에 "TTFT 는 좋아졌는데 여전히 느리다"는 말이 나온다.</li>
 </ul>
 <p class="lead">어느 지표를 거나</p>
 <ul>
-<li>기다리는 주체가 기준 : 사람이 화면에서 첫 글자를 기다리면 TTFT, 결과 전체가 필요하면(보고서 · 다음 단계 코드) 완료.</li>
-<li>대부분 둘 다 따로. 공식 eval 예시도 time_to_first_token · output_tokens_per_sec · time_to_last_token 을 나란히 추적.</li>
-<li>숫자는 분위수로 (공식 예 "응답 95% 가 200ms 미만").</li>
+<li>기다리는 주체가 기준이다. 사람이 화면에서 첫 글자를 기다리면 TTFT 를 건다. 결과 전체가 필요하면(보고서 · 다음 단계 코드) 완료를 건다.</li>
+<li>대부분은 둘 다 따로 건다. 공식 eval 예시도 time_to_first_token · output_tokens_per_sec · time_to_last_token 을 나란히 추적한다.</li>
+<li>숫자는 분위수로 건다 (공식 예 "응답 95% 가 200ms 미만").</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
@@ -431,15 +431,15 @@
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>사람이 첫 글자 <span class="note">(채팅 화면)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">TTFT</p><p>보낸 뒤 첫 토큰까지. 스트리밍으로 바로 반응하는 느낌을 줄 때 특히 중요</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">TTFT</p><p>TTFT 는 보낸 뒤 첫 토큰까지의 시간이다. 스트리밍으로 바로 반응하는 느낌을 줄 때 특히 중요하다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>결과 전체 <span class="note">(긴 보고서 · 다음 단계 코드)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">응답 완료 지연</p><p>마지막 토큰까지. 출력이 길면 이것만 늘어남 <span class="gen">업계 일반</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">응답 완료 지연</p><p>응답 완료 지연은 마지막 토큰까지의 시간이다. 출력이 길면 이것만 늘어난다 <span class="gen">업계 일반</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>둘 다</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">따로 걸기</p><p>TTFT 와 완료 지연을 따로 정의하고 따로 측정</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">따로 건다</p><p>TTFT 와 완료 지연을 따로 정의하고 따로 측정한다</p></div>
         </div>
       </div>
     </div>
@@ -451,11 +451,11 @@
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>TTFT 하나</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">완료도 걸기</p><p>스트리밍이 TTFT 만 좋게 만들어 완료 지연 위반을 가림 <span class="gen">업계 일반</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">완료도 건다</p><p>스트리밍은 TTFT 만 좋게 만든다. 그래서 완료 지연 위반을 가린다 <span class="gen">업계 일반</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>평균 하나</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">분위수로</p><p>공식 예 = 응답 95% 가 200ms 미만</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">분위수로</p><p>공식 예는 "응답 95% 가 200ms 미만" 이다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>따로 · 분위수로</span>
@@ -471,47 +471,47 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>TTFT 구간 <span class="note">(대기 · 입력 처리)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">캐싱 · 캐시 미리 채우기(warming)</p><p>TTFT 를 줄이는 공식 수단</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">캐싱 · 캐시 미리 채우기(warming)</p><p>TTFT 를 줄이는 공식 수단이다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>출력 구간 <span class="note">(긴 답)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">출력 길이 · effort · 모델</p><p>완료 지연 쪽 → <a href="latency-levers.html">■ 지연 줄이기 lever</a></p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">출력 길이 · effort · 모델</p><p>완료 지연 쪽 수단이다. 자세한 것은 <a href="latency-levers.html">■ 지연 줄이기 lever</a> 에 있다</p></div>
         </div>
       </div>
     </div>
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="ttft-vs-total-flow" aria-label="TTFT vs 응답 완료 지연 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["요청","모델","화면"],"blocks":[],"rules":[null,"완료 ≈ TTFT + 출력 토큰 수 × 토큰당 시간",null],"question":"기다리는 쪽은 무엇을 기다릴까?","scenes":[{"name":"① 채팅, 첫 글자 기다림 → TTFT","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"제 주문 어디쯤 왔어요?"}},{"kind":"move","step":"보냄","from":{"col":0},"to":1,"label":"대기열 + 입력 처리(prefill)","art":{"kind":"slip","lines":["질문 + 주문 조회 결과"]}},{"kind":"move","step":"첫 토큰","from":{"col":1},"to":2,"label":"보낸 뒤 첫 토큰까지 = TTFT","art":{"kind":"say","text":"주문하신…"}},{"kind":"end","label":"사람이 첫 글자를 기다리는 채팅 → TTFT. 스트리밍으로 바로 반응하는 느낌을 줄 때 특히 중요"}]},{"name":"② 긴 보고서를 TTFT 로만 봄","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["\"상담 기록으로","주간 보고서 써 줘\""]}},{"kind":"move","step":"보냄","from":{"col":0},"to":1,"label":"입력 처리","art":{"kind":"slip","lines":["상담 기록 + 지시"]}},{"kind":"move","step":"첫 토큰","from":{"col":1},"to":2,"label":"TTFT 대시보드는 좋아짐","art":{"kind":"slip","lines":["TTFT : 1.2초"]}},{"kind":"timer","at":1,"label":"출력 토큰마다 시간(decode)"},{"kind":"move","step":"마지막 토큰","from":{"col":1},"to":2,"label":"완료 = TTFT + 출력 구간 (가정 속도)","art":{"kind":"slip","lines":["1.2 + 1,800 ÷ 60","≈ 31.2초"]}},{"kind":"end","label":"스트리밍은 생성량을 안 줄임 — TTFT 만 보면 긴 출력의 완료 지연이 가려짐"}]},{"name":"③ 둘 다 따로 측정","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["\"상담 기록으로","주간 보고서 써 줘\""]}},{"kind":"move","step":"보냄","from":{"col":0},"to":1,"label":"입력 처리","art":{"kind":"slip","lines":["상담 기록 + 지시"]}},{"kind":"mark","step":"첫 토큰","at":{"col":1},"label":"첫 토큰 따로","art":{"kind":"slip","lines":["time_to_first_token","1.2초"]}},{"kind":"move","step":"마지막 토큰","from":{"col":1},"to":2,"label":"완료도 따로","art":{"kind":"slip","lines":["output_tokens_per_sec : 60","time_to_last_token","31.2초"]}},{"kind":"end","label":"TTFT 와 완료 지연을 따로 정의하고 따로 측정"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["요청","모델","화면"],"blocks":[],"rules":[null,"완료 ≈ TTFT + 출력 토큰 수 × 토큰당 시간",null],"question":"기다리는 쪽은 무엇을 기다릴까?","scenes":[{"name":"① 첫 글자를 기다리는 채팅은 TTFT","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"제 주문 어디쯤 왔어요?"}},{"kind":"move","step":"보냄","from":{"col":0},"to":1,"label":"대기열 + 입력 처리(prefill)","art":{"kind":"slip","lines":["질문 + 주문 조회 결과"]}},{"kind":"move","step":"첫 토큰","from":{"col":1},"to":2,"label":"보낸 뒤 첫 토큰까지 = TTFT","art":{"kind":"say","text":"주문하신…"}},{"kind":"end","label":"사람이 첫 글자를 기다리는 채팅에는 TTFT 를 건다. 스트리밍으로 바로 반응하는 느낌을 줄 때 특히 중요하다"}]},{"name":"② 긴 보고서를 TTFT 로만 본다","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["\"상담 기록으로","주간 보고서 써 줘\""]}},{"kind":"move","step":"보냄","from":{"col":0},"to":1,"label":"입력 처리","art":{"kind":"slip","lines":["상담 기록 + 지시"]}},{"kind":"move","step":"첫 토큰","from":{"col":1},"to":2,"label":"TTFT 대시보드는 좋아졌다","art":{"kind":"slip","lines":["TTFT : 1.2초"]}},{"kind":"timer","at":1,"label":"출력 토큰마다 시간(decode)"},{"kind":"move","step":"마지막 토큰","from":{"col":1},"to":2,"label":"완료 = TTFT + 출력 구간 (가정 속도)","art":{"kind":"slip","lines":["1.2 + 1,800 ÷ 60","≈ 31.2초"]}},{"kind":"end","label":"스트리밍은 생성량을 안 줄인다. TTFT 만 보면 긴 출력의 완료 지연이 가려진다"}]},{"name":"③ 둘 다 따로 잰다","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["\"상담 기록으로","주간 보고서 써 줘\""]}},{"kind":"move","step":"보냄","from":{"col":0},"to":1,"label":"입력 처리","art":{"kind":"slip","lines":["상담 기록 + 지시"]}},{"kind":"mark","step":"첫 토큰","at":{"col":1},"label":"첫 토큰을 따로 잰다","art":{"kind":"slip","lines":["time_to_first_token","1.2초"]}},{"kind":"move","step":"마지막 토큰","from":{"col":1},"to":2,"label":"완료도 따로 잰다","art":{"kind":"slip","lines":["output_tokens_per_sec : 60","time_to_last_token","31.2초"]}},{"kind":"end","label":"TTFT 와 완료 지연을 따로 정의하고 따로 측정한다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> 요청 → 모델 → 화면</p>
       <p><span class="lead">규칙 (모델) :</span> 완료 ≈ TTFT + 출력 토큰 수 × 토큰당 시간</p>
       <p><span class="lead">질문 :</span> 기다리는 쪽은 무엇을 기다릴까?</p>
-      <p class="lead">① 채팅, 첫 글자 기다림 → TTFT <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">① 첫 글자를 기다리는 채팅은 TTFT <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 요청 — 말 : <span class="flx-alt-say">“제 주문 어디쯤 왔어요?”</span></li>
         <li>보냄 : 요청 → 모델 : 대기열 + 입력 처리(prefill) — 쪽지 : <span class="flx-alt-slip">질문 + 주문 조회 결과</span></li>
         <li>첫 토큰 : 모델 → 화면 : 보낸 뒤 첫 토큰까지 = TTFT — 말 : <span class="flx-alt-say">“주문하신…”</span></li>
-        <li>끝 : 사람이 첫 글자를 기다리는 채팅 → TTFT. 스트리밍으로 바로 반응하는 느낌을 줄 때 특히 중요</li>
+        <li>끝 : 사람이 첫 글자를 기다리는 채팅에는 TTFT 를 건다. 스트리밍으로 바로 반응하는 느낌을 줄 때 특히 중요하다</li>
       </ol>
-      <p class="lead">② 긴 보고서를 TTFT 로만 봄 <span class="fl-v is-ng">≠</span></p>
+      <p class="lead">② 긴 보고서를 TTFT 로만 본다 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 요청 — 쪽지 : <span class="flx-alt-slip">"상담 기록으로 / 주간 보고서 써 줘"</span></li>
         <li>보냄 : 요청 → 모델 : 입력 처리 — 쪽지 : <span class="flx-alt-slip">상담 기록 + 지시</span></li>
-        <li>첫 토큰 : 모델 → 화면 : TTFT 대시보드는 좋아짐 — 쪽지 : <span class="flx-alt-slip">TTFT : 1.2초</span></li>
+        <li>첫 토큰 : 모델 → 화면 : TTFT 대시보드는 좋아졌다 — 쪽지 : <span class="flx-alt-slip">TTFT : 1.2초</span></li>
         <li>타이머 : 모델 : 출력 토큰마다 시간(decode)</li>
         <li>마지막 토큰 : 모델 → 화면 : 완료 = TTFT + 출력 구간 (가정 속도) — 쪽지 : <span class="flx-alt-slip">1.2 + 1,800 ÷ 60 / ≈ 31.2초</span></li>
-        <li>끝 : 스트리밍은 생성량을 안 줄임 — TTFT 만 보면 긴 출력의 완료 지연이 가려짐</li>
+        <li>끝 : 스트리밍은 생성량을 안 줄인다. TTFT 만 보면 긴 출력의 완료 지연이 가려진다</li>
       </ol>
-      <p class="lead">③ 둘 다 따로 측정 <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">③ 둘 다 따로 잰다 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 요청 — 쪽지 : <span class="flx-alt-slip">"상담 기록으로 / 주간 보고서 써 줘"</span></li>
         <li>보냄 : 요청 → 모델 : 입력 처리 — 쪽지 : <span class="flx-alt-slip">상담 기록 + 지시</span></li>
-        <li>첫 토큰 : 모델 : 첫 토큰 따로 — 쪽지 : <span class="flx-alt-slip">time_to_first_token / 1.2초</span></li>
-        <li>마지막 토큰 : 모델 → 화면 : 완료도 따로 — 쪽지 : <span class="flx-alt-slip">output_tokens_per_sec : 60 / time_to_last_token / 31.2초</span></li>
-        <li>끝 : TTFT 와 완료 지연을 따로 정의하고 따로 측정</li>
+        <li>첫 토큰 : 모델 : 첫 토큰을 따로 잰다 — 쪽지 : <span class="flx-alt-slip">time_to_first_token / 1.2초</span></li>
+        <li>마지막 토큰 : 모델 → 화면 : 완료도 따로 잰다 — 쪽지 : <span class="flx-alt-slip">output_tokens_per_sec : 60 / time_to_last_token / 31.2초</span></li>
+        <li>끝 : TTFT 와 완료 지연을 따로 정의하고 따로 측정한다</li>
       </ol>
     </details>
   </figure>
@@ -519,30 +519,32 @@
     <details class="t5-orig">
       <summary>규칙 원문 <span class="note">갈림 기준 지표 거는 법 쪼개 보기 (갈림길로 그린 규칙)</span></summary>
       <p class="lead orig-h">갈림 기준</p>
-      <p class="lead">누가 무엇을 기다리나가 먼저</p>
+      <p class="lead">누가 무엇을 기다리나를 먼저 본다</p>
       <ul class="plain">
-        <li>TTFT = 프롬프트를 보낸 뒤 응답 첫 토큰이 나올 때까지. 스트리밍으로 바로 반응하는 느낌을 줄 때 특히 중요</li>
-        <li>기본 지연(baseline latency) = 모델이 프롬프트를 처리하고 응답을 생성하는 시간(초당 토큰은 따로 안 셈). 공식 지연 문서의 두 지표 = 이것과 TTFT</li>
-        <li>응답 완료(time to last token)는 공식 eval 예시가 TTFT · 초당 출력 토큰과 나란히 따로 추적</li>
-        <li>사람이 화면에서 첫 글자를 기다림 → TTFT. 결과 전체를 써야 함(긴 보고서 · 다음 단계 코드) → 응답 완료 지연 <span class="gen">업계 일반</span> <span class="note">공식은 두 지표를 정의만 함</span></li>
-        <li>스트리밍 = 출력이 다 끝나기 전에 보내기 시작 → 체감(perceived) 반응성을 크게 올림. 생성 토큰 수는 그대로 → 완료 지연도 그대로 (업계 일반, 본문 = <a href="latency-levers.html">■ 지연 줄이기 lever</a> <span class="rule-ref">· <a href="latency-levers.html#latency-levers-rule-1">규칙 ①</a></span>)</li>
-        <li>TTFT 를 좌우 = 모델 크기 · 하드웨어 · 네트워크 · 프롬프트 복잡성 / 지연(응답 받기까지)을 좌우 = 여기에 생성된 응답의 복잡성까지 → 출력이 길면 완료 지연만 늘어남 <span class="gen">업계 일반</span></li>
+        <li>TTFT 는 프롬프트를 보낸 뒤 응답 첫 토큰이 나올 때까지의 시간이다. 스트리밍으로 바로 반응하는 느낌을 줄 때 특히 중요하다</li>
+        <li>기본 지연(baseline latency)은 모델이 프롬프트를 처리하고 응답을 생성하는 시간이다(초당 토큰은 따로 세지 않는다). 공식 지연 문서의 두 지표는 이것과 TTFT 다</li>
+        <li>응답 완료(time to last token)는 공식 eval 예시가 TTFT · 초당 출력 토큰과 나란히 따로 추적한다</li>
+        <li>사람이 화면에서 첫 글자를 기다리면 TTFT 를 본다. 결과 전체를 써야 하면(긴 보고서 · 다음 단계 코드) 응답 완료 지연을 본다 <span class="gen">업계 일반</span> <span class="note">공식은 두 지표를 정의만 함</span></li>
+        <li>스트리밍은 출력이 다 끝나기 전에 보내기 시작한다. 그래서 체감(perceived) 반응성을 크게 올린다. 생성 토큰 수는 그대로다. 그래서 완료 지연도 그대로다 (업계 일반, 본문 = <a href="latency-levers.html">■ 지연 줄이기 lever</a> <span class="rule-ref">· <a href="latency-levers.html#latency-levers-rule-1">규칙 ①</a></span>)</li>
+        <li>TTFT 를 좌우하는 것은 모델 크기 · 하드웨어 · 네트워크 · 프롬프트 복잡성이다</li>
+        <li>지연(응답 받기까지)을 좌우하는 것은 여기에 생성된 응답의 복잡성까지 더한 것이다</li>
+        <li>그래서 출력이 길면 완료 지연만 늘어난다 <span class="gen">업계 일반</span></li>
       </ul>
       <p class="lead orig-h">쪼개 보기 (OTel GenAI semconv v1.37.0 · 2026-09-28 조회)</p>
       <ul class="dash">
-        <li><code>gen_ai.server.time_to_first_token</code> = 첫 토큰까지. 대기열과 prefill 단계 시간을 봄, 스트리밍 요청에 특히 중요</li>
-        <li><code>gen_ai.server.request.duration</code> = 요청 시간, 마지막 출력 토큰(time-to-last byte)까지</li>
-        <li><code>gen_ai.server.time_per_output_token</code> = (요청 시간 − 첫 토큰 시간) ÷ 첫 토큰 뒤 출력 토큰 수 → decode 단계 성능</li>
-        <li>그래서 완료 ≈ TTFT + 출력 토큰 수 × 토큰당 시간 <span class="calc">계산</span> <span class="note">위 정의를 거꾸로 푼 식</span></li>
-        <li>Claude Code 트레이스 <code>claude_code.llm_request</code> 스팬도 <code>ttft_ms</code> 와 <code>duration_ms</code>(재시도 포함 wall-clock)를 따로 찍음</li>
+        <li><code>gen_ai.server.time_to_first_token</code> = 첫 토큰까지의 시간이다. 대기열과 prefill 단계 시간을 본다. 스트리밍 요청에 특히 중요하다</li>
+        <li><code>gen_ai.server.request.duration</code> = 요청 시간이다. 마지막 출력 토큰(time-to-last byte)까지 잰다</li>
+        <li><code>gen_ai.server.time_per_output_token</code> = (요청 시간 − 첫 토큰 시간) ÷ 첫 토큰 뒤 출력 토큰 수다. decode 단계 성능을 본다</li>
+        <li>그래서 완료 ≈ TTFT + 출력 토큰 수 × 토큰당 시간이다 <span class="calc">계산</span> <span class="note">위 정의를 거꾸로 푼 식</span></li>
+        <li>Claude Code 트레이스 <code>claude_code.llm_request</code> 스팬도 <code>ttft_ms</code> 와 <code>duration_ms</code>(재시도 포함 wall-clock)를 따로 찍는다</li>
       </ul>
       <p class="lead orig-h">지표 거는 법</p>
       <ul class="dash">
-        <li>지연 = 성공 기준(success criteria)의 한 차원. 받아들일 수 있는 응답 시간은 앱의 실시간 요구와 사용자 기대에 달림 → <a href="success-criteria.html">■ 성공 기준</a></li>
-        <li><span class="lead">분위수로 :</span> 공식 예 = 응답 95% 가 200ms 미만</li>
-        <li>eval 에서도 따로 추적 : <code>time_to_first_token</code> · <code>output_tokens_per_sec</code> · <code>time_to_last_token</code></li>
-        <li>TTFT 를 줄이는 공식 수단 = 캐싱(샘플 2 해설) · 캐시 사전 워밍(pre-warming). 완료 지연 쪽 = 출력 길이 · effort · 모델, lever(조절 수단) 본문 = <a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
-        <li>사람이 안 기다리는 배치에는 TTFT 가 해당 없음 : 캐시 사전 워밍(<code>max_tokens: 0</code>)가 Message Batches 에서 거부되는 이유</li>
+        <li>지연은 성공 기준(success criteria)의 한 차원이다. 받아들일 수 있는 응답 시간은 앱의 실시간 요구와 사용자 기대에 달렸다. 자세한 것은 <a href="success-criteria.html">■ 성공 기준</a> 에 있다</li>
+        <li>분위수로 건다. 공식 예는 "응답 95% 가 200ms 미만" 이다</li>
+        <li>eval 에서도 <code>time_to_first_token</code> · <code>output_tokens_per_sec</code> · <code>time_to_last_token</code> 을 따로 추적한다</li>
+        <li>TTFT 를 줄이는 공식 수단은 캐싱(샘플 2 해설)과 캐시 사전 워밍(pre-warming)이다. 완료 지연 쪽 수단은 출력 길이 · effort · 모델이다. lever(조절 수단) 본문은 <a href="latency-levers.html">■ 지연 줄이기 lever</a> 에 있다</li>
+        <li>사람이 안 기다리는 배치에는 TTFT 가 해당하지 않는다. 그래서 캐시 사전 워밍(<code>max_tokens: 0</code>)이 Message Batches 에서 거부된다</li>
       </ul>
     </details>
   </div>
@@ -554,14 +556,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">채팅처럼 사람이 첫 글자를 기다림</td><td data-label="답" role="cell">TTFT 를 지표로 · 스트리밍</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a> "It's particularly relevant when you're using streaming"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">첫 토큰은 빨라졌는데 "여전히 느리다"</td><td data-label="답" role="cell">응답 완료 지연을 따로 재고 출력 길이를 봄</td><td data-label="등급" role="cell"><span class="note">(정의) ·</span> <span class="gen">업계 일반</span><span class="note">(진단)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">지연 기준을 성공 기준(success criteria)에 넣음</td><td data-label="답" role="cell">분위수로 : 응답 95% 가 N ms 미만</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">eval 에서 지연을 추적</td><td data-label="답" role="cell">TTFT · 초당 출력 토큰 · 마지막 토큰까지를 따로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">모니터링 지표를 고름</td><td data-label="답" role="cell"><code>gen_<wbr>ai.<wbr>server.<wbr>time_<wbr>to_<wbr>first_<wbr>token</code> · <code>gen_<wbr>ai.<wbr>server.<wbr>request.<wbr>duration</code> · <code>gen_<wbr>ai.<wbr>server.<wbr>time_<wbr>per_<wbr>output_<wbr>token</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">OTel semconv v1.37.0</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">TTFT 자체가 느림 · 앞부분이 매번 같음</td><td data-label="답" role="cell">캐싱 (+ 첫 요청이면 캐시 사전 워밍)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설 · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">완료가 느림 · 답이 장황</td><td data-label="답" role="cell">출력 길이(짧게 요청 · <code>max_<wbr>tokens</code>) → ■ 지연 줄이기 lever</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">배치 작업의 지연 목표</td><td data-label="답" role="cell">TTFT 는 해당 없음 → 완료 시각(배치 창)으로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a> "Pre-warming targets time-to-first-token, which does not apply to batch processing"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">채팅처럼 사람이 첫 글자를 기다린다</td><td data-label="답" role="cell">TTFT 를 지표로 건다. 스트리밍을 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a> "It's particularly relevant when you're using streaming"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">첫 토큰은 빨라졌는데 "여전히 느리다"</td><td data-label="답" role="cell">응답 완료 지연을 따로 재고 출력 길이를 본다</td><td data-label="등급" role="cell"><span class="note">(정의) ·</span> <span class="gen">업계 일반</span><span class="note">(진단)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">지연 기준을 성공 기준(success criteria)에 넣는다</td><td data-label="답" role="cell">분위수로 건다 : 응답 95% 가 N ms 미만</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">eval 에서 지연을 추적한다</td><td data-label="답" role="cell">TTFT · 초당 출력 토큰 · 마지막 토큰까지를 따로 잰다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">모니터링 지표를 고른다</td><td data-label="답" role="cell"><code>gen_<wbr>ai.<wbr>server.<wbr>time_<wbr>to_<wbr>first_<wbr>token</code> · <code>gen_<wbr>ai.<wbr>server.<wbr>request.<wbr>duration</code> · <code>gen_<wbr>ai.<wbr>server.<wbr>time_<wbr>per_<wbr>output_<wbr>token</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">OTel semconv v1.37.0</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">TTFT 자체가 느리고, 앞부분이 매번 같다</td><td data-label="답" role="cell">캐싱을 쓴다 (첫 요청이면 캐시 사전 워밍도)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설 · <a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">완료가 느리고, 답이 장황하다</td><td data-label="답" role="cell">출력 길이를 줄인다(짧게 요청 · <code>max_<wbr>tokens</code>). 자세한 것은 ■ 지연 줄이기 lever 에 있다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">배치 작업의 지연 목표</td><td data-label="답" role="cell">TTFT 는 해당하지 않는다. 완료 시각(배치 창)으로 건다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a> "Pre-warming targets time-to-first-token, which does not apply to batch processing"</td></tr>
   </tbody>
 </table>
 </div>
@@ -572,14 +574,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">기다리는 쪽</td><td data-label="값" role="cell">사람 화면</td><td data-label="답 쪽" role="cell">TTFT 가 체감을 좌우</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">기다리는 쪽</td><td data-label="값" role="cell">사람 화면</td><td data-label="답 쪽" role="cell">TTFT 가 체감을 좌우한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">기다리는 쪽</td><td data-label="값" role="cell">뒤 단계 코드 · 배치</td><td data-label="답 쪽" role="cell">완료 지연</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 확인(배치)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">출력 길이</td><td data-label="값" role="cell">몇 토큰(분류 라벨)</td><td data-label="답 쪽" role="cell">완료 ≈ TTFT → 입력 쪽 lever(조절 수단)</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">출력 길이</td><td data-label="값" role="cell">수천 토큰(보고서)</td><td data-label="답 쪽" role="cell">완료의 대부분이 출력 구간 → 출력 쪽 lever</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">입력</td><td data-label="값" role="cell">길고 매번 같은 앞부분</td><td data-label="답 쪽" role="cell">캐싱이 TTFT 를 줄임</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">출력 길이</td><td data-label="값" role="cell">몇 토큰(분류 라벨)</td><td data-label="답 쪽" role="cell">완료 ≈ TTFT 다. 입력 쪽 lever(조절 수단)를 쓴다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">출력 길이</td><td data-label="값" role="cell">수천 토큰(보고서)</td><td data-label="답 쪽" role="cell">완료의 대부분이 출력 구간이다. 출력 쪽 lever 를 쓴다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">입력</td><td data-label="값" role="cell">길고 매번 같은 앞부분</td><td data-label="답 쪽" role="cell">캐싱이 TTFT 를 줄인다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 2</a> 해설</td></tr>
     <tr role="row"><td data-label="변수" role="cell">첫 요청</td><td data-label="값" role="cell">캐시 미스</td><td data-label="답 쪽" role="cell">캐시 사전 워밍</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">시스템 모양</td><td data-label="값" role="cell">도구를 여러 번 부르는 에이전트</td><td data-label="답 쪽" role="cell">모델 요청 하나의 TTFT 보다 턴 전체 시간</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 3 · <a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">집계</td><td data-label="값" role="cell">평균</td><td data-label="답 쪽" role="cell">가장 느린 몇 %(꼬리 지연)를 가림 → 분위수</td><td data-label="등급" role="cell"><span class="note">(공식 예가 95%) ·</span> <span class="gen">업계 일반</span><span class="note">(이유)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">시스템 모양</td><td data-label="값" role="cell">도구를 여러 번 부르는 에이전트</td><td data-label="답 쪽" role="cell">모델 요청 하나의 TTFT 보다 턴 전체 시간을 본다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 3 · <a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">집계</td><td data-label="값" role="cell">평균</td><td data-label="답 쪽" role="cell">가장 느린 몇 %(꼬리 지연)를 가린다. 그래서 분위수를 쓴다</td><td data-label="등급" role="cell"><span class="note">(공식 예가 95%) ·</span> <span class="gen">업계 일반</span><span class="note">(이유)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
   </tbody>
 </table>
 </div>
@@ -595,12 +597,12 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"스트리밍을 켰으니 지연 문제 해결" → 체감(TTFT)만. 완료 지연은 그대로 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"TTFT 하나로 지연 SLO" → 긴 출력의 완료 시간을 못 봄 <span class="gen">업계 일반</span>. 공식 eval 예시는 TTFT · 완료를 따로 추적</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"TTFT 가 좋아졌으니 모델 출력이 빨라졌다" → TTFT 는 대기 · 입력 처리 구간, 출력 속도는 토큰당 시간이 따로</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>평균 하나로 지연 기준 → 공식 예는 "응답 95% 가 200ms 미만" 처럼 분위수</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>결과를 코드가 통째로 받는 파이프라인에 TTFT 목표 → 기다리는 쪽이 코드면 완료 지연이 지표 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"캐싱은 비용만, 지연과 무관" → TTFT 를 줄임 (샘플 2 해설)</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"스트리밍을 켰으니 지연 문제가 해결됐다" 는 함정이다. 스트리밍은 체감(TTFT)만 바꾼다. 완료 지연은 그대로다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"TTFT 하나로 지연 SLO 를 건다" 는 함정이다. 긴 출력의 완료 시간을 못 본다 <span class="gen">업계 일반</span>. 공식 eval 예시는 TTFT 와 완료를 따로 추적한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"TTFT 가 좋아졌으니 모델 출력이 빨라졌다" 는 함정이다. TTFT 는 대기 · 입력 처리 구간이다. 출력 속도는 토큰당 시간으로 따로 본다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>평균 하나로 지연 기준을 거는 것은 함정이다. 공식 예는 "응답 95% 가 200ms 미만" 처럼 분위수로 건다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>결과를 코드가 통째로 받는 파이프라인에 TTFT 목표를 거는 것은 함정이다. 기다리는 쪽이 코드면 완료 지연이 지표다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"캐싱은 비용만 줄이고 지연과 무관하다" 는 함정이다. 캐싱은 TTFT 를 줄인다 <span class="src">(샘플 2 해설)</span></span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -623,33 +625,33 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 출력이 몇 토큰뿐이면 TTFT 가 곧 완료다</h4>
 <ul>
-<li><span class="lead">조건 :</span> 문의를 5개 라벨 중 하나로 분류. 출력 약 5토큰. TTFT 0.9초, 토큰당 0.02초라 치자(가정값).</li>
-<li><span class="lead">계산 :</span> 완료 ≈ 0.9 + 5 × 0.02 = 1.0초. 완료의 90% 가 TTFT 구간.</li>
-<li><span class="lead">판단 :</span> 여기선 "TTFT vs 완료"를 가를 필요가 거의 없음. 스트리밍 이득도 작음(보여 줄 게 한 단어). 줄일 곳은 입력 쪽 — 앞부분이 매번 같으면 캐싱, 아니면 모델.</li>
-<li><span class="lead">전제 :</span> 가정값 · 토큰당 시간 일정.</li>
+<li><span class="lead">조건 :</span> 문의를 5개 라벨 중 하나로 분류한다. 출력은 약 5토큰이다. TTFT 0.9초, 토큰당 0.02초라고 치자(가정값).</li>
+<li><span class="lead">계산 :</span> 완료 ≈ 0.9 + 5 × 0.02 = 1.0초다. 완료의 90% 가 TTFT 구간이다.</li>
+<li><span class="lead">판단 :</span> 여기서는 "TTFT vs 완료"를 가를 필요가 거의 없다. 스트리밍 이득도 작다(보여 줄 것이 한 단어다). 줄일 곳은 입력 쪽이다. 앞부분이 매번 같으면 캐싱을 쓰고, 아니면 모델을 본다.</li>
+<li><span class="lead">전제 :</span> 가정값이다. 토큰당 시간은 일정하다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (식은 OTel 정의에서)</li>
 <li><span class="lead">근거 :</span> OTel semconv · 가이드 샘플 2 해설</li>
 </ul>
 <h4>2. 긴 보고서는 TTFT 를 반으로 줄여도 그대로다</h4>
 <ul>
-<li><span class="lead">조건 :</span> 보고서 출력 1,800토큰. TTFT 1.2초, 초당 출력 60토큰이라 치자(가정값). 완료 목표 15초.</li>
-<li><span class="lead">계산 :</span> 완료 ≈ 1.2 + 1,800 ÷ 60 = 31.2초. 캐싱으로 TTFT 를 0.6초로 줄여도 30.6초 → 목표 미달. 출력을 700토큰으로 줄이면 1.2 + 700 ÷ 60 ≈ 12.9초 → 목표 안.</li>
-<li><span class="lead">판단 :</span> 스트리밍 · 캐싱은 완료 목표를 못 맞춤. 출력 길이(짧게 요청 · <code>max_tokens</code>) · effort · 모델 쪽.</li>
-<li><span class="lead">전제 :</span> 가정값 · 출력을 줄여도 품질 기준(eval)을 지킴.</li>
+<li><span class="lead">조건 :</span> 보고서 출력은 1,800토큰이다. TTFT 1.2초, 초당 출력 60토큰이라고 치자(가정값). 완료 목표는 15초다.</li>
+<li><span class="lead">계산 :</span> 완료 ≈ 1.2 + 1,800 ÷ 60 = 31.2초다. 캐싱으로 TTFT 를 0.6초로 줄여도 30.6초라 목표에 못 미친다. 출력을 700토큰으로 줄이면 1.2 + 700 ÷ 60 ≈ 12.9초라 목표 안이다.</li>
+<li><span class="lead">판단 :</span> 스트리밍과 캐싱으로는 완료 목표를 못 맞춘다. 출력 길이(짧게 요청 · <code>max_tokens</code>) · effort · 모델 쪽을 본다.</li>
+<li><span class="lead">전제 :</span> 가정값이다. 출력을 줄여도 품질 기준(eval)을 지킨다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span></li>
 <li><span class="lead">근거 :</span> OTel semconv · reduce-latency · ■ 지연 줄이기 lever</li>
 </ul>
 <h4>3. 에이전트는 요청 하나의 TTFT 가 체감이 아니다</h4>
 <ul>
-<li><span class="lead">조건 :</span> 한 턴에 도구를 4번 부르는 지원 에이전트. 요청마다 TTFT 는 짧음.</li>
-<li><span class="lead">판단 :</span> 사용자가 기다리는 건 턴 전체(요청 여러 개 + 도구 실행). 요청 하나의 TTFT 만 보면 느린 도구 · 호출 횟수를 놓침. Claude Code 트레이스도 턴 전체(<code>interaction.duration_ms</code>)와 요청별(<code>ttft_ms</code> · <code>duration_ms</code>)을 따로 찍음. 어디서 느린지 가르기는 ■ observability 세 신호.</li>
+<li><span class="lead">조건 :</span> 한 턴에 도구를 4번 부르는 지원 에이전트다. 요청마다 TTFT 는 짧다.</li>
+<li><span class="lead">판단 :</span> 사용자가 기다리는 것은 턴 전체(요청 여러 개 + 도구 실행)다. 요청 하나의 TTFT 만 보면 느린 도구와 호출 횟수를 놓친다. Claude Code 트레이스도 턴 전체(<code>interaction.duration_ms</code>)와 요청별(<code>ttft_ms</code> · <code>duration_ms</code>)을 따로 찍는다. 어디서 느린지 가르기는 ■ observability 세 신호 에 있다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(필드) ·</span> <span class="gen">업계 일반</span><span class="note">(판단)</span></li>
 <li><span class="lead">근거 :</span> monitoring-usage</li>
 </ul>
 <h4>4. 사람이 안 보는 배치</h4>
 <ul>
-<li><span class="lead">조건 :</span> 밤새 도는 문서 요약 배치.</li>
-<li><span class="lead">판단 :</span> TTFT 는 해당 없음. 공식도 캐시 사전 워밍를 배치에서 거부하며 "TTFT 는 배치와 무관"이라고 씀. 지표는 전체 완료 시각(배치 창) · 처리량.</li>
+<li><span class="lead">조건 :</span> 밤새 도는 문서 요약 배치다.</li>
+<li><span class="lead">판단 :</span> TTFT 는 해당하지 않는다. 공식도 캐시 사전 워밍을 배치에서 거부하며 "TTFT 는 배치와 무관"이라고 쓴다. 지표는 전체 완료 시각(배치 창)과 처리량이다.</li>
 
 <li><span class="lead">근거 :</span> prompt-caching · ◆ Batch API vs 동기 호출</li>
 </ul>
@@ -660,13 +662,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"스트리밍을 켰으니 지연 문제 해결"</td><td data-label="왜 끌리나" role="cell">글자가 바로 뜨니 빨라진 것 같음</td><td data-label="왜 틀리나" role="cell">체감(TTFT)만. 생성 토큰 수가 같아 완료는 그대로</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a> ("perceived")</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"TTFT 하나로 지연 SLO 를 건다"</td><td data-label="왜 끌리나" role="cell">대표 지연 지표로 알려짐</td><td data-label="왜 틀리나" role="cell">긴 출력의 완료 시간을 못 봄. 공식 eval 예시는 따로 추적</td><td data-label="등급" role="cell"><span class="note">(따로 추적)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"TTFT 가 좋아졌으니 모델 출력 속도가 빨라졌다"</td><td data-label="왜 끌리나" role="cell">빨라진 숫자가 하나 보임</td><td data-label="왜 틀리나" role="cell">TTFT = 대기 · 입력 처리 구간. 출력 속도는 토큰당 시간</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">OTel semconv</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"평균 응답 시간 N초 미만"</td><td data-label="왜 끌리나" role="cell">흔한 표기</td><td data-label="왜 틀리나" role="cell">공식 예는 분위수(95%)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"완료가 느리니 캐싱부터"</td><td data-label="왜 끌리나" role="cell">캐싱이 지연을 줄인다고 들음</td><td data-label="왜 틀리나" role="cell">캐싱은 TTFT 쪽. 출력 구간이 크면 효과 작음</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"배치에도 TTFT 목표를"</td><td data-label="왜 끌리나" role="cell">모든 호출에 같은 지표</td><td data-label="왜 틀리나" role="cell">배치엔 TTFT 가 해당 없음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"지연 지표로 pass^k 를 고른다" (반대 방향 혼동)</td><td data-label="왜 끌리나" role="cell">둘 다 "지표 고르기" 문항</td><td data-label="왜 틀리나" role="cell">pass^k 는 신뢰성 지표 → ◆ pass@k vs pass^k</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"스트리밍을 켰으니 지연 문제 해결"</td><td data-label="왜 끌리나" role="cell">글자가 바로 뜨니 빨라진 것 같다</td><td data-label="왜 틀리나" role="cell">체감(TTFT)만 바뀐다. 생성 토큰 수가 같아서 완료는 그대로다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-latency" lang="en" rel="noopener">reduce-latency</a> ("perceived")</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"TTFT 하나로 지연 SLO 를 건다"</td><td data-label="왜 끌리나" role="cell">대표 지연 지표로 알려져 있다</td><td data-label="왜 틀리나" role="cell">긴 출력의 완료 시간을 못 본다. 공식 eval 예시는 따로 추적한다</td><td data-label="등급" role="cell"><span class="note">(따로 추적)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"TTFT 가 좋아졌으니 모델 출력 속도가 빨라졌다"</td><td data-label="왜 끌리나" role="cell">빨라진 숫자가 하나 보인다</td><td data-label="왜 틀리나" role="cell">TTFT 는 대기 · 입력 처리 구간이다. 출력 속도는 토큰당 시간이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">OTel semconv</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"평균 응답 시간 N초 미만"</td><td data-label="왜 끌리나" role="cell">흔한 표기다</td><td data-label="왜 틀리나" role="cell">공식 예는 분위수(95%)다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"완료가 느리니 캐싱부터"</td><td data-label="왜 끌리나" role="cell">캐싱이 지연을 줄인다고 들었다</td><td data-label="왜 틀리나" role="cell">캐싱은 TTFT 쪽이다. 출력 구간이 크면 효과가 작다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"배치에도 TTFT 목표를"</td><td data-label="왜 끌리나" role="cell">모든 호출에 같은 지표를 쓰고 싶다</td><td data-label="왜 틀리나" role="cell">배치에는 TTFT 가 해당하지 않는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" lang="en" rel="noopener">prompt-caching</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"지연 지표로 pass^k 를 고른다" (반대 방향 혼동)</td><td data-label="왜 끌리나" role="cell">둘 다 "지표 고르기" 문항이다</td><td data-label="왜 틀리나" role="cell">pass^k 는 신뢰성 지표다. 자세한 것은 ◆ pass@k vs pass^k 에 있다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -674,13 +676,17 @@
   </details>
   <h2 class="sec-h" id="ttft-vs-total-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="latency-levers.html">■ 지연 줄이기 lever</a></li>
         <li><a href="success-criteria.html">■ 성공 기준</a></li>
         <li><a href="observability-signals.html">■ observability 세 신호</a></li>
         <li><a href="caching.html">■ 프롬프트 캐싱</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 4.1</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -702,12 +708,13 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>공식 지연 문서(reduce-latency)는 "응답 완료까지"를 이름으로 따로 정의하지 않음. 가까운 것은 기본 지연(baseline latency, 초당 토큰은 따로 안 셈)과 eval 예시의 <code>time_to_last_token</code> · OTel <code>gen_ai.server.request.duration</code>. 카드의 "응답 완료 지연"은 이 셋을 묶은 이름.</li>
-<li>extended thinking 을 켜면 첫 토큰이 thinking(사고) 블록일 수 있어 "사용자가 보는 첫 글자"와 TTFT 가 어긋날 수 있음 — 받은 원문에 이 관계를 말한 문장 없음. Claude Code 의 <code>first_content_ms</code>(첫 content 블록까지)가 <code>ttft_ms</code> 와 따로 있는 것만 확인(monitoring-usage).</li>
-<li>목록 4.1② 의 규칙 "TTFT 자체를 줄이는 공식 수단은 캐싱(샘플 2 해설)"은 확인. 목록의 영어 신호 두 문장도 reduce-latency에서 찾음.</li>
-<li>"사람이 보면 TTFT, 코드가 받으면 완료"라는 갈림 자체는 공식 문장 없음(업계 일반) — 공식은 TTFT 가 스트리밍·반응성에 특히 중요하다고만 씀.</li>
+<li>공식 지연 문서(reduce-latency)는 "응답 완료까지"를 이름으로 따로 정의하지 않는다. 가까운 것은 셋이다. 기본 지연(baseline latency, 초당 토큰은 따로 안 셈), eval 예시의 <code>time_to_last_token</code>, OTel <code>gen_ai.server.request.duration</code> 이다. 카드의 "응답 완료 지연"은 이 셋을 묶은 이름이다.</li>
+<li>extended thinking 을 켜면 첫 토큰이 thinking(사고) 블록일 수 있다. 그러면 "사용자가 보는 첫 글자"와 TTFT 가 어긋날 수 있다. 받은 원문에 이 관계를 말한 문장은 없다. Claude Code 의 <code>first_content_ms</code>(첫 content 블록까지)가 <code>ttft_ms</code> 와 따로 있는 것만 확인했다(monitoring-usage).</li>
+<li>목록 4.1② 의 규칙 "TTFT 자체를 줄이는 공식 수단은 캐싱(샘플 2 해설)"은 확인했다. 목록의 영어 신호 두 문장도 reduce-latency에서 찾았다.</li>
+<li>"사람이 보면 TTFT, 코드가 받으면 완료"라는 갈림 자체는 공식 문장이 없다(업계 일반). 공식은 TTFT 가 스트리밍·반응성에 특히 중요하다고만 쓴다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

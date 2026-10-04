@@ -369,8 +369,8 @@
   </div>
   <h2 class="sec-h" id="query-routing-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>질문 종류에 맞춰 검색(retrieval) 노력을 조절함. 기본은 hybrid + 리랭킹 단일 파이프라인. 질문 모양이 뚜렷이 갈릴 때만 경로를 나누고, 어려운 질문만 쪼개거나 여러 번 검색함</p>
-    <p class="t5-ana"><span class="lead">비유</span> L7 로드밸런서 경로별 라우팅. 비교 질문 = 대시보드 둘을 따로 조회해 나란히 놓기</p>
+      <p>질문 종류에 맞춰 검색(retrieval) 노력을 조절한다. 기본은 hybrid + 리랭킹 단일 파이프라인이다. 질문 모양이 뚜렷이 갈릴 때만 경로를 나눈다. 어려운 질문만 쪼개거나 여러 번 검색한다</p>
+    <p class="t5-ana"><span class="lead">비유</span> L7 로드밸런서의 경로별 라우팅과 같다. 비교 질문은 대시보드 둘을 따로 조회해 나란히 놓는 것과 같다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/query-routing.webp"><img src="../images/query-routing.webp" alt="검색 기본은 hybrid + 리랭킹 한 줄기이고, 일반 질문·환불·기술지원처럼 뚜렷한 범주는 전용 경로로 routing, 어려운 질문만 하위 질의로 쪼개거나 다단계로 검색한다." loading="lazy" decoding="async"></a>
@@ -400,23 +400,23 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">기본 줄기</p>
 <ul>
-<li>섞인 실제 지원 질문의 기본은 hybrid 검색(retrieval) + 리랭킹 하나. 이득이 쌓임.</li>
+<li>섞인 실제 지원 질문의 기본은 hybrid 검색(retrieval) + 리랭킹 하나다. 이득이 쌓인다.</li>
 </ul>
 <p class="lead">routing(라우팅)</p>
 <ul>
-<li>입력을 분류해 전용 프롬프트·도구·모델로 보냄. 한 종류에 맞춘 최적화가 다른 종류를 깎는 걸 막음.</li>
-<li>조건 두 개 : 따로 다루는 게 나은 뚜렷한 범주가 있음 + 분류가 정확함.</li>
-<li>비용 쪽 쓰임 : 쉬운·흔한 질문 → 작고 싼 모델, 어렵고 드문 질문 → 강한 모델.</li>
+<li>입력을 분류해 전용 프롬프트·도구·모델로 보낸다. 그러면 한 종류에 맞춘 최적화가 다른 종류를 깎는 것을 막는다.</li>
+<li>조건은 두 개다. 따로 다루는 게 나은 뚜렷한 범주가 있어야 한다. 그리고 분류가 정확해야 한다.</li>
+<li>비용 쪽으로도 쓴다. 쉽고 흔한 질문은 작고 싼 모델로 보내고, 어렵고 드문 질문은 강한 모델로 보낸다.</li>
 </ul>
 <p class="lead">쪼개기 · 다단계</p>
 <ul>
-<li>쪼개기 : 어려운 질문을 작은 하위 과제로. 비교 질문은 서로 독립인 하위 질의 둘.</li>
-<li>다단계 : 한 번 비슷한 chunk 를 가져오는 정적 RAG 대신, 결과를 보고 다음 검색을 정함. 둘째 검색어가 첫 결과에 달려 있으면 이것.</li>
-<li>노력은 복잡도에 맞춤 : 단순 사실 = 에이전트 1개 · 호출 3~10회, 비교 = 서브에이전트 2~4개. 간단한 질문에 과투자한 게 초기 흔한 실패.</li>
+<li>쪼개기 : 어려운 질문을 작은 하위 과제로 나눈다. 비교 질문은 서로 독립인 하위 질의 둘로 나눈다.</li>
+<li>다단계 : 정적 RAG 는 비슷한 chunk 를 한 번 가져온다. 다단계는 그 대신 결과를 보고 다음 검색을 정한다. 둘째 검색어가 첫 결과에 달려 있으면 이것을 쓴다.</li>
+<li>노력은 복잡도에 맞춘다. 단순 사실은 에이전트 1개가 3~10회 호출한다. 비교는 서브에이전트 2~4개를 쓴다. 간단한 질문에 과투자한 것이 초기의 흔한 실패였다.</li>
 </ul>
 <p class="lead">범위 필터</p>
 <ul>
-<li>테넌트·날짜·권한은 검색 단계에서 메타데이터 필터·네임스페이스로 (업계 일반).</li>
+<li>테넌트·날짜·권한은 검색 단계에서 메타데이터 필터나 네임스페이스로 거른다 (업계 일반).</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
@@ -433,23 +433,23 @@
   <section class="t5-flow tree" id="query-routing-tree-1" aria-labelledby="query-routing-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9">
     <div class="t5-fh"><h3 id="query-routing-tree-1-h">①② 나눌까 <span class="pg">[3.6②]</span> <span class="pg">[3.3③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>따로 다룰 범주?<span class="t5-sub">일반 질문·환불·기술지원</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>따로 다룰 범주가 있나?<span class="t5-sub">예 : 일반 질문·환불·기술지원</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>없음</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">단일 파이프라인</p><p>기본값 = hybrid + 리랭킹. 이득이 쌓임</p></div>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>없다</span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">단일 파이프라인</p><p>기본값은 hybrid + 리랭킹이다. 이득이 쌓인다</p></div>
         </div>
         <div class="t5-arm">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>있음</span>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>있다</span>
           <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>분류가 정확한가?</div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">routing</p><p>입력을 분류해 전용 프롬프트·도구·모델로 보냄</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">routing</p><p>입력을 분류해 전용 프롬프트·도구·모델로 보낸다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">routing 말고 단일 파이프라인</p><p>조건은 '분류가 정확할 때'. 잘못 보낸 질문은 전용 경로에서 틀림 <span class="note">(추론)</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">routing 말고 단일 파이프라인</p><p>잘못 보낸 질문은 전용 경로에서 틀린다 (추론). routing 의 조건은 '분류가 정확할 때' 다</p></div>
             </div>
           </div>
         </div>
@@ -459,23 +459,23 @@
   <section class="t5-flow tree" id="query-routing-tree-2" aria-labelledby="query-routing-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9">
     <div class="t5-fh"><h3 id="query-routing-tree-2-h">③④ 얼마나 검색 <span class="pg">[3.6②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>질문 모양?<span class="t5-sub">노력은 질문 복잡도에 맞춤</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>질문이 어떤 모양인가?<span class="t5-sub">노력은 질문 복잡도에 맞춘다</span></div>
       <div class="t5-fork" style="--n:4">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>단순 사실</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">에이전트 1개</p><p>도구 호출 3~10회</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">에이전트 1개</p><p>도구를 3~10회 호출한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>직접 비교</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">서브에이전트 2~4개</p><p>각 10~15회</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">서브에이전트 2~4개</p><p>서브에이전트마다 10~15회 호출한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>다음 검색이 앞 결과에 달림 <span class="note">(내 주문의 배송사 규정)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">다단계 검색</p><p>결과를 보고 다음 검색을 정하는 다단계 검색</p></div>
+          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>다음 검색이 앞 결과에 달렸다 <span class="note">(내 주문의 배송사 규정)</span></span>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">다단계 검색</p><p>결과를 보고 다음 검색을 정한다. 이것이 다단계 검색이다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>복잡한 조사</span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">서브에이전트 10개 넘게</p><p>간단한 질문에 과투자한 게 초기 흔한 실패</p></div>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">서브에이전트 10개 넘게</p><p>간단한 질문에 과투자한 것이 초기의 흔한 실패였다</p></div>
         </div>
       </div>
     </div>
@@ -483,23 +483,23 @@
   <section class="t5-flow tree" id="query-routing-tree-3" aria-labelledby="query-routing-tree-3-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9">
     <div class="t5-fh"><h3 id="query-routing-tree-3-h">⑤⑥ index · 조회 · 필터 <span class="pg">[3.6②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>매 순간 바뀌나?<span class="t5-sub">재고·잠금 상태·주문 상태</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>매 순간 바뀌나?<span class="t5-sub">예 : 재고·잠금 상태·주문 상태</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">그때 조회</p><p>index(색인)에 넣지 말고 질문마다 도구로 그때 조회(just in time). index 는 아무리 자주 다시 만들어도 낡을 수 있음</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">그때 조회한다</p><p>index(색인)에 넣지 않는다. 질문마다 도구로 그때 조회한다(just in time). index 는 아무리 자주 다시 만들어도 낡을 수 있다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-          <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>테넌트·권한으로 갈리나?<span class="t5-sub">어느 쪽이든 문서는 index</span></div>
+          <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>테넌트·권한으로 갈리나?<span class="t5-sub">어느 쪽이든 문서는 index 에 넣는다</span></div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">index + 검색 단계에서 막음</p><p>문서는 index (나누는 방식은 추론) · 테넌트·날짜 범위·접근 권한은 검색 단계에서 메타데이터 필터·네임스페이스로 강제 <span class="gen">업계 일반</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">index + 검색 단계에서 막는다</p><p>문서는 index 에 넣는다 (나누는 방식은 추론). 테넌트·날짜 범위·접근 권한은 검색 단계에서 메타데이터 필터·네임스페이스로 강제한다 <span class="gen">업계 일반</span></p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">문서는 index</p><p>문서는 index, 살아 있는 상태는 조회로 나눔(나누는 방식은 추론)</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">문서는 index 에 넣는다</p><p>문서는 index 에 넣고, 살아 있는 상태는 조회로 나눈다(나누는 방식은 추론)</p></div>
             </div>
           </div>
         </div>
@@ -508,7 +508,7 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="query-routing-flow" aria-label="질의 패턴별 검색 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["질문","분류","전용 경로"],"blocks":[{"name":"일반 질문","var":false},{"name":"환불","var":false},{"name":"기술지원","var":false}],"rules":[null,null,null],"question":"이 질문은 어느 경로로 가야 할까?","scenes":[{"name":"① 뚜렷한 범주","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"어제 산 이어폰 환불하고 싶어요"}},{"kind":"move","step":"분류","from":{"block":"환불"},"to":1,"label":"입력을 분류","art":{"kind":"slip","lines":["{ 범주: \"환불\" }"]}},{"kind":"move","step":"보내기","from":{"col":1},"to":2,"label":"전용 프롬프트·도구·모델로","art":{"kind":"slip","lines":["환불 프롬프트","+ 주문 조회 도구"]}},{"kind":"end","label":"따로 다루는 게 나은 뚜렷한 범주가 있음 + 분류가 정확함 → 전용 경로"}]},{"name":"② 분류가 애매","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"이어폰이 한쪽만 / 들려요. 환불돼요?"}},{"kind":"move","step":"분류","from":{"col":0},"to":1,"label":"분류가 애매","art":{"kind":"slip","lines":["{ 범주: \"기술지원\" }"]}},{"kind":"move","step":"보내기","from":{"col":1},"to":2,"label":"잘못 보낸 질문은 틀림 (추론)","art":{"kind":"say","text":"초기화 방법을 / 알려 드릴게요"}},{"kind":"end","label":"환불 요청이 기술지원 경로로 가 답이 빗나감 — routing 의 조건은 '분류가 정확할 때'"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["질문","분류","전용 경로"],"blocks":[{"name":"일반 질문","var":false},{"name":"환불","var":false},{"name":"기술지원","var":false}],"rules":[null,null,null],"question":"이 질문은 어느 경로로 가야 할까?","scenes":[{"name":"① 뚜렷한 범주","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"어제 산 이어폰 환불하고 싶어요"}},{"kind":"move","step":"분류","from":{"block":"환불"},"to":1,"label":"입력을 분류한다","art":{"kind":"slip","lines":["{ 범주: \"환불\" }"]}},{"kind":"move","step":"보내기","from":{"col":1},"to":2,"label":"전용 프롬프트·도구·모델로 보낸다","art":{"kind":"slip","lines":["환불 프롬프트","+ 주문 조회 도구"]}},{"kind":"end","label":"따로 다루는 게 나은 뚜렷한 범주가 있고, 분류가 정확하다. 그래서 전용 경로로 보낸다"}]},{"name":"② 분류가 애매","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"이어폰이 한쪽만 / 들려요. 환불돼요?"}},{"kind":"move","step":"분류","from":{"col":0},"to":1,"label":"분류가 애매하다","art":{"kind":"slip","lines":["{ 범주: \"기술지원\" }"]}},{"kind":"move","step":"보내기","from":{"col":1},"to":2,"label":"잘못 보낸 질문은 틀린다 (추론)","art":{"kind":"say","text":"초기화 방법을 / 알려 드릴게요"}},{"kind":"end","label":"환불 요청이 기술지원 경로로 가서 답이 빗나갔다. routing 의 조건은 '분류가 정확할 때' 다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -518,16 +518,16 @@
       <p class="lead">① 뚜렷한 범주 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 질문 — 말 : <span class="flx-alt-say">“어제 산 이어폰 환불하고 싶어요”</span></li>
-        <li>분류 : 환불 → 분류 : 입력을 분류 — 쪽지 : <span class="flx-alt-slip">{ 범주: "환불" }</span></li>
-        <li>보내기 : 분류 → 전용 경로 : 전용 프롬프트·도구·모델로 — 쪽지 : <span class="flx-alt-slip">환불 프롬프트 / + 주문 조회 도구</span></li>
-        <li>끝 : 따로 다루는 게 나은 뚜렷한 범주가 있음 + 분류가 정확함 → 전용 경로</li>
+        <li>분류 : 환불 → 분류 : 입력을 분류한다 — 쪽지 : <span class="flx-alt-slip">{ 범주: "환불" }</span></li>
+        <li>보내기 : 분류 → 전용 경로 : 전용 프롬프트·도구·모델로 보낸다 — 쪽지 : <span class="flx-alt-slip">환불 프롬프트 / + 주문 조회 도구</span></li>
+        <li>끝 : 따로 다루는 게 나은 뚜렷한 범주가 있고, 분류가 정확하다. 그래서 전용 경로로 보낸다</li>
       </ol>
       <p class="lead">② 분류가 애매 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 질문 — 말 : <span class="flx-alt-say">“이어폰이 한쪽만 / 들려요. 환불돼요?”</span></li>
-        <li>분류 : 질문 → 분류 : 분류가 애매 — 쪽지 : <span class="flx-alt-slip">{ 범주: "기술지원" }</span></li>
-        <li>보내기 : 분류 → 전용 경로 : 잘못 보낸 질문은 틀림 (추론) — 말 : <span class="flx-alt-say">“초기화 방법을 / 알려 드릴게요”</span></li>
-        <li>끝 : 환불 요청이 기술지원 경로로 가 답이 빗나감 — routing 의 조건은 '분류가 정확할 때'</li>
+        <li>분류 : 질문 → 분류 : 분류가 애매하다 — 쪽지 : <span class="flx-alt-slip">{ 범주: "기술지원" }</span></li>
+        <li>보내기 : 분류 → 전용 경로 : 잘못 보낸 질문은 틀린다 (추론) — 말 : <span class="flx-alt-say">“초기화 방법을 / 알려 드릴게요”</span></li>
+        <li>끝 : 환불 요청이 기술지원 경로로 가서 답이 빗나갔다. routing 의 조건은 '분류가 정확할 때' 다</li>
       </ol>
     </details>
   </figure>
@@ -537,41 +537,44 @@
       <ol class="how">
         <li id="query-routing-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p>기본값 = hybrid + 리랭킹. 이득이 쌓임 <span class="pg">[3.6②]</span> → <a href="retrieval-shape.html">◆ 임베딩 vs BM25 vs hybrid</a> · <a href="rag-pipeline.html">■ RAG 파이프라인</a></p>
+            <p>기본값은 hybrid + 리랭킹이다. 이득이 쌓인다 <span class="pg">[3.6②]</span></p>
+            <p>자세한 것은 <a href="retrieval-shape.html">◆ 임베딩 vs BM25 vs hybrid</a> · <a href="rag-pipeline.html">■ RAG 파이프라인</a> 에 있다</p>
           </div>
         </li>
         <li id="query-routing-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p>routing(라우팅) : 입력을 분류해 전용 프롬프트·도구·모델로 보냄. 조건 두 개 = 따로 다루는 게 나은 뚜렷한 범주가 있음 + 분류가 정확함 <span class="pg">[3.6②]</span> <span class="pg">[3.3③]</span></p>
-            <p><span class="lead">예 :</span> 일반 질문·환불·기술지원을 다른 처리로 · 쉬운 질문 → 작고 싼 모델(Haiku 4.5), 어렵거나 드문 질문 → 강한 모델</p>
-            <p>안 나누면 한 종류에 맞춘 최적화가 다른 종류 성능을 깎을 수 있음</p>
+            <p>routing(라우팅) : 입력을 분류해 전용 프롬프트·도구·모델로 보낸다. 조건은 두 개다. 따로 다루는 게 나은 뚜렷한 범주가 있어야 한다. 그리고 분류가 정확해야 한다 <span class="pg">[3.6②]</span> <span class="pg">[3.3③]</span></p>
+            <p>예를 들어 일반 질문·환불·기술지원을 서로 다르게 처리한다. 쉬운 질문은 작고 싼 모델(Haiku 4.5)로, 어렵거나 드문 질문은 강한 모델로 보낸다</p>
+            <p>안 나누면 한 종류에 맞춘 최적화가 다른 종류의 성능을 깎을 수 있다</p>
           </div>
         </li>
         <li id="query-routing-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p>쪼개기(decomposition)·다단계(multi-step) : 어려운 질문은 작은 하위 과제로 쪼갬. 한 번 비슷한 chunk 를 가져오는 정적 RAG 대신, 결과를 보고 다음 검색을 정하는 다단계 검색 <span class="src">(둘 다 Research 에이전트 글 — 에이전트 검색 맥락)</span></p>
-            <p><span class="lead">적용 :</span></p>
-            <ul class="pairs">
-              <li>'A·B 요금제 차이' = 하위 질의 둘</li>
-              <li>'내 주문의 배송사 규정' = 주문 조회로 배송사를 먼저 알아낸 뒤 규정 검색 <span class="note">(적용 예는 업계 일반)</span></li>
-            </ul>
-            <p>검색어는 짧고 넓게 시작해 좁혀 감</p>
+            <p>쪼개기(decomposition)·다단계(multi-step) : 어려운 질문은 작은 하위 과제로 쪼갠다. 정적 RAG 는 비슷한 chunk 를 한 번 가져온다. 그 대신 결과를 보고 다음 검색을 정하는 다단계 검색을 쓴다 <span class="src">(둘 다 Research 에이전트 글이다. 에이전트 검색 맥락이다)</span></p>
+            <p><span class="lead">적용 예 :</span> 'A·B 요금제 차이' 는 하위 질의 둘로 쪼갠다. '내 주문의 배송사 규정' 은 주문 조회로 배송사를 먼저 알아낸 뒤 규정을 검색한다 <span class="note">(적용 예는 업계 일반)</span></p>
+            <p>검색어는 짧고 넓게 시작해서 좁혀 간다</p>
           </div>
         </li>
         <li id="query-routing-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p>노력은 질문 복잡도에 맞춤 : 단순 사실 = 에이전트 1개 · 도구 호출 3~10회 / 직접 비교 = 서브에이전트 2~4개 · 각 10~15회 / 복잡한 조사 = 서브에이전트 10개 넘게 <span class="src">(Research 시스템 프롬프트 규칙)</span></p>
-            <p>간단한 질문에 과투자한 게 초기 흔한 실패. 에이전트를 여럿 쓸지는 <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></p>
+            <p>노력은 질문 복잡도에 맞춘다 <span class="src">(Research 시스템 프롬프트 규칙)</span></p>
+            <ul class="dash">
+              <li><span class="lead">단순 사실 :</span> 에이전트 1개 · 도구 호출 3~10회</li>
+              <li><span class="lead">직접 비교 :</span> 서브에이전트 2~4개 · 각 10~15회</li>
+              <li><span class="lead">복잡한 조사 :</span> 서브에이전트 10개 넘게</li>
+            </ul>
+            <p>에이전트를 여럿 쓸지는 <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a> 에서 다룬다. 간단한 질문에 과투자한 것이 초기의 흔한 실패였다</p>
           </div>
         </li>
         <li id="query-routing-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">범위 필터 :</span> 테넌트·날짜 범위·접근 권한은 검색 단계에서 메타데이터 필터·네임스페이스로 강제 <span class="gen">업계 일반</span> <span class="note">공식 RAG 글에 없음</span>. 권한 원칙은 <a href="least-privilege.html">■ 최소 권한</a></p>
+            <p><span class="lead">범위 필터 :</span> 테넌트·날짜 범위·접근 권한은 검색 단계에서 메타데이터 필터·네임스페이스로 강제한다 <span class="gen">업계 일반</span> <span class="note">공식 RAG 글에 없음</span>. 권한 원칙은 <a href="least-privilege.html">■ 최소 권한</a> 에 있다</p>
           </div>
         </li>
         <li id="query-routing-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
-            <p>매 순간 바뀌는 운영 데이터(재고·잠금 상태·주문 상태) → index 에 넣지 말고 질문마다 도구로 그때 조회(just in time). index 는 아무리 자주 다시 만들어도 낡을 수 있음 — 문서는 index, 살아 있는 상태는 조회로 나눔(나누는 방식은 추론)</p>
+            <p>매 순간 바뀌는 운영 데이터(재고·잠금 상태·주문 상태)는 index 에 넣지 않는다. 질문마다 도구로 그때 조회한다(just in time). index 는 아무리 자주 다시 만들어도 낡을 수 있다</p>
+            <p>문서는 index 에 넣고, 살아 있는 상태는 조회로 나눈다(나누는 방식은 추론)</p>
           </div>
         </li>
       </ol>
@@ -585,13 +588,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">뜻 질문·코드 질문이 섞인 일반 지원 질의</td><td data-label="답" role="cell">hybrid + 리랭킹 단일 파이프라인</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "All these benefits stack"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">뚜렷한 범주 + 분류가 정확함</td><td data-label="답" role="cell">routing</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">쉬운 질문이 대부분이고 비용 압박</td><td data-label="답" role="cell">쉬운 것 → 작은 모델, 어려운 것 → 강한 모델로 routing</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">비교 질문</td><td data-label="답" role="cell">하위 질의로 쪼갬</td><td data-label="등급" role="cell"><span class="note">(원리) · 적용은</span> <span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a> "decomposing difficult questions into smaller tasks"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">둘째 검색이 첫 결과에 달림</td><td data-label="답" role="cell">다단계 검색</td><td data-label="등급" role="cell"><span class="note">(원리) · 적용은</span> <span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">단순 사실 질문</td><td data-label="답" role="cell">가벼운 검색 1회. 무거운 다단계 에이전트 금지</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">테넌트·권한이 갈림</td><td data-label="답" role="cell">검색 단계에서 필터·네임스페이스</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">— (권한 원칙은 ■ 최소 권한)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">뜻 질문과 코드 질문이 섞인 일반 지원 질의다</td><td data-label="답" role="cell">hybrid + 리랭킹 단일 파이프라인을 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/contextual-retrieval" lang="en" rel="noopener">contextual-retrieval</a> "All these benefits stack"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">뚜렷한 범주가 있고 분류가 정확하다</td><td data-label="답" role="cell">routing 한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">쉬운 질문이 대부분이고 비용 압박이 있다</td><td data-label="답" role="cell">쉬운 것은 작은 모델로, 어려운 것은 강한 모델로 routing 한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">비교 질문이다</td><td data-label="답" role="cell">하위 질의로 쪼갠다</td><td data-label="등급" role="cell"><span class="note">(원리) · 적용은</span> <span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a> "decomposing difficult questions into smaller tasks"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">둘째 검색이 첫 결과에 달렸다</td><td data-label="답" role="cell">다단계 검색을 쓴다</td><td data-label="등급" role="cell"><span class="note">(원리) · 적용은</span> <span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">단순 사실 질문이다</td><td data-label="답" role="cell">가벼운 검색 1회로 끝낸다. 무거운 다단계 에이전트는 쓰지 않는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">테넌트나 권한이 갈린다</td><td data-label="답" role="cell">검색 단계에서 필터나 네임스페이스로 거른다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">— (권한 원칙은 ■ 최소 권한)</td></tr>
   </tbody>
 </table>
 </div>
@@ -602,13 +605,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">질문 종류</td><td data-label="값" role="cell">한 종류뿐</td><td data-label="답 쪽" role="cell">routing 불필요, 단일 파이프라인</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">routing 조건</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">분류 정확도</td><td data-label="값" role="cell">낮음</td><td data-label="답 쪽" role="cell">routing 효과 ↓, 잘못 보낸 질문이 전용 경로에서 틀림</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">쉬운 질문 비율</td><td data-label="값" role="cell">높음 (예 70%)</td><td data-label="답 쪽" role="cell">모델 routing 으로 비용 약 절반</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">하위 질의 사이 관계</td><td data-label="값" role="cell">서로 독립 (A·B 비교)</td><td data-label="답 쪽" role="cell">쪼개서 나란히(병렬 가능)</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">하위 질의 사이 관계</td><td data-label="값" role="cell">앞 결과가 뒤 검색어를 정함</td><td data-label="답 쪽" role="cell">순서대로 다단계</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">테넌트 수</td><td data-label="값" role="cell">많음</td><td data-label="답 쪽" role="cell">검색 전 필터 필수 (검색 후 거르면 남는 게 거의 없음)</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 4</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">에이전트 수</td><td data-label="값" role="cell">여러 개 검토</td><td data-label="답 쪽" role="cell">토큰이 채팅 대비 약 15배 → ◆ 단일 vs 멀티 에이전트</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">질문 종류</td><td data-label="값" role="cell">한 종류뿐이다</td><td data-label="답 쪽" role="cell">routing 이 필요 없다. 단일 파이프라인을 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">routing 조건</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">분류 정확도</td><td data-label="값" role="cell">낮다</td><td data-label="답 쪽" role="cell">routing 효과가 줄어든다. 잘못 보낸 질문이 전용 경로에서 틀린다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">쉬운 질문 비율</td><td data-label="값" role="cell">높다 (예 70%)</td><td data-label="답 쪽" role="cell">모델 routing 으로 비용이 약 절반이 된다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">하위 질의 사이 관계</td><td data-label="값" role="cell">서로 독립이다 (A·B 비교)</td><td data-label="답 쪽" role="cell">쪼개서 나란히 검색한다(병렬 가능)</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">하위 질의 사이 관계</td><td data-label="값" role="cell">앞 결과가 뒤 검색어를 정한다</td><td data-label="답 쪽" role="cell">순서대로 다단계로 검색한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">테넌트 수</td><td data-label="값" role="cell">많다</td><td data-label="답 쪽" role="cell">검색 전 필터가 꼭 있어야 한다 (검색 후 거르면 남는 게 거의 없다)</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 4</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">에이전트 수</td><td data-label="값" role="cell">여러 개를 검토한다</td><td data-label="답 쪽" role="cell">토큰이 채팅 대비 약 15배다. 자세한 것은 ◆ 단일 vs 멀티 에이전트 에 있다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -617,18 +620,18 @@
   <h2 class="sec-h" id="query-routing-practice-h">연습 문제</h2>
 
   <section class="csx" id="query-routing-case" aria-labelledby="query-routing-case-h" data-tree="query-routing-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;뚜렷한 범주&quot;],[&quot;n5&quot;,null],[&quot;n6&quot;,&quot;분류 정확&quot;],[&quot;n7&quot;,null]]" data-flow="query-routing-flow" data-scene="0">
-    <p class="csx-text">쇼핑몰 지원 챗봇에 <mark class="csx-m" data-tag="뚜렷한 범주">환불 · 기술지원 · 일반 질문이 뚜렷이 갈려 들어온다<span class="csx-tag">뚜렷한 범주</span></mark>. 환불 쪽 프롬프트를 다듬었더니 기술지원 답이 나빠졌다. 시험해 본 분류기는 <mark class="csx-m" data-tag="분류 정확">1,000건 중 985건을 맞게 분류했다<span class="csx-tag">분류 정확</span></mark>. 운영팀은 "파이프라인 하나로 통일해야 운영이 쉽다"고 한다. 어떻게 할까?</p>
+    <p class="csx-text">쇼핑몰 지원 챗봇에 <mark class="csx-m" data-tag="뚜렷한 범주">환불 · 기술지원 · 일반 질문이 뚜렷이 갈려 들어온다<span class="csx-tag">뚜렷한 범주</span></mark>. 환불 쪽 프롬프트를 다듬었더니 기술지원 답이 나빠졌다. 시험해 본 분류기는 <mark class="csx-m" data-tag="분류 정확">1,000건 중 985건을 맞게 분류했다<span class="csx-tag">분류 정확</span></mark>. 운영팀은 "파이프라인 하나로 통일해야 운영이 쉽다"고 한다. 어떻게 해야 하나?</p>
     <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
   </section>
   <h2 class="sec-h" id="query-routing-exam-h">시험 대비</h2>
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"모든 질문에 가장 무거운 다단계 에이전트 검색" → 노력은 복잡도에 맞춤. 초기 Research 에이전트의 실패가 바로 "간단한 질문에 서브에이전트 50개"</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"파이프라인 하나로 통일해야 운영이 쉽다" → 뚜렷이 갈리는 입력을 한 경로로 몰면 서로 성능을 깎음. 단 기본 검색 줄기(hybrid+리랭킹)는 하나로 둬도 됨</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"분류가 애매한데도 routing" → 조건은 '분류가 정확할 때'. 잘못 보낸 질문은 전용 경로에서 틀림 <span class="note">(추론)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"권한 없는 문서는 답을 만든 뒤 걸러낸다" → 가져오는 순간 컨텍스트에 들어감. 검색 단계에서 막음 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"비교 질문도 한 번에 검색" → 한 질의로는 양쪽 chunk 가 다 안 올 수 있음 → 쪼갬 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"모든 질문에 가장 무거운 다단계 에이전트 검색을 쓴다" 는 함정이다. 노력은 복잡도에 맞춘다. 초기 Research 에이전트의 실패가 바로 "간단한 질문에 서브에이전트 50개" 였다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"파이프라인 하나로 통일해야 운영이 쉽다" 는 함정이다. 뚜렷이 갈리는 입력을 한 경로로 몰면 서로 성능을 깎는다. 단 기본 검색 줄기(hybrid+리랭킹)는 하나로 둬도 된다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"분류가 애매한데도 routing 한다" 는 함정이다. routing 의 조건은 '분류가 정확할 때' 다. 잘못 보낸 질문은 전용 경로에서 틀린다 <span class="note">(추론)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"권한 없는 문서는 답을 만든 뒤 걸러낸다" 는 함정이다. 문서는 가져오는 순간 컨텍스트에 들어간다. 그래서 검색 단계에서 막는다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"비교 질문도 한 번에 검색한다" 는 함정이다. 한 질의로는 양쪽 chunk 가 다 안 올 수 있다. 그래서 쪼갠다 <span class="gen">업계 일반</span></span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -650,41 +653,43 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 모델 routing — 싸지지만 분류가 흔들리면 손해</h4>
 <ul>
-<li><span class="lead">조건 :</span> 하루 1만 질문, 쉬운 질문 70%. 질문당 입력 3천 · 출력 500 토큰. 강한 모델 = Opus 5.5($4 / $20), 작은 모델 = Haiku 4.5($1 / $5), 백만 토큰당.</li>
-<li>계산 :</li>
-<li>전부 Opus 5.5 : 3천 × $4 + 500 × $20 = $0.012 + $0.010 = 질문당 $0.022.</li>
-<li><span class="lead">routing :</span> Haiku 4.5 질문당 $0.003 + $0.0025 = $0.0055. 섞으면 0.7 × $0.0055 + 0.3 × $0.022 = $0.01045. 분류기(Haiku 4.5, 입력 400 · 출력 10) $0.00045 더해 $0.0109 → 약 50% 절감.</li>
-<li>
-<p class="lead">분류 정확도 90% 면 어려운 질문 3천 건 중 약 300건이 작은 모델로 감 → 그 품질 손해가 절감을 넘는지 eval 로.</p>
+<li>조건 : 하루 1만 질문이 오고, 쉬운 질문이 70% 다. 질문당 입력 3천 토큰, 출력 500 토큰이다. 백만 토큰당 가격은 다음과 같다.<ul>
+<li><span class="lead">강한 모델 :</span> Opus 5.5($4 / $20)</li>
+<li><span class="lead">작은 모델 :</span> Haiku 4.5($1 / $5)</li>
+</ul>
 </li>
-<li>
-<p>등급 : 계산 (가격 = 2026-09-28 조회값 · routing 조건은 확인)</p>
+<li>계산 :<ul>
+<li>전부 Opus 5.5 로 보내면 3천 × $4 + 500 × $20 = $0.012 + $0.010 = 질문당 $0.022 다.</li>
+<li>routing 하면 Haiku 4.5 는 질문당 $0.003 + $0.0025 = $0.0055 다. 섞으면 0.7 × $0.0055 + 0.3 × $0.022 = $0.01045 다. 분류기(Haiku 4.5, 입력 400 · 출력 10) $0.00045 를 더하면 $0.0109 다. 약 50% 가 줄어든다.</li>
+<li>분류 정확도가 90% 면 어려운 질문 3천 건 중 약 300건이 작은 모델로 간다. 그 품질 손해가 절감을 넘는지는 eval 로 잰다.</li>
+</ul>
 </li>
-<li><span class="lead">전제 :</span> 두 모델 출력 길이 같음 · 캐싱·Batch 없음 · 쉬운 질문은 작은 모델로도 품질 유지.</li>
+<li><span class="lead">등급 :</span> <span class="calc">계산</span> (가격 = 2026-09-28 조회값 · routing 조건은 확인)</li>
+<li><span class="lead">전제 :</span> 두 모델의 출력 길이는 같다. 캐싱과 Batch 는 없다. 쉬운 질문은 작은 모델로도 품질이 유지된다.</li>
 <li><span class="lead">근거 :</span> ko-pricing · building-effective-agents</li>
 </ul>
 <h4>2. "모든 질문에 다단계 에이전트 검색"이 맞아 보이는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 질문 대부분이 한 chunk 면 답이 나오는 단순 사실.</li>
-<li><span class="lead">판단 :</span> 공식 Research 시스템도 단순 사실은 에이전트 1개 · 호출 3~10회로 제한함. 멀티 에이전트는 채팅 대비 약 15배 토큰 → 간단한 질문엔 과투자. 무거운 경로는 비교·조사형만.</li>
+<li><span class="lead">조건 :</span> 질문 대부분이 chunk 하나면 답이 나오는 단순 사실이다.</li>
+<li><span class="lead">판단 :</span> 공식 Research 시스템도 단순 사실은 에이전트 1개 · 호출 3~10회로 제한한다. 멀티 에이전트는 채팅 대비 약 15배 토큰을 쓴다. 그래서 간단한 질문에는 과투자다. 무거운 경로는 비교형과 조사형에만 쓴다.</li>
 
 <li><span class="lead">근거 :</span> multi-agent-research-system</li>
 </ul>
 <h4>3. 쪼갤까, 순서대로 두 번 갈까</h4>
 <ul>
-<li><span class="lead">조건 A :</span> "베이직·프로 요금제 차이" → 두 요금제 chunk 는 서로 독립 → 하위 질의 둘을 따로(동시에) 검색해 나란히.</li>
-<li><span class="lead">조건 B :</span> "내 주문의 배송사 반품 규정" → 배송사를 알아야 규정을 찾음 → 주문 조회 → 배송사 → 규정 검색, 순서대로.</li>
-<li><span class="lead">판단 :</span> 하위 질의가 독립이면 쪼개기, 앞 결과가 뒤 검색어를 정하면 다단계.</li>
+<li><span class="lead">조건 A :</span> "베이직·프로 요금제 차이" 를 묻는다. 두 요금제 chunk 는 서로 독립이다. 그래서 하위 질의 둘을 따로(동시에) 검색해 나란히 놓는다.</li>
+<li><span class="lead">조건 B :</span> "내 주문의 배송사 반품 규정" 을 묻는다. 배송사를 알아야 규정을 찾는다. 그래서 주문 조회, 배송사 확인, 규정 검색을 순서대로 한다.</li>
+<li><span class="lead">판단 :</span> 하위 질의가 독립이면 쪼갠다. 앞 결과가 뒤 검색어를 정하면 다단계로 검색한다.</li>
 <li><span class="lead">등급 :</span> <span class="gen">업계 일반</span> (쪼개기·다단계 원리 자체는 확인 — Research 글)</li>
 <li><span class="lead">근거 :</span> multi-agent-research-system</li>
 </ul>
 <h4>4. 테넌트 필터를 검색 뒤에 걸면</h4>
 <ul>
-<li><span class="lead">조건 :</span> 테넌트 50곳의 문서를 한 index(색인)에 두고, 상위 20개를 뽑은 뒤 내 테넌트 것만 남김.</li>
-<li><span class="lead">계산 :</span> 관련도가 테넌트와 무관하게 고르게 퍼져 있다고 두면, 상위 20개 중 내 테넌트 몫은 평균 20 ÷ 50 = 0.4개 → 대부분 빈손. 검색 전에 필터(또는 테넌트별 네임스페이스)를 걸어야 상위 20개가 전부 내 것.</li>
-<li><span class="lead">판단 :</span> 권한 필터는 보안(남의 문서가 컨텍스트에 들어가지 않게)과 재현율 둘 다 때문에 검색 단계에서.</li>
+<li><span class="lead">조건 :</span> 테넌트 50곳의 문서를 한 index(색인)에 둔다. 상위 20개를 뽑은 뒤 내 테넌트 것만 남긴다.</li>
+<li><span class="lead">계산 :</span> 관련도가 테넌트와 무관하게 고르게 퍼져 있다고 둔다. 그러면 상위 20개 중 내 테넌트 몫은 평균 20 ÷ 50 = 0.4개다. 대부분 빈손이다. 검색 전에 필터(또는 테넌트별 네임스페이스)를 걸어야 상위 20개가 전부 내 것이 된다.</li>
+<li><span class="lead">판단 :</span> 권한 필터는 검색 단계에서 건다. 이유는 둘이다. 남의 문서가 컨텍스트에 들어가지 않게 하는 보안 때문이다. 그리고 재현율 때문이다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (균등 분포 가정) · 필터 위치 원칙은 업계 일반</li>
-<li><span class="lead">근거 :</span> — (공식 RAG 글에 없음)</li>
+<li><span class="lead">근거 :</span> — (공식 RAG 글에 없다)</li>
 </ul>
 </section>
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
@@ -693,18 +698,20 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"모든 질문에 가장 무거운 다단계 에이전트 검색"</td><td data-label="왜 끌리나" role="cell">가장 강력한 방법이면 다 잡을 것 같음</td><td data-label="왜 틀리나" role="cell">노력은 복잡도에 맞춤. 초기 실패 = 간단한 질문에 서브에이전트 50개</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"파이프라인 하나로 통일해야 운영이 쉽다"</td><td data-label="왜 끌리나" role="cell">운영 단순화 습관</td><td data-label="왜 틀리나" role="cell">뚜렷이 갈리는 입력을 한 경로로 몰면 서로 성능을 깎음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"분류가 애매해도 일단 routing"</td><td data-label="왜 끌리나" role="cell">나누면 전문화될 것 같음</td><td data-label="왜 틀리나" role="cell">조건이 '분류가 정확할 때'. 잘못 보낸 질문은 전용 경로에서 틀림</td><td data-label="등급" role="cell"><span class="note">(조건)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"쉬운 질문도 가장 강한 모델로 (품질 우선)"</td><td data-label="왜 끌리나" role="cell">품질이 걱정됨</td><td data-label="왜 틀리나" role="cell">공식 예가 바로 쉬운 질문 → 작은 모델 routing</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"권한 없는 문서는 답을 만든 뒤 걸러냄"</td><td data-label="왜 끌리나" role="cell">후처리가 쉬워 보임</td><td data-label="왜 틀리나" role="cell">가져오는 순간 컨텍스트에 들어감 + 상위 K 가 비어 버림</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 계산</td><td data-label="근거" role="cell">뒤집히는 때 4</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"비교 질문도 한 번에 검색"</td><td data-label="왜 끌리나" role="cell">질문이 한 문장이라서</td><td data-label="왜 틀리나" role="cell">한 질의로는 양쪽 chunk 가 다 안 올 수 있음</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모든 질문에 가장 무거운 다단계 에이전트 검색"</td><td data-label="왜 끌리나" role="cell">가장 강력한 방법이면 다 잡을 것 같다</td><td data-label="왜 틀리나" role="cell">노력은 복잡도에 맞춘다. 초기 실패가 바로 간단한 질문에 서브에이전트 50개를 쓴 것이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"파이프라인 하나로 통일해야 운영이 쉽다"</td><td data-label="왜 끌리나" role="cell">운영을 단순하게 하려는 습관이다</td><td data-label="왜 틀리나" role="cell">뚜렷이 갈리는 입력을 한 경로로 몰면 서로 성능을 깎는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"분류가 애매해도 일단 routing"</td><td data-label="왜 끌리나" role="cell">나누면 전문화될 것 같다</td><td data-label="왜 틀리나" role="cell">조건은 '분류가 정확할 때' 다. 잘못 보낸 질문은 전용 경로에서 틀린다</td><td data-label="등급" role="cell"><span class="note">(조건)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"쉬운 질문도 가장 강한 모델로 (품질 우선)"</td><td data-label="왜 끌리나" role="cell">품질이 걱정된다</td><td data-label="왜 틀리나" role="cell">공식 예가 바로 쉬운 질문을 작은 모델로 보내는 routing 이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"권한 없는 문서는 답을 만든 뒤 걸러냄"</td><td data-label="왜 끌리나" role="cell">후처리가 쉬워 보인다</td><td data-label="왜 틀리나" role="cell">가져오는 순간 컨텍스트에 들어간다. 그리고 상위 K 가 비어 버린다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 계산</td><td data-label="근거" role="cell">뒤집히는 때 4</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"비교 질문도 한 번에 검색"</td><td data-label="왜 끌리나" role="cell">질문이 한 문장이라서다</td><td data-label="왜 틀리나" role="cell">한 질의로는 양쪽 chunk 가 다 안 올 수 있다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="query-routing-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
@@ -717,18 +724,19 @@
       </ul>
     <h3>상태</h3>
       <ul class="plain">
-        <li>고침 1곳(③ 쪼개기·다단계 : 목록 '일반 관행' → Research 글로 확인)</li>
-        <li><span class="gen">업계 일반</span> 1줄(⑤) + 적용 예</li>
+        <li>고침 1곳(③ 쪼개기·다단계 : 목록 '일반 관행' 을 Research 글로 확인했다)</li>
+        <li><span class="gen">업계 일반</span> 1줄(⑤)과 적용 예</li>
       </ul>
   </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>쪼개기·다단계의 공식 근거는 Research(멀티 에이전트 웹 검색) 글이다. 단일 RAG 파이프라인 안의 query decomposition(질의 분해)을 다룬 Anthropic 문서는 못 찾음 (검색 범위 = 받아 둔 raw 원문 전체).</li>
-<li>메타데이터 필터·네임스페이스 : 받아 둔 공식 원문에서 검색 단계 권한 필터 문장을 못 찾음(grep "metadata filter|tenant|namespace" — 걸린 파일은 MCP 인증(authentication)·SDK 배포 문서뿐, RAG 맥락 아님) → 업계 일반.</li>
-<li>목록 3.6② 는 쪼개기·다단계를 "일반 관행 — 근거 확인 필요"로 적었음 → Research 글로 원리 확인, 등급 올림(적용 예는 업계 일반 유지).</li>
+<li>쪼개기·다단계의 공식 근거는 Research(멀티 에이전트 웹 검색) 글이다. 단일 RAG 파이프라인 안의 query decomposition(질의 분해)을 다룬 Anthropic 문서는 못 찾았다 (검색 범위 = 받아 둔 raw 원문 전체).</li>
+<li>메타데이터 필터·네임스페이스 : 받아 둔 공식 원문에서 검색 단계 권한 필터 문장을 못 찾았다(grep "metadata filter|tenant|namespace"). 걸린 파일은 MCP 인증(authentication)·SDK 배포 문서뿐이고, RAG 맥락이 아니다. 그래서 업계 일반으로 둔다.</li>
+<li>목록 3.6② 는 쪼개기·다단계를 "일반 관행 — 근거 확인 필요"로 적었다. Research 글로 원리를 확인해 등급을 올렸다(적용 예는 업계 일반으로 둔다).</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

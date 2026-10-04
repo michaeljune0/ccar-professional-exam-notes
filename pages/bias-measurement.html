@@ -368,9 +368,9 @@
   </div>
   <h2 class="sec-h" id="bias-measurement-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>같은 결정 프롬프트에서 인구통계(나이·성별·인종)만 바꿔 넣고, 당사자에게 좋은 결과("yes") 확률이 집단마다 다른지 측정. 기준 집단과의 차이 = 차별 점수(discrimination score), 0 이면 차별 없음. 긍정·부정 차별 둘 다 봄</p>
-      <p>Anthropic 연구(70개 결정 시나리오). 대상은 Claude 2.0 → 방법만 가져옴</p>
-    <p class="t5-ana"><span class="lead">비유</span> 카나리 비교. 나머지는 전부 같게 두고 값 하나만 바꿔서 결과를 diff</p>
+      <p>같은 결정 프롬프트에서 인구통계(나이·성별·인종)만 바꿔 넣는다. 그리고 당사자에게 좋은 결과("yes") 확률이 집단마다 다른지 측정한다. 기준 집단과의 차이가 차별 점수(discrimination score)다. 0 이면 차별이 없다. 긍정·부정 차별을 둘 다 본다</p>
+      <p>Anthropic 연구(70개 결정 시나리오)에서 가져왔다. 대상은 Claude 2.0 이었다. 그래서 방법만 가져온다</p>
+    <p class="t5-ana"><span class="lead">비유</span> 카나리 비교와 같다. 나머지는 전부 같게 두고 값 하나만 바꿔서 결과를 diff 한다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/bias-measurement.webp"><img src="../images/bias-measurement.webp" alt="같은 결정 프롬프트에서 나이·성별·인종 자리만 바꿔 넣고, 기준 집단과 다른 집단의 yes 확률 차이를 차별 점수로 재는 그림" loading="lazy" decoding="async"></a>
@@ -400,26 +400,26 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">재는 법 (Anthropic 연구, 2023 · 대상 Claude 2.0)</p>
 <ul>
-<li>70개 결정 질문(대출·비자·채용·입학 …)을 템플릿으로. "yes" 가 늘 당사자에게 좋은 결과가 되게 맞춤 (paper).</li>
-<li>나이(20~100) · 성별(3) · 인종(5) 자리만 바꿔 채움 → 9 × 3 × 5 × 70 = 9,450 질문 (paper).</li>
-<li>집단별 "yes" 확률의 로그 오즈를 기준 집단(60세 백인 남성)과 비교 = 차별 점수. 0 = 차별 없음, 음수 = 부정, 양수 = 긍정 (paper).</li>
-<li>긍정 차별도 차별로 셈. 결과 : 명시형에선 여성·논바이너리·비백인 쪽이 유리, 60세 넘으면 불리 (paper).</li>
+<li>70개 결정 질문(대출·비자·채용·입학 …)을 템플릿으로 만든다. "yes" 가 늘 당사자에게 좋은 결과가 되게 맞춘다 (paper).</li>
+<li>나이(20~100)·성별(3)·인종(5) 자리만 바꿔 채운다. 그러면 9 × 3 × 5 × 70 = 9,450 질문이 나온다 (paper).</li>
+<li>집단별 "yes" 확률의 로그 오즈를 기준 집단(60세 백인 남성)과 비교한다. 그 차이가 차별 점수다. 0 이면 차별이 없다. 음수는 부정 차별, 양수는 긍정 차별이다 (paper).</li>
+<li>긍정 차별도 차별로 센다. 결과는 이렇다. 명시형에서는 여성·논바이너리·비백인 쪽이 유리했고, 60세를 넘으면 불리했다 (paper).</li>
 </ul>
 <p class="lead">새어 나감 (새는 길)</p>
 <ul>
-<li>인구통계를 글로 안 쓰고 이름으로만 줘도 차이가 남음 — 훨씬 작아졌지만 흑인을 뺀 모든 집단에서 통계적으로 유의 (paper).</li>
-<li>연구가 스스로 꼽은 한계 : 우편번호 같은 다른 대리 정보, 겹치는 속성(인종 × 성별), 이력서처럼 긴 입력은 다 못 봄 (paper).</li>
+<li>인구통계를 글로 안 쓰고 이름으로만 줘도 차이가 남는다. 차이는 훨씬 작아졌지만, 흑인을 뺀 모든 집단에서 통계적으로 유의했다 (paper).</li>
+<li>연구가 스스로 꼽은 한계가 있다. 우편번호 같은 다른 대리 정보, 겹치는 속성(인종 × 성별), 이력서처럼 긴 입력은 다 보지 못했다 (paper).</li>
 </ul>
 <p class="lead">줄이는 법</p>
 <ul>
-<li>프롬프트 끝 문장 : "보호 속성 고려는 불법" · "인구통계는 기술적 사정으로 들어갔으니 무시하고 가려진 것처럼 결정" → 효과가 가장 큼, 점수가 0 근처로 (paper).</li>
-<li>결정 전에 편향(bias) 피하는 법을 소리 내 생각하게 해도 줄어듦 (paper).</li>
-<li>속임수 경계 : 모든 입력에 같은 답을 내면 점수 0. 그래서 원래 결정과의 상관을 같이 봄 → 좋은 개입 = 점수 약 0.15 · 상관 약 92% (paper).</li>
+<li>프롬프트 끝에 두 문장을 붙인다. "보호 속성 고려는 불법" 과 "인구통계는 기술적 사정으로 들어갔으니 무시하고 가려진 것처럼 결정" 이다. 이 방법이 효과가 가장 컸고, 점수가 0 근처로 갔다 (paper).</li>
+<li>결정 전에 편향(bias)을 피하는 법을 소리 내 생각하게 해도 차이가 줄었다 (paper).</li>
+<li>속임수를 경계한다. 모든 입력에 같은 답을 내면 점수는 0 이다. 그래서 원래 결정과의 상관을 같이 본다. 좋은 개입은 점수 약 0.15, 상관 약 92% 였다 (paper).</li>
 </ul>
 <p class="lead">측정 뒤에도 남는 것</p>
 <ul>
-<li>평가를 잘 통과한 것만으로는 고위험(high-risk) 용도에 쓸 근거가 아님. 사람을 자문 자리에 두는 것만으로는 충분한 안전장치가 아님(자동화 편향 — 사람이 기계 답을 그냥 따름) (paper).</li>
-<li>AUP : 보호 속성 근거 차별 조장 · 생체정보로 인종 등 분류 · 가석방·형량 결정 등은 금지. 대출·채용·주거는 고위험 → 전문가 검토 + AI 고지(disclosure) (en-aup) → ■ AUP 고위험 용도.</li>
+<li>평가를 잘 통과한 것만으로는 고위험(high-risk) 용도에 쓸 근거가 아니다. 사람을 자문 자리에 두는 것만으로는 충분한 안전장치가 아니다(자동화 편향). 자동화 편향은 사람이 기계 답을 그냥 따르는 것이다 (paper).</li>
+<li>AUP 는 보호 속성 근거 차별 조장, 생체정보로 인종 등 분류, 가석방·형량 결정 등을 금지한다. 대출·채용·주거는 고위험이다. 그래서 전문가 검토와 AI 고지(disclosure)가 필요하다 (en-aup). 자세한 것은 ■ AUP 고위험 용도 에 있다.</li>
 </ul>
 </section>
   <h2 class="sec-h" id="bias-measurement-rules-h">규칙과 판단</h2>
@@ -435,11 +435,11 @@
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>전체 정확도</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">모자람</p><p>집단별로 나눠 봐야 함 <span class="gen">업계 일반</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">모자란다</p><p>집단별로 나눠 봐야 한다 <span class="gen">업계 일반</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>"공정하게 판단하라" 한 줄</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">측정 아님</p><p>인구통계만 바꿔 차이를 측정</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">측정이 아니다</p><p>인구통계만 바꿔 차이를 측정한다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>인구통계만 바꿔 비교</span>
@@ -447,11 +447,11 @@
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>나이·성별·인종을 글로</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">명시형</p><p>차이가 가장 크게 드러남</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">명시형</p><p>차이가 가장 크게 드러난다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>이름으로만</span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">암시형</p><p>작아졌지만 여전히 있음 → 이름 같은 대리 정보도 재야 함</p></div>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">암시형</p><p>차이는 작아졌지만 여전히 있다. 그래서 이름 같은 대리 정보도 재야 한다</p></div>
             </div>
           </div>
         </div>
@@ -461,15 +461,15 @@
   <section class="t5-flow tree" id="bias-measurement-tree-2" aria-labelledby="bias-measurement-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5">
     <div class="t5-fh"><h3 id="bias-measurement-tree-2-h">③ 줄였다는 증거 <span class="pg">[5.5②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>원래 결정과 상관은?<span class="t5-sub">프롬프트로 줄여 점수가 0 근처일 때</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>원래 결정과의 상관이 높은가?<span class="t5-sub">프롬프트로 줄여 점수가 0 근처일 때</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>높음</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">좋은 개입</p><p>차별은 줄고 결정은 거의 그대로</p></div>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>높다</span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">좋은 개입</p><p>차별은 줄고 결정은 거의 그대로다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>낮음 <span class="note">(모두 같은 답)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">쓸모 없음</p><p>모두 같은 답을 내면 점수는 0 이지만 쓸모 없음 → 차이만 보지 말고 원래 결정과의 상관도 같이 봄</p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>낮다 <span class="note">(모두 같은 답)</span></span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">쓸모 없다</p><p>모두 같은 답을 내면 점수는 0 이지만 쓸모가 없다. 그래서 차이만 보지 말고 원래 결정과의 상관도 같이 본다</p></div>
         </div>
       </div>
     </div>
@@ -481,47 +481,47 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>가석방·형량 · 생체정보로 인종 추론 · 보호 속성 차별 조장</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">금지</p><p>AUP 금지 → 만들지 않음 <span class="src">(2026-09-28 조회)</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">금지</p><p>AUP 가 금지한다. 그래서 만들지 않는다 <span class="src">(2026-09-28 조회)</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>대출·채용·주거 같은 고위험</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">사람이 결정</p><p>전문가 검토 + AI 고지(disclosure) → <a href="aup-high-risk.html">■ AUP 고위험 용도</a> (2026-09-28 조회) · 차별 점수가 낮아도 평가를 잘 통과한 것만으로는 고위험(high-risk) 용도에 쓸 근거가 안 됨 · 사람을 자문 역할로만 두어서는 충분한 안전장치가 아님</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">사람이 결정한다</p><p>전문가 검토와 AI 고지(disclosure)가 필요하다. 자세한 것은 <a href="aup-high-risk.html">■ AUP 고위험 용도</a> 에 있다 (2026-09-28 조회). 차별 점수가 낮아도 평가를 잘 통과한 것만으로는 고위험(high-risk) 용도에 쓸 근거가 안 된다. 사람을 자문 역할로만 두어서는 충분한 안전장치가 아니다</p></div>
         </div>
       </div>
     </div>
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="bias-measurement-flow" aria-label="편향 측정 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["결정 템플릿","모델","집단별 p(yes)"],"blocks":[{"name":"신청 내용","var":false},{"name":"인구통계","var":true}],"rules":[null,null,"기준 집단과 비교한 차이가 차별 점수, 0 이면 차별 없음"],"question":"무엇만 바꿔야 차이를 잴 수 있을까?","scenes":[{"name":"① 인구통계만 바꿔 차이 재기","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["신청자: {나이}세 {성별} {인종}","연소득 5,200만 · 부채 없음","승인할까요? yes/no"]}},{"kind":"mark","step":"채우기","at":{"block":"인구통계"},"label":"인구통계만 바꿈","art":{"kind":"slip","lines":["60세 백인 남성 (기준)","30세 흑인 여성","70세 아시아계 남성"]}},{"kind":"move","step":"묻기","from":{"col":0},"to":1,"label":"yes = 당사자에게 좋은 결과","art":{"kind":"slip","lines":["같은 신청 × 3벌","yes 또는 no 로만"]}},{"kind":"move","step":"재기","from":{"col":1},"to":2,"label":"그림용 가정 값","art":{"kind":"slip","lines":["기준 p(yes) 0.50","70세 아시아계 남성 0.73","→ 점수 +1.0 (긍정 차별)"]}},{"kind":"end","label":"0 이면 차별 없음 · 긍정·부정 둘 다 봄"}]},{"name":"② 인구통계 칸만 지움 → 이름으로 새어 들어감","verdict":"ng","blocks":[{"name":"신청 내용","var":false},{"name":"이름","var":true}],"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["신청자: {이름}","연소득 5,200만 · 부채 없음","승인할까요? yes/no"]}},{"kind":"move","step":"묻기","from":{"block":"이름"},"to":1,"label":"이름에서 인종·성별이 짐작됨","art":{"kind":"slip","lines":["이름만 바꿔 여러 벌","나이·성별·인종 칸 없음"]}},{"kind":"move","step":"재기","from":{"col":1},"to":2,"label":"가정 값 — 작아도 0 아님","art":{"kind":"slip","lines":["명시형 점수 +1.0","이름만 점수 +0.3","여전히 있음"]}},{"kind":"end","label":"인구통계 칸을 지워도 이름 같은 대리 정보로 새어 들어감"}]},{"name":"③ 모두 같은 답 → 점수 0","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["신청자: {나이}세 {성별} {인종}","연소득·부채 여러 가지","승인할까요? yes/no"]}},{"kind":"move","step":"묻기","from":{"col":0},"to":1,"label":"입력과 상관없이 같은 답","art":{"kind":"slip","lines":["연소득 9,000만 → no","연소득 1,200만 → no","누구든 no"]}},{"kind":"move","step":"재기","from":{"col":1},"to":2,"label":"점수는 0","art":{"kind":"slip","lines":["모든 집단 p(yes) 0","차별 점수 0","원래 결정과 안 맞음"]}},{"kind":"end","label":"점수 0 이어도 쓸모 없음 — 원래 결정과의 상관도 같이 봄"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["결정 템플릿","모델","집단별 p(yes)"],"blocks":[{"name":"신청 내용","var":false},{"name":"인구통계","var":true}],"rules":[null,null,"기준 집단과 비교한 차이가 차별 점수다. 0 이면 차별이 없다"],"question":"무엇만 바꿔야 차이를 잴 수 있을까?","scenes":[{"name":"① 인구통계만 바꿔 차이 재기","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["신청자: {나이}세 {성별} {인종}","연소득 5,200만 · 부채 없음","승인할까요? yes/no"]}},{"kind":"mark","step":"채우기","at":{"block":"인구통계"},"label":"인구통계만 바꾼다","art":{"kind":"slip","lines":["60세 백인 남성 (기준)","30세 흑인 여성","70세 아시아계 남성"]}},{"kind":"move","step":"묻기","from":{"col":0},"to":1,"label":"yes 는 당사자에게 좋은 결과다","art":{"kind":"slip","lines":["같은 신청 × 3벌","yes 또는 no 로만"]}},{"kind":"move","step":"재기","from":{"col":1},"to":2,"label":"그림용 가정 값이다","art":{"kind":"slip","lines":["기준 p(yes) 0.50","70세 아시아계 남성 0.73","→ 점수 +1.0 (긍정 차별)"]}},{"kind":"end","label":"0 이면 차별이 없다. 긍정·부정 차별을 둘 다 본다"}]},{"name":"② 칸만 지우면 이름으로 샌다","verdict":"ng","blocks":[{"name":"신청 내용","var":false},{"name":"이름","var":true}],"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["신청자: {이름}","연소득 5,200만 · 부채 없음","승인할까요? yes/no"]}},{"kind":"move","step":"묻기","from":{"block":"이름"},"to":1,"label":"이름에서 인종·성별이 짐작된다","art":{"kind":"slip","lines":["이름만 바꿔 여러 벌","나이·성별·인종 칸 없음"]}},{"kind":"move","step":"재기","from":{"col":1},"to":2,"label":"가정 값이다. 작아도 0 이 아니다","art":{"kind":"slip","lines":["명시형 점수 +1.0","이름만 점수 +0.3","여전히 있음"]}},{"kind":"end","label":"인구통계 칸을 지워도 이름 같은 대리 정보로 새어 들어간다"}]},{"name":"③ 모두 같은 답이면 점수 0","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["신청자: {나이}세 {성별} {인종}","연소득·부채 여러 가지","승인할까요? yes/no"]}},{"kind":"move","step":"묻기","from":{"col":0},"to":1,"label":"입력과 상관없이 같은 답을 낸다","art":{"kind":"slip","lines":["연소득 9,000만 → no","연소득 1,200만 → no","누구든 no"]}},{"kind":"move","step":"재기","from":{"col":1},"to":2,"label":"점수는 0 이다","art":{"kind":"slip","lines":["모든 집단 p(yes) 0","차별 점수 0","원래 결정과 안 맞음"]}},{"kind":"end","label":"점수가 0 이어도 쓸모가 없다. 원래 결정과의 상관도 같이 본다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> 결정 템플릿 → 모델 → 집단별 p(yes)</p>
       <p><span class="lead">블록 :</span> 신청 내용, 인구통계 (바뀌는 것)</p>
-      <p><span class="lead">규칙 (집단별 p(yes)) :</span> 기준 집단과 비교한 차이가 차별 점수, 0 이면 차별 없음</p>
+      <p><span class="lead">규칙 (집단별 p(yes)) :</span> 기준 집단과 비교한 차이가 차별 점수다. 0 이면 차별이 없다</p>
       <p><span class="lead">질문 :</span> 무엇만 바꿔야 차이를 잴 수 있을까?</p>
       <p class="lead">① 인구통계만 바꿔 차이 재기 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 결정 템플릿 — 쪽지 : <span class="flx-alt-slip">신청자: {나이}세 {성별} {인종} / 연소득 5,200만 · 부채 없음 / 승인할까요? yes/no</span></li>
-        <li>채우기 : 인구통계 : 인구통계만 바꿈 — 쪽지 : <span class="flx-alt-slip">60세 백인 남성 (기준) / 30세 흑인 여성 / 70세 아시아계 남성</span></li>
-        <li>묻기 : 결정 템플릿 → 모델 : yes = 당사자에게 좋은 결과 — 쪽지 : <span class="flx-alt-slip">같은 신청 × 3벌 / yes 또는 no 로만</span></li>
-        <li>재기 : 모델 → 집단별 p(yes) : 그림용 가정 값 — 쪽지 : <span class="flx-alt-slip">기준 p(yes) 0.50 / 70세 아시아계 남성 0.73 / → 점수 +1.0 (긍정 차별)</span></li>
-        <li>끝 : 0 이면 차별 없음 · 긍정·부정 둘 다 봄</li>
+        <li>채우기 : 인구통계 : 인구통계만 바꾼다 — 쪽지 : <span class="flx-alt-slip">60세 백인 남성 (기준) / 30세 흑인 여성 / 70세 아시아계 남성</span></li>
+        <li>묻기 : 결정 템플릿 → 모델 : yes 는 당사자에게 좋은 결과다 — 쪽지 : <span class="flx-alt-slip">같은 신청 × 3벌 / yes 또는 no 로만</span></li>
+        <li>재기 : 모델 → 집단별 p(yes) : 그림용 가정 값이다 — 쪽지 : <span class="flx-alt-slip">기준 p(yes) 0.50 / 70세 아시아계 남성 0.73 / → 점수 +1.0 (긍정 차별)</span></li>
+        <li>끝 : 0 이면 차별이 없다. 긍정·부정 차별을 둘 다 본다</li>
       </ol>
-      <p class="lead">② 인구통계 칸만 지움 → 이름으로 새어 들어감 <span class="fl-v is-ng">≠</span></p>
+      <p class="lead">② 칸만 지우면 이름으로 샌다 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>블록 : 신청 내용, 이름 (바뀌는 것)</li>
         <li>시작 : 결정 템플릿 — 쪽지 : <span class="flx-alt-slip">신청자: {이름} / 연소득 5,200만 · 부채 없음 / 승인할까요? yes/no</span></li>
-        <li>묻기 : 이름 → 모델 : 이름에서 인종·성별이 짐작됨 — 쪽지 : <span class="flx-alt-slip">이름만 바꿔 여러 벌 / 나이·성별·인종 칸 없음</span></li>
-        <li>재기 : 모델 → 집단별 p(yes) : 가정 값 — 작아도 0 아님 — 쪽지 : <span class="flx-alt-slip">명시형 점수 +1.0 / 이름만 점수 +0.3 / 여전히 있음</span></li>
-        <li>끝 : 인구통계 칸을 지워도 이름 같은 대리 정보로 새어 들어감</li>
+        <li>묻기 : 이름 → 모델 : 이름에서 인종·성별이 짐작된다 — 쪽지 : <span class="flx-alt-slip">이름만 바꿔 여러 벌 / 나이·성별·인종 칸 없음</span></li>
+        <li>재기 : 모델 → 집단별 p(yes) : 가정 값이다. 작아도 0 이 아니다 — 쪽지 : <span class="flx-alt-slip">명시형 점수 +1.0 / 이름만 점수 +0.3 / 여전히 있음</span></li>
+        <li>끝 : 인구통계 칸을 지워도 이름 같은 대리 정보로 새어 들어간다</li>
       </ol>
-      <p class="lead">③ 모두 같은 답 → 점수 0 <span class="fl-v is-ng">≠</span></p>
+      <p class="lead">③ 모두 같은 답이면 점수 0 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 결정 템플릿 — 쪽지 : <span class="flx-alt-slip">신청자: {나이}세 {성별} {인종} / 연소득·부채 여러 가지 / 승인할까요? yes/no</span></li>
-        <li>묻기 : 결정 템플릿 → 모델 : 입력과 상관없이 같은 답 — 쪽지 : <span class="flx-alt-slip">연소득 9,000만 → no / 연소득 1,200만 → no / 누구든 no</span></li>
-        <li>재기 : 모델 → 집단별 p(yes) : 점수는 0 — 쪽지 : <span class="flx-alt-slip">모든 집단 p(yes) 0 / 차별 점수 0 / 원래 결정과 안 맞음</span></li>
-        <li>끝 : 점수 0 이어도 쓸모 없음 — 원래 결정과의 상관도 같이 봄</li>
+        <li>묻기 : 결정 템플릿 → 모델 : 입력과 상관없이 같은 답을 낸다 — 쪽지 : <span class="flx-alt-slip">연소득 9,000만 → no / 연소득 1,200만 → no / 누구든 no</span></li>
+        <li>재기 : 모델 → 집단별 p(yes) : 점수는 0 이다 — 쪽지 : <span class="flx-alt-slip">모든 집단 p(yes) 0 / 차별 점수 0 / 원래 결정과 안 맞음</span></li>
+        <li>끝 : 점수가 0 이어도 쓸모가 없다. 원래 결정과의 상관도 같이 본다</li>
       </ol>
     </details>
   </figure>
@@ -531,34 +531,48 @@
       <ol class="how">
         <li id="bias-measurement-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p><span class="lead">재는 법 :</span> 결정 질문을 "yes = 당사자에게 좋은 결과"로 맞춘 템플릿 → 나이·성별·인종 자리만 바꿔 채움 → 집단별 "yes" 확률을 기준 집단(연구는 60세 백인 남성)과 비교 = 차별 점수. 0 이면 차별 없음, 음수 = 부정 차별, 양수 = 긍정 차별 <span class="pg">[5.5②]</span></p>
-            <p>기준 p(yes) 0.5 일 때 점수 +1.0 ≈ p(yes) 0.73 (점수를 확률로 풀어 읽는 연구의 해석 예)</p>
+            <p><span class="lead">재는 법 :</span> 아래 순서로 차별 점수를 잰다 <span class="pg">[5.5②]</span></p>
+            <ul class="dash">
+              <li>결정 질문을 "yes = 당사자에게 좋은 결과" 로 맞춘 템플릿을 만든다</li>
+              <li>나이·성별·인종 자리만 바꿔 채운다</li>
+              <li>집단별 "yes" 확률을 기준 집단(연구는 60세 백인 남성)과 비교한다. 그 차이가 차별 점수다</li>
+            </ul>
+            <p>0 이면 차별이 없다. 음수는 부정 차별, 양수는 긍정 차별이다</p>
+            <p>기준 p(yes) 0.5 일 때 점수 +1.0 은 p(yes) 약 0.73 이다 (점수를 확률로 풀어 읽는 연구의 해석 예)</p>
           </div>
         </li>
         <li id="bias-measurement-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p><span class="lead">명시형 vs 암시형 :</span> 인구통계를 글로 쓰면 차이가 가장 크게 드러남. 이름으로만 넣으면 작아졌지만 여전히 있음 → 인구통계 칸을 지워도 이름 같은 대리 정보로 새어 들어감 <span class="pg">[5.5②]</span></p>
-            <p>대리 변수는 이름만이 아님 : 차별은 인구통계 변수로 직접, 또는 우편번호·과외 활동 같은 대리 변수(proxies)로 간접 발생 (evaluating-discrimination-paper) → 인구통계 칸을 빼고 입력 하나만 바꿨는데 특정 집단 결과가 달라지면 그 입력이 대리 변수 후보 <span class="note">(추론)</span></p>
-            <p>문체도 차이 크기를 흔듦 : 감정 섞인 문장은 차이가 더 크고, 딱딱한 목록은 더 작음 (방향은 같음)</p>
-            <p>전체 정확도만으론 모자람, 집단별로 나눠 봐야 함 <span class="gen">업계 일반</span> <span class="note">원문은 "성공 기준은 여러 차원"까지. 공정성을 그 한 차원으로 두는 건 원문을 넓혀 쓴 것</span></p>
+            <p><span class="lead">명시형 vs 암시형 :</span> 인구통계를 글로 쓰면 차이가 가장 크게 드러난다. 이름으로만 넣으면 차이는 작아졌지만 여전히 있다. 그래서 인구통계 칸을 지워도 이름 같은 대리 정보로 새어 들어간다 <span class="pg">[5.5②]</span></p>
+            <p>대리 변수는 이름만이 아니다. 차별은 인구통계 변수로 직접 생기거나, 우편번호·과외 활동 같은 대리 변수(proxies)로 간접 생긴다 <span class="src">(<a class="src-link" href="https://arxiv.org/abs/2312.03689" lang="en" rel="noopener">evaluating-discrimination-paper</a>)</span></p>
+            <p>그래서 인구통계 칸을 빼고 입력 하나만 바꿨는데 특정 집단 결과가 달라지면, 그 입력이 대리 변수 후보다 <span class="note">(추론)</span></p>
+            <p>문체도 차이 크기를 흔든다. 감정 섞인 문장은 차이가 더 크고, 딱딱한 목록은 더 작다(방향은 같다)</p>
+            <p>전체 정확도만으로는 모자란다. 집단별로 나눠 봐야 한다 <span class="gen">업계 일반</span> <span class="note">원문은 "성공 기준은 여러 차원"까지. 공정성을 그 한 차원으로 두는 건 원문을 넓혀 쓴 것</span></p>
           </div>
         </li>
         <li id="bias-measurement-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">줄이는 법 :</span> 프롬프트 끝에 "보호 속성을 고려하는 건 불법" · "인구통계는 무시하고 가려진 것처럼 결정" 을 붙이면 효과가 큼. 결정 전에 편향을 피하는 법을 소리 내 생각하게 하는 것도 줄임</p>
-            <p>좋은 개입은 차별은 줄고 결정은 거의 그대로 ('보호 속성 고려는 불법' 이라 알리는 문장 · 무시 지시 = 점수 약 0.15 · 원래 결정과 상관 약 92%)</p>
-            <p>줄였다는 증거 = 차별 점수 + 원래 결정과의 상관 둘 다. 모두 같은 답을 내면 점수는 0 이지만 쓸모 없음 → 차이만 보지 말고 원래 결정과의 상관도 같이 봄 <span class="pg">[5.5②]</span></p>
+            <p><span class="lead">줄이는 법 :</span> 프롬프트 끝에 두 문장을 붙이면 효과가 크다. "보호 속성을 고려하는 건 불법" 과 "인구통계는 무시하고 가려진 것처럼 결정" 이다. 결정 전에 편향을 피하는 법을 소리 내 생각하게 하는 것도 차이를 줄인다</p>
+            <p>좋은 개입은 차별은 줄이고 결정은 거의 그대로 둔다. '보호 속성 고려는 불법' 이라 알리는 문장과 무시 지시는 점수 약 0.15, 원래 결정과 상관 약 92% 였다</p>
+            <p>줄였다는 증거는 차별 점수와 원래 결정과의 상관 둘 다다. 모두 같은 답을 내면 점수는 0 이지만 쓸모가 없다. 그래서 차이만 보지 말고 원래 결정과의 상관도 같이 본다 <span class="pg">[5.5②]</span></p>
           </div>
         </li>
         <li id="bias-measurement-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p><span class="lead">금지 결정 경로 :</span> 보호 속성(인종·민족·종교·출신국·성별·성적 지향 등) 근거 차별 조장 · 생체정보로 인종·정치 성향 등 분류 · 동의 없는 얼굴 인식·위치 추적 · 가석방·형량 결정 · 동의·고지 없는 사회적 신용 점수 → AUP 금지 → 만들지 않음 (2026-09-28 조회) <span class="pg">[5.5②]</span></p>
+            <p><span class="lead">금지 결정 경로 :</span> 아래 결정은 AUP 가 금지한다. 그래서 만들지 않는다 (2026-09-28 조회) <span class="pg">[5.5②]</span></p>
+            <ul class="dash">
+              <li>보호 속성(인종·민족·종교·출신국·성별·성적 지향 등)을 근거로 한 차별 조장</li>
+              <li>생체정보로 인종·정치 성향 등을 분류하기</li>
+              <li>동의 없는 얼굴 인식·위치 추적</li>
+              <li>가석방·형량 결정</li>
+              <li>동의·고지 없는 사회적 신용 점수</li>
+            </ul>
           </div>
         </li>
         <li id="bias-measurement-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">고위험 결정 :</span> Anthropic 은 연구한 고위험 용도의 자동 결정을 지지·허용하지 않음. 평가를 잘 통과한 것만으로는 고위험 용도에 쓸 근거가 안 됨. 사람을 자문 역할로만 두어서는 충분한 안전장치가 아님(자동화 편향) <span class="pg">[5.5②]</span> <span class="pg">[5.3②]</span></p>
-            <p>대출·채용·주거 = 고위험 → 전문가 검토 + AI 고지 → <a href="aup-high-risk.html">■ AUP 고위험 용도</a> <span class="src">(2026-09-28 조회)</span></p>
+            <p><span class="lead">고위험 결정 :</span> Anthropic 은 연구한 고위험 용도의 자동 결정을 지지·허용하지 않는다. 평가를 잘 통과한 것만으로는 고위험 용도에 쓸 근거가 안 된다. 사람을 자문 역할로만 두어서는 충분한 안전장치가 아니다(자동화 편향) <span class="pg">[5.5②]</span> <span class="pg">[5.3②]</span></p>
+            <p>대출·채용·주거는 고위험이다. 그래서 전문가 검토와 AI 고지가 필요하다. 자세한 것은 <a href="aup-high-risk.html">■ AUP 고위험 용도</a> 에 있다 <span class="src">(2026-09-28 조회)</span></p>
           </div>
         </li>
       </ol>
@@ -572,13 +586,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">모델이 집단마다 다르게 판정하는지 알고 싶음</td><td data-label="답" role="cell">같은 결정 프롬프트에서 인구통계만 바꿔 결과 차이를 측정</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">연구 글 "systematically vary the demographic information in each prompt"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">인구통계 필드를 지웠음</td><td data-label="답" role="cell">이름 같은 대리 정보로도 재 봐야 함</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper (이름만 줘도 유의한 차이)</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">프롬프트로 편향을 줄였다고 주장</td><td data-label="답" role="cell">차별 점수 + 원래 결정과의 상관 둘 다 보여야</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">보호 속성으로 차별 조장 · 생체정보로 인종 분류 · 가석방·형량 결정</td><td data-label="답" role="cell">만들지 않음 (AUP 금지)</td><td data-label="등급" role="cell"><span class="note">(2026-09-28 조회)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/legal/aup" lang="en" rel="noopener">en-aup</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">대출 승인·채용 선별</td><td data-label="답" role="cell">사람(자격 있는 전문가)이 결정, AI 는 보조 + 고지</td><td data-label="등급" role="cell"><span class="note">(2026-09-28 조회)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/legal/aup" lang="en" rel="noopener">en-aup</a> · 연구 글 "we do not endorse or permit"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">차별 점수가 낮게 나옴</td><td data-label="답" role="cell">그래도 고위험 자동 결정 근거가 안 됨</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">공정성을 어떻게 평가표에 넣나</td><td data-label="답" role="cell">성공 기준(success criteria) 여러 차원 중 하나로, 집단별로 나눠 봄</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> "multidimensional evaluation" 의 적용 — 공정성 문장은 없음</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">모델이 집단마다 다르게 판정하는지 알고 싶다</td><td data-label="답" role="cell">같은 결정 프롬프트에서 인구통계만 바꿔 결과 차이를 측정한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">연구 글 "systematically vary the demographic information in each prompt"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">인구통계 필드를 지웠다</td><td data-label="답" role="cell">이름 같은 대리 정보로도 재 봐야 한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper (이름만 줘도 유의한 차이)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">프롬프트로 편향을 줄였다고 주장한다</td><td data-label="답" role="cell">차별 점수와 원래 결정과의 상관을 둘 다 보여야 한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">보호 속성으로 차별 조장 · 생체정보로 인종 분류 · 가석방·형량 결정을 하려 한다</td><td data-label="답" role="cell">만들지 않는다 (AUP 금지)</td><td data-label="등급" role="cell"><span class="note">(2026-09-28 조회)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/legal/aup" lang="en" rel="noopener">en-aup</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">대출 승인·채용 선별이다</td><td data-label="답" role="cell">사람(자격 있는 전문가)이 결정한다. AI 는 보조하고 고지한다</td><td data-label="등급" role="cell"><span class="note">(2026-09-28 조회)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/legal/aup" lang="en" rel="noopener">en-aup</a> · 연구 글 "we do not endorse or permit"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">차별 점수가 낮게 나왔다</td><td data-label="답" role="cell">그래도 고위험 자동 결정의 근거가 안 된다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">공정성을 어떻게 평가표에 넣나?</td><td data-label="답" role="cell">성공 기준(success criteria)의 여러 차원 중 하나로 두고, 집단별로 나눠 본다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> "multidimensional evaluation" 의 적용이다. 공정성 문장은 없다</td></tr>
   </tbody>
 </table>
 </div>
@@ -589,15 +603,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">인구통계 입력 방식</td><td data-label="값" role="cell">글로 명시</td><td data-label="답 쪽" role="cell">차이가 가장 크게 드러남</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">인구통계 입력 방식</td><td data-label="값" role="cell">이름·대리 정보만</td><td data-label="답 쪽" role="cell">작아도 남음 → 칸 지우기만으론 부족</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">프롬프트 문체</td><td data-label="값" role="cell">감정 섞임</td><td data-label="답 쪽" role="cell">차이 커짐</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">프롬프트 문체</td><td data-label="값" role="cell">딱딱한 목록</td><td data-label="답 쪽" role="cell">차이 작아짐 (방향은 같음)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">결정 종류</td><td data-label="값" role="cell">가석방·형량</td><td data-label="답 쪽" role="cell">금지</td><td data-label="등급" role="cell"><span class="note">(2026-09-28 조회)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/legal/aup" lang="en" rel="noopener">en-aup</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">결정 종류</td><td data-label="값" role="cell">대출·채용·주거</td><td data-label="답 쪽" role="cell">고위험 → 사람 결정 + 전문가 검토 + 고지</td><td data-label="등급" role="cell"><span class="note">(2026-09-28 조회)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/legal/aup" lang="en" rel="noopener">en-aup</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">결정 종류</td><td data-label="값" role="cell">반품 승인 같은 저위험</td><td data-label="답 쪽" role="cell">같은 방법으로 재는 건 가능, AUP 고위험 요건은 없음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper (저위험 질문도 포함) · <a class="src-link" href="https://www.anthropic.com/legal/aup" lang="en" rel="noopener">en-aup</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">속성</td><td data-label="값" role="cell">연구 밖(종교·장애·소득 …)</td><td data-label="답 쪽" role="cell">방법은 넓힐 수 있음 — 연구는 측정 안 함</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">최신 모델</td><td data-label="답 쪽" role="cell">연구 수치는 Claude 2.0 — 방법만 가져옴</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">연구 글</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">인구통계 입력 방식</td><td data-label="값" role="cell">글로 명시한다</td><td data-label="답 쪽" role="cell">차이가 가장 크게 드러난다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">인구통계 입력 방식</td><td data-label="값" role="cell">이름·대리 정보만 준다</td><td data-label="답 쪽" role="cell">작아도 차이가 남는다. 그래서 칸 지우기만으로는 부족하다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">프롬프트 문체</td><td data-label="값" role="cell">감정이 섞였다</td><td data-label="답 쪽" role="cell">차이가 커진다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">프롬프트 문체</td><td data-label="값" role="cell">딱딱한 목록이다</td><td data-label="답 쪽" role="cell">차이가 작아진다 (방향은 같다)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">결정 종류</td><td data-label="값" role="cell">가석방·형량</td><td data-label="답 쪽" role="cell">금지된다</td><td data-label="등급" role="cell"><span class="note">(2026-09-28 조회)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/legal/aup" lang="en" rel="noopener">en-aup</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">결정 종류</td><td data-label="값" role="cell">대출·채용·주거</td><td data-label="답 쪽" role="cell">고위험이다. 사람이 결정하고, 전문가 검토와 고지를 한다</td><td data-label="등급" role="cell"><span class="note">(2026-09-28 조회)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/legal/aup" lang="en" rel="noopener">en-aup</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">결정 종류</td><td data-label="값" role="cell">반품 승인 같은 저위험</td><td data-label="답 쪽" role="cell">같은 방법으로 잴 수는 있다. AUP 고위험 요건은 없다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper (저위험 질문도 포함) · <a class="src-link" href="https://www.anthropic.com/legal/aup" lang="en" rel="noopener">en-aup</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">속성</td><td data-label="값" role="cell">연구 밖(종교·장애·소득 …)</td><td data-label="답 쪽" role="cell">방법은 넓힐 수 있다. 연구는 측정하지 않았다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">최신 모델</td><td data-label="답 쪽" role="cell">연구 수치는 Claude 2.0 의 것이다. 방법만 가져온다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">연구 글</td></tr>
   </tbody>
 </table>
 </div>
@@ -613,13 +627,13 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"전체 정확도가 목표를 넘으니 공정하다" → 집단별로 나눠 봐야 함 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>측정 없이 시스템 프롬프트에 "공정하게 판단하라" 한 줄 → 연구에서 "Be unbiased"(생각 과정 없이 요청만)는 대조군. 재야 줄었는지 알 수 있음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"인구통계 칸을 지웠으니 편향 없음" → 이름으로만 넣어도 여전히 있음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"차별 점수 0 = 좋은 모델" → 모두 같은 답이어도 0. 원래 결정과의 상관도 같이 봄</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"차별 점수가 낮으니 대출 승인을 자동으로" → 평가 통과만으로는 근거 안 됨 · 고위험은 사람 결정</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"사람이 옆에서 검토만 하면 충분" → 자문 역할만으론 충분한 안전장치 아님</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Claude 2.0 결과(여성·비백인 긍정, 60세 넘으면 부정)를 지금 모델 성향으로 외움 → 방법만 가져옴</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"전체 정확도가 목표를 넘으니 공정하다" 는 함정이다. 집단별로 나눠 봐야 한다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>측정 없이 시스템 프롬프트에 "공정하게 판단하라" 한 줄만 넣는 것은 함정이다. 연구에서 "Be unbiased"(생각 과정 없이 요청만)는 대조군이었다. 재야 줄었는지 알 수 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"인구통계 칸을 지웠으니 편향 없음" 은 함정이다. 이름으로만 넣어도 차이가 여전히 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"차별 점수 0 = 좋은 모델" 은 함정이다. 모두 같은 답이어도 0 이다. 원래 결정과의 상관도 같이 본다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"차별 점수가 낮으니 대출 승인을 자동으로" 는 함정이다. 평가 통과만으로는 근거가 안 된다. 고위험은 사람이 결정한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"사람이 옆에서 검토만 하면 충분" 은 함정이다. 자문 역할만으로는 충분한 안전장치가 아니다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Claude 2.0 결과(여성·비백인 긍정, 60세 넘으면 부정)를 지금 모델 성향으로 외우는 것은 함정이다. 방법만 가져온다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -641,23 +655,23 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 전체 정확도는 높은데 한 집단만 어긋남</h4>
 <ul>
-<li><span class="lead">조건 :</span> 채용 1차 선별 요약 Agent, 검증 세트 전체 일치율 93%. 70세 이상 지원자만 보면 "면접 추천" 확률이 기준 집단보다 낮음.</li>
-<li><span class="lead">계산 :</span> 기준 p(yes) 0.5 · 차별 점수 −1.0 이면 로그 오즈 0 → −1 → p ≈ 0.27 (paper의 +1.0 ≈ 0.73 을 거꾸로). 전체 93% 는 이 차이를 안 보여 줌.</li>
-<li><span class="lead">판단 :</span> 전체 지표가 통과여도 불합격 쪽. 집단별로 나눠 봐야 보임.</li>
+<li><span class="lead">조건 :</span> 채용 1차 선별 요약 Agent 가 있다. 검증 세트 전체 일치율은 93% 다. 70세 이상 지원자만 보면 "면접 추천" 확률이 기준 집단보다 낮다.</li>
+<li><span class="lead">계산 :</span> 기준 p(yes) 0.5 에 차별 점수가 −1.0 이면 로그 오즈가 0 에서 −1 로 간다. 그러면 p 는 약 0.27 이다. 이것은 paper의 "+1.0 이면 약 0.73" 을 거꾸로 푼 것이다. 전체 93% 는 이 차이를 보여 주지 않는다.</li>
+<li><span class="lead">판단 :</span> 전체 지표가 통과여도 불합격 쪽이다. 집단별로 나눠 봐야 보인다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (식은 확인 · 집단별로 나눠 보라는 규칙은 업계 일반)</li>
 <li><span class="lead">근거 :</span> paper</li>
 </ul>
 <h4>2. 점수가 0 에 가까운데도 못 씀</h4>
 <ul>
-<li><span class="lead">조건 :</span> 시스템 프롬프트를 바꾼 뒤 차별 점수가 0.02 로 떨어짐. 그런데 원래 결정과의 상관이 40% 로 떨어짐.</li>
-<li><span class="lead">판단 :</span> 결정이 원래 판단과 크게 달라짐 = 쓸모를 잃었을 수 있음. 연구의 좋은 개입은 점수 약 0.15 · 상관 약 92%. 점수만 보고 채택하면 안 됨.</li>
+<li><span class="lead">조건 :</span> 시스템 프롬프트를 바꾼 뒤 차별 점수가 0.02 로 떨어졌다. 그런데 원래 결정과의 상관도 40% 로 떨어졌다.</li>
+<li><span class="lead">판단 :</span> 결정이 원래 판단과 크게 달라졌다. 그래서 쓸모를 잃었을 수 있다. 연구의 좋은 개입은 점수 약 0.15, 상관 약 92% 였다. 점수만 보고 채택하면 안 된다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(비교 기준) · 40% 는 새 예시 숫자</span></li>
 <li><span class="lead">근거 :</span> paper</li>
 </ul>
 <h4>3. 측정 통과했으니 자동 결정?</h4>
 <ul>
-<li><span class="lead">조건 :</span> 대출 사전 심사에서 차별 점수가 모든 집단 0.1 미만.</li>
-<li><span class="lead">판단 :</span> 안 뒤집힘. 평가 통과는 고위험 용도에 쓸 근거가 아니고, AUP 는 대출 승인을 고위험으로 두고 전문가 검토를 요구. 사람이 결정.</li>
+<li><span class="lead">조건 :</span> 대출 사전 심사에서 차별 점수가 모든 집단에서 0.1 미만이다.</li>
+<li><span class="lead">판단 :</span> 뒤집히지 않는다. 평가 통과는 고위험 용도에 쓸 근거가 아니다. AUP 는 대출 승인을 고위험으로 두고 전문가 검토를 요구한다. 그래서 사람이 결정한다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(2026-09-28 조회)</span></li>
 <li><span class="lead">근거 :</span> paper · en-aup</li>
 </ul>
@@ -668,14 +682,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"전체 정확도가 목표를 넘으니 공정하다"</td><td data-label="왜 끌리나" role="cell">평가 수치가 통과</td><td data-label="왜 틀리나" role="cell">평균은 집단 차이를 숨김. 인구통계만 바꿔 차이를 재야 함</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">연구 글(방법) · 뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"모델이 승인·거절까지 자동 결정"</td><td data-label="왜 끌리나" role="cell">빠르고 일관돼 보임</td><td data-label="왜 틀리나" role="cell">Anthropic 은 고위험 자동 결정을 지지·허용 안 함 · AUP 고위험 = 전문가 검토</td><td data-label="등급" role="cell"><span class="note">(2026-09-28 조회)</span></td><td data-label="근거" role="cell">연구 글 · <a class="src-link" href="https://www.anthropic.com/legal/aup" lang="en" rel="noopener">en-aup</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"시스템 프롬프트에 '공정하게 판단하라' 한 줄로 끝"</td><td data-label="왜 끌리나" role="cell">프롬프트로 줄일 수 있다는 건 맞음</td><td data-label="왜 틀리나" role="cell">재지 않으면 줄었는지 모름. 연구에서 효과가 컸던 건 '보호 속성 고려는 불법' 이라 알리는 문장 · 무시 지시</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"이름·나이·성별 칸을 지웠으니 편향 없음"</td><td data-label="왜 끌리나" role="cell">입력에서 빠졌으니</td><td data-label="왜 틀리나" role="cell">이름 같은 대리 정보로도 차이가 남</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"차별 점수 0 이면 가장 좋은 모델"</td><td data-label="왜 끌리나" role="cell">0 = 차별 없음</td><td data-label="왜 틀리나" role="cell">모두 같은 답이어도 0. 원래 결정과의 상관을 같이 봐야</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"사람이 검토 자리에만 있으면 안전"</td><td data-label="왜 끌리나" role="cell">human-in-the-loop 는 공식 요건</td><td data-label="왜 틀리나" role="cell">요건은 맞지만 자문 자리만으론 충분한 안전장치 아님(자동화 편향)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper · <a class="src-link" href="https://www.anthropic.com/legal/aup" lang="en" rel="noopener">en-aup</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"생체정보로 인종을 추정해 공정성 지표를 만든다"</td><td data-label="왜 끌리나" role="cell">집단별로 재려면 인종이 필요해 보임</td><td data-label="왜 틀리나" role="cell">생체 분류로 인종 추론은 AUP 금지. 연구는 인구통계를 넣어 바꾸는 방식</td><td data-label="등급" role="cell"><span class="note">(2026-09-28 조회)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/legal/aup" lang="en" rel="noopener">en-aup</a> · paper</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Claude 는 여성·비백인에 유리하다"</td><td data-label="왜 끌리나" role="cell">연구 결과 문장</td><td data-label="왜 틀리나" role="cell">Claude 2.0 · 개입 없는 조건의 결과. 지금 모델 성향으로 일반화 불가</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">연구 글</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"전체 정확도가 목표를 넘으니 공정하다"</td><td data-label="왜 끌리나" role="cell">평가 수치가 통과했다</td><td data-label="왜 틀리나" role="cell">평균은 집단 차이를 숨긴다. 인구통계만 바꿔 차이를 재야 한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">연구 글(방법) · 뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모델이 승인·거절까지 자동 결정"</td><td data-label="왜 끌리나" role="cell">빠르고 일관돼 보인다</td><td data-label="왜 틀리나" role="cell">Anthropic 은 고위험 자동 결정을 지지·허용하지 않는다. AUP 고위험 용도는 전문가 검토를 요구한다</td><td data-label="등급" role="cell"><span class="note">(2026-09-28 조회)</span></td><td data-label="근거" role="cell">연구 글 · <a class="src-link" href="https://www.anthropic.com/legal/aup" lang="en" rel="noopener">en-aup</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"시스템 프롬프트에 '공정하게 판단하라' 한 줄로 끝"</td><td data-label="왜 끌리나" role="cell">프롬프트로 줄일 수 있다는 것은 맞다</td><td data-label="왜 틀리나" role="cell">재지 않으면 줄었는지 모른다. 연구에서 효과가 컸던 것은 '보호 속성 고려는 불법' 이라 알리는 문장과 무시 지시다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"이름·나이·성별 칸을 지웠으니 편향 없음"</td><td data-label="왜 끌리나" role="cell">입력에서 빠졌기 때문이다</td><td data-label="왜 틀리나" role="cell">이름 같은 대리 정보로도 차이가 난다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"차별 점수 0 이면 가장 좋은 모델"</td><td data-label="왜 끌리나" role="cell">0 이면 차별이 없다는 뜻이다</td><td data-label="왜 틀리나" role="cell">모두 같은 답이어도 0 이다. 원래 결정과의 상관을 같이 봐야 한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"사람이 검토 자리에만 있으면 안전"</td><td data-label="왜 끌리나" role="cell">human-in-the-loop 는 공식 요건이다</td><td data-label="왜 틀리나" role="cell">요건은 맞다. 하지만 자문 자리만으로는 충분한 안전장치가 아니다(자동화 편향)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">paper · <a class="src-link" href="https://www.anthropic.com/legal/aup" lang="en" rel="noopener">en-aup</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"생체정보로 인종을 추정해 공정성 지표를 만든다"</td><td data-label="왜 끌리나" role="cell">집단별로 재려면 인종이 필요해 보인다</td><td data-label="왜 틀리나" role="cell">생체 분류로 인종을 추론하는 것은 AUP 가 금지한다. 연구는 인구통계를 넣어 바꾸는 방식이다</td><td data-label="등급" role="cell"><span class="note">(2026-09-28 조회)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/legal/aup" lang="en" rel="noopener">en-aup</a> · paper</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Claude 는 여성·비백인에 유리하다"</td><td data-label="왜 끌리나" role="cell">연구 결과 문장이다</td><td data-label="왜 틀리나" role="cell">Claude 2.0 과 개입 없는 조건의 결과다. 그래서 지금 모델 성향으로 일반화할 수 없다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">연구 글</td></tr>
   </tbody>
 </table>
 </div>
@@ -683,11 +697,15 @@
   </details>
   <h2 class="sec-h" id="bias-measurement-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="aup-high-risk.html">■ AUP 고위험 용도</a></li>
         <li><a href="ai-disclosure.html">■ AI 고지·사람 사칭 금지</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 5.5</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -705,13 +723,14 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>목록(5.5②) 의 "이 차이를 성공 기준의 한 차원으로 두고 집단별로 나눠 본다" : define-success 는 "multidimensional evaluation" 까지만 말하고 공정성·집단 분할 문장은 없음 → 카드엔 업계 일반으로 둠.</li>
-<li>목록은 "동의 없는 얼굴 인식" 으로 줄여 적음 → 원문은 둘 : "biometric or neural data (including facial recognition)" 를 허락 없이 수집·접근 · 동의 없이 위치·감정·통신을 추적, 얼굴 인식 포함. 카드엔 원문대로.</li>
-<li>최신 Claude 모델의 차별 평가 수치는 받은 원문에 없음 (연구 = Claude 2.0).</li>
-<li>연구 글 페이지(en-evaluating-discrimination.md)는 초록뿐 → 방법·수치는 arXiv HTML 판(en-evaluating-discrimination-paper.md, Anthropic 저자 논문)에서 확인. 논문은 공식 docs 가 아니라 연구 논문.</li>
-<li>긍정 차별을 얼마나 고칠지는 연구가 판단을 내리지 않음 — "도구를 준다" 까지 (paper). 시험이 "긍정 차별은 괜찮다" 쪽 보기를 내면 원문 근거 없음.</li>
+<li>목록(5.5②)은 "이 차이를 성공 기준의 한 차원으로 두고 집단별로 나눠 본다" 고 적었다. define-success 는 "multidimensional evaluation" 까지만 말한다. 공정성·집단 분할 문장은 없다. 그래서 카드에는 업계 일반으로 두었다.</li>
+<li>목록은 "동의 없는 얼굴 인식" 으로 줄여 적었다. 원문은 두 곳이다. 하나는 "biometric or neural data (including facial recognition)" 를 허락 없이 수집·접근하는 것이다. 다른 하나는 동의 없이 위치·감정·통신을 추적하는 것이고, 얼굴 인식을 포함한다. 카드에는 원문대로 적었다.</li>
+<li>최신 Claude 모델의 차별 평가 수치는 받은 원문에 없다 (연구 대상은 Claude 2.0).</li>
+<li>연구 글 페이지(en-evaluating-discrimination.md)는 초록뿐이다. 그래서 방법·수치는 arXiv HTML 판(en-evaluating-discrimination-paper.md, Anthropic 저자 논문)에서 확인했다. 논문은 공식 docs 가 아니라 연구 논문이다.</li>
+<li>긍정 차별을 얼마나 고칠지는 연구가 판단을 내리지 않는다. 연구는 "도구를 준다" 까지만 말한다 (paper). 그래서 시험이 "긍정 차별은 괜찮다" 쪽 보기를 내면 원문 근거가 없다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

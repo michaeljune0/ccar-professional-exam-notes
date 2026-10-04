@@ -371,9 +371,15 @@
   </div>
   <h2 class="sec-h" id="stop-reason-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>모든 응답에 <code>stop_reason</code> = Claude 가 왜 멈췄나. 앱은 HTTP 상태가 아니라 이 값으로 다음 걸음(그대로 씀 · 이어감 · 재시도 · 다른 모델로 폴백)을 정함</p>
-      <p>stop_reason 은 성공 응답 본문의 일부. 오류(4xx·5xx)는 요청 처리 실패로 따로 옴</p>
-    <p class="t5-ana"><span class="lead">비유</span> 컨테이너 종료 코드(0 정상 · 137 OOM). "끝났다"만 보고 코드를 안 보면 OOM 을 놓침</p>
+      <p>모든 응답에는 <code>stop_reason</code> 이 있다. 이 값은 Claude 가 왜 멈췄는지 알려 준다. 앱은 HTTP 상태가 아니라 이 값으로 다음 걸음을 정한다</p>
+      <ul class="dash">
+        <li>그대로 쓴다</li>
+        <li>이어 간다</li>
+        <li>재시도한다</li>
+        <li>다른 모델로 폴백한다</li>
+      </ul>
+      <p>stop_reason 은 성공 응답 본문의 일부다. 오류(4xx·5xx)는 요청 처리 실패로 따로 온다</p>
+    <p class="t5-ana"><span class="lead">비유</span> 컨테이너 종료 코드(0 정상 · 137 OOM)와 같다. "끝났다" 만 보고 코드를 안 보면 OOM 을 놓친다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/stop-reason.webp"><img src="../images/stop-reason.webp" alt="HTTP 상태만 보면 거절도 200 이라 성공처럼 보이고, stop_reason 을 봐야 그대로 씀·이어감·재시도·다른 모델로 폴백 중 다음 걸음을 정한다는 대비 그림." loading="lazy" decoding="async"></a>
@@ -402,25 +408,31 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">왜 따로 있나</p>
 <ul>
-<li>오류(4xx·5xx) = 요청 처리가 실패함. stop_reason = 처리는 성공, 생성이 왜 멈췄는지. 둘은 다른 칸이라 HTTP 상태만 보면 stop_reason 이 말하는 걸 전부 놓침.</li>
-<li>앱이 할 다음 걸음은 네 갈래 : 그대로 씀 · 이어감(tool_use · pause_turn · max_tokens) · 잘렸다고 표시 · 다른 모델로 재시도(refusal).</li>
+<li>오류(4xx·5xx)는 요청 처리가 실패한 것이다. stop_reason 은 처리는 성공했고, 생성이 왜 멈췄는지를 알려 준다. 둘은 다른 칸이다. 그래서 HTTP 상태만 보면 stop_reason 이 말하는 것을 전부 놓친다.</li>
+<li>앱이 할 다음 걸음은 네 갈래다.<ul>
+<li>그대로 쓴다</li>
+<li>이어 간다(tool_use · pause_turn · max_tokens)</li>
+<li>잘렸다고 표시한다</li>
+<li>다른 모델로 재시도한다(refusal)</li>
+</ul>
+</li>
 </ul>
 <p class="lead">이어가는 세 값의 차이</p>
 <ul>
-<li><code>tool_use</code> : 내 도구를 기다림 → 내가 tool_result 를 보냄. 그 메시지엔 tool_result 만(뒤에 텍스트 붙이면 턴이 끝남).</li>
-<li><code>pause_turn</code> : 서버 도구(웹 검색 등) 루프가 반복 한도(기본 10회)에 걸림 → 받은 assistant 콘텐츠를 그대로 돌려보냄. 내 도구가 기다리는 중이면 절대 pause_turn 이 아니라 tool_use.</li>
-<li><code>max_tokens</code> : 내가 준 출력 한도에 걸림 → 한도를 올리거나 이어서 생성. <code>model_context_window_exceeded</code> 는 창 자체를 채운 것 → 잘린 것으로 처리.</li>
+<li><code>tool_use</code> : 내 도구를 기다린다. 그래서 내가 tool_result 를 보낸다. 그 메시지에는 tool_result 만 넣는다(뒤에 텍스트를 붙이면 턴이 끝난다).</li>
+<li><code>pause_turn</code> : 서버 도구(웹 검색 등) 루프가 반복 한도(기본 10회)에 걸렸다. 받은 assistant 콘텐츠를 그대로 돌려보낸다. 내 도구가 기다리는 중이면 절대 pause_turn 이 아니라 tool_use 가 온다.</li>
+<li><code>max_tokens</code> : 내가 준 출력 한도에 걸렸다. 한도를 올리거나 이어서 생성한다. <code>model_context_window_exceeded</code> 는 창 자체를 채운 것이다. 잘린 것으로 처리한다.</li>
 </ul>
 <p class="lead">거절이 까다로운 이유</p>
 <ul>
-<li>안전 분류기(Fable 5.1 · Fable 5 · Opus 5.5 · Opus 5)가 막으면 HTTP 200 + <code>stop_reason: "refusal"</code> + 빈 <code>content</code>. 오류가 아니라서 오류율·5xx 감시가 못 봄.</li>
-<li>같은 모델은 대개 또 거절 → 다른 모델로 보내면 대개 답이 나옴. 그래서 처방 = 폴백.</li>
-<li><code>stop_details.category</code> 는 분야 이름일 뿐 null 이 정상 값일 수 있음 → 분기 기준은 <code>stop_reason</code> 그 자체.</li>
-<li>폴백은 "요청의 속성" — 폴백을 안 단 경로(재시도 핸들러 · 백그라운드 워커 · 서브에이전트 호출)엔 폴백이 적용 안 됨.</li>
+<li>안전 분류기(Fable 5.1 · Fable 5 · Opus 5.5 · Opus 5)가 막으면 HTTP 200, <code>stop_reason: "refusal"</code>, 빈 <code>content</code> 가 온다. 오류가 아니라서 오류율·5xx 감시가 못 본다.</li>
+<li>같은 모델은 대개 또 거절한다. 다른 모델로 보내면 대개 답이 나온다. 그래서 처방은 폴백이다.</li>
+<li><code>stop_details.category</code> 는 분야 이름일 뿐이다. null 이 정상 값일 수 있다. 그래서 분기 기준은 <code>stop_reason</code> 그 자체다.</li>
+<li>폴백은 "요청의 속성" 이다. 폴백을 안 단 경로(재시도 핸들러 · 백그라운드 워커 · 서브에이전트 호출)에는 폴백이 적용되지 않는다.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
-<li>앱이 다음 걸음을 무엇으로 정하나 — HTTP 상태인가, stop_reason 인가?</li>
+<li>앱은 다음 걸음을 무엇으로 정하나? HTTP 상태인가, stop_reason 인가?</li>
 <li>거절이 나면 누가 보고, 어디로 다시 보내나?</li>
 </ul>
 </section>
@@ -433,31 +445,31 @@
   <section class="t5-flow tree" id="stop-reason-tree-1" aria-labelledby="stop-reason-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9|n1 n10 n11|n1 n12 n13|n1 n14 n15">
     <div class="t5-fh"><h3 id="stop-reason-tree-1-h">① 값별 할 일 <span class="pg">[1.2②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>stop_reason 은?<span class="t5-sub">HTTP 상태 말고</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>stop_reason 이 무엇인가?<span class="t5-sub">HTTP 상태 말고</span></div>
       <div class="t5-fork" style="--n:7">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>end_turn</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">그대로 씀</p><p>자연 종료</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">그대로 쓴다</p><p>자연 종료다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>tool_use</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">실행하고 결과 돌려줌</p><p>tool_use 블록마다 tool_result 1개</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">실행하고 결과를 돌려준다</p><p>tool_use 블록마다 tool_result 를 1개 보낸다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>pause_turn</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">그대로 다시 보냄</p><p>서버 도구 루프 반복 한도(기본 10회) → 받은 assistant 콘텐츠를 그대로 보내 이어감</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">그대로 다시 보낸다</p><p>서버 도구 루프가 반복 한도(기본 10회)에 걸린 것이다. 받은 assistant 콘텐츠를 그대로 보내 이어 간다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>max_tokens</span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">한도 올리기 또는 이어서 생성</p><p><code>max_tokens</code> 한도 도달 · 잘린 답엔 불완전하다는 안내</p></div>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">한도를 올리거나 이어서 생성한다</p><p><code>max_tokens</code> 한도에 도달한 것이다. 잘린 답에는 불완전하다는 안내를 붙인다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>model_context_window_exceeded</span>
-          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">잘린 것으로 처리</p><p>모델 컨텍스트 창을 채움 · 불완전하다는 안내를 붙이거나 이어서 생성</p></div>
+          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">잘린 것으로 처리한다</p><p>모델 컨텍스트 창을 채운 것이다. 불완전하다는 안내를 붙이거나 이어서 생성한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>stop_sequence</span>
-          <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">어느 것인지 읽음</p><p><code>stop_sequence</code> 필드</p></div>
+          <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">어느 것인지 읽는다</p><p><code>stop_sequence</code> 필드를 읽는다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n14"><span class="t5-hl" aria-hidden="true"></span>refusal</span>
@@ -469,23 +481,23 @@
   <section class="t5-flow tree" id="stop-reason-tree-2" aria-labelledby="stop-reason-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7 n8 n9|n1 n6 n7 n10 n11 n12 n13|n1 n6 n7 n10 n11 n14 n15|n1 n6 n7 n10 n11 n16 n17">
     <div class="t5-fh"><h3 id="stop-reason-tree-2-h">③④⑤ 거절 처리 <span class="pg">[5.2②]</span> <span class="pg">[4.6③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇으로 알아채나?<span class="t5-sub">200 이라 오류 아님</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>무엇으로 알아채나?<span class="t5-sub">200 이라 오류가 아니다</span></div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>HTTP 상태 · 5xx</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">안 보임</p><p>오류율·5xx 기반 감시엔 안 보임</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">안 보인다</p><p>오류율·5xx 기반 감시에는 안 보인다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>category · content</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">분기 X</p><p><code>category</code>·<code>explanation</code> 은 null 일 수 있음</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">이것으로 분기하지 않는다</p><p><code>category</code>·<code>explanation</code> 은 null 일 수 있다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>stop_reason = "refusal"</span>
-          <div class="t5-q" data-p="n7"><span class="t5-hl" aria-hidden="true"></span>어디로 재시도?</div>
+          <div class="t5-q" data-p="n7"><span class="t5-hl" aria-hidden="true"></span>어디로 재시도하나?</div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>같은 모델</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">대개 또 거절</p><p>재시도는 다른 모델로</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">대개 또 거절한다</p><p>재시도는 다른 모델로 한다</p></div>
             </div>
             <div class="t5-arm">
               <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>다른 모델</span>
@@ -493,15 +505,15 @@
               <div class="t5-fork" style="--n:3">
                 <div class="t5-arm is-leaf">
                   <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>Claude API · 가장 간단</span>
-                  <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">서버 측 <code>fallbacks</code></p><p>한 번 왕복 · 베타</p></div>
+                  <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">서버 측 <code>fallbacks</code></p><p>한 번 왕복으로 끝난다. 베타다</p></div>
                 </div>
                 <div class="t5-arm is-leaf">
                   <span class="t5-edge" data-p="n14"><span class="t5-hl" aria-hidden="true"></span>SDK 사용 · 모든 플랫폼</span>
-                  <div class="t5-leaf t5-ans" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">SDK 미들웨어</p><p>클라이언트에 한 번 설정</p></div>
+                  <div class="t5-leaf t5-ans" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">SDK 미들웨어</p><p>클라이언트에 한 번 설정한다</p></div>
                 </div>
                 <div class="t5-arm is-leaf">
                   <span class="t5-edge" data-p="n16"><span class="t5-hl" aria-hidden="true"></span>배치</span>
-                  <div class="t5-leaf t5-ans" data-p="n17"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">모아서 다시 제출</p><p>배치엔 서버 측 폴백 없음</p></div>
+                  <div class="t5-leaf t5-ans" data-p="n17"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">모아서 다시 제출한다</p><p>배치에는 서버 측 폴백이 없다</p></div>
                 </div>
               </div>
             </div>
@@ -513,55 +525,55 @@
   <section class="t5-flow tree" id="stop-reason-tree-3" aria-labelledby="stop-reason-tree-3-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9">
     <div class="t5-fh"><h3 id="stop-reason-tree-3-h">⑤ 폴백 구멍 <span class="pg">[5.2②]</span> <span class="pg">[7.3③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>폴백을 켰는데도 빈 답?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>폴백을 켰는데도 빈 답이 오나?</div>
       <div class="t5-fork" style="--n:4">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>429 · 과부하 · 5xx</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">안전 분류기 거절만</p><p>429·과부하·서버 오류는 그대로 돌아옴</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">안전 분류기 거절만 폴백한다</p><p>429·과부하·서버 오류는 그대로 돌아온다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>폴백 모델이 바쁨</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">앞 거절을 돌려줌</p><p>폴백 모델이 rate limit(속도 제한)·과부하면 폴백 안 하고 앞 거절을 돌려줌(<code>recommended_model</code> 힌트)</p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>폴백 모델이 바쁘다</span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">앞 거절을 돌려준다</p><p>폴백 모델이 rate limit(속도 제한)·과부하 상태면 폴백하지 않는다. 앞 거절을 돌려준다(<code>recommended_model</code> 힌트)</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>서브에이전트 호출</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">따로 설정</p><p><code>fallbacks</code> 는 도구 실행 안의 모델 호출로 안 번짐</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">따로 설정한다</p><p><code>fallbacks</code> 는 도구 실행 안의 모델 호출로 번지지 않는다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>재시도 핸들러 · 백그라운드 워커</span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">모든 요청 경로에</p><p>전역 플래그 말고 요청마다</p></div>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">모든 요청 경로에 단다</p><p>전역 플래그가 아니라 요청마다 단다</p></div>
         </div>
       </div>
     </div>
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="stop-reason-flow" aria-label="stop_reason 으로 분기 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["앱","주 모델","폴백 모델","도구"],"blocks":[],"rules":["HTTP 상태가 아니라 `stop_reason` 으로 다음 걸음을 정함",null,null,null],"question":"앱은 무엇을 보고 다음 걸음을 정할까?","scenes":[{"name":"① tool_use 루프","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"주문 #1042 어디쯤 왔어요?"}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"","art":{"kind":"slip","lines":["user: 주문 #1042 어디쯤?","tools: [get_order]"]}},{"kind":"move","step":"멈춤","from":{"col":1},"to":0,"label":"`tool_use`","art":{"kind":"slip","lines":["stop_reason: \"tool_use\"","get_order(1042)"]}},{"kind":"move","step":"실행","from":{"col":0},"to":3,"label":"도구를 실행하고","art":{"kind":"slip","lines":["get_order(1042)"]}},{"kind":"move","step":"결과","from":{"col":3},"to":0,"label":"","art":{"kind":"slip","lines":["상태: \"배송 중\""]}},{"kind":"move","step":"이어가기","from":{"col":0},"to":1,"label":"tool_result 만 담은 user 메시지","art":{"kind":"slip","lines":["tool_result:","상태: \"배송 중\""]}},{"kind":"move","step":"답","from":{"col":1},"to":0,"label":"`end_turn` 이면 끝","art":{"kind":"slip","lines":["stop_reason: \"end_turn\"","\"지금 배송 중이에요\""]}},{"kind":"end","label":"tool_use 면 실행하고 결과를 넣어 다시, end_turn 이면 끝"}]},{"name":"② 거절 → 다른 모델","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"(고객 문의 한 건)"}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"","art":{"kind":"slip","lines":["model: Opus 5.5","messages: 고객 문의"]}},{"kind":"move","step":"멈춤","from":{"col":1},"to":0,"label":"HTTP 200 + refusal","art":{"kind":"slip","lines":["HTTP 200","stop_reason: \"refusal\"","content: []"]}},{"kind":"move","step":"재시도","from":{"col":0},"to":2,"label":"같은 요청을 다른 모델로","art":{"kind":"slip","lines":["같은 messages","→ 폴백 모델"]}},{"kind":"move","step":"답","from":{"col":2},"to":0,"label":"","art":{"kind":"slip","lines":["stop_reason: \"end_turn\"","content: 답 본문"]}},{"kind":"end","label":"폴백 뒤 대화는 폴백 모델에 계속"}]},{"name":"③ 200 이니 성공","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"(고객 문의 한 건)"}},{"kind":"skip","at":2},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"","art":{"kind":"slip","lines":["model: Opus 5.5","messages: 고객 문의"]}},{"kind":"move","step":"멈춤","from":{"col":1},"to":0,"label":"HTTP 200 + refusal","art":{"kind":"slip","lines":["HTTP 200","stop_reason: \"refusal\"","content: []"]}},{"kind":"mark","step":"표시","at":{"col":0},"label":"빈 답을 성공으로 보여 줌","art":{"kind":"slip","lines":["화면: 빈 답","5xx 알림: 0건"]}},{"kind":"end","label":"오류율·5xx 감시엔 안 보임"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["앱","주 모델","폴백 모델","도구"],"blocks":[],"rules":["HTTP 상태가 아니라 `stop_reason` 으로 다음 걸음을 정한다",null,null,null],"question":"앱은 무엇을 보고 다음 걸음을 정할까?","scenes":[{"name":"① tool_use 루프","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"주문 #1042 어디쯤 왔어요?"}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"","art":{"kind":"slip","lines":["user: 주문 #1042 어디쯤?","tools: [get_order]"]}},{"kind":"move","step":"멈춤","from":{"col":1},"to":0,"label":"`tool_use`","art":{"kind":"slip","lines":["stop_reason: \"tool_use\"","get_order(1042)"]}},{"kind":"move","step":"실행","from":{"col":0},"to":3,"label":"도구를 실행한다","art":{"kind":"slip","lines":["get_order(1042)"]}},{"kind":"move","step":"결과","from":{"col":3},"to":0,"label":"","art":{"kind":"slip","lines":["상태: \"배송 중\""]}},{"kind":"move","step":"이어가기","from":{"col":0},"to":1,"label":"tool_result 만 담은 user 메시지","art":{"kind":"slip","lines":["tool_result:","상태: \"배송 중\""]}},{"kind":"move","step":"답","from":{"col":1},"to":0,"label":"`end_turn` 이면 끝난다","art":{"kind":"slip","lines":["stop_reason: \"end_turn\"","\"지금 배송 중이에요\""]}},{"kind":"end","label":"tool_use 면 실행하고 결과를 넣어 다시 보낸다. end_turn 이면 끝난다"}]},{"name":"② 거절하면 다른 모델로","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"(고객 문의 한 건)"}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"","art":{"kind":"slip","lines":["model: Opus 5.5","messages: 고객 문의"]}},{"kind":"move","step":"멈춤","from":{"col":1},"to":0,"label":"HTTP 200 + refusal","art":{"kind":"slip","lines":["HTTP 200","stop_reason: \"refusal\"","content: []"]}},{"kind":"move","step":"재시도","from":{"col":0},"to":2,"label":"같은 요청을 다른 모델로 보낸다","art":{"kind":"slip","lines":["같은 messages","→ 폴백 모델"]}},{"kind":"move","step":"답","from":{"col":2},"to":0,"label":"","art":{"kind":"slip","lines":["stop_reason: \"end_turn\"","content: 답 본문"]}},{"kind":"end","label":"폴백 뒤 대화는 폴백 모델에서 이어 간다"}]},{"name":"③ 200 이니 성공","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"(고객 문의 한 건)"}},{"kind":"skip","at":2},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"","art":{"kind":"slip","lines":["model: Opus 5.5","messages: 고객 문의"]}},{"kind":"move","step":"멈춤","from":{"col":1},"to":0,"label":"HTTP 200 + refusal","art":{"kind":"slip","lines":["HTTP 200","stop_reason: \"refusal\"","content: []"]}},{"kind":"mark","step":"표시","at":{"col":0},"label":"빈 답을 성공으로 보여 준다","art":{"kind":"slip","lines":["화면: 빈 답","5xx 알림: 0건"]}},{"kind":"end","label":"오류율·5xx 감시에는 안 보인다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> 앱 → 주 모델 → 폴백 모델 → 도구</p>
-      <p><span class="lead">규칙 (앱) :</span> HTTP 상태가 아니라 <code>stop_reason</code> 으로 다음 걸음을 정함</p>
+      <p><span class="lead">규칙 (앱) :</span> HTTP 상태가 아니라 <code>stop_reason</code> 으로 다음 걸음을 정한다</p>
       <p><span class="lead">질문 :</span> 앱은 무엇을 보고 다음 걸음을 정할까?</p>
       <p class="lead">① tool_use 루프 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 앱 — 말 : <span class="flx-alt-say">“주문 #1042 어디쯤 왔어요?”</span></li>
         <li>요청 : 앱 → 주 모델 — 쪽지 : <span class="flx-alt-slip">user: 주문 #1042 어디쯤? / tools: [get_order]</span></li>
         <li>멈춤 : 주 모델 → 앱 : <code>tool_use</code> — 쪽지 : <span class="flx-alt-slip">stop_reason: "tool_use" / get_order(1042)</span></li>
-        <li>실행 : 앱 → 도구 : 도구를 실행하고 — 쪽지 : <span class="flx-alt-slip">get_order(1042)</span></li>
+        <li>실행 : 앱 → 도구 : 도구를 실행한다 — 쪽지 : <span class="flx-alt-slip">get_order(1042)</span></li>
         <li>결과 : 도구 → 앱 — 쪽지 : <span class="flx-alt-slip">상태: "배송 중"</span></li>
         <li>이어가기 : 앱 → 주 모델 : tool_result 만 담은 user 메시지 — 쪽지 : <span class="flx-alt-slip">tool_result: / 상태: "배송 중"</span></li>
-        <li>답 : 주 모델 → 앱 : <code>end_turn</code> 이면 끝 — 쪽지 : <span class="flx-alt-slip">stop_reason: "end_turn" / "지금 배송 중이에요"</span></li>
-        <li>끝 : tool_use 면 실행하고 결과를 넣어 다시, end_turn 이면 끝</li>
+        <li>답 : 주 모델 → 앱 : <code>end_turn</code> 이면 끝난다 — 쪽지 : <span class="flx-alt-slip">stop_reason: "end_turn" / "지금 배송 중이에요"</span></li>
+        <li>끝 : tool_use 면 실행하고 결과를 넣어 다시 보낸다. end_turn 이면 끝난다</li>
       </ol>
-      <p class="lead">② 거절 → 다른 모델 <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">② 거절하면 다른 모델로 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 앱 — 말 : <span class="flx-alt-say">“(고객 문의 한 건)”</span></li>
         <li>요청 : 앱 → 주 모델 — 쪽지 : <span class="flx-alt-slip">model: Opus 5.5 / messages: 고객 문의</span></li>
         <li>멈춤 : 주 모델 → 앱 : HTTP 200 + refusal — 쪽지 : <span class="flx-alt-slip">HTTP 200 / stop_reason: "refusal" / content: []</span></li>
-        <li>재시도 : 앱 → 폴백 모델 : 같은 요청을 다른 모델로 — 쪽지 : <span class="flx-alt-slip">같은 messages / → 폴백 모델</span></li>
+        <li>재시도 : 앱 → 폴백 모델 : 같은 요청을 다른 모델로 보낸다 — 쪽지 : <span class="flx-alt-slip">같은 messages / → 폴백 모델</span></li>
         <li>답 : 폴백 모델 → 앱 — 쪽지 : <span class="flx-alt-slip">stop_reason: "end_turn" / content: 답 본문</span></li>
-        <li>끝 : 폴백 뒤 대화는 폴백 모델에 계속</li>
+        <li>끝 : 폴백 뒤 대화는 폴백 모델에서 이어 간다</li>
       </ol>
       <p class="lead">③ 200 이니 성공 <span class="fl-v is-ng">≠</span></p>
       <ol>
@@ -569,8 +581,8 @@
         <li>건너뜀 : 폴백 모델</li>
         <li>요청 : 앱 → 주 모델 — 쪽지 : <span class="flx-alt-slip">model: Opus 5.5 / messages: 고객 문의</span></li>
         <li>멈춤 : 주 모델 → 앱 : HTTP 200 + refusal — 쪽지 : <span class="flx-alt-slip">HTTP 200 / stop_reason: "refusal" / content: []</span></li>
-        <li>표시 : 앱 : 빈 답을 성공으로 보여 줌 — 쪽지 : <span class="flx-alt-slip">화면: 빈 답 / 5xx 알림: 0건</span></li>
-        <li>끝 : 오류율·5xx 감시엔 안 보임</li>
+        <li>표시 : 앱 : 빈 답을 성공으로 보여 준다 — 쪽지 : <span class="flx-alt-slip">화면: 빈 답 / 5xx 알림: 0건</span></li>
+        <li>끝 : 오류율·5xx 감시에는 안 보인다</li>
       </ol>
     </details>
   </figure>
@@ -579,20 +591,20 @@
       <ol class="how">
         <li id="stop-reason-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p>tool_use 이어가기 : 다음 user 메시지 = tool_use 블록마다 tool_result 1개, 그 밖엔 아무것도 없이 · 같은 <code>tools</code> 배열 유지 <span class="pg">[1.2②]</span></p>
-            <p>tool_result 뒤에 텍스트를 붙이면 assistant 턴이 끝남(기다리던 서버 도구가 있으면 400). 더 할 말은 턴이 끝난 뒤 별도 user 메시지로</p>
-            <p>pause_turn 은 클라이언트 tool_use 가 기다리는 응답엔 절대 안 옴 — 그땐 tool_use</p>
-            <p>에이전트 루프 = tool_use 면 실행·결과 넣고 다시, end_turn 이면 끝 <span class="src">(Skilljar)</span></p>
+            <p>tool_use 이어가기 : 다음 user 메시지에는 tool_use 블록마다 tool_result 를 1개씩 넣는다. 그 밖에는 아무것도 넣지 않는다. 같은 <code>tools</code> 배열을 유지한다 <span class="pg">[1.2②]</span></p>
+            <p>tool_result 뒤에 텍스트를 붙이면 assistant 턴이 끝난다(기다리던 서버 도구가 있으면 400). 더 할 말은 턴이 끝난 뒤 별도 user 메시지로 보낸다</p>
+            <p>pause_turn 은 클라이언트 tool_use 가 기다리는 응답에는 절대 오지 않는다. 그때는 tool_use 가 온다</p>
+            <p>에이전트 루프에서는 tool_use 면 실행하고 결과를 넣어 다시 보낸다. end_turn 이면 끝난다 <span class="src">(Skilljar)</span></p>
           </div>
         </li>
         <li id="stop-reason-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
-            <p><span class="lead">배치 :</span> 거절 항목은 <code>result.type: "succeeded"</code> + <code>stop_reason: "refusal"</code>. 배치엔 서버 측 폴백 없음(<code>fallbacks</code> 넣으면 항목별 오류) → 거절 항목만 모아 폴백 모델로 새 배치나 직접 요청 → <a href="batch-vs-sync.html">◆ Batch API vs 동기 호출</a></p>
+            <p><span class="lead">배치 :</span> 거절 항목은 <code>result.type: "succeeded"</code> 와 <code>stop_reason: "refusal"</code> 로 온다. 배치에는 서버 측 폴백이 없다(<code>fallbacks</code> 를 넣으면 항목별 오류가 난다). 그래서 거절 항목만 모아 폴백 모델로 새 배치를 내거나 직접 요청한다. 자세한 것은 <a href="batch-vs-sync.html">◆ Batch API vs 동기 호출</a> 에 있다</p>
           </div>
         </li>
         <li id="stop-reason-rule-7"><span class="num" aria-hidden="true">⑦</span>
           <div class="how-body">
-            <p><span class="lead">과금 :</span> 출력 전 거절은 <code>bio</code>·<code>frontier_llm</code>·<code>reasoning_extraction</code> 만 청구, 나머지 분류·null 은 무료 (2026-09-24 청구 재개 — 시험 뒤 변경) · 스트림 중간 거절은 입력 + 이미 나온 출력 청구 · 거절도 rate limit 엔 셈</p>
+            <p><span class="lead">과금 :</span> 출력 전 거절은 <code>bio</code>·<code>frontier_llm</code>·<code>reasoning_extraction</code> 만 청구한다. 나머지 분류와 null 은 무료다 (2026-09-24 청구 재개 — 시험 뒤 변경). 스트림 중간 거절은 입력과 이미 나온 출력을 청구한다. 거절도 rate limit 에는 센다</p>
           </div>
         </li>
       </ol>
@@ -606,32 +618,32 @@
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">뜻</th><th scope="col" role="columnheader">할 일</th></tr></thead>
               <tbody role="rowgroup">
-                <tr role="row"><td data-label="값" role="cell"><code>end_<wbr>turn</code></td><td data-label="뜻" role="cell">자연 종료</td><td data-label="할 일" role="cell">그대로 씀</td></tr>
-                <tr role="row"><td data-label="값" role="cell"><code>max_<wbr>tokens</code></td><td data-label="뜻" role="cell"><code>max_<wbr>tokens</code> 한도 도달</td><td data-label="할 일" role="cell">한도 올리기 또는 이어서 생성</td></tr>
-                <tr role="row"><td data-label="값" role="cell"><code>stop_<wbr>sequence</code></td><td data-label="뜻" role="cell">내 <code>stop_<wbr>sequences</code> 중 하나가 나옴</td><td data-label="할 일" role="cell"><code>stop_<wbr>sequence</code> 로 어느 것인지 봄</td></tr>
-                <tr role="row"><td data-label="값" role="cell"><code>tool_<wbr>use</code></td><td data-label="뜻" role="cell">도구 호출</td><td data-label="할 일" role="cell">실행하고 결과 돌려줌</td></tr>
-                <tr role="row"><td data-label="값" role="cell"><code>pause_<wbr>turn</code></td><td data-label="뜻" role="cell">서버 도구 루프 반복 한도(기본 10회)</td><td data-label="할 일" role="cell">받은 assistant 콘텐츠를 그대로 다시 보내 이어감</td></tr>
-                <tr role="row"><td data-label="값" role="cell"><code>refusal</code></td><td data-label="뜻" role="cell">거절</td><td data-label="할 일" role="cell"><code>stop_<wbr>details</code> 읽고 폴백 모델로 재시도</td></tr>
-                <tr role="row"><td data-label="값" role="cell"><code>model_<wbr>context_<wbr>window_<wbr>exceeded</code></td><td data-label="뜻" role="cell">모델 컨텍스트 창을 채움</td><td data-label="할 일" role="cell">잘린 것으로 처리</td></tr>
+                <tr role="row"><td data-label="값" role="cell"><code>end_<wbr>turn</code></td><td data-label="뜻" role="cell">자연 종료</td><td data-label="할 일" role="cell">그대로 쓴다</td></tr>
+                <tr role="row"><td data-label="값" role="cell"><code>max_<wbr>tokens</code></td><td data-label="뜻" role="cell"><code>max_<wbr>tokens</code> 한도 도달</td><td data-label="할 일" role="cell">한도를 올리거나 이어서 생성한다</td></tr>
+                <tr role="row"><td data-label="값" role="cell"><code>stop_<wbr>sequence</code></td><td data-label="뜻" role="cell">내 <code>stop_<wbr>sequences</code> 중 하나가 나왔다</td><td data-label="할 일" role="cell"><code>stop_<wbr>sequence</code> 로 어느 것인지 본다</td></tr>
+                <tr role="row"><td data-label="값" role="cell"><code>tool_<wbr>use</code></td><td data-label="뜻" role="cell">도구 호출</td><td data-label="할 일" role="cell">실행하고 결과를 돌려준다</td></tr>
+                <tr role="row"><td data-label="값" role="cell"><code>pause_<wbr>turn</code></td><td data-label="뜻" role="cell">서버 도구 루프 반복 한도(기본 10회)</td><td data-label="할 일" role="cell">받은 assistant 콘텐츠를 그대로 다시 보내 이어 간다</td></tr>
+                <tr role="row"><td data-label="값" role="cell"><code>refusal</code></td><td data-label="뜻" role="cell">거절</td><td data-label="할 일" role="cell"><code>stop_<wbr>details</code> 를 읽고 폴백 모델로 재시도한다</td></tr>
+                <tr role="row"><td data-label="값" role="cell"><code>model_<wbr>context_<wbr>window_<wbr>exceeded</code></td><td data-label="뜻" role="cell">모델 컨텍스트 창을 채웠다</td><td data-label="할 일" role="cell">잘린 것으로 처리한다</td></tr>
               </tbody>
             </table>
             </div>
-            <p>잘린 답(max_tokens · 창 초과)은 불완전하다는 안내를 붙이거나 이어서 생성</p>
-            <p>스트리밍이면 stop_reason 은 <code>message_start</code> 에선 null, <code>message_delta</code> 에서 옴</p>
+            <p>잘린 답(max_tokens · 창 초과)에는 불완전하다는 안내를 붙이거나 이어서 생성한다</p>
+            <p>스트리밍이면 stop_reason 은 <code>message_start</code> 에서는 null 이다. <code>message_delta</code> 에서 온다</p>
           </div>
         </li>
         <li id="stop-reason-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p>거절 = HTTP 200 + <code>stop_reason: "refusal"</code> · <code>content</code> 비어 있음. 안전 분류기가 있는 모델 = Fable 5.1 · Fable 5 · Opus 5.5 · Opus 5 <span class="pg">[5.2②]</span></p>
-            <p>분기는 <code>stop_reason</code>(또는 <code>stop_details.type</code>)으로. <code>content</code> 나 <code>category</code>·<code>explanation</code> 으로 분기 X — 둘 다 null 일 수 있음(null 자체가 정상 값 — 나중에 채워질 자리표시가 아님). <code>explanation</code> 은 보여 주기만, 파싱 X</p>
-            <p>재시도는 다른 모델로. 같은 모델에 다시 보내면 대개 또 거절</p>
-            <p>스트림 중간 거절이면 부분 출력은 불완전 → 버림 · 폴백 뒤 멀티턴은 폴백 모델에 계속</p>
+            <p>거절은 HTTP 200 과 <code>stop_reason: "refusal"</code> 로 온다. <code>content</code> 는 비어 있다. 안전 분류기가 있는 모델은 Fable 5.1 · Fable 5 · Opus 5.5 · Opus 5 다 <span class="pg">[5.2②]</span></p>
+            <p>분기는 <code>stop_reason</code>(또는 <code>stop_details.type</code>)으로 한다. <code>content</code> 나 <code>category</code>·<code>explanation</code> 으로 분기하지 않는다. 둘 다 null 일 수 있다. null 자체가 정상 값이다. 나중에 채워질 자리표시가 아니다. <code>explanation</code> 은 보여 주기만 하고 파싱하지 않는다</p>
+            <p>재시도는 다른 모델로 한다. 같은 모델에 다시 보내면 대개 또 거절한다</p>
+            <p>스트림 중간에 거절하면 부분 출력은 불완전하다. 그래서 버린다. 폴백 뒤 멀티턴은 폴백 모델에서 이어 간다</p>
           </div>
         </li>
         <li id="stop-reason-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p><span class="lead">거절은 따로 계측 :</span> 오류율·5xx 기반 감시엔 안 보임 → 거절마다 이벤트 1개 · 폴백으로 처리된 응답마다 이벤트 1개, 두 수의 차이에 알림 <span class="pg">[4.6③]</span></p>
-            <p>Claude Code 는 거절에 <code>api_error</code> 가 안 뜨고 <code>claude_code.api_refusal</code> 이벤트 → <a href="observability-signals.html">■ observability 세 신호</a></p>
+            <p><span class="lead">거절은 따로 계측 :</span> 거절은 오류율·5xx 기반 감시에는 안 보인다. 그래서 거절마다 이벤트를 1개 남긴다. 폴백으로 처리된 응답마다 이벤트를 1개 남긴다. 두 수의 차이에 알림을 건다 <span class="pg">[4.6③]</span></p>
+            <p>Claude Code 는 거절에 <code>api_error</code> 를 띄우지 않는다. 대신 <code>claude_code.api_refusal</code> 이벤트를 남긴다. 자세한 것은 <a href="observability-signals.html">■ observability 세 신호</a> 에 있다</p>
           </div>
         </li>
         <li id="stop-reason-rule-5"><span class="num" aria-hidden="true">⑤</span>
@@ -641,16 +653,22 @@
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">상황</th><th scope="col" role="columnheader">방법</th></tr></thead>
               <tbody role="rowgroup">
-                <tr role="row"><td data-label="상황" role="cell">Claude API, 가장 간단</td><td data-label="방법" role="cell">서버 측 <code>fallbacks</code>(베타) — 한 요청 한 응답</td></tr>
-                <tr role="row"><td data-label="상황" role="cell">모든 플랫폼, Anthropic SDK</td><td data-label="방법" role="cell">SDK 미들웨어 — 클라이언트에 한 번 설정</td></tr>
-                <tr role="row"><td data-label="상황" role="cell">raw HTTP · 직접 짠 재시도</td><td data-label="방법" role="cell">직접 재시도 + fallback credit(프롬프트 캐시 값 두 번 안 냄)</td></tr>
+                <tr role="row"><td data-label="상황" role="cell">Claude API, 가장 간단</td><td data-label="방법" role="cell">서버 측 <code>fallbacks</code>(베타)다. 한 요청에 한 응답이다</td></tr>
+                <tr role="row"><td data-label="상황" role="cell">모든 플랫폼, Anthropic SDK</td><td data-label="방법" role="cell">SDK 미들웨어다. 클라이언트에 한 번 설정한다</td></tr>
+                <tr role="row"><td data-label="상황" role="cell">raw HTTP · 직접 짠 재시도</td><td data-label="방법" role="cell">직접 재시도하고 fallback credit 을 쓴다(프롬프트 캐시 값을 두 번 내지 않는다)</td></tr>
               </tbody>
             </table>
             </div>
-            <p><code>"default"</code> 모드 = 거절 분류별 권장 폴백 모델로 재시도, 권장이 없는 분류는 거절 그대로 <span class="note">(2026-07-24 추가 — 시험 뒤 변경일 수 있음)</span></p>
-            <p>폴백은 안전 분류기 거절만. 429·과부하·서버 오류는 그대로 돌아옴 → <a href="rate-limits.html">■ rate limit</a></p>
-            <p>폴백 모델이 rate limit·과부하면 폴백 안 하고 앞 거절을 돌려줌(<code>recommended_model</code> 힌트)</p>
-            <p><span class="lead">구멍 막기 :</span> 모든 요청 경로(재시도 핸들러 · 오류 복구 분기 · 백그라운드 워커)에 · 서브에이전트 호출엔 따로 · 전역 플래그 말고 요청의 속성으로 · 재시도 예산은 요청 단위</p>
+            <p><code>"default"</code> 모드는 거절 분류별 권장 폴백 모델로 재시도한다. 권장이 없는 분류는 거절을 그대로 돌려준다 <span class="note">(2026-07-24 추가 — 시험 뒤 변경일 수 있다)</span></p>
+            <p>폴백은 안전 분류기 거절에만 일어난다. 429·과부하·서버 오류는 그대로 돌아온다. 자세한 것은 <a href="rate-limits.html">■ rate limit</a> 에 있다</p>
+            <p>폴백 모델이 rate limit·과부하 상태면 폴백하지 않는다. 앞 거절을 돌려준다(<code>recommended_model</code> 힌트)</p>
+            <p>구멍은 네 가지로 막는다</p>
+            <ul class="dash">
+              <li>모든 요청 경로(재시도 핸들러 · 오류 복구 분기 · 백그라운드 워커)에 폴백을 단다</li>
+              <li>서브에이전트 호출에는 따로 단다</li>
+              <li>전역 플래그가 아니라 요청의 속성으로 단다</li>
+              <li>재시도 예산은 요청 단위로 잡는다</li>
+            </ul>
           </div>
         </li>
       </ol>
@@ -660,21 +678,21 @@
     <summary>더 깊이 : 판단 규칙 · 상황 변수 <span class="note">(설명)</span></summary>
 <section class="ex-sec" id="rules" aria-labelledby="rules-h">
 <h3 id="rules-h">판단 규칙</h3>
-<div class="tscroll" role="region" aria-label="표" tabindex="0">
+<div class="tscroll t-wide" role="region" aria-label="표" tabindex="0">
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">응답을 받음</td><td data-label="답" role="cell">HTTP 상태가 아니라 <code>stop_<wbr>reason</code> 으로 분기</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell"><code>tool_<wbr>use</code></td><td data-label="답" role="cell">도구 실행 → tool_use 블록마다 tool_result 1개, 그 메시지엔 tool_result 만 · 같은 <code>tools</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell"><code>pause_<wbr>turn</code></td><td data-label="답" role="cell">받은 assistant 콘텐츠를 그대로 다시 보내 이어감</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell"><code>max_<wbr>tokens</code> · <code>model_<wbr>context_<wbr>window_<wbr>exceeded</code></td><td data-label="답" role="cell">잘린 것 → 안내 붙이기 또는 이어서 생성 · max_tokens 는 한도 올리기도</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell"><code>refusal</code></td><td data-label="답" role="cell"><code>stop_<wbr>reason</code> 으로 감지 → 다른 모델로 재시도</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">거절 재시도, Claude API 에서 가장 간단히</td><td data-label="답" role="cell">서버 측 <code>fallbacks</code>(베타)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">거절 재시도, 여러 플랫폼 + Anthropic SDK</td><td data-label="답" role="cell">SDK 미들웨어</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">거절 재시도, raw HTTP</td><td data-label="답" role="cell">직접 재시도 + fallback credit</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">배치 항목이 거절됨</td><td data-label="답" role="cell">모아서 폴백 모델로 새 배치 또는 직접 요청 (배치엔 서버 측 폴백 없음)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">거절 감시</td><td data-label="답" role="cell">거절 이벤트 · 폴백 처리 이벤트를 따로 세고 차이에 알림</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">스트리밍에서 stop_reason 읽기</td><td data-label="답" role="cell"><code>message_<wbr>delta</code> 이벤트에서 (<code>message_<wbr>start</code> 에선 null)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">응답을 받았다</td><td data-label="답" role="cell">HTTP 상태가 아니라 <code>stop_<wbr>reason</code> 으로 분기한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell"><code>tool_<wbr>use</code> 다</td><td data-label="답" role="cell">도구를 실행한다. tool_use 블록마다 tool_result 를 1개 보낸다. 그 메시지에는 tool_result 만 넣고, 같은 <code>tools</code> 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell"><code>pause_<wbr>turn</code> 이다</td><td data-label="답" role="cell">받은 assistant 콘텐츠를 그대로 다시 보내 이어 간다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell"><code>max_<wbr>tokens</code> · <code>model_<wbr>context_<wbr>window_<wbr>exceeded</code> 다</td><td data-label="답" role="cell">잘린 것으로 본다. 안내를 붙이거나 이어서 생성한다. max_tokens 는 한도를 올려도 된다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell"><code>refusal</code> 이다</td><td data-label="답" role="cell"><code>stop_<wbr>reason</code> 으로 감지한다. 다른 모델로 재시도한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Claude API 에서 거절을 가장 간단히 재시도하려 한다</td><td data-label="답" role="cell">서버 측 <code>fallbacks</code>(베타)를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">여러 플랫폼에서 Anthropic SDK 로 거절을 재시도하려 한다</td><td data-label="답" role="cell">SDK 미들웨어를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">raw HTTP 로 거절을 재시도하려 한다</td><td data-label="답" role="cell">직접 재시도하고 fallback credit 을 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">배치 항목이 거절됐다</td><td data-label="답" role="cell">거절 항목을 모아 폴백 모델로 새 배치를 내거나 직접 요청한다 (배치에는 서버 측 폴백이 없다)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">거절을 감시한다</td><td data-label="답" role="cell">거절 이벤트와 폴백 처리 이벤트를 따로 센다. 그 차이에 알림을 건다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">스트리밍에서 stop_reason 을 읽는다</td><td data-label="답" role="cell"><code>message_<wbr>delta</code> 이벤트에서 읽는다 (<code>message_<wbr>start</code> 에서는 null)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -685,17 +703,17 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">감시 기준</td><td data-label="값" role="cell">HTTP 오류율 · 5xx 만</td><td data-label="답 쪽" role="cell">거절을 못 봄 → stop_reason 분포를 따로 셈</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">감시 도구</td><td data-label="값" role="cell">Claude Code OTel</td><td data-label="답 쪽" role="cell">거절은 <code>api_<wbr>error</code> 가 아니라 <code>claude_<wbr>code.<wbr>api_<wbr>refusal</code> 이벤트</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">실행 모델</td><td data-label="값" role="cell">Fable 5.1 · Fable 5 · Opus 5.5 · Opus 5</td><td data-label="답 쪽" role="cell">안전 분류기 거절이 올 수 있음 → 폴백 필수</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">실행 모델</td><td data-label="값" role="cell">위 네 모델 밖</td><td data-label="답 쪽" role="cell">두 문서는 네 모델만 적음</td><td data-label="등급" role="cell"><span class="open">미해결</span></td><td data-label="근거" role="cell">미해결 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">실행 방식</td><td data-label="값" role="cell">동기 · Claude API</td><td data-label="답 쪽" role="cell">서버 측 폴백 가능</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">실행 방식</td><td data-label="값" role="cell">Message Batches</td><td data-label="답 쪽" role="cell">서버 측 폴백 없음 → 거절 항목만 다시 제출</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">호출 구조</td><td data-label="값" role="cell">에이전트 + 서브에이전트</td><td data-label="답 쪽" role="cell">서브 호출에 따로 폴백 · 재시도 예산은 요청 단위</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">폴백 모델 상태</td><td data-label="값" role="cell">rate limit(속도 제한) · 과부하</td><td data-label="답 쪽" role="cell">폴백 시도 안 함, 앞 거절 반환 + <code>recommended_<wbr>model</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">실패 종류</td><td data-label="값" role="cell">429 · 529 · 5xx</td><td data-label="답 쪽" role="cell">폴백 대상 아님 → 재시도·백오프 쪽(■ rate limit)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a> · <a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a>(529 = 과부하)</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">거절 시점</td><td data-label="값" role="cell">스트림 중간</td><td data-label="답 쪽" role="cell">부분 출력은 버림 · 입력 + 나온 출력 청구</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">거절 분류</td><td data-label="값" role="cell"><code>bio</code> · <code>frontier_<wbr>llm</code> · <code>reasoning_<wbr>extraction</code></td><td data-label="답 쪽" role="cell">출력 전 거절도 청구</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a> (2026-09-24 재개)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">감시 기준</td><td data-label="값" role="cell">HTTP 오류율 · 5xx 만 본다</td><td data-label="답 쪽" role="cell">거절을 못 본다. 그래서 stop_reason 분포를 따로 센다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">감시 도구</td><td data-label="값" role="cell">Claude Code OTel 이다</td><td data-label="답 쪽" role="cell">거절은 <code>api_<wbr>error</code> 가 아니라 <code>claude_<wbr>code.<wbr>api_<wbr>refusal</code> 이벤트로 온다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/monitoring-usage" lang="en" rel="noopener">monitoring-usage</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">실행 모델</td><td data-label="값" role="cell">Fable 5.1 · Fable 5 · Opus 5.5 · Opus 5</td><td data-label="답 쪽" role="cell">안전 분류기 거절이 올 수 있다. 그래서 폴백이 필수다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">실행 모델</td><td data-label="값" role="cell">위 네 모델 밖이다</td><td data-label="답 쪽" role="cell">두 문서는 네 모델만 적는다</td><td data-label="등급" role="cell"><span class="open">미해결</span></td><td data-label="근거" role="cell">미해결 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">실행 방식</td><td data-label="값" role="cell">동기 · Claude API</td><td data-label="답 쪽" role="cell">서버 측 폴백이 가능하다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">실행 방식</td><td data-label="값" role="cell">Message Batches</td><td data-label="답 쪽" role="cell">서버 측 폴백이 없다. 거절 항목만 다시 제출한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">호출 구조</td><td data-label="값" role="cell">에이전트 + 서브에이전트</td><td data-label="답 쪽" role="cell">서브 호출에 따로 폴백을 단다. 재시도 예산은 요청 단위로 잡는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">폴백 모델 상태</td><td data-label="값" role="cell">rate limit(속도 제한) · 과부하</td><td data-label="답 쪽" role="cell">폴백을 시도하지 않는다. 앞 거절과 <code>recommended_<wbr>model</code> 을 돌려준다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">실패 종류</td><td data-label="값" role="cell">429 · 529 · 5xx</td><td data-label="답 쪽" role="cell">폴백 대상이 아니다. 재시도·백오프 쪽이다(■ rate limit)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a> · <a class="src-link" href="https://platform.claude.com/docs/en/api/errors" lang="en" rel="noopener">errors</a>(529 = 과부하)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">거절 시점</td><td data-label="값" role="cell">스트림 중간</td><td data-label="답 쪽" role="cell">부분 출력은 버린다. 입력과 나온 출력을 청구한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">거절 분류</td><td data-label="값" role="cell"><code>bio</code> · <code>frontier_<wbr>llm</code> · <code>reasoning_<wbr>extraction</code></td><td data-label="답 쪽" role="cell">출력 전 거절도 청구한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a> (2026-09-24 재개)</td></tr>
   </tbody>
 </table>
 </div>
@@ -704,22 +722,22 @@
   <h2 class="sec-h" id="stop-reason-practice-h">연습 문제</h2>
 
   <section class="csx" id="stop-reason-case" aria-labelledby="stop-reason-case-h" data-tree="stop-reason-tree-2" data-path="[[&quot;n1&quot;,null],[&quot;n6&quot;,&quot;refusal&quot;],[&quot;n7&quot;,null],[&quot;n10&quot;,null],[&quot;n11&quot;,null],[&quot;n14&quot;,&quot;모든 플랫폼&quot;],[&quot;n15&quot;,null]]" data-flow="stop-reason-flow" data-scene="1">
-    <p class="csx-text">고객지원 채팅 앱이 Anthropic SDK 로 Opus 5.5 를 부르고, <mark class="csx-m" data-tag="모든 플랫폼">Claude API 말고 다른 클라우드 플랫폼에도 같은 앱을 올린다<span class="csx-tag">모든 플랫폼</span></mark>. 어떤 문의에 <mark class="csx-m" data-tag="refusal">HTTP 200 인데 <code>stop_reason</code> 이 <code>"refusal"</code> 이고 content 가 빈 응답<span class="csx-tag">refusal</span></mark>이 왔다. 담당자는 "같은 요청을 같은 모델로 한 번 더 보내자"고 한다. 어떻게 처리할까?</p>
+    <p class="csx-text">고객지원 채팅 앱이 Anthropic SDK 로 Opus 5.5 를 부르고, <mark class="csx-m" data-tag="모든 플랫폼">Claude API 말고 다른 클라우드 플랫폼에도 같은 앱을 올린다<span class="csx-tag">모든 플랫폼</span></mark>. 어떤 문의에 <mark class="csx-m" data-tag="refusal">HTTP 200 인데 <code>stop_reason</code> 이 <code>"refusal"</code> 이고 content 가 빈 응답<span class="csx-tag">refusal</span></mark>이 왔다. 담당자는 "같은 요청을 같은 모델로 한 번 더 보내자"고 한다. 어떻게 처리해야 하나?</p>
     <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
   </section>
   <h2 class="sec-h" id="stop-reason-exam-h">시험 대비</h2>
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"HTTP 상태 코드로 실패·거절을 잡음" → 거절은 HTTP 200</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"5xx 알림 임계값을 낮춤" → 거절은 5xx 가 아님, 따로 셈</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>stop_details.category</code> 로 거절을 분기" → category 는 null 일 수 있음, <code>stop_reason</code> 으로</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"같은 요청을 같은 모델로 재시도" → 대개 또 거절, 다른 모델로</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"refusal = 끝, 빈 답 그대로 사용자에게" → 다른 모델로 대개 답을 얻음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>stop_reason 을 5개로만 알아 '컨텍스트 창이 가득 차 멈춤' 보기를 버림 → 7개, <code>model_context_window_exceeded</code> 있음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>pause_turn</code> = 오류, 새 요청으로" → 받은 assistant 콘텐츠를 그대로 보내 이어감</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"폴백을 켜면 429·5xx 도 다른 모델로" → 안전 분류기 거절만</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>tool_result 와 같은 메시지에 추가 지시 텍스트 → 턴이 끝남, 별도 user 메시지로</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"HTTP 상태 코드로 실패·거절을 잡는다" 는 함정이다. 거절은 HTTP 200 이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"5xx 알림 임계값을 낮춘다" 는 함정이다. 거절은 5xx 가 아니다. 따로 센다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>stop_details.category</code> 로 거절을 분기한다" 는 함정이다. category 는 null 일 수 있다. <code>stop_reason</code> 으로 분기한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"같은 요청을 같은 모델로 재시도한다" 는 함정이다. 대개 또 거절한다. 다른 모델로 보낸다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"refusal 이면 끝이니 빈 답을 그대로 사용자에게 보낸다" 는 함정이다. 다른 모델로 보내면 대개 답을 얻는다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>stop_reason 을 5개로만 알고 '컨텍스트 창이 가득 차 멈춤' 보기를 버리는 것은 함정이다. 값은 7개다. <code>model_context_window_exceeded</code> 가 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>pause_turn</code> 은 오류이니 새 요청으로 보낸다" 는 함정이다. 받은 assistant 콘텐츠를 그대로 보내 이어 간다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"폴백을 켜면 429·5xx 도 다른 모델로 간다" 는 함정이다. 폴백은 안전 분류기 거절에만 일어난다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>tool_result 와 같은 메시지에 추가 지시 텍스트를 붙이는 것은 함정이다. 턴이 끝난다. 추가 지시는 별도 user 메시지로 보낸다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -742,30 +760,30 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. "출력 전 거절은 공짜"가 분류 따라 뒤집힘</h4>
 <ul>
-<li><span class="lead">조건 :</span> 2만 5천 토큰 요청이 Fable 5.1 에서 출력 전에 거절됨.</li>
-<li><span class="lead">계산 :</span> 분류가 <code>cyber</code> 면 $0. 분류가 <code>bio</code> 면 25,000 × $10 / 1M = $0.25. 폴백(Opus 4.8)은 따로 25,000 × $5 / 1M = $0.125 + 출력.</li>
-<li><span class="lead">전제 :</span> 캐시 없음 · 가격 = 2026-09-28 조회값(ko-pricing) · 폴백 쪽 출력 토큰은 뺌.</li>
-<li><span class="lead">등급 :</span> <span class="calc">계산</span> (청구 분류는 확인). 2026-09-24 전엔 출력 전 거절이 모두 무료였음(릴리스 노트, 2026-06-02) → 시험(2026-07 기준)은 "출력 전 거절은 과금 안 됨"으로 물을 가능성.</li>
+<li><span class="lead">조건 :</span> 2만 5천 토큰 요청이 Fable 5.1 에서 출력 전에 거절됐다.</li>
+<li><span class="lead">계산 :</span> 분류가 <code>cyber</code> 면 $0 이다. 분류가 <code>bio</code> 면 25,000 × $10 / 1M = $0.25 다. 폴백(Opus 4.8)은 따로 25,000 × $5 / 1M = $0.125 에 출력 값이 더해진다.</li>
+<li><span class="lead">전제 :</span> 캐시가 없다. 가격은 2026-09-28 조회값이다(ko-pricing). 폴백 쪽 출력 토큰은 뺀다.</li>
+<li><span class="lead">등급 :</span> <span class="calc">계산</span> (청구 분류는 확인). 2026-09-24 전에는 출력 전 거절이 모두 무료였다(릴리스 노트, 2026-06-02). 그래서 시험(2026-07 기준)은 "출력 전 거절은 과금되지 않는다" 로 물을 가능성이 있다.</li>
 <li><span class="lead">근거 :</span> refusals-and-fallback · 릴리스 노트</li>
 </ul>
 <h4>2. 폴백을 켰는데도 거절이 그대로 옴</h4>
 <ul>
-<li><span class="lead">조건 :</span> <code>fallbacks</code> 설정. 부하가 몰려 폴백 모델이 rate limit 에 걸림.</li>
-<li><span class="lead">판단 :</span> 폴백 시도를 건너뛰고 앞 거절을 돌려줌. <code>stop_details.recommended_model</code> 이 직접 재시도할 모델을 힌트로 줌(보장 아님). "폴백 켰으니 거절 0" 가정이 깨짐 → 폴백 모델의 rate limit 을 예상 거절량에 맞춰 잡음.</li>
+<li><span class="lead">조건 :</span> <code>fallbacks</code> 를 설정했다. 부하가 몰려 폴백 모델이 rate limit 에 걸렸다.</li>
+<li><span class="lead">판단 :</span> 폴백 시도를 건너뛰고 앞 거절을 돌려준다. <code>stop_details.recommended_model</code> 이 직접 재시도할 모델을 힌트로 준다(보장은 아니다). "폴백 켰으니 거절 0" 가정이 깨진다. 그래서 폴백 모델의 rate limit 을 예상 거절량에 맞춰 잡는다.</li>
 
 <li><span class="lead">근거 :</span> refusals-and-fallback</li>
 </ul>
 <h4>3. 서브에이전트에서만 빈 답</h4>
 <ul>
-<li><span class="lead">조건 :</span> 메인 호출엔 <code>fallbacks</code> 가 있고, 도구 실행 안에서 부르는 서브에이전트 모델 호출엔 없음.</li>
-<li><span class="lead">판단 :</span> <code>fallbacks</code> 는 도구 실행 안의 모델 호출로 안 번짐 → 그 호출에 따로 설정. 한 턴에 거절이 여러 번(에이전트 + 서브에이전트) 날 수 있으니 재시도 예산도 요청 단위.</li>
+<li><span class="lead">조건 :</span> 메인 호출에는 <code>fallbacks</code> 가 있다. 도구 실행 안에서 부르는 서브에이전트 모델 호출에는 없다.</li>
+<li><span class="lead">판단 :</span> <code>fallbacks</code> 는 도구 실행 안의 모델 호출로 번지지 않는다. 그래서 그 호출에 따로 설정한다. 한 턴에 거절이 여러 번(에이전트 + 서브에이전트) 날 수 있다. 그래서 재시도 예산도 요청 단위로 잡는다.</li>
 
 <li><span class="lead">근거 :</span> refusals-and-fallback</li>
 </ul>
 <h4>4. max_tokens 로 멈춤 — 한도만 올리면 되나</h4>
 <ul>
-<li><span class="lead">조건 :</span> 분류 답이 중간에 끊기고 stop_reason = <code>max_tokens</code>.</li>
-<li><span class="lead">판단 :</span> 한도 올리기 또는 이어서 생성 둘 다 공식 처방. 입력 크기를 몰라 최대치를 원하면 컨텍스트 창 끝까지 쓰게 두고 <code>model_context_window_exceeded</code> 로 받는 길도 있음. 비스트리밍 10분 제한·스트리밍 전환은 이 카드 밖(4.5 쪽).</li>
+<li><span class="lead">조건 :</span> 분류 답이 중간에 끊겼다. stop_reason 은 <code>max_tokens</code> 다.</li>
+<li><span class="lead">판단 :</span> 한도 올리기와 이어서 생성하기가 둘 다 공식 처방이다. 입력 크기를 몰라 최대치를 원하면, 컨텍스트 창 끝까지 쓰게 두고 <code>model_context_window_exceeded</code> 로 받는 길도 있다. 비스트리밍 10분 제한과 스트리밍 전환은 이 카드 밖이다(4.5 쪽).</li>
 <li><span class="lead">등급 :</span> <span class="note">(처방) ·</span> <span class="gen">업계 일반</span> <span class="note">(어느 쪽을 먼저 고를지)</span></li>
 <li><span class="lead">근거 :</span> handling-stop-reasons</li>
 </ul>
@@ -776,25 +794,27 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"HTTP 상태 코드로 실패·거절을 잡는다"</td><td data-label="왜 끌리나" role="cell">보통 API 는 실패를 상태 코드로 알림</td><td data-label="왜 틀리나" role="cell">거절은 HTTP 200. stop_reason 은 성공 응답 본문의 일부</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"5xx 알림 임계값을 낮춘다"</td><td data-label="왜 끌리나" role="cell">빈 답 = 장애로 보임</td><td data-label="왜 틀리나" role="cell">거절은 5xx 가 아님 → 임계값을 바꿔도 안 잡힘</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"같은 요청을 같은 모델로 재시도"</td><td data-label="왜 끌리나" role="cell">일시 오류처럼 보임</td><td data-label="왜 틀리나" role="cell">대개 또 거절. 다른 모델로</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"refusal = 안전 거절로 끝, 빈 답을 사용자에게"</td><td data-label="왜 끌리나" role="cell">안전 판단이니 존중해야 할 것 같음</td><td data-label="왜 틀리나" role="cell">다른 모델로 대개 답을 얻음. 공식 처방 = 폴백</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"<code>stop_<wbr>details.<wbr>category</code> 를 읽어 분기"</td><td data-label="왜 끌리나" role="cell">분야별 처리가 세밀해 보임</td><td data-label="왜 틀리나" role="cell">category·explanation 은 null 일 수 있음 → <code>stop_<wbr>reason</code> 으로 분기</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">'컨텍스트 창이 가득 차 멈춤' 보기를 "그런 값 없음"으로 버림</td><td data-label="왜 끌리나" role="cell">stop_reason 을 5개로만 외움</td><td data-label="왜 틀리나" role="cell">7개. <code>model_<wbr>context_<wbr>window_<wbr>exceeded</code> 있음</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"<code>pause_<wbr>turn</code> 은 오류 → 처음부터 새 요청"</td><td data-label="왜 끌리나" role="cell">'멈춤'이라는 이름</td><td data-label="왜 틀리나" role="cell">받은 assistant 콘텐츠를 그대로 보내 이어감</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"폴백을 켜면 429·서버 오류도 다른 모델이 받아 줌"</td><td data-label="왜 끌리나" role="cell">폴백 = 장애 조치로 보임</td><td data-label="왜 틀리나" role="cell">안전 분류기 거절만 폴백. 나머지는 그대로 돌아옴</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"tool_result 와 같은 메시지에 '이제 요약해' 텍스트를 붙임"</td><td data-label="왜 끌리나" role="cell">한 번에 보내면 왕복이 줄어 보임</td><td data-label="왜 틀리나" role="cell">턴이 끝남(기다리던 서버 도구가 있으면 400). 턴이 끝난 뒤 별도 user 메시지로</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"assistant 문장('완료했습니다')으로 루프 종료 판정"</td><td data-label="왜 끌리나" role="cell">사람 읽기엔 분명함</td><td data-label="왜 틀리나" role="cell">루프는 stop_reason 으로 — end_turn 이면 끝</td><td data-label="근거" role="cell">Skilljar p101 486254</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"HTTP 상태 코드로 실패·거절을 잡는다"</td><td data-label="왜 끌리나" role="cell">보통 API 는 실패를 상태 코드로 알린다</td><td data-label="왜 틀리나" role="cell">거절은 HTTP 200 이다. stop_reason 은 성공 응답 본문의 일부다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"5xx 알림 임계값을 낮춘다"</td><td data-label="왜 끌리나" role="cell">빈 답이 장애로 보인다</td><td data-label="왜 틀리나" role="cell">거절은 5xx 가 아니다. 그래서 임계값을 바꿔도 안 잡힌다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"같은 요청을 같은 모델로 재시도"</td><td data-label="왜 끌리나" role="cell">일시 오류처럼 보인다</td><td data-label="왜 틀리나" role="cell">대개 또 거절한다. 다른 모델로 보낸다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"refusal = 안전 거절로 끝, 빈 답을 사용자에게"</td><td data-label="왜 끌리나" role="cell">안전 판단이니 존중해야 할 것 같다</td><td data-label="왜 틀리나" role="cell">다른 모델로 보내면 대개 답을 얻는다. 공식 처방은 폴백이다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"<code>stop_<wbr>details.<wbr>category</code> 를 읽어 분기"</td><td data-label="왜 끌리나" role="cell">분야별 처리가 세밀해 보인다</td><td data-label="왜 틀리나" role="cell">category·explanation 은 null 일 수 있다. <code>stop_<wbr>reason</code> 으로 분기한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">'컨텍스트 창이 가득 차 멈춤' 보기를 "그런 값은 없다" 고 버린다</td><td data-label="왜 끌리나" role="cell">stop_reason 을 5개로만 외웠다</td><td data-label="왜 틀리나" role="cell">값은 7개다. <code>model_<wbr>context_<wbr>window_<wbr>exceeded</code> 가 있다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"<code>pause_<wbr>turn</code> 은 오류이니 처음부터 새 요청"</td><td data-label="왜 끌리나" role="cell">'멈춤' 이라는 이름 때문이다</td><td data-label="왜 틀리나" role="cell">받은 assistant 콘텐츠를 그대로 보내 이어 간다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"폴백을 켜면 429·서버 오류도 다른 모델이 받아 준다"</td><td data-label="왜 끌리나" role="cell">폴백이 장애 조치로 보인다</td><td data-label="왜 틀리나" role="cell">안전 분류기 거절만 폴백한다. 나머지는 그대로 돌아온다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/refusals-and-fallback" lang="en" rel="noopener">refusals-and-fallback</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"tool_result 와 같은 메시지에 '이제 요약해' 텍스트를 붙인다"</td><td data-label="왜 끌리나" role="cell">한 번에 보내면 왕복이 줄어 보인다</td><td data-label="왜 틀리나" role="cell">턴이 끝난다(기다리던 서버 도구가 있으면 400). 턴이 끝난 뒤 별도 user 메시지로 보낸다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons" lang="en" rel="noopener">handling-stop-reasons</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"assistant 문장('완료했습니다')으로 루프 종료 판정"</td><td data-label="왜 끌리나" role="cell">사람이 읽기에는 분명하다</td><td data-label="왜 틀리나" role="cell">루프는 stop_reason 으로 판정한다. end_turn 이면 끝난다</td><td data-label="근거" role="cell">Skilljar p101 486254</td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="stop-reason-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : CCA-F · 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>CCA-F</h3>
-      <p>겹침 (에이전트 루프 — tool_use 면 한 번 더, end_turn 이면 끝 · 완료를 assistant 문장으로 판정 X) — 여기선 7값 전부의 처리와 거절(HTTP 200)을 설계·감시·폴백 경로 관점에서 물음</p>
+      <p>겹침 (에이전트 루프에서 tool_use 면 한 번 더 돌고 end_turn 이면 끝난다. 완료를 assistant 문장으로 판정하지 않는다). 여기서는 7값 전부의 처리와 거절(HTTP 200)을 설계·감시·폴백 경로 관점에서 묻는다</p>
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.2</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -812,13 +832,14 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>안전 분류기 거절 문서 두 개는 Fable 5.1 · Fable 5 · Opus 5.5 · Opus 5 만 적음. 그 밖 모델(Sonnet 등)이 <code>refusal</code> 을 내는지는 이 파일들에 없음 — 릴리스 노트이 가리키는 streaming refusals 문서는 안 받음.</li>
-<li><code>fallbacks</code> 의 <code>"default"</code> 모드는 2026-07-24 추가(릴리스 노트). 시험 가이드 기준(2026-07)에 들어갔는지 모름 → 시험은 "다른 모델로 재시도" 원칙만 물을 가능성(추론).</li>
-<li>목록 5.2② 는 "refusal 이면 stop_details(category·explanation)를 읽고" 였음 → 공식은 분기를 <code>stop_reason</code>(또는 <code>stop_details.type</code>)으로 하라고 하고 category·explanation 은 null 가능(refusals-and-fallback). 카드엔 고친 쪽만.</li>
-<li>목록 1.2② 의 "Part 17 팁이 오답으로 짚은 모양" · 5.2② 의 "영상 목록 5개"는 영상 쪽 기록이라 원문 대조 안 함(영상 파일 안 봄).</li>
-<li>handling-stop-reasons 의 코드 예시(항상 확인 · pause_turn 재시도 · 이어서 생성)는 받은 파일에서 코드 블록이 빠져 있음( 뒤가 빈 절).</li>
+<li>안전 분류기 거절 문서 두 개는 Fable 5.1 · Fable 5 · Opus 5.5 · Opus 5 만 적는다. 그 밖 모델(Sonnet 등)이 <code>refusal</code> 을 내는지는 이 파일들에 없다. 릴리스 노트이 가리키는 streaming refusals 문서는 받지 않았다.</li>
+<li><code>fallbacks</code> 의 <code>"default"</code> 모드는 2026-07-24 에 추가됐다(릴리스 노트). 시험 가이드 기준(2026-07)에 들어갔는지 모른다. 그래서 시험은 "다른 모델로 재시도" 원칙만 물을 가능성이 있다(추론).</li>
+<li>목록 5.2② 는 "refusal 이면 stop_details(category·explanation)를 읽고" 였다. 공식은 분기를 <code>stop_reason</code>(또는 <code>stop_details.type</code>)으로 하라고 한다. category·explanation 은 null 일 수 있다(refusals-and-fallback). 카드에는 고친 쪽만 적는다.</li>
+<li>목록 1.2② 의 "Part 17 팁이 오답으로 짚은 모양" 과 5.2② 의 "영상 목록 5개" 는 영상 쪽 기록이다. 그래서 원문 대조는 안 했다(영상 파일은 안 봤다).</li>
+<li>handling-stop-reasons 의 코드 예시(항상 확인 · pause_turn 재시도 · 이어서 생성)는 받은 파일에서 코드 블록이 빠져 있다( 뒤가 빈 절이다).</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

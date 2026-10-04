@@ -368,9 +368,10 @@
   </div>
   <h2 class="sec-h" id="moderation-tiers-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>사용자 콘텐츠 moderation(유해 콘텐츠 검토)을 허용/차단 이진 분류 대신 여러 위험 등급으로 → moderation 강도를 조절. 예 : 고위험(high-risk) 판정 질의는 자동 차단, 중위험 질의가 많은 사용자는 사람 검토 대상으로 표시(flag) <span class="src">(2026-09-28 조회)</span></p>
-      <p>판정은 JSON(위험 등급 · 위반 범주 · 설명)으로 받아 코드가 분기. 공식 예시 등급 = 0 없음 · 1 낮음 · 2 중간 · 3 높음, 기준 = "걸러내야(moderated) 한다는 확신", 설명은 0 보다 클 때만</p>
-    <p class="t5-ana"><span class="lead">비유</span> 명백한 공격 트래픽은 WAF 가 자동 차단, 애매한 요청이 쌓인 IP 는 보안 관제 분석가 큐로</p>
+      <p>사용자 콘텐츠 moderation(유해 콘텐츠 검토)을 허용/차단 이진 분류 대신 여러 위험 등급으로 나눈다. 그러면 moderation 강도를 조절할 수 있다. 예를 들어 고위험(high-risk) 판정 질의는 자동 차단한다. 중위험 질의가 많은 사용자는 사람 검토 대상으로 표시(flag)한다 <span class="src">(2026-09-28 조회)</span></p>
+      <p>판정은 JSON(위험 등급 · 위반 범주 · 설명)으로 받고 코드가 분기한다</p>
+      <p>공식 예시 등급은 0 없음 · 1 낮음 · 2 중간 · 3 높음이다. 기준은 "걸러내야(moderated) 한다는 확신" 이다. 설명은 0 보다 클 때만 붙인다</p>
+    <p class="t5-ana"><span class="lead">비유</span> 명백한 공격 트래픽은 WAF 가 자동 차단한다. 애매한 요청이 쌓인 IP 는 보안 관제 분석가 큐로 보낸다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/moderation-tiers.webp"><img src="../images/moderation-tiers.webp" alt="위험 등급 0~3 막대 위에서 0·1 은 운영자가 정함, 2 중간은 중위험이 쌓인 사용자를 사람 검토, 3 높음은 자동 차단을 가리키는 그림" loading="lazy" decoding="async"></a>
@@ -397,27 +398,27 @@
 <!-- /vx:figure -->
 <section class="ex-sec" id="principle" aria-labelledby="principle-h">
 <h3 id="principle-h">원리</h3>
-<p class="lead">moderation(유해 콘텐츠 검토) = 분류 문제</p>
+<p class="lead">moderation(유해 콘텐츠 검토)은 분류 문제다</p>
 <ul>
-<li>그래서 분류와 같은 방법으로 정확도를 측정 : 정밀도(precision)·재현율(recall).</li>
-<li>이진(허용/차단)은 lever(조절 수단)가 하나뿐. 등급을 나누면 "어디서부터 막나"를 조절하는 다이얼이 생김.</li>
+<li>그래서 분류와 같은 방법으로 정확도를 측정한다. 정밀도(precision)·재현율(recall)을 쓴다.</li>
+<li>이진(허용/차단)은 lever(조절 수단)가 하나뿐이다. 등급을 나누면 "어디서부터 막나" 를 조절하는 다이얼이 생긴다.</li>
 </ul>
-<p class="lead">등급의 뜻 = 확신</p>
+<p class="lead">등급의 뜻은 확신이다</p>
 <ul>
-<li>공식 예시 프롬프트는 등급을 "걸러내야(moderated) 한다는 확신" 으로 매김(0 없음 · 1 낮음 · 2 중간 · 3 높음).</li>
-<li>고위험(high-risk) = 확신이 높음 → 사람이 봐도 결론이 안 바뀜 → 자동 차단이 맞음.</li>
-<li>중위험 = 애매함 → 한 건으로는 판정이 흔들림 → 쌓인 사용자를 사람이 봄.</li>
+<li>공식 예시 프롬프트는 등급을 "걸러내야(moderated) 한다는 확신" 으로 매긴다(0 없음 · 1 낮음 · 2 중간 · 3 높음).</li>
+<li>고위험(high-risk)은 확신이 높다. 사람이 봐도 결론이 안 바뀐다. 그래서 자동 차단이 맞다.</li>
+<li>중위험은 애매하다. 한 건으로는 판정이 흔들린다. 그래서 쌓인 사용자를 사람이 본다.</li>
 </ul>
 <p class="lead">에이전트 행동 승인과 반대인 이유</p>
 <ul>
-<li>행동 승인(■ human-in-the-loop 게이트 위치)은 "틀리면 되돌릴 수 없는 행동" 앞에 사람을 둠.</li>
-<li>moderation 차단은 이유를 알려 주고 다시 쓰게 할 수 있음 → 자동으로 막아도 비용이 작음 (추론).</li>
-<li>그래서 같은 "고위험" 이라도 행동이면 사람, 콘텐츠면 자동 차단.</li>
+<li>행동 승인(■ human-in-the-loop 게이트 위치)은 "틀리면 되돌릴 수 없는 행동" 앞에 사람을 둔다.</li>
+<li>moderation 차단은 이유를 알려 주고 다시 쓰게 할 수 있다. 그래서 자동으로 막아도 비용이 작다 (추론).</li>
+<li>그래서 같은 "고위험" 이라도 행동이면 사람이 보고, 콘텐츠면 자동 차단한다.</li>
 </ul>
 <p class="lead">돈과 속도</p>
 <ul>
-<li>moderation 은 양이 많음 → 작은 모델(Haiku 4.5)이 기본 선택지.</li>
-<li>실시간이 아니면 여러 메시지를 한 호출에 묶어 더 싸게(품질은 조금 내려갈 수 있음).</li>
+<li>moderation 은 양이 많다. 그래서 작은 모델(Haiku 4.5)이 기본 선택지다.</li>
+<li>실시간이 아니면 여러 메시지를 한 호출에 묶어 더 싸게 한다(품질은 조금 내려갈 수 있다).</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
@@ -434,11 +435,11 @@
   <section class="t5-flow tree" id="moderation-tiers-tree-1" aria-labelledby="moderation-tiers-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9|n1 n10 n11">
     <div class="t5-fh"><h3 id="moderation-tiers-tree-1-h">①② 등급별 처리 <span class="pg">[5.3③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>위험 등급?<span class="t5-sub"><code>risk_level</code> 0~3</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>위험 등급이 무엇인가?<span class="t5-sub"><code>risk_level</code> 0~3</span></div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>높음</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">자동 차단</p><p>고위험 판정 질의는 자동 차단</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">자동 차단</p><p>고위험 판정 질의는 자동 차단한다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>중간</span>
@@ -446,17 +447,17 @@
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">사람 검토</p><p>중위험 질의가 많은 사용자는 사람 검토 대상으로 표시</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">사람 검토</p><p>중위험 질의가 많은 사용자는 사람 검토 대상으로 표시한다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">운영자가 정함</p><p>그 밖 등급(중위험 한 건 · 없음·낮음)은 공식 예시에 처리법이 없음 → 등급별 강도(문턱)는 운영자가 정함 · 공식 예시는 중위험 질의가 많은 사용자</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">운영자가 정한다</p><p>공식 예시는 중위험 질의가 많은 사용자를 다룬다. 그 밖 등급(중위험 한 건 · 없음·낮음)은 공식 예시에 처리법이 없다. 그래서 등급별 강도(문턱)는 운영자가 정한다</p></div>
             </div>
           </div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>없음·낮음</span>
-          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">운영자가 정함</p><p>그 밖 등급(중위험 한 건 · 없음·낮음)은 공식 예시에 처리법이 없음 → 등급별 강도(문턱)는 운영자가 정함</p></div>
+          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">운영자가 정한다</p><p>그 밖 등급(중위험 한 건 · 없음·낮음)은 공식 예시에 처리법이 없다. 그래서 등급별 강도(문턱)는 운영자가 정한다</p></div>
         </div>
       </div>
     </div>
@@ -468,15 +469,15 @@
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>앱 사용자가 올린 콘텐츠</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">moderation 등급</p><p>고위험 = 자동 차단</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">moderation 등급</p><p>고위험은 자동 차단한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>에이전트가 할 행동</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">에이전트 행동 승인 규칙</p><p>'위험한 행동 앞에 사람' → <a href="human-approval-gates.html">■ human-in-the-loop 게이트 위치</a></p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">에이전트 행동 승인 규칙</p><p>'위험한 행동 앞에 사람' 은 이 규칙이다. 자세한 것은 <a href="human-approval-gates.html">■ human-in-the-loop 게이트 위치</a> 에 있다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>Claude 를 노린 탈옥·인젝션</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">탈옥 완화 쪽</p><p>이 가이드는 사용자 생성 콘텐츠용, Claude 와의 상호작용 moderation 은 탈옥·인젝션 완화 문서</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">탈옥 완화 쪽</p><p>이 가이드는 사용자 생성 콘텐츠용이다. Claude 와의 상호작용 moderation 은 탈옥·인젝션 완화 문서가 다룬다</p></div>
         </div>
       </div>
     </div>
@@ -484,51 +485,51 @@
   <section class="t5-flow tree" id="moderation-tiers-tree-3" aria-labelledby="moderation-tiers-tree-3-h" data-paths="n1 n2 n3|n1 n4 n5">
     <div class="t5-fh"><h3 id="moderation-tiers-tree-3-h">③④ 비용·속도 <span class="pg">[5.3③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>실시간이 필요한가?<span class="t5-sub">모델은 데이터 규모를 보고 고름 — 비용이 걱정이면 Haiku 4.5</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>실시간이 필요한가?<span class="t5-sub">모델은 데이터 규모를 보고 고른다. 비용이 걱정이면 Haiku 4.5 다</span></div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">여러 메시지를 한 호출에</p><p>비용↓, 배치가 클수록 품질 조금↓</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">여러 메시지를 한 호출에</p><p>비용이 준다. 배치가 클수록 품질이 조금 내려간다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">배치 못 함</p><p>실시간이 필요 없을 때만 배치</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">배치하지 못한다</p><p>실시간이 필요 없을 때만 배치한다</p></div>
         </div>
       </div>
     </div>
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="moderation-tiers-flow" aria-label="moderation 위험 등급 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["댓글","Claude 판정","코드 분기","사람 대기열"],"blocks":[],"rules":[null,null,"고위험은 자동 차단 · 중위험 질의가 많은 사용자는 사람 검토",null],"question":"가장 위험한 댓글은 누가 처리할까?","scenes":[{"name":"① 고위험 → 자동 차단","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["댓글: 너희 가족 사는 곳 안다. 찾아간다."]}},{"kind":"move","step":"판정","from":{"col":0},"to":1,"label":"공식 예 = 고위험","art":{"kind":"slip","lines":["{ \"risk_level\": 3,","\"categories\": [\"위협\"],","\"explanation\": \"…\" }"]}},{"kind":"move","step":"분기","from":{"col":1},"to":2,"label":"등급으로 분기","art":{"kind":"slip","lines":["if risk_level == 3","→ 자동 차단"]}},{"kind":"skip","at":3},{"kind":"end","label":"고위험은 자동 차단 — 사람 대기열로 안 감"}]},{"name":"② 중위험 누적 → 사람","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["댓글: 5G 기지국이 바이러스를 퍼뜨린대."]}},{"kind":"move","step":"판정","from":{"col":0},"to":1,"label":"공식 예 = 중간","art":{"kind":"slip","lines":["{ \"risk_level\": 2,","\"categories\": [\"허위 정보\"] }"]}},{"kind":"move","step":"분기","from":{"col":1},"to":2,"label":"사용자별 누적을 셈","art":{"kind":"slip","lines":["user_42","이번 주 중위험 14건"]}},{"kind":"move","step":"표시","from":{"col":2},"to":3,"label":"중위험 질의가 많은 사용자","art":{"kind":"slip","lines":["검토 요청","user_42 · 중위험 14건"]}},{"kind":"end","label":"중위험 질의가 많은 사용자는 사람 검토"}]},{"name":"③ 고위험도 사람 대기열로","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["댓글: 너희 가족 사는 곳 안다. 찾아간다."]}},{"kind":"move","step":"판정","from":{"col":0},"to":1,"label":"확신이 높은 고위험","art":{"kind":"slip","lines":["{ \"risk_level\": 3 }"]}},{"kind":"move","step":"분기","from":{"col":1},"to":2,"label":"등급 상관없이 사람에게","art":{"kind":"slip","lines":["if risk_level >= 2","→ 사람 대기열"]}},{"kind":"move","step":"표시","from":{"col":2},"to":3,"label":"명백한 위협까지","art":{"kind":"slip","lines":["대기 1,240건","명백한 위협 포함"]}},{"kind":"end","label":"명백한 것까지 사람 대기열 — 검토자가 밀림"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["댓글","Claude 판정","코드 분기","사람 대기열"],"blocks":[],"rules":[null,null,"고위험은 자동 차단한다 · 중위험 질의가 많은 사용자는 사람이 검토한다",null],"question":"가장 위험한 댓글은 누가 처리할까?","scenes":[{"name":"① 고위험은 자동 차단","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["댓글: 너희 가족 사는 곳 안다. 찾아간다."]}},{"kind":"move","step":"판정","from":{"col":0},"to":1,"label":"공식 예로는 고위험이다","art":{"kind":"slip","lines":["{ \"risk_level\": 3,","\"categories\": [\"위협\"],","\"explanation\": \"…\" }"]}},{"kind":"move","step":"분기","from":{"col":1},"to":2,"label":"등급으로 분기한다","art":{"kind":"slip","lines":["if risk_level == 3","→ 자동 차단"]}},{"kind":"skip","at":3},{"kind":"end","label":"고위험은 자동 차단한다. 사람 대기열로 안 간다"}]},{"name":"② 중위험이 쌓이면 사람에게","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["댓글: 5G 기지국이 바이러스를 퍼뜨린대."]}},{"kind":"move","step":"판정","from":{"col":0},"to":1,"label":"공식 예로는 중간이다","art":{"kind":"slip","lines":["{ \"risk_level\": 2,","\"categories\": [\"허위 정보\"] }"]}},{"kind":"move","step":"분기","from":{"col":1},"to":2,"label":"사용자별 누적을 센다","art":{"kind":"slip","lines":["user_42","이번 주 중위험 14건"]}},{"kind":"move","step":"표시","from":{"col":2},"to":3,"label":"중위험 질의가 많은 사용자를 표시한다","art":{"kind":"slip","lines":["검토 요청","user_42 · 중위험 14건"]}},{"kind":"end","label":"중위험 질의가 많은 사용자는 사람이 검토한다"}]},{"name":"③ 고위험도 사람 대기열로","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["댓글: 너희 가족 사는 곳 안다. 찾아간다."]}},{"kind":"move","step":"판정","from":{"col":0},"to":1,"label":"확신이 높은 고위험이다","art":{"kind":"slip","lines":["{ \"risk_level\": 3 }"]}},{"kind":"move","step":"분기","from":{"col":1},"to":2,"label":"등급과 상관없이 사람에게 보낸다","art":{"kind":"slip","lines":["if risk_level >= 2","→ 사람 대기열"]}},{"kind":"move","step":"표시","from":{"col":2},"to":3,"label":"명백한 위협까지 보낸다","art":{"kind":"slip","lines":["대기 1,240건","명백한 위협 포함"]}},{"kind":"end","label":"명백한 것까지 사람 대기열에 쌓인다. 검토자가 밀린다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> 댓글 → Claude 판정 → 코드 분기 → 사람 대기열</p>
-      <p><span class="lead">규칙 (코드 분기) :</span> 고위험은 자동 차단 · 중위험 질의가 많은 사용자는 사람 검토</p>
+      <p><span class="lead">규칙 (코드 분기) :</span> 고위험은 자동 차단한다 · 중위험 질의가 많은 사용자는 사람이 검토한다</p>
       <p><span class="lead">질문 :</span> 가장 위험한 댓글은 누가 처리할까?</p>
-      <p class="lead">① 고위험 → 자동 차단 <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">① 고위험은 자동 차단 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 댓글 — 쪽지 : <span class="flx-alt-slip">댓글: 너희 가족 사는 곳 안다. 찾아간다.</span></li>
-        <li>판정 : 댓글 → Claude 판정 : 공식 예 = 고위험 — 쪽지 : <span class="flx-alt-slip">{ "risk_level": 3, / "categories": ["위협"], / "explanation": "…" }</span></li>
-        <li>분기 : Claude 판정 → 코드 분기 : 등급으로 분기 — 쪽지 : <span class="flx-alt-slip">if risk_level == 3 / → 자동 차단</span></li>
+        <li>판정 : 댓글 → Claude 판정 : 공식 예로는 고위험이다 — 쪽지 : <span class="flx-alt-slip">{ "risk_level": 3, / "categories": ["위협"], / "explanation": "…" }</span></li>
+        <li>분기 : Claude 판정 → 코드 분기 : 등급으로 분기한다 — 쪽지 : <span class="flx-alt-slip">if risk_level == 3 / → 자동 차단</span></li>
         <li>건너뜀 : 사람 대기열</li>
-        <li>끝 : 고위험은 자동 차단 — 사람 대기열로 안 감</li>
+        <li>끝 : 고위험은 자동 차단한다. 사람 대기열로 안 간다</li>
       </ol>
-      <p class="lead">② 중위험 누적 → 사람 <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">② 중위험이 쌓이면 사람에게 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 댓글 — 쪽지 : <span class="flx-alt-slip">댓글: 5G 기지국이 바이러스를 퍼뜨린대.</span></li>
-        <li>판정 : 댓글 → Claude 판정 : 공식 예 = 중간 — 쪽지 : <span class="flx-alt-slip">{ "risk_level": 2, / "categories": ["허위 정보"] }</span></li>
-        <li>분기 : Claude 판정 → 코드 분기 : 사용자별 누적을 셈 — 쪽지 : <span class="flx-alt-slip">user_42 / 이번 주 중위험 14건</span></li>
-        <li>표시 : 코드 분기 → 사람 대기열 : 중위험 질의가 많은 사용자 — 쪽지 : <span class="flx-alt-slip">검토 요청 / user_42 · 중위험 14건</span></li>
-        <li>끝 : 중위험 질의가 많은 사용자는 사람 검토</li>
+        <li>판정 : 댓글 → Claude 판정 : 공식 예로는 중간이다 — 쪽지 : <span class="flx-alt-slip">{ "risk_level": 2, / "categories": ["허위 정보"] }</span></li>
+        <li>분기 : Claude 판정 → 코드 분기 : 사용자별 누적을 센다 — 쪽지 : <span class="flx-alt-slip">user_42 / 이번 주 중위험 14건</span></li>
+        <li>표시 : 코드 분기 → 사람 대기열 : 중위험 질의가 많은 사용자를 표시한다 — 쪽지 : <span class="flx-alt-slip">검토 요청 / user_42 · 중위험 14건</span></li>
+        <li>끝 : 중위험 질의가 많은 사용자는 사람이 검토한다</li>
       </ol>
       <p class="lead">③ 고위험도 사람 대기열로 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 댓글 — 쪽지 : <span class="flx-alt-slip">댓글: 너희 가족 사는 곳 안다. 찾아간다.</span></li>
-        <li>판정 : 댓글 → Claude 판정 : 확신이 높은 고위험 — 쪽지 : <span class="flx-alt-slip">{ "risk_level": 3 }</span></li>
-        <li>분기 : Claude 판정 → 코드 분기 : 등급 상관없이 사람에게 — 쪽지 : <span class="flx-alt-slip">if risk_level &gt;= 2 / → 사람 대기열</span></li>
-        <li>표시 : 코드 분기 → 사람 대기열 : 명백한 위협까지 — 쪽지 : <span class="flx-alt-slip">대기 1,240건 / 명백한 위협 포함</span></li>
-        <li>끝 : 명백한 것까지 사람 대기열 — 검토자가 밀림</li>
+        <li>판정 : 댓글 → Claude 판정 : 확신이 높은 고위험이다 — 쪽지 : <span class="flx-alt-slip">{ "risk_level": 3 }</span></li>
+        <li>분기 : Claude 판정 → 코드 분기 : 등급과 상관없이 사람에게 보낸다 — 쪽지 : <span class="flx-alt-slip">if risk_level &gt;= 2 / → 사람 대기열</span></li>
+        <li>표시 : 코드 분기 → 사람 대기열 : 명백한 위협까지 보낸다 — 쪽지 : <span class="flx-alt-slip">대기 1,240건 / 명백한 위협 포함</span></li>
+        <li>끝 : 명백한 것까지 사람 대기열에 쌓인다. 검토자가 밀린다</li>
       </ol>
     </details>
   </figure>
@@ -537,12 +538,27 @@
       <ol class="how">
         <li id="moderation-tiers-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
-            <p><span class="lead">운영 :</span> 막거나 표시한 이유와 다시 쓰는 법을 사용자에게(<code>explanation</code> 필드) · 표시된 콘텐츠 유형 추적 · 정밀도·재현율로 계속 평가 · 범주마다 정의를 붙이면 개선(금 투자 권유 댓글이 정의 추가 뒤 Specialized Advice 위반으로 잡힘)</p>
+            <p><span class="lead">운영 :</span> 운영할 때 아래를 챙긴다</p>
+            <ul class="dash">
+              <li>막거나 표시한 이유와 다시 쓰는 법을 사용자에게 알린다(<code>explanation</code> 필드)</li>
+              <li>표시된 콘텐츠 유형을 추적한다</li>
+              <li>정밀도·재현율로 계속 평가한다</li>
+              <li>범주마다 정의를 붙인다. 그러면 나아진다(금 투자 권유 댓글이 정의 추가 뒤 Specialized Advice 위반으로 잡혔다)</li>
+            </ul>
           </div>
         </li>
         <li id="moderation-tiers-rule-7"><span class="num" aria-hidden="true">⑦</span>
           <div class="how-body">
-            <p>규칙 기반·기존 ML 대신 LLM 을 고를 신호 : 싸고 빠른 구현 · 의미 이해 + 빠른 결정 · 일관된 정책 적용 · 정책이 자주 바뀜(재라벨링 없이) · 설명 가능한 근거 · 별도 모델 없는 다국어 · 멀티모달</p>
+            <p>규칙 기반·기존 ML 대신 LLM 을 고를 신호는 아래와 같다</p>
+            <ul class="dash">
+              <li>싸고 빠르게 구현해야 한다</li>
+              <li>의미를 이해하면서 빠르게 결정해야 한다</li>
+              <li>정책을 일관되게 적용해야 한다</li>
+              <li>정책이 자주 바뀐다(재라벨링 없이)</li>
+              <li>설명 가능한 근거가 필요하다</li>
+              <li>별도 모델 없이 다국어를 다뤄야 한다</li>
+              <li>멀티모달이 필요하다</li>
+            </ul>
           </div>
         </li>
       </ol>
@@ -551,32 +567,28 @@
       <ol class="how">
         <li id="moderation-tiers-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p><span class="lead">등급 나누기 :</span>  <span class="pg">[5.3③]</span></p>
-            <ul class="pairs">
-              <li>이진 대신 여러 위험 등급 → 강도 조절. 고위험 = 자동 차단, 중위험 질의가 많은 사용자 = 사람 검토. "위험할수록 사람" 이 아님. 공식 예 : 가족을 찾아가겠다는 위협 댓글 = 고위험</li>
-              <li>5G 음모론 댓글 = 중간</li>
-            </ul>
-            <p>그 밖 등급(중위험 한 건 · 없음·낮음)은 공식 예시에 처리법이 없음 → 등급별 강도(문턱)는 운영자가 정함</p>
+            <p><span class="lead">등급 나누기 :</span> 이진 대신 여러 위험 등급으로 나눠 강도를 조절한다. 고위험은 자동 차단하고, 중위험 질의가 많은 사용자는 사람이 검토한다. "위험할수록 사람" 이 아니다. 공식 예로 가족을 찾아가겠다는 위협 댓글은 고위험이고, 5G 음모론 댓글은 중간이다 <span class="pg">[5.3③]</span></p>
+            <p>그 밖 등급(중위험 한 건 · 없음·낮음)은 공식 예시에 처리법이 없다. 그래서 등급별 강도(문턱)는 운영자가 정한다</p>
           </div>
         </li>
         <li id="moderation-tiers-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p><span class="lead">판정 형식 :</span> <code>{ "risk_level", "categories", "explanation" }</code> JSON 만 내게 하고 코드가 등급으로 분기. 등급 0~3 은 "걸러내야(moderated) 한다는 확신" 기준, 설명은 0 보다 클 때만 <span class="pg">[5.3③]</span></p>
+            <p><span class="lead">판정 형식 :</span> <code>{ "risk_level", "categories", "explanation" }</code> JSON 만 내게 한다. 코드가 등급으로 분기한다. 등급 0~3 은 "걸러내야(moderated) 한다는 확신" 이 기준이다. 설명은 0 보다 클 때만 붙인다 <span class="pg">[5.3③]</span></p>
           </div>
         </li>
         <li id="moderation-tiers-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">모델 :</span> 데이터 규모를 봄. 비용이 걱정이면 Haiku 4.5. 월 10억 게시물(게시물당 100자, 3% 가 위반으로 표시) 예 = Haiku 4.5 월 $36,100 · Opus 5 월 $180,500 (2026-09-28 조회) <span class="pg">[5.3③]</span></p>
+            <p><span class="lead">모델 :</span> 데이터 규모를 보고 고른다. 비용이 걱정이면 Haiku 4.5 를 쓴다. 공식 예는 월 10억 게시물이다(게시물당 100자, 3% 가 위반으로 표시). 이때 Haiku 4.5 는 월 $36,100, Opus 5 는 월 $180,500 이다 (2026-09-28 조회) <span class="pg">[5.3③]</span></p>
           </div>
         </li>
         <li id="moderation-tiers-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p>실시간이 아니면 여러 메시지를 한 호출에 넣어 moderation → 비용↓. 배치가 클수록 싸지만 품질 조금↓, <code>max_tokens</code> 를 늘려야 할 수도. (Message Batches API 가 아니라 한 프롬프트에 여러 메시지) <span class="pg">[5.3③]</span></p>
+            <p>실시간이 아니면 여러 메시지를 한 호출에 넣어 moderation 한다. 그러면 비용이 준다. 배치가 클수록 싸지만 품질이 조금 내려간다. <code>max_tokens</code> 를 늘려야 할 수도 있다. 이것은 Message Batches API 가 아니라 한 프롬프트에 여러 메시지를 넣는 것이다 <span class="pg">[5.3③]</span></p>
           </div>
         </li>
         <li id="moderation-tiers-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">범위 :</span> 이 가이드는 앱 안 사용자 생성 콘텐츠 moderation. Claude 와의 상호작용 moderation 은 탈옥·인젝션 완화 문서. Claude 는 내장 안전 동작이 있어 AUP 상 특히 위험한 콘텐츠는 프롬프트와 관계없이 표시할 수 있음(성인 사이트가 "노골적 성적 콘텐츠는 걸러내지 마" 라 적어도) → 구축 전에 AUP 검토 <span class="pg">[5.3③]</span></p>
+            <p><span class="lead">범위 :</span> 이 가이드는 앱 안 사용자 생성 콘텐츠의 moderation 을 다룬다. Claude 와의 상호작용 moderation 은 탈옥·인젝션 완화 문서가 다룬다. Claude 는 내장 안전 동작이 있다. 그래서 AUP 상 특히 위험한 콘텐츠는 프롬프트와 관계없이 표시할 수 있다(성인 사이트가 "노골적 성적 콘텐츠는 걸러내지 마" 라 적어도). 구축 전에 AUP 를 검토한다 <span class="pg">[5.3③]</span></p>
           </div>
         </li>
       </ol>
@@ -590,14 +602,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">고위험 판정 질의</td><td data-label="답" role="cell">자동 차단</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/content-moderation" lang="en" rel="noopener">content-moderation</a> "automatically block user queries that are deemed high risk"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">중위험 질의가 많은 사용자</td><td data-label="답" role="cell">사람 검토 대상으로 표시(flag)</td><td data-label="근거" role="cell">같은 줄 "users with many medium risk queries are flagged for human review"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">판정 받는 형식</td><td data-label="답" role="cell">JSON(위험 등급 · 위반 범주 · 설명) → 코드가 분기</td><td data-label="근거" role="cell"> en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">비용이 걱정</td><td data-label="답" role="cell">Haiku 4.5 같은 작은 모델</td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">실시간이 필요 없음</td><td data-label="답" role="cell">여러 메시지를 한 호출에</td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">막거나 표시했을 때</td><td data-label="답" role="cell">이유와 다시 쓰는 법을 사용자에게 (<code>explanation</code>)</td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">운영(production) 중</td><td data-label="답" role="cell">정밀도·재현율로 계속 평가, 표시 유형 추적</td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Claude 를 노린 탈옥·인젝션</td><td data-label="답" role="cell">이 가이드 말고 탈옥 완화 문서</td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">고위험 판정 질의다</td><td data-label="답" role="cell">자동 차단한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/content-moderation" lang="en" rel="noopener">content-moderation</a> "automatically block user queries that are deemed high risk"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">중위험 질의가 많은 사용자다</td><td data-label="답" role="cell">사람 검토 대상으로 표시(flag)한다</td><td data-label="근거" role="cell">같은 줄 "users with many medium risk queries are flagged for human review"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">판정을 받는 형식</td><td data-label="답" role="cell">JSON(위험 등급 · 위반 범주 · 설명)으로 받고 코드가 분기한다</td><td data-label="근거" role="cell"> en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">비용이 걱정이다</td><td data-label="답" role="cell">Haiku 4.5 같은 작은 모델을 쓴다</td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">실시간이 필요 없다</td><td data-label="답" role="cell">여러 메시지를 한 호출에 넣는다</td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">막거나 표시했다</td><td data-label="답" role="cell">이유와 다시 쓰는 법을 사용자에게 알린다 (<code>explanation</code>)</td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">운영(production) 중이다</td><td data-label="답" role="cell">정밀도·재현율로 계속 평가하고, 표시 유형을 추적한다</td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Claude 를 노린 탈옥·인젝션이다</td><td data-label="답" role="cell">이 가이드 말고 탈옥 완화 문서를 본다</td><td data-label="근거" role="cell">en-full</td></tr>
   </tbody>
 </table>
 </div>
@@ -608,16 +620,16 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">위험 등급</td><td data-label="값" role="cell">높음(3)</td><td data-label="답 쪽" role="cell">자동 차단</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">위험 등급</td><td data-label="값" role="cell">중간(2) + 사용자에 누적</td><td data-label="답 쪽" role="cell">사람 검토</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">위험 등급</td><td data-label="값" role="cell">없음·낮음(0~1)</td><td data-label="답 쪽" role="cell">통과</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">공식 문장은 고·중만</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">강도</td><td data-label="값" role="cell">미성년 이용 서비스 등 엄격해야 함</td><td data-label="답 쪽" role="cell">등급 문턱을 낮춤 · 범주 추가(예 Underage Posting)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"> "adjust the aggressiveness"</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">실시간 여부</td><td data-label="값" role="cell">실시간</td><td data-label="답 쪽" role="cell">배치 대신 작은 모델</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">실시간 여부</td><td data-label="값" role="cell">나중에 해도 됨</td><td data-label="답 쪽" role="cell">여러 메시지를 한 호출에</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">정책 변화</td><td data-label="값" role="cell">자주 바뀜</td><td data-label="답 쪽" role="cell">LLM 쪽 (재라벨링 없이 적응)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">운영자 정책</td><td data-label="값" role="cell">노골적 성적 콘텐츠 허용</td><td data-label="답 쪽" role="cell">Claude 가 그래도 표시할 수 있음 → AUP 먼저 검토</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">범주 정의</td><td data-label="값" role="cell">이름만</td><td data-label="답 쪽" role="cell">놓침 생김</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"> (금 투자 댓글)</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">범주 정의</td><td data-label="값" role="cell">정의·문구까지</td><td data-label="답 쪽" role="cell">더 잘 잡음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">위험 등급</td><td data-label="값" role="cell">높음(3)</td><td data-label="답 쪽" role="cell">자동 차단한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">위험 등급</td><td data-label="값" role="cell">중간(2)이고 사용자에게 쌓였다</td><td data-label="답 쪽" role="cell">사람이 검토한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">위험 등급</td><td data-label="값" role="cell">없음·낮음(0~1)</td><td data-label="답 쪽" role="cell">통과시킨다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">공식 문장은 고·중만 다룬다</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">강도</td><td data-label="값" role="cell">미성년 이용 서비스 등 엄격해야 한다</td><td data-label="답 쪽" role="cell">등급 문턱을 낮추고 범주를 추가한다(예 Underage Posting)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"> "adjust the aggressiveness"</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">실시간 여부</td><td data-label="값" role="cell">실시간</td><td data-label="답 쪽" role="cell">배치 대신 작은 모델을 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">실시간 여부</td><td data-label="값" role="cell">나중에 해도 된다</td><td data-label="답 쪽" role="cell">여러 메시지를 한 호출에 넣는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">정책 변화</td><td data-label="값" role="cell">자주 바뀐다</td><td data-label="답 쪽" role="cell">LLM 쪽이다 (재라벨링 없이 적응한다)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">운영자 정책</td><td data-label="값" role="cell">노골적 성적 콘텐츠를 허용한다</td><td data-label="답 쪽" role="cell">Claude 가 그래도 표시할 수 있다. AUP 를 먼저 검토한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">범주 정의</td><td data-label="값" role="cell">이름만 있다</td><td data-label="답 쪽" role="cell">놓침이 생긴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"> (금 투자 댓글)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">범주 정의</td><td data-label="값" role="cell">정의·문구까지 있다</td><td data-label="답 쪽" role="cell">더 잘 잡는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
   </tbody>
 </table>
 </div>
@@ -633,13 +645,13 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"고위험일수록 사람이 검토" → moderation 에선 고위험 = 자동 차단. '위험한 행동 앞에 사람' 은 에이전트 행동 승인 규칙 → <a href="human-approval-gates.html">■ human-in-the-loop 게이트 위치</a></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"허용·차단 이진 분류" → 등급으로 강도 조절</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>명백한 것까지 사람 대기열 — 검토자가 밀림 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"중위험 한 건마다 사람" → 공식 예시는 중위험 질의가 많은 사용자</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"프롬프트에 '성인 콘텐츠는 걸러내지 마' 라 적으면 됨" → 내장 안전 동작으로 여전히 표시될 수 있음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"비용 줄이려 실시간 moderation 도 큰 배치로" → 실시간이 필요 없을 때만. 배치 크면 품질 조금↓</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"이유 없이 차단만" → 이유와 다시 쓰는 법을 알려 줌</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"고위험일수록 사람이 검토한다" 는 함정이다. moderation 에서는 고위험을 자동 차단한다. '위험한 행동 앞에 사람' 은 에이전트 행동 승인 규칙이다. 자세한 것은 <a href="human-approval-gates.html">■ human-in-the-loop 게이트 위치</a> 에 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"허용·차단 이진 분류" 는 함정이다. 등급으로 강도를 조절한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>명백한 것까지 사람 대기열에 보내는 것은 함정이다. 검토자가 밀린다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"중위험 한 건마다 사람이 본다" 는 함정이다. 공식 예시는 중위험 질의가 많은 사용자를 사람에게 보낸다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"프롬프트에 '성인 콘텐츠는 걸러내지 마' 라 적으면 된다" 는 함정이다. 내장 안전 동작으로 여전히 표시될 수 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"비용을 줄이려고 실시간 moderation 도 큰 배치로 묶는다" 는 함정이다. 배치는 실시간이 필요 없을 때만 쓴다. 배치가 크면 품질이 조금 내려간다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"이유 없이 차단만 한다" 는 함정이다. 이유와 다시 쓰는 법을 알려 준다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -661,39 +673,37 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 작은 모델이 답이 아닌 때가 있나 — 월 3억 게시물, 숫자로</h4>
 <ul>
-<li><span class="lead">조건 :</span> 월 게시물 3억, 게시물당 140자, 3% 가 위반으로 표시, 표시 건당 출력 50토큰 (공식 예시의 식을 그대로 씀).</li>
-<li><span class="lead">계산 :</span> 입력 = 3억 × 140 ÷ 3.5 = 120억 토큰(12,000 MTok). 출력 = 3억 × 0.03 × 50 = 4.5억 토큰(450 MTok).</li>
-<li>Haiku 4.5 ($1 / $5) → $12,000 + $2,250 = 월 $14,250</li>
-<li>
-<p class="lead">Opus 5 ($5 / $25) → $60,000 + $11,250 = 월 $71,250 (5배)</p>
+<li><span class="lead">조건 :</span> 월 게시물 3억, 게시물당 140자, 3% 가 위반으로 표시, 표시 건당 출력 50토큰이다 (공식 예시의 식을 그대로 쓴다).</li>
+<li>계산 : 입력 = 3억 × 140 ÷ 3.5 = 120억 토큰(12,000 MTok). 출력 = 3억 × 0.03 × 50 = 4.5억 토큰(450 MTok).<ul>
+<li>Haiku 4.5 ($1 / $5) 는 $12,000 + $2,250 = 월 $14,250 이다</li>
+<li>Opus 5 ($5 / $25) 는 $60,000 + $11,250 = 월 $71,250 이다 (5배)</li>
+</ul>
 </li>
-<li>
-<p>판단 : 비용이 제약이면 작은 모델. 큰 모델이 이기려면 월 $57,000 차이를 사람 검토 감소 같은 다른 이득으로 메워야 함 — 공식 숫자 없음.</p>
-</li>
-<li><span class="lead">전제 :</span> 3.5자 = 1토큰은 공식 예시 가정 · 한국어는 글자당 토큰이 다를 수 있음 · 가격 = 2026-09-28 조회값(예시 문서 표기).</li>
+<li><span class="lead">판단 :</span> 비용이 제약이면 작은 모델을 쓴다. 큰 모델이 이기려면 월 $57,000 차이를 사람 검토 감소 같은 다른 이득으로 메워야 한다. 그 이득의 공식 숫자는 없다.</li>
+<li><span class="lead">전제 :</span> 3.5자 = 1토큰은 공식 예시의 가정이다. 한국어는 글자당 토큰이 다를 수 있다. 가격은 2026-09-28 조회값이다(예시 문서 표기).</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span></li>
 <li><span class="lead">근거 :</span> content-moderation</li>
 </ul>
 <h4>2. 고위험도 사람에게 보내면</h4>
 <ul>
-<li><span class="lead">조건 :</span> 하루 댓글 40만, 고위험 0.3%(1,200건), 중위험 2.5%(1만 건). 검토자 1명이 하루 500건 본다고 가정.</li>
-<li><span class="lead">계산 :</span> 고위험을 사람 큐로 보내면 검토자 2.4명 몫이 명백한 건에 쓰임. 이 건들은 확신이 높아 사람이 봐도 결론이 거의 안 바뀜 → 그만큼 애매한 중위험 사용자 검토가 밀림.</li>
-<li><span class="lead">판단 :</span> 고위험 자동 차단 + 중위험 누적 사용자만 사람. 공식 예시와 같은 방향.</li>
+<li><span class="lead">조건 :</span> 하루 댓글 40만, 고위험 0.3%(1,200건), 중위험 2.5%(1만 건)이다. 검토자 1명이 하루 500건을 본다고 가정한다.</li>
+<li><span class="lead">계산 :</span> 고위험을 사람 큐로 보내면 검토자 2.4명 몫이 명백한 건에 쓰인다. 이 건들은 확신이 높아 사람이 봐도 결론이 거의 안 바뀐다. 그만큼 애매한 중위험 사용자 검토가 밀린다.</li>
+<li><span class="lead">판단 :</span> 고위험은 자동 차단하고, 중위험이 쌓인 사용자만 사람이 본다. 공식 예시와 같은 방향이다.</li>
 <li><span class="lead">등급 :</span> 처방은 확인 · 인원 계산은 가정 숫자라 계산(예시)</li>
 <li><span class="lead">근거 :</span> en-full(등급 = 확신)</li>
 </ul>
 <h4>3. 고위험인데 사람이 필요한 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 판정 결과가 댓글 차단이 아니라 계정 영구 정지 같은 제재로 이어짐.</li>
-<li><span class="lead">판단 :</span> 콘텐츠 차단은 자동으로 두되, 되돌리기 어려운 제재는 사람 확인 — 콘텐츠 규칙이 아니라 행동 규칙(■ human-in-the-loop 게이트 위치)으로 넘어감.</li>
-<li><span class="lead">등급 :</span> <span class="gen">업계 일반</span> (공식 moderation 가이드는 제재를 다루지 않음)</li>
+<li><span class="lead">조건 :</span> 판정 결과가 댓글 차단이 아니라 계정 영구 정지 같은 제재로 이어진다.</li>
+<li><span class="lead">판단 :</span> 콘텐츠 차단은 자동으로 둔다. 하지만 되돌리기 어려운 제재는 사람이 확인한다. 이것은 콘텐츠 규칙이 아니라 행동 규칙(■ human-in-the-loop 게이트 위치)으로 넘어간 것이다.</li>
+<li><span class="lead">등급 :</span> <span class="gen">업계 일반</span> (공식 moderation 가이드는 제재를 다루지 않는다)</li>
 <li><span class="lead">근거 :</span> —</li>
 </ul>
 <h4>4. 중위험 1건이라도 사람에게</h4>
 <ul>
-<li><span class="lead">조건 :</span> 미성년자가 주 이용자인 서비스.</li>
-<li><span class="lead">판단 :</span> 등급을 나누는 목적이 강도 조절이라 문턱은 운영자가 정함. 엄격한 서비스는 중위험 1건도 사람 검토로 보낼 수 있음. 공식 예시("많은")는 기본값이지 상한이 아님.</li>
-<li><span class="lead">등급 :</span> <span class="note">(원칙 : 강도 조절) · 구체 문턱은 공식 숫자 없음</span></li>
+<li><span class="lead">조건 :</span> 미성년자가 주 이용자인 서비스다.</li>
+<li><span class="lead">판단 :</span> 등급을 나누는 목적이 강도 조절이라 문턱은 운영자가 정한다. 엄격한 서비스는 중위험 1건도 사람 검토로 보낼 수 있다. 공식 예시("많은")는 기본값이지 상한이 아니다.</li>
+<li><span class="lead">등급 :</span> <span class="note">(원칙 : 강도 조절) · 구체 문턱은 공식 숫자가 없다</span></li>
 </ul>
 </section>
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
@@ -702,21 +712,23 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"고위험일수록 사람이 검토"</td><td data-label="왜 끌리나" role="cell">에이전트 승인 규칙과 헷갈림</td><td data-label="왜 틀리나" role="cell">moderation 에선 고위험 = 자동 차단</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"허용·차단 이진 분류"</td><td data-label="왜 끌리나" role="cell">단순함</td><td data-label="왜 틀리나" role="cell">강도를 조절할 lever 가 없음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"모든 표시 건을 사람 대기열에"</td><td data-label="왜 끌리나" role="cell">신중해 보임</td><td data-label="왜 틀리나" role="cell">명백한 건까지 쌓여 검토자가 밀림</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"중위험 한 건마다 사람"</td><td data-label="왜 끌리나" role="cell">놓치지 않을 것 같음</td><td data-label="왜 틀리나" role="cell">공식 예시는 중위험이 많은 사용자 (단 엄격 서비스는 가능 — 뒤집히는 때 4)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"프롬프트에 '성인 콘텐츠는 걸러내지 마'"</td><td data-label="왜 끌리나" role="cell">운영자가 정책을 정한다고 봄</td><td data-label="왜 틀리나" role="cell">내장 안전 동작이 우선할 수 있음 → AUP 먼저</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"moderation 에 가장 큰 모델"</td><td data-label="왜 끌리나" role="cell">정확할 것 같음</td><td data-label="왜 틀리나" role="cell">양이 많아 비용 5배. 비용이 걱정이면 Haiku 4.5</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"실시간 채팅도 큰 배치로"</td><td data-label="왜 끌리나" role="cell">비용↓</td><td data-label="왜 틀리나" role="cell">실시간이 필요 없을 때만. 배치 크면 품질↓</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Claude 를 노린 탈옥도 이 moderation 파이프라인으로"</td><td data-label="왜 끌리나" role="cell">같은 'moderation' 이라는 말</td><td data-label="왜 틀리나" role="cell">이 가이드는 사용자 생성 콘텐츠용. 탈옥·인젝션은 별도 문서</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"이유는 안 알려 주고 차단만"</td><td data-label="왜 끌리나" role="cell">우회 방지</td><td data-label="왜 틀리나" role="cell">공식 모범 사례는 이유·다시 쓰는 법 제공</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"고위험일수록 사람이 검토"</td><td data-label="왜 끌리나" role="cell">에이전트 승인 규칙과 헷갈린다</td><td data-label="왜 틀리나" role="cell">moderation 에서는 고위험을 자동 차단한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"허용·차단 이진 분류"</td><td data-label="왜 끌리나" role="cell">단순하다</td><td data-label="왜 틀리나" role="cell">강도를 조절할 lever 가 없다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모든 표시 건을 사람 대기열에"</td><td data-label="왜 끌리나" role="cell">신중해 보인다</td><td data-label="왜 틀리나" role="cell">명백한 건까지 쌓여 검토자가 밀린다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"중위험 한 건마다 사람"</td><td data-label="왜 끌리나" role="cell">놓치지 않을 것 같다</td><td data-label="왜 틀리나" role="cell">공식 예시는 중위험이 많은 사용자를 본다 (단 엄격한 서비스는 가능하다. 뒤집히는 때 4)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"프롬프트에 '성인 콘텐츠는 걸러내지 마'"</td><td data-label="왜 끌리나" role="cell">운영자가 정책을 정한다고 본다</td><td data-label="왜 틀리나" role="cell">내장 안전 동작이 우선할 수 있다. AUP 를 먼저 본다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"moderation 에 가장 큰 모델"</td><td data-label="왜 끌리나" role="cell">정확할 것 같다</td><td data-label="왜 틀리나" role="cell">양이 많아 비용이 5배다. 비용이 걱정이면 Haiku 4.5 를 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"실시간 채팅도 큰 배치로"</td><td data-label="왜 끌리나" role="cell">비용이 준다</td><td data-label="왜 틀리나" role="cell">실시간이 필요 없을 때만 쓴다. 배치가 크면 품질이 내려간다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Claude 를 노린 탈옥도 이 moderation 파이프라인으로"</td><td data-label="왜 끌리나" role="cell">같은 'moderation' 이라는 말이다</td><td data-label="왜 틀리나" role="cell">이 가이드는 사용자 생성 콘텐츠용이다. 탈옥·인젝션은 별도 문서가 다룬다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"이유는 안 알려 주고 차단만"</td><td data-label="왜 끌리나" role="cell">우회를 막을 것 같다</td><td data-label="왜 틀리나" role="cell">공식 모범 사례는 이유와 다시 쓰는 법을 알려 준다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="moderation-tiers-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
@@ -731,13 +743,14 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>목록 5.3③ "'위험할수록 사람' 은 에이전트 행동 승인(5.3①)의 규칙" : 원문 대조 결과 auto mode 는 "위험할수록 사람" 이라기보다 "되돌릴 수 없는 행동은 막고, 거부가 쌓이면 사람" (claude-code-auto-mode). 방향은 같지만 문장은 목록의 요약.</li>
-<li>없음·낮음(0~1) 처리와 "많은(many)" 의 기준 숫자는 원문에 없음.</li>
-<li>한국어판은 "인간 검토"·"중간 위험 쿼리" 라고 씀. 뜻은 영어판과 같음.</li>
-<li>비용 예시에 Opus 4.8 과 Opus 5 가 같은 가격($5/$25)으로 나란히 있음 — 문서가 모델 목록을 덧붙여 온 흔적. 시험은 "작은 모델 = 비용 효율" 방향만 물을 가능성(추론).</li>
-<li>공식 예시 코드는 JSON 을 프롬프트 지시로만 받음. 스키마 보장(구조화 출력)을 쓰라는 문장은 이 문서에 없음.</li>
+<li>목록 5.3③ "'위험할수록 사람' 은 에이전트 행동 승인(5.3①)의 규칙" : 원문과 대조했다. auto mode 는 "위험할수록 사람" 이라기보다 "되돌릴 수 없는 행동은 막고, 거부가 쌓이면 사람" 이다 (claude-code-auto-mode). 방향은 같지만 문장은 목록의 요약이다.</li>
+<li>없음·낮음(0~1) 처리와 "많은(many)" 의 기준 숫자는 원문에 없다.</li>
+<li>한국어판은 "인간 검토"·"중간 위험 쿼리" 라고 쓴다. 뜻은 영어판과 같다.</li>
+<li>비용 예시에 Opus 4.8 과 Opus 5 가 같은 가격($5/$25)으로 나란히 있다. 문서가 모델 목록을 덧붙여 온 흔적이다. 시험은 "작은 모델 = 비용 효율" 방향만 물을 가능성이 있다(추론).</li>
+<li>공식 예시 코드는 JSON 을 프롬프트 지시로만 받는다. 스키마 보장(구조화 출력)을 쓰라는 문장은 이 문서에 없다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

@@ -394,25 +394,29 @@
 <!-- /vx:figure -->
 <section class="ex-sec" id="principle" aria-labelledby="principle-h">
 <h3 id="principle-h">원리</h3>
-<p class="lead">CLAUDE.md 는 모델이 읽는 글</p>
+<p class="lead">CLAUDE.md 는 모델이 읽는 글이다</p>
 <ul>
-<li>세션마다 컨텍스트에 실려 모델이 읽고 따름 → 따를 확률은 높지만 0 이 아닌 실패가 남음. 공식 표현 "context, not enforced configuration".</li>
-<li>길수록 덜 따름(파일당 200줄 목표). 충돌하는 규칙이 있으면 아무거나 고를 수 있음. 강조(IMPORTANT)는 주변보다 우선순위를 올릴 뿐(Skilljar).</li>
-<li>그래서 맞는 자리 = 스타일·관례·구조 설명처럼 어겨도 되돌릴 수 있는 것.</li>
+<li>CLAUDE.md 는 세션마다 컨텍스트에 실린다. 모델은 그것을 읽고 따른다. 따를 확률은 높지만 0 이 아닌 실패가 남는다. 공식 표현은 "context, not enforced configuration" 이다.</li>
+<li>길수록 덜 따른다(파일당 200줄 목표). 충돌하는 규칙이 있으면 아무거나 고를 수 있다. 강조(IMPORTANT)는 주변보다 우선순위를 올릴 뿐이다(Skilljar).</li>
+<li>그래서 CLAUDE.md 에 맞는 것은 스타일·관례·구조 설명처럼 어겨도 되돌릴 수 있는 것이다.</li>
 </ul>
-<p class="lead">훅은 Claude Code 가 돌리는 코드</p>
+<p class="lead">훅은 Claude Code 가 돌리는 코드다</p>
 <ul>
-<li>정해진 시점(lifecycle event)에 셸 명령으로 실행됨. 모델이 뭘 정하든 실행됨 → 결정론적(deterministic).</li>
-<li>막을 수 있나는 이벤트가 정함 : <strong>아직 안 일어난 일</strong>(도구 호출 전·응답 끝내기 전·프롬프트 처리 전)은 막을 수 있고, <strong>이미 일어난 일</strong>(도구 실행 뒤·세션 종료)은 못 막음.</li>
-<li>막는 신호 = exit 2 하나. exit 1 등 다른 0 아닌 코드는 오류로 적히고 진행함.</li>
+<li>훅은 정해진 시점(lifecycle event)에 셸 명령으로 실행된다. 모델이 뭘 정하든 실행된다. 그래서 결정론적(deterministic)이다.</li>
+<li>막을 수 있는지는 이벤트가 정한다.<ul>
+<li><strong>아직 안 일어난 일</strong>(도구 호출 전·응답 끝내기 전·프롬프트 처리 전)은 막을 수 있다.</li>
+<li><strong>이미 일어난 일</strong>(도구 실행 뒤·세션 종료)은 막지 못한다.</li>
+</ul>
+</li>
+<li>막는 신호는 exit 2 하나다. exit 1 등 다른 0 아닌 코드는 오류로 적히고 진행한다.</li>
 </ul>
 <p class="lead">훅과 권한 규칙의 자리</p>
 <ul>
-<li>명령 이름만으로 가를 수 있으면 권한 규칙(<code>permissions.deny</code>)이 더 단순 — 훅 스크립트 없이 한 줄.</li>
-<li>명령 내용·인자를 내 로직으로 봐야 하면(시크릿 패턴, 우회 표기) PreToolUse 훅.</li>
-<li>둘은 겹쳐 동작함 : PreToolUse 훅이 권한 확인창보다 먼저. exit 2 는 allow 규칙이 있어도 막고, 훅의 "allow" 는 deny·ask 규칙을 못 넘음.</li>
+<li>명령 이름만으로 가를 수 있으면 권한 규칙(<code>permissions.deny</code>)이 더 단순하다. 훅 스크립트 없이 한 줄이면 된다.</li>
+<li>명령 내용과 인자를 내 로직으로 봐야 하면(시크릿 패턴, 우회 표기) PreToolUse 훅을 쓴다.</li>
+<li>둘은 겹쳐 동작한다. PreToolUse 훅이 권한 확인창보다 먼저 실행된다. exit 2 는 allow 규칙이 있어도 막는다. 훅의 "allow" 는 deny·ask 규칙을 넘지 못한다.</li>
 </ul>
-<p class="lead">핵심 질문 두 개</p>
+<p class="lead">핵심 질문은 두 개다</p>
 <ul>
 <li>어기면 되돌리기 어려운가(매번·반드시)?</li>
 <li>막아야 할 순간이 일이 벌어지기 <strong>전</strong>인가 <strong>후</strong>인가?</li>
@@ -431,11 +435,11 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예 <span class="note">(시크릿 · 위험 명령 · 매 편집 후 검사)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">훅</p><p>정해진 시점에 셸 명령으로 실행됨. Claude 가 뭘 정하든</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">훅</p><p>정해진 시점에 셸 명령으로 실행된다. Claude 가 뭘 정하든 실행된다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(스타일 · 관례)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">CLAUDE.md</p><p>맥락일 뿐 강제 아님. 구체적·확인 가능하게, 파일당 200줄 미만</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">CLAUDE.md</p><p>맥락일 뿐 강제가 아니다. 구체적이고 확인 가능하게 쓴다. 파일당 200줄 미만으로 둔다</p></div>
         </div>
       </div>
     </div>
@@ -447,23 +451,23 @@
       <div class="t5-fork" style="--n:5">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>도구 실행 전</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">PreToolUse</p><p>exit 2 = 도구 호출 막음</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">PreToolUse</p><p>exit 2 로 도구 호출을 막는다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>편집 뒤 <span class="note">(린트·포맷)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">PostToolUse</p><p>못 막음 — 도구는 이미 실행, stderr 만 Claude 에게</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">PostToolUse</p><p>막지 못한다. 도구는 이미 실행됐고 stderr 만 Claude 에게 간다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>Claude 가 응답을 끝낼 때</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Stop</p><p>exit 2 = 멈춤을 막고 계속 일하게 함</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Stop</p><p>exit 2 로 멈춤을 막고 계속 일하게 한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>세션이 끝날 때</span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">SessionEnd</p><p>못 막음 — 정리만</p></div>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">SessionEnd</p><p>막지 못한다. 정리만 한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>커밋 전</span>
-          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">PreToolUse + <code>if</code> 로 git 명령만</p><p>'pre-commit' 이벤트는 없음</p></div>
+          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">PreToolUse + <code>if</code> 로 git 명령만</p><p>'pre-commit' 이벤트는 없다</p></div>
         </div>
       </div>
     </div>
@@ -475,45 +479,45 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예 <span class="note">(git push 금지)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>permissions.deny</code></p><p>규칙 한 줄 → <a href="agent-permissions.html">■ 에이전트 권한</a></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>permissions.deny</code></p><p>규칙 한 줄로 막는다. 자세한 것은 <a href="agent-permissions.html">■ 에이전트 권한</a> 에 있다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(내용 검사 · 시크릿 가리기)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">PreToolUse 훅</p><p>명령 내용을 내 코드로. <code>updatedInput</code> 으로 고쳐서 실행도 됨 <span class="src">(Skilljar)</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">PreToolUse 훅</p><p>명령 내용을 내 코드로 본다. <code>updatedInput</code> 으로 고쳐서 실행하게 할 수도 있다 <span class="src">(Skilljar)</span></p></div>
         </div>
       </div>
     </div>
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="claude-md-vs-hooks-flow" aria-label="CLAUDE.md(지시) vs 훅(강제) 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["Claude","훅","도구"],"blocks":[],"rules":[null,"막을 수 있는지는 그 일이 아직 안 일어났느냐로 정해짐",null],"question":"커밋을 실제로 막는 건 어느 칸일까?","scenes":[{"name":"① PreToolUse 에서 막기","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Bash: `git commit -a`","스테이징: `.env`"]}},{"kind":"move","step":"호출","from":{"col":0},"to":1,"label":"도구 실행 전","art":{"kind":"slip","lines":["PreToolUse","if: `\"Bash(git *)\"` → 일치"]}},{"kind":"mark","step":"차단","at":{"col":1},"label":"exit 2 = 도구 호출 막음","art":{"kind":"slip","lines":["stderr: .env 커밋 차단","exit 2"]}},{"kind":"end","label":"Claude 가 뭘 정하든 도구 호출 막음 — `git commit` 은 실행 안 됨"}]},{"name":"② CLAUDE.md 에만 적음","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["CLAUDE.md:","IMPORTANT: `.env` 커밋 금지"]}},{"kind":"mark","step":"결정","at":{"col":0},"label":"맥락일 뿐 강제 아님","art":{"kind":"slip","lines":["Bash: `git commit -a`","스테이징: `.env`"]}},{"kind":"skip","at":1},{"kind":"move","step":"호출","from":{"col":0},"to":2,"label":"대부분 지켜지지만","art":{"kind":"slip","lines":["`git commit` 실행됨","+ `.env`"]}},{"kind":"end","label":"보장 아님 — CLAUDE.md 는 맥락일 뿐 강제 아님"}]},{"name":"③ PostToolUse 로 막으려 함","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Bash: `git commit -a`","스테이징: `.env`"]}},{"kind":"move","step":"호출","from":{"col":0},"to":2,"label":"실행이 먼저","art":{"kind":"slip","lines":["`git commit` 실행됨","+ `.env`"]}},{"kind":"mark","step":"검사","at":{"col":1},"label":"못 막음 — stderr 만 Claude 에게","art":{"kind":"slip","lines":["PostToolUse","stderr: .env 발견","(이미 커밋됨)"]}},{"kind":"end","label":"도구는 이미 실행 — 막으려면 PreToolUse"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["Claude","훅","도구"],"blocks":[],"rules":[null,"막을 수 있는지는 그 일이 아직 안 일어났느냐로 정해진다",null],"question":"커밋을 실제로 막는 건 어느 칸일까?","scenes":[{"name":"① PreToolUse 에서 막기","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Bash: `git commit -a`","스테이징: `.env`"]}},{"kind":"move","step":"호출","from":{"col":0},"to":1,"label":"도구 실행 전에 부른다","art":{"kind":"slip","lines":["PreToolUse","if: `\"Bash(git *)\"` → 일치"]}},{"kind":"mark","step":"차단","at":{"col":1},"label":"exit 2 로 도구 호출을 막는다","art":{"kind":"slip","lines":["stderr: .env 커밋 차단","exit 2"]}},{"kind":"end","label":"Claude 가 뭘 정하든 도구 호출을 막는다. `git commit` 은 실행되지 않는다"}]},{"name":"② CLAUDE.md 에만 적기","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["CLAUDE.md:","IMPORTANT: `.env` 커밋 금지"]}},{"kind":"mark","step":"결정","at":{"col":0},"label":"맥락일 뿐 강제가 아니다","art":{"kind":"slip","lines":["Bash: `git commit -a`","스테이징: `.env`"]}},{"kind":"skip","at":1},{"kind":"move","step":"호출","from":{"col":0},"to":2,"label":"대부분 지켜지지만 보장은 아니다","art":{"kind":"slip","lines":["`git commit` 실행됨","+ `.env`"]}},{"kind":"end","label":"CLAUDE.md 는 맥락일 뿐 강제가 아니다. 그래서 보장되지 않는다"}]},{"name":"③ PostToolUse 로 막기","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["Bash: `git commit -a`","스테이징: `.env`"]}},{"kind":"move","step":"호출","from":{"col":0},"to":2,"label":"실행이 먼저 일어난다","art":{"kind":"slip","lines":["`git commit` 실행됨","+ `.env`"]}},{"kind":"mark","step":"검사","at":{"col":1},"label":"막지 못한다. stderr 만 Claude 에게 간다","art":{"kind":"slip","lines":["PostToolUse","stderr: .env 발견","(이미 커밋됨)"]}},{"kind":"end","label":"도구는 이미 실행됐다. 막으려면 PreToolUse 를 쓴다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> Claude → 훅 → 도구</p>
-      <p><span class="lead">규칙 (훅) :</span> 막을 수 있는지는 그 일이 아직 안 일어났느냐로 정해짐</p>
+      <p><span class="lead">규칙 (훅) :</span> 막을 수 있는지는 그 일이 아직 안 일어났느냐로 정해진다</p>
       <p><span class="lead">질문 :</span> 커밋을 실제로 막는 건 어느 칸일까?</p>
       <p class="lead">① PreToolUse 에서 막기 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : Claude — 쪽지 : <span class="flx-alt-slip">Bash: <code>git commit -a</code> / 스테이징: <code>.env</code></span></li>
-        <li>호출 : Claude → 훅 : 도구 실행 전 — 쪽지 : <span class="flx-alt-slip">PreToolUse / if: <code>"Bash(git *)"</code> → 일치</span></li>
-        <li>차단 : 훅 : exit 2 = 도구 호출 막음 — 쪽지 : <span class="flx-alt-slip">stderr: .env 커밋 차단 / exit 2</span></li>
-        <li>끝 : Claude 가 뭘 정하든 도구 호출 막음 — <code>git commit</code> 은 실행 안 됨</li>
+        <li>호출 : Claude → 훅 : 도구 실행 전에 부른다 — 쪽지 : <span class="flx-alt-slip">PreToolUse / if: <code>"Bash(git *)"</code> → 일치</span></li>
+        <li>차단 : 훅 : exit 2 로 도구 호출을 막는다 — 쪽지 : <span class="flx-alt-slip">stderr: .env 커밋 차단 / exit 2</span></li>
+        <li>끝 : Claude 가 뭘 정하든 도구 호출을 막는다. <code>git commit</code> 은 실행되지 않는다</li>
       </ol>
-      <p class="lead">② CLAUDE.md 에만 적음 <span class="fl-v is-ng">≠</span></p>
+      <p class="lead">② CLAUDE.md 에만 적기 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : Claude — 쪽지 : <span class="flx-alt-slip">CLAUDE.md: / IMPORTANT: <code>.env</code> 커밋 금지</span></li>
-        <li>결정 : Claude : 맥락일 뿐 강제 아님 — 쪽지 : <span class="flx-alt-slip">Bash: <code>git commit -a</code> / 스테이징: <code>.env</code></span></li>
+        <li>결정 : Claude : 맥락일 뿐 강제가 아니다 — 쪽지 : <span class="flx-alt-slip">Bash: <code>git commit -a</code> / 스테이징: <code>.env</code></span></li>
         <li>건너뜀 : 훅</li>
-        <li>호출 : Claude → 도구 : 대부분 지켜지지만 — 쪽지 : <span class="flx-alt-slip"><code>git commit</code> 실행됨 / + <code>.env</code></span></li>
-        <li>끝 : 보장 아님 — CLAUDE.md 는 맥락일 뿐 강제 아님</li>
+        <li>호출 : Claude → 도구 : 대부분 지켜지지만 보장은 아니다 — 쪽지 : <span class="flx-alt-slip"><code>git commit</code> 실행됨 / + <code>.env</code></span></li>
+        <li>끝 : CLAUDE.md 는 맥락일 뿐 강제가 아니다. 그래서 보장되지 않는다</li>
       </ol>
-      <p class="lead">③ PostToolUse 로 막으려 함 <span class="fl-v is-ng">≠</span></p>
+      <p class="lead">③ PostToolUse 로 막기 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : Claude — 쪽지 : <span class="flx-alt-slip">Bash: <code>git commit -a</code> / 스테이징: <code>.env</code></span></li>
-        <li>호출 : Claude → 도구 : 실행이 먼저 — 쪽지 : <span class="flx-alt-slip"><code>git commit</code> 실행됨 / + <code>.env</code></span></li>
-        <li>검사 : 훅 : 못 막음 — stderr 만 Claude 에게 — 쪽지 : <span class="flx-alt-slip">PostToolUse / stderr: .env 발견 / (이미 커밋됨)</span></li>
-        <li>끝 : 도구는 이미 실행 — 막으려면 PreToolUse</li>
+        <li>호출 : Claude → 도구 : 실행이 먼저 일어난다 — 쪽지 : <span class="flx-alt-slip"><code>git commit</code> 실행됨 / + <code>.env</code></span></li>
+        <li>검사 : 훅 : 막지 못한다. stderr 만 Claude 에게 간다 — 쪽지 : <span class="flx-alt-slip">PostToolUse / stderr: .env 발견 / (이미 커밋됨)</span></li>
+        <li>끝 : 도구는 이미 실행됐다. 막으려면 PreToolUse 를 쓴다</li>
       </ol>
     </details>
   </figure>
@@ -521,36 +525,36 @@
     <details class="t5-orig">
       <summary>규칙 원문 <span class="note">갈림 기준 어느 이벤트 (갈림길로 그린 규칙)</span></summary>
       <p class="lead orig-h">갈림 기준</p>
-      <p class="lead">어기면 큰일인가가 먼저</p>
+      <p class="lead">어기면 큰일인가를 먼저 본다</p>
       <ul class="plain">
-        <li>CLAUDE.md = 맥락일 뿐 강제 아님(context, not enforced configuration). 대부분 지켜지지만 보장 아님. 길수록 덜 따름 → 파일당 200줄 미만 · 구체적·확인 가능하게</li>
-        <li>"매 커밋 전 · 매 편집 후"처럼 정해진 시점에 꼭 돌아야 하면 훅. 정해진 시점에 셸 명령으로 실행됨. Claude 가 뭘 정하든</li>
-      </ul>
-      <p>공식 표 : 도구·명령·경로 막기 = settings <code>permissions.deny</code> · 코드 스타일·품질 지침 = CLAUDE.md</p>
-      <ul class="plain">
-        <li>명령 이름만으로 막을 수 있으면 <code>permissions.deny</code> 한 줄(예 <code>Bash(git push *)</code>). 명령 내용을 내 코드로 봐야 하면 PreToolUse 훅 — 막거나, <code>updatedInput</code> 으로 고쳐서 실행도 됨(시크릿 가리기) (Skilljar) → <a href="agent-permissions.html">■ 에이전트 권한</a></li>
-        <li>훅은 권한 규칙보다 먼저 실행됨 : exit 2 훅은 allow 규칙이 있어도 막음. 반대로 훅이 "allow" 를 내도 deny·ask 규칙은 그대로</li>
-        <li>팀에 거는 훅 = 커밋한 <code>.claude/settings.json</code> 에(<a href="team-config-scopes.html">■ 팀 설정 위치</a>). 조직이 못 끄게 = 관리형 훅 — 사용자·프로젝트의 <code>disableAllHooks</code> 로 못 끔 · <code>allowManagedHooksOnly</code> 면 사용자·프로젝트·로컬 훅은 실행 안 됨</li>
+        <li>CLAUDE.md 는 맥락일 뿐 강제가 아니다(context, not enforced configuration). 대부분 지켜지지만 보장은 아니다. 길수록 덜 따른다. 그래서 파일당 200줄 미만으로, 구체적이고 확인 가능하게 쓴다</li>
+        <li>"매 커밋 전 · 매 편집 후" 처럼 정해진 시점에 꼭 돌아야 하면 훅을 쓴다. 훅은 정해진 시점에 셸 명령으로 실행된다. Claude 가 뭘 정하든 실행된다</li>
+        <li>공식 표는 이렇게 나눈다. 도구·명령·경로 막기는 settings <code>permissions.deny</code> 가 맡는다. 코드 스타일·품질 지침은 CLAUDE.md 가 맡는다</li>
+        <li>명령 이름만으로 막을 수 있으면 <code>permissions.deny</code> 한 줄을 쓴다(예 <code>Bash(git push *)</code>). 명령 내용을 내 코드로 봐야 하면 PreToolUse 훅을 쓴다</li>
+        <li>PreToolUse 훅은 호출을 막을 수 있다. <code>updatedInput</code> 으로 고쳐서 실행하게 할 수도 있다(시크릿 가리기) (Skilljar). 자세한 것은 <a href="agent-permissions.html">■ 에이전트 권한</a> 에 있다</li>
+        <li>훅은 권한 규칙보다 먼저 실행된다. exit 2 훅은 allow 규칙이 있어도 막는다. 반대로 훅이 "allow" 를 내도 deny·ask 규칙은 그대로 적용된다</li>
+        <li>팀에 거는 훅은 커밋한 <code>.claude/settings.json</code> 에 둔다(<a href="team-config-scopes.html">■ 팀 설정 위치</a>). 조직이 못 끄게 하려면 관리형 훅을 쓴다. 관리형 훅은 사용자·프로젝트의 <code>disableAllHooks</code> 로 끄지 못한다. <code>allowManagedHooksOnly</code> 면 사용자·프로젝트·로컬 훅은 실행되지 않는다</li>
       </ul>
       <p class="lead orig-h">어느 이벤트</p>
-      <p class="lead">막을 수 있는지는 그 일이 아직 안 일어났느냐로 정해짐</p>
+      <p class="lead">막을 수 있는지는 그 일이 아직 안 일어났느냐로 정해진다</p>
       <div class="tscroll" role="region" aria-label="표" tabindex="0">
       <table class="t-stack" role="table">
         <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">하고 싶은 것</th><th scope="col" role="columnheader">이벤트</th><th scope="col" role="columnheader">exit 2</th></tr></thead>
         <tbody role="rowgroup">
-          <tr role="row"><td data-label="하고 싶은 것" role="cell">실행 전 차단 <span class="note">(위험 명령·시크릿·보호 파일)</span></td><td data-label="이벤트" role="cell"><code>PreToolUse</code></td><td data-label="exit 2" role="cell">도구 호출 막음</td></tr>
-          <tr role="row"><td data-label="하고 싶은 것" role="cell">편집 뒤 린트·포맷·경고</td><td data-label="이벤트" role="cell"><code>PostToolUse</code></td><td data-label="exit 2" role="cell">못 막음 — stderr 만 Claude 에게, 도구는 이미 실행</td></tr>
-          <tr role="row"><td data-label="하고 싶은 것" role="cell">응답 끝낼 때 "아직 안 끝남"(테스트 통과 확인)</td><td data-label="이벤트" role="cell"><code>Stop</code></td><td data-label="exit 2" role="cell">멈춤을 막고 계속 일하게 함</td></tr>
-          <tr role="row"><td data-label="하고 싶은 것" role="cell">프롬프트 검사</td><td data-label="이벤트" role="cell"><code>UserPromptSubmit</code></td><td data-label="exit 2" role="cell">프롬프트 처리 막고 지움</td></tr>
-          <tr role="row"><td data-label="하고 싶은 것" role="cell">세션 끝 정리</td><td data-label="이벤트" role="cell"><code>SessionEnd</code></td><td data-label="exit 2" role="cell">못 막음 — 사용자에게 stderr 만</td></tr>
+          <tr role="row"><td data-label="하고 싶은 것" role="cell">실행 전 차단 <span class="note">(위험 명령·시크릿·보호 파일)</span></td><td data-label="이벤트" role="cell"><code>PreToolUse</code></td><td data-label="exit 2" role="cell">도구 호출을 막는다</td></tr>
+          <tr role="row"><td data-label="하고 싶은 것" role="cell">편집 뒤 린트·포맷·경고</td><td data-label="이벤트" role="cell"><code>PostToolUse</code></td><td data-label="exit 2" role="cell">막지 못한다. stderr 만 Claude 에게 간다. 도구는 이미 실행됐다</td></tr>
+          <tr role="row"><td data-label="하고 싶은 것" role="cell">응답 끝낼 때 "아직 안 끝났다"(테스트 통과 확인)</td><td data-label="이벤트" role="cell"><code>Stop</code></td><td data-label="exit 2" role="cell">멈춤을 막고 계속 일하게 한다</td></tr>
+          <tr role="row"><td data-label="하고 싶은 것" role="cell">프롬프트 검사</td><td data-label="이벤트" role="cell"><code>UserPromptSubmit</code></td><td data-label="exit 2" role="cell">프롬프트 처리를 막고 프롬프트를 지운다</td></tr>
+          <tr role="row"><td data-label="하고 싶은 것" role="cell">세션 끝 정리</td><td data-label="이벤트" role="cell"><code>SessionEnd</code></td><td data-label="exit 2" role="cell">막지 못한다. 사용자에게 stderr 만 보인다</td></tr>
         </tbody>
       </table>
       </div>
-      <p>막는 건 exit 2 뿐. 다른 0 아닌 코드(예 1)는 막지 않고 계속 진행</p>
-      <p><code>SessionStart</code> 훅 = 맥락만 넣음(<code>additionalContext</code>). 막는 힘 없음 → 규칙을 SessionStart 로 싣는 건 여전히 지시지 강제 아님</p>
-      <p>matcher 는 도구 이름 정확히 : <code>Bash</code> 는 Bash 도구만. 편집까지 잡으려면 <code>Edit|Write</code> 를 따로 적어야 함 → "셸엔 실행되고 편집엔 안 됨" = matcher 범위부터 봄</p>
-      <p>Stop 은 "세션 끝"이 아니라 Claude 가 응답을 끝낼 때마다(턴마다). 끝없는 반복 방지 : <code>stop_hook_active</code> 확인 · 연속 8번 계속시키면 Claude Code 가 턴을 끝냄</p>
-      <p>Claude Code 이벤트 목록에 'pre-commit' 은 없음 → PreToolUse 에 <code>if</code> 필드(권한 규칙 문법, 예 <code>"Bash(git *)"</code>)로 git 명령만 거름. git 자체 pre-commit 훅도 방법 <span class="gen">업계 일반</span></p>
+      <p>막는 것은 exit 2 뿐이다. 다른 0 아닌 코드(예 1)는 막지 않고 계속 진행한다</p>
+      <p><code>SessionStart</code> 훅은 맥락만 넣는다(<code>additionalContext</code>). 막는 힘이 없다. 그래서 규칙을 SessionStart 로 싣는 것은 여전히 지시이고 강제가 아니다</p>
+      <p>matcher 는 도구 이름을 정확히 맞춘다. <code>Bash</code> 는 Bash 도구만 잡는다. 편집까지 잡으려면 <code>Edit|Write</code> 를 따로 적어야 한다. 그래서 "셸에서는 실행되고 편집에서는 안 된다" 면 matcher 범위부터 본다</p>
+      <p>Stop 은 "세션 끝" 이 아니다. Claude 가 응답을 끝낼 때마다(턴마다) 실행된다. 끝없는 반복은 두 가지로 막는다. <code>stop_hook_active</code> 를 확인한다. 연속 8번 계속시키면 Claude Code 가 턴을 끝낸다</p>
+      <p>Claude Code 이벤트 목록에 'pre-commit' 은 없다. 그래서 PreToolUse 에 <code>if</code> 필드(권한 규칙 문법, 예 <code>"Bash(git *)"</code>)를 달아 git 명령만 거른다</p>
+      <p>git 자체 pre-commit 훅도 방법이다 <span class="gen">업계 일반</span></p>
     </details>
   </div>
   <details class="t5-orig v3-more">
@@ -561,14 +565,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">어떤 행동을 Claude 판단과 무관하게 막아야 함</td><td data-label="답" role="cell">PreToolUse 훅</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a> "To block an action regardless of what Claude decides, use a PreToolUse hook instead."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">매 커밋 전·매 편집 후처럼 정해진 시점에 꼭</td><td data-label="답" role="cell">훅</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a> "such as before every commit or after each file edit, write it as a hook instead."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">코드 스타일·품질 지침·데이터 취급 알림</td><td data-label="답" role="cell">CLAUDE.md</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">도구·명령·경로 막기</td><td data-label="답" role="cell">settings <code>permissions.<wbr>deny</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">편집 뒤 자동 포맷·린트</td><td data-label="답" role="cell">PostToolUse (막지는 못함)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a> · Skilljar 486933</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">테스트 통과 전엔 응답을 못 끝내게</td><td data-label="답" role="cell">Stop (exit 2 = 계속 일함)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">세션 끝 정리·기록</td><td data-label="답" role="cell">SessionEnd (막는 힘 없음)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">커밋 전 검사</td><td data-label="답" role="cell">PreToolUse + <code>if</code> 로 git 명령만 거름</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a>(이벤트 목록에 pre-commit 없음) ·(<code>if</code>)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">어떤 행동을 Claude 판단과 무관하게 막아야 한다</td><td data-label="답" role="cell">PreToolUse 훅을 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a> "To block an action regardless of what Claude decides, use a PreToolUse hook instead."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">매 커밋 전·매 편집 후처럼 정해진 시점에 꼭 돌아야 한다</td><td data-label="답" role="cell">훅을 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a> "such as before every commit or after each file edit, write it as a hook instead."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">코드 스타일·품질 지침·데이터 취급 알림이다</td><td data-label="답" role="cell">CLAUDE.md 에 둔다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">도구·명령·경로를 막는다</td><td data-label="답" role="cell">settings <code>permissions.<wbr>deny</code> 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">편집 뒤에 자동 포맷·린트를 돌린다</td><td data-label="답" role="cell">PostToolUse 를 쓴다 (막지는 못한다)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a> · Skilljar 486933</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">테스트 통과 전에는 응답을 못 끝내게 한다</td><td data-label="답" role="cell">Stop 을 쓴다 (exit 2 면 계속 일한다)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">세션 끝에 정리·기록한다</td><td data-label="답" role="cell">SessionEnd 를 쓴다 (막는 힘이 없다)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">커밋 전에 검사한다</td><td data-label="답" role="cell">PreToolUse + <code>if</code> 로 git 명령만 거른다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a>(이벤트 목록에 pre-commit 이 없다) ·(<code>if</code>)</td></tr>
   </tbody>
 </table>
 </div>
@@ -579,17 +583,17 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">요구 강도</td><td data-label="값" role="cell">"반드시"·되돌리기 어려움</td><td data-label="답 쪽" role="cell">훅·권한 규칙</td><td data-label="근거" role="cell">판단 규칙 1·2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">요구 강도</td><td data-label="값" role="cell">"반드시"·되돌리기 어렵다</td><td data-label="답 쪽" role="cell">훅이나 권한 규칙</td><td data-label="근거" role="cell">판단 규칙 1·2</td></tr>
     <tr role="row"><td data-label="변수" role="cell">요구 강도</td><td data-label="값" role="cell">"되도록"·스타일</td><td data-label="답 쪽" role="cell">CLAUDE.md</td><td data-label="근거" role="cell">판단 규칙 3</td></tr>
     <tr role="row"><td data-label="변수" role="cell">시점</td><td data-label="값" role="cell">도구 실행 전</td><td data-label="답 쪽" role="cell">PreToolUse</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">시점</td><td data-label="값" role="cell">도구 실행 뒤</td><td data-label="답 쪽" role="cell">PostToolUse — 경고·정리만</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">시점</td><td data-label="값" role="cell">도구 실행 뒤</td><td data-label="답 쪽" role="cell">PostToolUse 다. 경고와 정리만 한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">시점</td><td data-label="값" role="cell">응답 끝낼 때</td><td data-label="답 쪽" role="cell">Stop</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">시점</td><td data-label="값" role="cell">세션 끝</td><td data-label="답 쪽" role="cell">SessionEnd — 못 막음</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">판단 재료</td><td data-label="값" role="cell">명령 이름뿐</td><td data-label="답 쪽" role="cell"><code>permissions.<wbr>deny</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">판단 재료</td><td data-label="값" role="cell">명령 내용·다른 표기</td><td data-label="답 쪽" role="cell">PreToolUse 훅 · 샌드박스</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">누가 끌 수 있나</td><td data-label="값" role="cell">팀원이 꺼도 됨</td><td data-label="답 쪽" role="cell"><code>.claude/<wbr>settings.<wbr>json</code> 훅 커밋</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">누가 끌 수 있나</td><td data-label="값" role="cell">아무도 못 끄게</td><td data-label="답 쪽" role="cell">관리형 훅</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">실행 방식</td><td data-label="값" role="cell"><code>async: true</code> 훅</td><td data-label="답 쪽" role="cell">못 막음</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">시점</td><td data-label="값" role="cell">세션 끝</td><td data-label="답 쪽" role="cell">SessionEnd 다. 막지 못한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">판단 재료</td><td data-label="값" role="cell">명령 이름뿐이다</td><td data-label="답 쪽" role="cell"><code>permissions.<wbr>deny</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">판단 재료</td><td data-label="값" role="cell">명령 내용·다른 표기다</td><td data-label="답 쪽" role="cell">PreToolUse 훅이나 샌드박스</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">누가 끌 수 있나</td><td data-label="값" role="cell">팀원이 꺼도 된다</td><td data-label="답 쪽" role="cell"><code>.claude/<wbr>settings.<wbr>json</code> 에 훅을 커밋한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">누가 끌 수 있나</td><td data-label="값" role="cell">아무도 못 끄게 한다</td><td data-label="답 쪽" role="cell">관리형 훅</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">실행 방식</td><td data-label="값" role="cell"><code>async: true</code> 훅이다</td><td data-label="답 쪽" role="cell">막지 못한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -605,14 +609,14 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"CLAUDE.md 에 '반드시 검사'를 굵게·IMPORTANT 로" → 맥락일 뿐 강제 아님. 강조는 주변보다 우선순위만 올림 <span class="src">(Skilljar)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Stop 훅에 걸어 세션이 끝날 때 최종 검증" → Stop 은 응답 끝날 때마다. 세션 끝은 SessionEnd 이고 막는 힘 없음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"PostToolUse 로 시크릿 커밋을 막는다" → 도구는 이미 실행됨. 막으려면 PreToolUse</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"exit 1 로 막는다" → exit 2 만 막음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"규칙을 SessionStart 훅으로 매 세션 주입하면 강제" → 맥락만 넣음, 막는 힘 없음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Claude Code 의 pre-commit 훅 이벤트에 건다" → 그런 이벤트 없음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"더 큰 컨텍스트 창·더 큰 모델로 규칙을 더 잘 지키게" → 강제와 무관 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "모든 규칙을 훅으로" → 코드 스타일·관례는 CLAUDE.md 가 공식 자리</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"CLAUDE.md 에 '반드시 검사'를 굵게, IMPORTANT 로 적는다" 는 함정이다. CLAUDE.md 는 맥락일 뿐 강제가 아니다. 강조는 주변보다 우선순위만 올린다 <span class="src">(Skilljar)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Stop 훅에 걸어 세션이 끝날 때 최종 검증한다" 는 함정이다. Stop 은 응답이 끝날 때마다 실행된다. 세션 끝은 SessionEnd 이고, SessionEnd 는 막는 힘이 없다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"PostToolUse 로 시크릿 커밋을 막는다" 는 함정이다. 도구는 이미 실행됐다. 막으려면 PreToolUse 를 쓴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"exit 1 로 막는다" 는 함정이다. exit 2 만 막는다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"규칙을 SessionStart 훅으로 매 세션 주입하면 강제된다" 는 함정이다. SessionStart 는 맥락만 넣고 막는 힘이 없다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Claude Code 의 pre-commit 훅 이벤트에 건다" 는 함정이다. 그런 이벤트는 없다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"더 큰 컨텍스트 창이나 더 큰 모델로 규칙을 더 잘 지키게 한다" 는 함정이다. 강제와 무관하다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>반대쪽 함정도 있다. "모든 규칙을 훅으로 만든다" 는 함정이다. 코드 스타일과 관례는 CLAUDE.md 가 공식 자리다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -635,36 +639,36 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. PostToolUse 가 정답인 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> "Claude 가 파일을 고칠 때마다 포맷터를 돌려라". 막을 필요는 없고 매번 돌기만 하면 됨.</li>
-<li><span class="lead">판단 :</span> PostToolUse 가 맞는 자리. "PostToolUse = 늘 오답"이 아님 — 막으려 할 때만 오답. 결과를 보고 Claude 에게 알릴 것이 있으면 exit 2 로 stderr 를 Claude 에게 보냄.</li>
+<li><span class="lead">조건 :</span> "Claude 가 파일을 고칠 때마다 포맷터를 돌려라" 라는 요구다. 막을 필요는 없고 매번 돌기만 하면 된다.</li>
+<li><span class="lead">판단 :</span> PostToolUse 가 맞는 자리다. "PostToolUse = 늘 오답" 이 아니다. 막으려 할 때만 오답이다. 결과를 보고 Claude 에게 알릴 것이 있으면 exit 2 로 stderr 를 Claude 에게 보낸다.</li>
 
 <li><span class="lead">근거 :</span> hooks · Skilljar 486933 "This is usually where auto-formatting or an auto-lint goes."</li>
 </ul>
 <h4>2. 팀 훅을 커밋했는데 안 도는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 개발자 45명 저장소에 PreToolUse 시크릿 검사 훅을 커밋. 한 팀원 설정에 <code>disableAllHooks: true</code>, 또는 조직이 <code>allowManagedHooksOnly</code> 를 켬.</li>
-<li><span class="lead">판단 :</span> 프로젝트 훅은 팀원이 끌 수 있고, <code>allowManagedHooksOnly</code> 면 사용자·프로젝트·로컬 훅이 아예 실행 안 됨. 조직 차원의 "반드시"면 훅을 관리형으로 올림 — 관리형 훅은 관리형 밖의 <code>disableAllHooks</code> 로 못 끔.</li>
+<li><span class="lead">조건 :</span> 개발자 45명 저장소에 PreToolUse 시크릿 검사 훅을 커밋했다. 한 팀원 설정에 <code>disableAllHooks: true</code> 가 있다. 또는 조직이 <code>allowManagedHooksOnly</code> 를 켰다.</li>
+<li><span class="lead">판단 :</span> 프로젝트 훅은 팀원이 끌 수 있다. <code>allowManagedHooksOnly</code> 면 사용자·프로젝트·로컬 훅이 아예 실행되지 않는다. 조직 차원의 "반드시" 면 훅을 관리형으로 올린다. 관리형 훅은 관리형 밖의 <code>disableAllHooks</code> 로 끄지 못한다.</li>
 
 <li><span class="lead">근거 :</span> hooks</li>
 </ul>
 <h4>3. Stop 훅이 "항상" 붙잡지는 못하는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> Stop 훅이 "테스트가 초록이 될 때까지 계속" 을 exit 2 로 강제. 테스트가 환경 문제로 영영 안 풀림.</li>
-<li><span class="lead">판단 :</span> 연속 8번 계속시키면 Claude Code 가 다음 막기를 무시하고 턴을 끝냄. 훅은 <code>stop_hook_active</code> 를 보고 스스로 풀어 줘야 함. Stop 은 "끝내기 전 검사" 지 무한 강제가 아님.</li>
-<li><span class="lead">등급 :</span> <span class="note">(상한값은 <code>CLAUDE_CODE_STOP_HOOK_BLOCK_CAP</code> 로 바뀜)</span></li>
+<li><span class="lead">조건 :</span> Stop 훅이 "테스트가 초록이 될 때까지 계속" 을 exit 2 로 강제한다. 테스트가 환경 문제로 영영 안 풀린다.</li>
+<li><span class="lead">판단 :</span> 연속 8번 계속시키면 Claude Code 가 다음 막기를 무시하고 턴을 끝낸다. 훅은 <code>stop_hook_active</code> 를 보고 스스로 풀어 줘야 한다. Stop 은 "끝내기 전 검사" 이지 무한 강제가 아니다.</li>
+<li><span class="lead">등급 :</span> <span class="note">(상한값은 <code>CLAUDE_CODE_STOP_HOOK_BLOCK_CAP</code> 로 바뀐다)</span></li>
 <li><span class="lead">근거 :</span> hooks</li>
 </ul>
 <h4>4. 권한 규칙이 훅을 이기는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> PreToolUse 훅이 <code>git push</code> 에 <code>"allow"</code> 를 돌려주는데, 관리형 settings 에 <code>Bash(git push *)</code> ask 가 있음.</li>
-<li><span class="lead">판단 :</span> 훅의 allow 는 deny·ask 규칙을 못 넘음 → 여전히 확인창. 반대로 훅의 exit 2 는 allow 규칙보다 먼저 막음. "훅이 최종 결정권자"가 아님 — 훅의 판정은 막는 쪽으로만 효력이 있음.</li>
+<li><span class="lead">조건 :</span> PreToolUse 훅이 <code>git push</code> 에 <code>"allow"</code> 를 돌려준다. 그런데 관리형 settings 에 <code>Bash(git push *)</code> ask 가 있다.</li>
+<li><span class="lead">판단 :</span> 훅의 allow 는 deny·ask 규칙을 넘지 못한다. 그래서 여전히 확인창이 뜬다. 반대로 훅의 exit 2 는 allow 규칙보다 먼저 막는다. "훅이 최종 결정권자" 가 아니다. 훅의 판정은 막는 쪽으로만 효력이 있다.</li>
 
 <li><span class="lead">근거 :</span> permissions</li>
 </ul>
 <h4>5. 이름 규칙만으론 못 막는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> <code>permissions.deny</code> 에 <code>Bash(git push *)</code>. Claude 가 <code>git -C . push</code> 로 실행.</li>
-<li><span class="lead">판단 :</span> Bash 규칙은 글자 매칭이라 안 걸림. 내용을 보는 PreToolUse 훅이나 샌드박스가 필요. "deny 한 줄이면 끝"이 뒤집힘.</li>
+<li><span class="lead">조건 :</span> <code>permissions.deny</code> 에 <code>Bash(git push *)</code> 가 있다. Claude 가 <code>git -C . push</code> 로 실행한다.</li>
+<li><span class="lead">판단 :</span> Bash 규칙은 글자 매칭이라 걸리지 않는다. 내용을 보는 PreToolUse 훅이나 샌드박스가 필요하다. "deny 한 줄이면 끝" 이 뒤집힌다.</li>
 
 <li><span class="lead">근거 :</span> permissions</li>
 </ul>
@@ -675,14 +679,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"CLAUDE.md 에 '커밋 전 반드시 시크릿 검사'를 굵게"</td><td data-label="왜 끌리나" role="cell">가장 쉬운 수정</td><td data-label="왜 틀리나" role="cell">맥락일 뿐 강제 아님. 매 커밋 전이면 훅</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Stop 훅에 걸어 세션이 끝날 때 최종 검증"</td><td data-label="왜 끌리나" role="cell">이름이 '멈춤'</td><td data-label="왜 틀리나" role="cell">Stop 은 응답 끝날 때마다. 세션 끝은 SessionEnd, 막는 힘 없음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"PostToolUse 로 위험 명령 차단"</td><td data-label="왜 끌리나" role="cell">결과를 보고 판단할 수 있어 보임</td><td data-label="왜 틀리나" role="cell">도구는 이미 실행</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"exit 1 로 막는다"</td><td data-label="왜 끌리나" role="cell">1 이 '오류' 같음</td><td data-label="왜 틀리나" role="cell">막는 건 exit 2 뿐</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a> · Skilljar 486933</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Claude Code 의 pre-commit 훅 이벤트에 건다"</td><td data-label="왜 끌리나" role="cell">git 훅과 이름이 겹침</td><td data-label="왜 틀리나" role="cell">이벤트 목록에 없음. PreToolUse + <code>if</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"더 큰 모델·더 큰 창이면 규칙을 더 잘 지킨다"</td><td data-label="왜 끌리나" role="cell">성능이 오르면 다 나아질 것 같음</td><td data-label="왜 틀리나" role="cell">확률을 올릴 뿐 강제가 아님</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"모든 팀 규칙을 훅으로"</td><td data-label="왜 끌리나" role="cell">강제가 늘 더 안전해 보임</td><td data-label="왜 틀리나" role="cell">스타일·관례는 공식이 CLAUDE.md 에 둠. 훅은 유지비가 듦</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"훅이 allow 를 주면 확인창이 사라진다"</td><td data-label="왜 끌리나" role="cell">훅이 권한을 정하는 것 같음</td><td data-label="왜 틀리나" role="cell">deny·ask 규칙은 그대로 먹음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"CLAUDE.md 에 '커밋 전 반드시 시크릿 검사'를 굵게"</td><td data-label="왜 끌리나" role="cell">가장 쉬운 수정이다</td><td data-label="왜 틀리나" role="cell">맥락일 뿐 강제가 아니다. 매 커밋 전이면 훅을 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Stop 훅에 걸어 세션이 끝날 때 최종 검증"</td><td data-label="왜 끌리나" role="cell">이름이 '멈춤' 이다</td><td data-label="왜 틀리나" role="cell">Stop 은 응답이 끝날 때마다 실행된다. 세션 끝은 SessionEnd 이고 막는 힘이 없다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"PostToolUse 로 위험 명령 차단"</td><td data-label="왜 끌리나" role="cell">결과를 보고 판단할 수 있어 보인다</td><td data-label="왜 틀리나" role="cell">도구는 이미 실행됐다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"exit 1 로 막는다"</td><td data-label="왜 끌리나" role="cell">1 이 '오류' 같다</td><td data-label="왜 틀리나" role="cell">막는 것은 exit 2 뿐이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a> · Skilljar 486933</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Claude Code 의 pre-commit 훅 이벤트에 건다"</td><td data-label="왜 끌리나" role="cell">git 훅과 이름이 겹친다</td><td data-label="왜 틀리나" role="cell">이벤트 목록에 없다. PreToolUse + <code>if</code> 를 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"더 큰 모델·더 큰 창이면 규칙을 더 잘 지킨다"</td><td data-label="왜 끌리나" role="cell">성능이 오르면 다 나아질 것 같다</td><td data-label="왜 틀리나" role="cell">확률을 올릴 뿐 강제가 아니다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모든 팀 규칙을 훅으로"</td><td data-label="왜 끌리나" role="cell">강제가 늘 더 안전해 보인다</td><td data-label="왜 틀리나" role="cell">스타일·관례는 공식이 CLAUDE.md 에 둔다. 훅은 유지비가 든다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"훅이 allow 를 주면 확인창이 사라진다"</td><td data-label="왜 끌리나" role="cell">훅이 권한을 정하는 것 같다</td><td data-label="왜 틀리나" role="cell">deny·ask 규칙은 그대로 적용된다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/permissions" lang="en" rel="noopener">permissions</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -690,15 +694,19 @@
   </details>
   <h2 class="sec-h" id="claude-md-vs-hooks-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>CCA-F</h3>
-      <p>겹침 (1.4 "반드시 지킬 순서는 프롬프트가 아니라 hook·게이트" · 1.5 PreToolUse = 막기·입력 바꾸기, PostToolUse = 이미 실행 뒤 결과 다루기) — 여기선 같은 원리를 팀 개발 환경에 옮겨, 시크릿·린트·테스트 검사를 어느 이벤트에 걸고 팀·조직 중 어디에 싣나로 묻는다. 에이전트 앱 설계는 D5 <a href="guide-vs-enforce.html">◆ 안내(프롬프트) vs 강제(구성·코드)</a></p>
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="guide-vs-enforce.html">◆ 안내(프롬프트) vs 강제(구성·코드) (D5)</a></li>
         <li><a href="team-config-scopes.html">■ 팀 설정 위치</a></li>
         <li><a href="agent-permissions.html">■ 에이전트 권한</a></li>
         <li><a href="least-privilege.html">■ 최소 권한</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : CCA-F · 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
+    <h3>CCA-F</h3>
+      <p>겹침 (1.4 "반드시 지킬 순서는 프롬프트가 아니라 hook·게이트" · 1.5 PreToolUse = 막기·입력 바꾸기, PostToolUse = 이미 실행 뒤 결과 다루기). 여기서는 같은 원리를 팀 개발 환경에 옮겨 묻는다. 시크릿·린트·테스트 검사를 어느 이벤트에 거는지, 팀과 조직 중 어디에 싣는지를 묻는다. 에이전트 앱 설계는 D5 <a href="guide-vs-enforce.html">◆ 안내(프롬프트) vs 강제(구성·코드)</a> 에서 다룬다</p>
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 7.1</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -716,11 +724,12 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>목록 7.1② 의 "Part 24 [08:15] 'pre-commit 또는 pre-tool use'" — Claude Code 이벤트엔 pre-commit 이 없음(확인). git 자체 pre-commit 훅은 Claude Code 문서 밖이라 카드엔 업계 일반으로만 둠.</li>
-<li>D5 ◆ 안내(프롬프트) vs 강제(구성·코드) 와의 경계 : 이 카드는 Claude Code 팀 설정(CLAUDE.md·settings·훅)만. 에이전트 앱의 system prompt vs 코드 게이트는 D5 쪽 — 그 카드가 나오면 겹침 문장 확인 필요.</li>
-<li>hooks-guide(code.claude.com/docs/en/hooks-guide) 는 받지 않음 — 이벤트·exit 코드는 hooks 레퍼런스(en-claude-code-hooks.md)로 대조함.</li>
+<li>목록 7.1② 에 "Part 24 [08:15] 'pre-commit 또는 pre-tool use'" 가 있다. Claude Code 이벤트에는 pre-commit 이 없다(확인). git 자체 pre-commit 훅은 Claude Code 문서 밖이다. 그래서 카드에는 업계 일반으로만 둔다.</li>
+<li>D5 ◆ 안내(프롬프트) vs 강제(구성·코드) 와의 경계 : 이 카드는 Claude Code 팀 설정(CLAUDE.md·settings·훅)만 다룬다. 에이전트 앱의 system prompt vs 코드 게이트는 D5 쪽이다. 그 카드가 나오면 겹치는 문장을 확인해야 한다.</li>
+<li>hooks-guide(code.claude.com/docs/en/hooks-guide)는 받지 않았다. 이벤트와 exit 코드는 hooks 레퍼런스(en-claude-code-hooks.md)로 대조했다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

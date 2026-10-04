@@ -372,9 +372,9 @@
   </div>
   <h2 class="sec-h" id="failure-modes-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>증상을 보고 실패에 이름을 붙인 뒤, 그 이름에 맞는 통제(control)를 고름. 이름이 틀리면 통제도 헛돎 <span class="gen">업계 일반</span> <span class="note">공식 문서에 failure modes 점검표 자체는 없음</span></p>
-      <p>"더 큰 모델"·"모든 것에 사람 검토"는 대개 이름에 맞는 통제가 아님 <span class="note">(추론 — 샘플 1 D 해설의 확장 · ③)</span></p>
-    <p class="t5-ana"><span class="lead">비유</span> 장애 분류별 런북. 디스크 풀에 재시작, OOM 에 네트워크 점검을 하면 안 고쳐짐</p>
+      <p>증상을 보고 실패에 이름을 붙인다. 그리고 그 이름에 맞는 통제(control)를 고른다. 이름이 틀리면 통제도 헛돈다 <span class="gen">업계 일반</span> <span class="note">공식 문서에 failure modes 점검표 자체는 없음</span></p>
+      <p>"더 큰 모델"·"모든 것에 사람 검토" 는 대개 이름에 맞는 통제가 아니다 <span class="note">(추론 — 샘플 1 D 해설의 확장 · ③)</span></p>
+    <p class="t5-ana"><span class="lead">비유</span> 장애 분류별 런북과 같다. 디스크 풀에 재시작을 하거나 OOM 에 네트워크 점검을 하면 안 고쳐진다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/failure-modes.webp"><img src="../images/failure-modes.webp" alt="증상을 보고 실패에 이름을 붙인 뒤 그 이름에 맞는 통제를 고른다. 예로 원격 브랜치 삭제 시도는 과잉 행동이라 최소 권한·샌드박스이며, 더 큰 모델은 대개 통제가 아니라는 그림." loading="lazy" decoding="async"></a>
@@ -401,21 +401,34 @@
 <!-- /vx:figure -->
 <section class="ex-sec" id="principle" aria-labelledby="principle-h">
 <h3 id="principle-h">원리</h3>
-<p class="lead">이름 → 통제(control) 짝 (공식 문서에서 확인한 것만)</p>
+<p class="lead">이름과 통제(control)의 짝 (공식 문서에서 확인한 것만)</p>
 <ul>
-<li>환각 : 근거 없이 매끄럽게 틀림. 통제 = "모른다" 허용 · 긴 문서(20k 토큰 초과)는 원문 인용부터 · 주장마다 인용, 못 찾으면 철회 · 준 문서만 쓰게 · 여러 번 돌려 비교(Best-of-N).</li>
-<li>비결정성 : run 마다 출력이 다름. 통제 = 판정은 여러 번(trials). 고객 대면이면 매번 성공해야 하니 pass^k (■ 성공 기준). 줄이는 쪽 = 형식 명시 · 예시 · 검색(retrieval)으로 고정된 정보에 근거.</li>
-<li>직접 인젝션·탈옥 / 간접 인젝션 : 위협 모델이 다름 → ◆ 직접 인젝션 vs 간접 인젝션.</li>
-<li>과잉 행동(overeager) : 사용자가 뜻하지 않은 주도(원격 브랜치 삭제 · 토큰 업로드 · 운영(production) DB 마이그레이션 — Anthropic 사내 사고 기록 예). 통제 = 최소 권한(least privilege) · 샌드박스 · 고위험(high-stakes) 결정 전 사람 승인(human approval) · 실행 직전 검사.</li>
-<li>오정렬 : 목표는 맞지만 맥락이 없어 과하게 함("파일 정리" → 중복 삭제·폴더 재구성). 통제 = 투명성(transparency — 계획을 보이기) + 사람 통제.</li>
-<li>학습 컷오프 : 모델마다 reliable-knowledge·training-data cutoff 가 있음. 통제 = 최신 사실을 검색해서 넣기(업계 일반).</li>
-<li>거절 : HTTP 200 + 빈 content → ■ stop_reason 으로 분기.</li>
+<li>환각 : 근거 없이 매끄럽게 틀린다. 통제는 아래와 같다.<ul>
+<li>"모른다" 를 허용한다</li>
+<li>긴 문서(20k 토큰 초과)는 원문 인용부터 뽑게 한다</li>
+<li>주장마다 인용하고, 못 찾으면 철회한다</li>
+<li>준 문서만 쓰게 한다</li>
+<li>여러 번 돌려 비교한다(Best-of-N)</li>
+</ul>
+</li>
+<li>비결정성 : run 마다 출력이 다르다. 통제는 판정을 여러 번(trials) 하는 것이다. 고객 대면이면 매번 성공해야 하니 pass^k 를 쓴다 (■ 성공 기준). 줄이려면 형식 명시 · 예시 · 검색(retrieval)으로 고정된 정보에 근거하게 한다.</li>
+<li>직접 인젝션·탈옥 / 간접 인젝션 : 위협 모델이 다르다. 자세한 것은 ◆ 직접 인젝션 vs 간접 인젝션 에 있다.</li>
+<li>과잉 행동(overeager) : 사용자가 뜻하지 않은 주도다(원격 브랜치 삭제 · 토큰 업로드 · 운영(production) DB 마이그레이션, Anthropic 사내 사고 기록 예). 통제는 아래와 같다.<ul>
+<li>최소 권한(least privilege)</li>
+<li>샌드박스</li>
+<li>고위험(high-stakes) 결정 전 사람 승인(human approval)</li>
+<li>실행 직전 검사</li>
+</ul>
+</li>
+<li>오정렬 : 목표는 맞지만 맥락이 없어 과하게 한다("파일 정리" 를 시키면 중복을 삭제하고 폴더를 재구성한다). 통제는 투명성(transparency, 계획을 보이기)과 사람 통제다.</li>
+<li>학습 컷오프 : 모델마다 reliable-knowledge·training-data cutoff 가 있다. 통제는 최신 사실을 검색해서 넣는 것이다(업계 일반).</li>
+<li>거절 : HTTP 200 과 빈 content 가 온다. 자세한 것은 ■ stop_reason 으로 분기 에 있다.</li>
 </ul>
 <p class="lead">사람 검토의 한계</p>
 <ul>
-<li>수동 확인이 많으면 승인 피로 : 사용자는 수동 확인의 93% 를 승인함 (Claude Code auto mode 글).</li>
-<li>사람을 조언 자리에만 두는 것만으로는 충분한 가드레일이 아님 — 자동화 편향(automation bias) (Anthropic 차별 평가 논문).</li>
-<li>그래서 "모든 실패에 사람 검토"는 이름을 안 붙이고 뭉뚱그린 처방.</li>
+<li>수동 확인이 많으면 승인 피로가 생긴다. 사용자는 수동 확인의 93% 를 승인한다 (Claude Code auto mode 글).</li>
+<li>사람을 조언 자리에만 두는 것만으로는 충분한 가드레일이 아니다. 이것이 자동화 편향(automation bias)이다 (Anthropic 차별 평가 논문).</li>
+<li>그래서 "모든 실패에 사람 검토" 는 이름을 안 붙이고 뭉뚱그린 처방이다.</li>
 </ul>
 </section>
   <h2 class="sec-h" id="failure-modes-rules-h">규칙과 판단</h2>
@@ -431,37 +444,37 @@
       <div class="t5-fork" style="--n:6">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>근거 없는 답을 자신 있게</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">환각</p><p>"모른다" 허용 · 인용 먼저 · 못 찾으면 철회 · 준 문서만 쓰게</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">환각</p><p>"모른다" 를 허용한다. 인용을 먼저 뽑게 한다. 못 찾으면 철회한다. 준 문서만 쓰게 한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>같은 질문에 매번 다른 답</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">비결정성</p><p>run 마다 출력이 다름 → 판정은 여러 번 시도</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">비결정성</p><p>run 마다 출력이 다르다. 그래서 판정은 여러 번 시도해서 한다</p></div>
         </div>
         <div class="t5-arm">
-          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>지시에 끌려감</span>
+          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>지시에 끌려간다</span>
           <div class="t5-q" data-p="n7"><span class="t5-hl" aria-hidden="true"></span>지시가 어디서 왔나?</div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>사용자 입력</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">직접 인젝션·탈옥</p><p>→ <a href="direct-vs-indirect-injection.html">◆ 직접 인젝션 vs 간접 인젝션</a></p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">직접 인젝션·탈옥</p><p>자세한 것은 <a href="direct-vs-indirect-injection.html">◆ 직접 인젝션 vs 간접 인젝션</a> 에 있다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>가져온 콘텐츠</span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">간접 인젝션</p><p>→ <a href="direct-vs-indirect-injection.html">◆ 직접 인젝션 vs 간접 인젝션</a> · <a href="injection-egress.html">■ 프롬프트 인젝션 피해 경로 끊기</a></p></div>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">간접 인젝션</p><p>자세한 것은 <a href="direct-vs-indirect-injection.html">◆ 직접 인젝션 vs 간접 인젝션</a> · <a href="injection-egress.html">■ 프롬프트 인젝션 피해 경로 끊기</a> 에 있다</p></div>
             </div>
           </div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>사용자가 의도하지 않은 영향이 큰 행동</span>
-          <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">과잉 행동 <span class="note">(overeager)</span></p><p>최소 권한(least privilege)·샌드박스 · 고위험(high-stakes) 결정 전 사람 승인(human approval) · 실행 직전 검사 → <a href="guide-vs-enforce.html">◆ 안내(프롬프트) vs 강제(구성·코드)</a></p></div>
+          <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">과잉 행동 <span class="note">(overeager)</span></p><p>최소 권한(least privilege)·샌드박스를 쓴다. 고위험(high-stakes) 결정 전에는 사람 승인(human approval)을 받는다. 실행 직전 검사는 <a href="guide-vs-enforce.html">◆ 안내(프롬프트) vs 강제(구성·코드)</a> 에 있다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n14"><span class="t5-hl" aria-hidden="true"></span>최신 사실을 모름</span>
-          <div class="t5-leaf t5-ans" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">학습 컷오프</p><p>모델마다 cutoff 가 있음 · 처방은 검색(web search · retrieval)해서 넣기 <span class="gen">업계 일반</span></p></div>
+          <span class="t5-edge" data-p="n14"><span class="t5-hl" aria-hidden="true"></span>최신 사실을 모른다</span>
+          <div class="t5-leaf t5-ans" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">학습 컷오프</p><p>처방은 검색(web search · retrieval)해서 넣는 것이다 <span class="gen">업계 일반</span>. 모델마다 cutoff 가 있다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n16"><span class="t5-hl" aria-hidden="true"></span>HTTP 200 인데 답이 비어 있음</span>
-          <div class="t5-leaf t5-ans" data-p="n17"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">거절</p><p>→ <a href="stop-reason.html">■ stop_reason 으로 분기</a></p></div>
+          <span class="t5-edge" data-p="n16"><span class="t5-hl" aria-hidden="true"></span>HTTP 200 인데 답이 비어 있다</span>
+          <div class="t5-leaf t5-ans" data-p="n17"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">거절</p><p>자세한 것은 <a href="stop-reason.html">■ stop_reason 으로 분기</a> 에 있다</p></div>
         </div>
       </div>
     </div>
@@ -469,15 +482,15 @@
   <section class="t5-flow tree" id="failure-modes-tree-2" aria-labelledby="failure-modes-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7">
     <div class="t5-fh"><h3 id="failure-modes-tree-2-h">③ 통제 보기 가르기 <span class="pg">[5.2①]</span> <span class="pg">[5.3①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>보기의 통제는?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>보기의 통제는 무엇인가?</div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>더 큰 모델</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">대개 통제 아님</p><p>모델 크기는 권한 범위와 무관 · 환각(hallucination)·비결정성 처방 목록에도 없음 <span class="note">(추론)</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">대개 통제가 아니다</p><p>환각(hallucination)·비결정성 처방 목록에도 없다 (추론). 모델 크기는 권한 범위와 무관하다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>모든 실패에 사람 검토</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">승인 피로</p><p>사용자는 수동 확인의 93% 를 그냥 승인</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">승인 피로</p><p>사용자는 수동 확인의 93% 를 그냥 승인한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>이름에 맞는 통제</span>
@@ -491,7 +504,7 @@
       <ol class="how">
         <li id="failure-modes-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p><span class="lead">오정렬 :</span> 목표가 맞아도 맥락이 없어 과하게 행동("파일 정리" → 중복이라 본 것 삭제·폴더 재구성) → 투명성(transparency — 계획 보이기)·사람 통제 → 5.5③ <span class="pg">[5.2①]</span></p>
+            <p><span class="lead">오정렬 :</span> 목표가 맞아도 맥락이 없어 과하게 행동한다. 예를 들어 "파일 정리" 를 시키면 중복이라 본 것을 삭제하고 폴더를 재구성한다. 통제는 투명성(transparency, 계획 보이기)과 사람 통제다. 자세한 것은 5.5③ 에 있다 <span class="pg">[5.2①]</span></p>
           </div>
         </li>
       </ol>
@@ -500,27 +513,28 @@
       <ol class="how">
         <li id="failure-modes-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p class="lead">증상 → 이름 → 바꾸는 통제 <span class="pg">[5.2①]</span></p>
+            <p class="lead">증상을 보고 이름을 붙이고, 이름에 맞는 통제를 고른다 <span class="pg">[5.2①]</span></p>
             <div class="tscroll t-wide" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">증상</th><th scope="col" role="columnheader">이름</th><th scope="col" role="columnheader">바꾸는 통제</th></tr></thead>
               <tbody role="rowgroup">
                 <tr role="row"><td data-label="증상" role="cell">없는 규정을 자신 있게 인용</td><td data-label="이름" role="cell">환각</td><td data-label="바꾸는 통제" role="cell">"모른다" 허용 · 긴 문서(20k 토큰 초과)는 원문 인용 먼저 · 주장마다 인용, 못 찾으면 철회 · 준 문서만 쓰게</td></tr>
-                <tr role="row"><td data-label="증상" role="cell">같은 질문에 날마다 다른 금액</td><td data-label="이름" role="cell">비결정성</td><td data-label="바꾸는 통제" role="cell">run 마다 출력이 다름 → 판정은 여러 번 시도(trials) · 고객 대면이면 pass^k → <a href="success-criteria.html">■ 성공 기준</a> · 여러 번 돌려 어긋나면 환각 신호일 수도(Best-of-N) · 줄이기 = 형식 명시·예시·검색으로 고정된 정보에 근거</td></tr>
-                <tr role="row"><td data-label="증상" role="cell">역할극·인코딩으로 가드레일 우회</td><td data-label="이름" role="cell">직접 인젝션·탈옥</td><td data-label="바꾸는 통제" role="cell">→ <a href="direct-vs-indirect-injection.html">◆ 직접 인젝션 vs 간접 인젝션</a></td></tr>
-                <tr role="row"><td data-label="증상" role="cell">메일·문서 속 지시대로 외부 발송</td><td data-label="이름" role="cell">간접 인젝션</td><td data-label="바꾸는 통제" role="cell">→ <a href="direct-vs-indirect-injection.html">◆ 직접 인젝션 vs 간접 인젝션</a> · <a href="injection-egress.html">■ 프롬프트 인젝션 피해 경로 끊기</a></td></tr>
-                <tr role="row"><td data-label="증상" role="cell">원격 브랜치 삭제 · 토큰 업로드 · 운영 DB 마이그레이션 시도</td><td data-label="이름" role="cell">과잉 행동 (overeager — 사용자가 뜻하지 않은 주도)</td><td data-label="바꾸는 통제" role="cell">최소 권한·샌드박스 · 고위험 결정 전 사람 승인 · 실행 직전 검사 → <a href="guide-vs-enforce.html">◆ 안내(프롬프트) vs 강제(구성·코드)</a> · 수신자 allowlist <span class="gen">업계 일반</span></td></tr>
-                <tr role="row"><td data-label="증상" role="cell">최신 사실을 모름</td><td data-label="이름" role="cell">학습 컷오프</td><td data-label="바꾸는 통제" role="cell">모델마다 reliable-knowledge·training-data cutoff 가 있음 (2026-09-28 조회) · 처방은 검색해서 넣기 <span class="gen">업계 일반</span></td></tr>
-                <tr role="row"><td data-label="증상" role="cell">HTTP 200 인데 답이 비어 있음</td><td data-label="이름" role="cell">거절</td><td data-label="바꾸는 통제" role="cell">→ <a href="stop-reason.html">■ stop_reason 으로 분기</a></td></tr>
+                <tr role="row"><td data-label="증상" role="cell">같은 질문에 날마다 다른 금액</td><td data-label="이름" role="cell">비결정성</td><td data-label="바꾸는 통제" role="cell">run 마다 출력이 다르다. 그래서 판정은 여러 번 시도한다(trials). 고객 대면이면 pass^k 를 쓴다(<a href="success-criteria.html">■ 성공 기준</a>). 여러 번 돌려 어긋나면 환각 신호일 수도 있다(Best-of-N). 줄이려면 형식 명시·예시·검색으로 고정된 정보에 근거하게 한다</td></tr>
+                <tr role="row"><td data-label="증상" role="cell">역할극·인코딩으로 가드레일 우회</td><td data-label="이름" role="cell">직접 인젝션·탈옥</td><td data-label="바꾸는 통제" role="cell">자세한 것은 <a href="direct-vs-indirect-injection.html">◆ 직접 인젝션 vs 간접 인젝션</a> 에 있다</td></tr>
+                <tr role="row"><td data-label="증상" role="cell">메일·문서 속 지시대로 외부 발송</td><td data-label="이름" role="cell">간접 인젝션</td><td data-label="바꾸는 통제" role="cell">자세한 것은 <a href="direct-vs-indirect-injection.html">◆ 직접 인젝션 vs 간접 인젝션</a> · <a href="injection-egress.html">■ 프롬프트 인젝션 피해 경로 끊기</a> 에 있다</td></tr>
+                <tr role="row"><td data-label="증상" role="cell">원격 브랜치 삭제 · 토큰 업로드 · 운영 DB 마이그레이션 시도</td><td data-label="이름" role="cell">과잉 행동 (overeager, 사용자가 뜻하지 않은 주도)</td><td data-label="바꾸는 통제" role="cell">최소 권한·샌드박스 · 고위험 결정 전 사람 승인 · 실행 직전 검사(<a href="guide-vs-enforce.html">◆ 안내(프롬프트) vs 강제(구성·코드)</a>) · 수신자 allowlist <span class="gen">업계 일반</span></td></tr>
+                <tr role="row"><td data-label="증상" role="cell">최신 사실을 모른다</td><td data-label="이름" role="cell">학습 컷오프</td><td data-label="바꾸는 통제" role="cell">모델마다 reliable-knowledge·training-data cutoff 가 있다 (2026-09-28 조회) · 처방은 검색해서 넣는 것이다 <span class="gen">업계 일반</span></td></tr>
+                <tr role="row"><td data-label="증상" role="cell">HTTP 200 인데 답이 비어 있다</td><td data-label="이름" role="cell">거절</td><td data-label="바꾸는 통제" role="cell">자세한 것은 <a href="stop-reason.html">■ stop_reason 으로 분기</a> 에 있다</td></tr>
               </tbody>
             </table>
             </div>
-            <p><span class="lead">환각 줄에 덧붙임 :</span> 위 처방(인용·철회·준 문서만 쓰게)은 모델이 스스로 하는 **줄이기**. 에이전트는 매 걸음 환경에서 "ground truth"(도구 결과·코드 실행)를 받아 진행을 판단 (building-effective-agents) → 틀린 것이 하나도 없어야 하면 모델 자기 확인·재검색이 아니라 모델 밖 원천(DB·원장·API 조회)과 전수 대조 <span class="note">(추론)</span></p>
+            <p>환각 줄에 덧붙인다. 위 처방(인용·철회·준 문서만 쓰게)은 모델이 스스로 하는 **줄이기** 다. 에이전트는 매 걸음 환경에서 "ground truth"(도구 결과·코드 실행)를 받아 진행을 판단한다 <span class="src">(<a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a>)</span></p>
+            <p class="lead">틀린 것이 하나도 없어야 하면 모델 자기 확인·재검색이 아니라 모델 밖 원천(DB·원장·API 조회)과 전수 대조한다 <span class="note">(추론)</span></p>
             <div class="tscroll" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">증상</th><th scope="col" role="columnheader">이름</th><th scope="col" role="columnheader">바꾸는 통제</th></tr></thead>
               <tbody role="rowgroup">
-                <tr role="row"><td data-label="증상" role="cell">사람이 습관처럼 승인</td><td data-label="이름" role="cell">승인 피로 (approval fatigue) · 자동화 편향(automation bias)</td><td data-label="바꾸는 통제" role="cell">→ 아래 ③</td></tr>
+                <tr role="row"><td data-label="증상" role="cell">사람이 습관처럼 승인한다</td><td data-label="이름" role="cell">승인 피로 (approval fatigue) · 자동화 편향(automation bias)</td><td data-label="바꾸는 통제" role="cell">아래 ③ 에 있다</td></tr>
               </tbody>
             </table>
             </div>
@@ -528,7 +542,7 @@
         </li>
         <li id="failure-modes-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p>사람 검토는 만능이 아님 : 수동 확인이 많으면 승인 피로 → 사용자는 수동 확인의 93% 를 그냥 승인. 사람을 조언 자리에만 두는 것만으론 충분한 가드레일이 아님(자동화 편향) → 5.3① <span class="pg">[5.2①]</span> <span class="pg">[5.3①]</span></p>
+            <p>사람 검토는 만능이 아니다. 수동 확인이 많으면 승인 피로가 생긴다. 사용자는 수동 확인의 93% 를 그냥 승인한다. 사람을 조언 자리에만 두는 것만으로는 충분한 가드레일이 아니다(자동화 편향). 자세한 것은 5.3① 에 있다 <span class="pg">[5.2①]</span> <span class="pg">[5.3①]</span></p>
           </div>
         </li>
       </ol>
@@ -542,13 +556,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">없는 사실을 자신 있게 말함</td><td data-label="답" role="cell">환각(hallucination) → "모른다" 허용 · 인용 후 못 찾으면 철회 · 준 문서만</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">긴 문서(20k 토큰 초과)를 근거로 답함</td><td data-label="답" role="cell">원문 인용을 먼저 뽑게</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">같은 입력에 run 마다 다른 결과</td><td data-label="답" role="cell">판정은 여러 번 시도</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">고객 대면 · 매번 믿을 만해야 함</td><td data-label="답" role="cell">pass^k</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">에이전트가 의도하지 않은 영향이 큰 행동</td><td data-label="답" role="cell">최소 권한 · 샌드박스 · 고위험 전 사람 승인</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks" lang="en" rel="noopener">mitigate-jailbreaks</a> · <a class="src-link" href="https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents" lang="en" rel="noopener">safe-trustworthy-agents</a> · <a class="src-link" href="https://code.claude.com/docs/en/auto-mode-config" lang="en" rel="noopener">claude-code-auto-mode</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">에이전트가 왜 그렇게 했는지 안 보임</td><td data-label="답" role="cell">계획·추론(reasoning)을 보이게 (투명성)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents" lang="en" rel="noopener">safe-trustworthy-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">사람 확인 창이 너무 많음</td><td data-label="답" role="cell">승인 피로 → 확인을 줄이고 구조 통제로</td><td data-label="등급" role="cell"><span class="note">(피로) · 추론 (처방)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/auto-mode-config" lang="en" rel="noopener">claude-code-auto-mode</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">없는 사실을 자신 있게 말한다</td><td data-label="답" role="cell">환각(hallucination)이다. "모른다" 를 허용하고, 인용 후 못 찾으면 철회하고, 준 문서만 쓰게 한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">긴 문서(20k 토큰 초과)를 근거로 답한다</td><td data-label="답" role="cell">원문 인용을 먼저 뽑게 한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">같은 입력에 run 마다 결과가 다르다</td><td data-label="답" role="cell">판정은 여러 번 시도해서 한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">고객 대면이고 매번 믿을 만해야 한다</td><td data-label="답" role="cell">pass^k</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">에이전트가 의도하지 않은 영향이 큰 행동을 한다</td><td data-label="답" role="cell">최소 권한 · 샌드박스 · 고위험 전 사람 승인</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks" lang="en" rel="noopener">mitigate-jailbreaks</a> · <a class="src-link" href="https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents" lang="en" rel="noopener">safe-trustworthy-agents</a> · <a class="src-link" href="https://code.claude.com/docs/en/auto-mode-config" lang="en" rel="noopener">claude-code-auto-mode</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">에이전트가 왜 그렇게 했는지 안 보인다</td><td data-label="답" role="cell">계획·추론(reasoning)을 보이게 한다 (투명성)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents" lang="en" rel="noopener">safe-trustworthy-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">사람 확인 창이 너무 많다</td><td data-label="답" role="cell">승인 피로다. 확인을 줄이고 구조 통제로 막는다</td><td data-label="등급" role="cell"><span class="note">(피로) · 추론 (처방)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/auto-mode-config" lang="en" rel="noopener">claude-code-auto-mode</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -559,14 +573,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">틀린 모양</td><td data-label="값" role="cell">매번 같은 방향으로 틀림 (없는 조항 인용)</td><td data-label="답 쪽" role="cell">환각 · 근거 문제</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">틀린 모양</td><td data-label="값" role="cell">같은 입력에 매번 다름</td><td data-label="답 쪽" role="cell">비결정성 (불일치가 환각 신호일 수도)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a> · <a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">틀린 모양</td><td data-label="값" role="cell">문서 갱신 뒤 자신 있게 틀림, 모델·지연(latency) 그대로</td><td data-label="답 쪽" role="cell">검색·indexing(색인) 먼저 (→ 4.4①)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 3</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">틀린 모양</td><td data-label="값" role="cell">매번 같은 방향으로 틀린다 (없는 조항 인용)</td><td data-label="답 쪽" role="cell">환각 · 근거 문제</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">틀린 모양</td><td data-label="값" role="cell">같은 입력에 매번 다르다</td><td data-label="답 쪽" role="cell">비결정성이다 (불일치가 환각 신호일 수도 있다)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a> · <a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">틀린 모양</td><td data-label="값" role="cell">문서 갱신 뒤 자신 있게 틀린다. 모델·지연(latency)은 그대로다</td><td data-label="답 쪽" role="cell">검색·indexing(색인)을 먼저 본다 (4.4① 참고)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 3</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">지시의 출처</td><td data-label="값" role="cell">사용자</td><td data-label="답 쪽" role="cell">직접 인젝션</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks" lang="en" rel="noopener">mitigate-jailbreaks</a></td></tr>
     <tr role="row"><td data-label="변수" role="cell">지시의 출처</td><td data-label="값" role="cell">가져온 콘텐츠</td><td data-label="답 쪽" role="cell">간접 인젝션</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks" lang="en" rel="noopener">mitigate-jailbreaks</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">행동의 무게</td><td data-label="값" role="cell">되돌리기 어려움 (구독 해지 · 삭제)</td><td data-label="답 쪽" role="cell">사람 승인</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents" lang="en" rel="noopener">safe-trustworthy-agents</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">행동의 무게</td><td data-label="값" role="cell">일상 · 되돌릴 수 있음</td><td data-label="답 쪽" role="cell">사람 확인 줄임 (승인 피로)</td><td data-label="등급" role="cell">추론</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/auto-mode-config" lang="en" rel="noopener">claude-code-auto-mode</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">질문이 요구하는 것</td><td data-label="값" role="cell">최신 사실</td><td data-label="답 쪽" role="cell">학습 컷오프 → 검색</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/overview" lang="en" rel="noopener">models overview</a>(컷오프 존재만)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">행동의 무게</td><td data-label="값" role="cell">되돌리기 어렵다 (구독 해지 · 삭제)</td><td data-label="답 쪽" role="cell">사람 승인</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents" lang="en" rel="noopener">safe-trustworthy-agents</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">행동의 무게</td><td data-label="값" role="cell">일상적이고 되돌릴 수 있다</td><td data-label="답 쪽" role="cell">사람 확인을 줄인다 (승인 피로)</td><td data-label="등급" role="cell">추론</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/auto-mode-config" lang="en" rel="noopener">claude-code-auto-mode</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">질문이 요구하는 것</td><td data-label="값" role="cell">최신 사실</td><td data-label="답 쪽" role="cell">학습 컷오프다. 검색해서 넣는다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/overview" lang="en" rel="noopener">models overview</a>(컷오프 존재만)</td></tr>
   </tbody>
 </table>
 </div>
@@ -582,12 +596,12 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"더 큰 모델이 더 안전하고 덜 뚫린다" → 모델 크기는 권한 범위와 무관 (샘플 1 D) · 환각·비결정성 처방 목록에도 없음 <span class="note">(추론)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>모든 실패에 일괄 "사람 검토" → 승인 피로</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>같은 질문에 다른 답을 "모델 버그"로 봄 → run 마다 출력이 다름, 판정은 여러 번</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>한 번 돌려 통과하면 됨 → 비결정성이라 여러 번 시도</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>환각인데 "인젝션 필터" / 인젝션인데 "모른다 허용" → 이름이 틀리면 통제도 헛돎 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>거절(빈 답)을 환각·장애로 봄 → HTTP 200 + <code>refusal</code> → <a href="stop-reason.html">■ stop_reason 으로 분기</a></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"더 큰 모델이 더 안전하고 덜 뚫린다" 는 함정이다. 환각·비결정성 처방 목록에도 없다 (추론). 모델 크기는 권한 범위와 무관하다 <span class="src">(샘플 1 D)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>모든 실패에 일괄로 "사람 검토" 를 거는 것은 함정이다. 승인 피로가 생긴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>같은 질문에 다른 답을 "모델 버그" 로 보는 것은 함정이다. run 마다 출력이 다르다. 판정은 여러 번 돌려서 한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"한 번 돌려 통과하면 된다" 는 함정이다. 비결정성이라 여러 번 시도한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>환각인데 "인젝션 필터" 를, 인젝션인데 "모른다 허용" 을 고르는 것은 함정이다. 이름이 틀리면 통제도 헛돈다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>거절(빈 답)을 환각·장애로 보는 것은 함정이다. HTTP 200 과 <code>refusal</code> 이 온다. 자세한 것은 <a href="stop-reason.html">■ stop_reason 으로 분기</a> 에 있다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -611,22 +625,22 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 비결정성인데 사실은 환각일 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 같은 환불 질문에 5번 물어 3가지 금액이 나옴.</li>
-<li><span class="lead">판단 :</span> 겉은 비결정성이지만, 공식은 "여러 번 돌려 어긋나면 환각 신호일 수 있다"고 함 → 금액이 문서에 있는지부터(인용 후 철회). 판정은 여러 번 돌려서.</li>
+<li><span class="lead">조건 :</span> 같은 환불 질문을 5번 물었더니 3가지 금액이 나왔다.</li>
+<li><span class="lead">판단 :</span> 겉은 비결정성이다. 하지만 공식은 "여러 번 돌려 어긋나면 환각 신호일 수 있다" 고 한다. 그래서 금액이 문서에 있는지부터 본다(인용 후 철회). 판정은 여러 번 돌려서 한다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(두 문장 모두 공식)</span></li>
 <li><span class="lead">근거 :</span> reduce-hallucinations · demystifying-evals</li>
 </ul>
 <h4>2. 사람 검토가 정답일 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 에이전트가 월 구독 40개 중 12개를 해지하려 함.</li>
-<li><span class="lead">판단 :</span> "모든 실패에 사람 검토"는 오답이지만, 고위험·되돌리기 어려운 결정 전의 사람 승인은 공식 원칙 → 이 경우는 사람 승인 쪽.</li>
+<li><span class="lead">조건 :</span> 에이전트가 월 구독 40개 중 12개를 해지하려 한다.</li>
+<li><span class="lead">판단 :</span> "모든 실패에 사람 검토" 는 오답이다. 하지만 고위험이고 되돌리기 어려운 결정 전의 사람 승인은 공식 원칙이다. 그래서 이 경우는 사람 승인 쪽이다.</li>
 
 <li><span class="lead">근거 :</span> safe-trustworthy-agents(구독 해지 예시 그대로)</li>
 </ul>
 <h4>3. pass@k 가 맞을 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 사내 개발자용 도구, 여러 번 시도해 한 번만 맞으면 됨.</li>
-<li><span class="lead">판단 :</span> 비결정성 판정을 pass^k 로 하면 과하게 엄격. 한 번 성공이 중요한 도구면 pass@k.</li>
+<li><span class="lead">조건 :</span> 사내 개발자용 도구다. 여러 번 시도해 한 번만 맞으면 된다.</li>
+<li><span class="lead">판단 :</span> 비결정성 판정을 pass^k 로 하면 과하게 엄격하다. 한 번 성공이 중요한 도구면 pass@k 를 쓴다.</li>
 
 <li><span class="lead">근거 :</span> demystifying-evals</li>
 </ul>
@@ -637,18 +651,20 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"더 큰 모델이 더 안전하고 덜 뚫린다"</td><td data-label="왜 끌리나" role="cell">큰 모델이 더 똑똑함</td><td data-label="왜 틀리나" role="cell">모델 크기는 권한 범위와 무관. 환각·비결정성 처방 목록에도 없음</td><td data-label="등급" role="cell"><span class="note">(샘플 1) · 추론 (확장)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> 해설 · <a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a> en 전문</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">모든 실패에 일괄 "사람 검토"</td><td data-label="왜 끌리나" role="cell">가장 안전해 보임</td><td data-label="왜 틀리나" role="cell">승인 피로 — 사용자는 수동 확인의 93% 를 승인 · 조언 자리의 사람만으론 부족</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/auto-mode-config" lang="en" rel="noopener">claude-code-auto-mode</a> · <a class="src-link" href="https://arxiv.org/abs/2312.03689" lang="en" rel="noopener">evaluating-discrimination-paper</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">한 번 돌려 통과면 합격</td><td data-label="왜 끌리나" role="cell">빠름</td><td data-label="왜 틀리나" role="cell">run 마다 출력이 다름 → 여러 번</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">환각에 인젝션 필터</td><td data-label="왜 끌리나" role="cell">"이상한 답 = 공격"</td><td data-label="왜 틀리나" role="cell">지시에 끌려간 게 아니라 근거가 없는 것 → 인용·철회</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">빈 답(HTTP 200)을 장애로 보고 재시작</td><td data-label="왜 끌리나" role="cell">답이 없으니 고장</td><td data-label="왜 틀리나" role="cell">거절 → <code>stop_<wbr>reason</code> 확인, 다른 모델로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">■ stop_reason 으로 분기</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"원인 불문 재시작" 식 한 처방</td><td data-label="왜 끌리나" role="cell">운영 습관</td><td data-label="왜 틀리나" role="cell">이름이 틀리면 통제도 헛돎</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"더 큰 모델이 더 안전하고 덜 뚫린다"</td><td data-label="왜 끌리나" role="cell">큰 모델이 더 똑똑하다</td><td data-label="왜 틀리나" role="cell">모델 크기는 권한 범위와 무관하다. 환각·비결정성 처방 목록에도 없다</td><td data-label="등급" role="cell"><span class="note">(샘플 1) · 추론 (확장)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> 해설 · <a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations" lang="en" rel="noopener">reduce-hallucinations</a> en 전문</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">모든 실패에 일괄 "사람 검토"</td><td data-label="왜 끌리나" role="cell">가장 안전해 보인다</td><td data-label="왜 틀리나" role="cell">승인 피로가 생긴다. 사용자는 수동 확인의 93% 를 승인한다. 조언 자리의 사람만으로는 부족하다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/auto-mode-config" lang="en" rel="noopener">claude-code-auto-mode</a> · <a class="src-link" href="https://arxiv.org/abs/2312.03689" lang="en" rel="noopener">evaluating-discrimination-paper</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">한 번 돌려 통과면 합격</td><td data-label="왜 끌리나" role="cell">빠르다</td><td data-label="왜 틀리나" role="cell">run 마다 출력이 다르다. 여러 번 돌린다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">환각에 인젝션 필터</td><td data-label="왜 끌리나" role="cell">"이상한 답 = 공격" 이라고 본다</td><td data-label="왜 틀리나" role="cell">지시에 끌려간 것이 아니라 근거가 없는 것이다. 인용과 철회로 고친다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">빈 답(HTTP 200)을 장애로 보고 재시작</td><td data-label="왜 끌리나" role="cell">답이 없으니 고장으로 보인다</td><td data-label="왜 틀리나" role="cell">거절이다. <code>stop_<wbr>reason</code> 을 확인하고 다른 모델로 보낸다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">■ stop_reason 으로 분기</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"원인 불문 재시작" 식 한 처방</td><td data-label="왜 끌리나" role="cell">운영 습관이다</td><td data-label="왜 틀리나" role="cell">이름이 틀리면 통제도 헛돈다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="failure-modes-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
@@ -672,12 +688,13 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>목록 5.2① 의 "자동화 편향(5.3 ①)" 은 공식 표현이 둘로 갈림 : Claude Code auto mode 글은 "approval fatigue", 차별 평가 논문은 "automation bias". 둘 다 적음.</li>
-<li>failure modes(실패 유형) 점검표 자체(이름 7개 묶음)는 공식 문서에 없음 — 목록 5.2① 영상 요령. 카드 표는 공식 문장이 있는 통제만 ✓.</li>
-<li>학습 컷오프의 "검색·인용으로 보완"은 받은 원문에서 직접 문장을 못 찾음 (models overview은 컷오프가 있다는 것만, 값 표는 defuddle 이 못 가져옴) — 업계 일반.</li>
-<li>목록 5.2① 의 '위험 이름 → 영향 경계 → 결과를 바꾸는 통제' 풀이 순서는 강의 요령 — 카드에 안 씀.</li>
+<li>목록 5.2① 의 "자동화 편향(5.3 ①)" 은 공식 표현이 둘로 갈린다. Claude Code auto mode 글은 "approval fatigue", 차별 평가 논문은 "automation bias" 라고 쓴다. 둘 다 적었다.</li>
+<li>failure modes(실패 유형) 점검표 자체(이름 7개 묶음)는 공식 문서에 없다. 목록 5.2① 의 영상 요령이다. 카드 표에는 공식 문장이 있는 통제만 ✓ 로 표시했다.</li>
+<li>학습 컷오프의 "검색·인용으로 보완" 은 받은 원문에서 직접 문장을 못 찾았다. models overview은 컷오프가 있다는 것만 말한다. 값 표는 defuddle 이 못 가져왔다. 그래서 업계 일반이다.</li>
+<li>목록 5.2① 의 '위험 이름 → 영향 경계 → 결과를 바꾸는 통제' 풀이 순서는 강의 요령이다. 카드에 쓰지 않았다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

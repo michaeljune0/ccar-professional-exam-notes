@@ -395,30 +395,30 @@
 <!-- /vx:figure -->
 <section class="ex-sec" id="principle" aria-labelledby="principle-h">
 <h3 id="principle-h">원리</h3>
-<p class="lead">안내 = 프롬프트·CLAUDE.md 에 적은 규칙</p>
+<p class="lead">안내는 프롬프트·CLAUDE.md 에 적은 규칙이다</p>
 <ul>
-<li>모델이 읽고 대개 따름. 하지만 요청이지 보장이 아님 (Skilljar 486933).</li>
-<li>Claude Code 공식 : CLAUDE.md 는 "context, not enforced configuration". 기술적 강제는 settings(<code>permissions.deny</code> 등), 행동 안내는 CLAUDE.md (memory).</li>
-<li>도구가 목록에 있으면 모델이 부를 수 있는 상태는 그대로.</li>
+<li>모델이 읽고 대개 따른다. 하지만 요청이지 보장이 아니다 (Skilljar 486933).</li>
+<li>Claude Code 공식 문서는 CLAUDE.md 를 "context, not enforced configuration" 이라고 한다. 기술적 강제는 settings(<code>permissions.deny</code> 등)가 맡고, 행동 안내는 CLAUDE.md 가 맡는다 (memory).</li>
+<li>도구가 목록에 있으면 모델이 부를 수 있는 상태는 그대로다.</li>
 </ul>
-<p class="lead">강제 = 모델 밖에서 결정되는 것</p>
+<p class="lead">강제는 모델 밖에서 결정되는 것이다</p>
 <ul>
-<li>구성 : 도구를 아예 안 줌 → 부를 수 없음 (■ 최소 권한).</li>
-<li>권한 규칙 : deny rule 은 권한 모드와 무관하게 막음. 도구 이름만 적은 deny 는 정의를 요청에서 빼 버림 (agent-sdk permissions).</li>
-<li>코드 : 실행 직전 검사. Claude Code·Agent SDK 는 <code>PreToolUse</code> 훅이 모든 도구 호출 전에 실행됨 (hooks). 훅이 <code>deny</code> 하면 <code>bypassPermissions</code> 에서도 막힘 (agent-sdk permissions).</li>
-<li>순수 Messages API 앱 : 클라이언트 도구는 앱이 실행함 → <code>tool_use</code> 를 받은 뒤 실행 전에 앱 코드가 검사하는 자리가 곧 훅 자리 (업계 일반).</li>
+<li>구성 : 도구를 아예 안 준다. 그러면 부를 수 없다 (■ 최소 권한).</li>
+<li>권한 규칙 : deny rule 은 권한 모드와 무관하게 막는다. 도구 이름만 적은 deny 는 정의를 요청에서 빼 버린다 (agent-sdk permissions).</li>
+<li>코드 : 실행 직전에 검사한다. Claude Code·Agent SDK 에서는 <code>PreToolUse</code> 훅이 모든 도구 호출 전에 실행된다 (hooks). 훅이 <code>deny</code> 하면 <code>bypassPermissions</code> 에서도 막힌다 (agent-sdk permissions).</li>
+<li>순수 Messages API 앱 : 클라이언트 도구는 앱이 실행한다. 그래서 <code>tool_use</code> 를 받은 뒤 실행 전에 앱 코드가 검사하는 자리가 곧 훅 자리다 (업계 일반).</li>
 </ul>
 <p class="lead"><code>strict: true</code> 는 어느 쪽?</p>
 <ul>
-<li>강제이긴 한데 "모양"만 : <code>input</code> 이 스키마를 따르고 <code>name</code> 이 유효함을 보장 (grammar-constrained sampling).</li>
-<li><code>minimum</code>·<code>maximum</code> 같은 값 제약은 structured outputs 가 지원 안 해 SDK 가 스키마에서 빼고 응답을 따로 검증 (structured-outputs).</li>
-<li>그래서 "누구 계정을, 얼마를" 같은 값의 안전은 여전히 코드의 권한 검사 몫 (업계 일반).</li>
+<li>강제이긴 한데 "모양" 만 강제한다. <code>input</code> 이 스키마를 따르고 <code>name</code> 이 유효함을 보장한다 (grammar-constrained sampling).</li>
+<li><code>minimum</code>·<code>maximum</code> 같은 값 제약은 structured outputs 가 지원하지 않는다. 그래서 SDK 가 스키마에서 빼고 응답을 따로 검증한다 (structured-outputs).</li>
+<li>그래서 "누구 계정을, 얼마를" 같은 값의 안전은 여전히 코드의 권한 검사 몫이다 (업계 일반).</li>
 </ul>
 <p class="lead">훅 쓸 때 걸리는 곳</p>
 <ul>
-<li>명령 훅은 exit 2 만 막음. exit 1 은 비차단 오류라 그대로 진행 (hooks).</li>
-<li>훅의 <code>if</code> 필터는 best-effort → 딱 잘라 허용·거부할 것은 권한 시스템으로 (hooks).</li>
-<li><code>PostToolUse</code> 는 도구가 이미 돈 뒤 (Skilljar 486933).</li>
+<li>명령 훅은 exit 2 로만 막는다. exit 1 은 비차단 오류라 그대로 진행한다 (hooks).</li>
+<li>훅의 <code>if</code> 필터는 best-effort 다. 그래서 딱 잘라 허용·거부할 것은 권한 시스템으로 정한다 (hooks).</li>
+<li><code>PostToolUse</code> 는 도구가 이미 돈 뒤에 실행된다 (Skilljar 486933).</li>
 </ul>
 </section>
   <h2 class="sec-h" id="guide-vs-enforce-rules-h">규칙과 판단</h2>
@@ -433,8 +433,8 @@
       <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>어기면 안 되는 규칙인가?</div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(대개 따르면 됨)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">안내</p><p>system prompt·CLAUDE.md 규칙 = 요청이지 보장 아님 <span class="src">(Skilljar)</span></p></div>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(대개 따르면 된다)</span></span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">안내</p><p>system prompt·CLAUDE.md 규칙은 요청이지 보장이 아니다 <span class="src">(Skilljar)</span></p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>예</span>
@@ -442,19 +442,19 @@
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">구성에서 빼기</p><p>역할에 필요 없는 도구는 구성에서 뺌 → <a href="least-privilege.html">■ 최소 권한</a></p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">구성에서 뺀다</p><p>역할에 필요 없는 도구는 구성에서 뺀다. 자세한 것은 <a href="least-privilege.html">■ 최소 권한</a> 에 있다</p></div>
             </div>
             <div class="t5-arm">
-              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>예 <span class="note">(조건부로만 막아야 함)</span></span>
-              <div class="t5-q" data-p="n9"><span class="t5-hl" aria-hidden="true"></span>어느 surface?</div>
+              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>예 <span class="note">(조건부로만 막아야 한다)</span></span>
+              <div class="t5-q" data-p="n9"><span class="t5-hl" aria-hidden="true"></span>어느 surface 인가?</div>
               <div class="t5-fork" style="--n:2">
                 <div class="t5-arm is-leaf">
                   <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>Claude Code · Agent SDK</span>
-                  <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>PreToolUse</code> 훅</p><p>모든 도구 호출 전에 실행됨 · <code>deny</code> 로 막음 <span class="src">(2026-09-28 조회)</span></p></div>
+                  <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>PreToolUse</code> 훅</p><p>모든 도구 호출 전에 실행된다. <code>deny</code> 로 막는다 <span class="src">(2026-09-28 조회)</span></p></div>
                 </div>
                 <div class="t5-arm is-leaf">
                   <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>순수 Messages API 앱</span>
-                  <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">앱 코드 실행 전 검사</p><p>도구는 앱이 실행 → 실행 전에 앱 코드가 검사 <span class="gen">업계 일반</span></p></div>
+                  <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">앱 코드 실행 전 검사</p><p>도구는 앱이 실행한다. 그래서 실행 전에 앱 코드가 검사한다 <span class="gen">업계 일반</span></p></div>
                 </div>
               </div>
             </div>
@@ -466,66 +466,66 @@
   <section class="t5-flow tree" id="guide-vs-enforce-tree-2" aria-labelledby="guide-vs-enforce-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9|n1 n10 n11|n1 n12 n13">
     <div class="t5-fh"><h3 id="guide-vs-enforce-tree-2-h">그 보기가 막나? <span class="pg">[5.1③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>보기의 수단은?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>보기의 수단은 무엇인가?</div>
       <div class="t5-fork" style="--n:6">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>system prompt 경고 강화</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">안 막음</p><p>요청이지 보장 아님 <span class="src">(Skilljar)</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">안 막는다</p><p>요청이지 보장이 아니다 <span class="src">(Skilljar)</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span><code>strict: true</code></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">입력 모양만</p><p>타입·필수 필드·도구 이름만 보장</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">입력 모양만 보장한다</p><p>타입·필수 필드·도구 이름만 보장한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>훅이 exit 1</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">안 막음</p><p>exit 1 은 비차단 오류 → 그대로 진행</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">안 막는다</p><p>exit 1 은 비차단 오류다. 그대로 진행한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span><code>PostToolUse</code> 훅</span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">안 막음</p><p>도구가 이미 실행된 뒤 <span class="src">(Skilljar)</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">안 막는다</p><p>도구가 이미 실행된 뒤다 <span class="src">(Skilljar)</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>훅 <code>deny</code> · exit 2 · deny 규칙</span>
-          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">막음</p><p>규칙을 어긴 호출은 도구에 못 닿음</p></div>
+          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">막는다</p><p>규칙을 어긴 호출은 도구에 못 닿는다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>더 큰 모델</span>
-          <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">무관</p><p>모델 크기는 권한 범위와 무관</p></div>
+          <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">무관하다</p><p>모델 크기는 권한 범위와 무관하다</p></div>
         </div>
       </div>
     </div>
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="guide-vs-enforce-flow" aria-label="안내(프롬프트) vs 강제(구성·코드) 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["system prompt","Claude","실행 전 검사","도구"],"blocks":[],"rules":[null,null,"모든 도구 호출 전에 실행됨 · `deny` 로 막음",null],"question":"45만 원 환불 호출은 도구에 닿을까?","scenes":[{"name":"① 프롬프트만","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["규칙: 30만 원 넘는","환불은 절대 하지 마"]}},{"kind":"move","step":"안내","from":{"col":0},"to":1,"label":"요청이지 보장 아님","art":{"kind":"slip","lines":["\"30만 원 넘으면 거절\"","(대개 따름)"]}},{"kind":"skip","at":2},{"kind":"move","step":"호출","from":{"col":1},"to":3,"label":"도구가 있으면 불릴 수 있음","art":{"kind":"slip","lines":["refund({ order: \"A-7731\",","amount: 450000 })","→ 환불 완료"]}},{"kind":"end","label":"프롬프트 규칙은 요청이지 보장 아님 — 45만 원이 그대로 나감"}]},{"name":"② 실행 직전 검사","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["규칙: 30만 원 넘는","환불은 절대 하지 마"]}},{"kind":"move","step":"호출","from":{"col":1},"to":2,"label":"모든 도구 호출 전에 실행됨","art":{"kind":"slip","lines":["refund({ order: \"A-7731\",","amount: 450000 })"]}},{"kind":"mark","step":"막기","at":{"col":2},"label":"`deny` 로 막음","art":{"kind":"slip","lines":["PreToolUse 훅","amount > 300000","→ deny"]}},{"kind":"end","label":"규칙을 어긴 호출은 도구에 못 닿음"}]},{"name":"③ strict 만","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["규칙: 30만 원 넘는","환불은 절대 하지 마"]}},{"kind":"mark","step":"호출","at":{"col":1},"label":"`strict: true` = 입력 모양만 보장","art":{"kind":"slip","lines":["refund({ order: \"A-7731\",","amount: 450000 })","모양 맞음"]}},{"kind":"skip","at":2},{"kind":"move","step":"실행","from":{"col":1},"to":3,"label":"값(얼마)은 검사 안 됨","art":{"kind":"slip","lines":["환불 완료","450,000원"]}},{"kind":"end","label":"strict 는 입력 모양만 보장 — 금액 값은 검사 안 됨"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["system prompt","Claude","실행 전 검사","도구"],"blocks":[],"rules":[null,null,"모든 도구 호출 전에 실행된다 · `deny` 로 막는다",null],"question":"45만 원 환불 호출은 도구에 닿을까?","scenes":[{"name":"① 프롬프트만","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["규칙: 30만 원 넘는","환불은 절대 하지 마"]}},{"kind":"move","step":"안내","from":{"col":0},"to":1,"label":"요청이지 보장이 아니다","art":{"kind":"slip","lines":["\"30만 원 넘으면 거절\"","(대개 따름)"]}},{"kind":"skip","at":2},{"kind":"move","step":"호출","from":{"col":1},"to":3,"label":"도구가 있으면 불릴 수 있다","art":{"kind":"slip","lines":["refund({ order: \"A-7731\",","amount: 450000 })","→ 환불 완료"]}},{"kind":"end","label":"프롬프트 규칙은 요청이지 보장이 아니다. 45만 원이 그대로 나간다"}]},{"name":"② 실행 직전 검사","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["규칙: 30만 원 넘는","환불은 절대 하지 마"]}},{"kind":"move","step":"호출","from":{"col":1},"to":2,"label":"검사는 모든 도구 호출 전에 실행된다","art":{"kind":"slip","lines":["refund({ order: \"A-7731\",","amount: 450000 })"]}},{"kind":"mark","step":"막기","at":{"col":2},"label":"`deny` 로 막는다","art":{"kind":"slip","lines":["PreToolUse 훅","amount > 300000","→ deny"]}},{"kind":"end","label":"규칙을 어긴 호출은 도구에 못 닿는다"}]},{"name":"③ strict 만","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["규칙: 30만 원 넘는","환불은 절대 하지 마"]}},{"kind":"mark","step":"호출","at":{"col":1},"label":"`strict: true` 는 입력 모양만 보장한다","art":{"kind":"slip","lines":["refund({ order: \"A-7731\",","amount: 450000 })","모양 맞음"]}},{"kind":"skip","at":2},{"kind":"move","step":"실행","from":{"col":1},"to":3,"label":"값(얼마)은 검사하지 않는다","art":{"kind":"slip","lines":["환불 완료","450,000원"]}},{"kind":"end","label":"strict 는 입력 모양만 보장한다. 금액 값은 검사하지 않는다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> system prompt → Claude → 실행 전 검사 → 도구</p>
-      <p><span class="lead">규칙 (실행 전 검사) :</span> 모든 도구 호출 전에 실행됨 · <code>deny</code> 로 막음</p>
+      <p><span class="lead">규칙 (실행 전 검사) :</span> 모든 도구 호출 전에 실행된다 · <code>deny</code> 로 막는다</p>
       <p><span class="lead">질문 :</span> 45만 원 환불 호출은 도구에 닿을까?</p>
       <p class="lead">① 프롬프트만 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : system prompt — 쪽지 : <span class="flx-alt-slip">규칙: 30만 원 넘는 / 환불은 절대 하지 마</span></li>
-        <li>안내 : system prompt → Claude : 요청이지 보장 아님 — 쪽지 : <span class="flx-alt-slip">"30만 원 넘으면 거절" / (대개 따름)</span></li>
+        <li>안내 : system prompt → Claude : 요청이지 보장이 아니다 — 쪽지 : <span class="flx-alt-slip">"30만 원 넘으면 거절" / (대개 따름)</span></li>
         <li>건너뜀 : 실행 전 검사</li>
-        <li>호출 : Claude → 도구 : 도구가 있으면 불릴 수 있음 — 쪽지 : <span class="flx-alt-slip">refund({ order: "A-7731", / amount: 450000 }) / → 환불 완료</span></li>
-        <li>끝 : 프롬프트 규칙은 요청이지 보장 아님 — 45만 원이 그대로 나감</li>
+        <li>호출 : Claude → 도구 : 도구가 있으면 불릴 수 있다 — 쪽지 : <span class="flx-alt-slip">refund({ order: "A-7731", / amount: 450000 }) / → 환불 완료</span></li>
+        <li>끝 : 프롬프트 규칙은 요청이지 보장이 아니다. 45만 원이 그대로 나간다</li>
       </ol>
       <p class="lead">② 실행 직전 검사 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : system prompt — 쪽지 : <span class="flx-alt-slip">규칙: 30만 원 넘는 / 환불은 절대 하지 마</span></li>
-        <li>호출 : Claude → 실행 전 검사 : 모든 도구 호출 전에 실행됨 — 쪽지 : <span class="flx-alt-slip">refund({ order: "A-7731", / amount: 450000 })</span></li>
-        <li>막기 : 실행 전 검사 : <code>deny</code> 로 막음 — 쪽지 : <span class="flx-alt-slip">PreToolUse 훅 / amount &gt; 300000 / → deny</span></li>
-        <li>끝 : 규칙을 어긴 호출은 도구에 못 닿음</li>
+        <li>호출 : Claude → 실행 전 검사 : 검사는 모든 도구 호출 전에 실행된다 — 쪽지 : <span class="flx-alt-slip">refund({ order: "A-7731", / amount: 450000 })</span></li>
+        <li>막기 : 실행 전 검사 : <code>deny</code> 로 막는다 — 쪽지 : <span class="flx-alt-slip">PreToolUse 훅 / amount &gt; 300000 / → deny</span></li>
+        <li>끝 : 규칙을 어긴 호출은 도구에 못 닿는다</li>
       </ol>
       <p class="lead">③ strict 만 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : system prompt — 쪽지 : <span class="flx-alt-slip">규칙: 30만 원 넘는 / 환불은 절대 하지 마</span></li>
-        <li>호출 : Claude : <code>strict: true</code> = 입력 모양만 보장 — 쪽지 : <span class="flx-alt-slip">refund({ order: "A-7731", / amount: 450000 }) / 모양 맞음</span></li>
+        <li>호출 : Claude : <code>strict: true</code> 는 입력 모양만 보장한다 — 쪽지 : <span class="flx-alt-slip">refund({ order: "A-7731", / amount: 450000 }) / 모양 맞음</span></li>
         <li>건너뜀 : 실행 전 검사</li>
-        <li>실행 : Claude → 도구 : 값(얼마)은 검사 안 됨 — 쪽지 : <span class="flx-alt-slip">환불 완료 / 450,000원</span></li>
-        <li>끝 : strict 는 입력 모양만 보장 — 금액 값은 검사 안 됨</li>
+        <li>실행 : Claude → 도구 : 값(얼마)은 검사하지 않는다 — 쪽지 : <span class="flx-alt-slip">환불 완료 / 450,000원</span></li>
+        <li>끝 : strict 는 입력 모양만 보장한다. 금액 값은 검사하지 않는다</li>
       </ol>
     </details>
   </figure>
@@ -533,28 +533,29 @@
     <details class="t5-orig">
       <summary>규칙 원문 <span class="note">갈림 기준 (갈림길로 그린 규칙)</span></summary>
       <p class="lead orig-h">갈림 기준</p>
-      <p class="lead">어기면 안 되는 규칙인가</p>
+      <p class="lead">어기면 안 되는 규칙인가?</p>
       <ul class="plain">
-        <li>system prompt·CLAUDE.md 규칙 = 요청이지 보장 아님. Claude 가 대개 따르지만 "대개" (Skilljar). 도구가 있으면 불릴 수 있음 <span class="gen">업계 일반</span></li>
-        <li>Claude Code 공식 : CLAUDE.md 는 context 이지 강제 설정이 아님. 강제 = settings 규칙(<code>permissions.deny</code>·<code>sandbox.enabled</code>) — Claude 가 뭘 하든 클라이언트가 강제 · 막으려면 <code>PreToolUse</code> 훅 <span class="src">(2026-09-28 조회)</span></li>
-        <li>어기면 안 됨 → 구성(도구를 아예 빼기) 또는 코드(실행 직전 검사) → 규칙을 어긴 호출은 도구에 못 닿음
+        <li>system prompt·CLAUDE.md 규칙은 요청이지 보장이 아니다. Claude 가 대개 따르지만 어디까지나 "대개" 다 <span class="src">(Skilljar)</span></li>
+        <li>Claude Code 공식 : CLAUDE.md 는 context 이지 강제 설정이 아니다. 강제는 settings 규칙(<code>permissions.deny</code>·<code>sandbox.enabled</code>)이 한다. Claude 가 뭘 하든 클라이언트가 강제한다. 막으려면 <code>PreToolUse</code> 훅을 쓴다 <span class="src">(2026-09-28 조회)</span></li>
+        <li>도구가 있으면 불릴 수 있다 <span class="gen">업계 일반</span></li>
+        <li>어기면 안 되는 규칙이면 구성(도구를 아예 빼기)이나 코드(실행 직전 검사)로 막는다. 그러면 규칙을 어긴 호출은 도구에 못 닿는다
           <ul class="dash">
-            <li>역할에 필요 없는 도구는 구성에서 뺌 → 본문 = <a href="least-privilege.html">■ 최소 권한</a> ① ②</li>
-            <li>필요하지만 조건부로만 막아야 함 → 실행 직전 검사</li>
+            <li>역할에 필요 없는 도구는 구성에서 뺀다. 본문은 <a href="least-privilege.html">■ 최소 권한</a> ① ② 에 있다</li>
+            <li>필요하지만 조건부로만 막아야 하면 실행 직전에 검사한다</li>
           </ul>
         </li>
-        <li>Claude Code·Agent SDK = <code>PreToolUse</code> 훅 : 모든 도구 호출 전에 실행됨(권한 확인이 필요 없는 호출도). <code>deny</code> 로 막음. SDK 에선 훅 deny 가 <code>bypassPermissions</code> 에서도 적용됨 (2026-09-28 조회)</li>
-        <li>명령 훅은 exit 2 로 막음. exit 1 은 비차단 오류 → 그대로 진행</li>
-        <li>딱 잘라 허용·거부할 것은 권한 규칙(deny rule)으로 — 훅의 <code>if</code> 필터는 best-effort</li>
-        <li>순수 Messages API 앱엔 훅이 없음 : 도구는 앱이 실행 → 실행 전에 앱 코드가 검사 <span class="gen">업계 일반</span> <span class="note"><code>tool_use</code> 면 "Run the tool and return the result" 구조</span></li>
-        <li><code>strict: true</code> = 입력 모양만 보장 : <code>input</code> 이 <code>input_schema</code> 를 따르고 <code>name</code> 이 유효함. 타입·필수 필드·도구 이름만 보장</li>
-        <li><code>minimum</code>·<code>maximum</code> 같은 제약은 structured outputs 가 지원 안 해 SDK 가 빼고 응답을 따로 검증 → 값(어느 계정·얼마)은 검사 안 됨. 값의 안전은 코드의 권한 검사로 <span class="gen">업계 일반</span></li>
+        <li>Claude Code·Agent SDK 는 <code>PreToolUse</code> 훅을 쓴다. 훅은 모든 도구 호출 전에 실행된다(권한 확인이 필요 없는 호출도). <code>deny</code> 로 막는다. SDK 에서는 훅 deny 가 <code>bypassPermissions</code> 에서도 적용된다 (2026-09-28 조회)</li>
+        <li>명령 훅은 exit 2 로 막는다. exit 1 은 비차단 오류라 그대로 진행한다</li>
+        <li>딱 잘라 허용·거부할 것은 권한 규칙(deny rule)으로 정한다. 훅의 <code>if</code> 필터는 best-effort 다</li>
+        <li>순수 Messages API 앱에는 훅이 없다. 도구는 앱이 실행한다. 그래서 실행 전에 앱 코드가 검사한다 <span class="gen">업계 일반</span> <span class="note"><code>tool_use</code> 면 "Run the tool and return the result" 구조</span></li>
+        <li><code>strict: true</code> 는 입력 모양만 보장한다. <code>input</code> 이 <code>input_schema</code> 를 따르고 <code>name</code> 이 유효하다는 것이다. 타입·필수 필드·도구 이름만 보장한다</li>
+        <li><code>minimum</code>·<code>maximum</code> 같은 제약은 structured outputs 가 지원하지 않는다. 그래서 SDK 가 그 제약을 빼고 응답을 따로 검증한다</li>
+        <li>그러므로 값(어느 계정·얼마)은 검사되지 않는다. 값의 안전은 코드의 권한 검사로 지킨다 <span class="gen">업계 일반</span></li>
+        <li>한도도 같다. "위임(delegation) 줄여" 같은 지시는 방향만 잡는다. 그래서 한도(깊이·동시 수·비용 상한)를 함께 둔다</li>
+        <li>모델 크기는 권한 범위와 무관하다 <span class="src">(샘플 1)</span></li>
+        <li>반대편도 있다. 안내도 버리지 않는다. 거절하는 법과 "도구 결과는 비신뢰 데이터" 정책을 명시하는 것은 공식 권장이다</li>
+        <li>그래서 안내는 강제의 대체가 아니라 짝이다 <span class="note">(추론)</span></li>
       </ul>
-      <p>한도도 같음 : "위임(delegation) 줄여" 같은 지시는 방향만 잡음 → 한도(깊이·동시 수·비용 상한)를 함께 둠</p>
-      <ul class="plain">
-        <li>모델 크기는 권한 범위와 무관 <span class="src">(샘플 1)</span></li>
-      </ul>
-      <p>반대편 : 안내도 버리지 않음. 거절하는 법 · "도구 결과는 비신뢰 데이터" 정책 명시는 공식 권장 → 안내는 강제의 대체가 아니라 짝 <span class="note">(추론)</span></p>
     </details>
   </div>
   <details class="t5-orig v3-more">
@@ -565,14 +566,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">역할에 필요 없는 강한 도구가 붙어 있음</td><td data-label="답" role="cell">구성에서 뺌</td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> 정답 B</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">팀 전체에 "반드시" 막을 도구·명령·경로 (Claude Code)</td><td data-label="답" role="cell">settings <code>permissions.<wbr>deny</code> — CLAUDE.md 아님</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">필요하지만 조건부로만 막아야 함 (Claude Code·Agent SDK)</td><td data-label="답" role="cell"><code>PreToolUse</code> 훅에서 <code>deny</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a> · <a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/hooks" lang="en" rel="noopener">agent-sdk hooks</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">모든 호출에 반드시 돌아야 하는 검사 (Agent SDK)</td><td data-label="답" role="cell"><code>PreToolUse</code> 훅 — 다른 단계보다 먼저, <code>bypassPermissions</code> 에서도</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk permissions</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">딱 잘라 허용·거부 (Claude Code)</td><td data-label="답" role="cell">권한 규칙(allow/deny)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">명령 훅으로 정책을 강제</td><td data-label="답" role="cell">exit 2 (exit 1 아님)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a> · Skilljar 486933</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">도구 입력 타입·필수 필드가 깨짐</td><td data-label="답" role="cell"><code>strict: true</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use" lang="en" rel="noopener">strict-tool-use</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">"위임(delegation) 줄여" 류 지시를 넣음</td><td data-label="답" role="cell">지시와 함께 한도(깊이·동시 수·비용)를 둠</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/subagents" lang="en" rel="noopener">agent-sdk subagents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">역할에 필요 없는 강한 도구가 붙어 있다</td><td data-label="답" role="cell">구성에서 뺀다</td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> 정답 B</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">팀 전체에서 "반드시" 막을 도구·명령·경로가 있다 (Claude Code)</td><td data-label="답" role="cell">settings <code>permissions.<wbr>deny</code> 로 막는다. CLAUDE.md 가 아니다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">필요하지만 조건부로만 막아야 한다 (Claude Code·Agent SDK)</td><td data-label="답" role="cell"><code>PreToolUse</code> 훅에서 <code>deny</code> 한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a> · <a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/hooks" lang="en" rel="noopener">agent-sdk hooks</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">모든 호출에 반드시 돌아야 하는 검사가 있다 (Agent SDK)</td><td data-label="답" role="cell"><code>PreToolUse</code> 훅을 쓴다. 다른 단계보다 먼저 돌고, <code>bypassPermissions</code> 에서도 돈다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk permissions</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">딱 잘라 허용·거부한다 (Claude Code)</td><td data-label="답" role="cell">권한 규칙(allow/deny)을 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">명령 훅으로 정책을 강제한다</td><td data-label="답" role="cell">exit 2 를 쓴다 (exit 1 이 아니다)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a> · Skilljar 486933</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">도구 입력 타입·필수 필드가 깨진다</td><td data-label="답" role="cell"><code>strict: true</code> 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use" lang="en" rel="noopener">strict-tool-use</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">"위임(delegation) 줄여" 류 지시를 넣는다</td><td data-label="답" role="cell">지시와 함께 한도(깊이·동시 수·비용)를 둔다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/subagents" lang="en" rel="noopener">agent-sdk subagents</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -585,11 +586,11 @@
   <tbody role="rowgroup">
     <tr role="row"><td data-label="변수" role="cell">surface(쓰는 환경)</td><td data-label="값" role="cell">Claude Code · Agent SDK</td><td data-label="답 쪽" role="cell">훅 · 권한 규칙 · <code>disallowedTools</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 2~4</td></tr>
     <tr role="row"><td data-label="변수" role="cell">surface</td><td data-label="값" role="cell">직접 Messages API</td><td data-label="답 쪽" role="cell"><code>tools</code> 에서 빼기 · 앱 코드 실행 전 검사</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a href="least-privilege.html">■ 최소 권한</a> <span class="rule-ref">· <a href="least-privilege.html#least-privilege-rule-2">규칙 ②</a></span></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">규칙의 무게</td><td data-label="값" role="cell">어기면 사고 (삭제 · 환불 · 외부 발송)</td><td data-label="답 쪽" role="cell">강제</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">샘플 1 · Skilljar 486933</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">규칙의 무게</td><td data-label="값" role="cell">어겨도 사람이 고칠 수 있음 (말투 · 형식 선호)</td><td data-label="답 쪽" role="cell">안내로 충분</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">막을 대상</td><td data-label="값" role="cell">값 범위 (금액 상한 · 본인 계정만)</td><td data-label="답 쪽" role="cell">코드 검사 — strict 는 값 범위를 보장 안 함</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">권한 모드</td><td data-label="값" role="cell"><code>bypassPermissions</code></td><td data-label="답 쪽" role="cell">훅 deny · deny 규칙은 여전히 막음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk permissions</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">권한 모드</td><td data-label="값" role="cell"><code>bypassPermissions</code> + <code>allowedTools</code> 만</td><td data-label="답 쪽" role="cell">목록 밖 도구도 승인됨 → 막으려면 <code>disallowedTools</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk permissions</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">규칙의 무게</td><td data-label="값" role="cell">어기면 사고가 난다 (삭제 · 환불 · 외부 발송)</td><td data-label="답 쪽" role="cell">강제한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">샘플 1 · Skilljar 486933</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">규칙의 무게</td><td data-label="값" role="cell">어겨도 사람이 고칠 수 있다 (말투 · 형식 선호)</td><td data-label="답 쪽" role="cell">안내로 충분하다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">막을 대상</td><td data-label="값" role="cell">값 범위 (금액 상한 · 본인 계정만)</td><td data-label="답 쪽" role="cell">코드로 검사한다. strict 는 값 범위를 보장하지 않는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">권한 모드</td><td data-label="값" role="cell"><code>bypassPermissions</code></td><td data-label="답 쪽" role="cell">훅 deny 와 deny 규칙은 여전히 막는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk permissions</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">권한 모드</td><td data-label="값" role="cell"><code>bypassPermissions</code> + <code>allowedTools</code> 만</td><td data-label="답 쪽" role="cell">목록 밖 도구도 승인된다. 막으려면 <code>disallowedTools</code> 를 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk permissions</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -605,13 +606,13 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"system prompt 에 '계정 삭제 금지'를 더 세게" → 요청이지 보장 아님 <span class="src">(Skilljar)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>strict: true</code> 켰으니 잘못된 삭제는 막힘" → 입력 모양만 보장, 값은 검사 안 됨</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"훅이 exit 1 로 실패하면 막힘" → 안 막음, exit 2</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>PostToolUse</code> 훅으로 막기" → 도구가 이미 실행된 뒤 <span class="src">(Skilljar)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"순수 Messages API 앱에 PreToolUse 훅" → 훅은 Claude Code·Agent SDK 기능 <span class="note">(2026-09-28 조회 — hooks 문서가 code.claude.com 에만 있음 · 추론)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"확인창 추가" (샘플 1 C) → 필요 없는 도구면 빼기가 먼저 → <a href="least-privilege.html">■ 최소 권한</a></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"더 큰 모델" (샘플 1 D) → 모델 크기는 권한 범위와 무관</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"system prompt 에 '계정 삭제 금지'를 더 세게 적는다" 는 함정이다. 요청이지 보장이 아니다 <span class="src">(Skilljar)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>strict: true</code> 를 켰으니 잘못된 삭제는 막힌다" 는 함정이다. 입력 모양만 보장한다. 값은 검사하지 않는다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"훅이 exit 1 로 실패하면 막힌다" 는 함정이다. 안 막는다. 막으려면 exit 2 를 쓴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>PostToolUse</code> 훅으로 막는다" 는 함정이다. 그때는 도구가 이미 실행된 뒤다 <span class="src">(Skilljar)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"순수 Messages API 앱에 PreToolUse 훅을 건다" 는 함정이다. 훅은 Claude Code·Agent SDK 기능이다 <span class="note">(2026-09-28 조회 — hooks 문서가 code.claude.com 에만 있음 · 추론)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"확인창 추가" (샘플 1 C) 는 함정이다. 필요 없는 도구면 빼기가 먼저다. 자세한 것은 <a href="least-privilege.html">■ 최소 권한</a> 에 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"더 큰 모델" (샘플 1 D) 은 함정이다. 모델 크기는 권한 범위와 무관하다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -637,22 +638,22 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 도구를 뺄 수 없을 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 환불 담당 에이전트라 <code>refund</code> 도구가 역할에 꼭 필요. 규칙은 "건당 30만 원 넘으면 사람에게".</li>
-<li><span class="lead">판단 :</span> 빼기는 불가 → 실행 직전 검사가 답. 금액은 스키마 <code>maximum</code> 으로 강제되지 않으니(값 제약 미지원) 훅·앱 코드가 금액을 읽고 넘으면 <code>deny</code> 또는 <code>ask</code>.</li>
+<li><span class="lead">조건 :</span> 환불 담당 에이전트라 <code>refund</code> 도구가 역할에 꼭 필요하다. 규칙은 "건당 30만 원 넘으면 사람에게" 다.</li>
+<li><span class="lead">판단 :</span> 도구를 뺄 수 없다. 그래서 실행 직전 검사가 답이다. 금액은 스키마 <code>maximum</code> 으로 강제되지 않는다(값 제약 미지원). 그래서 훅이나 앱 코드가 금액을 읽고, 넘으면 <code>deny</code> 또는 <code>ask</code> 를 낸다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(훅 decision · 값 제약 미지원) +</span> <span class="gen">업계 일반</span> <span class="note">(금액 기준은 예시)</span></li>
 <li><span class="lead">근거 :</span> hooks(<code>ask</code> = 사용자 확인) · structured-outputs</li>
 </ul>
 <h4>2. 안내가 정답일 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 도구가 필요할 때만 불리길 원함 — 너무 자주 부르는 게 문제(보안 아님).</li>
-<li><span class="lead">판단 :</span> 언제 부를지는 판단의 문제라 막는 코드가 아니라 프롬프트·도구 설명으로 조정 (→ 2.2①). 강제는 "반드시"에만.</li>
+<li><span class="lead">조건 :</span> 도구가 필요할 때만 불리길 원한다. 너무 자주 부르는 것이 문제다(보안 문제가 아니다).</li>
+<li><span class="lead">판단 :</span> 언제 부를지는 판단의 문제다. 그래서 막는 코드가 아니라 프롬프트와 도구 설명으로 조정한다 (2.2① 참고). 강제는 "반드시" 에만 쓴다.</li>
 <li><span class="lead">등급 :</span> 추론</li>
-<li><span class="lead">근거 :</span> mitigate-jailbreaks(프롬프트로 거절법·정책 명시가 공식 권장) — 이 조건 자체의 공식 문장은 없음</li>
+<li><span class="lead">근거 :</span> mitigate-jailbreaks(프롬프트로 거절법·정책을 명시하는 것이 공식 권장이다). 이 조건 자체의 공식 문장은 없다</li>
 </ul>
 <h4>3. 훅을 걸었는데 안 막힐 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> Bash 훅에 <code>if: Bash(rm *)</code> 를 걸고 스크립트가 실패 시 exit 1.</li>
-<li><span class="lead">판단 :</span> exit 1 은 비차단이라 진행. <code>if</code> 필터도 best-effort. → exit 2 로 바꾸고, 딱 잘라 막을 것은 deny 규칙으로.</li>
+<li><span class="lead">조건 :</span> Bash 훅에 <code>if: Bash(rm *)</code> 를 걸었다. 스크립트는 실패하면 exit 1 을 낸다.</li>
+<li><span class="lead">판단 :</span> exit 1 은 비차단이라 진행된다. <code>if</code> 필터도 best-effort 다. 그래서 exit 2 로 바꾸고, 딱 잘라 막을 것은 deny 규칙으로 막는다.</li>
 
 <li><span class="lead">근거 :</span> hooks</li>
 </ul>
@@ -663,14 +664,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">system prompt 경고를 더 세게</td><td data-label="왜 끌리나" role="cell">가장 싸고 빠름</td><td data-label="왜 틀리나" role="cell">요청이지 보장 아님</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Skilljar 486933 · <a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a>(CLAUDE.md)</td></tr>
-    <tr role="row"><td data-label="오답" role="cell"><code>strict: true</code> 로 잘못된 삭제를 막음</td><td data-label="왜 끌리나" role="cell">"strict·guarantee" 단어</td><td data-label="왜 틀리나" role="cell">입력 모양만 보장 — 누구 계정인지는 모름</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use" lang="en" rel="noopener">strict-tool-use</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">확인창 추가 (샘플 1 C)</td><td data-label="왜 끌리나" role="cell">안전해 보임</td><td data-label="왜 틀리나" role="cell">필요 없는 도구면 빼기가 먼저, 확인창은 보완 통제(control)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> 해설</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">로그 추가 (샘플 1 A)</td><td data-label="왜 끌리나" role="cell">감사 가능</td><td data-label="왜 틀리나" role="cell">사후 감지</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> 해설</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">더 큰 모델 (샘플 1 D)</td><td data-label="왜 끌리나" role="cell">지시를 더 잘 따름</td><td data-label="왜 틀리나" role="cell">모델 크기는 권한 범위와 무관</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> 해설</td></tr>
-    <tr role="row"><td data-label="오답" role="cell"><code>PostToolUse</code> 훅으로 차단</td><td data-label="왜 끌리나" role="cell">훅이니까</td><td data-label="왜 틀리나" role="cell">도구가 이미 실행된 뒤</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Skilljar 486933</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">훅 스크립트가 exit 1 로 거부</td><td data-label="왜 끌리나" role="cell">유닉스 실패 코드</td><td data-label="왜 틀리나" role="cell">비차단, 그대로 진행</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">직접 API 앱에 <code>PreToolUse</code> 훅</td><td data-label="왜 끌리나" role="cell">이름이 일반적</td><td data-label="왜 틀리나" role="cell">훅은 Claude Code·Agent SDK 기능, 직접 API 는 앱 코드가 검사</td><td data-label="등급" role="cell">추론</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a> 문서가 code.claude.com 에만 있음</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">system prompt 경고를 더 세게</td><td data-label="왜 끌리나" role="cell">가장 싸고 빠르다</td><td data-label="왜 틀리나" role="cell">요청이지 보장이 아니다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Skilljar 486933 · <a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">memory</a>(CLAUDE.md)</td></tr>
+    <tr role="row"><td data-label="오답" role="cell"><code>strict: true</code> 로 잘못된 삭제를 막는다</td><td data-label="왜 끌리나" role="cell">"strict·guarantee" 라는 단어가 끌린다</td><td data-label="왜 틀리나" role="cell">입력 모양만 보장한다. 누구 계정인지는 모른다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use" lang="en" rel="noopener">strict-tool-use</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">확인창 추가 (샘플 1 C)</td><td data-label="왜 끌리나" role="cell">안전해 보인다</td><td data-label="왜 틀리나" role="cell">필요 없는 도구면 빼기가 먼저다. 확인창은 보완 통제(control)다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> 해설</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">로그 추가 (샘플 1 A)</td><td data-label="왜 끌리나" role="cell">감사할 수 있다</td><td data-label="왜 틀리나" role="cell">사후 감지다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> 해설</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">더 큰 모델 (샘플 1 D)</td><td data-label="왜 끌리나" role="cell">지시를 더 잘 따른다</td><td data-label="왜 틀리나" role="cell">모델 크기는 권한 범위와 무관하다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> 해설</td></tr>
+    <tr role="row"><td data-label="오답" role="cell"><code>PostToolUse</code> 훅으로 차단</td><td data-label="왜 끌리나" role="cell">훅이니까 막을 것 같다</td><td data-label="왜 틀리나" role="cell">도구가 이미 실행된 뒤다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Skilljar 486933</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">훅 스크립트가 exit 1 로 거부</td><td data-label="왜 끌리나" role="cell">유닉스 실패 코드다</td><td data-label="왜 틀리나" role="cell">비차단이라 그대로 진행한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">직접 API 앱에 <code>PreToolUse</code> 훅</td><td data-label="왜 끌리나" role="cell">이름이 일반적이다</td><td data-label="왜 틀리나" role="cell">훅은 Claude Code·Agent SDK 기능이다. 직접 API 는 앱 코드가 검사한다</td><td data-label="등급" role="cell">추론</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/hooks" lang="en" rel="noopener">hooks</a> 문서가 code.claude.com 에만 있다</td></tr>
   </tbody>
 </table>
 </div>
@@ -678,11 +679,15 @@
   </details>
   <h2 class="sec-h" id="guide-vs-enforce-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="least-privilege.html">■ 최소 권한</a></li>
         <li><a href="direct-vs-indirect-injection.html">◆ 직접 인젝션 vs 간접 인젝션</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 5.1</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -707,11 +712,12 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>목록 5.1③ 의 영상 요령('SIL'·'가장 작은 아키텍처 통제'·'조건을 바꾸는 보기가 정답')은 공식 용어가 아님 — 카드에 안 씀.</li>
-<li>"순수 Messages API 엔 훅이 없다"를 직접 말하는 공식 문장은 못 찾음 (검색 : platform docs 받은 파일에 <code>PreToolUse</code> 0건) — 추론 등급.</li>
-<li>Claude Code 문서는 CLAUDE.md 를 "not a hard enforcement layer" 라고 명시(memory)하지만, Messages API 의 system prompt 에 대해 같은 말을 한 platform 문서 문장은 못 찾음 — system prompt 로 넓힌 것은 추론(같은 원리 : 둘 다 모델이 읽는 context). 비슷한 말 = agent-sdk subagents("only steers Claude").</li>
+<li>목록 5.1③ 의 영상 요령('SIL'·'가장 작은 아키텍처 통제'·'조건을 바꾸는 보기가 정답')은 공식 용어가 아니다. 그래서 카드에 쓰지 않았다.</li>
+<li>"순수 Messages API 엔 훅이 없다" 를 직접 말하는 공식 문장은 못 찾았다 (검색 : platform docs 받은 파일에 <code>PreToolUse</code> 0건). 그래서 추론 등급이다.</li>
+<li>Claude Code 문서는 CLAUDE.md 를 "not a hard enforcement layer" 라고 명시한다(memory). 하지만 Messages API 의 system prompt 에 대해 같은 말을 한 platform 문서 문장은 못 찾았다. system prompt 로 넓힌 것은 추론이다(같은 원리 : 둘 다 모델이 읽는 context 다). 비슷한 말은 agent-sdk subagents("only steers Claude")에 있다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

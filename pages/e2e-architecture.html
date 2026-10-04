@@ -370,8 +370,14 @@
   </div>
   <h2 class="sec-h" id="e2e-architecture-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>칸마다 맡는 일을 나눔. 입력 = 모델이 보기 전에 거름 · 처리 = 검색(retrieval)·도구·가드레일·사람 확인을 붙인 LLM(augmented LLM) · 출력 = 스키마로 받아 뒤쪽 코드가 추측 없이 씀 · feedback loop = 실패를 테스트 과제로 바꿔 프롬프트·설정 개선으로 되돌림</p>
-    <p class="t5-ana"><span class="lead">비유</span> 알림은 오는데 사후 분석 → 런북 개선이 안 도는 팀. feedback loop 칸이 빠지면 같은 장애가 반복됨. "대시보드를 만들었으니 feedback loop 끝"이 속이는 습관</p>
+      <p>칸마다 맡는 일을 나눈다</p>
+      <ul class="dash">
+        <li><span class="lead">입력 :</span> 모델이 보기 전에 거른다</li>
+        <li><span class="lead">처리 :</span> 검색(retrieval)·도구·가드레일·사람 확인을 붙인 LLM(augmented LLM)이 처리한다</li>
+        <li><span class="lead">출력 :</span> 스키마로 받는다. 그래서 뒤쪽 코드가 추측 없이 쓴다</li>
+        <li>feedback loop : 실패를 테스트 과제로 바꾼다. 그리고 프롬프트·설정 개선으로 되돌린다</li>
+      </ul>
+    <p class="t5-ana"><span class="lead">비유</span> 알림은 오는데, 사후 분석이 런북 개선으로 이어지지 않는 팀이다. feedback loop 칸이 빠지면 같은 장애가 반복된다. "대시보드를 만들었으니 feedback loop 끝" 이 속이는 습관이다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/e2e-architecture.webp"><img src="../images/e2e-architecture.webp" alt="입력은 거르고, 처리는 검색·도구·가드레일을 붙인 LLM, 출력은 스키마로 받고, feedback loop 가 실패를 테스트 과제로 바꿔 처리 칸 개선으로 되돌리는 네 칸 구조." loading="lazy" decoding="async"></a>
@@ -398,36 +404,60 @@
 <!-- /vx:figure -->
 <section class="ex-sec" id="principle" aria-labelledby="principle-h">
 <h3 id="principle-h">원리</h3>
-<p class="lead">입력 칸 — 모델이 보기 전에 거름</p>
+<p class="lead">입력 칸은 모델이 보기 전에 거른다</p>
 <ul>
-<li>가벼운 모델(Haiku 4.5)로 사용자 입력을 미리 분류 + 알려진 인젝션 패턴 필터. 판정은 구조화 출력으로 받아 앱이 분기.</li>
-<li>같은 선별을 도구 결과에도 적용(도구가 가져온 글도 믿을 수 없는 입력) → ■ 프롬프트 인젝션 피해 경로 끊기.</li>
-<li>선별을 주 응답과 따로 돌리는 편이 한 호출이 둘 다 하는 것보다 나음(병렬화 — 가드레일 예).</li>
+<li>가벼운 모델(Haiku 4.5)로 사용자 입력을 미리 분류한다. 알려진 인젝션 패턴도 필터로 거른다. 판정은 구조화 출력으로 받아 앱이 분기한다.</li>
+<li>같은 선별을 도구 결과에도 적용한다. 도구가 가져온 글도 믿을 수 없는 입력이기 때문이다. 자세한 것은 ■ 프롬프트 인젝션 피해 경로 끊기 에 있다.</li>
+<li>선별을 주 응답과 따로 돌리는 편이 한 호출이 둘 다 하는 것보다 낫다(병렬화의 가드레일 예).</li>
 </ul>
-<p class="lead">처리 칸 — 보강된 LLM</p>
+<p class="lead">처리 칸은 보강된 LLM 이다</p>
 <ul>
-<li>augmented LLM = 검색(retrieval) · 도구 · 메모리를 붙인 LLM. 모델이 검색어를 만들고 도구를 고르고 무엇을 기억할지 정함.</li>
-<li>정적 지식은 검색(RAG), 잔액·주문 같은 실시간 값은 임베딩 RAG 로 부족 → 도구.</li>
-<li>가드레일 : 환각(hallucination) 줄이기(인용·사실 확인) · 정책 교차 확인 · 권한 없는 약속 금지 · PII 제거.</li>
-<li>사람 확인 지점 : 에이전트는 체크포인트나 막힐 때 사람에게 돌아옴.</li>
-<li>루프는 앱이 맡음 : <code>stop_reason</code> 으로 다음 단계를 정함(1.2②). "You own the loop and the tools. Claude owns the reasoning." (Skilljar)</li>
+<li>augmented LLM 은 검색(retrieval)·도구·메모리를 붙인 LLM 이다. 모델이 검색어를 만들고, 도구를 고르고, 무엇을 기억할지 정한다.</li>
+<li>정적 지식은 검색(RAG)으로 다룬다. 잔액·주문 같은 실시간 값은 임베딩 RAG 로 부족하다. 그래서 도구를 쓴다.</li>
+<li>가드레일은 네 가지다.<ul>
+<li>환각(hallucination)을 줄인다(인용·사실 확인)</li>
+<li>정책을 교차 확인한다</li>
+<li>권한 없는 약속을 하지 않게 한다</li>
+<li>PII 를 제거한다</li>
 </ul>
-<p class="lead">출력 칸 — 스키마</p>
-<ul>
-<li>구조화 출력 = JSON outputs(<code>output_config.format</code>, 답의 모양) + strict tool use(<code>strict: true</code>, 도구 입력의 모양). 제약 디코딩으로 스키마 준수 보장.</li>
-<li>없으면 : 파싱 오류 · 필수 필드 누락 · 타입 불일치 · 재시도 로직.</li>
-<li>예외 셋 : <code>refusal</code>(HTTP 200, 거절이 스키마보다 우선) · <code>max_tokens</code>(잘림) · enum 대소문자(오류 없이 다르게 옴).</li>
+</li>
+<li>사람 확인 지점 : 에이전트는 체크포인트에서나 막힐 때 사람에게 돌아온다.</li>
+<li>루프는 앱이 맡는다. 앱은 <code>stop_reason</code> 으로 다음 단계를 정한다(1.2②). "You own the loop and the tools. Claude owns the reasoning." (Skilljar)</li>
 </ul>
-<p class="lead">feedback loop 칸 — 실패를 테스트로</p>
+<p class="lead">출력 칸은 스키마로 받는다</p>
 <ul>
-<li>성공 기준(success criteria) → 평가 → 개선 사이클. 실패(사용자 신고·지원 큐)를 테스트 과제로 바꿔야 실제 사용을 반영하고 regression(회귀)을 막음.</li>
-<li>출시 전·변경마다 = 자동 eval(첫 방어선). 출시 뒤 = 운영(production) 감시(분포 변화·예상 못 한 실패) · 사용자 피드백 · 대화 기록 읽기. 한 겹이 모든 걸 못 잡음(스위스 치즈 — 구멍 난 겹을 여러 장 겹쳐 막음).</li>
-<li>운영 감시만 있으면 사후 대응 — 문제가 사용자에게 먼저 닿음.</li>
+<li>구조화 출력은 JSON outputs(<code>output_config.format</code>, 답의 모양)와 strict tool use(<code>strict: true</code>, 도구 입력의 모양)다. 제약 디코딩으로 스키마 준수를 보장한다.</li>
+<li>구조화 출력이 없으면 이런 일이 생긴다.<ul>
+<li>파싱 오류가 난다</li>
+<li>필수 필드가 빠진다</li>
+<li>타입이 맞지 않는다</li>
+<li>재시도 로직이 필요하다</li>
+</ul>
+</li>
+<li>예외는 셋이다.<ul>
+<li><code>refusal</code> : HTTP 200 으로 온다. 거절이 스키마보다 우선한다</li>
+<li><code>max_tokens</code> : 답이 잘린다</li>
+<li>enum 대소문자 : 오류 없이 다르게 온다</li>
+</ul>
+</li>
+</ul>
+<p class="lead">feedback loop 칸은 실패를 테스트로 바꾼다</p>
+<ul>
+<li>성공 기준(success criteria), 평가, 개선이 한 사이클이다. 실패(사용자 신고·지원 큐)를 테스트 과제로 바꿔야 실제 사용을 반영한다. 그래야 regression(회귀)도 막는다.</li>
+<li>출시 전과 변경마다 자동 eval 을 돌린다. 자동 eval 은 첫 방어선이다.</li>
+<li>출시 뒤에는 세 가지를 쓴다.<ul>
+<li>운영(production) 감시(분포 변화·예상 못 한 실패)</li>
+<li>사용자 피드백</li>
+<li>대화 기록 읽기</li>
+</ul>
+</li>
+<li>한 겹이 모든 것을 잡지는 못한다. 스위스 치즈처럼 구멍 난 겹을 여러 장 겹쳐 막는다.</li>
+<li>운영 감시만 있으면 사후 대응이 된다. 문제가 사용자에게 먼저 닿는다.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
 <li>칸 사이에 넘어가는 것(판정 · 도구 입력 · 최종 답)이 스키마로 정해져 있나?</li>
-<li>운영에서 잡힌 실패가 다음 평가 세트으로 들어가는 길이 있나?</li>
+<li>운영에서 잡힌 실패가 다음 평가 세트로 들어가는 길이 있나?</li>
 </ul>
 </section>
   <h2 class="sec-h" id="e2e-architecture-rules-h">규칙과 판단</h2>
@@ -439,23 +469,23 @@
   <section class="t5-flow tree" id="e2e-architecture-tree-1" aria-labelledby="e2e-architecture-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9">
     <div class="t5-fh"><h3 id="e2e-architecture-tree-1-h">①②③④ 어느 칸이 문제 <span class="pg">[1.2①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>증상은?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>증상이 무엇인가?</div>
       <div class="t5-fork" style="--n:4">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>엉뚱·위험한 입력이 모델까지 옴</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">입력 칸</p><p>가벼운 모델(Haiku 4.5)로 사용자 입력 사전 선별 · 판정은 구조화 출력으로 받아 앱이 분기</p></div>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>엉뚱·위험한 입력이 모델까지 온다</span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">입력 칸</p><p>가벼운 모델(Haiku 4.5)로 사용자 입력을 사전 선별한다. 판정은 구조화 출력으로 받아 앱이 분기한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>실시간 값(잔액·주문)을 틀림</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">처리 칸·도구</p><p>실시간 값은 임베딩 RAG 로 부족 → 도구로 조회</p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>실시간 값(잔액·주문)을 틀린다</span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">처리 칸·도구</p><p>실시간 값은 임베딩 RAG 로 부족하다. 그래서 도구로 조회한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>뒤쪽 코드가 파싱에 실패</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">출력 칸</p><p>구조화 출력 = JSON outputs(<code>output_config.format</code>) + strict tool use(<code>strict: true</code>)</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">출력 칸</p><p>구조화 출력을 쓴다. 구조화 출력은 JSON outputs(<code>output_config.format</code>)와 strict tool use(<code>strict: true</code>)다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>같은 오답이 몇 주째 반복</span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">feedback loop 칸</p><p>실패(사용자 신고·지원 큐)를 테스트 과제로 바꿔야 regression(회귀)을 막음</p></div>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">feedback loop 칸</p><p>실패(사용자 신고·지원 큐)를 테스트 과제로 바꿔야 regression(회귀)을 막는다</p></div>
         </div>
       </div>
     </div>
@@ -463,19 +493,19 @@
   <section class="t5-flow tree" id="e2e-architecture-tree-2" aria-labelledby="e2e-architecture-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7">
     <div class="t5-fh"><h3 id="e2e-architecture-tree-2-h">③ 스키마를 걸어도 <span class="pg">[1.2①]</span> <span class="pg">[1.2②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span><code>stop_reason</code> 은?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span><code>stop_reason</code> 이 무엇인가?</div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span><code>refusal</code></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">거절이 스키마보다 우선</p><p><code>refusal</code>(HTTP 200, 거절이 스키마보다 우선)</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">거절이 스키마보다 우선한다</p><p><code>refusal</code> 은 HTTP 200 으로 온다. 거절이 스키마보다 우선한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span><code>max_tokens</code></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">잘림</p><p><code>max_tokens</code>(잘림 → 더 큰 값으로 재시도)</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">답이 잘렸다</p><p><code>max_tokens</code> 는 답이 잘린 것이다. 더 큰 값으로 재시도한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>정상 종료인데 enum 값이 다름</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">대소문자</p><p>enum 대소문자는 보장 안 됨, 오류 없이 옴 → 대소문자 무시 비교</p></div>
+          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>정상 종료인데 enum 값이 다르다</span>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">대소문자를 무시한다</p><p>enum 대소문자는 보장되지 않는다. 오류 없이 온다. 그래서 대소문자를 무시하고 비교한다</p></div>
         </div>
       </div>
     </div>
@@ -487,55 +517,55 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>출시 전 · 변경마다</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">자동 eval</p><p>변경·모델 업그레이드마다 도는 첫 방어선</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">자동 eval</p><p>자동 eval 은 변경과 모델 업그레이드마다 도는 첫 방어선이다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>출시 뒤</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">운영 감시 + 사용자 피드백 + 대화 기록 읽기</p><p>운영(production) 감시는 사후 대응 · 잡은 실패를 테스트로 바꿔야 루프가 됨</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">운영 감시 + 사용자 피드백 + 대화 기록 읽기</p><p>운영(production) 감시는 사후 대응이다. 잡은 실패를 테스트로 바꿔야 루프가 된다</p></div>
         </div>
       </div>
     </div>
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="e2e-architecture-flow" aria-label="input → processing → output → feedback loop 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["입력","처리","출력","feedback loop"],"blocks":[],"rules":[null,null,"스키마로 받아 뒤쪽 코드가 추측 없이 씀","실패를 테스트 과제로 바꿔 프롬프트·설정 개선으로 되돌림"],"question":"같은 오답이 반복되면 어느 칸이 빠졌을까?","scenes":[{"name":"① 네 칸이 다 돔","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"거름","at":{"col":0},"label":"모델이 보기 전에 거름","art":{"kind":"slip","lines":["Haiku 4.5 선별","{ 안전: true,","주제: \"해지\" }"]}},{"kind":"move","step":"통과","from":{"col":0},"to":1,"label":"앱이 분기","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"보강","at":{"col":1},"label":"검색·도구·가드레일","art":{"kind":"slip","lines":["도구 :","get_contract","→ 가입 14개월째"]}},{"kind":"move","step":"스키마","from":{"col":1},"to":2,"label":"항상 파싱되는 JSON","art":{"kind":"slip","lines":["{ 수수료: 50000,","근거: \"약관 7조\"","}"]}},{"kind":"move","step":"feedback loop","from":{"col":2},"to":3,"label":"실패를 테스트 과제로","art":{"kind":"slip","lines":["신고 #812","→ 테스트 과제","\"14개월 해지","= 30,000\""]}},{"kind":"move","step":"개선","from":{"col":3},"to":1,"label":"개선으로 되돌림","art":{"kind":"slip","lines":["프롬프트 수정","eval 에 새 과제","포함해 통과"]}},{"kind":"move","step":"다시","from":{"col":1},"to":2,"label":"","art":{"kind":"slip","lines":["{ 수수료: 30000,","근거: \"약관 7조\"","}"]}},{"kind":"end","label":"실패를 테스트 과제로 바꿔야 regression 을 막음"}]},{"name":"② feedback loop 끊김","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"거름","at":{"col":0},"label":"모델이 보기 전에 거름","art":{"kind":"slip","lines":["Haiku 4.5 선별","{ 안전: true,","주제: \"해지\" }"]}},{"kind":"move","step":"통과","from":{"col":0},"to":1,"label":"앱이 분기","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"보강","at":{"col":1},"label":"검색·도구·가드레일","art":{"kind":"slip","lines":["도구 :","get_contract","→ 가입 14개월째"]}},{"kind":"move","step":"스키마","from":{"col":1},"to":2,"label":"항상 파싱되는 JSON","art":{"kind":"slip","lines":["{ 수수료: 50000,","근거: \"약관 7조\"","}"]}},{"kind":"move","step":"쌓임","from":{"col":2},"to":3,"label":"로그만 쌓임 · 과제로 안 바뀜","art":{"kind":"slip","lines":["신고 로그 3주치","같은 오답 214건","테스트 과제 0개"]}},{"kind":"end","label":"하나 고치면 다른 게 깨지는 사후 대응 루프 — 같은 오답이 계속 반복됨"}]},{"name":"③ 자유 문장 + 정규식","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"거름","at":{"col":0},"label":"모델이 보기 전에 거름","art":{"kind":"slip","lines":["Haiku 4.5 선별","{ 안전: true,","주제: \"해지\" }"]}},{"kind":"move","step":"통과","from":{"col":0},"to":1,"label":"앱이 분기","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"보강","at":{"col":1},"label":"검색·도구·가드레일","art":{"kind":"slip","lines":["도구 :","get_contract","→ 가입 14개월째"]}},{"kind":"move","step":"자유 문장","from":{"col":1},"to":2,"label":"파싱 오류·필수 필드 누락","art":{"kind":"slip","lines":["\"음, 3만 원쯤","될 것 같아요!\"","정규식 \\d+원","→ 못 찾음"]}},{"kind":"end","label":"뒤쪽 코드가 추측해야 함"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["입력","처리","출력","feedback loop"],"blocks":[],"rules":[null,null,"스키마로 받아 뒤쪽 코드가 추측 없이 쓴다","실패를 테스트 과제로 바꿔 프롬프트·설정 개선으로 되돌린다"],"question":"같은 오답이 반복되면 어느 칸이 빠졌을까?","scenes":[{"name":"① 네 칸이 다 돈다","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"거름","at":{"col":0},"label":"모델이 보기 전에 거른다","art":{"kind":"slip","lines":["Haiku 4.5 선별","{ 안전: true,","주제: \"해지\" }"]}},{"kind":"move","step":"통과","from":{"col":0},"to":1,"label":"앱이 분기한다","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"보강","at":{"col":1},"label":"검색·도구·가드레일을 붙인다","art":{"kind":"slip","lines":["도구 :","get_contract","→ 가입 14개월째"]}},{"kind":"move","step":"스키마","from":{"col":1},"to":2,"label":"항상 파싱되는 JSON 이다","art":{"kind":"slip","lines":["{ 수수료: 50000,","근거: \"약관 7조\"","}"]}},{"kind":"move","step":"feedback loop","from":{"col":2},"to":3,"label":"실패를 테스트 과제로 바꾼다","art":{"kind":"slip","lines":["신고 #812","→ 테스트 과제","\"14개월 해지","= 30,000\""]}},{"kind":"move","step":"개선","from":{"col":3},"to":1,"label":"개선으로 되돌린다","art":{"kind":"slip","lines":["프롬프트 수정","eval 에 새 과제","포함해 통과"]}},{"kind":"move","step":"다시","from":{"col":1},"to":2,"label":"","art":{"kind":"slip","lines":["{ 수수료: 30000,","근거: \"약관 7조\"","}"]}},{"kind":"end","label":"실패를 테스트 과제로 바꿔야 regression 을 막는다"}]},{"name":"② feedback loop 가 끊긴다","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"거름","at":{"col":0},"label":"모델이 보기 전에 거른다","art":{"kind":"slip","lines":["Haiku 4.5 선별","{ 안전: true,","주제: \"해지\" }"]}},{"kind":"move","step":"통과","from":{"col":0},"to":1,"label":"앱이 분기한다","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"보강","at":{"col":1},"label":"검색·도구·가드레일을 붙인다","art":{"kind":"slip","lines":["도구 :","get_contract","→ 가입 14개월째"]}},{"kind":"move","step":"스키마","from":{"col":1},"to":2,"label":"항상 파싱되는 JSON 이다","art":{"kind":"slip","lines":["{ 수수료: 50000,","근거: \"약관 7조\"","}"]}},{"kind":"move","step":"쌓임","from":{"col":2},"to":3,"label":"로그만 쌓이고 과제가 안 된다","art":{"kind":"slip","lines":["신고 로그 3주치","같은 오답 214건","테스트 과제 0개"]}},{"kind":"end","label":"하나 고치면 다른 게 깨지는 사후 대응 루프다. 같은 오답이 계속 반복된다"}]},{"name":"③ 자유 문장 + 정규식","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"거름","at":{"col":0},"label":"모델이 보기 전에 거른다","art":{"kind":"slip","lines":["Haiku 4.5 선별","{ 안전: true,","주제: \"해지\" }"]}},{"kind":"move","step":"통과","from":{"col":0},"to":1,"label":"앱이 분기한다","art":{"kind":"say","text":"지금 해지하면 수수료가 얼마예요?"}},{"kind":"mark","step":"보강","at":{"col":1},"label":"검색·도구·가드레일을 붙인다","art":{"kind":"slip","lines":["도구 :","get_contract","→ 가입 14개월째"]}},{"kind":"move","step":"자유 문장","from":{"col":1},"to":2,"label":"파싱 오류와 필수 필드 누락이 난다","art":{"kind":"slip","lines":["\"음, 3만 원쯤","될 것 같아요!\"","정규식 \\d+원","→ 못 찾음"]}},{"kind":"end","label":"뒤쪽 코드가 추측해야 한다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> 입력 → 처리 → 출력 → feedback loop</p>
-      <p><span class="lead">규칙 (출력) :</span> 스키마로 받아 뒤쪽 코드가 추측 없이 씀</p>
-      <p><span class="lead">규칙 (feedback loop) :</span> 실패를 테스트 과제로 바꿔 프롬프트·설정 개선으로 되돌림</p>
+      <p><span class="lead">규칙 (출력) :</span> 스키마로 받아 뒤쪽 코드가 추측 없이 쓴다</p>
+      <p><span class="lead">규칙 (feedback loop) :</span> 실패를 테스트 과제로 바꿔 프롬프트·설정 개선으로 되돌린다</p>
       <p><span class="lead">질문 :</span> 같은 오답이 반복되면 어느 칸이 빠졌을까?</p>
-      <p class="lead">① 네 칸이 다 돔 <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">① 네 칸이 다 돈다 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 입력 — 말 : <span class="flx-alt-say">“지금 해지하면 수수료가 얼마예요?”</span></li>
-        <li>거름 : 입력 : 모델이 보기 전에 거름 — 쪽지 : <span class="flx-alt-slip">Haiku 4.5 선별 / { 안전: true, / 주제: "해지" }</span></li>
-        <li>통과 : 입력 → 처리 : 앱이 분기 — 말 : <span class="flx-alt-say">“지금 해지하면 수수료가 얼마예요?”</span></li>
-        <li>보강 : 처리 : 검색·도구·가드레일 — 쪽지 : <span class="flx-alt-slip">도구 : / get_contract / → 가입 14개월째</span></li>
-        <li>스키마 : 처리 → 출력 : 항상 파싱되는 JSON — 쪽지 : <span class="flx-alt-slip">{ 수수료: 50000, / 근거: "약관 7조" / }</span></li>
-        <li>feedback loop : 출력 → feedback loop : 실패를 테스트 과제로 — 쪽지 : <span class="flx-alt-slip">신고 #812 / → 테스트 과제 / "14개월 해지 / = 30,000"</span></li>
-        <li>개선 : feedback loop → 처리 : 개선으로 되돌림 — 쪽지 : <span class="flx-alt-slip">프롬프트 수정 / eval 에 새 과제 / 포함해 통과</span></li>
+        <li>거름 : 입력 : 모델이 보기 전에 거른다 — 쪽지 : <span class="flx-alt-slip">Haiku 4.5 선별 / { 안전: true, / 주제: "해지" }</span></li>
+        <li>통과 : 입력 → 처리 : 앱이 분기한다 — 말 : <span class="flx-alt-say">“지금 해지하면 수수료가 얼마예요?”</span></li>
+        <li>보강 : 처리 : 검색·도구·가드레일을 붙인다 — 쪽지 : <span class="flx-alt-slip">도구 : / get_contract / → 가입 14개월째</span></li>
+        <li>스키마 : 처리 → 출력 : 항상 파싱되는 JSON 이다 — 쪽지 : <span class="flx-alt-slip">{ 수수료: 50000, / 근거: "약관 7조" / }</span></li>
+        <li>feedback loop : 출력 → feedback loop : 실패를 테스트 과제로 바꾼다 — 쪽지 : <span class="flx-alt-slip">신고 #812 / → 테스트 과제 / "14개월 해지 / = 30,000"</span></li>
+        <li>개선 : feedback loop → 처리 : 개선으로 되돌린다 — 쪽지 : <span class="flx-alt-slip">프롬프트 수정 / eval 에 새 과제 / 포함해 통과</span></li>
         <li>다시 : 처리 → 출력 — 쪽지 : <span class="flx-alt-slip">{ 수수료: 30000, / 근거: "약관 7조" / }</span></li>
-        <li>끝 : 실패를 테스트 과제로 바꿔야 regression 을 막음</li>
+        <li>끝 : 실패를 테스트 과제로 바꿔야 regression 을 막는다</li>
       </ol>
-      <p class="lead">② feedback loop 끊김 <span class="fl-v is-ng">≠</span></p>
+      <p class="lead">② feedback loop 가 끊긴다 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 입력 — 말 : <span class="flx-alt-say">“지금 해지하면 수수료가 얼마예요?”</span></li>
-        <li>거름 : 입력 : 모델이 보기 전에 거름 — 쪽지 : <span class="flx-alt-slip">Haiku 4.5 선별 / { 안전: true, / 주제: "해지" }</span></li>
-        <li>통과 : 입력 → 처리 : 앱이 분기 — 말 : <span class="flx-alt-say">“지금 해지하면 수수료가 얼마예요?”</span></li>
-        <li>보강 : 처리 : 검색·도구·가드레일 — 쪽지 : <span class="flx-alt-slip">도구 : / get_contract / → 가입 14개월째</span></li>
-        <li>스키마 : 처리 → 출력 : 항상 파싱되는 JSON — 쪽지 : <span class="flx-alt-slip">{ 수수료: 50000, / 근거: "약관 7조" / }</span></li>
-        <li>쌓임 : 출력 → feedback loop : 로그만 쌓임 · 과제로 안 바뀜 — 쪽지 : <span class="flx-alt-slip">신고 로그 3주치 / 같은 오답 214건 / 테스트 과제 0개</span></li>
-        <li>끝 : 하나 고치면 다른 게 깨지는 사후 대응 루프 — 같은 오답이 계속 반복됨</li>
+        <li>거름 : 입력 : 모델이 보기 전에 거른다 — 쪽지 : <span class="flx-alt-slip">Haiku 4.5 선별 / { 안전: true, / 주제: "해지" }</span></li>
+        <li>통과 : 입력 → 처리 : 앱이 분기한다 — 말 : <span class="flx-alt-say">“지금 해지하면 수수료가 얼마예요?”</span></li>
+        <li>보강 : 처리 : 검색·도구·가드레일을 붙인다 — 쪽지 : <span class="flx-alt-slip">도구 : / get_contract / → 가입 14개월째</span></li>
+        <li>스키마 : 처리 → 출력 : 항상 파싱되는 JSON 이다 — 쪽지 : <span class="flx-alt-slip">{ 수수료: 50000, / 근거: "약관 7조" / }</span></li>
+        <li>쌓임 : 출력 → feedback loop : 로그만 쌓이고 과제가 안 된다 — 쪽지 : <span class="flx-alt-slip">신고 로그 3주치 / 같은 오답 214건 / 테스트 과제 0개</span></li>
+        <li>끝 : 하나 고치면 다른 게 깨지는 사후 대응 루프다. 같은 오답이 계속 반복된다</li>
       </ol>
       <p class="lead">③ 자유 문장 + 정규식 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 입력 — 말 : <span class="flx-alt-say">“지금 해지하면 수수료가 얼마예요?”</span></li>
-        <li>거름 : 입력 : 모델이 보기 전에 거름 — 쪽지 : <span class="flx-alt-slip">Haiku 4.5 선별 / { 안전: true, / 주제: "해지" }</span></li>
-        <li>통과 : 입력 → 처리 : 앱이 분기 — 말 : <span class="flx-alt-say">“지금 해지하면 수수료가 얼마예요?”</span></li>
-        <li>보강 : 처리 : 검색·도구·가드레일 — 쪽지 : <span class="flx-alt-slip">도구 : / get_contract / → 가입 14개월째</span></li>
-        <li>자유 문장 : 처리 → 출력 : 파싱 오류·필수 필드 누락 — 쪽지 : <span class="flx-alt-slip">"음, 3만 원쯤 / 될 것 같아요!" / 정규식 \d+원 / → 못 찾음</span></li>
-        <li>끝 : 뒤쪽 코드가 추측해야 함</li>
+        <li>거름 : 입력 : 모델이 보기 전에 거른다 — 쪽지 : <span class="flx-alt-slip">Haiku 4.5 선별 / { 안전: true, / 주제: "해지" }</span></li>
+        <li>통과 : 입력 → 처리 : 앱이 분기한다 — 말 : <span class="flx-alt-say">“지금 해지하면 수수료가 얼마예요?”</span></li>
+        <li>보강 : 처리 : 검색·도구·가드레일을 붙인다 — 쪽지 : <span class="flx-alt-slip">도구 : / get_contract / → 가입 14개월째</span></li>
+        <li>자유 문장 : 처리 → 출력 : 파싱 오류와 필수 필드 누락이 난다 — 쪽지 : <span class="flx-alt-slip">"음, 3만 원쯤 / 될 것 같아요!" / 정규식 \d+원 / → 못 찾음</span></li>
+        <li>끝 : 뒤쪽 코드가 추측해야 한다</li>
       </ol>
     </details>
   </figure>
@@ -544,7 +574,7 @@
       <ol class="how">
         <li id="e2e-architecture-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">칸 사이 약속은 스키마 :</span> 입력 선별 판정 · 도구 입력 · 최종 출력 모두 스키마로 받으면 칸마다 뒤쪽 코드가 추측 안 함 <span class="src">(JSON outputs + strict tool use 는 같은 요청에서 같이 씀)</span></p>
+            <p><span class="lead">칸 사이 약속은 스키마 :</span> 입력 선별 판정·도구 입력·최종 출력을 모두 스키마로 받으면, 칸마다 뒤쪽 코드가 추측하지 않는다. JSON outputs 와 strict tool use 는 같은 요청에서 같이 쓴다</p>
           </div>
         </li>
       </ol>
@@ -553,30 +583,59 @@
       <ol class="how">
         <li id="e2e-architecture-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p><span class="lead">입력 :</span> 모델이 보기 전에 거름. 가벼운 모델(Haiku 4.5)로 사용자 입력 사전 선별 + 알려진 인젝션 패턴 필터, 판정은 구조화 출력으로 받아 앱이 분기 → <a href="injection-egress.html">■ 프롬프트 인젝션 피해 경로 끊기</a> <span class="pg">[1.2①]</span></p>
-            <p>선별을 주 응답과 따로(병렬) 돌리면, 한 호출이 가드레일과 답을 둘 다 하는 것보다 나음</p>
+            <p><span class="lead">입력 :</span> 모델이 보기 전에 거른다. 세 가지를 한다 <span class="pg">[1.2①]</span></p>
+            <ul class="dash">
+              <li>가벼운 모델(Haiku 4.5)로 사용자 입력을 사전 선별한다</li>
+              <li>알려진 인젝션 패턴을 필터로 거른다</li>
+              <li>판정은 구조화 출력으로 받아 앱이 분기한다</li>
+            </ul>
+            <p>자세한 것은 <a href="injection-egress.html">■ 프롬프트 인젝션 피해 경로 끊기</a> 에 있다</p>
+            <p>선별을 주 응답과 따로(병렬) 돌리면, 한 호출이 가드레일과 답을 둘 다 하는 것보다 낫다</p>
           </div>
         </li>
         <li id="e2e-architecture-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p><span class="lead">처리 :</span> 보강된 LLM(augmented LLM) = 검색·도구·메모리를 붙인 LLM. 정적 지식은 검색(RAG) · 실시간 값은 임베딩 RAG 로 부족 → 도구로 조회 <span class="pg">[1.2①]</span></p>
-            <p>가드레일 = 환각(hallucination) 줄이기(인용·사실 확인) · 정책 교차 확인 · 권한 없는 약속 금지 · PII 제거</p>
-            <p>사람 확인 지점 = 체크포인트나 막힐 때 사람에게 돌아옴</p>
-            <p><span class="lead">루프는 앱이 맡음 :</span> 응답의 <code>stop_reason</code> 으로 다음 단계를 정함 (1.2② 본편) <span class="src">(Skilljar)</span></p>
+            <p><span class="lead">처리 :</span> 보강된 LLM(augmented LLM)은 검색·도구·메모리를 붙인 LLM 이다. 정적 지식은 검색(RAG)으로 다룬다. 실시간 값은 임베딩 RAG 로 부족하다. 그래서 도구로 조회한다 <span class="pg">[1.2①]</span></p>
+            <p>가드레일은 네 가지다</p>
+            <ul class="dash">
+              <li>환각(hallucination)을 줄인다(인용·사실 확인)</li>
+              <li>정책을 교차 확인한다</li>
+              <li>권한 없는 약속을 하지 않게 한다</li>
+              <li>PII 를 제거한다</li>
+            </ul>
+            <p><span class="lead">사람 확인 지점 :</span> 에이전트는 체크포인트에서나 막힐 때 사람에게 돌아온다</p>
+            <p>루프는 앱이 맡는다. 앱은 응답의 <code>stop_reason</code> 으로 다음 단계를 정한다 (1.2② 본편) <span class="src">(Skilljar)</span></p>
           </div>
         </li>
         <li id="e2e-architecture-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">출력 :</span> 구조화 출력 = JSON outputs(<code>output_config.format</code>) + strict tool use(<code>strict: true</code>). 항상 파싱되는 JSON · 필수 필드·타입 보장 · 스키마 위반 재시도 불필요 <span class="pg">[1.2①]</span></p>
-            <p><span class="lead">예외 :</span> <code>refusal</code>(HTTP 200, 거절이 스키마보다 우선) · <code>max_tokens</code>(잘림 → 더 큰 값으로 재시도) · enum 대소문자는 보장 안 됨, 오류 없이 옴 → 대소문자 무시 비교</p>
-            <p><span class="lead">같이 못 씀 :</span> 인용(citations)과 JSON outputs 는 400 · 메시지 prefill 도 JSON outputs 와 호환 안 됨</p>
-            <p>strict 도구는 요청당 20개까지 → 스키마가 깨지면 곤란한 도구만 strict</p>
+            <p><span class="lead">출력 :</span> 구조화 출력은 JSON outputs(<code>output_config.format</code>)와 strict tool use(<code>strict: true</code>)다. 구조화 출력은 세 가지를 보장한다 <span class="pg">[1.2①]</span></p>
+            <ul class="dash">
+              <li>JSON 이 항상 파싱된다</li>
+              <li>필수 필드와 타입이 맞는다</li>
+              <li>스키마 위반 때문에 재시도할 필요가 없다</li>
+            </ul>
+            <p>예외는 셋이다</p>
+            <ul class="dash">
+              <li><code>refusal</code> : HTTP 200 으로 온다. 거절이 스키마보다 우선한다</li>
+              <li><code>max_tokens</code> : 답이 잘린다. 더 큰 값으로 재시도한다</li>
+              <li><span class="lead">enum 대소문자 :</span> 보장되지 않는다. 오류 없이 온다. 그래서 대소문자를 무시하고 비교한다</li>
+            </ul>
+            <p>같이 못 쓰는 것이 있다. 인용(citations)과 JSON outputs 를 같이 쓰면 400 이다. 메시지 prefill 도 JSON outputs 와 호환되지 않는다</p>
+            <p>strict 도구는 요청당 20개까지다. 그래서 스키마가 깨지면 곤란한 도구만 strict 로 둔다</p>
           </div>
         </li>
         <li id="e2e-architecture-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p>feedback loop : 성공 기준(success criteria) → 평가 → 개선이 한 바퀴. 실패(사용자 신고·지원 큐)를 테스트 과제로 바꿔야 regression 을 막음 · 실제 사용도 반영 <span class="pg">[1.2①]</span></p>
-            <p>출시 전·변경마다 = 자동 eval(변경·모델 업그레이드마다 도는 첫 방어선) · 출시 뒤 = 운영 감시(분포 변화·예상 못 한 실패) · 사용자 피드백 · 대화 기록 읽기 → <a href="observability-signals.html">■ observability 세 신호</a> · <a href="success-criteria.html">■ 성공 기준</a></p>
+            <p>feedback loop : 성공 기준(success criteria)을 정하고, 평가하고, 개선하는 것이 한 바퀴다. 실패(사용자 신고·지원 큐)를 테스트 과제로 바꿔야 regression 을 막는다. 그래야 실제 사용도 반영된다 <span class="pg">[1.2①]</span></p>
+            <p>출시 전과 변경마다 자동 eval 을 돌린다. 자동 eval 은 변경·모델 업그레이드마다 도는 첫 방어선이다</p>
+            <p>출시 뒤에는 세 가지로 본다</p>
+            <ul class="dash">
+              <li>운영 감시(분포 변화·예상 못 한 실패)</li>
+              <li>사용자 피드백</li>
+              <li>대화 기록 읽기</li>
+            </ul>
+            <p>자세한 것은 <a href="observability-signals.html">■ observability 세 신호</a> · <a href="success-criteria.html">■ 성공 기준</a> 에 있다</p>
           </div>
         </li>
       </ol>
@@ -590,14 +649,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">엉뚱·위험한 입력이 주 대화까지 옴</td><td data-label="답" role="cell">가벼운 모델로 사전 선별 + 입력 검증</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks" lang="en" rel="noopener">mitigate-jailbreaks</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">선별이 주 응답과 한 호출에 섞임</td><td data-label="답" role="cell">따로(병렬)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a> "This tends to perform better than having the same LLM call handle both guardrails and the core response."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">실시간 값을 틀림</td><td data-label="답" role="cell">도구로 조회</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">뒤쪽 코드가 파싱에 실패</td><td data-label="답" role="cell">구조화 출력</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">도구 입력도 형식이 깨짐</td><td data-label="답" role="cell">strict tool use (요청당 strict 20개까지)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">인용(citations)이 필요한 답</td><td data-label="답" role="cell">JSON outputs 와 같이 못 씀(400)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">같은 오답이 반복, 로그는 쌓임</td><td data-label="답" role="cell">실패를 테스트 과제로 → 평가 → 개선</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">출시 뒤 품질 확인</td><td data-label="답" role="cell">운영 감시 + 사용자 피드백 + 대화 기록 읽기, 자동 eval 은 변경마다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">엉뚱·위험한 입력이 주 대화까지 온다</td><td data-label="답" role="cell">가벼운 모델로 사전 선별하고 입력을 검증한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks" lang="en" rel="noopener">mitigate-jailbreaks</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">선별이 주 응답과 한 호출에 섞여 있다</td><td data-label="답" role="cell">따로(병렬) 돌린다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a> "This tends to perform better than having the same LLM call handle both guardrails and the core response."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">실시간 값을 틀린다</td><td data-label="답" role="cell">도구로 조회한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">뒤쪽 코드가 파싱에 실패한다</td><td data-label="답" role="cell">구조화 출력을 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">도구 입력도 형식이 깨진다</td><td data-label="답" role="cell">strict tool use 를 쓴다 (요청당 strict 20개까지)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">인용(citations)이 필요한 답이다</td><td data-label="답" role="cell">JSON outputs 와 같이 못 쓴다(400)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">같은 오답이 반복되고, 로그는 쌓인다</td><td data-label="답" role="cell">실패를 테스트 과제로 바꾼다. 그리고 평가하고 개선한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">출시 뒤 품질을 확인한다</td><td data-label="답" role="cell">운영 감시·사용자 피드백·대화 기록 읽기를 쓴다. 자동 eval 은 변경마다 돌린다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -608,16 +667,16 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">입력 출처</td><td data-label="값" role="cell">사용자 채팅</td><td data-label="답 쪽" role="cell">사전 선별(Haiku 4.5)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">입력 출처</td><td data-label="값" role="cell">도구 결과(메일·웹)</td><td data-label="답 쪽" role="cell">같은 선별을 도구 결과에도</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks" lang="en" rel="noopener">mitigate-jailbreaks</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">지식 종류</td><td data-label="값" role="cell">정적 문서</td><td data-label="답 쪽" role="cell">검색(RAG) 또는 full context(문서 전체를 넣기) → ◆ RAG vs full context</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">지식 종류</td><td data-label="값" role="cell">실시간 값</td><td data-label="답 쪽" role="cell">도구</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 3</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">출력을 쓰는 쪽</td><td data-label="값" role="cell">뒤쪽 코드</td><td data-label="답 쪽" role="cell">구조화 출력</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 4</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">출력을 쓰는 쪽</td><td data-label="값" role="cell">사람이 읽는 답</td><td data-label="답 쪽" role="cell">자유 문장도 됨</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">출력에 필요한 것</td><td data-label="값" role="cell">출처 인용</td><td data-label="답 쪽" role="cell">인용 기능 (JSON outputs 와 충돌)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 6</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">prefill 로 형식을 잡던 옛 방식</td><td data-label="답 쪽" role="cell">Opus 4.6 미지원 · Fable 5·Mythos 5 는 400 → 구조화 출력</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">feedback loop 시점</td><td data-label="값" role="cell">출시 전·변경마다</td><td data-label="답 쪽" role="cell">자동 eval</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 8</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">feedback loop 시점</td><td data-label="값" role="cell">출시 뒤</td><td data-label="답 쪽" role="cell">운영 감시 · 피드백 · 기록 읽기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 8</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">입력 출처</td><td data-label="값" role="cell">사용자 채팅이다</td><td data-label="답 쪽" role="cell">사전 선별한다(Haiku 4.5)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">입력 출처</td><td data-label="값" role="cell">도구 결과(메일·웹)다</td><td data-label="답 쪽" role="cell">같은 선별을 도구 결과에도 적용한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks" lang="en" rel="noopener">mitigate-jailbreaks</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">지식 종류</td><td data-label="값" role="cell">정적 문서다</td><td data-label="답 쪽" role="cell">검색(RAG) 또는 full context(문서 전체를 넣기)를 쓴다. 자세한 것은 ◆ RAG vs full context 에 있다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">지식 종류</td><td data-label="값" role="cell">실시간 값이다</td><td data-label="답 쪽" role="cell">도구를 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 3</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">출력을 쓰는 쪽</td><td data-label="값" role="cell">뒤쪽 코드다</td><td data-label="답 쪽" role="cell">구조화 출력을 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 4</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">출력을 쓰는 쪽</td><td data-label="값" role="cell">사람이 읽는 답이다</td><td data-label="답 쪽" role="cell">자유 문장도 된다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">출력에 필요한 것</td><td data-label="값" role="cell">출처 인용이다</td><td data-label="답 쪽" role="cell">인용 기능을 쓴다 (JSON outputs 와 충돌한다)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 6</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">prefill 로 형식을 잡던 옛 방식이다</td><td data-label="답 쪽" role="cell">Opus 4.6 은 지원하지 않는다. Fable 5·Mythos 5 는 400 이다. 그래서 구조화 출력을 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">feedback loop 시점</td><td data-label="값" role="cell">출시 전·변경마다</td><td data-label="답 쪽" role="cell">자동 eval 을 돌린다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 8</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">feedback loop 시점</td><td data-label="값" role="cell">출시 뒤</td><td data-label="답 쪽" role="cell">운영 감시·피드백·기록 읽기를 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 8</td></tr>
   </tbody>
 </table>
 </div>
@@ -626,20 +685,20 @@
   <h2 class="sec-h" id="e2e-architecture-practice-h">연습 문제</h2>
 
   <section class="csx" id="e2e-architecture-case" aria-labelledby="e2e-architecture-case-h" data-tree="e2e-architecture-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n8&quot;,&quot;몇 주째 반복&quot;],[&quot;n9&quot;,null]]" data-flow="e2e-architecture-flow" data-scene="0">
-    <p class="csx-text">자동차 보험 고객지원 Agent 가 <mark class="csx-m" data-tag="몇 주째 반복">같은 해지 수수료 오답을 3주째 반복한다<span class="csx-tag">몇 주째 반복</span></mark>. 고객 신고는 지원 큐에 로그로 쌓이기만 하고, 입력 선별과 JSON 출력은 잘 돈다. 팀은 "더 큰 모델로 바꾸자"고 한다. 어느 칸을 고칠까?</p>
+    <p class="csx-text">자동차 보험 고객지원 Agent 가 <mark class="csx-m" data-tag="몇 주째 반복">같은 해지 수수료 오답을 3주째 반복한다<span class="csx-tag">몇 주째 반복</span></mark>. 고객 신고는 지원 큐에 로그로 쌓이기만 한다. 입력 선별과 JSON 출력은 잘 돈다. 팀은 "더 큰 모델로 바꾸자"고 한다. 어느 칸을 고쳐야 하나?</p>
     <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
   </section>
   <h2 class="sec-h" id="e2e-architecture-exam-h">시험 대비</h2>
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"같은 오답이 몇 주째 → 더 큰 모델로" → feedback loop 칸이 빠진 것(로그만 쌓이고 평가 과제로 안 바뀜). 쌓인 실패를 테스트 과제로 · 모델 크기로 feedback loop 가 생기진 않음 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"출력은 자유 문장으로 받고 정규식으로 파싱" → 파싱 오류·필수 필드 누락, 뒤쪽 코드가 추측해야 함. 구조화 출력</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"assistant 메시지 prefill + stop sequence 로 JSON 만 받기" (Skilljar API 2025 강의) → 지금은 구조화 출력. prefill 은 Opus 4.6 미지원(2026-02-05) · Fable 5·Mythos 5 는 400(2026-06-09) · JSON outputs 와도 호환 안 됨</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"스키마를 걸었으니 오류 처리 필요 없음" → <code>refusal</code> · <code>max_tokens</code> 는 스키마와 안 맞을 수 있음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"대시보드가 있으니 feedback loop 끝" → 운영 감시는 사후 대응(문제가 사용자에게 먼저 닿음). 평가 없이는 하나 고치면 다른 게 깨지는 사후 대응 루프 — 잡은 실패를 테스트로 바꿔야 루프</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"실시간 잔액도 RAG 로" → 도구</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"사용자 피드백만 모으면 됨" → 드물고 심각한 쪽으로 치우침, 왜 틀렸는지 거의 안 적음</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"같은 오답이 몇 주째 나오니 더 큰 모델로 바꾸자" 는 함정이다. feedback loop 칸이 빠진 것이다. 로그만 쌓이고 평가 과제로 바뀌지 않았다. 모델 크기로 feedback loop 가 생기지는 않는다 <span class="gen">업계 일반</span>. 쌓인 실패를 테스트 과제로 바꾼다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"출력은 자유 문장으로 받고 정규식으로 파싱한다" 는 함정이다. 파싱 오류와 필수 필드 누락이 생긴다. 뒤쪽 코드가 추측해야 한다. 구조화 출력을 쓴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"assistant 메시지 prefill 과 stop sequence 로 JSON 만 받는다" 는 함정이다 (Skilljar API 2025 강의). 지금은 구조화 출력을 쓴다. prefill 은 Opus 4.6 에서 지원되지 않는다(2026-02-05). Fable 5·Mythos 5 에서는 400 이다(2026-06-09). JSON outputs 와도 호환되지 않는다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"스키마를 걸었으니 오류 처리는 필요 없다" 는 함정이다. <code>refusal</code> 과 <code>max_tokens</code> 는 스키마와 안 맞을 수 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"대시보드가 있으니 feedback loop 는 끝이다" 는 함정이다. 운영 감시는 사후 대응이다(문제가 사용자에게 먼저 닿는다). 평가가 없으면 하나 고치면 다른 게 깨지는 사후 대응 루프가 된다. 잡은 실패를 테스트로 바꿔야 루프가 된다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"실시간 잔액도 RAG 로 다룬다" 는 함정이다. 실시간 값은 도구로 조회한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"사용자 피드백만 모으면 된다" 는 함정이다. 사용자 피드백은 드물고 심각한 쪽으로 치우친다. 왜 틀렸는지도 거의 적지 않는다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -662,36 +721,42 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 입력 선별이 지연(latency)을 늘리는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 모든 채팅에 선별 호출을 앞에 붙였더니 첫 답이 늦어짐.</li>
-<li><span class="lead">판단 :</span> 선별을 순서대로(앞에) 두지 말고 주 응답과 병렬로 → 선별이 "막아야 함"이면 주 응답을 버림. 공식도 분류기 추가는 추가 호출이라 지연을 늘릴 수 있다고 적음.</li>
+<li><span class="lead">조건 :</span> 모든 채팅에 선별 호출을 앞에 붙였다. 그랬더니 첫 답이 늦어졌다.</li>
+<li><span class="lead">판단 :</span> 선별을 순서대로(앞에) 두지 않는다. 주 응답과 병렬로 돌린다. 선별 결과가 "막아야 한다" 이면 주 응답을 버린다. 공식 문서도 분류기를 더하면 추가 호출이라 지연을 늘릴 수 있다고 적는다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(병렬 가드레일 · 추가 호출 지연) · 버리는 운용은</span> <span class="gen">업계 일반</span></li>
 <li><span class="lead">근거 :</span> building-effective-agents · customer-support-chat</li>
 </ul>
 <h4>2. 스키마가 오히려 막는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 정책 답변에 조항 인용을 반드시 붙여야 하고, 앱이 JSON 으로도 받고 싶음.</li>
-<li><span class="lead">판단 :</span> 인용(citations) + JSON outputs 는 400. 인용이 핵심이면 인용 기능을 쓰고 JSON 은 포기, JSON 이 핵심이면 인용 필드를 스키마 안에 직접 둠(업계 일반).</li>
+<li><span class="lead">조건 :</span> 정책 답변에 조항 인용을 반드시 붙여야 한다. 앱은 JSON 으로도 받고 싶다.</li>
+<li><span class="lead">판단 :</span> 인용(citations)과 JSON outputs 를 같이 쓰면 400 이다. 인용이 핵심이면 인용 기능을 쓰고 JSON 은 포기한다. JSON 이 핵심이면 인용 필드를 스키마 안에 직접 둔다(업계 일반).</li>
 <li><span class="lead">등급 :</span> <span class="note">(충돌) · 우회는</span> <span class="gen">업계 일반</span></li>
 <li><span class="lead">근거 :</span> structured-outputs</li>
 </ul>
 <h4>3. 스키마를 걸었는데도 안 맞는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 구조화 출력 켬. 하루 수만 건 중 일부가 파싱 실패.</li>
-<li><span class="lead">판단 :</span> <code>stop_reason</code> 부터 봄. <code>refusal</code> = 거절이 스키마보다 우선(HTTP 200, 토큰 과금) · <code>max_tokens</code> = 잘림 → 더 큰 값으로 재시도. 정상 종료인데 값이 다르면 enum 대소문자 → 대소문자 무시 비교.</li>
+<li><span class="lead">조건 :</span> 구조화 출력을 켰다. 그런데 하루 수만 건 중 일부가 파싱에 실패한다.</li>
+<li><span class="lead">판단 :</span> <code>stop_reason</code> 부터 본다. <code>refusal</code> 이면 거절이 스키마보다 우선한 것이다(HTTP 200, 토큰 과금). <code>max_tokens</code> 이면 잘린 것이다. 더 큰 값으로 재시도한다. 정상 종료인데 값이 다르면 enum 대소문자 문제다. 대소문자를 무시하고 비교한다.</li>
 
 <li><span class="lead">근거 :</span> structured-outputs</li>
 </ul>
 <h4>4. feedback loop 를 사용자 피드백에만 기대는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> "싫어요" 버튼 수만 봄.</li>
-<li><span class="lead">판단 :</span> 사용자 피드백은 드물고 스스로 고른 사람만 누르고, 심각한 쪽으로 치우치고, 왜 틀렸는지 거의 안 적음. 자동 eval · 운영 감시 · 대화 기록 읽기와 겹쳐야 함.</li>
+<li><span class="lead">조건 :</span> "싫어요" 버튼 수만 본다.</li>
+<li>판단 : 사용자 피드백은 아래 네 가지 성질이 있다. 그래서 자동 eval·운영 감시·대화 기록 읽기와 겹쳐야 한다.<ul>
+<li>드물다</li>
+<li>스스로 고른 사람만 누른다</li>
+<li>심각한 쪽으로 치우친다</li>
+<li>왜 틀렸는지 거의 적지 않는다</li>
+</ul>
+</li>
 
 <li><span class="lead">근거 :</span> demystifying-evals</li>
 </ul>
 <h4>5. strict 를 전부 켜려는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 도구 26개에 전부 <code>strict: true</code>.</li>
-<li><span class="lead">판단 :</span> strict 도구는 요청당 20개 상한 · 선택 파라미터 합계 24개 상한. 스키마가 깨지면 곤란한 도구만 strict, 나머지는 모델의 기본 준수에 맡김.</li>
+<li><span class="lead">조건 :</span> 도구 26개에 전부 <code>strict: true</code> 를 건다.</li>
+<li><span class="lead">판단 :</span> strict 도구는 요청당 20개가 상한이다. 선택 파라미터는 합계 24개가 상한이다. 스키마가 깨지면 곤란한 도구만 strict 로 둔다. 나머지는 모델의 기본 준수에 맡긴다.</li>
 
 <li><span class="lead">근거 :</span> structured-outputs</li>
 </ul>
@@ -702,19 +767,21 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"몇 주째 같은 오답 → 더 큰 모델로"</td><td data-label="왜 끌리나" role="cell">모델이 약해 보임</td><td data-label="왜 틀리나" role="cell">feedback loop 칸이 빠진 것. 실패를 테스트 과제로</td><td data-label="등급" role="cell"><span class="note">(feedback loop) ·</span> <span class="gen">업계 일반</span><span class="note">(모델 무관)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"자유 문장으로 받고 정규식 파싱"</td><td data-label="왜 끌리나" role="cell">빨리 붙일 수 있음</td><td data-label="왜 틀리나" role="cell">파싱 오류·필수 필드 누락. 구조화 출력이 보장</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"prefill + stop sequence 로 JSON 만"</td><td data-label="왜 끌리나" role="cell">Skilljar 2025 강의가 가르침</td><td data-label="왜 틀리나" role="cell">지금은 구조화 출력. prefill 은 JSON outputs 와 호환 안 됨, 일부 모델은 400</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a> · <a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a> · Skilljar 287732</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"스키마 켰으니 오류 처리 불필요"</td><td data-label="왜 끌리나" role="cell">"Always valid" 문구</td><td data-label="왜 틀리나" role="cell"><code>refusal</code> · <code>max_<wbr>tokens</code> 는 스키마와 안 맞을 수 있음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"대시보드를 만들었으니 feedback loop 끝"</td><td data-label="왜 끌리나" role="cell">보이면 관리되는 것 같음</td><td data-label="왜 틀리나" role="cell">운영 감시는 사후 대응. 평가로 되돌리는 길이 있어야 루프</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"실시간 잔액도 RAG index(색인)로"</td><td data-label="왜 끌리나" role="cell">RAG 가 지식 주입의 기본 같음</td><td data-label="왜 틀리나" role="cell">실시간 값은 임베딩 RAG 로 부족 → 도구</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"선별·답변을 한 호출에 같이 시킨다"</td><td data-label="왜 끌리나" role="cell">호출 수가 줄어듦</td><td data-label="왜 틀리나" role="cell">따로 돌리는 편이 나음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"몇 주째 같은 오답이니 더 큰 모델로"</td><td data-label="왜 끌리나" role="cell">모델이 약해 보인다</td><td data-label="왜 틀리나" role="cell">feedback loop 칸이 빠진 것이다. 실패를 테스트 과제로 바꾼다</td><td data-label="등급" role="cell"><span class="note">(feedback loop) ·</span> <span class="gen">업계 일반</span><span class="note">(모델 무관)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"자유 문장으로 받고 정규식으로 파싱"</td><td data-label="왜 끌리나" role="cell">빨리 붙일 수 있다</td><td data-label="왜 틀리나" role="cell">파싱 오류와 필수 필드 누락이 생긴다. 구조화 출력은 형식을 보장한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"prefill + stop sequence 로 JSON 만"</td><td data-label="왜 끌리나" role="cell">Skilljar 2025 강의가 그렇게 가르친다</td><td data-label="왜 틀리나" role="cell">지금은 구조화 출력을 쓴다. prefill 은 JSON outputs 와 호환되지 않는다. 일부 모델은 400 이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a> · <a class="src-link" href="https://platform.claude.com/docs/en/release-notes/overview" rel="noopener">릴리스 노트</a> · Skilljar 287732</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"스키마 켰으니 오류 처리 불필요"</td><td data-label="왜 끌리나" role="cell">"Always valid" 문구가 있다</td><td data-label="왜 틀리나" role="cell"><code>refusal</code> · <code>max_<wbr>tokens</code> 는 스키마와 안 맞을 수 있다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs" lang="en" rel="noopener">structured-outputs</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"대시보드를 만들었으니 feedback loop 끝"</td><td data-label="왜 끌리나" role="cell">보이면 관리되는 것 같다</td><td data-label="왜 틀리나" role="cell">운영 감시는 사후 대응이다. 평가로 되돌리는 길이 있어야 루프가 된다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"실시간 잔액도 RAG index(색인)로"</td><td data-label="왜 끌리나" role="cell">RAG 가 지식 주입의 기본 같다</td><td data-label="왜 틀리나" role="cell">실시간 값은 임베딩 RAG 로 부족하다. 도구를 쓴다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"선별·답변을 한 호출에 같이 시킨다"</td><td data-label="왜 끌리나" role="cell">호출 수가 줄어든다</td><td data-label="왜 틀리나" role="cell">따로 돌리는 편이 낫다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/building-effective-agents" lang="en" rel="noopener">building-effective-agents</a></td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="e2e-architecture-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
@@ -737,11 +804,12 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>목록 1.2① 영어 신호 "Design end-to-end architectures (input → processing → output → feedback loops)" 는 가이드 목표 문구(writer-spec 표)와 같음 — 가이드 PDF 원문 파일은 <code>raw/official/</code> 에 6~7쪽만 있어 줄 번호 대조는 못 함.</li>
-<li>"feedback loop = 평가 결과를 프롬프트·모델 개선으로 되돌림" 의 "모델 개선" 쪽(파인튜닝 등)은 공식 문장 없음. 카드는 프롬프트·설정 개선만 적음.</li>
-<li>Skilljar Platform 101 "agent loop"(486254, 2026-06 추정) 는 1.2② 본편 재료 — 여기선 한 줄만 씀.</li>
+<li>목록 1.2① 영어 신호 "Design end-to-end architectures (input → processing → output → feedback loops)" 는 가이드 목표 문구(writer-spec 표)와 같다. 가이드 PDF 원문 파일은 <code>raw/official/</code> 에 6~7쪽만 있다. 그래서 줄 번호 대조는 못 했다.</li>
+<li>"feedback loop = 평가 결과를 프롬프트·모델 개선으로 되돌림" 의 "모델 개선" 쪽(파인튜닝 등)은 공식 문장이 없다. 카드는 프롬프트·설정 개선만 적는다.</li>
+<li>Skilljar Platform 101 "agent loop"(486254, 2026-06 추정)는 1.2② 본편 재료다. 여기서는 한 줄만 쓴다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

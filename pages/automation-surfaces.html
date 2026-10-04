@@ -369,9 +369,9 @@
   </div>
   <h2 class="sec-h" id="automation-surfaces-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>개발팀 반복 작업을 어디에 올리나. 엔진은 같음(Claude Code 의 도구·루프 — GitHub Action 도 Agent SDK 위에 만든 것) → 가르는 건 **무엇이 부르나(사람·CI 단계·저장소 이벤트·내 앱·예약) · 누가 돌리나**</p>
-      <p>연동 방식 일반 판단(누가 루프를 돌리나 · ZDR)은 <a href="integration-options.html">◆ 직접 API vs Agent SDK vs CLI vs Managed Agents</a>. 여기는 팀 반복 작업 관점</p>
-    <p class="t5-ana"><span class="lead">비유</span> 로컬 cron(CLI) vs CI 러너(GitHub Actions) vs 앱 내장 라이브러리(Agent SDK) vs 매니지드 서비스(Lambda·Fargate). "직접 운영해야 통제(control)된다" 가 속이는 습관</p>
+      <p>개발팀 반복 작업을 어디에 올리나를 고른다. 엔진은 같다. Claude Code 의 도구와 루프다. GitHub Action 도 Agent SDK 위에 만든 것이다. 그래서 가르는 것은 둘이다. **무엇이 부르나**(사람·CI 단계·저장소 이벤트·내 앱·예약)와 **누가 돌리나** 다</p>
+      <p>연동 방식 일반 판단(누가 루프를 돌리나 · ZDR)은 <a href="integration-options.html">◆ 직접 API vs Agent SDK vs CLI vs Managed Agents</a> 에 있다. 여기는 팀 반복 작업 관점에서 본다</p>
+    <p class="t5-ana"><span class="lead">비유</span> 로컬 cron(CLI), CI 러너(GitHub Actions), 앱 내장 라이브러리(Agent SDK), 매니지드 서비스(Lambda·Fargate)의 차이다. "직접 운영해야 통제(control)된다" 가 속이는 습관이다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/automation-surfaces.webp"><img src="../images/automation-surfaces.webp" alt="Claude Code 의 도구와 루프라는 엔진은 같고, 사람·CI 단계·저장소 이벤트·내 앱 중 무엇이 부르느냐에 따라 CLI·claude -p·GitHub Actions·Agent SDK 를 고른다." loading="lazy" decoding="async"></a>
@@ -398,23 +398,33 @@
 <!-- /vx:figure -->
 <section class="ex-sec" id="principle" aria-labelledby="principle-h">
 <h3 id="principle-h">원리</h3>
-<p class="lead">엔진은 하나</p>
+<p class="lead">엔진은 하나다</p>
 <ul>
-<li>Agent SDK = Claude Code 와 같은 도구·루프·컨텍스트 관리. CLI(<code>-p</code>)는 스크립트·CI 용 같은 엔진, GitHub Action 도 SDK 위에 만든 것.</li>
-<li>그래서 "어느 게 더 똑똑하나" 가 아니라 <strong>무엇이 부르나 · 누가 돌리나 · 자격증명이 어디 사나</strong> 로 구분.</li>
+<li>Agent SDK 는 Claude Code 와 같은 도구·루프·컨텍스트 관리를 쓴다. CLI(<code>-p</code>)는 스크립트·CI 용 같은 엔진이다. GitHub Action 도 SDK 위에 만든 것이다.</li>
+<li>그래서 "어느 것이 더 똑똑하나" 가 아니라 아래 셋으로 구분한다.<ul>
+<li><strong>무엇이 부르나</strong></li>
+<li><strong>누가 돌리나</strong></li>
+<li><strong>자격증명이 어디 사나</strong></li>
+</ul>
+</li>
 </ul>
 <p class="lead">세 축</p>
 <ul>
-<li>부르는 것 : 사람(대화) · CI 단계/스크립트 · 저장소 이벤트(PR·이슈·<code>@claude</code>) · 예약(cron) · 내 제품 코드.</li>
-<li>돌리는 곳 : 내 터미널 · 내 파이프라인 · GitHub 호스트 러너 · Anthropic 인프라(Code Review · Routines · Managed Agents).</li>
-<li>자격증명 : CI·<code>--bare</code> 는 <code>ANTHROPIC_API_KEY</code> 환경변수 · Actions 는 GitHub Secrets · SDK 제품은 API 키 인증(authentication, claude.ai 로그인 제공은 사전 승인 없인 안 됨).</li>
+<li>부르는 것 : 사람(대화) · CI 단계/스크립트 · 저장소 이벤트(PR·이슈·<code>@claude</code>) · 예약(cron) · 내 제품 코드다.</li>
+<li>돌리는 곳 : 내 터미널 · 내 파이프라인 · GitHub 호스트 러너 · Anthropic 인프라(Code Review · Routines · Managed Agents)다.</li>
+<li>자격증명 : CI·<code>--bare</code> 는 <code>ANTHROPIC_API_KEY</code> 환경변수를 쓴다. Actions 는 GitHub Secrets 를 쓴다. SDK 제품은 API 키 인증(authentication)을 쓴다. claude.ai 로그인 제공은 사전 승인 없이는 안 된다.</li>
 </ul>
 <p class="lead">무인이면 달라지는 것</p>
 <ul>
-<li>되물을 사람이 없음 → 프롬프트에 성공 모습·결과 처리를 적고, 도구는 <code>--allowedTools</code> 로 딱 필요한 만큼, 답할 사람이 없는 권한 요청은 거절되게(<code>dontAsk</code> · <code>--permission-prompts none</code>).</li>
-<li>같은 결과가 필요함 → <code>--bare</code> 로 기계마다 다른 훅·MCP·CLAUDE.md 를 끊음. 대신 팀 규칙도 끊기니 플래그로 다시 넣음.</li>
+<li>되물을 사람이 없다. 그래서 아래처럼 한다.<ul>
+<li>프롬프트에 성공 모습과 결과 처리를 적는다</li>
+<li>도구는 <code>--allowedTools</code> 로 딱 필요한 만큼 준다</li>
+<li>답할 사람이 없는 권한 요청은 거절되게 한다(<code>dontAsk</code> · <code>--permission-prompts none</code>)</li>
 </ul>
-<p class="lead">핵심 질문 두 개</p>
+</li>
+<li>같은 결과가 필요하다. 그래서 <code>--bare</code> 로 기계마다 다른 훅·MCP·CLAUDE.md 를 끊는다. 대신 팀 규칙도 끊기니 플래그로 다시 넣는다.</li>
+</ul>
+<p class="lead">핵심 질문은 두 개다</p>
 <ul>
 <li>이 작업을 무엇이 부르나(사람 · CI · 저장소 이벤트 · 예약 · 제품)?</li>
 <li>서버·프로세스를 누가 운영하나(우리 · GitHub · Anthropic)?</li>
@@ -433,7 +443,7 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예 <span class="note">(터미널에서 대화)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Claude Code CLI</p><p>대화형 개발 · 터미널 일회성 작업</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Claude Code CLI</p><p>대화형 개발과 터미널 일회성 작업에 쓴다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(반복·무인)</span></span>
@@ -445,15 +455,15 @@
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>CI 단계 · pre-commit 훅 · 스크립트</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>claude -p</code></p><p>CI 는 <code>--bare</code> · <code>--allowedTools</code> 로 필요한 도구만</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>claude -p</code></p><p>CI 는 <code>--bare</code> 와 <code>--allowedTools</code> 로 필요한 도구만 준다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>내 Python·TS 앱·제품 안</span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Agent SDK</p><p>내가 운영하는 프로세스에</p></div>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Agent SDK</p><p>내가 운영하는 프로세스에 넣는다</p></div>
             </div>
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>루프·인프라 안 만듦 · 장기 실행·비동기</span>
-              <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Managed Agents</p><p>에이전트 호스팅을 Anthropic 에 → <a href="integration-options.html">◆ 직접 API vs Agent SDK vs CLI vs Managed Agents</a></p></div>
+              <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>루프·인프라를 안 만든다 · 장기 실행·비동기</span>
+              <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Managed Agents</p><p>에이전트 호스팅을 Anthropic 에 맡긴다. 자세한 것은 <a href="integration-options.html">◆ 직접 API vs Agent SDK vs CLI vs Managed Agents</a> 에 있다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n14"><span class="t5-hl" aria-hidden="true"></span>시간 · 예약</span>
@@ -471,7 +481,7 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Code Review <span class="note">(관리형)</span></p><p>워크플로 파일 없이 PR 마다 자동 리뷰. Team·Enterprise · research preview</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Code Review <span class="note">(관리형)</span></p><p>워크플로 파일 없이 PR 마다 자동 리뷰한다. Team·Enterprise 용이고 research preview 다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(구현·보고서·트리아지)</span></span>
@@ -479,11 +489,11 @@
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">interactive 모드</p><p><code>prompt</code> 없음 · <code>@claude</code> 를 기다림, 결과는 그 이슈·PR 코멘트</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">interactive 모드</p><p><code>prompt</code> 가 없다. <code>@claude</code> 를 기다린다. 결과는 그 이슈·PR 코멘트에 남는다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(이벤트·cron 이 자동으로)</span></span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">automation 모드</p><p><code>prompt</code> 있음 · 모든 GitHub 이벤트·cron, 결과는 기본 워크플로 실행 로그. 도구는 <code>--allowedTools</code> 로 줄 때까지 없음</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">automation 모드</p><p><code>prompt</code> 가 있다. 모든 GitHub 이벤트·cron 에서 돈다. 결과는 기본으로 워크플로 실행 로그에 남는다. 도구는 <code>--allowedTools</code> 로 줄 때까지 없다</p></div>
             </div>
           </div>
         </div>
@@ -497,19 +507,19 @@
       <div class="t5-fork" style="--n:4">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>컴퓨터가 꺼져 있어도</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Routines</p><p>클라우드(기본 Anthropic 관리)</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Routines</p><p>클라우드(기본 Anthropic 관리)에서 돈다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>로컬 파일·미커밋 변경이 필요</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Desktop scheduled tasks</p><p>로컬 파일이 필요한 예약</p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>로컬 파일·미커밋 변경이 필요하다</span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Desktop scheduled tasks</p><p>로컬 파일이 필요한 예약에 쓴다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>워크플로 설정과 같은 곳 · 저장소 이벤트</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">GitHub Actions cron</p><p>GitHub 호스트 러너</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">GitHub Actions cron</p><p>GitHub 호스트 러너에서 돈다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>세션이 열린 동안만</span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>/loop</code></p><p>세션이 열린 동안 폴링</p></div>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><code>/loop</code></p><p>세션이 열린 동안 폴링한다</p></div>
         </div>
       </div>
     </div>
@@ -519,16 +529,18 @@
       <ol class="how">
         <li id="automation-surfaces-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p><code>claude -p</code> 를 CI 에 : <code>--bare</code> = 훅·skill·plugin·MCP 서버·auto memory·CLAUDE.md 자동 로드를 건너뜀 → 어느 기계에서나 같은 결과. 스크립트·SDK 호출 권장 모드, 이후 <code>-p</code> 기본값 예정</p>
-            <p>대신 팀 CLAUDE.md 도 안 읽음 → 필요한 맥락은 플래그로(<code>--append-system-prompt</code> · <code>--settings</code> · <code>--mcp-config</code> 등). 인증(authentication)은 <code>ANTHROPIC_API_KEY</code>(구독 로그인 안 씀)</p>
-            <p><code>--allowedTools</code> 로 필요한 도구만 — 무인 실행에서 중요 · <code>-p</code> 의 기본 권한 모드는 모든 플랜에서 Manual → 잠근 CI 는 <code>dontAsk</code>, 답할 사람이 없으면 <code>--permission-prompts none</code></p>
-            <p>결과 파싱 = <code>--output-format json</code>(<code>result</code> · <code>total_cost_usd</code>) · <code>--json-schema</code> → <code>structured_output</code> <span class="src">(2026-09-28 조회)</span></p>
-            <p><code>--bare</code> 없이 <code>-p</code> 는 그 저장소의 <code>.claude/settings.json</code> 훅을 돌리고 <code>.mcp.json</code> 서버를 붙임 — 신뢰한 적 없는 폴더여도, 확인창 없이. 외부 기여자 PR 은 그 파일들까지 바꿀 수 있음 → 남이 쓴 저장소에서 <code>-p</code> 를 돌리기 전엔 <code>--bare</code> 로 시작하고 필요한 규칙·도구는 플래그로 (PR 이 설정을 바꾼다는 적용은 추론) → <a href="integration-options.html">◆ 직접 API vs Agent SDK vs CLI vs Managed Agents</a></p>
+            <p><code>claude -p</code> 를 CI 에 : <code>--bare</code> 는 훅·skill·plugin·MCP 서버·auto memory·CLAUDE.md 자동 로드를 건너뛴다. 그래서 어느 기계에서나 같은 결과가 나온다. 스크립트·SDK 호출에 권장하는 모드이고, 이후 <code>-p</code> 기본값이 될 예정이다</p>
+            <p>대신 팀 CLAUDE.md 도 읽지 않는다. 필요한 맥락은 플래그로 넣는다(<code>--append-system-prompt</code> · <code>--settings</code> · <code>--mcp-config</code> 등). 인증(authentication)은 <code>ANTHROPIC_API_KEY</code> 로 한다(구독 로그인은 쓰지 않는다)</p>
+            <p><code>--allowedTools</code> 로 필요한 도구만 준다. 무인 실행에서 중요하다. <code>-p</code> 의 기본 권한 모드는 모든 플랜에서 Manual 이다. 그래서 잠근 CI 는 <code>dontAsk</code> 를 쓰고, 답할 사람이 없으면 <code>--permission-prompts none</code> 을 쓴다</p>
+            <p>결과는 <code>--output-format json</code>(<code>result</code> · <code>total_cost_usd</code>)이나 <code>--json-schema</code> 로 파싱한다. <code>--json-schema</code> 는 <code>structured_output</code> 을 준다 <span class="src">(2026-09-28 조회)</span></p>
+            <p><code>--bare</code> 없이 <code>-p</code> 를 쓰면 그 저장소의 <code>.claude/settings.json</code> 훅을 돌리고 <code>.mcp.json</code> 서버를 붙인다. 신뢰한 적 없는 폴더여도 확인창 없이 그렇게 한다</p>
+            <p>외부 기여자 PR 은 그 파일들까지 바꿀 수 있다 <span class="note">(PR 이 설정을 바꾼다는 적용은 추론)</span></p>
+            <p>그래서 남이 쓴 저장소에서 <code>-p</code> 를 돌리기 전에는 <code>--bare</code> 로 시작한다. 필요한 규칙과 도구는 플래그로 넣는다. 자세한 것은 <a href="integration-options.html">◆ 직접 API vs Agent SDK vs CLI vs Managed Agents</a> 에 있다</p>
           </div>
         </li>
         <li id="automation-surfaces-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p><span class="lead">무인 작업 프롬프트 :</span> 성공이 어떤 모습인지 · 결과를 어디로 보낼지 명시. 무인이라 되물을 수 없음</p>
+            <p><span class="lead">무인 작업 프롬프트 :</span> 성공이 어떤 모습인지, 결과를 어디로 보낼지 명시한다. 무인이라 되물을 수 없다</p>
           </div>
         </li>
       </ol>
@@ -552,31 +564,31 @@
               </tbody>
             </table>
             </div>
-            <p><span class="lead">그 밖 :</span>  <span class="pg">[7.2②]</span></p>
-            <ul class="pairs">
-              <li>로컬 파일이 필요한 예약 = Desktop scheduled tasks</li>
-              <li>세션이 열린 동안 폴링 = <code>/loop</code></li>
-            </ul>
+            <p>그 밖에도 둘이 있다. 로컬 파일이 필요한 예약은 Desktop scheduled tasks 다. 세션이 열린 동안 폴링하려면 <code>/loop</code> 를 쓴다 <span class="pg">[7.2②]</span></p>
           </div>
         </li>
         <li id="automation-surfaces-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
             <p>GitHub Actions</p>
-            <p><span class="lead">설정 :</span> <code>/install-github-app</code>(github.com 저장소만 · 저장소 admin 필요) 또는 수동(앱 설치 + 시크릿 + 워크플로 파일)</p>
-            <p><span class="lead">두 모드 :</span> </p>
-            <ul class="pairs">
-              <li><code>prompt</code> 없음 = interactive(<code>@claude</code> 를 기다림, 결과는 코멘트)</li>
-              <li><code>prompt</code> 있음 = automation(모든 GitHub 이벤트·cron, 결과는 기본 워크플로 실행 로그). automation 의 plain prompt 는 <code>claude_args</code> 의 <code>--allowedTools</code> 로 도구를 줄 때까지 셸·GitHub API 없음</li>
+            <p><span class="lead">설정 :</span> <code>/install-github-app</code> 으로 한다(github.com 저장소만 되고 저장소 admin 이 필요하다). 수동으로 해도 된다(앱 설치 + 시크릿 + 워크플로 파일)</p>
+            <p><span class="lead">두 모드 :</span> <code>prompt</code> 가 없으면 interactive 다. <code>@claude</code> 를 기다리고 결과는 코멘트로 남긴다. <code>prompt</code> 가 있으면 automation 이다. 모든 GitHub 이벤트·cron 에서 돌고 결과는 기본으로 워크플로 실행 로그에 남는다. automation 의 plain prompt 는 <code>claude_args</code> 의 <code>--allowedTools</code> 로 도구를 줄 때까지 셸·GitHub API 가 없다</p>
+            <p><span class="lead">키 :</span> GitHub Secrets 에 둔다(<code>anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}</code>). 저장소에 직접 커밋하지 않는다. 워크플로 권한은 필요한 만큼만 준다. 머지 전에 Claude 변경을 사람이 검토한다</p>
+            <p><span class="lead">누가 부르나 :</span> 이슈·PR 이벤트는 쓰기 권한 사용자만 부를 수 있다. 봇은 <code>allowed_bots</code> 에 없으면 거부된다(봇끼리 루프 방지)</p>
+            <p><span class="lead">비용 lever :</span> 아래를 쓴다</p>
+            <ul class="dash">
+              <li><code>claude_args</code> 의 <code>--max-turns</code></li>
+              <li>워크플로 타임아웃</li>
+              <li>concurrency</li>
+              <li>구체적인 <code>@claude</code> 요청</li>
+              <li>짧은 CLAUDE.md(매 실행 읽는다)</li>
             </ul>
-            <p>키 = GitHub Secrets(<code>anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}</code>), 저장소에 직접 커밋 금지 · 워크플로 권한은 필요한 만큼만 · 머지 전 Claude 변경을 사람이 검토</p>
-            <p><span class="lead">누가 부르나 :</span> 이슈·PR 이벤트는 쓰기 권한 사용자만 · 봇은 <code>allowed_bots</code> 에 없으면 거부(봇끼리 루프 방지)</p>
-            <p><span class="lead">비용 lever :</span> <code>claude_args</code> 의 <code>--max-turns</code> · 워크플로 타임아웃 · concurrency · 구체적인 <code>@claude</code> 요청 · 짧은 CLAUDE.md(매 실행 읽음)</p>
-            <p><span class="lead">예약 :</span> 기본 브랜치에서만 돌고, 공개 저장소는 60일 활동 없으면 GitHub 가 끔 · fork PR 은 시크릿이 안 가서 리뷰가 안 돔 <span class="src">(2026-09-28 조회)</span></p>
+            <p><span class="lead">예약 :</span> 기본 브랜치에서만 돈다. 공개 저장소는 60일 활동이 없으면 GitHub 가 끈다. fork PR 에는 시크릿이 가지 않아 리뷰가 돌지 않는다 <span class="src">(2026-09-28 조회)</span></p>
           </div>
         </li>
         <li id="automation-surfaces-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p>PR 리뷰만이면 관리형 Code Review 부터, CI 에서 실제로 무언가 해야 하면 Action (Skilljar — docs 도 Code Review = 워크플로 파일 없이 PR 마다 자동 리뷰). Code Review 는 Team·Enterprise · research preview, ZDR 조직은 못 씀 → <a href="ai-code-review.html">■ AI 코드 리뷰</a></p>
+            <p>PR 리뷰만이면 관리형 Code Review 부터 쓴다. CI 에서 실제로 무언가 해야 하면 Action 을 쓴다 <span class="src">(Skilljar. docs 도 Code Review 를 워크플로 파일 없이 PR 마다 하는 자동 리뷰로 적는다)</span></p>
+            <p>Code Review 는 Team·Enterprise 용이고 research preview 다. ZDR 조직은 쓰지 못한다. 자세한 것은 <a href="ai-code-review.html">■ AI 코드 리뷰</a> 에 있다</p>
           </div>
         </li>
       </ol>
@@ -590,17 +602,17 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">터미널에서 대화형 개발 · 일회성 작업</td><td data-label="답" role="cell">Claude Code CLI</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a> "Do interactive development or run one-off tasks from a terminal"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">CI · pre-commit 훅 · 스크립트</td><td data-label="답" role="cell"><code>claude -p</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a> "Use <code>claude -p "prompt"</code> in CI, pre-commit hooks, or scripts."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">CI 에서 기계마다 같은 결과</td><td data-label="답" role="cell"><code>--<wbr>bare</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/headless" lang="en" rel="noopener">headless</a> "Bare mode is useful for CI and scripts where you need the same result on every machine."</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">PR·이슈의 <code>@claude</code> · 저장소 이벤트 · 워크플로 옆 cron</td><td data-label="답" role="cell">GitHub Actions</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a> · <a class="src-link" href="https://code.claude.com/docs/en/common-workflows" lang="en" rel="noopener">common-workflows</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">PR 리뷰만, 워크플로 유지 안 함</td><td data-label="답" role="cell">Code Review (관리형)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a> "automatic review on every pull request, without writing a workflow"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">컴퓨터 꺼져도 도는 예약</td><td data-label="답" role="cell">Routines</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/common-workflows" lang="en" rel="noopener">common-workflows</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">로컬 파일·미커밋 변경이 필요한 예약</td><td data-label="답" role="cell">Desktop scheduled tasks</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/common-workflows" lang="en" rel="noopener">common-workflows</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">내 Python·TS 앱에 에이전트 내장</td><td data-label="답" role="cell">Agent SDK</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">에이전트 호스팅을 Anthropic 에 · 장기 실행·비동기 · cron 예약</td><td data-label="답" role="cell">Managed Agents</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a> · <a class="src-link" href="https://platform.claude.com/docs/en/managed-agents/overview" lang="en" rel="noopener">managed-agents overview</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Actions 에 키를 넣어야 함</td><td data-label="답" role="cell">GitHub Secrets 로, 저장소 커밋 금지 · 워크플로 권한은 필요한 만큼</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">무인 예약 프롬프트</td><td data-label="답" role="cell">성공 모습 · 결과 처리 방법을 명시</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/common-workflows" lang="en" rel="noopener">common-workflows</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">터미널에서 대화형 개발이나 일회성 작업을 한다</td><td data-label="답" role="cell">Claude Code CLI 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a> "Do interactive development or run one-off tasks from a terminal"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">CI · pre-commit 훅 · 스크립트에서 돌린다</td><td data-label="답" role="cell"><code>claude -p</code> 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a> "Use <code>claude -p "prompt"</code> in CI, pre-commit hooks, or scripts."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">CI 에서 기계마다 같은 결과가 필요하다</td><td data-label="답" role="cell"><code>--<wbr>bare</code> 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/headless" lang="en" rel="noopener">headless</a> "Bare mode is useful for CI and scripts where you need the same result on every machine."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">PR·이슈의 <code>@claude</code> · 저장소 이벤트 · 워크플로 옆 cron 이다</td><td data-label="답" role="cell">GitHub Actions 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a> · <a class="src-link" href="https://code.claude.com/docs/en/common-workflows" lang="en" rel="noopener">common-workflows</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">PR 리뷰만 하고 워크플로는 유지하지 않는다</td><td data-label="답" role="cell">Code Review (관리형) 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a> "automatic review on every pull request, without writing a workflow"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">컴퓨터가 꺼져도 도는 예약이다</td><td data-label="답" role="cell">Routines 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/common-workflows" lang="en" rel="noopener">common-workflows</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">로컬 파일·미커밋 변경이 필요한 예약이다</td><td data-label="답" role="cell">Desktop scheduled tasks 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/common-workflows" lang="en" rel="noopener">common-workflows</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">내 Python·TS 앱에 에이전트를 내장한다</td><td data-label="답" role="cell">Agent SDK 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">에이전트 호스팅을 Anthropic 에 맡긴다 · 장기 실행·비동기 · cron 예약</td><td data-label="답" role="cell">Managed Agents 를 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a> · <a class="src-link" href="https://platform.claude.com/docs/en/managed-agents/overview" lang="en" rel="noopener">managed-agents overview</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Actions 에 키를 넣어야 한다</td><td data-label="답" role="cell">GitHub Secrets 에 둔다. 저장소에 커밋하지 않는다. 워크플로 권한은 필요한 만큼만 준다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">무인 예약 프롬프트를 쓴다</td><td data-label="답" role="cell">성공 모습과 결과 처리 방법을 명시한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/common-workflows" lang="en" rel="noopener">common-workflows</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -611,15 +623,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">별도 서버</td><td data-label="값" role="cell">두기 싫음</td><td data-label="답 쪽" role="cell">GitHub Actions(GitHub 호스트 러너) · Code Review · Routines · Managed Agents</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a> · <a class="src-link" href="https://code.claude.com/docs/en/common-workflows" lang="en" rel="noopener">common-workflows</a> · managed-agents</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">호출 언어</td><td data-label="값" role="cell">Python·TS 밖(Go·Ruby 등)</td><td data-label="답 쪽" role="cell">CLI 를 subprocess 로 <code>-p</code> + <code>--<wbr>output-<wbr>format json</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">결과 모양</td><td data-label="값" role="cell">다음 스크립트가 파싱</td><td data-label="답 쪽" role="cell"><code>--<wbr>output-<wbr>format json</code> · <code>--<wbr>json-<wbr>schema</code> → <code>structured_<wbr>output</code></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/headless" lang="en" rel="noopener">headless</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">팀 규칙</td><td data-label="값" role="cell">CI 에서도 따라야 함</td><td data-label="답 쪽" role="cell"><code>--<wbr>bare</code> 면 CLAUDE.md 안 읽음 → <code>--<wbr>append-<wbr>system-<wbr>prompt</code> 등 플래그로</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/headless" lang="en" rel="noopener">headless</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">CI 권한</td><td data-label="값" role="cell">잠가야 함</td><td data-label="답 쪽" role="cell"><code>dontAsk</code>(프롬프트 뜰 호출은 전부 거절) · <code>--<wbr>allowedTools</code> 로 허용할 것만</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/headless" lang="en" rel="noopener">headless</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">Actions 모드</td><td data-label="값" role="cell"><code>prompt</code> 입력 없음</td><td data-label="답 쪽" role="cell">interactive — <code>@claude</code> 기다림, 결과는 코멘트</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">Actions 모드</td><td data-label="값" role="cell"><code>prompt</code> 입력 있음</td><td data-label="답 쪽" role="cell">automation — 모든 이벤트·cron, 결과는 실행 로그 · 도구는 <code>--<wbr>allowedTools</code> 로 줄 때까지 없음</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">트리거 주체</td><td data-label="값" role="cell">봇 · 쓰기 권한 없는 사용자</td><td data-label="답 쪽" role="cell">기본 거부(<code>allowed_<wbr>bots</code> · <code>allowed_<wbr>non_<wbr>write_<wbr>users</code>)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">조직</td><td data-label="값" role="cell">ZDR 켬</td><td data-label="답 쪽" role="cell">Code Review 못 씀 · Managed Agents 대상 아님</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/code-review" lang="en" rel="noopener">code-review</a> · managed-agents</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">별도 서버</td><td data-label="값" role="cell">두기 싫다</td><td data-label="답 쪽" role="cell">GitHub Actions(GitHub 호스트 러너) · Code Review · Routines · Managed Agents</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a> · <a class="src-link" href="https://code.claude.com/docs/en/common-workflows" lang="en" rel="noopener">common-workflows</a> · managed-agents</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">호출 언어</td><td data-label="값" role="cell">Python·TS 밖(Go·Ruby 등)</td><td data-label="답 쪽" role="cell">CLI 를 subprocess 로 부른다. <code>-p</code> + <code>--<wbr>output-<wbr>format json</code> 을 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">결과 모양</td><td data-label="값" role="cell">다음 스크립트가 파싱한다</td><td data-label="답 쪽" role="cell"><code>--<wbr>output-<wbr>format json</code> · <code>--<wbr>json-<wbr>schema</code> 를 쓴다. <code>--<wbr>json-<wbr>schema</code> 는 <code>structured_<wbr>output</code> 을 준다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/headless" lang="en" rel="noopener">headless</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">팀 규칙</td><td data-label="값" role="cell">CI 에서도 따라야 한다</td><td data-label="답 쪽" role="cell"><code>--<wbr>bare</code> 면 CLAUDE.md 를 읽지 않는다. <code>--<wbr>append-<wbr>system-<wbr>prompt</code> 등 플래그로 넣는다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/headless" lang="en" rel="noopener">headless</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">CI 권한</td><td data-label="값" role="cell">잠가야 한다</td><td data-label="답 쪽" role="cell"><code>dontAsk</code>(프롬프트 뜰 호출은 전부 거절한다)를 쓴다. <code>--<wbr>allowedTools</code> 로 허용할 것만 준다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/headless" lang="en" rel="noopener">headless</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">Actions 모드</td><td data-label="값" role="cell"><code>prompt</code> 입력이 없다</td><td data-label="답 쪽" role="cell">interactive 모드다. <code>@claude</code> 를 기다리고, 결과는 코멘트로 남긴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">Actions 모드</td><td data-label="값" role="cell"><code>prompt</code> 입력이 있다</td><td data-label="답 쪽" role="cell">automation 모드다. 모든 이벤트·cron 에서 돌고, 결과는 실행 로그에 남는다. 도구는 <code>--<wbr>allowedTools</code> 로 줄 때까지 없다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">트리거 주체</td><td data-label="값" role="cell">봇 · 쓰기 권한 없는 사용자</td><td data-label="답 쪽" role="cell">기본으로 거부한다(<code>allowed_<wbr>bots</code> · <code>allowed_<wbr>non_<wbr>write_<wbr>users</code>)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">조직</td><td data-label="값" role="cell">ZDR 을 켰다</td><td data-label="답 쪽" role="cell">Code Review 를 쓰지 못한다. Managed Agents 대상도 아니다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/code-review" lang="en" rel="noopener">code-review</a> · managed-agents</td></tr>
   </tbody>
 </table>
 </div>
@@ -635,14 +647,14 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"surface 는 셋 · 자동화면 무조건 Agent SDK" → 공식 비교표는 Agent SDK · CLI · Client SDK · Managed Agents 넷, 개발팀 반복 작업엔 GitHub Actions · Code Review · Routines 도 있음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"서버 두기 싫은데 PR 리뷰·아침 요약 → Agent SDK 로 직접 호스팅" → GitHub Actions(GitHub 호스트 러너) · Code Review · Routines</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"워크플로 파일에 API 키를 직접" → GitHub Secrets</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"CI 에 <code>--bare</code> 를 붙여도 팀 CLAUDE.md 규칙은 따름" → 안 읽음. 필요한 맥락은 플래그로</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"외부 PR 리뷰 CI 는 저장소에 커밋된 <code>.claude</code> 규칙이 지켜 줌" → 그 파일을 PR 이 바꿀 수 있음. 남이 쓴 저장소면 <code>--bare</code> 로 시작</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"아침 보고서 cron 에 넉넉히 쓰기 권한까지" → 워크플로 권한·도구는 필요한 만큼만 <span class="src">(Skilljar : 보고서면 읽기 전용)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>prompt</code> 만 주면 Claude 가 알아서 GitHub 을 읽음" → automation 모드 plain prompt 는 <code>--allowedTools</code> 로 줄 때까지 도구 없음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar cci 486935 는 "<code>-p</code> 가 훅·skill·MCP·CLAUDE.md 자동 로드를 건너뜀" → docs 는 **<code>--bare</code>** 가 건너뜀, <code>-p</code> 만으로는 대화형과 같은 맥락을 로드 <span class="note">(docs 가 이김)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"surface 는 셋이고, 자동화면 무조건 Agent SDK 다" 는 함정이다. 공식 비교표는 Agent SDK · CLI · Client SDK · Managed Agents 넷이다. 개발팀 반복 작업에는 GitHub Actions · Code Review · Routines 도 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"서버 두기 싫은데 PR 리뷰·아침 요약을 Agent SDK 로 직접 호스팅한다" 는 함정이다. GitHub Actions(GitHub 호스트 러너) · Code Review · Routines 를 쓴다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"워크플로 파일에 API 키를 직접 적는다" 는 함정이다. GitHub Secrets 에 둔다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"CI 에 <code>--bare</code> 를 붙여도 팀 CLAUDE.md 규칙은 따른다" 는 함정이다. <code>--bare</code> 면 CLAUDE.md 를 읽지 않는다. 필요한 맥락은 플래그로 넣는다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"외부 PR 리뷰 CI 는 저장소에 커밋된 <code>.claude</code> 규칙이 지켜 준다" 는 함정이다. 그 파일을 PR 이 바꿀 수 있다. 남이 쓴 저장소면 <code>--bare</code> 로 시작한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"아침 보고서 cron 에 넉넉히 쓰기 권한까지 준다" 는 함정이다. 워크플로 권한과 도구는 필요한 만큼만 준다 <span class="src">(Skilljar 는 보고서면 읽기 전용이라고 한다)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"<code>prompt</code> 만 주면 Claude 가 알아서 GitHub 을 읽는다" 는 함정이다. automation 모드 plain prompt 는 <code>--allowedTools</code> 로 줄 때까지 도구가 없다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar 와 docs 가 다른 곳이 있다. Skilljar cci 486935 는 "<code>-p</code> 가 훅·skill·MCP·CLAUDE.md 자동 로드를 건너뛴다" 고 한다. docs 는 **<code>--bare</code>** 가 건너뛴다고 한다. <code>-p</code> 만으로는 대화형과 같은 맥락을 로드한다 <span class="note">(docs 가 이긴다)</span></span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -664,29 +676,29 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. "PR 리뷰 = 관리형 Code Review" 가 안 될 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 조직이 ZDR 을 켰거나, Team·Enterprise 구독이 아님.</li>
-<li><span class="lead">판단 :</span> Code Review 는 research preview · Team·Enterprise 전용 · ZDR 조직 불가. → GitHub Actions 에 <code>code-review</code> 플러그인 워크플로를 직접 두거나(프롬프트·모델·트리거를 직접 제어), 로컬 <code>/code-review</code>.</li>
+<li><span class="lead">조건 :</span> 조직이 ZDR 을 켰다. 또는 Team·Enterprise 구독이 아니다.</li>
+<li><span class="lead">판단 :</span> Code Review 는 research preview 이고 Team·Enterprise 전용이다. ZDR 조직은 쓸 수 없다. 그래서 GitHub Actions 에 <code>code-review</code> 플러그인 워크플로를 직접 둔다(프롬프트·모델·트리거를 직접 제어한다). 또는 로컬 <code>/code-review</code> 를 쓴다.</li>
 
 <li><span class="lead">근거 :</span> code-review · github-actions</li>
 </ul>
 <h4>2. <code>--bare</code> 로 바꿨더니 리뷰 품질이 떨어짐</h4>
 <ul>
-<li><span class="lead">조건 :</span> CI 리뷰 잡을 "기계마다 같은 결과" 를 위해 <code>--bare</code> 로 바꿈. 그 뒤 저장소 규칙(예 "생성 파일은 지적 말 것")을 안 지킴.</li>
-<li><span class="lead">판단 :</span> <code>--bare</code> 는 CLAUDE.md 까지 건너뜀. 재현성과 팀 맥락 주입이 부딪힘 → 규칙을 <code>--append-system-prompt-file</code> 등으로 명시 주입. <code>--bare</code> 를 빼는 것도 답이지만, 그러면 그 폴더의 훅·MCP 가 확인창 없이 실행됨(◆ 직접 API vs Agent SDK vs CLI vs Managed Agents).</li>
+<li><span class="lead">조건 :</span> CI 리뷰 잡을 "기계마다 같은 결과" 를 위해 <code>--bare</code> 로 바꿨다. 그 뒤 저장소 규칙(예 "생성 파일은 지적 말 것")을 지키지 않는다.</li>
+<li><span class="lead">판단 :</span> <code>--bare</code> 는 CLAUDE.md 까지 건너뛴다. 재현성과 팀 맥락 주입이 부딪힌다. 그래서 규칙을 <code>--append-system-prompt-file</code> 등으로 명시해 넣는다. <code>--bare</code> 를 빼는 것도 답이다. 하지만 그러면 그 폴더의 훅·MCP 가 확인창 없이 실행된다(◆ 직접 API vs Agent SDK vs CLI vs Managed Agents).</li>
 <li><span class="lead">등급 :</span> <span class="note">(플래그 목록) · 둘 중 고르는 기준은</span> <span class="gen">업계 일반</span></li>
 <li><span class="lead">근거 :</span> headless</li>
 </ul>
 <h4>3. 예약 워크플로가 조용히 멈춤</h4>
 <ul>
-<li><span class="lead">조건 :</span> 공개 저장소에서 매일 09:00 UTC 요약 cron 을 Actions 로 돌림. 두 달쯤 커밋이 없던 뒤 보고서가 끊김.</li>
-<li><span class="lead">판단 :</span> GitHub 는 예약 워크플로를 기본 브랜치에서만 돌리고, 공개 저장소는 60일 활동이 없으면 예약을 끔. 모델·키 문제가 아님. 저장소 활동과 무관하게 돌아야 하면 Routines(클라우드) 쪽.</li>
+<li><span class="lead">조건 :</span> 공개 저장소에서 매일 09:00 UTC 요약 cron 을 Actions 로 돌린다. 두 달쯤 커밋이 없던 뒤 보고서가 끊긴다.</li>
+<li><span class="lead">판단 :</span> GitHub 는 예약 워크플로를 기본 브랜치에서만 돌린다. 공개 저장소는 60일 활동이 없으면 예약을 끈다. 모델이나 키 문제가 아니다. 저장소 활동과 무관하게 돌아야 하면 Routines(클라우드) 쪽을 쓴다.</li>
 
 <li><span class="lead">근거 :</span> github-actions · common-workflows</li>
 </ul>
 <h4>4. 반복 작업이 "제품 기능" 이 될 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 사내 PR 요약 봇을 고객용 SaaS 기능으로 팔기로 함.</li>
-<li><span class="lead">판단 :</span> 팀 도구(Actions · Routines)가 아니라 내 앱 안 → Agent SDK(내가 운영하는 프로세스) 또는 운영을 줄이려면 Managed Agents. 이때부터는 ◆ 직접 API vs Agent SDK vs CLI vs Managed Agents 의 판단(ZDR · 인증 · 운영 인력).</li>
+<li><span class="lead">조건 :</span> 사내 PR 요약 봇을 고객용 SaaS 기능으로 팔기로 했다.</li>
+<li><span class="lead">판단 :</span> 이제 팀 도구(Actions · Routines)가 아니라 내 앱 안이다. 그래서 Agent SDK(내가 운영하는 프로세스)를 쓴다. 운영을 줄이려면 Managed Agents 를 쓴다. 이때부터는 ◆ 직접 API vs Agent SDK vs CLI vs Managed Agents 의 판단(ZDR · 인증 · 운영 인력)을 따른다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(surface(쓰는 환경) 정의) · 판단 연결은</span> <span class="gen">업계 일반</span></li>
 <li><span class="lead">근거 :</span> agent-sdk overview</li>
 </ul>
@@ -697,14 +709,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"surface 는 셋 — 자동화면 무조건 Agent SDK"</td><td data-label="왜 끌리나" role="cell">SDK 가 가장 "프로그래밍 가능" 해 보임</td><td data-label="왜 틀리나" role="cell">공식 비교표는 넷(Agent SDK · CLI · Client SDK · Managed Agents), 팀 반복 작업엔 Actions · Code Review · Routines 도</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a> · <a class="src-link" href="https://code.claude.com/docs/en/common-workflows" lang="en" rel="noopener">common-workflows</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"서버 두기 싫은데 SDK 로 직접 호스팅"</td><td data-label="왜 끌리나" role="cell">통제(control)가 쉬워 보임</td><td data-label="왜 틀리나" role="cell">프로세스 운영이 우리 몫. GitHub 호스트 러너 · 관리형 서비스가 조건에 맞음</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a> · <a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"워크플로 파일에 API 키를 적음"</td><td data-label="왜 끌리나" role="cell">설정이 한곳에 모임</td><td data-label="왜 틀리나" role="cell">GitHub Secrets 로, 저장소 커밋 금지</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"CI 에서 <code>-p</code> 만 쓰면 로컬 훅·MCP 는 실행 안 됨"</td><td data-label="왜 끌리나" role="cell">Skilljar 가 그렇게 말함</td><td data-label="왜 틀리나" role="cell"><code>--<wbr>bare</code> 가 건너뜀. <code>-p</code> 만으로는 대화형과 같은 맥락을 로드</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/headless" lang="en" rel="noopener">headless</a> (Skilljar cci 486935 와 충돌 — docs 가 이김)</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"<code>--<wbr>bare</code> 로도 CLAUDE.md 팀 규칙은 따름"</td><td data-label="왜 끌리나" role="cell">CLAUDE.md = 늘 읽는 파일로 외움</td><td data-label="왜 틀리나" role="cell"><code>--<wbr>bare</code> 는 CLAUDE.md 도 건너뜀</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/headless" lang="en" rel="noopener">headless</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"보고서 cron 에 넉넉한 쓰기 권한"</td><td data-label="왜 끌리나" role="cell">나중에 기능 붙이기 쉬움</td><td data-label="왜 틀리나" role="cell">워크플로 권한·도구는 필요한 만큼만</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a> · ■ 최소 권한</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"<code>prompt</code> 만 주면 Claude 가 GitHub 을 알아서 읽음"</td><td data-label="왜 끌리나" role="cell">interactive 모드와 헷갈림</td><td data-label="왜 틀리나" role="cell">automation 모드 plain prompt 는 <code>--<wbr>allowedTools</code> 로 줄 때까지 셸·GitHub API 없음</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"무인 작업도 모호하면 Claude 가 되물을 것"</td><td data-label="왜 끌리나" role="cell">대화형 습관</td><td data-label="왜 틀리나" role="cell">무인이라 못 되물음. 성공 모습·결과 처리를 적음</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/common-workflows" lang="en" rel="noopener">common-workflows</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"surface 는 셋, 자동화면 무조건 Agent SDK"</td><td data-label="왜 끌리나" role="cell">SDK 가 가장 "프로그래밍 가능" 해 보인다</td><td data-label="왜 틀리나" role="cell">공식 비교표는 넷이다(Agent SDK · CLI · Client SDK · Managed Agents). 팀 반복 작업에는 Actions · Code Review · Routines 도 있다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a> · <a class="src-link" href="https://code.claude.com/docs/en/common-workflows" lang="en" rel="noopener">common-workflows</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"서버 두기 싫은데 SDK 로 직접 호스팅"</td><td data-label="왜 끌리나" role="cell">통제(control)가 쉬워 보인다</td><td data-label="왜 틀리나" role="cell">프로세스 운영이 우리 몫이 된다. GitHub 호스트 러너나 관리형 서비스가 조건에 맞는다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a> · <a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/overview" lang="en" rel="noopener">agent-sdk overview</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"워크플로 파일에 API 키를 적는다"</td><td data-label="왜 끌리나" role="cell">설정이 한곳에 모인다</td><td data-label="왜 틀리나" role="cell">GitHub Secrets 에 둔다. 저장소에 커밋하지 않는다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"CI 에서 <code>-p</code> 만 쓰면 로컬 훅·MCP 는 실행 안 된다"</td><td data-label="왜 끌리나" role="cell">Skilljar 가 그렇게 말한다</td><td data-label="왜 틀리나" role="cell"><code>--<wbr>bare</code> 가 건너뛴다. <code>-p</code> 만으로는 대화형과 같은 맥락을 로드한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/headless" lang="en" rel="noopener">headless</a> (Skilljar cci 486935 와 충돌한다. docs 가 이긴다)</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"<code>--<wbr>bare</code> 로도 CLAUDE.md 팀 규칙은 따른다"</td><td data-label="왜 끌리나" role="cell">CLAUDE.md 를 늘 읽는 파일로 외웠다</td><td data-label="왜 틀리나" role="cell"><code>--<wbr>bare</code> 는 CLAUDE.md 도 건너뛴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/headless" lang="en" rel="noopener">headless</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"보고서 cron 에 넉넉한 쓰기 권한"</td><td data-label="왜 끌리나" role="cell">나중에 기능 붙이기 쉽다</td><td data-label="왜 틀리나" role="cell">워크플로 권한과 도구는 필요한 만큼만 준다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a> · ■ 최소 권한</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"<code>prompt</code> 만 주면 Claude 가 GitHub 을 알아서 읽는다"</td><td data-label="왜 끌리나" role="cell">interactive 모드와 헷갈린다</td><td data-label="왜 틀리나" role="cell">automation 모드 plain prompt 는 <code>--<wbr>allowedTools</code> 로 줄 때까지 셸·GitHub API 가 없다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/github-actions" lang="en" rel="noopener">github-actions</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"무인 작업도 모호하면 Claude 가 되물을 것"</td><td data-label="왜 끌리나" role="cell">대화형 습관이다</td><td data-label="왜 틀리나" role="cell">무인이라 되물을 수 없다. 성공 모습과 결과 처리를 적는다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/common-workflows" lang="en" rel="noopener">common-workflows</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -712,15 +724,19 @@
   </details>
   <h2 class="sec-h" id="automation-surfaces-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>CCA-F</h3>
-      <p>겹침 (3.6 CI/CD 에서 Claude Code — <code>-p</code> 비대화형 · <code>--output-format json</code> + <code>--json-schema</code> · 세션 격리 리뷰) — 여기선 같은 반복 작업을 어느 surface(CLI · Actions · 관리형 Code Review · Routines · Agent SDK · Managed Agents)에 올리고, 키·권한·비용을 어떻게 묶나로 묻나</p>
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="integration-options.html">◆ 직접 API vs Agent SDK vs CLI vs Managed Agents</a></li>
         <li><a href="ai-code-review.html">■ AI 코드 리뷰</a></li>
         <li><a href="least-privilege.html">■ 최소 권한</a></li>
         <li><a href="coding-loop.html">■ 코딩 맡기는 흐름</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : CCA-F · 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
+    <h3>CCA-F</h3>
+      <p>겹침 (3.6 CI/CD 에서 Claude Code 의 <code>-p</code> 비대화형 · <code>--output-format json</code> + <code>--json-schema</code> · 세션 격리 리뷰). 여기서는 같은 반복 작업을 어느 surface(CLI · Actions · 관리형 Code Review · Routines · Agent SDK · Managed Agents)에 올리는지 묻는다. 키·권한·비용을 어떻게 묶는지도 묻는다</p>
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 7.2</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -742,13 +758,14 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>Routines 의 "예약은 최소 1시간 간격 · <code>claude/</code> 접두 브랜치에만 push" 는 Skilljar cci 486935 에만 있음 — routines 문서를 안 받아 docs 대조 안 함. 카드에 안 넣음.</li>
-<li>Managed Agents 예약 배포(scheduled deployments)의 cron 세부는 문서를 안 열었음 (managed-agents은 링크만).</li>
-<li>GitLab CI/CD 쪽(headless 링크)은 안 봄 — 시험이 GitHub 외 CI 를 물으면 <code>claude -p</code> 일반 원칙으로 답할 수밖에 없음.</li>
-<li>목록이 인용한 영상 주장(Part 16 [18:20] "표면 셋")은 유튜브 원문 미대조 — 목록 메모("공식 비교표는 넷")를 공식 원문으로 다시 확인해 고침.</li>
-<li><code>--bare</code> 가 <code>-p</code> 기본값이 되는 시점은 "future release" 로만 적혀 있음 (headless) — 시험·현재 어느 쪽 기본인지 흔들릴 수 있음.</li>
+<li>Routines 의 "예약은 최소 1시간 간격 · <code>claude/</code> 접두 브랜치에만 push" 는 Skilljar cci 486935 에만 있다. routines 문서를 받지 않아 docs 와 대조하지 않았다. 카드에 넣지 않았다.</li>
+<li>Managed Agents 예약 배포(scheduled deployments)의 cron 세부는 문서를 열지 않았다(managed-agents은 링크만 있다).</li>
+<li>GitLab CI/CD 쪽(headless 링크)은 보지 않았다. 시험이 GitHub 외 CI 를 물으면 <code>claude -p</code> 일반 원칙으로 답할 수밖에 없다.</li>
+<li>목록이 인용한 영상 주장(Part 16 [18:20] "표면 셋")은 유튜브 원문과 대조하지 않았다. 목록 메모("공식 비교표는 넷")를 공식 원문으로 다시 확인해 고쳤다.</li>
+<li><code>--bare</code> 가 <code>-p</code> 기본값이 되는 시점은 "future release" 로만 적혀 있다(headless). 그래서 시험과 현재 중 어느 쪽 기본인지 흔들릴 수 있다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

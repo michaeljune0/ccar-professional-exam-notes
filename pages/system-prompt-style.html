@@ -368,9 +368,9 @@
   </div>
   <h2 class="sec-h" id="system-prompt-style-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>시스템 프롬프트는 센 경고문이 아니라 "이럴 때 이걸 한다 + 왜" 를 담담하게 적는 곳. 역할은 한 문장, 재료(지시·맥락·예시·입력)는 XML 태그로 칸을 나눔</p>
-      <p>최신 모델은 시스템 프롬프트를 더 민감하게 따름 → 옛 모델용 센 표현이 과잉 발동(overtrigger)을 부름</p>
-    <p class="t5-ana"><span class="lead">비유</span> 알람 임계값. 너무 과민하게 잡으면(대문자 경고) 오탐 폭주, 너무 둔하면(모호한 지침) 놓침 — 그 사이 "알맞은 구체성(right altitude)"</p>
+      <p>시스템 프롬프트는 센 경고문을 적는 곳이 아니다. "이럴 때 이걸 한다 + 왜" 를 담담하게 적는 곳이다. 역할은 한 문장으로 적고, 재료(지시·맥락·예시·입력)는 XML 태그로 칸을 나눈다</p>
+      <p>최신 모델은 시스템 프롬프트를 더 민감하게 따른다. 그래서 옛 모델용 센 표현이 과잉 발동(overtrigger)을 부른다</p>
+    <p class="t5-ana"><span class="lead">비유</span> 알람 임계값과 같다. 너무 과민하게 잡으면(대문자 경고) 오탐이 폭주한다. 너무 둔하면(모호한 지침) 놓친다. 그 사이가 "알맞은 구체성(right altitude)"이다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/system-prompt-style.webp"><img src="../images/system-prompt-style.webp" alt="센 경고문(과잉 발동)과 모호한 지침(놓침) 사이, 담담한 규칙과 이유를 적고 역할 한 문장·XML 태그로 칸을 나누는 것이 알맞은 자리임을 보여 주는 눈금 그림." loading="lazy" decoding="async"></a>
@@ -397,28 +397,33 @@
 <!-- /vx:figure -->
 <section class="ex-sec" id="principle" aria-labelledby="principle-h">
 <h3 id="principle-h">원리</h3>
-<p class="lead">모델은 시스템 프롬프트의 말투 세기까지 신호로 읽음</p>
+<p class="lead">모델은 시스템 프롬프트의 말투 세기까지 신호로 읽는다</p>
 <ul>
-<li>옛 모델은 도구를 잘 안 불러서(undertrigger) "CRITICAL: You MUST…" 로 세게 밀었음.</li>
-<li>Opus 4.5·4.6 은 이전 모델보다 시스템 프롬프트에 더 민감 → 같은 센 표현이 이제 과잉 발동(overtrigger). Claude 4.6 모델들은 더 적극적(proactive)이라 옛 모델에 필요했던 "더 부지런히" 지시에도 과잉 발동.</li>
-<li>그래서 처방 = 말투를 보통으로 ("Use this tool when…"), 막연한 기본값("If in doubt, use [tool]") 지우기, 그래도 과하면 effort 낮추기.</li>
+<li>옛 모델은 도구를 잘 안 불렀다(undertrigger). 그래서 "CRITICAL: You MUST…" 로 세게 밀었다.</li>
+<li>Opus 4.5·4.6 은 이전 모델보다 시스템 프롬프트에 더 민감하다. 그래서 같은 센 표현이 이제 과잉 발동(overtrigger)을 부른다. Claude 4.6 모델들은 더 적극적(proactive)이다. 그래서 옛 모델에 필요했던 "더 부지런히" 지시에도 과잉 발동한다.</li>
+<li>처방은 세 가지다.<ul>
+<li>말투를 보통으로 바꾼다 ("Use this tool when…").</li>
+<li>막연한 기본값("If in doubt, use [tool]")을 지운다.</li>
+<li>그래도 과하면 effort 를 낮춘다.</li>
 </ul>
-<p class="lead">방향은 모델마다 다름</p>
+</li>
+</ul>
+<p class="lead">방향은 모델마다 다르다</p>
 <ul>
-<li>Opus 4.8 은 반대 : 도구보다 추론(reasoning)을 선호 → 도구를 더 쓰게 하려면 effort(high·xhigh) + 언제·어떻게 쓰는지 명시.</li>
-<li>Sonnet 5 는 기본으로 도구를 더 잘 부르지만 thinking 을 끄면 덜 부름 → 시스템 프롬프트에 분명한 nudge.</li>
-<li>그러니 "센 표현을 빼라" 는 규칙이 아니라 <strong>증상(과잉/과소) → 그 모델 → 처방</strong> 순서.</li>
+<li>Opus 4.8 은 반대다. 도구보다 추론(reasoning)을 선호한다. 그래서 도구를 더 쓰게 하려면 effort(high·xhigh)를 올리고 언제·어떻게 쓰는지 명시한다.</li>
+<li>Sonnet 5 는 기본으로 도구를 더 잘 부른다. 그러나 thinking 을 끄면 덜 부른다. 그래서 시스템 프롬프트로 분명히 nudge 한다.</li>
+<li>그러니 "센 표현을 빼라" 는 규칙이 아니다. <strong>증상(과잉/과소)을 보고, 그 모델을 보고, 처방을 고르는</strong> 순서다.</li>
 </ul>
 <p class="lead">이유가 일반화를 만든다</p>
 <ul>
-<li>규칙만 주면 그 문장에만 반응. 이유를 주면 목표를 알고 비슷한 경우로 넓힘 ("Claude is smart enough to generalize from the explanation.").</li>
-<li>단, Opus 4.8·Sonnet 5 는 <strong>지시의 적용 범위</strong>는 문자 그대로 읽음 — 한 항목의 지시를 다른 항목으로 조용히 넓히지 않음. 이유로 "뜻"은 넓어지지만, "어디에 적용하나"는 적어 줘야 함.</li>
+<li>규칙만 주면 모델은 그 문장에만 반응한다. 이유를 주면 목표를 알고 비슷한 경우로 넓힌다 ("Claude is smart enough to generalize from the explanation.").</li>
+<li>단, Opus 4.8·Sonnet 5 는 <strong>지시의 적용 범위</strong>를 문자 그대로 읽는다. 한 항목의 지시를 다른 항목으로 조용히 넓히지 않는다. 이유로 "뜻"은 넓어진다. 그러나 "어디에 적용하나"는 적어 줘야 한다.</li>
 </ul>
 <p class="lead">칸막이와 구체성</p>
 <ul>
-<li>지시·맥락·예시·입력이 섞이면 모델이 어디까지가 지시인지 헷갈림 → XML 태그로 칸. 형식(XML vs 마크다운 머리) 자체의 중요도는 모델이 좋아질수록 줄어듦.</li>
-<li>알맞은 구체성 = if-else 하드코딩(깨지기 쉬움)과 모호한 고수준 지침(신호 없음) 사이.</li>
-<li>역할 한 문장 = 행동·어조를 사용 사례에 모음. 형식까지 보장하진 않음.</li>
+<li>지시·맥락·예시·입력이 섞이면 모델이 어디까지가 지시인지 헷갈린다. 그래서 XML 태그로 칸을 나눈다. 형식(XML vs 마크다운 머리) 자체의 중요도는 모델이 좋아질수록 줄어든다.</li>
+<li>알맞은 구체성은 if-else 하드코딩(깨지기 쉽다)과 모호한 고수준 지침(신호가 없다) 사이에 있다.</li>
+<li>역할 한 문장은 행동·어조를 사용 사례에 모은다. 형식까지 보장하지는 않는다.</li>
 </ul>
 </section>
   <h2 class="sec-h" id="system-prompt-style-rules-h">규칙과 판단</h2>
@@ -428,71 +433,71 @@
   </figure>
   <h3 class="v3-sub">갈림길</h3>
   <section class="t5-flow tree" id="system-prompt-style-tree-1" aria-labelledby="system-prompt-style-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9|n1 n4 n5 n10 n11|n1 n12 n13">
-    <div class="t5-fh"><h3 id="system-prompt-style-tree-1-h">①② 도구가 엉뚱하게 불림 <span class="pg">[2.2①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
+    <div class="t5-fh"><h3 id="system-prompt-style-tree-1-h">①② 도구가 엉뚱하게 불릴 때 <span class="pg">[2.2①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
       <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>어느 쪽으로 틀리나?</div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>필요 없을 때도 불림 <span class="note">(과잉)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">센 표현 걷어내기</p><p>"CRITICAL: You MUST use this tool when…" → "Use this tool when…". Opus 4.5·4.6 은 이전 모델보다 시스템 프롬프트에 더 민감</p></div>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>필요 없을 때도 불린다 <span class="note">(과잉)</span></span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">센 표현을 걷어낸다</p><p>"CRITICAL: You MUST use this tool when…" 을 "Use this tool when…" 으로 바꾼다. Opus 4.5·4.6 은 이전 모델보다 시스템 프롬프트에 더 민감하다</p></div>
         </div>
         <div class="t5-arm">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>필요할 때 안 불림 <span class="note">(과소)</span></span>
-          <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>모델은?</div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>필요할 때 안 불린다 <span class="note">(과소)</span></span>
+          <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>모델이 무엇인가?</div>
           <div class="t5-fork" style="--n:3">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>Opus 4.8</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">effort 올리기 + 언제·어떻게 쓰는지 적기</p><p>도구보다 추론(reasoning)을 선호. high·xhigh 에서 도구 사용이 크게 늘어남</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">effort 를 올리고 언제·어떻게 쓰는지 적는다</p><p>이 모델은 도구보다 추론(reasoning)을 선호한다. high·xhigh 에서 도구 사용이 크게 늘어난다</p></div>
             </div>
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>Sonnet 5 · thinking 끔</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">시스템 프롬프트로 분명히 밀어 주기</p><p>thinking 을 끄면 도구·검색을 덜 부름</p></div>
+              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>Sonnet 5 · thinking 을 껐다</span>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">시스템 프롬프트로 분명히 밀어 준다</p><p>thinking 을 끄면 도구·검색을 덜 부른다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>그 밖 모델</span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">쓸 도구를 명시</p><p>최신 모델은 정확한 지시 따르기로 학습돼, 특정 도구를 쓰라는 명시적 지시가 도움이 됨</p></div>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">쓸 도구를 명시한다</p><p>최신 모델은 정확한 지시 따르기로 학습됐다. 그래서 특정 도구를 쓰라는 명시적 지시가 도움이 된다</p></div>
             </div>
           </div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>겹치는 도구 사이에서 헷갈림</span>
-          <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">문체 말고 도구 쪽</p><p>도구 설명·경계부터 → <a href="tool-design.html">■ 도구 설계</a></p></div>
+          <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>겹치는 도구 사이에서 헷갈린다</span>
+          <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">문체 말고 도구 쪽을 본다</p><p>도구 설명과 경계부터 고친다. 자세한 것은 <a href="tool-design.html">■ 도구 설계</a> 에 있다</p></div>
         </div>
       </div>
     </div>
   </section>
   <section class="t5-flow tree" id="system-prompt-style-tree-2" aria-labelledby="system-prompt-style-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9|n1 n10 n11|n1 n12 n13|n1 n14 n15">
-    <div class="t5-fh"><h3 id="system-prompt-style-tree-2-h">③④⑤⑥ 규칙이 안 먹힘 <span class="pg">[2.2①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
+    <div class="t5-fh"><h3 id="system-prompt-style-tree-2-h">③④⑤⑥ 규칙이 안 먹힐 때 <span class="pg">[2.2①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
       <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>왜 안 먹히나?<span class="t5-sub">빠진 것 · 증상 · 위험도</span></div>
       <div class="t5-fork" style="--n:7">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>이유가 없음</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">이유 붙이기</p><p>이유를 붙이면 비슷한 경우로 일반화</p></div>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>이유가 없다</span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">이유를 붙인다</p><p>이유를 붙이면 비슷한 경우로 일반화한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>"하지 마" 만 있음</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">할 것을 적기</p><p>"마크다운 쓰지 마" 대신 "이어지는 문단으로 써"</p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>"하지 마" 만 있다</span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">할 것을 적는다</p><p>"마크다운 쓰지 마" 대신 "이어지는 문단으로 써" 라고 적는다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>지시·자료·입력이 섞임</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">XML 칸막이</p><p><code>&lt;instructions&gt;</code>·<code>&lt;context&gt;</code>·<code>&lt;input&gt;</code> 으로 나누면 오해가 줄어듦</p></div>
+          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>지시·자료·입력이 섞였다</span>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">XML 칸막이</p><p><code>&lt;instructions&gt;</code>·<code>&lt;context&gt;</code>·<code>&lt;input&gt;</code> 으로 나누면 오해가 줄어든다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>역할이 없음</span>
-          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">역할 한 문장</p><p>시스템 프롬프트에 적은 역할 문장이 행동·어조를 사용 사례에 맞게 잡아 줌. 한 문장도 차이 남</p></div>
+          <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>역할이 없다</span>
+          <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">역할 한 문장</p><p>시스템 프롬프트에 적은 역할 문장이 행동·어조를 사용 사례에 맞게 잡아 준다. 한 문장도 차이가 난다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>if-else 로직을 박음 · 모호한 고수준 지침</span>
-          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">알맞은 구체성</p><p>행동을 이끌 만큼 구체적 + 강한 휴리스틱을 줄 만큼 유연</p></div>
+          <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>if-else 로직을 박았다 · 모호한 고수준 지침</span>
+          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">알맞은 구체성</p><p>행동을 이끌 만큼 구체적이고, 강한 휴리스틱을 줄 만큼 유연하게 쓴다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>첫 항목에만 먹힘</span>
-          <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">범위를 적기</p><p>Opus 4.8·Sonnet 5 는 문자 그대로 따름 — "첫 절만 말고 모든 절에" 처럼 범위 명시</p></div>
+          <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>첫 항목에만 먹힌다</span>
+          <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">범위를 적는다</p><p>Opus 4.8·Sonnet 5 는 문자 그대로 따른다. "첫 절만 말고 모든 절에" 처럼 범위를 명시한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n14"><span class="t5-hl" aria-hidden="true"></span>어기면 사고가 남 <span class="note">(삭제·송금)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">문체로 못 막음</p><p>프롬프트는 방향만 → <a href="guide-vs-enforce.html">◆ 안내(프롬프트) vs 강제(구성·코드)</a></p></div>
+          <span class="t5-edge" data-p="n14"><span class="t5-hl" aria-hidden="true"></span>어기면 사고가 난다 <span class="note">(삭제·송금)</span></span>
+          <div class="t5-leaf t5-ans" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">문체로 못 막는다</p><p>프롬프트는 방향만 준다. 자세한 것은 <a href="guide-vs-enforce.html">◆ 안내(프롬프트) vs 강제(구성·코드)</a> 에 있다</p></div>
         </div>
       </div>
     </div>
@@ -503,40 +508,49 @@
       <ol class="how">
         <li id="system-prompt-style-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p><span class="lead">센 표현 걷어내기 :</span> Opus 4.5·4.6 은 이전 모델보다 시스템 프롬프트에 더 민감 → 과소 발동을 막으려 쓴 "CRITICAL: You MUST use this tool when…" 이 이제 과잉 발동을 부름. "Use this tool when…" 처럼 보통 말투로 <span class="pg">[2.2①]</span></p>
-            <p>"Default to using [tool]" → "Use [tool] when it would enhance your understanding of the problem." · "If in doubt, use [tool]" 은 과잉 발동 원인 → 지움 · 그래도 과하면 effort 를 낮춤 (Opus 4.6 기준)</p>
+            <p><span class="lead">센 표현 걷어내기 :</span> Opus 4.5·4.6 은 이전 모델보다 시스템 프롬프트에 더 민감하다. 그래서 과소 발동을 막으려 쓴 "CRITICAL: You MUST use this tool when…" 이 이제 과잉 발동을 부른다. "Use this tool when…" 처럼 보통 말투로 쓴다 <span class="pg">[2.2①]</span></p>
+            <p>"Default to using [tool]" 은 "Use [tool] when it would enhance your understanding of the problem." 으로 바꾼다. "If in doubt, use [tool]" 은 과잉 발동 원인이라 지운다. 그래도 과하면 effort 를 낮춘다 (Opus 4.6 기준)</p>
           </div>
         </li>
         <li id="system-prompt-style-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p>반대로 안 불리면(과소) 모델부터 봄 : Opus 4.8 = 도구보다 추론 선호 → effort high·xhigh 가 도구 사용을 크게 늘림 + 언제·어떻게 쓰는지 명시 · Sonnet 5 = 기본은 도구를 더 잘 부르지만 thinking 을 끄면 덜 부름 → 시스템 프롬프트에 분명한 nudge</p>
-            <p>그 밖 모델 = 모든 현재 모델 공통 절 : 최신 모델은 정확한 지시 따르기로 학습돼, 특정 도구를 쓰라는 명시적 지시가 도움이 됨</p>
-            <p>→ "센 표현은 항상 나쁨" 이 아니라 **증상 방향 먼저**. 공식이 "dial back" 을 콕 집은 건 Opus 4.5·4.6 (과잉)</p>
+            <p>반대로 안 불리면(과소) 모델부터 본다</p>
+            <ul class="dash">
+              <li>Opus 4.8 : 도구보다 추론을 선호한다. effort high·xhigh 가 도구 사용을 크게 늘린다. 언제·어떻게 쓰는지도 명시한다</li>
+              <li><span class="lead">Sonnet 5 :</span> 기본은 도구를 더 잘 부른다. 그러나 thinking 을 끄면 덜 부른다. 그래서 시스템 프롬프트로 분명히 nudge 한다</li>
+              <li><span class="lead">그 밖 모델 :</span> 모든 현재 모델 공통 절을 따른다. 최신 모델은 정확한 지시 따르기로 학습됐다. 그래서 특정 도구를 쓰라는 명시적 지시가 도움이 된다</li>
+            </ul>
+            <p>그래서 "센 표현은 항상 나쁘다" 가 아니라 **증상 방향을 먼저** 본다. 공식이 "dial back" 을 콕 집은 것은 Opus 4.5·4.6 (과잉)이다</p>
           </div>
         </li>
         <li id="system-prompt-style-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">규칙 + 이유 :</span> 왜 중요한지 설명하면 목표를 더 잘 알고, 설명에서 일반화함. 예 "NEVER use ellipses" &lt; "TTS 엔진이 읽으니 말줄임표 쓰지 마(발음 못 함)"</p>
-            <p><span class="lead">황금률 :</span> 맥락 없는 동료가 읽고 헷갈리면 Claude 도 헷갈림</p>
+            <p><span class="lead">규칙 + 이유 :</span> 왜 중요한지 설명하면 모델이 목표를 더 잘 알고, 설명에서 일반화한다. 예를 들어 "NEVER use ellipses" 보다 "TTS 엔진이 읽으니 말줄임표 쓰지 마(발음 못 함)" 가 낫다</p>
+            <p><span class="lead">황금률 :</span> 맥락 없는 동료가 읽고 헷갈리면 Claude 도 헷갈린다</p>
           </div>
         </li>
         <li id="system-prompt-style-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p><span class="lead">할 것을 적기 :</span> "하지 마" 대신 "이렇게 해" · 원하는 출력 문체에 프롬프트 문체를 맞춤(프롬프트에서 마크다운을 빼면 출력 마크다운도 줄어듦)</p>
+            <p><span class="lead">할 것을 적기 :</span> "하지 마" 대신 "이렇게 해" 라고 적는다. 원하는 출력 문체에 프롬프트 문체를 맞춘다. 프롬프트에서 마크다운을 빼면 출력 마크다운도 줄어든다</p>
           </div>
         </li>
         <li id="system-prompt-style-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p>역할 한 문장 + XML 칸막이 : 시스템 프롬프트에 적은 역할 문장이 행동·어조를 사용 사례에 모아 줌. 한 문장도 차이 남 — 공식 예 "You are a helpful coding assistant specializing in Python."</p>
-            <p>지시·맥락·예시·입력이 섞이면 각자 태그로. 태그 이름은 일관·설명적으로, 계층이 있으면 중첩(<code>&lt;documents&gt;</code> 안에 <code>&lt;document index="n"&gt;</code>)</p>
-            <p>칸 나누는 형식(XML 태그 vs 마크다운 머리)의 중요도는 모델이 좋아질수록 줄어듦</p>
+            <p>역할 한 문장 + XML 칸막이 : 시스템 프롬프트에 적은 역할 문장이 행동·어조를 사용 사례에 모아 준다. 한 문장도 차이가 난다. 공식 예는 "You are a helpful coding assistant specializing in Python." 이다</p>
+            <p>지시·맥락·예시·입력이 섞이면 각자 태그로 감싼다. 태그 이름은 일관되고 설명적으로 짓는다. 계층이 있으면 중첩한다(<code>&lt;documents&gt;</code> 안에 <code>&lt;document index="n"&gt;</code>)</p>
+            <p>칸 나누는 형식(XML 태그 vs 마크다운 머리)의 중요도는 모델이 좋아질수록 줄어든다</p>
           </div>
         </li>
         <li id="system-prompt-style-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
-            <p>알맞은 구체성(right altitude) : 한쪽 끝 = if-else 식 로직을 프롬프트에 박음(깨지기 쉽고 관리 부담) · 다른 끝 = 모호한 고수준 지침(구체 신호 없음, 공유 맥락 가정). 가운데 = 행동을 이끌 만큼 구체적 + 강한 휴리스틱을 줄 만큼 유연</p>
-            <p>시작은 가장 좋은 모델로 최소 프롬프트 → failure modes(실패 유형) 보고 지시·예시를 더함 → 예시는 <a href="few-shot-examples.html">■ few-shot 예시</a></p>
-            <p>문자 그대로 따르는 모델(Opus 4.8·Sonnet 5) : 한 항목의 지시를 다른 항목으로 조용히 넓히지 않고, 안 한 요청을 추론하지 않음 → 넓게 적용하려면 범위를 적음</p>
+            <p>알맞은 구체성(right altitude) : 양 끝 사이의 가운데를 고른다</p>
+            <ul class="dash">
+              <li><span class="lead">한쪽 끝 :</span> if-else 식 로직을 프롬프트에 박는다. 깨지기 쉽고 관리 부담이 생긴다</li>
+              <li><span class="lead">다른 끝 :</span> 모호한 고수준 지침이다. 구체 신호가 없고, 공유 맥락을 가정한다</li>
+              <li><span class="lead">가운데 :</span> 행동을 이끌 만큼 구체적이고, 강한 휴리스틱을 줄 만큼 유연하다</li>
+            </ul>
+            <p>시작은 가장 좋은 모델에 최소 프롬프트로 한다. 그다음 failure modes(실패 유형)를 보고 지시와 예시를 더한다. 예시는 <a href="few-shot-examples.html">■ few-shot 예시</a> 에 있다</p>
+            <p>문자 그대로 따르는 모델(Opus 4.8·Sonnet 5)은 한 항목의 지시를 다른 항목으로 조용히 넓히지 않는다. 안 한 요청을 추론하지도 않는다. 그래서 넓게 적용하려면 범위를 적는다</p>
           </div>
         </li>
       </ol>
@@ -550,18 +564,18 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">Opus 4.5·4.6 에서 도구·스킬이 필요 없을 때도 불림 + 프롬프트에 센 표현</td><td data-label="답" role="cell">센 표현을 보통 말투로 ("Use this tool when…")</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" lang="en" rel="noopener">prompting-best-practices</a> en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">막연한 기본값("Default to using [tool]", "If in doubt, use [tool]")</td><td data-label="답" role="cell">필요한 때를 적은 지시로 바꾸기 · 막연한 기본값 지우기</td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">문구를 고쳐도 여전히 과함</td><td data-label="답" role="cell">effort 낮추기</td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Opus 4.8 에서 도구를 안 씀</td><td data-label="답" role="cell">effort high·xhigh + 언제·어떻게 쓰는지 명시</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8" lang="en" rel="noopener">prompting-claude-opus-4-8</a> en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Sonnet 5 · thinking 끔 · 도구에 의존</td><td data-label="답" role="cell">시스템 프롬프트에 분명한 nudge</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-sonnet-5" lang="en" rel="noopener">prompting-claude-sonnet-5</a> en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">그 밖 모델에서 도구를 안 부름 (모델별 문장 없음)</td><td data-label="답" role="cell">특정 도구를 쓰라고 명시 (모든 현재 모델 공통 절)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" lang="en" rel="noopener">prompting-best-practices</a> en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">규칙이 비슷한 경우에 안 넓어짐</td><td data-label="답" role="cell">규칙마다 이유 붙이기</td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Opus 4.8·Sonnet 5 에서 지시가 첫 항목에만 먹힘</td><td data-label="답" role="cell">적용 범위를 명시</td><td data-label="근거" role="cell">opus-4-8 en-full · sonnet-5 en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">지시·자료·입력이 한 덩어리</td><td data-label="답" role="cell">XML 태그로 칸 나누기, 일관·설명적 이름</td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">행동·어조를 사용 사례에 맞추고 싶음</td><td data-label="답" role="cell">시스템 프롬프트에 역할 한 문장</td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">"하지 마" 형식 지시가 안 먹힘</td><td data-label="답" role="cell">할 것을 적기 · 프롬프트 문체를 원하는 출력에 맞추기</td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">처음 짜는 시스템 프롬프트</td><td data-label="답" role="cell">가장 좋은 모델로 최소 프롬프트 → failure modes(실패 유형) 보고 지시·예시 추가</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Opus 4.5·4.6 에서 도구·스킬이 필요 없을 때도 불린다. 프롬프트에 센 표현이 있다</td><td data-label="답" role="cell">센 표현을 보통 말투로 바꾼다 ("Use this tool when…")</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" lang="en" rel="noopener">prompting-best-practices</a> en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">막연한 기본값("Default to using [tool]", "If in doubt, use [tool]")이 있다</td><td data-label="답" role="cell">필요한 때를 적은 지시로 바꾼다. 막연한 기본값은 지운다</td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">문구를 고쳐도 여전히 과하다</td><td data-label="답" role="cell">effort 를 낮춘다</td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Opus 4.8 에서 도구를 안 쓴다</td><td data-label="답" role="cell">effort 를 high·xhigh 로 올리고, 언제·어떻게 쓰는지 명시한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-4-8" lang="en" rel="noopener">prompting-claude-opus-4-8</a> en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Sonnet 5 에서 thinking 을 껐고, 흐름이 도구에 의존한다</td><td data-label="답" role="cell">시스템 프롬프트로 분명히 nudge 한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-sonnet-5" lang="en" rel="noopener">prompting-claude-sonnet-5</a> en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">그 밖 모델에서 도구를 안 부른다 (모델별 문장이 없다)</td><td data-label="답" role="cell">특정 도구를 쓰라고 명시한다 (모든 현재 모델 공통 절)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" lang="en" rel="noopener">prompting-best-practices</a> en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">규칙이 비슷한 경우로 안 넓어진다</td><td data-label="답" role="cell">규칙마다 이유를 붙인다</td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Opus 4.8·Sonnet 5 에서 지시가 첫 항목에만 먹힌다</td><td data-label="답" role="cell">적용 범위를 명시한다</td><td data-label="근거" role="cell">opus-4-8 en-full · sonnet-5 en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">지시·자료·입력이 한 덩어리다</td><td data-label="답" role="cell">XML 태그로 칸을 나눈다. 이름은 일관되고 설명적으로 짓는다</td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">행동·어조를 사용 사례에 맞추고 싶다</td><td data-label="답" role="cell">시스템 프롬프트에 역할 한 문장을 넣는다</td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">"하지 마" 형식 지시가 안 먹힌다</td><td data-label="답" role="cell">할 것을 적는다. 프롬프트 문체를 원하는 출력에 맞춘다</td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">시스템 프롬프트를 처음 짠다</td><td data-label="답" role="cell">가장 좋은 모델에 최소 프롬프트로 시작한다. failure modes(실패 유형)를 보고 지시와 예시를 더한다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -572,15 +586,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">증상 방향</td><td data-label="값" role="cell">과잉 발동</td><td data-label="답 쪽" role="cell">말투 낮추기 · 막연한 기본값 지우기 · effort 낮추기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1~3</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">증상 방향</td><td data-label="값" role="cell">과소 발동</td><td data-label="답 쪽" role="cell">effort 올리기 · 언제·어떻게 쓰는지 명시</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 4~5</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Opus 4.5·4.6</td><td data-label="답 쪽" role="cell">과잉 쪽 경고 대상</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Opus 4.8</td><td data-label="답 쪽" role="cell">과소 쪽(추론 선호) · 문자 그대로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">opus-4-8 en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Sonnet 5</td><td data-label="답 쪽" role="cell">기본은 도구 적극 · thinking 끄면 과소 · 문자 그대로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">sonnet-5 en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Opus 5·5.5·Fable 5.1</td><td data-label="답 쪽" role="cell">이 카드 원천에 도구 발동 방향 문장 없음</td><td data-label="등급" role="cell"><span class="open">미해결</span></td><td data-label="근거" role="cell">미해결 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">effort</td><td data-label="값" role="cell">low·medium</td><td data-label="답 쪽" role="cell">문자 그대로 경향이 특히 셈(Opus 4.8·Sonnet 5)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">opus-4-8 en-full</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">도구 목록</td><td data-label="값" role="cell">겹치는 도구가 많음</td><td data-label="답 쪽" role="cell">문체가 아니라 도구 쪽 → ■ 도구 설계</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">규칙 성격</td><td data-label="값" role="cell">어기면 사고(삭제·송금·유출)</td><td data-label="답 쪽" role="cell">문체로 못 막음 → ◆ 안내(프롬프트) vs 강제(구성·코드)</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">claude-code-memory</a> "context, not enforced configuration"(Claude Code 문맥)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">증상 방향</td><td data-label="값" role="cell">과잉 발동</td><td data-label="답 쪽" role="cell">말투를 낮춘다. 막연한 기본값을 지운다. effort 를 낮춘다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1~3</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">증상 방향</td><td data-label="값" role="cell">과소 발동</td><td data-label="답 쪽" role="cell">effort 를 올린다. 언제·어떻게 쓰는지 명시한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 4~5</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Opus 4.5·4.6</td><td data-label="답 쪽" role="cell">과잉 쪽 경고 대상이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Opus 4.8</td><td data-label="답 쪽" role="cell">과소 쪽(추론 선호)이고, 문자 그대로 따른다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">opus-4-8 en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Sonnet 5</td><td data-label="답 쪽" role="cell">기본은 도구에 적극적이다. thinking 을 끄면 과소 쪽이다. 문자 그대로 따른다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">sonnet-5 en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">모델</td><td data-label="값" role="cell">Opus 5·5.5·Fable 5.1</td><td data-label="답 쪽" role="cell">이 카드 원천에 도구 발동 방향 문장이 없다</td><td data-label="등급" role="cell"><span class="open">미해결</span></td><td data-label="근거" role="cell">미해결 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">effort</td><td data-label="값" role="cell">low·medium</td><td data-label="답 쪽" role="cell">문자 그대로 따르는 경향이 특히 세다(Opus 4.8·Sonnet 5)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">opus-4-8 en-full</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">도구 목록</td><td data-label="값" role="cell">겹치는 도구가 많다</td><td data-label="답 쪽" role="cell">문체가 아니라 도구 쪽 문제다. 자세한 것은 ■ 도구 설계 에 있다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">규칙 성격</td><td data-label="값" role="cell">어기면 사고(삭제·송금·유출)가 난다</td><td data-label="답 쪽" role="cell">문체로 못 막는다. 자세한 것은 ◆ 안내(프롬프트) vs 강제(구성·코드) 에 있다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">claude-code-memory</a> "context, not enforced configuration"(Claude Code 문맥)</td></tr>
   </tbody>
 </table>
 </div>
@@ -596,12 +610,12 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"경고를 더 세게(대문자·반복) 써서 규칙을 강조" → Opus 4.5·4.6 은 더 민감해 과잉 발동이 심해짐. 걷어내는 게 처방</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"센 표현을 걷어내면 어느 모델이든 해결" → 과소 발동(Opus 4.8)이면 반대. effort 올리기 + 언제·어떻게 쓰는지 적기</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"금지 규칙을 시스템 프롬프트에 크게 적으면 지켜짐" → 안내일 뿐 강제 아님 → <a href="guide-vs-enforce.html">◆ 안내(프롬프트) vs 강제(구성·코드)</a> · <a href="least-privilege.html">■ 최소 권한</a></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"도구가 엉뚱하게 불리니 모델을 바꿈" → 문체(①)나 도구 설명(<a href="tool-design.html">■ 도구 설계</a>)부터 <span class="gen">업계 일반</span> <span class="note">공식은 모델 교체를 처방으로 들지 않음</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"역할 문장만 넣으면 형식도 맞춰짐" → 역할은 행동·어조를 모음. 형식은 예시(<a href="few-shot-examples.html">■ few-shot 예시</a>)·스키마(<a href="structured-output.html">■ structured outputs</a>) <span class="gen">업계 일반</span> <span class="note">역할의 효과 문장은</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar API 강의(2025 제작 추정) 예 "You are a patient math tutor. Do not directly answer…" → 역할 한 문장은 docs 와 같음. "하지 마" 문장은 docs 가 "할 것을 적기" 를 권하는 쪽</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"경고를 더 세게(대문자·반복) 써서 규칙을 강조한다" 는 함정이다. Opus 4.5·4.6 은 더 민감해 과잉 발동이 심해진다. 걷어내는 것이 처방이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"센 표현을 걷어내면 어느 모델이든 해결된다" 는 함정이다. 과소 발동(Opus 4.8)이면 반대다. effort 를 올리고 언제·어떻게 쓰는지 적는다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"금지 규칙을 시스템 프롬프트에 크게 적으면 지켜진다" 는 함정이다. 안내일 뿐 강제가 아니다. 자세한 것은 <a href="guide-vs-enforce.html">◆ 안내(프롬프트) vs 강제(구성·코드)</a> · <a href="least-privilege.html">■ 최소 권한</a> 에 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"도구가 엉뚱하게 불리니 모델을 바꾼다" 는 함정이다. 문체(①)나 도구 설명(<a href="tool-design.html">■ 도구 설계</a>)부터 고친다 <span class="gen">업계 일반</span> <span class="note">공식은 모델 교체를 처방으로 들지 않는다</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"역할 문장만 넣으면 형식도 맞춰진다" 는 함정이다. 역할은 행동·어조를 모은다. 형식은 예시(<a href="few-shot-examples.html">■ few-shot 예시</a>)와 스키마(<a href="structured-output.html">■ structured outputs</a>)로 맞춘다 <span class="gen">업계 일반</span> <span class="note">역할의 효과 문장은</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>Skilljar API 강의(2025 제작 추정)의 예는 "You are a patient math tutor. Do not directly answer…" 다. 역할 한 문장은 docs 와 같다. 그러나 docs 는 이런 "하지 마" 문장 대신 "할 것을 적기" 를 권한다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -624,30 +638,30 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. "센 표현을 걷어내라" 가 반대로 되는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 지문의 모델이 Opus 4.8 이고 증상이 "검색 도구를 안 부른다".</li>
-<li><span class="lead">판단 :</span> 과소 발동. Opus 4.8 은 도구보다 추론을 선호 → 문구를 더 누그러뜨리면 더 안 부름. 처방은 effort 를 high·xhigh 로 + 왜·어떻게 쓰는지 분명히 적기.</li>
-<li><span class="lead">전제 :</span> 도구 목록이 작고 설명이 겹치지 않음(겹치면 ■ 도구 설계 쪽).</li>
+<li><span class="lead">조건 :</span> 지문의 모델이 Opus 4.8 이고 증상이 "검색 도구를 안 부른다" 다.</li>
+<li><span class="lead">판단 :</span> 과소 발동이다. Opus 4.8 은 도구보다 추론을 선호한다. 그래서 문구를 더 누그러뜨리면 더 안 부른다. 처방은 effort 를 high·xhigh 로 올리고, 왜·어떻게 쓰는지 분명히 적는 것이다.</li>
+<li><span class="lead">전제 :</span> 도구 목록이 작고 설명이 겹치지 않는다고 본다(겹치면 ■ 도구 설계 쪽이다).</li>
 
 <li><span class="lead">근거 :</span> prompting-claude-opus-4-8 en-full · prompting-best-practices en-full(Opus 4.5·4.6 한정 문장)</li>
 </ul>
 <h4>2. 같은 Sonnet 5 인데 thinking 을 끈 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> Sonnet 5, 지연(latency) 때문에 <code>thinking: {type: "disabled"}</code>, 도구 호출에 의존하는 흐름.</li>
-<li><span class="lead">판단 :</span> 기본 Sonnet 5 는 도구를 더 잘 부르지만, thinking 을 끄면 도구·검색을 덜 고려 → "보통 말투로 낮춰라" 가 아니라 "시스템 프롬프트에 분명한 nudge" 가 답.</li>
+<li><span class="lead">조건 :</span> Sonnet 5 를 지연(latency) 때문에 <code>thinking: {type: "disabled"}</code> 로 돌린다. 흐름은 도구 호출에 의존한다.</li>
+<li><span class="lead">판단 :</span> 기본 Sonnet 5 는 도구를 더 잘 부른다. 그러나 thinking 을 끄면 도구·검색을 덜 고려한다. 그래서 답은 "보통 말투로 낮춰라" 가 아니라 "시스템 프롬프트로 분명히 nudge 하라" 다.</li>
 
 <li><span class="lead">근거 :</span> prompting-claude-sonnet-5 en-full</li>
 </ul>
 <h4>3. 이유를 붙였는데도 범위가 안 넓어지는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> Opus 4.8·Sonnet 5 를 low effort 로 돌림. "첫 절 제목은 굵게" 라는 지시가 나머지 12개 절에는 안 먹힘.</li>
-<li><span class="lead">판단 :</span> 이유 부족이 아니라 문자 그대로 읽기. "모든 절에 적용" 처럼 범위를 명시.</li>
+<li><span class="lead">조건 :</span> Opus 4.8·Sonnet 5 를 low effort 로 돌린다. "첫 절 제목은 굵게" 라는 지시가 나머지 12개 절에는 안 먹힌다.</li>
+<li><span class="lead">판단 :</span> 이유가 부족한 것이 아니라 문자 그대로 읽은 것이다. "모든 절에 적용" 처럼 범위를 명시한다.</li>
 
 <li><span class="lead">근거 :</span> opus-4-8 en-full · sonnet-5 en-full ("If you need Claude to apply an instruction broadly, state the scope explicitly")</li>
 </ul>
 <h4>4. XML 태그가 답이 아닌 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 보기가 "태그를 넣지 않아 실패했다 → 모든 문장을 태그로 감싼다" 처럼 형식 자체를 해결책으로 듦.</li>
-<li><span class="lead">판단 :</span> 태그는 지시·자료·입력이 섞였을 때 칸을 나누는 도구. 공식은 칸 나누는 형식의 중요도가 모델이 좋아질수록 줄어든다고 함 → 재료가 섞여 헷갈린 게 아니면 태그만으로 증상이 안 풀림.</li>
+<li><span class="lead">조건 :</span> 보기가 형식 자체를 해결책으로 든다. 예를 들면 "태그를 넣지 않아 실패했다. 그러니 모든 문장을 태그로 감싼다" 다.</li>
+<li><span class="lead">판단 :</span> 태그는 지시·자료·입력이 섞였을 때 칸을 나누는 도구다. 공식은 칸 나누는 형식의 중요도가 모델이 좋아질수록 줄어든다고 한다. 그래서 재료가 섞여 헷갈린 것이 아니면 태그만으로 증상이 안 풀린다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(형식 중요도 감소 문장) · 보기 판정은 추론</span></li>
 <li><span class="lead">근거 :</span> effective-context-engineering · prompting-best-practices en-full</li>
 </ul>
@@ -658,20 +672,22 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"경고를 더 세게(대문자·반복) 써서 규칙을 강조"</td><td data-label="왜 끌리나" role="cell">중요한 규칙일수록 크게 써야 할 것 같음</td><td data-label="왜 틀리나" role="cell">Opus 4.5·4.6 은 더 민감해 과잉 발동이 심해짐. 처방은 걷어내기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"어느 모델이든 센 표현을 빼면 해결"</td><td data-label="왜 끌리나" role="cell">한 문장 처방이 간단</td><td data-label="왜 틀리나" role="cell">과소 발동(Opus 4.8)이면 반대. effort·명시 지시</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">opus-4-8 en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"'If in doubt, use [tool]' 로 안전하게"</td><td data-label="왜 끌리나" role="cell">놓치는 것보다 낫다고 느낌</td><td data-label="왜 틀리나" role="cell">과잉 발동 원인으로 공식이 콕 집음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"금지 규칙을 시스템 프롬프트에 적었으니 지켜짐"</td><td data-label="왜 끌리나" role="cell">문서에 적으면 지켜질 것 같음</td><td data-label="왜 틀리나" role="cell">안내일 뿐 강제 아님 → ◆ 안내(프롬프트) vs 강제(구성·코드)</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">claude-code-memory</a>(Claude Code 문맥)</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"엉뚱한 도구 호출 → 더 큰 모델로"</td><td data-label="왜 끌리나" role="cell">똑똑하면 덜 헷갈릴 것 같음</td><td data-label="왜 틀리나" role="cell">문체·도구 설명부터. 공식은 모델 교체를 이 증상의 처방으로 들지 않음</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">■ 도구 설계 함정</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"역할을 길고 자세히 쓸수록 좋다"</td><td data-label="왜 끌리나" role="cell">자세할수록 정확할 것 같음</td><td data-label="왜 틀리나" role="cell">공식은 한 문장도 차이 난다고만 함. 길이 규칙 없음 — 알맞은 구체성가 기준</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">en-full · <a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"모든 경우를 if-else 규칙으로 박아 넣음"</td><td data-label="왜 끌리나" role="cell">빈틈없어 보임</td><td data-label="왜 틀리나" role="cell">깨지기 쉽고 관리 부담 — 알맞은 구체성의 한쪽 끝 실패</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"'마크다운 쓰지 마' 를 더 강하게"</td><td data-label="왜 끌리나" role="cell">금지가 분명해 보임</td><td data-label="왜 틀리나" role="cell">할 것을 적기("이어지는 문단으로") · 프롬프트 문체 맞추기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"경고를 더 세게(대문자·반복) 써서 규칙을 강조"</td><td data-label="왜 끌리나" role="cell">중요한 규칙일수록 크게 써야 할 것 같다</td><td data-label="왜 틀리나" role="cell">Opus 4.5·4.6 은 더 민감해 과잉 발동이 심해진다. 처방은 걷어내기다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"어느 모델이든 센 표현을 빼면 해결"</td><td data-label="왜 끌리나" role="cell">한 문장 처방이라 간단하다</td><td data-label="왜 틀리나" role="cell">과소 발동(Opus 4.8)이면 반대다. effort 와 명시 지시가 답이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">opus-4-8 en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"'If in doubt, use [tool]' 로 안전하게"</td><td data-label="왜 끌리나" role="cell">놓치는 것보다 낫다고 느낀다</td><td data-label="왜 틀리나" role="cell">공식이 과잉 발동 원인으로 콕 집었다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"금지 규칙을 시스템 프롬프트에 적었으니 지켜짐"</td><td data-label="왜 끌리나" role="cell">문서에 적으면 지켜질 것 같다</td><td data-label="왜 틀리나" role="cell">안내일 뿐 강제가 아니다. 자세한 것은 ◆ 안내(프롬프트) vs 강제(구성·코드) 에 있다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/memory" lang="en" rel="noopener">claude-code-memory</a>(Claude Code 문맥)</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"엉뚱한 도구 호출 → 더 큰 모델로"</td><td data-label="왜 끌리나" role="cell">똑똑하면 덜 헷갈릴 것 같다</td><td data-label="왜 틀리나" role="cell">문체와 도구 설명부터 고친다. 공식은 모델 교체를 이 증상의 처방으로 들지 않는다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">■ 도구 설계 함정</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"역할을 길고 자세히 쓸수록 좋다"</td><td data-label="왜 끌리나" role="cell">자세할수록 정확할 것 같다</td><td data-label="왜 틀리나" role="cell">공식은 한 문장도 차이가 난다고만 한다. 길이 규칙은 없다. 기준은 알맞은 구체성이다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">en-full · <a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모든 경우를 if-else 규칙으로 박아 넣음"</td><td data-label="왜 끌리나" role="cell">빈틈없어 보인다</td><td data-label="왜 틀리나" role="cell">깨지기 쉽고 관리 부담이 생긴다. 알맞은 구체성의 한쪽 끝에서 실패한 것이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"'마크다운 쓰지 마' 를 더 강하게"</td><td data-label="왜 끌리나" role="cell">금지가 분명해 보인다</td><td data-label="왜 틀리나" role="cell">할 것을 적는다("이어지는 문단으로"). 프롬프트 문체를 맞춘다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">en-full</td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="system-prompt-style-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
@@ -690,12 +706,13 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>Opus 5·5.5·Fable 5.1 의 도구 발동 방향(과잉/과소) : 이번에 받은 원천(best-practices · opus-4-8 · sonnet-5)에 그 모델들의 문장이 없음. 확인 방법 = <code>prompting-claude-opus-5-5</code>·<code>prompting-claude-fable-5-1</code> 페이지를 받아 "Tool use triggering" 절 대조.</li>
-<li>목록은 "최신 모델은 시스템 프롬프트를 더 민감하게 따라 과잉 발동" 으로 썼음 → 공식이 콕 집은 건 Opus 4.5·4.6(+ "Claude 4.6 models are more proactive", en-full). 카드엔 모델명으로 고쳐 적음.</li>
-<li>목록 영상의 역할 예 'senior tax accountant' 는 원문에 없음(공식 예 = "You are a helpful coding assistant specializing in Python.", en-full). 카드엔 공식 예만.</li>
-<li>"안내 vs 강제" 원문 문장("Claude treats them as context, not enforced configuration.")은 Claude Code memory 문서 것 — API 시스템 프롬프트에 같은 문장이 있는지는 못 찾음. 본문은 D5 ◆ 안내(프롬프트) vs 강제(구성·코드) 몫.</li>
+<li>Opus 5·5.5·Fable 5.1 의 도구 발동 방향(과잉/과소)은 모른다. 이번에 받은 원천(best-practices · opus-4-8 · sonnet-5)에 그 모델들의 문장이 없다. 확인 방법은 <code>prompting-claude-opus-5-5</code>·<code>prompting-claude-fable-5-1</code> 페이지를 받아 "Tool use triggering" 절을 대조하는 것이다.</li>
+<li>목록은 "최신 모델은 시스템 프롬프트를 더 민감하게 따라 과잉 발동" 으로 썼다. 그러나 공식이 콕 집은 것은 Opus 4.5·4.6 이다(+ "Claude 4.6 models are more proactive", en-full). 카드에는 모델명으로 고쳐 적었다.</li>
+<li>목록 영상의 역할 예 'senior tax accountant' 는 원문에 없다(공식 예 = "You are a helpful coding assistant specializing in Python.", en-full). 카드에는 공식 예만 썼다.</li>
+<li>"안내 vs 강제" 원문 문장("Claude treats them as context, not enforced configuration.")은 Claude Code memory 문서의 것이다. API 시스템 프롬프트에 같은 문장이 있는지는 못 찾았다. 본문은 D5 ◆ 안내(프롬프트) vs 강제(구성·코드) 몫이다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

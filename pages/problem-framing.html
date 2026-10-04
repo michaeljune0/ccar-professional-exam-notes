@@ -370,8 +370,14 @@
   </div>
   <h2 class="sec-h" id="problem-framing-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>(problem framing) "우리도 챗봇" 같은 해법 요청을 받으면 만들기 전에 결과(무엇이 좋아지나) · 범위(어떤 일을 맡기나) · 증거(무엇으로 성공을 재나)부터 적음. 공식 순서 = 성공 기준(success criteria)을 먼저 정하고, 그 기준을 재는 평가를 설계하는 것이 시작</p>
-    <p class="t5-ana"><span class="lead">비유</span> SLO 없이 서비스를 띄우면 지금이 장애인지 판정을 못 함. "일단 띄우고 모니터링은 나중에"가 속이는 습관</p>
+      <p>(problem framing) "우리도 챗봇" 같은 해법 요청을 받으면, 만들기 전에 결과·범위·증거부터 적는다.</p>
+      <ul class="dash">
+        <li><span class="lead">결과 :</span> 무엇이 좋아지나?</li>
+        <li><span class="lead">범위 :</span> 어떤 일을 맡기나?</li>
+        <li><span class="lead">증거 :</span> 무엇으로 성공을 재나?</li>
+      </ul>
+      <p>공식 순서에서는 성공 기준(success criteria)을 먼저 정하고, 그 기준을 재는 평가를 설계하는 것이 시작이다</p>
+    <p class="t5-ana"><span class="lead">비유</span> SLO 없이 서비스를 띄우면 지금이 장애인지 판정하지 못한다. "일단 띄우고 모니터링은 나중에" 가 속이는 습관이다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/problem-framing.webp"><img src="../images/problem-framing.webp" alt="&#x27;우리도 챗봇&#x27; 같은 해법 요청을 받으면 만들기 전에 결과·범위·증거를 적고, 성공 기준과 평가 설계부터 시작한다는 그림." loading="lazy" decoding="async"></a>
@@ -400,27 +406,37 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">왜 해법보다 먼저인가</p>
 <ul>
-<li>공식 문장 : 성공하는 LLM 앱은 성공 기준(success criteria)을 먼저 정하고, 그 기준을 재는 평가를 설계하는 데서 시작함. 이 사이클이 프롬프트 엔지니어링의 중심.</li>
-<li>기준이 없으면 "지금 잘 되나"를 판정 못 함 → 개선도 regression(회귀)도 안 보임.</li>
-<li>늦게 정하면 운영(production) 중인 시스템에서 기준을 거꾸로 캐내야 함(evals 글). 초기엔 제품 요구가 그대로 테스트 케이스가 됨.</li>
+<li>공식 문장 : 성공하는 LLM 앱은 성공 기준(success criteria)을 먼저 정하고, 그 기준을 재는 평가를 설계하는 데서 시작한다. 이 사이클이 프롬프트 엔지니어링의 중심이다.</li>
+<li>기준이 없으면 "지금 잘 되나"를 판정하지 못한다. 그러면 개선도 regression(회귀)도 보이지 않는다.</li>
+<li>늦게 정하면 운영(production) 중인 시스템에서 기준을 거꾸로 캐내야 한다(evals 글). 초기에는 제품 요구가 그대로 테스트 케이스가 된다.</li>
 </ul>
-<p class="lead">결과 · 범위 · 증거 (세 이름은 학습 목록·업계 표현, 내용은 공식 순서와 같음)</p>
+<p class="lead">결과·범위·증거 (세 이름은 학습 목록과 업계의 표현이다. 내용은 공식 순서와 같다)</p>
 <ul>
-<li>결과 : 무엇이 좋아지나 — 업무 효과 기준(사람 없이 끝난 비율 · CSAT · 처리 시간).</li>
-<li>범위 : 무엇을 맡기나 — 이상적인 대화를 적고 과제로 쪼갬(인사 · 상품 정보 · 주제 유지 · 견적). 과제마다 프롬프트·평가를 만들 수 있고 테스트 범위가 보임.</li>
-<li>증거 : 무엇으로 재나 — 과제 품질 기준(이해 정확도 · 관련성 · 주제 유지 · 상담원 연결 정확도).</li>
+<li>결과 : 무엇이 좋아지나를 적는다. 업무 효과 기준(사람 없이 끝난 비율·CSAT·처리 시간)이 여기에 든다.</li>
+<li>범위 : 무엇을 맡기나를 적는다. 이상적인 대화를 적고 과제로 쪼갠다(인사·상품 정보·주제 유지·견적). 그러면 과제마다 프롬프트와 평가를 만들 수 있다. 테스트 범위도 보인다.</li>
+<li>증거 : 무엇으로 재나를 적는다. 과제 품질 기준(이해 정확도·관련성·주제 유지·상담원 연결 정확도)이 여기에 든다.</li>
 </ul>
 <p class="lead">좋은 기준의 모양</p>
 <ul>
-<li>공식 4가지 = 구체적 · 측정 가능 · 달성 가능 · 관련. SMART 의 기한(T)은 없음.</li>
-<li>달성 가능 = 업계 벤치마크 · 이전 실험 · 전문가 지식에 기대고, 현재 최신 모델 능력에 비춰 비현실적이면 안 됨.</li>
-<li>대부분 여러 차원(예 : F1 · 독성 비율 · 오류의 심각도 · 응답 시간)으로 측정.</li>
-<li>세부 쓰는 법은 ■ 성공 기준(D4) 몫.</li>
-</ul>
-<p class="lead">약속과 목표는 다름</p>
+<li>
+<p>좋은 기준의 조건은 공식 4가지다. SMART 의 기한(T)은 여기에 없다.</p>
 <ul>
-<li>고객·계약에 "100% 정확"을 약속하지 않음. 에이전트도 권한 없는 약속을 못 하게 가드레일.</li>
-<li>그러나 내부 평가 목표로 100% 를 두는 칸은 있음 — 프롬프트에 넣어 준 회사·상품 정보 정확도, 견적 정확도.</li>
+<li>구체적</li>
+<li>측정 가능</li>
+<li>달성 가능</li>
+<li>관련</li>
+</ul>
+</li>
+<li>
+<p>달성 가능한 목표는 업계 벤치마크, 이전 실험, 전문가 지식에 기댄다. 현재 최신 모델 능력에 비춰 비현실적이면 안 된다.</p>
+</li>
+<li>대부분은 여러 차원으로 잰다(예 : F1·독성 비율·오류의 심각도·응답 시간).</li>
+<li>세부 쓰는 법은 ■ 성공 기준(D4) 에서 다룬다.</li>
+</ul>
+<p class="lead">약속과 목표는 다르다</p>
+<ul>
+<li>고객이나 계약에 "100% 정확"을 약속하지 않는다. 에이전트도 권한 없는 약속을 하지 못하게 가드레일을 둔다.</li>
+<li>그러나 내부 평가 목표로 100% 를 두는 칸은 있다. 프롬프트에 넣어 준 회사·상품 정보의 정확도와 견적 정확도가 그 칸이다.</li>
 </ul>
 </section>
   <h2 class="sec-h" id="problem-framing-rules-h">규칙과 판단</h2>
@@ -432,29 +448,29 @@
   <section class="t5-flow tree" id="problem-framing-tree-1" aria-labelledby="problem-framing-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9|n1 n10 n11">
     <div class="t5-fh"><h3 id="problem-framing-tree-1-h">①②④ 요청을 받으면 <span class="pg">[1.1②]</span> <span class="pg">[6.1①]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>요청이 어떤 모양?<span class="t5-sub">"챗봇" · "제일 좋은 모델" · 이미 띄움</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>요청이 어떤 모양인가?<span class="t5-sub">예 : "챗봇" · "제일 좋은 모델" · 이미 띄운 시스템</span></div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>해법부터 옴</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">결과·범위·증거로 바꿈</p><p>해법 요청을 결과 · 범위 · 증거로 바꿈 (세 이름은 업계 일반) · 만들기 전에 성공 기준과 평가부터</p></div>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>해법부터 온다</span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">결과·범위·증거로 바꾼다</p><p>해법 요청을 결과·범위·증거로 바꾼다 (세 이름은 업계 일반). 만들기 전에 성공 기준과 평가부터 정한다</p></div>
         </div>
         <div class="t5-arm">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>결과는 있음</span>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>결과는 있다</span>
           <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>맡길 일이 쪼개졌나?</div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">과제로 쪼갬</p><p>이상적인 대화를 적고 → 맡길 과제로 쪼갬 → 과제마다 프롬프트·평가</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">과제로 쪼갠다</p><p>이상적인 대화를 적는다. 그 대화를 맡길 과제로 쪼갠다. 과제마다 프롬프트와 평가를 만든다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans t5-ref" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#problem-framing-tree-2">↓ 아래 「기준 점검」 갈림길로 이어짐</a></p><p>다음 물음 — 목표가 "완벽·100%"?</p></div>
+              <div class="t5-leaf t5-ans t5-ref" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h"><a href="#problem-framing-tree-2">↓ 아래 「기준 점검」 갈림길로 이어짐</a></p><p>다음 물음 — 목표가 "완벽·100%" 인가?</p></div>
             </div>
           </div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>이미 운영 중</span>
-          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">실제 실패부터 과제로</p><p>이미 운영 중이면 버그 트래커·지원 큐의 실제 실패부터 과제로 · 늦을수록 운영 중인 시스템에서 성공 기준을 거꾸로 캐내야 함</p></div>
+          <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">실제 실패부터 과제로 바꾼다</p><p>이미 운영 중이면 버그 트래커와 지원 큐의 실제 실패부터 과제로 바꾼다. 늦을수록 운영 중인 시스템에서 성공 기준을 거꾸로 캐내야 한다</p></div>
         </div>
       </div>
     </div>
@@ -462,35 +478,35 @@
   <section class="t5-flow tree" id="problem-framing-tree-2" aria-labelledby="problem-framing-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7|n1 n8 n9 n10 n11|n1 n8 n9 n12 n13|n1 n8 n9 n14 n15">
     <div class="t5-fh"><h3 id="problem-framing-tree-2-h">③⑤ 기준 점검 <span class="pg">[1.1②]</span> <span class="pg">[6.1②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>목표가 "완벽·100%"?<span class="t5-sub">계약·보고서 문구</span></div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>목표가 "완벽·100%" 인가?<span class="t5-sub">계약·보고서 문구</span></div>
       <div class="t5-fork" style="--n:4">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예, 고객에게 약속</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">약속하지 않음</p><p>목표는 현재 최신 모델 능력에 비춰 현실적으로 · 에이전트가 권한 없는 약속을 하지 않게</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">약속하지 않는다</p><p>목표는 현재 최신 모델 능력에 비춰 현실적으로 잡는다. 에이전트가 권한 없는 약속을 하지 않게 한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>예, 내부 평가 목표 <span class="note">(프롬프트에 넣어 준 정보 · 견적)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">내부 목표로 100%</p><p>내부 목표로 100% 를 두는 칸은 있음(프롬프트에 넣어 준 회사·상품 정보 정확도 · 견적 정확도) — 약속이 아니라 평가 목표</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">내부 목표로 100% 를 둔다</p><p>내부 목표로 100% 를 두는 칸은 있다. 프롬프트에 넣어 준 회사·상품 정보의 정확도와 견적 정확도가 그 칸이다. 이것은 약속이 아니라 평가 목표다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>예, 내부 목표지만 넓은 과제 <span class="note">(사람 없이 끝난 비율 등)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">현실적으로</p><p>목표는 현재 최신 모델 능력에 비춰 현실적으로 · 사람 없이 끝난 비율 70~80% → <a href="impact-metrics.html">■ impact metrics</a></p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">현실적으로 잡는다</p><p>목표는 현재 최신 모델 능력에 비춰 현실적으로 잡는다. 사람 없이 끝난 비율은 보통 70~80% 를 목표로 잡는다. 자세한 것은 <a href="impact-metrics.html">■ impact metrics</a> 에 있다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-          <div class="t5-q" data-p="n9"><span class="t5-hl" aria-hidden="true"></span>기준 모양은?</div>
+          <div class="t5-q" data-p="n9"><span class="t5-hl" aria-hidden="true"></span>기준이 어떤 모양인가?</div>
           <div class="t5-fork" style="--n:3">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>"좋은 성능" 같은 말</span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">구체적으로</p><p>"좋은 성능" 대신 "정확한 감정 분류"처럼</p></div>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">구체적으로 쓴다</p><p>"좋은 성능" 대신 "정확한 감정 분류" 처럼 쓴다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>숫자 하나 · 기한 포함 SMART</span>
-              <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">여러 차원</p><p>공식 4가지(구체적·측정 가능·달성 가능·관련)에 기한 없음 · 대부분 여러 차원</p></div>
+              <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">여러 차원으로 잰다</p><p>공식 4가지(구체적·측정 가능·달성 가능·관련)에는 기한이 없다. 대부분은 여러 차원으로 잰다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n14"><span class="t5-hl" aria-hidden="true"></span>여러 차원 숫자</span>
-              <div class="t5-leaf t5-ans" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">만들기 시작</p><p>이 기준으로 평가를 설계 → <a href="success-criteria.html">■ 성공 기준</a></p></div>
+              <div class="t5-leaf t5-ans" data-p="n15"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">만들기 시작한다</p><p>이 기준으로 평가를 설계한다. 자세한 것은 <a href="success-criteria.html">■ 성공 기준</a> 에 있다</p></div>
             </div>
           </div>
         </div>
@@ -503,32 +519,54 @@
       <ol class="how">
         <li id="problem-framing-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p>해법 요청 → 결과 · 범위 · 증거로 바꿈. 결과 = 지원 비용 절감 같은 업무 결과 · 범위 = 반복되는 1단계 문의처럼 맡길 일 · 증거 = 잴 기준 <span class="note">(세 이름은 업계 일반)</span></p>
-            <p>공식 순서(고객지원 가이드 "만들기 전에") = Claude 가 맞는 일인지 판단 → 이상적인 대화 적기 → 과제로 쪼개기 → 성공 기준 정하기 <span class="pg">[1.1②]</span></p>
+            <p>해법 요청을 결과·범위·증거로 바꾼다 <span class="note">(세 이름은 업계 일반)</span></p>
+            <ul class="dash">
+              <li><span class="lead">결과 :</span> 지원 비용 절감 같은 업무 결과다</li>
+              <li><span class="lead">범위 :</span> 반복되는 1단계 문의처럼 맡길 일이다</li>
+              <li><span class="lead">증거 :</span> 잴 기준이다</li>
+            </ul>
+            <p>고객지원 가이드는 "만들기 전에" 할 일을 이 순서로 적는다 <span class="pg">[1.1②]</span></p>
+            <ul class="dash">
+              <li>Claude 가 맞는 일인지 판단한다</li>
+              <li>이상적인 대화를 적는다</li>
+              <li>그 대화를 과제로 쪼갠다</li>
+              <li>성공 기준을 정한다</li>
+            </ul>
           </div>
         </li>
         <li id="problem-framing-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p><span class="lead">범위 :</span> 이상적인 대화를 적고 → 맡길 과제로 쪼갬(인사·상품 정보·주제 유지·견적). 과제마다 프롬프트와 평가를 만들 수 있고, 테스트 케이스 범위가 보임 <span class="pg">[1.1②]</span></p>
+            <p><span class="lead">범위 :</span> 이상적인 대화를 적는다. 그 대화를 맡길 과제로 쪼갠다(인사·상품 정보·주제 유지·견적). 그러면 과제마다 프롬프트와 평가를 만들 수 있다. 테스트 케이스 범위도 보인다 <span class="pg">[1.1②]</span></p>
           </div>
         </li>
         <li id="problem-framing-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">증거 :</span> 좋은 성공 기준 = 구체적(Specific) · 측정 가능(Measurable) · 달성 가능(Achievable) · 관련(Relevant) 4가지. 대부분 여러 차원(정확도·안전·지연(latency)·비용)으로 측정 <span class="pg">[1.1②]</span> <span class="pg">[6.1②]</span></p>
-            <p>구체적 = "좋은 성능" 대신 "정확한 감정 분류"처럼</p>
-            <p>SMART 의 기한(Time-bound)은 공식 4가지에 없음 · 세부 쓰는 법 → <a href="success-criteria.html">■ 성공 기준</a></p>
-            <p>과제 품질 기준(이해 정확도·관련성·주제 유지·상담원 연결 정확도)과 업무 효과 기준(사람 없이 끝난 비율 70~80% · CSAT 4/5 · 처리 시간)을 따로 둠</p>
+            <p><span class="lead">증거 :</span> 좋은 성공 기준은 4가지를 갖춘다 <span class="pg">[1.1②]</span> <span class="pg">[6.1②]</span></p>
+            <ul class="dash">
+              <li>구체적(Specific)</li>
+              <li>측정 가능(Measurable)</li>
+              <li>달성 가능(Achievable)</li>
+              <li>관련(Relevant)</li>
+            </ul>
+            <p>대부분은 여러 차원(정확도·안전·지연(latency)·비용)으로 잰다</p>
+            <p>구체적이라는 것은 "좋은 성능" 대신 "정확한 감정 분류" 처럼 쓰는 것이다</p>
+            <p>SMART 의 기한(Time-bound)은 공식 4가지에 없다. 세부 쓰는 법은 <a href="success-criteria.html">■ 성공 기준</a> 에 있다</p>
+            <p>과제 품질 기준과 업무 효과 기준을 따로 둔다</p>
+            <ul class="dash">
+              <li><span class="lead">과제 품질 기준 :</span> 이해 정확도·관련성·주제 유지·상담원 연결 정확도</li>
+              <li><span class="lead">업무 효과 기준 :</span> 사람 없이 끝난 비율 70~80%·CSAT 4/5·처리 시간</li>
+            </ul>
           </div>
         </li>
         <li id="problem-framing-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p><span class="lead">언제 :</span> 만들기 전에. 늦을수록 운영(production) 중인 시스템에서 성공 기준을 거꾸로 캐내야 함 · 이미 운영 중이면 버그 트래커·지원 큐의 실제 실패부터 과제로</p>
+            <p><span class="lead">언제 :</span> 만들기 전에 정한다. 늦을수록 운영(production) 중인 시스템에서 성공 기준을 거꾸로 캐내야 한다. 이미 운영 중이면 버그 트래커와 지원 큐의 실제 실패부터 과제로 바꾼다</p>
           </div>
         </li>
         <li id="problem-framing-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">약속 :</span> "정확도 100%" 를 약속하지 않음 — 목표는 현재 최신 모델 능력에 비춰 현실적으로 · 에이전트가 권한 없는 약속을 하지 않게(가드레일)</p>
-            <p>단 내부 목표로 100% 를 두는 칸은 있음(프롬프트에 넣어 준 회사·상품 정보 정확도 · 견적 정확도) — 약속이 아니라 평가 목표</p>
+            <p><span class="lead">약속 :</span> "정확도 100%" 를 약속하지 않는다. 목표는 현재 최신 모델 능력에 비춰 현실적으로 잡는다. 에이전트가 권한 없는 약속을 하지 않게 가드레일을 둔다</p>
+            <p>단 내부 목표로 100% 를 두는 칸은 있다. 프롬프트에 넣어 준 회사·상품 정보의 정확도와 견적 정확도가 그 칸이다. 이것은 약속이 아니라 평가 목표다</p>
           </div>
         </li>
       </ol>
@@ -542,13 +580,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">해법("챗봇", "제일 좋은 모델")부터 요청받음</td><td data-label="답" role="cell">결과·범위·증거(성공 기준)부터 적고 만듦</td><td data-label="등급" role="cell"><span class="note">(세 이름은</span> <span class="gen">업계 일반</span><span class="note">)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> "starts with clearly defining your success criteria and then designing evaluations"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">범위가 막연함</td><td data-label="답" role="cell">이상적인 대화를 적고 → 과제로 쪼갬</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a> "Before you start building, break down your ideal customer interaction into every task"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">기준이 "좋은 성능" 같은 말</td><td data-label="답" role="cell">구체적으로("정확한 감정 분류")</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">기준이 숫자 하나 · 기한 포함 SMART</td><td data-label="답" role="cell">공식 4가지 + 여러 차원</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">"100% 정확"을 약속하라는 요구</td><td data-label="답" role="cell">달성 가능한 목표 + 권한 없는 약속 금지</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">이미 운영 중인데 기준이 없음</td><td data-label="답" role="cell">버그 트래커·지원 큐의 실제 실패부터 과제로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">"지표는 운영하며 정하자"</td><td data-label="답" role="cell">만들기 전에</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a> "Wait too long and you're reverse-engineering success criteria from a live system."</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">해법("챗봇", "제일 좋은 모델")부터 요청받았다</td><td data-label="답" role="cell">결과·범위·증거(성공 기준)부터 적고 만든다</td><td data-label="등급" role="cell"><span class="note">(세 이름은</span> <span class="gen">업계 일반</span><span class="note">)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> "starts with clearly defining your success criteria and then designing evaluations"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">범위가 막연하다</td><td data-label="답" role="cell">이상적인 대화를 적고 과제로 쪼갠다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a> "Before you start building, break down your ideal customer interaction into every task"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">기준이 "좋은 성능" 같은 말이다</td><td data-label="답" role="cell">구체적으로 쓴다("정확한 감정 분류")</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">기준이 숫자 하나이고 기한을 포함한 SMART 다</td><td data-label="답" role="cell">공식 4가지를 쓰고 여러 차원으로 잰다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">"100% 정확"을 약속하라는 요구가 있다</td><td data-label="답" role="cell">목표는 달성 가능하게 잡는다. 권한 없는 약속은 하지 않는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">이미 운영 중인데 기준이 없다</td><td data-label="답" role="cell">버그 트래커와 지원 큐의 실제 실패부터 과제로 바꾼다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">"지표는 운영하며 정하자" 고 한다</td><td data-label="답" role="cell">만들기 전에 정한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a> "Wait too long and you're reverse-engineering success criteria from a live system."</td></tr>
   </tbody>
 </table>
 </div>
@@ -559,15 +597,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">요청의 모양</td><td data-label="값" role="cell">해법(챗봇·모델명)</td><td data-label="답 쪽" role="cell">무엇이 좋아져야 하는지(결과)를 되물음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">요청의 모양</td><td data-label="값" role="cell">결과(비용 절감)는 있음, 범위 없음</td><td data-label="답 쪽" role="cell">과제로 쪼개기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">시점</td><td data-label="값" role="cell">착수 전</td><td data-label="답 쪽" role="cell">기준·평가부터</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">시점</td><td data-label="값" role="cell">이미 운영 중</td><td data-label="답 쪽" role="cell">실제 실패로 과제 모으기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 6</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">기준의 대상</td><td data-label="값" role="cell">고객·계약서</td><td data-label="답 쪽" role="cell">달성 가능한 수치 + 사람 검토 경로</td><td data-label="등급" role="cell"><span class="note">(달성 가능) ·</span> <span class="gen">업계 일반</span><span class="note">(사람 검토 경로)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">기준의 대상</td><td data-label="값" role="cell">내부 평가 목표, 프롬프트에 넣어 준 정보</td><td data-label="답 쪽" role="cell">100% 목표도 공식 예</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">기준의 종류</td><td data-label="값" role="cell">과제 품질</td><td data-label="답 쪽" role="cell">이해 95%+ · 관련성 90%+ · 상담원 연결 95%+ (공식 예시값)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">기준의 종류</td><td data-label="값" role="cell">업무 효과</td><td data-label="답 쪽" role="cell">사람 없이 끝남 70~80% · CSAT 4/5+ · 처리 시간 사람보다 짧게</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">도메인</td><td data-label="값" role="cell">의료 vs 일상 챗봇</td><td data-label="답 쪽" role="cell">인용 정확도의 무게가 다름(관련성)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">요청의 모양</td><td data-label="값" role="cell">해법이다(챗봇·모델명)</td><td data-label="답 쪽" role="cell">무엇이 좋아져야 하는지(결과)를 되묻는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">요청의 모양</td><td data-label="값" role="cell">결과(비용 절감)는 있고 범위는 없다</td><td data-label="답 쪽" role="cell">과제로 쪼갠다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">시점</td><td data-label="값" role="cell">착수 전이다</td><td data-label="답 쪽" role="cell">기준과 평가부터 정한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">시점</td><td data-label="값" role="cell">이미 운영 중이다</td><td data-label="답 쪽" role="cell">실제 실패로 과제를 모은다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 6</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">기준의 대상</td><td data-label="값" role="cell">고객이나 계약서다</td><td data-label="답 쪽" role="cell">달성 가능한 수치와 사람 검토 경로를 둔다</td><td data-label="등급" role="cell"><span class="note">(달성 가능) ·</span> <span class="gen">업계 일반</span><span class="note">(사람 검토 경로)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">기준의 대상</td><td data-label="값" role="cell">내부 평가 목표이고, 대상이 프롬프트에 넣어 준 정보다</td><td data-label="답 쪽" role="cell">100% 목표도 공식 예에 있다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">기준의 종류</td><td data-label="값" role="cell">과제 품질 기준이다</td><td data-label="답 쪽" role="cell">이해 95%+ · 관련성 90%+ · 상담원 연결 95%+ (공식 예시값)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">기준의 종류</td><td data-label="값" role="cell">업무 효과 기준이다</td><td data-label="답 쪽" role="cell">사람 없이 끝난 비율 70~80% · CSAT 4/5+ · 처리 시간 사람보다 짧게</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">도메인</td><td data-label="값" role="cell">의료 챗봇인가, 일상 챗봇인가</td><td data-label="답 쪽" role="cell">인용 정확도의 무게가 다르다(관련성)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -576,18 +614,18 @@
   <h2 class="sec-h" id="problem-framing-practice-h">연습 문제</h2>
 
   <section class="csx" id="problem-framing-case" aria-labelledby="problem-framing-case-h" data-tree="problem-framing-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n2&quot;,&quot;해법부터&quot;],[&quot;n3&quot;,null]]">
-    <p class="csx-text">보험사 임원이 <mark class="csx-m" data-tag="해법부터">"우리도 챗봇 하나 만들자, 제일 좋은 모델로"<span class="csx-tag">해법부터</span></mark>라고 요청한다. 무엇이 좋아져야 하는지, 어떤 문의를 맡길지, 성공을 무엇으로 잴지는 아직 아무도 적지 않았다. 팀장은 "일단 띄우고 지표는 운영하며 정하자"고 한다. 가장 먼저 할 일은?</p>
+    <p class="csx-text">보험사 임원이 <mark class="csx-m" data-tag="해법부터">"우리도 챗봇 하나 만들자, 제일 좋은 모델로"<span class="csx-tag">해법부터</span></mark>라고 요청한다. 무엇이 좋아져야 하는지, 어떤 문의를 맡길지, 성공을 무엇으로 잴지는 아직 아무도 적지 않았다. 팀장은 "일단 띄우고 지표는 운영하며 정하자"고 한다. 가장 먼저 무엇을 해야 하나?</p>
     <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button></div>
   </section>
   <h2 class="sec-h" id="problem-framing-exam-h">시험 대비</h2>
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"요청받은 챗봇부터 만들고 지표는 운영하며 정한다" → 만들기 전에 성공 기준·평가. 늦으면 운영 중인 시스템에서 기준을 거꾸로 캐냄</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"정확도 100% 를 약속하고 착수" → 달성 가능해야 함 · 권한 없는 약속 금지</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"SMART 5요소(기한 포함)로 핵심 지표 하나" → 공식은 4가지 + 여러 차원</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"요청대로 가장 좋은 모델부터 고른다" → 모델·도구는 범위·위험·성공 기준이 보인 뒤 <span class="gen">업계 일반</span> <span class="note">학습 목록 6.1① 규칙</span> → <a href="code-vs-llm.html">◆ 코드 vs LLM vs hybrid</a></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "100% 목표는 항상 오답" → 프롬프트에 넣어 준 정보의 정확도처럼 100% 가 공식 목표인 칸도 있음</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"요청받은 챗봇부터 만들고 지표는 운영하며 정한다" 는 함정이다. 만들기 전에 성공 기준과 평가를 정한다. 늦으면 운영 중인 시스템에서 기준을 거꾸로 캐내야 한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"정확도 100% 를 약속하고 착수한다" 는 함정이다. 목표는 달성 가능해야 한다. 권한 없는 약속은 하지 않는다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"SMART 5요소(기한 포함)로 핵심 지표 하나를 정한다" 는 함정이다. 공식 기준은 4가지다. 그리고 여러 차원으로 잰다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"요청대로 가장 좋은 모델부터 고른다" 는 함정이다. 모델과 도구는 범위·위험·성공 기준이 보인 뒤에 고른다 <span class="gen">업계 일반</span> <span class="note">학습 목록 6.1① 규칙</span>. 자세한 것은 <a href="code-vs-llm.html">◆ 코드 vs LLM vs hybrid</a> 에 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>반대쪽 함정도 있다. "100% 목표는 항상 오답이다" 는 함정이다. 프롬프트에 넣어 준 정보의 정확도처럼 100% 가 공식 목표인 칸도 있다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -609,30 +647,30 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 100% 가 오답이 아닌 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 보기에 "프롬프트에 넣어 준 상품 정보의 정확도 100% 를 평가 목표로" 가 있음.</li>
-<li><span class="lead">판단 :</span> 약속(계약·고객)이 아니라 내부 평가 목표이고, 대상이 "프롬프트에 넣어 준 정보"임 → 공식 예시가 바로 100% 목표. "100% = 무조건 오답"으로 외우면 틀림.</li>
+<li><span class="lead">조건 :</span> 보기에 "프롬프트에 넣어 준 상품 정보의 정확도 100% 를 평가 목표로" 가 있다.</li>
+<li><span class="lead">판단 :</span> 이것은 약속(계약·고객)이 아니라 내부 평가 목표다. 대상도 "프롬프트에 넣어 준 정보"다. 공식 예시가 바로 이 100% 목표다. "100% = 무조건 오답"으로 외우면 틀린다.</li>
 
 <li><span class="lead">근거 :</span> customer-support-chat "Target 100% accuracy in this introductory information."</li>
 </ul>
 <h4>2. 업무 효과 숫자로 범위를 잴 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 반복되는 1단계 문의가 월 1만 2천 건. 목표 = 사람 없이 끝나는 비율 70~80%.</li>
-<li><span class="lead">계산 :</span> 1만 2천 × 0.7~0.8 = 8,400~9,600건이 사람 없이 끝나고, 2,400~3,600건이 사람에게 감.</li>
-<li><span class="lead">판단 :</span> 사람 쪽으로 넘어가는 건수가 곧 상담원 인력 계획의 입력 → "결과(비용 절감)"를 숫자로 적는 법. 넘길 때 맞게 넘겼는지(상담원 연결 정확도)도 따로 측정.</li>
+<li><span class="lead">조건 :</span> 반복되는 1단계 문의가 월 1만 2천 건이다. 목표는 사람 없이 끝난 비율 70~80% 다.</li>
+<li><span class="lead">계산 :</span> 1만 2천 × 0.7~0.8 = 8,400~9,600건이 사람 없이 끝난다. 2,400~3,600건은 사람에게 간다.</li>
+<li><span class="lead">판단 :</span> 사람 쪽으로 넘어가는 건수가 곧 상담원 인력 계획의 입력이다. 이것이 "결과(비용 절감)"를 숫자로 적는 법이다. 넘길 때 맞게 넘겼는지(상담원 연결 정확도)도 따로 잰다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (70~80% · 연결 정확도는 확인)</li>
 <li><span class="lead">근거 :</span> customer-support-chat</li>
 </ul>
 <h4>3. 이미 운영 중이라 "처음부터 기준"이 안 되는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 챗봇이 석 달째 운영 중, 성공 기준이 없음.</li>
-<li><span class="lead">판단 :</span> 처음으로 돌아가지 않음. 버그 트래커·지원 큐의 실제 실패를 과제로 바꿔 평가 세트을 만들고, 사용자 영향 순으로 우선. 20~50개로 시작해도 됨(4.2).</li>
+<li><span class="lead">조건 :</span> 챗봇이 석 달째 운영 중이다. 성공 기준이 없다.</li>
+<li><span class="lead">판단 :</span> 처음으로 돌아가지 않는다. 버그 트래커와 지원 큐의 실제 실패를 과제로 바꿔 평가 세트를 만든다. 사용자 영향 순으로 먼저 다룬다. 20~50개로 시작해도 된다(4.2).</li>
 
 <li><span class="lead">근거 :</span> demystifying-evals</li>
 </ul>
 <h4>4. 숫자 하나로 충분해 보일 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> "요약 정확도 90%" 하나로 기준을 끝냄.</li>
-<li><span class="lead">판단 :</span> 공식 예시는 한 기준 안에 정확도(F1) · 무독성 비율 · 오류의 심각도 · 응답 시간을 같이 둠. 숫자 하나면 나머지 차원의 regression 을 못 봄.</li>
+<li><span class="lead">조건 :</span> "요약 정확도 90%" 하나로 기준을 끝낸다.</li>
+<li><span class="lead">판단 :</span> 공식 예시는 한 기준 안에 정확도(F1)·무독성 비율·오류의 심각도·응답 시간을 같이 둔다. 숫자 하나면 나머지 차원의 regression 을 못 본다.</li>
 
 <li><span class="lead">근거 :</span> define-success</li>
 </ul>
@@ -643,12 +681,12 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"요청받은 챗봇부터 만들고 지표는 운영하며 정한다"</td><td data-label="왜 끌리나" role="cell">빨리 보여 줄 수 있음</td><td data-label="왜 틀리나" role="cell">늦으면 운영 중 시스템에서 기준을 거꾸로 캐냄</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"정확도 100% 를 약속하고 착수"</td><td data-label="왜 끌리나" role="cell">이해관계자(stakeholder)가 원함</td><td data-label="왜 틀리나" role="cell">달성 가능해야 함 · 권한 없는 약속 금지</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"SMART 5요소(기한 포함)로 핵심 지표 하나"</td><td data-label="왜 끌리나" role="cell">익숙한 틀</td><td data-label="왜 틀리나" role="cell">공식은 4가지, 대부분 여러 차원</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"요청대로 가장 좋은 모델부터"</td><td data-label="왜 끌리나" role="cell">품질 걱정을 한 번에 없앰</td><td data-label="왜 틀리나" role="cell">범위·기준이 없으면 모델이 맞는지도 측정 못 함</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.1① 규칙</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"안전한 출력" 같은 기준</td><td data-label="왜 끌리나" role="cell">뜻은 맞음</td><td data-label="왜 틀리나" role="cell">재지 못함. 공식 좋은 예 = "1만 번 중 0.1% 미만이 독성 판정"</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"100% 목표 보기는 항상 오답" (반대 함정)</td><td data-label="왜 끌리나" role="cell">1번 함정을 외움</td><td data-label="왜 틀리나" role="cell">프롬프트에 넣어 준 정보 정확도는 100% 가 공식 목표</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"요청받은 챗봇부터 만들고 지표는 운영하며 정한다"</td><td data-label="왜 끌리나" role="cell">빨리 보여 줄 수 있다</td><td data-label="왜 틀리나" role="cell">늦으면 운영 중인 시스템에서 기준을 거꾸로 캐내야 한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" lang="en" rel="noopener">demystifying-evals</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"정확도 100% 를 약속하고 착수"</td><td data-label="왜 끌리나" role="cell">이해관계자(stakeholder)가 원한다</td><td data-label="왜 틀리나" role="cell">목표는 달성 가능해야 한다. 권한 없는 약속은 하지 않는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a> · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat" lang="en" rel="noopener">customer-support-chat</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"SMART 5요소(기한 포함)로 핵심 지표 하나"</td><td data-label="왜 끌리나" role="cell">익숙한 틀이다</td><td data-label="왜 틀리나" role="cell">공식 기준은 4가지다. 대부분은 여러 차원으로 잰다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"요청대로 가장 좋은 모델부터"</td><td data-label="왜 끌리나" role="cell">품질 걱정을 한 번에 없앨 수 있어 보인다</td><td data-label="왜 틀리나" role="cell">범위와 기준이 없으면 모델이 맞는지도 재지 못한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">목록 6.1① 규칙</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"안전한 출력" 같은 기준</td><td data-label="왜 끌리나" role="cell">뜻은 맞다</td><td data-label="왜 틀리나" role="cell">이 말로는 잴 수 없다. 공식 좋은 예는 "1만 번 중 0.1% 미만이 독성 판정" 이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/test-and-evaluate/define-success" lang="en" rel="noopener">define-success</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"100% 목표 보기는 항상 오답" (반대 함정)</td><td data-label="왜 끌리나" role="cell">1번 함정을 외웠기 때문이다</td><td data-label="왜 틀리나" role="cell">프롬프트에 넣어 준 정보의 정확도는 100% 가 공식 목표다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
   </tbody>
 </table>
 </div>
@@ -656,12 +694,16 @@
   </details>
   <h2 class="sec-h" id="problem-framing-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="success-criteria.html">■ 성공 기준</a></li>
         <li><a href="discovery.html">■ discovery (묻는 법·사실 모으기 — 여기는 적는 법)</a></li>
         <li><a href="code-vs-llm.html">◆ 코드 vs LLM vs hybrid</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.1</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -671,17 +713,18 @@
       </ul>
     <h3>상태</h3>
       <ul class="plain">
-        <li><span class="gen">업계 일반</span> 2줄(결과·범위·증거 이름 · 모델은 뒤에)</li>
+        <li><span class="gen">업계 일반</span> 2줄(결과·범위·증거 이름 · 모델은 뒤에 고른다)</li>
       </ul>
   </div>
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>"결과·범위·증거" 세 이름 자체는 공식 문장에서 못 찾음(목록·영상 표현). 공식 대응은 고객지원 가이드의 "만들기 전에" 네 단계(판단 → 이상적 대화 → 과제 → 성공 기준)와 define-success 사이클.</li>
-<li>목록 6.1① 이 든 공식 근거(code.claude.com best-practices "solves the wrong problem")는 원문을 받지 않아 여기선 인용 안 함 — 6.1 카드 때 확인.</li>
-<li>"불확실한 경우의 사람 검토 경로"(목록 6.1②)는 이 카드 원문들에서 문장을 못 찾음 — 5.3 쪽 카드에서 확인.</li>
+<li>"결과·범위·증거" 세 이름은 공식 문장에서 못 찾았다. 목록과 영상의 표현이다. 공식 쪽 대응은 두 가지다. 하나는 고객지원 가이드의 "만들기 전에" 네 단계다(판단, 이상적 대화, 과제, 성공 기준). 다른 하나는 define-success 사이클이다.</li>
+<li>목록 6.1① 이 든 공식 근거(code.claude.com best-practices "solves the wrong problem")는 원문을 받지 않았다. 그래서 여기서는 인용하지 않는다. 6.1 카드 때 확인한다.</li>
+<li>"불확실한 경우의 사람 검토 경로"(목록 6.1②)는 이 카드의 원문들에서 문장을 못 찾았다. 5.3 쪽 카드에서 확인한다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

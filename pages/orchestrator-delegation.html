@@ -370,9 +370,9 @@
   </div>
   <h2 class="sec-h" id="orchestrator-delegation-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>멀티로 가기로 했으면 "어떻게 맡기나". orchestrator(lead agent)가 질문을 쪼개 subagent 마다 지시를 적어 주고, subagent 는 자기 컨텍스트에서 찾은 뒤 압축해 돌려줌</p>
-      <p>쓸지 말지는 <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a>. 여기는 지시 · 개수 · 결과 받기</p>
-    <p class="t5-ana"><span class="lead">비유</span> Jira 티켓에 완료 조건·범위·산출물 형식을 적는 것. "알아서 조사" 티켓 = 중복 작업</p>
+      <p>멀티로 가기로 했으면 "어떻게 맡기나" 를 정한다. orchestrator(lead agent)가 질문을 쪼개 subagent 마다 지시를 적어 준다. subagent 는 자기 컨텍스트에서 찾은 뒤 압축해 돌려준다</p>
+      <p>쓸지 말지는 <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a> 에서 다룬다. 여기서는 지시·개수·결과 받기를 다룬다</p>
+    <p class="t5-ana"><span class="lead">비유</span> Jira 티켓에 완료 조건·범위·산출물 형식을 적는 것과 같다. "알아서 조사" 티켓은 중복 작업이 된다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/orchestrator-delegation.webp"><img src="../images/orchestrator-delegation.webp" alt="orchestrator 가 subagent 에게 목표·출력 형식·쓸 도구와 출처·작업 경계를 적어 맡기고, subagent 는 압축 요약만 돌려준다는 그림. 한 줄 지시면 일이 겹치거나 빈다." loading="lazy" decoding="async"></a>
@@ -401,19 +401,19 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">왜 지시를 적어야 하나</p>
 <ul>
-<li>subagent 는 orchestrator 의 대화를 못 봄. 받는 건 orchestrator 가 쓴 지시뿐 (Agent SDK : Agent 도구 프롬프트 문자열뿐).</li>
-<li>그래서 지시의 질 = subagent 의 성능. 목표·출력 형식·도구와 출처·경계 중 하나가 빠지면 겹치거나 비어 있음.</li>
+<li>subagent 는 orchestrator 의 대화를 못 본다. 받는 것은 orchestrator 가 쓴 지시뿐이다 (Agent SDK 에서는 Agent 도구 프롬프트 문자열뿐이다).</li>
+<li>그래서 지시의 질이 곧 subagent 의 성능이다. 목표·출력 형식·도구와 출처·경계 중 하나가 빠지면 일이 겹치거나 빈다.</li>
 </ul>
 <p class="lead">왜 개수를 정해 줘야 하나</p>
 <ul>
-<li>에이전트는 알맞은 노력을 스스로 잘 못 정함 → 단순 질문에 subagent 50개 같은 과잉.</li>
-<li>멀티는 토큰을 채팅의 약 15배 씀 → subagent 수 = 비용. 난도별 규모 규칙을 프롬프트에 박음.</li>
+<li>에이전트는 알맞은 노력을 스스로 잘 못 정한다. 그래서 단순 질문에 subagent 50개 같은 과잉이 생긴다.</li>
+<li>멀티는 토큰을 채팅의 약 15배 쓴다. 그래서 subagent 수가 곧 비용이다. 난도별 규모 규칙을 프롬프트에 박아 둔다.</li>
 </ul>
 <p class="lead">왜 압축해서 받나</p>
 <ul>
-<li>검색의 본질 = 압축. subagent 가 각자 컨텍스트 창에서 수만 토큰을 뒤지고 핵심만 돌려줘야 orchestrator 컨텍스트 창이 버팀.</li>
-<li>orchestrator 컨텍스트 창도 유한 (연구 글 : 20만 넘으면 잘림 → 계획은 메모리에 저장).</li>
-<li>코드·보고서처럼 요약하면 망가지는 건 파일로 두고 참조만 → orchestrator 를 거치며 생기는 전달 손실(거쳐 갈수록 내용이 빠짐)을 피함.</li>
+<li>검색의 본질은 압축이다. subagent 가 각자 컨텍스트 창에서 수만 토큰을 뒤지고 핵심만 돌려줘야 orchestrator 컨텍스트 창이 버틴다.</li>
+<li>orchestrator 컨텍스트 창도 유한하다 (연구 글 : 20만을 넘으면 잘린다. 그래서 계획은 메모리에 저장한다).</li>
+<li>코드·보고서처럼 요약하면 망가지는 것은 파일로 두고 참조만 넘긴다. 그러면 orchestrator 를 거치며 생기는 전달 손실(거쳐 갈수록 내용이 빠진다)을 피한다.</li>
 </ul>
 </section>
   <h2 class="sec-h" id="orchestrator-delegation-rules-h">규칙과 판단</h2>
@@ -429,15 +429,15 @@
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">맡김</p><p>각 subagent 의 성능 = 그 지시의 질</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">맡긴다</p><p>각 subagent 의 성능은 곧 그 지시의 질이다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>한 줄뿐 <span class="note">(네 가지 없음)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">겹치거나 비게 됨</p><p>일이 겹치거나 비거나 필요한 걸 못 찾음</p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>한 줄뿐 <span class="note">(네 가지가 없다)</span></span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">겹치거나 비게 된다</p><p>일이 겹치거나 비거나 필요한 것을 못 찾는다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>예, 그런데 부모가 본 파일 경로·오류를 안 적음 <span class="note">(Agent SDK)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">프롬프트에 직접 적음</p><p>부모 대화는 안 넘어감, Agent 도구 프롬프트 문자열뿐 → 파일 경로·오류 메시지·결정은 프롬프트에 직접 적음</p></div>
+          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>예, 그런데 부모가 본 파일 경로·오류를 안 적었다 <span class="note">(Agent SDK)</span></span>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">프롬프트에 직접 적는다</p><p>부모 대화는 넘어가지 않는다. 넘어가는 것은 Agent 도구 프롬프트 문자열뿐이다. 그래서 파일 경로·오류 메시지·결정은 프롬프트에 직접 적는다</p></div>
         </div>
       </div>
     </div>
@@ -445,19 +445,19 @@
   <section class="t5-flow tree" id="orchestrator-delegation-tree-2" aria-labelledby="orchestrator-delegation-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7">
     <div class="t5-fh"><h3 id="orchestrator-delegation-tree-2-h">② 몇 개 띄우나 <span class="pg">[1.4②]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>질문 난도?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>질문 난도가 어떤가?</div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>단순 사실 찾기</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">1개</p><p>도구 호출 3~10회</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">1개</p><p>도구 호출은 3~10회다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>직접 비교</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">2~4개</p><p>각 10~15회</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">2~4개</p><p>각 10~15회다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>복잡한 조사</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">10개 넘게</p><p>책임을 뚜렷이 나눔</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">10개 넘게</p><p>책임을 뚜렷이 나눈다</p></div>
         </div>
       </div>
     </div>
@@ -469,7 +469,7 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>찾은 내용</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">압축 요약</p><p>압축 요약만(흔히 1천~2천 토큰)</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">압축 요약</p><p>압축 요약만 돌려준다(흔히 1천~2천 토큰)</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>코드·보고서처럼 큰 산출물</span>
@@ -477,11 +477,11 @@
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">파일 + 참조</p><p>외부 저장소에 직접 저장, 가벼운 참조만</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">파일 + 참조</p><p>외부 저장소에 직접 저장한다. 가벼운 참조만 넘긴다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">검증 서브에이전트</p><p>산출물 + 뚜렷한 성공 기준(success criteria) + 검증 도구 · "전체 테스트를 반드시 돌려라"를 명시</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">검증 서브에이전트</p><p>산출물, 뚜렷한 성공 기준(success criteria), 검증 도구를 준다. "전체 테스트를 반드시 돌려라" 를 명시한다</p></div>
             </div>
           </div>
         </div>
@@ -490,36 +490,36 @@
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="orchestrator-delegation-flow" aria-label="orchestrator-worker 위임 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["orchestrator","subagents","파일 저장소"],"blocks":[],"rules":[null,"목표 · 출력 형식 · 쓸 도구와 출처 · 작업 경계",null],"question":"subagent 에게 무엇을 적어 줘야 할까?","scenes":[{"name":"① 네 가지를 적어 맡김","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"반도체 부족 사태를 정리해 줘"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"네 가지를 적음","art":{"kind":"slip","lines":["목표: 2025 공급망 병목","형식: 표 5행 + 출처","도구: 웹 검색 · 공시","경계: 2021 자동차 칩 제외"]}},{"kind":"mark","step":"조사","at":{"col":1},"label":"자기 컨텍스트에서 수만 토큰 탐색","art":{"kind":"slip","lines":["검색 12회","읽은 양 35,000 토큰"]}},{"kind":"move","step":"요약","from":{"col":1},"to":0,"label":"압축 요약만","art":{"kind":"slip","lines":["요약 1,500 토큰","병목 3곳 + 출처 4개"]}},{"kind":"end","label":"subagent 는 자기 컨텍스트에서 찾은 뒤 압축해 돌려줌 (흔히 1천~2천 토큰)"}]},{"name":"② 한 줄 지시","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"반도체 부족 사태를 정리해 줘"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"세 subagent 에게 같은 한 줄","art":{"kind":"slip","lines":["\"research the","semiconductor shortage\"","목표·형식·경계 없음"]}},{"kind":"mark","step":"조사","at":{"col":1},"label":"셋 중 둘이 같은 걸 조사","art":{"kind":"slip","lines":["A: 2021 자동차 칩 위기","B: 2025 공급망","C: 2025 공급망 (B와 겹침)"]}},{"kind":"move","step":"요약","from":{"col":1},"to":0,"label":"겹친 요약","art":{"kind":"slip","lines":["요약 3개 중 2개가 같은 내용","빠진 쪽은 아무도 안 봄"]}},{"kind":"end","label":"한 줄 지시면 일이 겹치거나 비거나 필요한 걸 못 찾음"}]},{"name":"③ 큰 산출물은 파일로","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"공급망 비교 보고서도 만들어 줘"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"산출물 형식까지 적음","art":{"kind":"slip","lines":["목표: 공급망 비교 보고서","형식: 파일로 저장"]}},{"kind":"move","step":"저장","from":{"col":1},"to":2,"label":"외부 저장소에 직접 저장","art":{"kind":"slip","lines":["report.md (18쪽)","chart.png"]}},{"kind":"move","step":"참조","from":{"col":1},"to":0,"label":"가벼운 참조만","art":{"kind":"slip","lines":["files/report.md","\"병목 3곳 · 18쪽\""]}},{"kind":"end","label":"전달 손실(거쳐 갈수록 내용이 빠짐)·복사에 드는 토큰을 줄임"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["orchestrator","subagents","파일 저장소"],"blocks":[],"rules":[null,"목표 · 출력 형식 · 쓸 도구와 출처 · 작업 경계",null],"question":"subagent 에게 무엇을 적어 줘야 할까?","scenes":[{"name":"① 네 가지를 적어 맡긴다","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"반도체 부족 사태를 정리해 줘"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"네 가지를 적는다","art":{"kind":"slip","lines":["목표: 2025 공급망 병목","형식: 표 5행 + 출처","도구: 웹 검색 · 공시","경계: 2021 자동차 칩 제외"]}},{"kind":"mark","step":"조사","at":{"col":1},"label":"자기 컨텍스트에서 수만 토큰을 탐색한다","art":{"kind":"slip","lines":["검색 12회","읽은 양 35,000 토큰"]}},{"kind":"move","step":"요약","from":{"col":1},"to":0,"label":"압축 요약만 돌려준다","art":{"kind":"slip","lines":["요약 1,500 토큰","병목 3곳 + 출처 4개"]}},{"kind":"end","label":"subagent 는 자기 컨텍스트에서 찾은 뒤 압축해 돌려준다(흔히 1천~2천 토큰)"}]},{"name":"② 한 줄 지시","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"반도체 부족 사태를 정리해 줘"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"세 subagent 에게 같은 한 줄을 보낸다","art":{"kind":"slip","lines":["\"research the","semiconductor shortage\"","목표·형식·경계 없음"]}},{"kind":"mark","step":"조사","at":{"col":1},"label":"셋 중 둘이 같은 것을 조사한다","art":{"kind":"slip","lines":["A: 2021 자동차 칩 위기","B: 2025 공급망","C: 2025 공급망 (B와 겹침)"]}},{"kind":"move","step":"요약","from":{"col":1},"to":0,"label":"겹친 요약이 온다","art":{"kind":"slip","lines":["요약 3개 중 2개가 같은 내용","빠진 쪽은 아무도 안 봄"]}},{"kind":"end","label":"한 줄 지시면 일이 겹치거나 비거나 필요한 것을 못 찾는다"}]},{"name":"③ 큰 산출물은 파일로","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"공급망 비교 보고서도 만들어 줘"}},{"kind":"move","step":"위임","from":{"col":0},"to":1,"label":"산출물 형식까지 적는다","art":{"kind":"slip","lines":["목표: 공급망 비교 보고서","형식: 파일로 저장"]}},{"kind":"move","step":"저장","from":{"col":1},"to":2,"label":"외부 저장소에 직접 저장한다","art":{"kind":"slip","lines":["report.md (18쪽)","chart.png"]}},{"kind":"move","step":"참조","from":{"col":1},"to":0,"label":"가벼운 참조만 넘긴다","art":{"kind":"slip","lines":["files/report.md","\"병목 3곳 · 18쪽\""]}},{"kind":"end","label":"전달 손실(거쳐 갈수록 내용이 빠진다)과 복사에 드는 토큰을 줄인다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> orchestrator → subagents → 파일 저장소</p>
       <p><span class="lead">규칙 (subagents) :</span> 목표 · 출력 형식 · 쓸 도구와 출처 · 작업 경계</p>
       <p><span class="lead">질문 :</span> subagent 에게 무엇을 적어 줘야 할까?</p>
-      <p class="lead">① 네 가지를 적어 맡김 <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">① 네 가지를 적어 맡긴다 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : orchestrator — 말 : <span class="flx-alt-say">“반도체 부족 사태를 정리해 줘”</span></li>
-        <li>위임 : orchestrator → subagents : 네 가지를 적음 — 쪽지 : <span class="flx-alt-slip">목표: 2025 공급망 병목 / 형식: 표 5행 + 출처 / 도구: 웹 검색 · 공시 / 경계: 2021 자동차 칩 제외</span></li>
-        <li>조사 : subagents : 자기 컨텍스트에서 수만 토큰 탐색 — 쪽지 : <span class="flx-alt-slip">검색 12회 / 읽은 양 35,000 토큰</span></li>
-        <li>요약 : subagents → orchestrator : 압축 요약만 — 쪽지 : <span class="flx-alt-slip">요약 1,500 토큰 / 병목 3곳 + 출처 4개</span></li>
-        <li>끝 : subagent 는 자기 컨텍스트에서 찾은 뒤 압축해 돌려줌 (흔히 1천~2천 토큰)</li>
+        <li>위임 : orchestrator → subagents : 네 가지를 적는다 — 쪽지 : <span class="flx-alt-slip">목표: 2025 공급망 병목 / 형식: 표 5행 + 출처 / 도구: 웹 검색 · 공시 / 경계: 2021 자동차 칩 제외</span></li>
+        <li>조사 : subagents : 자기 컨텍스트에서 수만 토큰을 탐색한다 — 쪽지 : <span class="flx-alt-slip">검색 12회 / 읽은 양 35,000 토큰</span></li>
+        <li>요약 : subagents → orchestrator : 압축 요약만 돌려준다 — 쪽지 : <span class="flx-alt-slip">요약 1,500 토큰 / 병목 3곳 + 출처 4개</span></li>
+        <li>끝 : subagent 는 자기 컨텍스트에서 찾은 뒤 압축해 돌려준다(흔히 1천~2천 토큰)</li>
       </ol>
       <p class="lead">② 한 줄 지시 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : orchestrator — 말 : <span class="flx-alt-say">“반도체 부족 사태를 정리해 줘”</span></li>
-        <li>위임 : orchestrator → subagents : 세 subagent 에게 같은 한 줄 — 쪽지 : <span class="flx-alt-slip">"research the / semiconductor shortage" / 목표·형식·경계 없음</span></li>
-        <li>조사 : subagents : 셋 중 둘이 같은 걸 조사 — 쪽지 : <span class="flx-alt-slip">A: 2021 자동차 칩 위기 / B: 2025 공급망 / C: 2025 공급망 (B와 겹침)</span></li>
-        <li>요약 : subagents → orchestrator : 겹친 요약 — 쪽지 : <span class="flx-alt-slip">요약 3개 중 2개가 같은 내용 / 빠진 쪽은 아무도 안 봄</span></li>
-        <li>끝 : 한 줄 지시면 일이 겹치거나 비거나 필요한 걸 못 찾음</li>
+        <li>위임 : orchestrator → subagents : 세 subagent 에게 같은 한 줄을 보낸다 — 쪽지 : <span class="flx-alt-slip">"research the / semiconductor shortage" / 목표·형식·경계 없음</span></li>
+        <li>조사 : subagents : 셋 중 둘이 같은 것을 조사한다 — 쪽지 : <span class="flx-alt-slip">A: 2021 자동차 칩 위기 / B: 2025 공급망 / C: 2025 공급망 (B와 겹침)</span></li>
+        <li>요약 : subagents → orchestrator : 겹친 요약이 온다 — 쪽지 : <span class="flx-alt-slip">요약 3개 중 2개가 같은 내용 / 빠진 쪽은 아무도 안 봄</span></li>
+        <li>끝 : 한 줄 지시면 일이 겹치거나 비거나 필요한 것을 못 찾는다</li>
       </ol>
       <p class="lead">③ 큰 산출물은 파일로 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : orchestrator — 말 : <span class="flx-alt-say">“공급망 비교 보고서도 만들어 줘”</span></li>
-        <li>위임 : orchestrator → subagents : 산출물 형식까지 적음 — 쪽지 : <span class="flx-alt-slip">목표: 공급망 비교 보고서 / 형식: 파일로 저장</span></li>
-        <li>저장 : subagents → 파일 저장소 : 외부 저장소에 직접 저장 — 쪽지 : <span class="flx-alt-slip">report.md (18쪽) / chart.png</span></li>
-        <li>참조 : subagents → orchestrator : 가벼운 참조만 — 쪽지 : <span class="flx-alt-slip">files/report.md / "병목 3곳 · 18쪽"</span></li>
-        <li>끝 : 전달 손실(거쳐 갈수록 내용이 빠짐)·복사에 드는 토큰을 줄임</li>
+        <li>위임 : orchestrator → subagents : 산출물 형식까지 적는다 — 쪽지 : <span class="flx-alt-slip">목표: 공급망 비교 보고서 / 형식: 파일로 저장</span></li>
+        <li>저장 : subagents → 파일 저장소 : 외부 저장소에 직접 저장한다 — 쪽지 : <span class="flx-alt-slip">report.md (18쪽) / chart.png</span></li>
+        <li>참조 : subagents → orchestrator : 가벼운 참조만 넘긴다 — 쪽지 : <span class="flx-alt-slip">files/report.md / "병목 3곳 · 18쪽"</span></li>
+        <li>끝 : 전달 손실(거쳐 갈수록 내용이 빠진다)과 복사에 드는 토큰을 줄인다</li>
       </ol>
     </details>
   </figure>
@@ -529,41 +529,69 @@
       <ol class="how">
         <li id="orchestrator-delegation-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p><span class="lead">위임 지시 네 가지 :</span> 목표 · 출력 형식 · 쓸 도구와 출처 · 작업 경계. 없으면 일이 겹치거나 비거나 필요한 걸 못 찾음 <span class="pg">[1.4②]</span></p>
-            <p><span class="lead">예 :</span> 'research the semiconductor shortage' 한 줄 → 하나는 2021 자동차 칩 위기, 둘은 2025 공급망을 똑같이 조사</p>
-            <p>각 subagent 의 성능 = 그 지시의 질. 단일 에이전트 프롬프트 요령이 subagent 시스템 프롬프트에도 그대로</p>
-            <p>지시 = 경직된 규칙보다 좋은 경험칙(heuristics). 최선의 프롬프트 = 분업 · 문제 푸는 법 · 노력 예산을 정한 협업 틀</p>
-            <p>orchestrator 는 extended thinking 으로 먼저 계획 : 맞는 도구 · 질문 난도 · subagent 수 · subagent 마다 역할</p>
-            <p><span class="lead">Agent SDK :</span> 서브에이전트는 새 컨텍스트로 시작 — 부모 대화는 안 넘어감, Agent 도구 프롬프트 문자열뿐 → 파일 경로·오류 메시지·결정은 프롬프트에 직접 적음 <span class="src">(fork 는 예외 — 부모 대화를 물려받음)</span></p>
+            <p><span class="lead">위임 지시 네 가지 :</span> 지시에는 네 가지를 적는다. 없으면 일이 겹치거나 비거나 필요한 것을 못 찾는다 <span class="pg">[1.4②]</span></p>
+            <ul class="dash">
+              <li>목표</li>
+              <li>출력 형식</li>
+              <li>쓸 도구와 출처</li>
+              <li>작업 경계</li>
+            </ul>
+            <p><span class="lead">예 :</span> 'research the semiconductor shortage' 한 줄만 보냈다. 그러자 하나는 2021 자동차 칩 위기를 조사했다. 둘은 2025 공급망을 똑같이 조사했다</p>
+            <p>각 subagent 의 성능은 곧 그 지시의 질이다. 단일 에이전트 프롬프트 요령이 subagent 시스템 프롬프트에도 그대로 통한다</p>
+            <p>지시는 경직된 규칙보다 좋은 경험칙(heuristics)으로 쓴다. 최선의 프롬프트는 분업·문제 푸는 법·노력 예산을 정한 협업 틀이다</p>
+            <p>orchestrator 는 extended thinking 으로 먼저 계획한다</p>
+            <ul class="dash">
+              <li>맞는 도구</li>
+              <li>질문 난도</li>
+              <li>subagent 수</li>
+              <li>subagent 마다 역할</li>
+            </ul>
+            <p><span class="lead">Agent SDK :</span> 서브에이전트는 새 컨텍스트로 시작한다. 부모 대화는 넘어가지 않는다. 넘어가는 것은 Agent 도구 프롬프트 문자열뿐이다. 그래서 파일 경로·오류 메시지·결정은 프롬프트에 직접 적는다. fork 는 예외다. fork 는 부모 대화를 물려받는다</p>
           </div>
         </li>
         <li id="orchestrator-delegation-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p><span class="lead">노력 배분 :</span> 에이전트는 알맞은 노력을 스스로 잘 못 정함 → 질문 난도별 규모 규칙을 프롬프트에 <span class="pg">[1.4②]</span></p>
+            <p><span class="lead">노력 배분 :</span> 에이전트는 알맞은 노력을 스스로 잘 못 정한다. 그래서 질문 난도별 규모 규칙을 프롬프트에 넣는다 <span class="pg">[1.4②]</span></p>
             <div class="tscroll" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">질문</th><th scope="col" role="columnheader">subagent</th><th scope="col" role="columnheader">도구 호출</th></tr></thead>
               <tbody role="rowgroup">
                 <tr role="row"><td data-label="질문" role="cell">단순 사실 찾기</td><td data-label="subagent" role="cell">1개</td><td data-label="도구 호출" role="cell">3~10회</td></tr>
                 <tr role="row"><td data-label="질문" role="cell">직접 비교</td><td data-label="subagent" role="cell">2~4개</td><td data-label="도구 호출" role="cell">각 10~15회</td></tr>
-                <tr role="row"><td data-label="질문" role="cell">복잡한 조사</td><td data-label="subagent" role="cell">10개 넘게 <span class="note">(책임을 뚜렷이 나눔)</span></td><td data-label="도구 호출" role="cell">—</td></tr>
+                <tr role="row"><td data-label="질문" role="cell">복잡한 조사</td><td data-label="subagent" role="cell">10개 넘게 <span class="note">(책임을 뚜렷이 나눈다)</span></td><td data-label="도구 호출" role="cell">—</td></tr>
               </tbody>
             </table>
             </div>
-            <p><span class="lead">초기 실패 :</span> 단순 질문에 subagent 50개 · 없는 출처를 끝없이 찾음 · 과한 업데이트로 서로 방해</p>
-            <p><span class="lead">병렬 :</span> orchestrator 는 subagent 3~5개를 동시에, subagent 는 도구 3개+ 를 동시에 → 복잡한 질문의 조사 시간 최대 90% 단축</p>
-            <p><span class="lead">모델 조합 예 :</span> orchestrator Opus 4 + subagent Sonnet 4 (연구 글)</p>
-            <p><span class="lead">Agent SDK 상한 :</span> 서브 깊이 기본 3층 · 동시 20개 · 비용 상한 <code>max_budget_usd</code>(기본 없음) (2026-09-28 조회)</p>
+            <p>초기 실패는 셋이다</p>
+            <ul class="dash">
+              <li>단순 질문에 subagent 50개를 띄웠다</li>
+              <li>없는 출처를 끝없이 찾았다</li>
+              <li>과한 업데이트로 서로 방해했다</li>
+            </ul>
+            <p><span class="lead">병렬 :</span> orchestrator 는 subagent 3~5개를 동시에 띄운다. subagent 는 도구 3개+ 를 동시에 부른다. 그래서 복잡한 질문의 조사 시간을 최대 90% 줄인다</p>
+            <p>모델 조합 예는 orchestrator Opus 4 + subagent Sonnet 4 다 (연구 글)</p>
+            <p>Agent SDK 상한은 셋이다 (2026-09-28 조회)</p>
+            <ul class="dash">
+              <li><span class="lead">서브 깊이 :</span> 기본 3층</li>
+              <li><span class="lead">동시 실행 :</span> 20개</li>
+              <li><span class="lead">비용 상한 :</span> <code>max_budget_usd</code>(기본값은 없다)</li>
+            </ul>
           </div>
         </li>
         <li id="orchestrator-delegation-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">결과 받기 :</span> subagent 는 자기 컨텍스트에서 수만 토큰 탐색 → 압축 요약만(흔히 1천~2천 토큰). 검색의 본질 = 압축 <span class="pg">[1.4②]</span> <span class="pg">[2.4②]</span></p>
-            <p>1천~2천은 "흔히"(경험치) — 고정 한도 아님</p>
-            <p>코드·보고서·시각화처럼 큰 산출물 → subagent 가 외부 저장소에 직접 저장, 가벼운 참조만 orchestrator 로 → 전달 손실·복사에 드는 토큰을 줄임</p>
-            <p>orchestrator 계획은 메모리에 저장 : 컨텍스트가 20만 토큰을 넘으면 잘리니까</p>
-            <p>검증 서브에이전트 = 산출물 + 뚜렷한 성공 기준 + 검증 도구. 한두 개 테스트만 돌리고 통과로 적는 지름길 → "전체 테스트를 반드시 돌려라"를 명시</p>
-            <p>Managed Agents : 샌드박스·파일시스템·vault 는 공유, 도구·MCP·컨텍스트는 안 공유 · 스레드는 영속(전에 부른 subagent 에게 후속 메시지 → 앞 턴 유지) · 명단(roster) 고유 에이전트 최대 20 · 위임은 1단계만</p>
+            <p><span class="lead">결과 받기 :</span> subagent 는 자기 컨텍스트에서 수만 토큰을 탐색한다. 그리고 압축 요약만 돌려준다(흔히 1천~2천 토큰). 검색의 본질은 압축이다 <span class="pg">[1.4②]</span> <span class="pg">[2.4②]</span></p>
+            <p>1천~2천은 "흔히"(경험치)다. 고정 한도가 아니다</p>
+            <p>코드·보고서·시각화처럼 큰 산출물은 subagent 가 외부 저장소에 직접 저장한다. orchestrator 로는 가벼운 참조만 보낸다. 그러면 전달 손실과 복사에 드는 토큰이 줄어든다</p>
+            <p>orchestrator 계획은 메모리에 저장한다. 컨텍스트가 20만 토큰을 넘으면 잘리기 때문이다</p>
+            <p>검증 서브에이전트에는 산출물, 뚜렷한 성공 기준, 검증 도구를 준다. 한두 개 테스트만 돌리고 통과로 적는 지름길이 있다. 그래서 "전체 테스트를 반드시 돌려라" 를 명시한다</p>
+            <p>Managed Agents 는 이렇다</p>
+            <ul class="dash">
+              <li>샌드박스·파일시스템·vault 는 공유한다. 도구·MCP·컨텍스트는 공유하지 않는다</li>
+              <li>스레드는 영속이다. 전에 부른 subagent 에게 후속 메시지를 보내면 앞 턴이 유지된다</li>
+              <li>명단(roster)의 고유 에이전트는 최대 20 이다</li>
+              <li>위임은 1단계만 된다</li>
+            </ul>
           </div>
         </li>
       </ol>
@@ -577,15 +605,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">subagent 에게 일을 맡김</td><td data-label="답" role="cell">목표 · 출력 형식 · 도구와 출처 · 작업 경계를 적음</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">subagent 둘이 같은 검색을 되풀이 · 빈 곳이 생김</td><td data-label="답" role="cell">위임(delegation) 지시(특히 경계)를 자세히</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">단순 사실 질문</td><td data-label="답" role="cell">subagent 1개 · 도구 호출 3~10회</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">직접 비교</td><td data-label="답" role="cell">subagent 2~4개 · 각 10~15회</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">복잡한 조사</td><td data-label="답" role="cell">subagent 10개 넘게, 책임을 뚜렷이 나눔</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">subagent 결과를 orchestrator 에게</td><td data-label="답" role="cell">압축 요약 (흔히 1천~2천 토큰)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">결과가 코드·보고서·시각화</td><td data-label="답" role="cell">외부 저장소에 쓰고 참조만</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">서브에이전트가 알아야 할 경로·오류·결정</td><td data-label="답" role="cell">Agent 도구 프롬프트에 직접 적음</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/subagents" lang="en" rel="noopener">agent-sdk-subagents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">산출물을 따로 검증</td><td data-label="답" role="cell">검증 서브에이전트 : 산출물 + 성공 기준(success criteria) + 도구 + "전체 테스트 필수"</td><td data-label="근거" role="cell"><a class="src-link" href="https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them" lang="en" rel="noopener">building-multi-agent-systems</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">subagent 에게 일을 맡긴다</td><td data-label="답" role="cell">목표 · 출력 형식 · 도구와 출처 · 작업 경계를 적는다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">subagent 둘이 같은 검색을 되풀이한다 · 빈 곳이 생긴다</td><td data-label="답" role="cell">위임(delegation) 지시(특히 경계)를 자세히 쓴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">단순 사실 질문이다</td><td data-label="답" role="cell">subagent 1개 · 도구 호출 3~10회</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">직접 비교다</td><td data-label="답" role="cell">subagent 2~4개 · 각 10~15회</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">복잡한 조사다</td><td data-label="답" role="cell">subagent 10개 넘게 띄우고, 책임을 뚜렷이 나눈다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">subagent 결과를 orchestrator 에게 넘긴다</td><td data-label="답" role="cell">압축 요약으로 넘긴다 (흔히 1천~2천 토큰)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">결과가 코드·보고서·시각화다</td><td data-label="답" role="cell">외부 저장소에 쓰고 참조만 넘긴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">서브에이전트가 알아야 할 경로·오류·결정이 있다</td><td data-label="답" role="cell">Agent 도구 프롬프트에 직접 적는다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/subagents" lang="en" rel="noopener">agent-sdk-subagents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">산출물을 따로 검증한다</td><td data-label="답" role="cell">검증 서브에이전트에 산출물·성공 기준(success criteria)·도구를 주고 "전체 테스트 필수" 를 적는다</td><td data-label="근거" role="cell"><a class="src-link" href="https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them" lang="en" rel="noopener">building-multi-agent-systems</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -597,13 +625,13 @@
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
     <tr role="row"><td data-label="변수" role="cell">질문 난도</td><td data-label="값" role="cell">단순 / 비교 / 복잡</td><td data-label="답 쪽" role="cell">1개 / 2~4개 / 10개+</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 3~5</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">subagent 탐색량</td><td data-label="값" role="cell">subagent 당 수만 토큰</td><td data-label="답 쪽" role="cell">요약만 받아야 orchestrator 컨텍스트 창이 버팀</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">결과 모양</td><td data-label="값" role="cell">짧은 찾은 내용</td><td data-label="답 쪽" role="cell">orchestrator 로 요약</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">결과 모양</td><td data-label="값" role="cell">코드·보고서처럼 길고 구조 있음</td><td data-label="답 쪽" role="cell">파일 + 참조</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">orchestrator 모델</td><td data-label="값" role="cell">유능함(Opus 4.5 급)</td><td data-label="답 쪽" role="cell">subagent 결과를 직접 평가해도 됨</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">orchestrator 모델</td><td data-label="값" role="cell">덜 유능 · 검증에 특수 도구 필요 · 명시 검증 지점이 필요</td><td data-label="답 쪽" role="cell">검증 서브에이전트</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them" lang="en" rel="noopener">building-multi-agent-systems</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">속도</td><td data-label="값" role="cell">순차 검색이 너무 느림</td><td data-label="답 쪽" role="cell">subagent 3~5개 동시 · subagent 는 도구 3개+ 동시</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">권한</td><td data-label="값" role="cell">부모가 <code>bypassPermissions</code></td><td data-label="답 쪽" role="cell">서브도 bypass — 서브 정의로 못 좁힘</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk-permissions</a> (2026-09-28 조회)</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">subagent 탐색량</td><td data-label="값" role="cell">subagent 당 수만 토큰</td><td data-label="답 쪽" role="cell">요약만 받아야 orchestrator 컨텍스트 창이 버틴다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">결과 모양</td><td data-label="값" role="cell">짧은 찾은 내용</td><td data-label="답 쪽" role="cell">orchestrator 로 요약을 보낸다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">결과 모양</td><td data-label="값" role="cell">코드·보고서처럼 길고 구조가 있다</td><td data-label="답 쪽" role="cell">파일과 참조</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">orchestrator 모델</td><td data-label="값" role="cell">유능하다(Opus 4.5 급)</td><td data-label="답 쪽" role="cell">subagent 결과를 직접 평가해도 된다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">orchestrator 모델</td><td data-label="값" role="cell">덜 유능하다 · 검증에 특수 도구가 필요하다 · 명시 검증 지점이 필요하다</td><td data-label="답 쪽" role="cell">검증 서브에이전트</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them" lang="en" rel="noopener">building-multi-agent-systems</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">속도</td><td data-label="값" role="cell">순차 검색이 너무 느리다</td><td data-label="답 쪽" role="cell">subagent 3~5개를 동시에 띄운다. subagent 는 도구 3개+ 를 동시에 부른다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">권한</td><td data-label="값" role="cell">부모가 <code>bypassPermissions</code> 다</td><td data-label="답 쪽" role="cell">서브도 bypass 다. 서브 정의로 못 좁힌다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk-permissions</a> (2026-09-28 조회)</td></tr>
   </tbody>
 </table>
 </div>
@@ -612,20 +640,20 @@
   <h2 class="sec-h" id="orchestrator-delegation-practice-h">연습 문제</h2>
 
   <section class="csx" id="orchestrator-delegation-case" aria-labelledby="orchestrator-delegation-case-h" data-tree="orchestrator-delegation-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;한 줄 지시&quot;],[&quot;n5&quot;,null]]" data-flow="orchestrator-delegation-flow" data-scene="0">
-    <p class="csx-text">조사 에이전트의 orchestrator 가 "반도체 부족 사태" 질문을 subagent 3개에 나눠 맡기며 <mark class="csx-m" data-tag="한 줄 지시">셋 모두에게 'research the semiconductor shortage' 한 줄만 보낸다<span class="csx-tag">한 줄 지시</span></mark>. 팀은 "유능한 모델이니 알아서 나눠 할 것"이라 본다. 이 위임(delegation)의 결과는?</p>
+    <p class="csx-text">조사 에이전트의 orchestrator 가 "반도체 부족 사태" 질문을 subagent 3개에 나눠 맡기며 <mark class="csx-m" data-tag="한 줄 지시">셋 모두에게 'research the semiconductor shortage' 한 줄만 보낸다<span class="csx-tag">한 줄 지시</span></mark>. 팀은 "유능한 모델이니 알아서 나눠 할 것" 이라고 본다. 이 위임(delegation)의 결과는 무엇인가?</p>
     <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
   </section>
   <h2 class="sec-h" id="orchestrator-delegation-exam-h">시험 대비</h2>
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"subagent 지시는 짧게 두고 알아서 판단하게" → 한 줄 지시 = 일이 겹치거나 비어 있음</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"subagent 결과를 전부 orchestrator 대화로 복사" → 압축 요약 · 큰 산출물은 외부 저장소 + 가벼운 참조</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"subagent 가 많을수록 철저" → 단순 사실 1개·3~10회. 초기 50개가 실패 사례</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"서브에이전트는 부모가 본 걸 다 안다" → 부모 대화는 안 넘어감, Agent 도구 프롬프트 문자열뿐</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"요약 한도는 1~2천 토큰" → "흔히"일 뿐</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"부모가 <code>bypassPermissions</code> 여도 서브는 AgentDefinition 의 permissionMode 로 좁힘" → 부모가 bypass 면 서브도 bypass (좁히는 건 부모가 default·dontAsk·plan 일 때만) <span class="src">(2026-09-28 조회)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>역할별로 나눠 맡김(기획·구현·테스트·리뷰) → <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a> 의 나누는 법</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"subagent 지시는 짧게 두고 알아서 판단하게 한다" 는 함정이다. 한 줄 지시면 일이 겹치거나 빈다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"subagent 결과를 전부 orchestrator 대화로 복사한다" 는 함정이다. 압축 요약을 받는다. 큰 산출물은 외부 저장소에 두고 가벼운 참조만 받는다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"subagent 가 많을수록 철저하다" 는 함정이다. 단순 사실은 1개·3~10회다. 초기의 50개가 실패 사례다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"서브에이전트는 부모가 본 것을 다 안다" 는 함정이다. 부모 대화는 넘어가지 않는다. 넘어가는 것은 Agent 도구 프롬프트 문자열뿐이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"요약 한도는 1~2천 토큰이다" 는 함정이다. "흔히" 일 뿐이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"부모가 <code>bypassPermissions</code> 여도 서브는 AgentDefinition 의 permissionMode 로 좁힌다" 는 함정이다. 부모가 bypass 면 서브도 bypass 다. 좁히는 것은 부모가 default·dontAsk·plan 일 때만 된다 <span class="src">(2026-09-28 조회)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>역할별로 나눠 맡기기(기획·구현·테스트·리뷰)는 <a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a> 의 나누는 법에서 다룬다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -648,31 +676,31 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 요약 대신 원문을 넘기면 orchestrator 가 터질 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 복잡한 조사에 subagent 12개, subagent 마다 3만 5천 토큰을 읽음.</li>
-<li><span class="lead">계산 :</span> 원문 복사 = 12 × 3만 5천 = 42만 토큰 → orchestrator 컨텍스트 창 20만을 넘김(연구 글 기준에선 잘림). 요약(subagent 당 1천 5백) = 1만 8천 토큰.</li>
-<li><span class="lead">판단 :</span> "정보를 잃지 않게 전부 넘기기"가 오히려 orchestrator 컨텍스트 창을 넘겨 계획을 잃음. 압축이 기본, 요약하면 망가지는 산출물만 파일 + 참조.</li>
-<li><span class="lead">전제 :</span> 1천 5백은 공식 "흔히 1천~2천"의 가운데 값을 고른 것 · 20만은 연구 글 시점의 컨텍스트 창.</li>
+<li><span class="lead">조건 :</span> 복잡한 조사에 subagent 12개를 띄운다. subagent 마다 3만 5천 토큰을 읽는다.</li>
+<li><span class="lead">계산 :</span> 원문을 복사하면 12 × 3만 5천 = 42만 토큰이다. orchestrator 컨텍스트 창 20만을 넘긴다(연구 글 기준에서는 잘린다). 요약(subagent 당 1천 5백)이면 1만 8천 토큰이다.</li>
+<li><span class="lead">판단 :</span> "정보를 잃지 않게 전부 넘기기" 가 오히려 orchestrator 컨텍스트 창을 넘겨 계획을 잃는다. 압축이 기본이다. 요약하면 망가지는 산출물만 파일과 참조로 넘긴다.</li>
+<li><span class="lead">전제 :</span> 1천 5백은 공식 "흔히 1천~2천" 의 가운데 값을 고른 것이다. 20만은 연구 글 시점의 컨텍스트 창이다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span></li>
 <li><span class="lead">근거 :</span> multi-agent-research-system · effective-context-engineering</li>
 </ul>
 <h4>2. "자세한 지시"가 오히려 나쁠 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> orchestrator 가 subagent 마다 검색어 순서·출처 목록을 한 줄씩 못 박아 고정함.</li>
-<li><span class="lead">판단 :</span> 공식이 요구하는 건 목표·형식·도구 안내·경계이지 경직된 절차가 아님. 공식 전략 = 경직된 규칙보다 좋은 경험칙("넓게 시작해서 좁혀라" 등). 과하게 고정하면 subagent 가 새 발견에 맞춰 방향을 못 바꿈.</li>
+<li><span class="lead">조건 :</span> orchestrator 가 subagent 마다 검색어 순서와 출처 목록을 한 줄씩 못 박아 고정한다.</li>
+<li><span class="lead">판단 :</span> 공식이 요구하는 것은 목표·형식·도구 안내·경계다. 경직된 절차가 아니다. 공식 전략은 경직된 규칙보다 좋은 경험칙("넓게 시작해서 좁혀라" 등)이다. 과하게 고정하면 subagent 가 새 발견에 맞춰 방향을 못 바꾼다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(경험칙 원칙) · "고정하면 방향을 못 바꾼다"는 추론</span></li>
 <li><span class="lead">근거 :</span> multi-agent-research-system</li>
 </ul>
 <h4>3. 검증 서브에이전트가 필요 없을 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> orchestrator 가 Opus 4.5 급 이상이고, 검증에 특수 도구가 필요 없음.</li>
-<li><span class="lead">판단 :</span> 유능한 orchestrator 는 subagent 결과를 직접 평가할 수 있음. 검증 서브에이전트는 orchestrator 가 덜 유능하거나, 특수 도구가 필요하거나, 명시적 검증 지점을 강제할 때.</li>
+<li><span class="lead">조건 :</span> orchestrator 가 Opus 4.5 급 이상이다. 검증에 특수 도구가 필요 없다.</li>
+<li><span class="lead">판단 :</span> 유능한 orchestrator 는 subagent 결과를 직접 평가할 수 있다. 검증 서브에이전트는 세 경우에 쓴다. orchestrator 가 덜 유능할 때, 특수 도구가 필요할 때, 명시적 검증 지점을 강제할 때다.</li>
 
 <li><span class="lead">근거 :</span> building-multi-agent-systems</li>
 </ul>
 <h4>4. subagent 수를 늘려야 할 때 — 비용으로 본 경계</h4>
 <ul>
-<li><span class="lead">조건 :</span> 직접 비교 질문(제품 3개 비교)에 subagent 3개 × 도구 12회 = 36회. 같은 질문을 subagent 1개로 돌리면 한 컨텍스트 창에 36회 결과가 쌓임.</li>
-<li><span class="lead">판단 :</span> 규모 규칙은 난도가 정함. 비교 질문은 2~4개가 공식 범위 — 1개로 줄이면 한 컨텍스트 창에 다 쌓이고, 10개로 늘리면 조율 비용만 늘어남.</li>
+<li><span class="lead">조건 :</span> 직접 비교 질문(제품 3개 비교)에 subagent 3개 × 도구 12회 = 36회다. 같은 질문을 subagent 1개로 돌리면 한 컨텍스트 창에 36회 결과가 쌓인다.</li>
+<li><span class="lead">판단 :</span> 규모 규칙은 난도가 정한다. 비교 질문은 2~4개가 공식 범위다. 1개로 줄이면 한 컨텍스트 창에 다 쌓인다. 10개로 늘리면 조율 비용만 늘어난다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(범위) · 36회 예는 새로 고른 것</span></li>
 <li><span class="lead">근거 :</span> multi-agent-research-system</li>
 </ul>
@@ -683,14 +711,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"subagent 지시는 짧게 두고 알아서 판단하게"</td><td data-label="왜 끌리나" role="cell">유능한 모델은 알아서 할 듯</td><td data-label="왜 틀리나" role="cell">한 줄 지시 → 겹침·빈틈 (반도체 예)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"subagent 결과를 전부 orchestrator 대화로 복사"</td><td data-label="왜 끌리나" role="cell">정보 손실이 없을 듯</td><td data-label="왜 틀리나" role="cell">압축이 핵심. 큰 산출물은 파일 + 참조</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"subagent 가 많을수록 철저"</td><td data-label="왜 끌리나" role="cell">병렬 = 철저라는 말</td><td data-label="왜 틀리나" role="cell">단순 사실은 1개. 초기 50개가 실패 사례</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"서브에이전트는 부모 대화를 물려받는다"</td><td data-label="왜 끌리나" role="cell">같은 세션 안이니</td><td data-label="왜 틀리나" role="cell">fork 가 아니면 새 컨텍스트. 받는 건 프롬프트 문자열뿐</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/subagents" lang="en" rel="noopener">agent-sdk-subagents</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"요약 상한은 2천 토큰으로 고정"</td><td data-label="왜 끌리나" role="cell">숫자가 구체적</td><td data-label="왜 틀리나" role="cell">"often" — 경험치</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"서브 정의에 permissionMode 를 적었으니 부모가 bypass 여도 좁혀진다"</td><td data-label="왜 끌리나" role="cell">서브마다 설정이 있으니</td><td data-label="왜 틀리나" role="cell">부모가 bypass 면 서브도 bypass</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk-permissions</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Managed Agents 에선 subagent 가 또 subagent 를 부려 여러 단계로"</td><td data-label="왜 끌리나" role="cell">트리 구조가 자연스러움</td><td data-label="왜 틀리나" role="cell">위임은 1단계만 (명단 가진 에이전트를 참조하면 오류)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/managed-agents/multi-agent" lang="en" rel="noopener">managed-agents multi-agent</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"subagent 수·도구·범위 한도는 강의가 만든 말"</td><td data-label="왜 끌리나" role="cell">공식 표현과 다름</td><td data-label="왜 틀리나" role="cell">공식 규모 규칙(1개·3~10회 등)이 있음. 방향은 같음</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"subagent 지시는 짧게 두고 알아서 판단하게"</td><td data-label="왜 끌리나" role="cell">유능한 모델은 알아서 할 듯하다</td><td data-label="왜 틀리나" role="cell">한 줄 지시면 일이 겹치고 빈틈이 생긴다 (반도체 예)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"subagent 결과를 전부 orchestrator 대화로 복사"</td><td data-label="왜 끌리나" role="cell">정보 손실이 없을 듯하다</td><td data-label="왜 틀리나" role="cell">압축이 핵심이다. 큰 산출물은 파일과 참조로 넘긴다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"subagent 가 많을수록 철저"</td><td data-label="왜 끌리나" role="cell">병렬이 곧 철저라고 느낀다</td><td data-label="왜 틀리나" role="cell">단순 사실은 1개다. 초기의 50개가 실패 사례다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"서브에이전트는 부모 대화를 물려받는다"</td><td data-label="왜 끌리나" role="cell">같은 세션 안이니 그래 보인다</td><td data-label="왜 틀리나" role="cell">fork 가 아니면 새 컨텍스트다. 받는 것은 프롬프트 문자열뿐이다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/subagents" lang="en" rel="noopener">agent-sdk-subagents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"요약 상한은 2천 토큰으로 고정"</td><td data-label="왜 끌리나" role="cell">숫자가 구체적이다</td><td data-label="왜 틀리나" role="cell">"often" 이다. 경험치다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" lang="en" rel="noopener">effective-context-engineering</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"서브 정의에 permissionMode 를 적었으니 부모가 bypass 여도 좁혀진다"</td><td data-label="왜 끌리나" role="cell">서브마다 설정이 있으니 그래 보인다</td><td data-label="왜 틀리나" role="cell">부모가 bypass 면 서브도 bypass 다</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/agent-sdk/permissions" lang="en" rel="noopener">agent-sdk-permissions</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Managed Agents 에선 subagent 가 또 subagent 를 부려 여러 단계로"</td><td data-label="왜 끌리나" role="cell">트리 구조가 자연스럽다</td><td data-label="왜 틀리나" role="cell">위임은 1단계만 된다 (명단 가진 에이전트를 참조하면 오류가 난다)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/managed-agents/multi-agent" lang="en" rel="noopener">managed-agents multi-agent</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"subagent 수·도구·범위 한도는 강의가 만든 말"</td><td data-label="왜 끌리나" role="cell">공식 표현과 다르다</td><td data-label="왜 틀리나" role="cell">공식 규모 규칙(1개·3~10회 등)이 있다. 방향은 같다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/engineering/multi-agent-research-system" lang="en" rel="noopener">multi-agent-research-system</a></td></tr>
   </tbody>
 </table>
 </div>
@@ -698,14 +726,18 @@
   </details>
   <h2 class="sec-h" id="orchestrator-delegation-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>CCA-F</h3>
-      <p>겹칠 수 있음 (Agent SDK 서브에이전트 정의 · 넘기는 건 프롬프트 문자열뿐 · 마지막 메시지만 돌아옴) — 여기선 orchestrator 가 무엇을 적어 주고 · 몇 개 띄우고 · 결과를 어떤 모양으로 받나를 설계로 물음</p>
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="single-vs-multi-agent.html">◆ 단일 vs 멀티 에이전트</a></li>
         <li><a href="observability-signals.html">■ observability 세 신호</a></li>
         <li><a href="integration-options.html">◆ 직접 API vs Agent SDK vs CLI vs Managed Agents</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : CCA-F · 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
+    <h3>CCA-F</h3>
+      <p>겹칠 수 있다 (Agent SDK 서브에이전트 정의 · 넘기는 것은 프롬프트 문자열뿐 · 마지막 메시지만 돌아온다). 여기서는 orchestrator 가 무엇을 적어 주고, 몇 개 띄우고, 결과를 어떤 모양으로 받나를 설계로 묻는다</p>
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 1.4</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -724,12 +756,13 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>목록 1.4② 의 영어 신호 2개("Each subagent needs…", "Scale effort to query complexity.")는 원문에서 찾음 — 이상 없음.</li>
-<li>Agent SDK 서브에이전트 상한(깊이 3 · 동시 20)과 권한 상속 규칙은 Claude Code 버전에 딸린 값(v2.1.219·v2.1.267 이후). 시험(2026-07 기준 가이드)이 이 숫자를 물을지는 모름.</li>
-<li>1.5① 의 "미리 쪼갤 수 있나" 판단(static vs dynamic decomposition · 정적 vs 동적 분해)은 이 카드 밖. 이 카드는 dynamic decomposition 을 하기로 한 뒤 "어떻게 맡기나"만 다룸.</li>
-<li>Skilljar "Introduction to subagents" 과정은 미등록이라 안 읽음.</li>
+<li>목록 1.4② 의 영어 신호 2개("Each subagent needs…", "Scale effort to query complexity.")는 원문에서 찾았다. 이상 없다.</li>
+<li>Agent SDK 서브에이전트 상한(깊이 3 · 동시 20)과 권한 상속 규칙은 Claude Code 버전에 딸린 값이다(v2.1.219·v2.1.267 이후). 시험(2026-07 기준 가이드)이 이 숫자를 물을지는 모른다.</li>
+<li>1.5① 의 "미리 쪼갤 수 있나" 판단(static vs dynamic decomposition · 정적 vs 동적 분해)은 이 카드 밖이다. 이 카드는 dynamic decomposition 을 하기로 한 뒤 "어떻게 맡기나" 만 다룬다.</li>
+<li>Skilljar "Introduction to subagents" 과정은 미등록이라 읽지 않았다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

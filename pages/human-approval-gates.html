@@ -370,9 +370,9 @@
   </div>
   <h2 class="sec-h" id="human-approval-gates-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>사람 승인(human approval)은 행동 개수가 아니라 결과 크기에 건다. 되돌릴 수 없고 파괴적이거나 피해 범위(blast radius)가 남에게 미치는 행동 앞에만 사람 → 나머지는 자동, 사람은 언제든 멈추고 방향을 바꿈</p>
-      <p>행동마다 승인시키면 승인 피로(approval fatigue) — 사람이 뭘 승인하는지 안 봄. Claude Code 수동 권한 프롬프트는 실제로 93% 승인됨 (2026-09-28 조회)</p>
-    <p class="t5-ana"><span class="lead">비유</span> 변경 관리. 표준 변경은 사전 승인 목록으로 자동, 프로덕션 DB 삭제만 CAB 승인. 모든 배포에 승인을 걸면 아무도 안 읽고 도장만 찍음</p>
+      <p>사람 승인(human approval)은 행동 개수가 아니라 결과 크기에 건다. 되돌릴 수 없고 파괴적이거나 피해 범위(blast radius)가 남에게 미치는 행동 앞에만 사람을 세운다. 나머지는 자동으로 둔다. 사람은 언제든 멈추고 방향을 바꾼다</p>
+      <p>행동마다 승인시키면 승인 피로(approval fatigue)가 생긴다. 사람이 무엇을 승인하는지 안 본다. Claude Code 수동 권한 프롬프트는 실제로 93% 승인된다 (2026-09-28 조회)</p>
+    <p class="t5-ana"><span class="lead">비유</span> 변경 관리와 같다. 표준 변경은 사전 승인 목록으로 자동 처리한다. 프로덕션 DB 삭제만 CAB 승인을 받는다. 모든 배포에 승인을 걸면 아무도 안 읽고 도장만 찍는다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/human-approval-gates.webp"><img src="../images/human-approval-gates.webp" alt="사람 승인은 결과 크기에 건다 : 읽기·검색은 승인 없이, 프로젝트 안 파일 편집은 자동, 되돌릴 수 없는 행동만 실행 전 막고 사람에게. 행동마다 승인하면 승인 피로로 93% 그냥 승인한다." loading="lazy" decoding="async"></a>
@@ -399,27 +399,33 @@
 <!-- /vx:figure -->
 <section class="ex-sec" id="principle" aria-labelledby="principle-h">
 <h3 id="principle-h">원리</h3>
-<p class="lead">승인은 공짜가 아님</p>
+<p class="lead">승인은 공짜가 아니다</p>
 <ul>
-<li>승인의 비용 = 사람의 주의력. 게이트가 많을수록 한 건당 주의가 줄어듦 → 승인 피로. 수동 권한 프롬프트 93% 승인.</li>
-<li>그래서 게이트를 늘리면 보호가 늘지 않고 오히려 떨어질 수 있음. 도장만 찍는 승인은 보호가 아님.</li>
+<li>승인의 비용은 사람의 주의력이다. 게이트가 많을수록 한 건당 주의가 준다. 이것이 승인 피로다. 수동 권한 프롬프트는 93% 승인된다.</li>
+<li>그래서 게이트를 늘리면 보호가 늘지 않고 오히려 떨어질 수 있다. 도장만 찍는 승인은 보호가 아니다.</li>
 </ul>
-<p class="lead">어디에 거나 = 틀렸을 때의 비용</p>
+<p class="lead">어디에 걸지는 틀렸을 때의 비용으로 정한다</p>
 <ul>
-<li>되돌릴 수 있나 : 프로젝트 안 편집은 버전 관리로 되돌림 → 자동. force-push·대량 삭제는 못 되돌림 → 막음.</li>
-<li>피해 범위 : 내 것만인가, 공유 자원·남의 작업인가. 남에게 미치면 되돌릴 수 있어도 막음(검토 우회·남에게 영향 묶음).</li>
-<li>신뢰 경계 : 데이터가 밖으로 나가거나 밖의 코드를 들여오면 막음. 기본으로 믿는 건 지금 작업 중인 git repo 뿐.</li>
+<li>되돌릴 수 있나 : 프로젝트 안 편집은 버전 관리로 되돌린다. 그래서 자동이다. force-push·대량 삭제는 못 되돌린다. 그래서 막는다.</li>
+<li>피해 범위 : 내 것만인가, 공유 자원·남의 작업인가? 남에게 미치면 되돌릴 수 있어도 막는다(검토 우회·남에게 영향 묶음).</li>
+<li>신뢰 경계 : 데이터가 밖으로 나가거나 밖의 코드를 들여오면 막는다. 기본으로 믿는 것은 지금 작업 중인 git repo 뿐이다.</li>
 </ul>
-<p class="lead">층으로 거름 (auto mode)</p>
+<p class="lead">층으로 거른다 (auto mode)</p>
 <ul>
-<li>1층 허용 목록(상태 못 바꾸는 도구) → 2층 프로젝트 안 편집 → 3층 분류기(진짜 손해 가능성) → 사람(반복 거부·고위험(high-stakes) 인프라).</li>
-<li>위협 4가지 = 과잉 행동(overeager) · 정직한 실수(피해 범위 오판) · 프롬프트 인젝션 · 목표가 어긋난 모델. 막는 법은 모두 "그 행동을 막기".</li>
-<li>주 표적 = 과잉 행동. 악의 없이 도우려다 사용자가 허락한 선을 넘음 → 겉보기엔 합리적인 문제 해결이라 잡기 어려움.</li>
+<li>층은 아래 순서다.<ul>
+<li>1층 허용 목록(상태 못 바꾸는 도구)</li>
+<li>2층 프로젝트 안 편집</li>
+<li>3층 분류기(진짜 손해 가능성)</li>
+<li>사람(반복 거부·고위험(high-stakes) 인프라)</li>
+</ul>
+</li>
+<li>위협은 4가지다. 과잉 행동(overeager) · 정직한 실수(피해 범위 오판) · 프롬프트 인젝션 · 목표가 어긋난 모델이다. 막는 법은 모두 "그 행동을 막기" 다.</li>
+<li>주 표적은 과잉 행동이다. 악의 없이 도우려다 사용자가 허락한 선을 넘는다. 겉보기엔 합리적인 문제 해결이라 잡기 어렵다.</li>
 </ul>
 <p class="lead">분류기의 약점</p>
 <ul>
-<li>위험을 알아보는 것과 "사용자 동의가 이 행동까지 덮나"를 판정하는 건 다른 일. 놓친 것 대부분이 후자.</li>
-<li>그래서 고위험 인프라는 신중한 사람 검토를 남김.</li>
+<li>위험을 알아보는 것과 "사용자 동의가 이 행동까지 덮나" 를 판정하는 것은 다른 일이다. 놓친 것 대부분이 후자다.</li>
+<li>그래서 고위험 인프라는 신중한 사람 검토를 남긴다.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
@@ -440,19 +446,19 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(읽기·검색)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">승인 없이</p><p>상태를 못 바꾸는 도구 = 허용 목록</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">승인 없이</p><p>상태를 못 바꾸는 도구는 허용 목록에 둔다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>되돌릴 수 있고 내 프로젝트 안인가?<span class="t5-sub">버전 관리로 검토 가능?</span></div>
+          <div class="t5-q" data-p="n5"><span class="t5-hl" aria-hidden="true"></span>되돌릴 수 있고 내 프로젝트 안인가?<span class="t5-sub">버전 관리로 검토할 수 있나?</span></div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>예 <span class="note">(프로젝트 안 파일 편집)</span></span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">자동</p><p>프로젝트 안 파일 편집 = 분류기 없이(버전 관리로 검토)</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">자동</p><p>프로젝트 안 파일 편집은 분류기 없이 자동으로 둔다(버전 관리로 검토)</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(되돌릴 수 없음 · 공유 자원 · 신뢰 경계 밖)</span></span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">실행 전 막고 사람</p><p>되돌릴 수 없고 파괴적이거나 피해가 남에게 미치는 행동 앞에만 사람</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">실행 전에 막고 사람에게</p><p>되돌릴 수 없고 파괴적이거나 피해가 남에게 미치는 행동 앞에만 사람이 선다</p></div>
             </div>
           </div>
         </div>
@@ -466,11 +472,11 @@
       <div class="t5-fork" style="--n:4">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>모든 행동에 승인</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">승인 피로</p><p>수동 확인 93% 승인</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">승인 피로</p><p>수동 확인의 93% 가 승인된다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>권한 확인 전부 끔</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">보호 0</p><p>전부 건너뛰기(유지보수 0·보호 0)</p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>권한 확인을 전부 끈다</span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">보호 0</p><p>전부 건너뛰기다(유지보수 0·보호 0)</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>분류기가 사람 대신</span>
@@ -478,17 +484,17 @@
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">사람 검토 유지</p><p>고위험(high-stakes) 인프라의 신중한 사람 검토를 대신하지 않음</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">사람 검토를 유지한다</p><p>분류기는 고위험(high-stakes) 인프라의 신중한 사람 검토를 대신하지 않는다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(일상 작업)</span></span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">일상 작업이면 맞는 방식</p><p>수동 승인 자리를 모델 분류기가 대신함 — 단 "두 번째 Claude 를 검토자로" 는 목록 5.3① 의 매력적인 오답 (업계 일반 + ④)</p></div>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">일상 작업이면 맞는 방식이다</p><p>목록 5.3① 은 "두 번째 Claude 를 검토자로" 를 매력적인 오답으로 든다 (업계 일반 + ④). 그래도 일상 작업에서는 수동 승인 자리를 모델 분류기가 대신한다</p></div>
             </div>
           </div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n12"><span class="t5-hl" aria-hidden="true"></span>필요 없는 강한 도구에 확인창</span>
-          <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">먼저 빼기</p><p>→ <a href="least-privilege.html">■ 최소 권한</a></p></div>
+          <div class="t5-leaf t5-ans" data-p="n13"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">먼저 뺀다</p><p>자세한 것은 <a href="least-privilege.html">■ 최소 권한</a> 에 있다</p></div>
         </div>
       </div>
     </div>
@@ -500,46 +506,46 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예 <span class="note">(대상까지 명시)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">승인된 것</p><p>사용자가 말한 것만 승인된 것</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">승인된 것</p><p>사용자가 말한 것만 승인된 것이다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(비슷한 말·예전 승인)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">미승인</p><p>에이전트가 스스로 고른 건 사용자가 말하기 전까진 미승인. 한 번 승인했다고 계속 승인한 건 아님</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">미승인</p><p>에이전트가 스스로 고른 것은 사용자가 말하기 전까지 미승인이다. 한 번 승인했다고 계속 승인한 것은 아니다</p></div>
         </div>
       </div>
     </div>
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="human-approval-gates-flow" aria-label="human-in-the-loop 게이트 위치 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["에이전트","분류기","실행","사람"],"blocks":[],"rules":[null,null,null,"되돌릴 수 없고 파괴적이거나 피해가 남에게 미치는 행동 앞에만"],"question":"사람은 어느 행동 앞에 서야 할까?","scenes":[{"name":"① 상태 안 바꾸는 도구","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"어떤 브랜치가 오래됐는지 먼저 볼게요"}},{"kind":"skip","at":1},{"kind":"move","step":"읽기","from":{"col":0},"to":2,"label":"읽기·검색은 허용 목록","art":{"kind":"slip","lines":["`git branch -r`","→ 브랜치 57개"]}},{"kind":"end","label":"상태를 못 바꾸는 도구는 승인 없이"}]},{"name":"② 되돌릴 수 없는 삭제","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["사용자:","\"오래된 브랜치","정리해 줘\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"원격 브랜치 일괄 삭제","art":{"kind":"slip","lines":["`git push origin`","`--delete …`","(브랜치 40개)"]}},{"kind":"mark","step":"막음","at":{"col":1},"label":"되돌릴 수 없고 파괴적 → 차단","art":{"kind":"slip","lines":["차단","지시가 모호","되돌릴 수 없음"]}},{"kind":"move","step":"되돌림","from":{"col":1},"to":0,"label":"거부는 도구 결과로","art":{"kind":"slip","lines":["tool_result:","거부됨 (1번째)","→ 안전한 길 찾기"]}},{"kind":"move","step":"올림","from":{"col":0},"to":3,"label":"연속 3번 또는 총 20번 거부면","art":{"kind":"slip","lines":["연속 3번째 거부","→ 멈춤","사람 확인 대기"]}},{"kind":"end","label":"되돌릴 수 없고 파괴적인 행동 앞에만 사람"}]},{"name":"③ 모든 행동에 승인","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["오늘 행동 200개","(읽기·편집·삭제)"]}},{"kind":"move","step":"요청","from":{"col":0},"to":3,"label":"행동마다 승인 요청","art":{"kind":"slip","lines":["허용할까요?","[예] [아니오]","(오늘 200번째)"]}},{"kind":"mark","step":"도장","at":{"col":3},"label":"수동 확인 93% 승인","art":{"kind":"slip","lines":["예 · 예 · 예 …","93% 그냥 승인"]}},{"kind":"end","label":"승인 피로 — 사람이 뭘 승인하는지 안 봄"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["에이전트","분류기","실행","사람"],"blocks":[],"rules":[null,null,null,"되돌릴 수 없고 파괴적이거나 피해가 남에게 미치는 행동 앞에만 선다"],"question":"사람은 어느 행동 앞에 서야 할까?","scenes":[{"name":"① 상태 안 바꾸는 도구","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"say","text":"어떤 브랜치가 오래됐는지 먼저 볼게요"}},{"kind":"skip","at":1},{"kind":"move","step":"읽기","from":{"col":0},"to":2,"label":"읽기·검색은 허용 목록에 있다","art":{"kind":"slip","lines":["`git branch -r`","→ 브랜치 57개"]}},{"kind":"end","label":"상태를 못 바꾸는 도구는 승인 없이 실행한다"}]},{"name":"② 되돌릴 수 없는 삭제","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["사용자:","\"오래된 브랜치","정리해 줘\""]}},{"kind":"move","step":"요청","from":{"col":0},"to":1,"label":"원격 브랜치를 일괄 삭제하려 한다","art":{"kind":"slip","lines":["`git push origin`","`--delete …`","(브랜치 40개)"]}},{"kind":"mark","step":"막음","at":{"col":1},"label":"되돌릴 수 없고 파괴적이라 막는다","art":{"kind":"slip","lines":["차단","지시가 모호","되돌릴 수 없음"]}},{"kind":"move","step":"되돌림","from":{"col":1},"to":0,"label":"거부는 도구 결과로 돌아간다","art":{"kind":"slip","lines":["tool_result:","거부됨 (1번째)","→ 안전한 길 찾기"]}},{"kind":"move","step":"올림","from":{"col":0},"to":3,"label":"연속 3번 또는 총 20번 거부되면 사람에게 올린다","art":{"kind":"slip","lines":["연속 3번째 거부","→ 멈춤","사람 확인 대기"]}},{"kind":"end","label":"되돌릴 수 없고 파괴적인 행동 앞에만 사람이 선다"}]},{"name":"③ 모든 행동에 승인","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["오늘 행동 200개","(읽기·편집·삭제)"]}},{"kind":"move","step":"요청","from":{"col":0},"to":3,"label":"행동마다 승인을 요청한다","art":{"kind":"slip","lines":["허용할까요?","[예] [아니오]","(오늘 200번째)"]}},{"kind":"mark","step":"도장","at":{"col":3},"label":"수동 확인의 93% 를 승인한다","art":{"kind":"slip","lines":["예 · 예 · 예 …","93% 그냥 승인"]}},{"kind":"end","label":"승인 피로가 생긴다. 사람이 무엇을 승인하는지 안 본다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> 에이전트 → 분류기 → 실행 → 사람</p>
-      <p><span class="lead">규칙 (사람) :</span> 되돌릴 수 없고 파괴적이거나 피해가 남에게 미치는 행동 앞에만</p>
+      <p><span class="lead">규칙 (사람) :</span> 되돌릴 수 없고 파괴적이거나 피해가 남에게 미치는 행동 앞에만 선다</p>
       <p><span class="lead">질문 :</span> 사람은 어느 행동 앞에 서야 할까?</p>
       <p class="lead">① 상태 안 바꾸는 도구 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 에이전트 — 말 : <span class="flx-alt-say">“어떤 브랜치가 오래됐는지 먼저 볼게요”</span></li>
         <li>건너뜀 : 분류기</li>
-        <li>읽기 : 에이전트 → 실행 : 읽기·검색은 허용 목록 — 쪽지 : <span class="flx-alt-slip"><code>git branch -r</code> / → 브랜치 57개</span></li>
-        <li>끝 : 상태를 못 바꾸는 도구는 승인 없이</li>
+        <li>읽기 : 에이전트 → 실행 : 읽기·검색은 허용 목록에 있다 — 쪽지 : <span class="flx-alt-slip"><code>git branch -r</code> / → 브랜치 57개</span></li>
+        <li>끝 : 상태를 못 바꾸는 도구는 승인 없이 실행한다</li>
       </ol>
       <p class="lead">② 되돌릴 수 없는 삭제 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : 에이전트 — 쪽지 : <span class="flx-alt-slip">사용자: / "오래된 브랜치 / 정리해 줘"</span></li>
-        <li>요청 : 에이전트 → 분류기 : 원격 브랜치 일괄 삭제 — 쪽지 : <span class="flx-alt-slip"><code>git push origin</code> / <code>--delete …</code> / (브랜치 40개)</span></li>
-        <li>막음 : 분류기 : 되돌릴 수 없고 파괴적 → 차단 — 쪽지 : <span class="flx-alt-slip">차단 / 지시가 모호 / 되돌릴 수 없음</span></li>
-        <li>되돌림 : 분류기 → 에이전트 : 거부는 도구 결과로 — 쪽지 : <span class="flx-alt-slip">tool_result: / 거부됨 (1번째) / → 안전한 길 찾기</span></li>
-        <li>올림 : 에이전트 → 사람 : 연속 3번 또는 총 20번 거부면 — 쪽지 : <span class="flx-alt-slip">연속 3번째 거부 / → 멈춤 / 사람 확인 대기</span></li>
-        <li>끝 : 되돌릴 수 없고 파괴적인 행동 앞에만 사람</li>
+        <li>요청 : 에이전트 → 분류기 : 원격 브랜치를 일괄 삭제하려 한다 — 쪽지 : <span class="flx-alt-slip"><code>git push origin</code> / <code>--delete …</code> / (브랜치 40개)</span></li>
+        <li>막음 : 분류기 : 되돌릴 수 없고 파괴적이라 막는다 — 쪽지 : <span class="flx-alt-slip">차단 / 지시가 모호 / 되돌릴 수 없음</span></li>
+        <li>되돌림 : 분류기 → 에이전트 : 거부는 도구 결과로 돌아간다 — 쪽지 : <span class="flx-alt-slip">tool_result: / 거부됨 (1번째) / → 안전한 길 찾기</span></li>
+        <li>올림 : 에이전트 → 사람 : 연속 3번 또는 총 20번 거부되면 사람에게 올린다 — 쪽지 : <span class="flx-alt-slip">연속 3번째 거부 / → 멈춤 / 사람 확인 대기</span></li>
+        <li>끝 : 되돌릴 수 없고 파괴적인 행동 앞에만 사람이 선다</li>
       </ol>
       <p class="lead">③ 모든 행동에 승인 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : 에이전트 — 쪽지 : <span class="flx-alt-slip">오늘 행동 200개 / (읽기·편집·삭제)</span></li>
-        <li>요청 : 에이전트 → 사람 : 행동마다 승인 요청 — 쪽지 : <span class="flx-alt-slip">허용할까요? / [예] [아니오] / (오늘 200번째)</span></li>
-        <li>도장 : 사람 : 수동 확인 93% 승인 — 쪽지 : <span class="flx-alt-slip">예 · 예 · 예 … / 93% 그냥 승인</span></li>
-        <li>끝 : 승인 피로 — 사람이 뭘 승인하는지 안 봄</li>
+        <li>요청 : 에이전트 → 사람 : 행동마다 승인을 요청한다 — 쪽지 : <span class="flx-alt-slip">허용할까요? / [예] [아니오] / (오늘 200번째)</span></li>
+        <li>도장 : 사람 : 수동 확인의 93% 를 승인한다 — 쪽지 : <span class="flx-alt-slip">예 · 예 · 예 … / 93% 그냥 승인</span></li>
+        <li>끝 : 승인 피로가 생긴다. 사람이 무엇을 승인하는지 안 본다</li>
       </ol>
     </details>
   </figure>
@@ -548,7 +554,7 @@
       <ol class="how">
         <li id="human-approval-gates-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p><span class="lead">막혔을 때 :</span> 거부는 도구 결과로 돌아가 에이전트가 더 안전한 길을 찾음(우회 금지). 연속 3번 또는 총 20번 거부면 멈추고 사람에게. 헤드리스(<code>claude -p</code>)는 물을 사람이 없어 프로세스 종료 (2026-09-28 조회) <span class="pg">[5.3①]</span> <span class="pg">[7.3②]</span></p>
+            <p><span class="lead">막혔을 때 :</span> 거부는 도구 결과로 돌아간다. 에이전트는 더 안전한 길을 찾는다(우회 금지). 연속 3번 또는 총 20번 거부되면 멈추고 사람에게 올린다. 헤드리스(<code>claude -p</code>)는 물을 사람이 없어 프로세스를 종료한다 (2026-09-28 조회) <span class="pg">[5.3①]</span> <span class="pg">[7.3②]</span></p>
           </div>
         </li>
       </ol>
@@ -557,7 +563,14 @@
       <ol class="how">
         <li id="human-approval-gates-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p class="lead">사람 앞에 세울 행동 = 되돌릴 수 없음 · 파괴적 · 공유 자원·남에게 영향 · 신뢰 경계 밖. 기본 차단 규칙(20개 넘음) 4개 범주 (2026-09-28 조회) <span class="pg">[5.3①]</span></p>
+            <p>사람 앞에 세울 행동은 아래와 같다 (2026-09-28 조회) <span class="pg">[5.3①]</span></p>
+            <ul class="dash">
+              <li>되돌릴 수 없다</li>
+              <li>파괴적이다</li>
+              <li>공유 자원이나 남에게 영향을 준다</li>
+              <li>신뢰 경계 밖이다</li>
+            </ul>
+            <p class="lead">기본 차단 규칙(20개가 넘는다)은 4개 범주로 묶인다</p>
             <div class="tscroll" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">묶음</th><th scope="col" role="columnheader">예</th></tr></thead>
@@ -573,22 +586,40 @@
         </li>
         <li id="human-approval-gates-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p><span class="lead">나머지는 자동 :</span> 상태 못 바꾸는 도구(읽기·검색·코드 탐색) = 허용 목록 · 프로젝트 안 파일 편집 = 분류기 없이(버전 관리로 검토) · 진짜 손해 가능성 있는 행동만 마지막 단계(분류기)로. 사람은 언제든 멈추고 방향을 바꿈 → 자율성 단계는 <a href="smallest-fit.html">■ 가장 작은 맞는 형태</a> <span class="pg">[5.3①]</span> <span class="pg">[7.3②]</span></p>
+            <p>나머지는 자동으로 둔다. 층은 셋이다 <span class="pg">[5.3①]</span> <span class="pg">[7.3②]</span></p>
+            <ul class="dash">
+              <li>상태를 못 바꾸는 도구(읽기·검색·코드 탐색)는 허용 목록에 둔다</li>
+              <li>프로젝트 안 파일 편집은 분류기 없이 둔다(버전 관리로 검토)</li>
+              <li>진짜 손해 가능성이 있는 행동만 마지막 단계(분류기)로 보낸다</li>
+            </ul>
+            <p>자율성 단계는 <a href="smallest-fit.html">■ 가장 작은 맞는 형태</a> 에 있다. 사람은 언제든 멈추고 방향을 바꾼다</p>
           </div>
         </li>
         <li id="human-approval-gates-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">승인 피로 :</span> 행동마다 승인하면 사람이 주의를 잃음. 수동 확인 93% 승인. 선택지 셋 = 샌드박스(안전하지만 유지보수 큼, 네트워크·호스트 접근이 필요하면 격리가 깨짐) · 전부 건너뛰기(<code>--dangerously-skip-permissions</code>, 유지보수 0·보호 0) · 수동 확인(중간) → auto mode = 수동 승인 자리를 모델 분류기가 대신함 <span class="pg">[5.3①]</span> <span class="pg">[5.2①]</span></p>
+            <p><span class="lead">승인 피로 :</span> 행동마다 승인하면 사람이 주의를 잃는다. 수동 확인의 93% 가 승인된다 <span class="pg">[5.3①]</span> <span class="pg">[5.2①]</span></p>
+            <p>선택지는 셋이다</p>
+            <ul class="dash">
+              <li><span class="lead">샌드박스 :</span> 안전하지만 유지보수가 크다. 네트워크·호스트 접근이 필요하면 격리가 깨진다</li>
+              <li>전부 건너뛰기(<code>--dangerously-skip-permissions</code>) : 유지보수 0·보호 0 이다</li>
+              <li><span class="lead">수동 확인 :</span> 중간이다</li>
+            </ul>
+            <p>auto mode 는 수동 승인 자리를 모델 분류기가 대신한다</p>
           </div>
         </li>
         <li id="human-approval-gates-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p><span class="lead">분류기의 한계 :</span> 실제 과잉 행동(overeager)을 17% 놓침 (2026-09-28 조회). 위험은 알아보는데 "그 동의가 이 행동의 피해 범위까지 덮나"를 틀림 → 전부 건너뛰기 대비로는 큰 개선, 모든 행동을 신중히 승인하던 사람 대비로는 후퇴일 수 있음. 고위험 인프라의 신중한 사람 검토를 대신하지 않음 <span class="pg">[5.3①]</span></p>
+            <p><span class="lead">분류기의 한계 :</span> 실제 과잉 행동(overeager)을 17% 놓친다 (2026-09-28 조회). 위험은 알아보지만 "그 동의가 이 행동의 피해 범위까지 덮나" 를 틀린다. 그래서 전부 건너뛰기에 비하면 큰 개선이다. 모든 행동을 신중히 승인하던 사람에 비하면 후퇴일 수 있다. 분류기는 고위험 인프라의 신중한 사람 검토를 대신하지 않는다 <span class="pg">[5.3①]</span></p>
           </div>
         </li>
         <li id="human-approval-gates-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
-            <p><span class="lead">동의 범위 :</span> 사용자가 말한 것만 승인된 것. 에이전트가 스스로 고른 건 사용자가 말하기 전까진 미승인. "브랜치 정리해 줘" ≠ 원격 브랜치 일괄 삭제 허락 · "고칠 수 있어?" = 질문이지 지시 아님 · 한 번 승인은 패턴이 아님</p>
+            <p><span class="lead">동의 범위 :</span> 사용자가 말한 것만 승인된 것이다. 에이전트가 스스로 고른 것은 사용자가 말하기 전까지 미승인이다</p>
+            <ul class="dash">
+              <li>"브랜치 정리해 줘" 는 원격 브랜치 일괄 삭제 허락이 아니다</li>
+              <li>"고칠 수 있어?" 는 질문이지 지시가 아니다</li>
+              <li>한 번 승인은 패턴이 아니다</li>
+            </ul>
           </div>
         </li>
       </ol>
@@ -602,14 +633,14 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">상태를 못 바꾸는 도구(읽기·검색·코드 탐색)</td><td data-label="답" role="cell">승인 없이 (허용 목록)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/auto-mode-config" lang="en" rel="noopener">claude-code-auto-mode</a> "A fixed allowlist includes tools that can’t modify state"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">프로젝트 안 파일 편집</td><td data-label="답" role="cell">분류기 없이 자동, 버전 관리로 검토</td><td data-label="근거" role="cell">같은 글 "in-project edits are reviewable via version control"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">요청이 모호 + 되돌릴 수 없고 파괴적</td><td data-label="답" role="cell">막음</td><td data-label="근거" role="cell">같은 글 "the request was vague, the action irreversible and destructive"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">공유 인프라·남이 만든 자원을 바꿈 · main 직행 · 프로덕션 배포</td><td data-label="답" role="cell">막음</td><td data-label="근거" role="cell">같은 글 (Bypass review or affect others)</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">고위험 인프라</td><td data-label="답" role="cell">신중한 사람 검토 유지(분류기로 대체 안 함)</td><td data-label="근거" role="cell">같은 글</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">비용·지출처럼 큰 결정(예 : 구독 해지) 직전</td><td data-label="답" role="cell">사람 승인(human approval)</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents" lang="en" rel="noopener">safe-trustworthy-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">거부가 연속 3번 또는 총 20번</td><td data-label="답" role="cell">멈추고 사람에게 (헤드리스는 종료)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/auto-mode-config" lang="en" rel="noopener">claude-code-auto-mode</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">역할에 필요 없는 강한 도구</td><td data-label="답" role="cell">확인창 말고 빼기</td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> 정답 B → ■ 최소 권한</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">상태를 못 바꾸는 도구다(읽기·검색·코드 탐색)</td><td data-label="답" role="cell">승인 없이 쓴다 (허용 목록)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/auto-mode-config" lang="en" rel="noopener">claude-code-auto-mode</a> "A fixed allowlist includes tools that can’t modify state"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">프로젝트 안 파일을 편집한다</td><td data-label="답" role="cell">분류기 없이 자동으로 두고, 버전 관리로 검토한다</td><td data-label="근거" role="cell">같은 글 "in-project edits are reviewable via version control"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">요청이 모호하고, 되돌릴 수 없고 파괴적이다</td><td data-label="답" role="cell">막는다</td><td data-label="근거" role="cell">같은 글 "the request was vague, the action irreversible and destructive"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">공유 인프라·남이 만든 자원을 바꾸거나, main 에 직행하거나, 프로덕션에 배포한다</td><td data-label="답" role="cell">막는다</td><td data-label="근거" role="cell">같은 글 (Bypass review or affect others)</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">고위험 인프라다</td><td data-label="답" role="cell">신중한 사람 검토를 유지한다(분류기로 대체하지 않는다)</td><td data-label="근거" role="cell">같은 글</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">비용·지출처럼 큰 결정(예 : 구독 해지) 직전이다</td><td data-label="답" role="cell">사람 승인(human approval)을 받는다</td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents" lang="en" rel="noopener">safe-trustworthy-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">거부가 연속 3번 또는 총 20번이다</td><td data-label="답" role="cell">멈추고 사람에게 올린다 (헤드리스는 종료한다)</td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/auto-mode-config" lang="en" rel="noopener">claude-code-auto-mode</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">역할에 필요 없는 강한 도구다</td><td data-label="답" role="cell">확인창 말고 뺀다</td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> 정답 B · ■ 최소 권한</td></tr>
   </tbody>
 </table>
 </div>
@@ -620,16 +651,16 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">되돌림</td><td data-label="값" role="cell">버전 관리로 되돌림</td><td data-label="답 쪽" role="cell">자동</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">되돌림</td><td data-label="값" role="cell">못 되돌림(이력 덮기·대량 삭제)</td><td data-label="답 쪽" role="cell">막음 → 사람</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 3</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">대상 소유</td><td data-label="값" role="cell">에이전트가 만든 것 / 세션 작업 브랜치</td><td data-label="답 쪽" role="cell">허용 쪽 (예외 규칙)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"> "pushing to the session's working branch"</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">대상 소유</td><td data-label="값" role="cell">공유 자원 · 남이 만든 작업</td><td data-label="답 쪽" role="cell">막음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">사용자 지시</td><td data-label="값" role="cell">대상까지 명시</td><td data-label="답 쪽" role="cell">승인된 것</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">사용자 지시</td><td data-label="값" role="cell">모호("정리해 줘") · 질문("고칠 수 있어?")</td><td data-label="답 쪽" role="cell">미승인</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">비교 기준</td><td data-label="값" role="cell">지금 전부 건너뛰기</td><td data-label="답 쪽" role="cell">auto mode 가 큰 개선</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">비교 기준</td><td data-label="값" role="cell">지금 모든 행동을 신중히 수동 승인</td><td data-label="답 쪽" role="cell">auto mode 는 후퇴일 수 있음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">실행 환경</td><td data-label="값" role="cell">헤드리스(<code>claude -p</code>)·CI</td><td data-label="답 쪽" role="cell">물을 사람 없음 → 거부 누적 시 종료</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
-    <tr role="row"><td data-label="변수" role="cell">승인 건수</td><td data-label="값" role="cell">하루 수백 건</td><td data-label="답 쪽" role="cell">게이트를 줄여 위험 행동에만</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">되돌림</td><td data-label="값" role="cell">버전 관리로 되돌린다</td><td data-label="답 쪽" role="cell">자동</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">되돌림</td><td data-label="값" role="cell">못 되돌린다(이력 덮기·대량 삭제)</td><td data-label="답 쪽" role="cell">막고 사람에게 올린다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 3</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">대상 소유</td><td data-label="값" role="cell">에이전트가 만든 것 / 세션 작업 브랜치</td><td data-label="답 쪽" role="cell">허용 쪽이다 (예외 규칙)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"> "pushing to the session's working branch"</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">대상 소유</td><td data-label="값" role="cell">공유 자원 · 남이 만든 작업</td><td data-label="답 쪽" role="cell">막는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">사용자 지시</td><td data-label="값" role="cell">대상까지 명시했다</td><td data-label="답 쪽" role="cell">승인된 것이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">사용자 지시</td><td data-label="값" role="cell">모호하다("정리해 줘") · 질문이다("고칠 수 있어?")</td><td data-label="답 쪽" role="cell">미승인이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">비교 기준</td><td data-label="값" role="cell">지금 전부 건너뛴다</td><td data-label="답 쪽" role="cell">auto mode 가 큰 개선이다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">비교 기준</td><td data-label="값" role="cell">지금 모든 행동을 신중히 수동 승인한다</td><td data-label="답 쪽" role="cell">auto mode 는 후퇴일 수 있다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">실행 환경</td><td data-label="값" role="cell">헤드리스(<code>claude -p</code>)·CI</td><td data-label="답 쪽" role="cell">물을 사람이 없다. 거부가 쌓이면 종료한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">승인 건수</td><td data-label="값" role="cell">하루 수백 건</td><td data-label="답 쪽" role="cell">게이트를 줄여 위험 행동에만 건다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
   </tbody>
 </table>
 </div>
@@ -645,14 +676,14 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"모든 행동에 사람 승인이 가장 안전" → 승인 피로, 93% 승인</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"승인이 귀찮으니 권한 확인 전부 끔" → 보호 0, 대부분 상황에서 위험</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"분류기(auto mode)가 있으니 고위험 인프라도 사람 없이" → 대신 못 함</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"비슷한 걸 전에 승인했으니 이번도 OK" → 한 번 승인은 패턴이 아님. 그 동의가 이 행동의 피해 범위를 덮는지 봐야</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"필요 없는 환불·삭제 도구를 두고 확인창" (샘플 1 C) → 먼저 빼기 → <a href="least-privilege.html">■ 최소 권한</a></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"두 번째 Claude 를 검토자로" → 목록 5.3① 의 매력적인 오답. 단 공식 auto mode 는 실제로 모델 분류기가 승인을 대신함 → 일상 작업이면 맞는 방식, 고위험이면 사람 (업계 일반 + ④)</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"강제 대기 시간 추가" → 판단 기준(되돌릴 수 있나·피해 범위)을 안 바꿈 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"AUP 의 Human-in-the-loop = 이 게이트" → AUP 쪽 이름은 고위험 용도에서 자격 전문가가 내용·결정을 전달 전에 검토하라는 요구. 이 카드는 되돌리기 어려운 행동 앞 승인 위치 → <a href="aup-high-risk.html">■ AUP 고위험 용도</a></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"모든 행동에 사람 승인을 거는 것이 가장 안전하다" 는 함정이다. 승인 피로가 생겨 93% 가 승인된다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"승인이 귀찮으니 권한 확인을 전부 끈다" 는 함정이다. 보호가 0 이다. 대부분 상황에서 위험하다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"분류기(auto mode)가 있으니 고위험 인프라도 사람 없이 간다" 는 함정이다. 분류기는 사람 검토를 대신하지 못한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"비슷한 걸 전에 승인했으니 이번도 OK" 는 함정이다. 한 번 승인은 패턴이 아니다. 그 동의가 이 행동의 피해 범위를 덮는지 봐야 한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"필요 없는 환불·삭제 도구를 두고 확인창을 띄운다" (샘플 1 C) 는 함정이다. 먼저 뺀다. 자세한 것은 <a href="least-privilege.html">■ 최소 권한</a> 에 있다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"두 번째 Claude 를 검토자로" 는 목록 5.3① 의 매력적인 오답이다. 단 공식 auto mode 는 실제로 모델 분류기가 승인을 대신한다. 그래서 일상 작업이면 맞는 방식이고, 고위험이면 사람이 본다 (업계 일반 + ④)</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"강제 대기 시간 추가" 는 함정이다. 판단 기준(되돌릴 수 있나·피해 범위)을 바꾸지 않는다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"AUP 의 Human-in-the-loop 가 이 게이트다" 는 함정이다. AUP 쪽 이름은 고위험 용도에서 자격 전문가가 내용·결정을 전달 전에 검토하라는 요구다. 이 카드는 되돌리기 어려운 행동 앞의 승인 위치를 다룬다. 자세한 것은 <a href="aup-high-risk.html">■ AUP 고위험 용도</a> 에 있다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -674,28 +705,28 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 되돌릴 수 있는데도 막아야 하는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 백업으로 되돌릴 수 있는 변경이지만, 대상이 팀 공용 스테이징 큐·다른 사람이 만든 예약 작업.</li>
-<li><span class="lead">판단 :</span> 기준은 "되돌림" 하나가 아님. 기본 차단 묶음에 "에이전트가 안 만든 공유 자원·작업 수정" 이 따로 있음 → 되돌릴 수 있어도 남에게 영향이면 막음.</li>
+<li><span class="lead">조건 :</span> 백업으로 되돌릴 수 있는 변경이다. 하지만 대상이 팀 공용 스테이징 큐와 다른 사람이 만든 예약 작업이다.</li>
+<li><span class="lead">판단 :</span> 기준은 "되돌림" 하나가 아니다. 기본 차단 묶음에 "에이전트가 안 만든 공유 자원·작업 수정" 이 따로 있다. 그래서 되돌릴 수 있어도 남에게 영향이면 막는다.</li>
 
 <li><span class="lead">근거 :</span> claude-code-auto-mode</li>
 </ul>
 <h4>2. 되돌릴 수 없어도 사람 없이 가는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 사용자가 "로컬 브랜치 <code>exp-47</code> 지워 줘" 처럼 대상을 명시.</li>
-<li><span class="lead">판단 :</span> 사용자가 말한 것이 승인의 범위. 이름까지 댄 삭제는 에이전트가 고른 행동이 아님 → 이 행동은 동의 범위 안. 반대로 "오래된 브랜치 정리" 는 원격 일괄 삭제까지 포함하지 않음.</li>
+<li><span class="lead">조건 :</span> 사용자가 "로컬 브랜치 <code>exp-47</code> 지워 줘" 처럼 대상을 명시했다.</li>
+<li><span class="lead">판단 :</span> 사용자가 말한 것이 승인의 범위다. 이름까지 댄 삭제는 에이전트가 고른 행동이 아니다. 그래서 이 행동은 동의 범위 안이다. 반대로 "오래된 브랜치 정리" 는 원격 일괄 삭제까지 포함하지 않는다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(원칙) · 분류기가 실제로 어디까지 통과시키는지는</span> <span class="open">미해결</span> <span class="note">4</span></li>
 </ul>
 <h4>3. 하루 800건 행동 — 분류기 vs 사람, 숫자로</h4>
 <ul>
-<li><span class="lead">조건 :</span> 하루 행동 800건 중 진짜 위험한 과잉 행동이 6건이라고 가정.</li>
-<li><span class="lead">계산 :</span> 분류기(전체 파이프라인) 놓침 17% → 6 × 0.17 ≈ 1건/일 통과. 오탐 0.4% → 794 × 0.004 ≈ 3건/일 잘못 막힘, 각각 재시도 1번 비용.</li>
-<li><span class="lead">비교 :</span> 전부 건너뛰기면 6건 전부 통과 → 분류기가 크게 나음. 모든 건을 신중히 보는 사람이면 이론상 0건 → 분류기가 후퇴. 그런데 실제 수동은 93% 승인이라 "신중한 사람" 전제가 무너짐.</li>
-<li><span class="lead">등급 :</span> <span class="calc">계산</span>. 17%·0.4% 는 글의 평가 데이터 값(실제 과잉 행동 n=52, 실제 트래픽 n=10,000)이라 다른 트래픽에 그대로 맞는다는 보장 없음.</li>
+<li><span class="lead">조건 :</span> 하루 행동 800건 중 진짜 위험한 과잉 행동이 6건이라고 가정한다.</li>
+<li><span class="lead">계산 :</span> 분류기(전체 파이프라인)는 17% 를 놓친다. 6 × 0.17 ≈ 1건/일이 통과한다. 오탐은 0.4% 다. 794 × 0.004 ≈ 3건/일이 잘못 막히고, 각각 재시도 1번 비용이 든다.</li>
+<li><span class="lead">비교 :</span> 전부 건너뛰기면 6건이 전부 통과한다. 그래서 분류기가 크게 낫다. 모든 건을 신중히 보는 사람이면 이론상 0건이다. 그래서 분류기가 후퇴다. 그런데 실제 수동은 93% 승인이라 "신중한 사람" 전제가 무너진다.</li>
+<li><span class="lead">등급 :</span> <span class="calc">계산</span>. 17%·0.4% 는 글의 평가 데이터 값이다(실제 과잉 행동 n=52, 실제 트래픽 n=10,000). 그래서 다른 트래픽에 그대로 맞는다는 보장은 없다.</li>
 </ul>
 <h4>4. 무인 파이프라인(헤드리스)</h4>
 <ul>
-<li><span class="lead">조건 :</span> CI 에서 <code>claude -p</code> 로 돌림.</li>
-<li><span class="lead">판단 :</span> 물을 사람이 없어서 거부가 쌓이면 프로세스 종료. 사람 게이트가 필요한 행동(프로덕션 배포 등)은 그 파이프라인에 두지 말고 승인 단계를 따로.</li>
+<li><span class="lead">조건 :</span> CI 에서 <code>claude -p</code> 로 돌린다.</li>
+<li><span class="lead">판단 :</span> 물을 사람이 없어서 거부가 쌓이면 프로세스가 종료된다. 사람 게이트가 필요한 행동(프로덕션 배포 등)은 그 파이프라인에 두지 않는다. 승인 단계를 따로 둔다.</li>
 <li><span class="lead">등급 :</span> 종료 동작은 확인 · 처방은 업계 일반</li>
 </ul>
 </section>
@@ -705,21 +736,23 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"모든 행동에 사람 승인"</td><td data-label="왜 끌리나" role="cell">가장 안전해 보임</td><td data-label="왜 틀리나" role="cell">승인 피로 — 93% 승인, 사람이 안 봄</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">auto-mode</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"권한 확인을 전부 끔"</td><td data-label="왜 끌리나" role="cell">속도·자율성</td><td data-label="왜 틀리나" role="cell">보호 0, 대부분 상황에서 위험</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">auto-mode</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"분류기가 있으니 고위험 인프라도 자동"</td><td data-label="왜 끌리나" role="cell">공식 기능이라 믿음</td><td data-label="왜 틀리나" role="cell">신중한 사람 검토를 대신하지 않음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">auto-mode</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"비슷한 걸 전에 승인했으니 OK"</td><td data-label="왜 끌리나" role="cell">동의의 흔적이 있음</td><td data-label="왜 틀리나" role="cell">한 번 승인은 패턴이 아님 · 동의가 이 행동의 피해 범위를 덮는지 봐야</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">auto-mode</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"필요 없는 강한 도구를 두고 확인창"</td><td data-label="왜 끌리나" role="cell">사람이 막으니 안전해 보임</td><td data-label="왜 틀리나" role="cell">보완 통제(control)일 뿐. 먼저 빼기</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> C 해설</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"승인 빈도가 많으니 승인을 없앰"</td><td data-label="왜 끌리나" role="cell">피로를 줄임</td><td data-label="왜 틀리나" role="cell">빈도는 기준이 아님. 되돌릴 수 없는 행동엔 계속 게이트</td><td data-label="등급" role="cell"><span class="note">(원칙)</span></td><td data-label="근거" role="cell">auto-mode</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"두 번째 Claude 인스턴스를 검토자로"</td><td data-label="왜 끌리나" role="cell">사람 비용 없이 검토</td><td data-label="왜 틀리나" role="cell">고위험 결정이면 오답. 일상 작업이면 공식 auto mode 방식과 같음 → 보기 문맥으로 판단</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">미해결 3</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"강제 대기 시간을 둠"</td><td data-label="왜 끌리나" role="cell">신중해질 것 같음</td><td data-label="왜 틀리나" role="cell">누가 무엇을 보는지를 안 바꿈</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"사람을 아예 뺌"</td><td data-label="왜 끌리나" role="cell">완전 자동화</td><td data-label="왜 틀리나" role="cell">큰 결정 전엔 사람이 통제권을 가짐</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents" lang="en" rel="noopener">safe-trustworthy-agents</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"모든 행동에 사람 승인"</td><td data-label="왜 끌리나" role="cell">가장 안전해 보인다</td><td data-label="왜 틀리나" role="cell">승인 피로가 생긴다. 93% 가 승인되고 사람이 안 본다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">auto-mode</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"권한 확인을 전부 끔"</td><td data-label="왜 끌리나" role="cell">속도·자율성이 끌린다</td><td data-label="왜 틀리나" role="cell">보호가 0 이다. 대부분 상황에서 위험하다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">auto-mode</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"분류기가 있으니 고위험 인프라도 자동"</td><td data-label="왜 끌리나" role="cell">공식 기능이라 믿는다</td><td data-label="왜 틀리나" role="cell">신중한 사람 검토를 대신하지 않는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">auto-mode</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"비슷한 걸 전에 승인했으니 OK"</td><td data-label="왜 끌리나" role="cell">동의의 흔적이 있다</td><td data-label="왜 틀리나" role="cell">한 번 승인은 패턴이 아니다. 동의가 이 행동의 피해 범위를 덮는지 봐야 한다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">auto-mode</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"필요 없는 강한 도구를 두고 확인창"</td><td data-label="왜 끌리나" role="cell">사람이 막으니 안전해 보인다</td><td data-label="왜 틀리나" role="cell">보완 통제(control)일 뿐이다. 먼저 뺀다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 샘플 1</a> C 해설</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"승인 빈도가 많으니 승인을 없앰"</td><td data-label="왜 끌리나" role="cell">피로를 줄일 것 같다</td><td data-label="왜 틀리나" role="cell">빈도는 기준이 아니다. 되돌릴 수 없는 행동에는 계속 게이트를 둔다</td><td data-label="등급" role="cell"><span class="note">(원칙)</span></td><td data-label="근거" role="cell">auto-mode</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"두 번째 Claude 인스턴스를 검토자로"</td><td data-label="왜 끌리나" role="cell">사람 비용 없이 검토한다</td><td data-label="왜 틀리나" role="cell">고위험 결정이면 오답이다. 일상 작업이면 공식 auto mode 방식과 같다. 그래서 보기 문맥으로 판단한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">미해결 3</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"강제 대기 시간을 둠"</td><td data-label="왜 끌리나" role="cell">신중해질 것 같다</td><td data-label="왜 틀리나" role="cell">누가 무엇을 보는지를 바꾸지 않는다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"사람을 아예 뺌"</td><td data-label="왜 끌리나" role="cell">완전 자동화가 끌린다</td><td data-label="왜 틀리나" role="cell">큰 결정 전에는 사람이 통제권을 가진다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents" lang="en" rel="noopener">safe-trustworthy-agents</a></td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="human-approval-gates-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
@@ -736,14 +769,15 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>목록 문구 "빈도가 아니라 결과 크기" 의 '빈도' 는 원문에 없는 말. 원문 기준은 되돌릴 수 없음 · 파괴 · 피해 범위 · 동의 범위 (claude-code-auto-mode).</li>
-<li>목록의 문제 상황 "간호사용 triage 초안 vs 환자에게 가는 알림" 과 "환자에게 가는 알림" 예시는 받아 둔 원문에서 못 찾음(검색어 patient·nurse·triage, en-claude-code-auto-mode · en-safe-trustworthy-agents — 걸린 1건은 보안 이슈 triage, safe-trustworthy-agents).</li>
-<li>목록의 매력적인 오답 "두 번째 Claude 인스턴스를 검토자로" 는 공식 auto mode(모델 분류기가 사람 승인자 대신, "acting as a substitute for a human approver")와 부딪힘. 고위험·일상 중 어느 문맥인지로 갈림.</li>
-<li>명시 지시된 비가역 행동을 분류기가 실제로 통과시키는지 : 원칙만 있고 사례 없음.</li>
-<li>93% · 17% · 0.4% · 3/20 은 날짜 표기 없는 엔지니어링 글 값(분류기 = Sonnet 4.6 시점). 릴리스 노트엔 2026-05-28 "Auto mode 를 더 많은 사용자로 확대" 1줄만 있음(en-release-notes) → 수치가 이후 바뀌었는지 모름.</li>
-<li>목록이 대비한 "샌드박싱 글 '권한 프롬프트 84% 감소'" 는 원문 파일이 없어 확인 안 함. HITL/HOTL 용어는 받은 원문 어디에도 없음(업계 용어).</li>
+<li>목록 문구 "빈도가 아니라 결과 크기" 의 '빈도' 는 원문에 없는 말이다. 원문 기준은 되돌릴 수 없음 · 파괴 · 피해 범위 · 동의 범위다 (claude-code-auto-mode).</li>
+<li>목록의 문제 상황 "간호사용 triage 초안 vs 환자에게 가는 알림" 과 "환자에게 가는 알림" 예시는 받아 둔 원문에서 못 찾았다. 검색어는 patient·nurse·triage, 파일은 en-claude-code-auto-mode · en-safe-trustworthy-agents 다. 걸린 1건은 보안 이슈 triage 였다(safe-trustworthy-agents).</li>
+<li>목록의 매력적인 오답 "두 번째 Claude 인스턴스를 검토자로" 는 공식 auto mode 와 부딪힌다. 공식 auto mode 는 모델 분류기가 사람 승인자를 대신한다( "acting as a substitute for a human approver"). 고위험·일상 중 어느 문맥인지로 갈린다.</li>
+<li>명시 지시된 비가역 행동을 분류기가 실제로 통과시키는지는 모른다. 원칙만 있고 사례는 없다.</li>
+<li>93% · 17% · 0.4% · 3/20 은 날짜 표기 없는 엔지니어링 글 값이다(분류기 = Sonnet 4.6 시점). 릴리스 노트에는 2026-05-28 "Auto mode 를 더 많은 사용자로 확대" 1줄만 있다(en-release-notes). 그래서 수치가 이후 바뀌었는지 모른다.</li>
+<li>목록이 대비한 "샌드박싱 글 '권한 프롬프트 84% 감소'" 는 원문 파일이 없어 확인하지 않았다. HITL/HOTL 용어는 받은 원문 어디에도 없다(업계 용어).</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

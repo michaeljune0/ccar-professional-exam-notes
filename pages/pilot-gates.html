@@ -370,10 +370,21 @@
   </div>
   <h2 class="sec-h" id="pilot-gates-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>단계와 단계 사이의 문(게이트). PoC(고른 사례로 "되나?") → 파일럿(pilot · 실제 트래픽 일부에서 미리 정한 선을 넘나?) → 확장(단계적으로 넓힘). 문마다 들어가는 조건을 **들어가기 전에** 정함 <span class="gen">업계 일반</span> <span class="note">단계 이름·게이트 구성은 Anthropic 문서 없음</span></p>
-      <p>공식에서 가장 가까운 것 : 프로토타입 단계를 지나 운영(production)에서 커지기 시작하면 eval 없이 개발하는 방식이 무너짐 · 프로토타입 → 운영이면 비용이 핵심 설계 제약 · 최종 고른 구성은 전환 전에 트래픽 일부에 shadow 로 <span class="src">(좁은 문맥 — 게이트로 넓힌 건 해석)</span></p>
-      <p>5단계 이름과 되돌아갈 곳은 <a href="lifecycle-loop.html">■ lifecycle 루프</a>, 변경마다 eval 은 <a href="eval-driven-iteration.html">■ 변경마다 eval 다시</a>, 사업 지표 목록은 <a href="impact-metrics.html">■ impact metrics</a>. 여기는 단계 **사이의 문** — 들어가는 조건 · 넓힐 근거 · 새 목적 판정</p>
-    <p class="t5-ana"><span class="lead">비유</span> 카나리 배포 승격 조건 — 오류율·지연 선과 자동 중단 조건을 배포 전에 걸고, 1% → 10% → 50% 로 한 단씩. "스테이징에서 잘 돌았으니 전체 배포" 가 속이는 습관</p>
+      <p>게이트는 단계와 단계 사이의 문이다. 단계는 셋이다.</p>
+      <ul class="dash">
+        <li><span class="lead">PoC :</span> 고른 사례로 "되나?" 를 본다</li>
+        <li>파일럿(pilot) : 실제 트래픽 일부에서 미리 정한 선을 넘는지 본다</li>
+        <li><span class="lead">확장 :</span> 단계적으로 넓힌다</li>
+      </ul>
+      <p>문마다 들어가는 조건을 **들어가기 전에** 정한다 <span class="gen">업계 일반</span> <span class="note">단계 이름·게이트 구성은 Anthropic 문서 없음</span></p>
+      <p>공식 문서에서 가장 가까운 것은 아래다 <span class="note">(좁은 문맥이다. 게이트로 넓힌 것은 해석이다)</span></p>
+      <ul class="dash">
+        <li>프로토타입 단계를 지나 운영(production)에서 커지기 시작하면 eval 없이 개발하는 방식이 무너진다</li>
+        <li>프로토타입에서 운영으로 가면 비용이 핵심 설계 제약이 된다</li>
+        <li>최종 고른 구성은 전환 전에 트래픽 일부에 shadow 로 돌린다</li>
+      </ul>
+      <p>5단계 이름과 되돌아갈 곳은 <a href="lifecycle-loop.html">■ lifecycle 루프</a> 에 있다. 변경마다 eval 은 <a href="eval-driven-iteration.html">■ 변경마다 eval 다시</a> 에 있다. 사업 지표 목록은 <a href="impact-metrics.html">■ impact metrics</a> 에 있다. 여기는 단계 **사이의 문**을 다룬다. 들어가는 조건 · 넓힐 근거 · 새 목적 판정이다</p>
+    <p class="t5-ana"><span class="lead">비유</span> 카나리 배포 승격 조건과 같다. 오류율·지연 선과 자동 중단 조건을 배포 전에 건다. 그리고 1%, 10%, 50% 로 한 단씩 올린다. "스테이징에서 잘 돌았으니 전체 배포" 가 속이는 습관이다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/pilot-gates.webp"><img src="../images/pilot-gates.webp" alt="PoC·파일럿·확장 사이에 문을 두고, 파일럿 전에는 합격선·중단 규칙·결정권자를, 확장 전에는 전·후 지표와 대조군을 갖춘 뒤 한 조각씩 넓힌다." loading="lazy" decoding="async"></a>
@@ -401,33 +412,38 @@
 <!-- /vx:figure -->
 <section class="ex-sec" id="principle" aria-labelledby="principle-h">
 <h3 id="principle-h">원리</h3>
-<p class="lead">세 단계는 묻는 게 다름 (업계 일반 — 단계 정의는 공식 문서 없음)</p>
+<p class="lead">세 단계는 묻는 것이 다르다 (업계 일반 — 단계 정의는 공식 문서 없음)</p>
 <ul>
-<li>PoC : 고른 사례로 "되나?" — 능력의 증거.</li>
-<li>파일럿 : 실제 트래픽 일부 · 좁힌 권한에서 "미리 정한 선을 넘나?" — 가설 검증.</li>
-<li>확장 : 단계적으로 넓히며 "다른 입력에서도 유지되나?".</li>
-<li>공식 근거 : 프로토타입 단계를 지나 운영에서 커지기 시작하면 eval 없이 개발하는 방식이 무너짐 (demystifying-evals). 프로토타입 → 운영이면 비용이 핵심 설계 제약 (optimizing-cost-intelligence).</li>
+<li>PoC : 고른 사례로 "되나?" 를 묻는다. 능력의 증거다.</li>
+<li>파일럿 : 실제 트래픽 일부와 좁힌 권한에서 "미리 정한 선을 넘나?" 를 묻는다. 가설 검증이다.</li>
+<li>확장 : 단계적으로 넓히며 "다른 입력에서도 유지되나?" 를 묻는다.</li>
+<li>공식 근거 : 프로토타입 단계를 지나 운영에서 커지기 시작하면 eval 없이 개발하는 방식이 무너진다 (demystifying-evals). 프로토타입에서 운영으로 가면 비용이 핵심 설계 제약이 된다 (optimizing-cost-intelligence).</li>
 </ul>
 <p class="lead">왜 기준을 먼저 (업계 일반)</p>
 <ul>
-<li>결과를 본 뒤에 기준을 정하면, 기준이 결과에 맞춰짐 → 사후에 판정할 수 없음.</li>
-<li>중단 규칙이 없으면 나쁜 일이 생겨도 "조금만 더" 가 됨.</li>
-<li>결정할 사람이 없으면 모두 의견만 내고 아무도 go/no-go 를 안 냄.</li>
+<li>결과를 본 뒤에 기준을 정하면, 기준이 결과에 맞춰진다. 그래서 사후에 판정할 수 없다.</li>
+<li>중단 규칙이 없으면 나쁜 일이 생겨도 "조금만 더" 가 된다.</li>
+<li>결정할 사람이 없으면 모두 의견만 내고 아무도 go/no-go 를 안 낸다.</li>
 </ul>
 <p class="lead">왜 데모는 측정이 아닌가</p>
 <ul>
-<li>고른 사례는 잘 되는 쪽으로 기울어 있음. 실제 트래픽은 분포가 다름.</li>
-<li>공식 근거 : 트래픽의 대표 표본으로 비교 (thinking-steering-and-cost) · 운영 로그에서 실제 트래픽 비중대로 과제를 뽑음 (optimizing-cost-intelligence) · 자동 eval 도 실사용 패턴과 어긋나면 거짓 확신 (demystifying-evals).</li>
+<li>고른 사례는 잘 되는 쪽으로 기울어 있다. 실제 트래픽은 분포가 다르다.</li>
+<li>공식 근거는 셋이다.<ul>
+<li>트래픽의 대표 표본으로 비교한다 (thinking-steering-and-cost).</li>
+<li>운영 로그에서 실제 트래픽 비중대로 과제를 뽑는다 (optimizing-cost-intelligence).</li>
+<li>자동 eval 도 실사용 패턴과 어긋나면 거짓 확신을 준다 (demystifying-evals).</li>
+</ul>
+</li>
 </ul>
 <p class="lead">왜 단계적으로</p>
 <ul>
-<li>부서·문의 종류마다 입력이 다름 → 한 곳에서 성립한 가정이 다른 곳에서 깨질 수 있음 (업계 일반).</li>
-<li>공식 근거 : 최종 고른 구성은 전환 전에 트래픽 일부에 shadow 로, 전환 뒤에도 eval suite 를 계속 (optimizing-cost-intelligence) · 사용량이 갑자기 늘면 가속 한도로 429 → 트래픽은 조금씩 (rate-limits en-full).</li>
+<li>부서·문의 종류마다 입력이 다르다. 그래서 한 곳에서 성립한 가정이 다른 곳에서 깨질 수 있다 (업계 일반).</li>
+<li>공식 근거 : 최종 고른 구성은 전환 전에 트래픽 일부에 shadow 로 돌린다. 전환 뒤에도 eval suite 를 계속 돌린다 (optimizing-cost-intelligence). 사용량이 갑자기 늘면 가속 한도로 429 가 난다. 그래서 트래픽은 조금씩 올린다 (rate-limits en-full).</li>
 </ul>
 <p class="lead">왜 전·후 + 대조군</p>
 <ul>
-<li>"요청 수·지연·오류율" 은 돌아간다는 증거. 사업이 나아졌다는 증거는 목표 사업 지표의 전·후.</li>
-<li>전·후만 보면 그 사이의 다른 변화(성수기 · 인력 충원)와 구분 못 함 → 대조군(control). 공식 근거 : A/B 는 교란을 통제하고 실사용 결과를 측정 (demystifying-evals) · 기준 모델·이전 버전과 비교 (define-success en-full). 대조군을 확장 근거로 넓힌 건 해석.</li>
+<li>"요청 수·지연·오류율" 은 돌아간다는 증거다. 사업이 나아졌다는 증거는 목표 사업 지표의 전·후다.</li>
+<li>전·후만 보면 그 사이의 다른 변화(성수기 · 인력 충원)와 구분하지 못한다. 그래서 대조군(control)을 둔다. 공식 근거 : A/B 는 교란을 통제하고 실사용 결과를 측정한다 (demystifying-evals). A/B 는 기준 모델·이전 버전과 비교한다 (define-success en-full). 대조군을 확장 근거로 넓힌 것은 해석이다.</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
@@ -448,15 +464,15 @@
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>고른 사례 몇 건 <span class="note">(데모)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">아직 약속 안 함</p><p>고른 데모는 능력의 증거일 뿐 → 대표 표본으로 기준선을 잰 뒤 약속 <span class="gen">업계 일반</span> · 트래픽의 대표 표본을 돌려 비교</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">아직 약속하지 않는다</p><p>고른 데모는 능력의 증거일 뿐이다. 대표 표본으로 기준선을 잰 뒤 약속한다 <span class="gen">업계 일반</span>. 트래픽의 대표 표본을 돌려 비교한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>기준 없이 일단 돌려 봄</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">기준부터</p><p>기준 없이 돈 파일럿은 사후에 판정할 수 없음 — 할인·예산 마감이 있어도 기준을 정한 뒤 다시 <span class="gen">업계 일반</span></p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>기준 없이 일단 돌려 본다</span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">기준부터 정한다</p><p>기준 없이 돈 파일럿은 사후에 판정할 수 없다. 할인·예산 마감이 있어도 기준을 정한 뒤 다시 돌린다 <span class="gen">업계 일반</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>대표 표본 기준선 + 시작 전 기준</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">파일럿으로</p><p>실제 트래픽 일부 · 읽기·초안만 권한 <span class="gen">업계 일반</span> · 기본은 읽기 전용, 바꾸는 행동 전엔 사람 승인 <span class="src">(Claude Code 문맥 — 파일럿 권한으로 넓힌 건 해석)</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">파일럿으로 간다</p><p>실제 트래픽 일부에서 읽기·초안 권한만 준다 <span class="gen">업계 일반</span>. 기본은 읽기 전용이고, 바꾸는 행동 전에는 사람이 승인한다 <span class="src">(Claude Code 문맥이다. 파일럿 권한으로 넓힌 것은 해석이다)</span></p></div>
         </div>
       </div>
     </div>
@@ -468,23 +484,23 @@
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>요청 수 · 지연 · 오류율</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">돌아간다는 증거뿐</p><p>사업 결과가 아님 → 목표 사업 지표의 전·후 + 대조군 <span class="gen">업계 일반</span> → <a href="impact-metrics.html">■ impact metrics</a></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">돌아간다는 증거뿐이다</p><p>사업 결과가 아니다. 목표 사업 지표의 전·후와 대조군을 든다 <span class="gen">업계 일반</span>. 자세한 것은 <a href="impact-metrics.html">■ impact metrics</a> 에 있다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>전 값 없이 후 값만</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">주장일 뿐</p><p>전 값만 있으면 바람일 뿐, 후 값만 있으면 근거 없는 주장 <span class="gen">업계 일반</span></p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">주장일 뿐이다</p><p>전 값만 있으면 바람일 뿐이다. 후 값만 있으면 근거 없는 주장이다 <span class="gen">업계 일반</span></p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>전·후 지표 + 대조군 + 측정 담당자</span>
-          <div class="t5-q" data-p="n7"><span class="t5-hl" aria-hidden="true"></span>한 번에 전부?</div>
+          <div class="t5-q" data-p="n7"><span class="t5-hl" aria-hidden="true"></span>한 번에 전부 넓히나?</div>
           <div class="t5-fork" style="--n:2">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>예</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">단계적으로</p><p>부서·문의 종류 하나 더 → 잰 뒤 다음 <span class="gen">업계 일반</span> · 트래픽은 조금씩 올림</p></div>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">단계적으로 넓힌다</p><p>부서·문의 종류를 하나 더 넓히고, 잰 뒤 다음으로 간다 <span class="gen">업계 일반</span>. 트래픽은 조금씩 올린다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>아니오 <span class="note">(단계적으로)</span></span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">넓힘</p><p>전환 전에 트래픽 일부에 shadow · 전환 뒤에도 eval suite 를 계속</p></div>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">넓힌다</p><p>전환 전에 트래픽 일부에 shadow 로 돌린다. 전환 뒤에도 eval suite 를 계속 돌린다</p></div>
             </div>
           </div>
         </div>
@@ -498,48 +514,48 @@
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>같은 목적, 품질·비용 개선</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">반복 안에서</p><p>반복(iteration)은 설계로 돌아감 → <a href="lifecycle-loop.html">■ lifecycle 루프</a></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">반복 안에서 다룬다</p><p>반복(iteration)은 설계로 돌아간다. 자세한 것은 <a href="lifecycle-loop.html">■ lifecycle 루프</a> 에 있다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>목적이 바뀜 <span class="note">(안내 → 결정 통지)</span></span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">새 use case</p><p>서비스가 건강해도 새 use case — 결정권자 · 기준선 · 제약부터 다시 <span class="gen">업계 일반</span> → <a href="discovery-outputs.html">■ discovery 산출물</a></p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>목적이 바뀐다 <span class="note">(안내 → 결정 통지)</span></span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">새 use case 다</p><p>서비스가 건강해도 새 use case 다. 결정권자 · 기준선 · 제약부터 다시 정한다 <span class="gen">업계 일반</span>. 자세한 것은 <a href="discovery-outputs.html">■ discovery 산출물</a> 에 있다</p></div>
         </div>
       </div>
     </div>
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="pilot-gates-flow" aria-label="PoC → 파일럿 → 확장 게이트 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["PoC","게이트","파일럿","확장"],"blocks":[],"rules":[null,"합격선 · 중단 규칙 · 결정할 사람을 시작 전에",null,null],"question":"이 결과로 넓혀도 될까?","scenes":[{"name":"① 기준 먼저 → 단계적 확장","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["고른 문의 12건","12건 정답"]}},{"kind":"move","step":"기준","from":{"col":0},"to":1,"label":"시작 전에 정함","art":{"kind":"slip","lines":["합격: 처리 8분↓","중단: 오안내 1건","결정: 지원본부장"]}},{"kind":"move","step":"파일럿","from":{"col":1},"to":2,"label":"실제 트래픽 일부 · 초안만","art":{"kind":"slip","lines":["반품 문의 10%","상담원 확인 뒤","발송"]}},{"kind":"move","step":"근거","from":{"col":2},"to":3,"label":"전·후 지표 + 대조군","art":{"kind":"slip","lines":["처리 14분 → 8분","대조군 13분","측정: 운영팀장"]}},{"kind":"end","label":"확장 근거 = 전·후 지표 + 대조군 + 측정 담당자 — 넓힐 땐 단계적으로"}]},{"name":"② 데모로 바로 확장","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["고른 문의 12건","12건 정답"]}},{"kind":"skip","at":1},{"kind":"skip","at":2},{"kind":"move","step":"약속","from":{"col":0},"to":3,"label":"고른 사례 정확도를 약속으로 ≠","art":{"kind":"say","text":"정확도 100% 예요."}},{"kind":"mark","step":"틀림","at":{"col":3},"label":"실제 입력 분포","art":{"kind":"slip","lines":["전국 실제 문의","정답 81%"]}},{"kind":"end","label":"고른 데모는 능력의 증거일 뿐 — 대표 표본으로 기준선을 잰 뒤 약속"}]},{"name":"③ 기준 없이 돈 파일럿","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["고른 문의 12건","12건 정답"]}},{"kind":"skip","at":1},{"kind":"move","step":"파일럿","from":{"col":0},"to":2,"label":"기준 없이 시작","art":{"kind":"slip","lines":["반품 문의 10%","합격선: 없음"]}},{"kind":"move","step":"판정","from":{"col":2},"to":3,"label":"사후에 판정할 수 없음 ≠","art":{"kind":"say","text":"좋았던 것 같은데요…"}},{"kind":"end","label":"기준 없이 돈 파일럿은 사후에 판정할 수 없음 — 기준을 정한 뒤 다시 돌림"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["PoC","게이트","파일럿","확장"],"blocks":[],"rules":[null,"합격선 · 중단 규칙 · 결정할 사람을 시작 전에",null,null],"question":"이 결과로 넓혀도 될까?","scenes":[{"name":"① 기준 먼저, 그다음 단계적 확장","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["고른 문의 12건","12건 정답"]}},{"kind":"move","step":"기준","from":{"col":0},"to":1,"label":"시작 전에 정한다","art":{"kind":"slip","lines":["합격: 처리 8분↓","중단: 오안내 1건","결정: 지원본부장"]}},{"kind":"move","step":"파일럿","from":{"col":1},"to":2,"label":"실제 트래픽 일부에 초안만 쓴다","art":{"kind":"slip","lines":["반품 문의 10%","상담원 확인 뒤","발송"]}},{"kind":"move","step":"근거","from":{"col":2},"to":3,"label":"전·후 지표와 대조군을 든다","art":{"kind":"slip","lines":["처리 14분 → 8분","대조군 13분","측정: 운영팀장"]}},{"kind":"end","label":"확장 근거는 전·후 지표, 대조군, 측정 담당자다. 넓힐 때는 단계적으로 넓힌다"}]},{"name":"② 데모로 바로 확장","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["고른 문의 12건","12건 정답"]}},{"kind":"skip","at":1},{"kind":"skip","at":2},{"kind":"move","step":"약속","from":{"col":0},"to":3,"label":"고른 사례 정확도를 약속한다 ≠","art":{"kind":"say","text":"정확도 100% 예요."}},{"kind":"mark","step":"틀림","at":{"col":3},"label":"실제 입력 분포를 만난다","art":{"kind":"slip","lines":["전국 실제 문의","정답 81%"]}},{"kind":"end","label":"고른 데모는 능력의 증거일 뿐이다. 대표 표본으로 기준선을 잰 뒤 약속한다"}]},{"name":"③ 기준 없이 돈 파일럿","verdict":"ng","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["고른 문의 12건","12건 정답"]}},{"kind":"skip","at":1},{"kind":"move","step":"파일럿","from":{"col":0},"to":2,"label":"기준 없이 시작한다","art":{"kind":"slip","lines":["반품 문의 10%","합격선: 없음"]}},{"kind":"move","step":"판정","from":{"col":2},"to":3,"label":"사후에 판정할 수 없다 ≠","art":{"kind":"say","text":"좋았던 것 같은데요…"}},{"kind":"end","label":"기준 없이 돈 파일럿은 사후에 판정할 수 없다. 기준을 정한 뒤 다시 돌린다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
       <p><span class="lead">칸 :</span> PoC → 게이트 → 파일럿 → 확장</p>
       <p><span class="lead">규칙 (게이트) :</span> 합격선 · 중단 규칙 · 결정할 사람을 시작 전에</p>
       <p><span class="lead">질문 :</span> 이 결과로 넓혀도 될까?</p>
-      <p class="lead">① 기준 먼저 → 단계적 확장 <span class="fl-v is-ok">✓</span></p>
+      <p class="lead">① 기준 먼저, 그다음 단계적 확장 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : PoC — 쪽지 : <span class="flx-alt-slip">고른 문의 12건 / 12건 정답</span></li>
-        <li>기준 : PoC → 게이트 : 시작 전에 정함 — 쪽지 : <span class="flx-alt-slip">합격: 처리 8분↓ / 중단: 오안내 1건 / 결정: 지원본부장</span></li>
-        <li>파일럿 : 게이트 → 파일럿 : 실제 트래픽 일부 · 초안만 — 쪽지 : <span class="flx-alt-slip">반품 문의 10% / 상담원 확인 뒤 / 발송</span></li>
-        <li>근거 : 파일럿 → 확장 : 전·후 지표 + 대조군 — 쪽지 : <span class="flx-alt-slip">처리 14분 → 8분 / 대조군 13분 / 측정: 운영팀장</span></li>
-        <li>끝 : 확장 근거 = 전·후 지표 + 대조군 + 측정 담당자 — 넓힐 땐 단계적으로</li>
+        <li>기준 : PoC → 게이트 : 시작 전에 정한다 — 쪽지 : <span class="flx-alt-slip">합격: 처리 8분↓ / 중단: 오안내 1건 / 결정: 지원본부장</span></li>
+        <li>파일럿 : 게이트 → 파일럿 : 실제 트래픽 일부에 초안만 쓴다 — 쪽지 : <span class="flx-alt-slip">반품 문의 10% / 상담원 확인 뒤 / 발송</span></li>
+        <li>근거 : 파일럿 → 확장 : 전·후 지표와 대조군을 든다 — 쪽지 : <span class="flx-alt-slip">처리 14분 → 8분 / 대조군 13분 / 측정: 운영팀장</span></li>
+        <li>끝 : 확장 근거는 전·후 지표, 대조군, 측정 담당자다. 넓힐 때는 단계적으로 넓힌다</li>
       </ol>
       <p class="lead">② 데모로 바로 확장 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : PoC — 쪽지 : <span class="flx-alt-slip">고른 문의 12건 / 12건 정답</span></li>
         <li>건너뜀 : 게이트</li>
         <li>건너뜀 : 파일럿</li>
-        <li>약속 : PoC → 확장 : 고른 사례 정확도를 약속으로 ≠ — 말 : <span class="flx-alt-say">“정확도 100% 예요.”</span></li>
-        <li>틀림 : 확장 : 실제 입력 분포 — 쪽지 : <span class="flx-alt-slip">전국 실제 문의 / 정답 81%</span></li>
-        <li>끝 : 고른 데모는 능력의 증거일 뿐 — 대표 표본으로 기준선을 잰 뒤 약속</li>
+        <li>약속 : PoC → 확장 : 고른 사례 정확도를 약속한다 ≠ — 말 : <span class="flx-alt-say">“정확도 100% 예요.”</span></li>
+        <li>틀림 : 확장 : 실제 입력 분포를 만난다 — 쪽지 : <span class="flx-alt-slip">전국 실제 문의 / 정답 81%</span></li>
+        <li>끝 : 고른 데모는 능력의 증거일 뿐이다. 대표 표본으로 기준선을 잰 뒤 약속한다</li>
       </ol>
       <p class="lead">③ 기준 없이 돈 파일럿 <span class="fl-v is-ng">≠</span></p>
       <ol>
         <li>시작 : PoC — 쪽지 : <span class="flx-alt-slip">고른 문의 12건 / 12건 정답</span></li>
         <li>건너뜀 : 게이트</li>
-        <li>파일럿 : PoC → 파일럿 : 기준 없이 시작 — 쪽지 : <span class="flx-alt-slip">반품 문의 10% / 합격선: 없음</span></li>
-        <li>판정 : 파일럿 → 확장 : 사후에 판정할 수 없음 ≠ — 말 : <span class="flx-alt-say">“좋았던 것 같은데요…”</span></li>
-        <li>끝 : 기준 없이 돈 파일럿은 사후에 판정할 수 없음 — 기준을 정한 뒤 다시 돌림</li>
+        <li>파일럿 : PoC → 파일럿 : 기준 없이 시작한다 — 쪽지 : <span class="flx-alt-slip">반품 문의 10% / 합격선: 없음</span></li>
+        <li>판정 : 파일럿 → 확장 : 사후에 판정할 수 없다 ≠ — 말 : <span class="flx-alt-say">“좋았던 것 같은데요…”</span></li>
+        <li>끝 : 기준 없이 돈 파일럿은 사후에 판정할 수 없다. 기준을 정한 뒤 다시 돌린다</li>
       </ol>
     </details>
   </figure>
@@ -549,48 +565,75 @@
       <ol class="how">
         <li id="pilot-gates-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p>세 단계는 묻는 게 다름 : PoC = 고른 사례로 "되나?" · 파일럿 = 실제 트래픽 일부 · 좁힌 권한에서 미리 정한 선을 넘나? · 운영 = 전체 <span class="gen">업계 일반</span> <span class="note">단계 정의는 공식 문서 없음</span> <span class="pg">[6.5]</span></p>
-            <p><span class="lead">공식 근거 :</span> 수동 테스트·dogfooding·직감으로도 꽤 가지만, 프로토타입 단계를 지나 운영에서 커지기 시작하면 eval 없이 개발하는 방식이 무너짐 · 테스트 운영 환경에 배포해 eval 을 돌리기 전엔 프롬프트가 얼마나 잘 되는지 알기 어려움 <span class="src">(고객지원 가이드)</span></p>
+            <p>세 단계는 묻는 것이 다르다 <span class="gen">업계 일반</span> <span class="note">단계 정의는 공식 문서 없음</span> <span class="pg">[6.5]</span></p>
+            <ul class="dash">
+              <li><span class="lead">PoC :</span> 고른 사례로 "되나?" 를 묻는다</li>
+              <li><span class="lead">파일럿 :</span> 실제 트래픽 일부와 좁힌 권한에서 미리 정한 선을 넘나?</li>
+              <li><span class="lead">운영 :</span> 전체에 적용한다</li>
+            </ul>
+            <p><span class="lead">공식 근거 :</span> 수동 테스트·dogfooding·직감으로도 꽤 간다. 그러나 프로토타입 단계를 지나 운영에서 커지기 시작하면 eval 없이 개발하는 방식이 무너진다</p>
+            <p>테스트 운영 환경에 배포해 eval 을 돌리기 전에는 프롬프트가 얼마나 잘 되는지 알기 어렵다 <span class="src">(고객지원 가이드)</span></p>
           </div>
         </li>
         <li id="pilot-gates-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p>파일럿 게이트 = 시작 전에 정함 : 합격선(예 반품 한 건 처리 시간 · 상담원 수정률) · 중단 규칙(예 규정과 다른 환불 안내 1건이면 정지) · go/no-go 를 내릴 지정된 한 사람과 나머지의 발언권 · 권한 경계(읽기·초안만) · 검토 피드백 받는 모양 <span class="gen">업계 일반</span> <span class="pg">[6.5]</span> <span class="pg">[6.3①]</span></p>
-            <p>기준 없이 돈 파일럿은 사후에 판정할 수 없음 → 할인·예산 마감이 있어도 기준을 정한 뒤 다시 돌림 <span class="gen">업계 일반</span></p>
-            <p><span class="lead">권한 :</span> 기본은 읽기 전용, 코드·시스템을 바꾸는 행동 전엔 사람 승인 (Claude Code 문맥 — 파일럿 권한으로 넓힌 건 해석) → <a href="human-approval-gates.html">■ human-in-the-loop 게이트 위치</a></p>
-            <p>합격선 문장 모양 → <a href="success-criteria.html">■ 성공 기준</a> · 결정권자 한 명 → <a href="discovery-outputs.html">■ discovery 산출물</a></p>
-            <p><span class="lead">반대 쪽 :</span> 모델 벤치마크 세부 · 확정 SLA 문구 · on-call 순번은 뒤 게이트의 일 — 파일럿 전에 다 요구하지 않음 <span class="gen">업계 일반</span> → SLA 는 <a href="sla-clause.html">■ SLA 조항 쓰기</a></p>
+            <p>파일럿 게이트 = 시작 전에 정한다 : 아래 다섯 가지를 정한다 <span class="gen">업계 일반</span> <span class="pg">[6.5]</span> <span class="pg">[6.3①]</span></p>
+            <ul class="dash">
+              <li><span class="lead">합격선 :</span> 예 반품 한 건 처리 시간 · 상담원 수정률</li>
+              <li><span class="lead">중단 규칙 :</span> 예 규정과 다른 환불 안내 1건이면 정지</li>
+              <li>go/no-go 를 내릴 지정된 한 사람과 나머지의 발언권</li>
+              <li><span class="lead">권한 경계 :</span> 읽기·초안만</li>
+              <li>검토 피드백 받는 모양</li>
+            </ul>
+            <p>기준 없이 돈 파일럿은 사후에 판정할 수 없다. 할인·예산 마감이 있어도 기준을 정한 뒤 다시 돌린다 <span class="gen">업계 일반</span></p>
+            <p><span class="lead">권한 :</span> 기본은 읽기 전용이다. 코드·시스템을 바꾸는 행동 전에는 사람이 승인한다 <span class="src">(Claude Code 문맥이다. 파일럿 권한으로 넓힌 것은 해석이다)</span></p>
+            <p>자세한 것은 <a href="human-approval-gates.html">■ human-in-the-loop 게이트 위치</a> 에 있다</p>
+            <p>합격선 문장 모양은 <a href="success-criteria.html">■ 성공 기준</a> 에 있다. 결정권자 한 명은 <a href="discovery-outputs.html">■ discovery 산출물</a> 에 있다</p>
+            <p><span class="lead">반대 쪽 :</span> 모델 벤치마크 세부 · 확정 SLA 문구 · on-call 순번은 뒤 게이트의 일이다. 파일럿 전에 다 요구하지 않는다 <span class="gen">업계 일반</span>. SLA 는 <a href="sla-clause.html">■ SLA 조항 쓰기</a> 에 있다</p>
           </div>
         </li>
         <li id="pilot-gates-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
-            <p><span class="lead">고른 데모 ≠ 측정 :</span> 고른 사례 몇 건의 정확도는 "되나" 의 증거일 뿐 → 대표 표본으로 기준선을 잰 뒤 약속 <span class="gen">업계 일반</span> <span class="note">원리는 아래</span> <span class="pg">[6.5]</span> <span class="pg">[6.3①]</span></p>
-            <p><span class="lead">공식 근거 :</span> 트래픽의 대표 표본을 돌려 비교 (thinking 조정 문맥) · 운영 로그에서 실제 트래픽 비중대로 과제를 뽑음 (비용 최적화 문맥) · 자동 eval 은 실사용 패턴과 어긋나면 거짓 확신 · 몇 번 해 보고 코너 케이스 한두 개 고치는 것도 사용자의 예상 밖 입력엔 모자람 (Skilljar) → "데모에서 잘 됨" 함정 본편 = <a href="eval-driven-iteration.html">■ 변경마다 eval 다시</a></p>
-            <p>파일럿 성공 = 가설 검증이지 운영 검증이 아님 → 넓히기 전에 먼저 물을 것 = "작은 규모에서 성립한 어떤 가정이 큰 규모에서 깨지나"(입력 분포 · 엣지 케이스 · 지원 부담 · 비용). 라이선스 · 교육 일정은 그 뒤 <span class="gen">업계 일반</span></p>
-            <p><span class="lead">공식 근거 :</span> 운영 모니터링은 출시 뒤 분포 변화 · 예상 못 한 실패를 잡음 → <a href="eval-layers.html">■ 검증 층</a></p>
+            <p><span class="lead">고른 데모 ≠ 측정 :</span> 고른 사례 몇 건의 정확도는 "되나" 의 증거일 뿐이다. 대표 표본으로 기준선을 잰 뒤 약속한다 <span class="gen">업계 일반</span> <span class="note">원리는 아래</span> <span class="pg">[6.5]</span> <span class="pg">[6.3①]</span></p>
+            <p>공식 근거는 아래다</p>
+            <ul class="dash">
+              <li>트래픽의 대표 표본을 돌려 비교한다 <span class="src">(<a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking" lang="en" rel="noopener">thinking</a> 조정 문맥)</span></li>
+              <li>운영 로그에서 실제 트래픽 비중대로 과제를 뽑는다 <span class="src">(비용 최적화 문맥)</span></li>
+              <li>자동 eval 은 실사용 패턴과 어긋나면 거짓 확신을 준다</li>
+              <li>몇 번 해 보고 코너 케이스 한두 개 고치는 것도 사용자의 예상 밖 입력에는 모자라다 <span class="src">(Skilljar)</span></li>
+            </ul>
+            <p>"데모에서 잘 됨" 함정의 본편은 <a href="eval-driven-iteration.html">■ 변경마다 eval 다시</a> 에 있다</p>
+            <p>파일럿 성공은 가설 검증이지 운영 검증이 아니다. 그래서 넓히기 전에 먼저 묻는다. "작은 규모에서 성립한 어떤 가정이 큰 규모에서 깨지나?"(입력 분포 · 엣지 케이스 · 지원 부담 · 비용). 라이선스 · 교육 일정은 그 뒤다 <span class="gen">업계 일반</span></p>
+            <p><span class="lead">공식 근거 :</span> 운영 모니터링은 출시 뒤 분포 변화와 예상 못 한 실패를 잡는다. 자세한 것은 <a href="eval-layers.html">■ 검증 층</a> 에 있다</p>
           </div>
         </li>
         <li id="pilot-gates-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p><span class="lead">넓히기는 단계적으로 :</span> 부서·문의 종류 하나 더 → 다른 입력 분포에서 정확도·지연이 유지되나 잰 뒤 다음 <span class="gen">업계 일반</span> <span class="pg">[6.5]</span></p>
-            <p><span class="lead">공식 근거 :</span> 최종 고른 구성은 전환 전에 트래픽 일부에 shadow 로 돌리고, 전환 뒤에도 eval suite 를 계속 (모델 구성 고르기 문맥) · 사용량이 갑자기 늘면 acceleration limit(가속 한도)으로 429 — 트래픽은 조금씩 올림 → <a href="api-errors.html">■ API 오류별 대응</a> · 구버전·신버전 함께 트래픽 조금씩 → <a href="agent-resilience.html">■ 에이전트 상태·실패·배포</a></p>
-            <p>되돌리기 어려운 결정(사람 검토 팀 해체 · 옛 시스템 폐기)은 단계적으로 줄이고, 지금 합의한 정지 선으로 되돌릴 길을 남김. "기준 통과했으니 예정대로 한 번에" 는 되돌리는 비용을 숨김 <span class="gen">업계 일반</span></p>
-            <p>비용은 운영 볼륨으로, 첫 청구서 전에 : 프로토타입 → 운영이면 비용이 핵심 설계 제약 · 가장 좋은 모델이 규모에선 너무 비쌀 수 있음 · 지출 임계값 알림 → 전체 월 문의량으로 다시 셈 · 캐싱·모델 조합·알림 설정(무엇을 언제 울릴지)을 넓히기 전에 말함 <span class="gen">업계 일반</span> → <a href="cost-per-request.html">■ per-request cost</a> · <a href="optimization-levers.html">■ 최적화 lever 하나 고르기</a></p>
+            <p><span class="lead">넓히기는 단계적으로 :</span> 부서·문의 종류를 하나 더 넓힌다. 다른 입력 분포에서 정확도·지연이 유지되는지 잰 뒤 다음으로 간다 <span class="gen">업계 일반</span> <span class="pg">[6.5]</span></p>
+            <p><span class="lead">공식 근거 :</span> 최종 고른 구성은 전환 전에 트래픽 일부에 shadow 로 돌린다. 전환 뒤에도 eval suite 를 계속 돌린다 <span class="src">(모델 구성 고르기 문맥)</span></p>
+            <p>사용량이 갑자기 늘면 acceleration limit(가속 한도)으로 429 가 난다. 그래서 트래픽은 조금씩 올린다. 자세한 것은 <a href="api-errors.html">■ API 오류별 대응</a> 에 있다</p>
+            <p>구버전·신버전을 함께 돌리며 트래픽을 조금씩 옮기는 방법은 <a href="agent-resilience.html">■ 에이전트 상태·실패·배포</a> 에 있다</p>
+            <p>되돌리기 어려운 결정(사람 검토 팀 해체 · 옛 시스템 폐기)은 단계적으로 줄인다. 지금 합의한 정지 선으로 되돌릴 길을 남긴다. "기준 통과했으니 예정대로 한 번에" 는 되돌리는 비용을 숨긴다 <span class="gen">업계 일반</span></p>
+            <p>비용은 운영 볼륨으로, 첫 청구서 전에 본다. 프로토타입에서 운영으로 가면 비용이 핵심 설계 제약이 된다. 가장 좋은 모델이 규모에서는 너무 비쌀 수 있다. 지출 임계값 알림을 건다</p>
+            <p>그래서 전체 월 문의량으로 다시 센다. 캐싱·모델 조합·알림 설정(무엇을 언제 울릴지)을 넓히기 전에 말한다 <span class="gen">업계 일반</span>. 자세한 것은 <a href="cost-per-request.html">■ per-request cost</a> · <a href="optimization-levers.html">■ 최적화 lever 하나 고르기</a> 에 있다</p>
           </div>
         </li>
         <li id="pilot-gates-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p>넓힐 근거 = 목표 사업 지표의 전·후(같은 방법으로 측정) + 대조군(control) + 측정 담당자 <span class="gen">업계 일반</span> <span class="pg">[6.5]</span> <span class="pg">[1.6②]</span></p>
-            <p>요청 수 · 지연 · 오류율 = 돌아간다는 증거뿐, 사업 결과가 아님 <span class="gen">업계 일반</span> → 사업 지표 목록(AHT · deflection · CSAT)은 <a href="impact-metrics.html">■ impact metrics</a></p>
-            <p><span class="lead">공식 근거 :</span> A/B = 실제 사용자 결과(유지율 · 과제 완료율)를 재고 교란을 통제 · A/B 는 기준 모델·이전 버전과 비교 → 대조군 없는 전·후 비교는 그 사이 다른 변화(성수기 · 인력)와 구분 못 함 (해석) → <a href="eval-layers.html">■ 검증 층</a></p>
-            <p>전 값만 있으면 바람일 뿐, 후 값만 있으면 근거 없는 주장 <span class="gen">업계 일반</span> · 후 값에 운영 시간이 모자라면 측정 시점을 마일스톤으로 잡고 담당자·대조군 기록부터 <span class="gen">업계 일반</span></p>
+            <p><span class="lead">넓힐 근거 :</span> 목표 사업 지표의 전·후(같은 방법으로 측정), 대조군(control), 측정 담당자를 든다 <span class="gen">업계 일반</span> <span class="pg">[6.5]</span> <span class="pg">[1.6②]</span></p>
+            <p>요청 수 · 지연 · 오류율은 돌아간다는 증거일 뿐이다. 사업 결과가 아니다 <span class="gen">업계 일반</span>. 사업 지표 목록(AHT · deflection · CSAT)은 <a href="impact-metrics.html">■ impact metrics</a> 에 있다</p>
+            <p><span class="lead">공식 근거 :</span> A/B 는 실제 사용자 결과(유지율 · 과제 완료율)를 재고 교란을 통제한다. A/B 는 기준 모델·이전 버전과 비교한다</p>
+            <p>그래서 대조군 없는 전·후 비교는 그 사이 다른 변화(성수기 · 인력)와 구분하지 못한다 (해석). 자세한 것은 <a href="eval-layers.html">■ 검증 층</a> 에 있다</p>
+            <p>전 값만 있으면 바람일 뿐이다. 후 값만 있으면 근거 없는 주장이다 <span class="gen">업계 일반</span>. 후 값에 운영 시간이 모자라면 측정 시점을 마일스톤으로 잡고 담당자·대조군 기록부터 남긴다 <span class="gen">업계 일반</span></p>
           </div>
         </li>
         <li id="pilot-gates-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
-            <p>새 목적 = 새 use case : 서비스가 건강해도 목적이 바뀌면(배송 안내 → 환불 승인 여부 결정 · 문의 요약 → 상담원 순위 매기기) 반복이 아니라 새 use case → 결정권자 · 기준선 · 제약부터 다시 <span class="gen">업계 일반</span> <span class="pg">[6.5]</span> <span class="pg">[6.1①]</span></p>
-            <p>전면 거절도, 기존 릴리스 절차로 밀어 넣기도 아님 — 다시 범위를 잡음 <span class="gen">업계 일반</span> → <a href="discovery-outputs.html">■ discovery 산출물</a> · 요구가 바뀐 증거 → discovery 는 <a href="lifecycle-loop.html">■ lifecycle 루프</a> <span class="rule-ref">· <a href="lifecycle-loop.html#lifecycle-loop-rule-3">규칙 ③</a></span></p>
-            <p><span class="lead">게이트 순서 :</span> eval 셋 + 합의된 trade-off(절충)는 handoff 계획 앞 · 되돌리기 절차 · 지정된 담당자는 handoff 앞 <span class="gen">업계 일반</span> → <a href="handoff-package.html">■ handoff 패키지</a> · 반복(iteration)은 설계로 돌아감, discovery 로는 요구가 바뀔 때만 <span class="note">(■ lifecycle 루프)</span></p>
+            <p>새 목적 = 새 use case : 서비스가 건강해도 목적이 바뀌면 반복이 아니라 새 use case 다. 결정권자 · 기준선 · 제약부터 다시 정한다 <span class="gen">업계 일반</span> <span class="pg">[6.5]</span> <span class="pg">[6.1①]</span></p>
+            <p><span class="lead">목적이 바뀌는 예 :</span> 배송 안내에서 환불 승인 여부 결정으로 바뀐다. 문의 요약에서 상담원 순위 매기기로 바뀐다</p>
+            <p>전면 거절도, 기존 릴리스 절차로 밀어 넣기도 아니다. 다시 범위를 잡는다 <span class="gen">업계 일반</span>. 자세한 것은 <a href="discovery-outputs.html">■ discovery 산출물</a> 에 있다. 요구가 바뀐 증거가 있을 때 discovery 로 가는 것은 <a href="lifecycle-loop.html">■ lifecycle 루프</a> <span class="rule-ref">· <a href="lifecycle-loop.html#lifecycle-loop-rule-3">규칙 ③</a></span> 에 있다</p>
+            <p><span class="lead">게이트 순서 :</span> eval 셋과 합의된 trade-off(절충)는 handoff 계획 앞에 둔다. 되돌리기 절차와 지정된 담당자는 handoff 앞에 둔다 <span class="gen">업계 일반</span>. 자세한 것은 <a href="handoff-package.html">■ handoff 패키지</a> 에 있다</p>
+            <p>반복(iteration)은 설계로 돌아간다. discovery 로는 요구가 바뀔 때만 간다 <span class="note">(■ lifecycle 루프)</span></p>
           </div>
         </li>
       </ol>
@@ -604,15 +647,15 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">파일럿을 곧 시작, 합격선·중단 규칙·결정할 사람이 없음</td><td data-label="답" role="cell">기준부터. 마감이 있어도 기준을 정한 뒤 다시</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">후보 절 규칙 1 — 공식 문장 없음</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">고른 사례 몇 건이 다 맞음</td><td data-label="답" role="cell">약속 전에 대표 표본으로 기준선</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 확인(대표 표본 원리)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-steering-and-cost" lang="en" rel="noopener">thinking-steering</a> · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing-cost</a> · demystifying</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">파일럿 권한</td><td data-label="답" role="cell">읽기·초안만, 바꾸는 행동 전엔 사람 승인</td><td data-label="등급" role="cell"><span class="note">(Claude Code 기본값) · 해석(파일럿으로)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents" lang="en" rel="noopener">safe-trustworthy-agents</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">파일럿 성공, 넓히기 전</td><td data-label="답" role="cell">규모를 키우면 깨지는 가정(입력 분포 · 엣지 케이스 · 지원 부담 · 비용)부터</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">전환 방식</td><td data-label="답" role="cell">트래픽 일부에 shadow → 조금씩 · 전환 뒤에도 eval</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing-cost</a> · <a class="src-link" href="https://platform.claude.com/docs/en/api/rate-limits" lang="en" rel="noopener">rate-limits</a> en-full</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">넓힐 근거로 요청 수·지연·오류율</td><td data-label="답" role="cell">돌아간다는 증거뿐 → 사업 지표 전·후 + 대조군 + 측정 담당자</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 확인(A/B 교란 통제)</td><td data-label="근거" role="cell">demystifying</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">운영 볼륨 비용</td><td data-label="답" role="cell">첫 청구서 전에 전체 문의량으로 다시 셈 · 지출 임계값 알림</td><td data-label="등급" role="cell"><span class="note">(비용 핵심 제약 · 알림) ·</span> <span class="gen">업계 일반</span><span class="note">(시점)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing-cost</a> · <a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">되돌리기 어려운 결정(검토 팀 해체)</td><td data-label="답" role="cell">단계적으로 줄이고 정지 선을 지금 합의</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">건강한 서비스에 새 목적</td><td data-label="답" role="cell">새 use case — 결정권자 · 기준선 · 제약부터</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">■ discovery 산출물</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">파일럿을 곧 시작하는데 합격선·중단 규칙·결정할 사람이 없다</td><td data-label="답" role="cell">기준부터 정한다. 마감이 있어도 기준을 정한 뒤 다시 돌린다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">후보 절 규칙 1. 공식 문장이 없다</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">고른 사례 몇 건이 다 맞았다</td><td data-label="답" role="cell">약속 전에 대표 표본으로 기준선을 잰다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 확인(대표 표본 원리)</td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/build-with-claude/thinking-steering-and-cost" lang="en" rel="noopener">thinking-steering</a> · <a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing-cost</a> · demystifying</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">파일럿 권한을 정한다</td><td data-label="답" role="cell">읽기·초안만 준다. 바꾸는 행동 전에는 사람이 승인한다</td><td data-label="등급" role="cell"><span class="note">(Claude Code 기본값) · 해석(파일럿으로)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://www.anthropic.com/news/our-framework-for-developing-safe-and-trustworthy-agents" lang="en" rel="noopener">safe-trustworthy-agents</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">파일럿이 성공했고 넓히기 전이다</td><td data-label="답" role="cell">규모를 키우면 깨지는 가정(입력 분포 · 엣지 케이스 · 지원 부담 · 비용)부터 본다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">전환 방식을 정한다</td><td data-label="답" role="cell">트래픽 일부에 shadow 로 돌리고 조금씩 올린다. 전환 뒤에도 eval 을 돌린다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing-cost</a> · <a class="src-link" href="https://platform.claude.com/docs/en/api/rate-limits" lang="en" rel="noopener">rate-limits</a> en-full</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">넓힐 근거로 요청 수·지연·오류율을 든다</td><td data-label="답" role="cell">돌아간다는 증거뿐이다. 사업 지표 전·후, 대조군, 측정 담당자를 든다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 확인(A/B 교란 통제)</td><td data-label="근거" role="cell">demystifying</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">운영 볼륨 비용을 본다</td><td data-label="답" role="cell">첫 청구서 전에 전체 문의량으로 다시 센다. 지출 임계값 알림을 건다</td><td data-label="등급" role="cell"><span class="note">(비용 핵심 제약 · 알림) ·</span> <span class="gen">업계 일반</span><span class="note">(시점)</span></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing-cost</a> · <a class="src-link" href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" lang="en" rel="noopener">usage-cost-api</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">되돌리기 어려운 결정이다(검토 팀 해체)</td><td data-label="답" role="cell">단계적으로 줄이고 정지 선을 지금 합의한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">건강한 서비스에 새 목적이 생겼다</td><td data-label="답" role="cell">새 use case 다. 결정권자 · 기준선 · 제약부터 정한다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">■ discovery 산출물</td></tr>
   </tbody>
 </table>
 </div>
@@ -623,17 +666,17 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">게이트 기준</td><td data-label="값" role="cell">시작 전에 적음</td><td data-label="답 쪽" role="cell">파일럿 결과로 판정 가능</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">게이트 기준</td><td data-label="값" role="cell">없음 · 돌리며 정함</td><td data-label="답 쪽" role="cell">사후 판정 불가 → 기준 정하고 다시</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">근거 표본</td><td data-label="값" role="cell">고른 사례</td><td data-label="답 쪽" role="cell">능력의 증거</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">근거 표본</td><td data-label="값" role="cell">대표 표본</td><td data-label="답 쪽" role="cell">기준선 · 약속 가능</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">들고 온 지표</td><td data-label="값" role="cell">요청 수 · 지연 · 오류율</td><td data-label="답 쪽" role="cell">돌아간다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 6</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">들고 온 지표</td><td data-label="값" role="cell">사업 지표 전·후 + 대조군</td><td data-label="답 쪽" role="cell">넓힐 근거</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 확인(대조군)</td><td data-label="근거" role="cell">판단 규칙 6</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">전·후 값</td><td data-label="값" role="cell">전만 / 후만</td><td data-label="답 쪽" role="cell">바람 / 근거 없는 주장</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">넓히는 폭</td><td data-label="값" role="cell">한 번에 전부</td><td data-label="답 쪽" role="cell">단계적 확장 · shadow</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 5</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">목적</td><td data-label="값" role="cell">같음 (품질·비용 개선)</td><td data-label="답 쪽" role="cell">반복 안에서</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">■ lifecycle 루프</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">목적</td><td data-label="값" role="cell">바뀜 (안내 → 결정)</td><td data-label="답 쪽" role="cell">새 use case</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 9</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">트래픽</td><td data-label="값" role="cell">적음 (하루 수십 건)</td><td data-label="답 쪽" role="cell">A/B 대신 전·후 + 비교 팀 · transcript 표본</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a href="eval-layers.html">■ 검증 층</a> <span class="rule-ref">· <a href="eval-layers.html#eval-layers-rule-3">규칙 ③</a></span></td></tr>
+    <tr role="row"><td data-label="변수" role="cell">게이트 기준</td><td data-label="값" role="cell">시작 전에 적었다</td><td data-label="답 쪽" role="cell">파일럿 결과로 판정할 수 있다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">게이트 기준</td><td data-label="값" role="cell">없거나 돌리며 정한다</td><td data-label="답 쪽" role="cell">사후에 판정할 수 없다. 기준을 정하고 다시 돌린다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">근거 표본</td><td data-label="값" role="cell">고른 사례다</td><td data-label="답 쪽" role="cell">능력의 증거다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">근거 표본</td><td data-label="값" role="cell">대표 표본이다</td><td data-label="답 쪽" role="cell">기준선이 된다. 약속할 수 있다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">들고 온 지표</td><td data-label="값" role="cell">요청 수 · 지연 · 오류율</td><td data-label="답 쪽" role="cell">돌아간다는 것만 보인다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 6</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">들고 온 지표</td><td data-label="값" role="cell">사업 지표 전·후 + 대조군</td><td data-label="답 쪽" role="cell">넓힐 근거가 된다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 확인(대조군)</td><td data-label="근거" role="cell">판단 규칙 6</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">전·후 값</td><td data-label="값" role="cell">전만 / 후만</td><td data-label="답 쪽" role="cell">바람이다 / 근거 없는 주장이다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">넓히는 폭</td><td data-label="값" role="cell">한 번에 전부</td><td data-label="답 쪽" role="cell">단계적으로 넓히고 shadow 로 돌린다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 5</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">목적</td><td data-label="값" role="cell">같다 (품질·비용 개선)</td><td data-label="답 쪽" role="cell">반복 안에서 다룬다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">■ lifecycle 루프</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">목적</td><td data-label="값" role="cell">바뀐다 (안내에서 결정으로)</td><td data-label="답 쪽" role="cell">새 use case 다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 9</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">트래픽</td><td data-label="값" role="cell">적다 (하루 수십 건)</td><td data-label="답 쪽" role="cell">A/B 대신 전·후와 비교 팀, transcript 표본을 쓴다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell"><a href="eval-layers.html">■ 검증 층</a> <span class="rule-ref">· <a href="eval-layers.html#eval-layers-rule-3">규칙 ③</a></span></td></tr>
   </tbody>
 </table>
 </div>
@@ -649,17 +692,17 @@
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"고른 문의 12건이 다 맞았으니 정확도 100% 로 약속" → 고른 데모는 능력의 증거일 뿐. 대표 표본으로 기준선 <span class="gen">업계 일반</span> · 실사용 패턴과 어긋나면 거짓 확신 → <a href="expectation-slo.html">◆ 100% 약속 vs 측정된 SLO + 사람 안전망</a></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"할인 마감이 있으니 기준은 돌려 보며 정하자" → 기준 없이 돈 파일럿은 사후에 판정할 수 없음 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"파일럿이 잘 됐으니 라이선스 · 교육 일정부터" → 규모를 키우면 깨지는 가정부터 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"요청 수 · 지연 · 오류율이 좋으니 확장" → 돌아간다는 증거뿐. 사업 지표 전·후 + 대조군 <span class="gen">업계 일반</span> · A/B 는 교란을 통제</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"도입 뒤 처리 시간 8분이니 성공" → 전 값 · 대조군 없음 = 주장 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"한 번에 전국 트래픽으로 전환" → 단계적 확장 · 전환 전 shadow · 갑자기 늘리면 가속 한도 429</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"기준을 넘었으니 사람 검토 팀을 한 번에 해체" → 되돌릴 길을 남김 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"비용은 첫 청구서를 보고 조정" → 운영 볼륨으로 미리 · 지출 임계값 알림</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"요약하던 서비스가 잘 도니 순위 매기기도 다음 릴리스로" → 새 목적 = 새 use case <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "파일럿 전에 SLA 문구 · on-call 순번까지 다 갖춰야" → 뒤 게이트의 일 <span class="gen">업계 일반</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>반대 함정 : "새 목적이니 전면 거절" → 다시 범위를 잡음 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"고른 문의 12건이 다 맞았으니 정확도 100% 로 약속" 은 함정이다. 고른 데모는 능력의 증거일 뿐이다. 대표 표본으로 기준선을 잰다 <span class="gen">업계 일반</span>. 자세한 것은 <a href="expectation-slo.html">◆ 100% 약속 vs 측정된 SLO + 사람 안전망</a> 에 있다. 실사용 패턴과 어긋나면 거짓 확신을 준다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"할인 마감이 있으니 기준은 돌려 보며 정하자" 는 함정이다. 기준 없이 돈 파일럿은 사후에 판정할 수 없다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"파일럿이 잘 됐으니 라이선스 · 교육 일정부터" 는 함정이다. 규모를 키우면 깨지는 가정부터 본다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"요청 수 · 지연 · 오류율이 좋으니 확장" 은 함정이다. 그것은 돌아간다는 증거뿐이다. 사업 지표 전·후와 대조군을 든다 <span class="gen">업계 일반</span>. A/B 는 교란을 통제한다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"도입 뒤 처리 시간 8분이니 성공" 은 함정이다. 전 값과 대조군이 없으면 주장일 뿐이다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"한 번에 전국 트래픽으로 전환" 은 함정이다. 단계적으로 넓히고 전환 전에 shadow 로 돌린다. 갑자기 늘리면 가속 한도로 429 가 난다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"기준을 넘었으니 사람 검토 팀을 한 번에 해체" 는 함정이다. 되돌릴 길을 남긴다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"비용은 첫 청구서를 보고 조정" 은 함정이다. 운영 볼륨으로 미리 센다. 지출 임계값 알림을 건다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"요약하던 서비스가 잘 도니 순위 매기기도 다음 릴리스로" 는 함정이다. 새 목적은 새 use case 다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>반대쪽 함정도 있다. "파일럿 전에 SLA 문구 · on-call 순번까지 다 갖춰야" 는 함정이다. 그것은 뒤 게이트의 일이다 <span class="gen">업계 일반</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>반대쪽 함정이 하나 더 있다. "새 목적이니 전면 거절" 은 함정이다. 다시 범위를 잡는다 <span class="gen">업계 일반</span></span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -687,38 +730,38 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. 기준 없이 돌려도 되는 때 — 탐색 파일럿</h4>
 <ul>
-<li><span class="lead">조건 :</span> 무엇을 재야 할지부터 모름. 상담원 3명이 2주간 초안을 써 보며 "어디서 시간이 드나" 를 찾는 게 목적.</li>
-<li><span class="lead">판단 :</span> 이건 파일럿이 아니라 PoC 쪽 탐색 — 기준 없이 돌려도 되지만, 결론은 "되나?" 와 "무엇을 잴까" 까지만. 넓힐 근거로는 못 씀. 그다음 파일럿은 여기서 찾은 지표로 기준을 먼저 정하고 시작.</li>
+<li><span class="lead">조건 :</span> 무엇을 재야 할지부터 모른다. 상담원 3명이 2주간 초안을 써 보며 "어디서 시간이 드나" 를 찾는 것이 목적이다.</li>
+<li><span class="lead">판단 :</span> 이것은 파일럿이 아니라 PoC 쪽 탐색이다. 기준 없이 돌려도 된다. 그러나 결론은 "되나?" 와 "무엇을 잴까" 까지만 낸다. 넓힐 근거로는 못 쓴다. 그다음 파일럿은 여기서 찾은 지표로 기준을 먼저 정하고 시작한다.</li>
 <li><span class="lead">등급 :</span> <span class="gen">업계 일반</span></li>
-<li><span class="lead">근거 :</span> 공식 문장 없음. "eval 과제를 적어 보면 요구가 짓기에 충분히 구체적인지 드러남"(demystifying-evals)과 같은 방향.</li>
+<li><span class="lead">근거 :</span> 공식 문장은 없다. "eval 과제를 적어 보면 요구가 짓기에 충분히 구체적인지 드러남"(demystifying-evals)과 같은 방향이다.</li>
 </ul>
 <h4>2. 전·후만으로 넓혀도 되는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 반품 처리 시간이 22분 → 7분(약 68% 감소). 같은 기간 다른 센터는 21분 → 20분.</li>
-<li><span class="lead">판단 :</span> 다른 센터가 사실상의 대조군 — 차이가 이렇게 크고 대조군 쪽이 거의 그대로면 "성수기 때문" 같은 다른 설명이 약함. 대조군을 따로 짜지 않았어도 비교 가능한 쪽이 있으면 근거가 됨. 둘 다 같은 방법으로 쟀는지는 확인.</li>
+<li><span class="lead">조건 :</span> 반품 처리 시간이 22분에서 7분으로 줄었다(약 68% 감소). 같은 기간 다른 센터는 21분에서 20분이 됐다.</li>
+<li><span class="lead">판단 :</span> 다른 센터가 사실상의 대조군이다. 차이가 이렇게 크고 대조군 쪽이 거의 그대로면 "성수기 때문" 같은 다른 설명이 약하다. 대조군을 따로 짜지 않았어도 비교 가능한 쪽이 있으면 근거가 된다. 둘 다 같은 방법으로 쟀는지는 확인한다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (15 ÷ 22 ≈ 68%) · 업계 일반 (판단)</li>
-<li><span class="lead">근거 :</span> A/B 의 교란 통제(demystifying-evals)를 넓힌 해석.</li>
+<li><span class="lead">근거 :</span> A/B 의 교란 통제(demystifying-evals)를 넓힌 해석이다.</li>
 </ul>
 <h4>3. 한 번에 넓혀야 하는 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 규제 기한 때문에 모든 센터가 같은 날 새 환불 안내 문구로 바꿔야 함.</li>
-<li><span class="lead">판단 :</span> 단계적으로 넓힐 시간이 없으면, 대신 전환 전에 트래픽 일부에 shadow 로 돌려 보고(안내는 옛 방식, 새 방식 답은 비교만), 중단 규칙과 되돌릴 버전을 미리 둠.</li>
+<li><span class="lead">조건 :</span> 규제 기한 때문에 모든 센터가 같은 날 새 환불 안내 문구로 바꿔야 한다.</li>
+<li><span class="lead">판단 :</span> 단계적으로 넓힐 시간이 없으면, 대신 전환 전에 트래픽 일부에 shadow 로 돌려 본다(안내는 옛 방식으로 하고, 새 방식 답은 비교만 한다). 중단 규칙과 되돌릴 버전을 미리 둔다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(shadow) ·</span> <span class="gen">업계 일반</span><span class="note">(적용)</span></li>
 <li><span class="lead">근거 :</span> optimizing-cost-intelligence</li>
 </ul>
 <h4>4. 데모 값으로 약속해도 되는 때?</h4>
 <ul>
-<li><span class="lead">조건 :</span> 고른 사례가 아니라, 지난달 운영 로그에서 비중대로 뽑은 문의 300건으로 "데모" 를 했고 정답 276건(92%).</li>
-<li><span class="lead">판단 :</span> 이름이 데모여도 대표 표본이면 기준선. 가를 기준은 "데모냐" 가 아니라 "표본이 실제 트래픽 비중을 따랐나".</li>
+<li><span class="lead">조건 :</span> 고른 사례가 아니라, 지난달 운영 로그에서 비중대로 뽑은 문의 300건으로 "데모" 를 했다. 정답은 276건(92%)이다.</li>
+<li><span class="lead">판단 :</span> 이름이 데모여도 대표 표본이면 기준선이 된다. 가를 기준은 "데모냐" 가 아니라 "표본이 실제 트래픽 비중을 따랐나" 다.</li>
 <li><span class="lead">등급 :</span> <span class="note">(대표 표본 원리) ·</span> <span class="calc">계산</span> <span class="note">(276 ÷ 300)</span></li>
 <li><span class="lead">근거 :</span> optimizing-cost-intelligence · thinking-steering-and-cost</li>
 </ul>
 <h4>5. 새 목적인데 새 use case 까지는 아닌 때</h4>
 <ul>
-<li><span class="lead">조건 :</span> 반품 안내 Agent 가 교환 안내도 하게 함. 둘 다 "안내" 이고, 결정·통지는 여전히 상담원.</li>
-<li><span class="lead">판단 :</span> 목적(안내)이 같고 결정 주체도 같으면 범위 확장 — 반복 안에서 eval 과제를 더하고 단계적으로. 안내 → 결정 통지처럼 <strong>누가 결정하나</strong> 가 바뀌면 새 use case.</li>
+<li><span class="lead">조건 :</span> 반품 안내 Agent 가 교환 안내도 하게 한다. 둘 다 "안내" 이고, 결정·통지는 여전히 상담원이 한다.</li>
+<li><span class="lead">판단 :</span> 목적(안내)이 같고 결정 주체도 같으면 범위 확장이다. 반복 안에서 eval 과제를 더하고 단계적으로 넓힌다. 안내에서 결정 통지로 바뀌는 것처럼 <strong>누가 결정하나</strong> 가 바뀌면 새 use case 다.</li>
 <li><span class="lead">등급 :</span> <span class="gen">업계 일반</span></li>
-<li><span class="lead">근거 :</span> 공식 문장 없음. 결정 앞 사람 승인은 ■ human-in-the-loop 게이트 위치.</li>
+<li><span class="lead">근거 :</span> 공식 문장은 없다. 결정 앞 사람 승인은 ■ human-in-the-loop 게이트 위치 에 있다.</li>
 </ul>
 </section>
 <section class="ex-sec" id="distractors" aria-labelledby="distractors-h">
@@ -727,18 +770,18 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"고른 문의가 다 맞았으니 정확도 100% 약속"</td><td data-label="왜 끌리나" role="cell">숫자가 좋음</td><td data-label="왜 틀리나" role="cell">고른 데모는 능력의 증거 · 실사용과 어긋나면 거짓 확신</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 확인</td><td data-label="근거" role="cell">demystifying · ◆ 100% 약속 vs 측정된 SLO + 사람 안전망</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"데모 값에서 여유폭을 빼고 약속"</td><td data-label="왜 끌리나" role="cell">신중해 보임</td><td data-label="왜 틀리나" role="cell">고른 표본에서 뺀 값도 측정이 아님 — 대표 표본으로 기준선</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"할인 마감이니 기준은 돌리며 정함"</td><td data-label="왜 끌리나" role="cell">일정이 급함</td><td data-label="왜 틀리나" role="cell">사후 판정 불가</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"데모에서 잘 됐으니 바로 배포"</td><td data-label="왜 끌리나" role="cell">눈으로 봄</td><td data-label="왜 틀리나" role="cell">몇 번 테스트는 예상 밖 입력에 모자람</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Skilljar 287731 · ■ 변경마다 eval 다시</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"파일럿 성공 → 라이선스·교육 일정부터"</td><td data-label="왜 끌리나" role="cell">다음 단계 같음</td><td data-label="왜 틀리나" role="cell">규모를 키우면 깨지는 가정부터</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"요청 수·지연·오류율이 좋으니 확장"</td><td data-label="왜 끌리나" role="cell">운영 지표가 정상 범위</td><td data-label="왜 틀리나" role="cell">돌아간다는 증거일 뿐, 사업 결과 아님</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">■ impact metrics</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"도입 뒤 8분이니 성공"</td><td data-label="왜 끌리나" role="cell">숫자가 있음</td><td data-label="왜 틀리나" role="cell">전 값·대조군이 없으면 주장</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"기준 통과, 예정대로 검토 팀 해체"</td><td data-label="왜 끌리나" role="cell">계획대로</td><td data-label="왜 틀리나" role="cell">되돌리는 비용을 숨김</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"비용은 첫 청구서 보고"</td><td data-label="왜 끌리나" role="cell">실제 값을 보고 정함</td><td data-label="왜 틀리나" role="cell">프로토타입 → 운영이면 비용이 핵심 설계 제약</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing-cost</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"전국 트래픽을 하루에 전환"</td><td data-label="왜 끌리나" role="cell">빠름</td><td data-label="왜 틀리나" role="cell">단계적 확장 · shadow · 가속 한도 429</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing-cost</a> · <a class="src-link" href="https://platform.claude.com/docs/en/api/rate-limits" lang="en" rel="noopener">rate-limits</a> en-full</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"잘 도는 서비스니 결정 통지도 같은 릴리스로"</td><td data-label="왜 끌리나" role="cell">같은 시스템</td><td data-label="왜 틀리나" role="cell">새 목적 = 새 use case</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"파일럿 전에 SLA·on-call 순번까지"</td><td data-label="왜 끌리나" role="cell">꼼꼼함</td><td data-label="왜 틀리나" role="cell">뒤 게이트의 일</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"고른 문의가 다 맞았으니 정확도 100% 약속"</td><td data-label="왜 끌리나" role="cell">숫자가 좋다</td><td data-label="왜 틀리나" role="cell">고른 데모는 능력의 증거다. 실사용과 어긋나면 거짓 확신을 준다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 확인</td><td data-label="근거" role="cell">demystifying · ◆ 100% 약속 vs 측정된 SLO + 사람 안전망</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"데모 값에서 여유폭을 빼고 약속"</td><td data-label="왜 끌리나" role="cell">신중해 보인다</td><td data-label="왜 틀리나" role="cell">고른 표본에서 뺀 값도 측정이 아니다. 대표 표본으로 기준선을 잰다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 2</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"할인 마감이니 기준은 돌리며 정함"</td><td data-label="왜 끌리나" role="cell">일정이 급하다</td><td data-label="왜 틀리나" role="cell">사후에 판정할 수 없다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"데모에서 잘 됐으니 바로 배포"</td><td data-label="왜 끌리나" role="cell">눈으로 봤다</td><td data-label="왜 틀리나" role="cell">몇 번 테스트로는 예상 밖 입력에 모자라다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">Skilljar 287731 · ■ 변경마다 eval 다시</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"파일럿 성공 → 라이선스·교육 일정부터"</td><td data-label="왜 끌리나" role="cell">다음 단계 같다</td><td data-label="왜 틀리나" role="cell">규모를 키우면 깨지는 가정부터 본다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"요청 수·지연·오류율이 좋으니 확장"</td><td data-label="왜 끌리나" role="cell">운영 지표가 정상 범위다</td><td data-label="왜 틀리나" role="cell">돌아간다는 증거일 뿐이다. 사업 결과가 아니다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">■ impact metrics</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"도입 뒤 8분이니 성공"</td><td data-label="왜 끌리나" role="cell">숫자가 있다</td><td data-label="왜 틀리나" role="cell">전 값·대조군이 없으면 주장일 뿐이다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"기준 통과, 예정대로 검토 팀 해체"</td><td data-label="왜 끌리나" role="cell">계획대로다</td><td data-label="왜 틀리나" role="cell">되돌리는 비용을 숨긴다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"비용은 첫 청구서 보고"</td><td data-label="왜 끌리나" role="cell">실제 값을 보고 정한다</td><td data-label="왜 틀리나" role="cell">프로토타입에서 운영으로 가면 비용이 핵심 설계 제약이 된다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing-cost</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"전국 트래픽을 하루에 전환"</td><td data-label="왜 끌리나" role="cell">빠르다</td><td data-label="왜 틀리나" role="cell">단계적으로 넓히고 shadow 로 돌린다. 갑자기 늘리면 가속 한도로 429 가 난다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" lang="en" rel="noopener">optimizing-cost</a> · <a class="src-link" href="https://platform.claude.com/docs/en/api/rate-limits" lang="en" rel="noopener">rate-limits</a> en-full</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"잘 도는 서비스니 결정 통지도 같은 릴리스로"</td><td data-label="왜 끌리나" role="cell">같은 시스템이다</td><td data-label="왜 틀리나" role="cell">새 목적은 새 use case 다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"파일럿 전에 SLA·on-call 순번까지"</td><td data-label="왜 끌리나" role="cell">꼼꼼해 보인다</td><td data-label="왜 틀리나" role="cell">뒤 게이트의 일이다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span></td><td data-label="근거" role="cell">—</td></tr>
   </tbody>
 </table>
 </div>
@@ -746,7 +789,7 @@
   </details>
   <h2 class="sec-h" id="pilot-gates-ref-h">참고</h2>
   <div class="t5-rest">
-    <h3>개념</h3>
+    <h3>함께 보기</h3>
       <ul class="plain">
         <li><a href="lifecycle-loop.html">■ lifecycle 루프</a></li>
         <li><a href="eval-driven-iteration.html">■ 변경마다 eval 다시</a></li>
@@ -763,6 +806,10 @@
         <li><a href="handoff-package.html">■ handoff 패키지</a></li>
         <li><a href="expectation-slo.html">◆ 100% 약속 vs 측정된 SLO + 사람 안전망</a></li>
       </ul>
+  </div>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
+  <div class="t5-rest">
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 6.5</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -786,13 +833,32 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>PoC · 파일럿 · 확장 게이트 구성 전체 : 공식 문장 못 찾음. 검색 = <code>ccarp/raw/official-docs/en-*.md</code> 에서 "pilot|roll out|rollout|gradual|phased|shadow|traffic slice|slice of" (스크래치 <code>w3_grep.py</code>) → 게이트 뜻 0건. 잡힌 것 = shadow 1(optimizing-cost en 546) · "ramp up your traffic gradually"(rate-limits en-full 92) · "piloting and scaling"(service-tiers en 4 — Standard 티어 설명일 뿐) · rainbow deployments(multi-agent-research-system en 74). 제외 = 받지 않은 공식 페이지 · ko 판.</li>
-<li>중단 규칙 · go/no-go 담당자 · 한 부서씩 · 결과 문서 항목(전·후 + 대조군 + 담당자) · 새 목적 = 새 use case : 공식 문장 없음 → 업계 일반.</li>
-<li>후보 절 "공식 근거 후보" 10개는 모두 원문에서 찾음. 단 <code>en-safe-trustworthy-agents.md</code> 19줄은 Claude Code 기본 권한 문맥, <code>en-thinking-steering-and-cost.md</code> 87줄은 thinking 조정 문맥, <code>optimizing-cost-intelligence</code> 546줄은 모델 구성 고르기 문맥 — 게이트로 넓힌 건 해석.</li>
-<li>후보 절의 "운영 볼륨 = 파일럿의 10~100배" 는 공식 숫자 없음 → 카드엔 배수 없이 "전체 월 문의량으로 다시 셈" 만 남김.</li>
-<li>후보 절 규칙 5 의 게이트 순서(eval 셋·trade-off 가 handoff 계획 앞, 되돌리기·담당자가 handoff 앞)는 공식 문장 없음 — 가이드 목표 6.5 는 단계 이름만.</li>
+<li>PoC · 파일럿 · 확장 게이트 구성 전체는 공식 문장을 못 찾았다. 검색 대상은 <code>ccarp/raw/official-docs/en-*.md</code> 이고, 검색어는 "pilot|roll out|rollout|gradual|phased|shadow|traffic slice|slice of" 다(스크래치 <code>w3_grep.py</code>). 게이트 뜻은 0건이다. 잡힌 것은 아래뿐이다. 제외 = 받지 않은 공식 페이지 · ko 판.<ul>
+<li>shadow 1(optimizing-cost en 546)</li>
+<li>"ramp up your traffic gradually"(rate-limits en-full 92)</li>
+<li>"piloting and scaling"(service-tiers en 4, Standard 티어 설명일 뿐)</li>
+<li>rainbow deployments(multi-agent-research-system en 74)</li>
+</ul>
+</li>
+<li>아래는 공식 문장이 없다. 그래서 업계 일반으로 둔다.<ul>
+<li>중단 규칙</li>
+<li>go/no-go 담당자</li>
+<li>한 부서씩</li>
+<li>결과 문서 항목(전·후 + 대조군 + 담당자)</li>
+<li>새 목적 = 새 use case</li>
+</ul>
+</li>
+<li>후보 절 "공식 근거 후보" 10개는 모두 원문에서 찾았다. 단 세 곳은 다른 문맥이다. 게이트로 넓힌 것은 해석이다.<ul>
+<li><code>en-safe-trustworthy-agents.md</code> 19줄 : Claude Code 기본 권한 문맥</li>
+<li><code>en-thinking-steering-and-cost.md</code> 87줄 : thinking 조정 문맥</li>
+<li><code>optimizing-cost-intelligence</code> 546줄 : 모델 구성 고르기 문맥</li>
+</ul>
+</li>
+<li>후보 절의 "운영 볼륨 = 파일럿의 10~100배" 는 공식 숫자가 없다. 그래서 카드에는 배수 없이 "전체 월 문의량으로 다시 센다" 만 남겼다.</li>
+<li>후보 절 규칙 5 의 게이트 순서(eval 셋·trade-off 가 handoff 계획 앞, 되돌리기·담당자가 handoff 앞)는 공식 문장이 없다. 가이드 목표 6.5 는 단계 이름만 준다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>

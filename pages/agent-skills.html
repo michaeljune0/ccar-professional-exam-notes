@@ -369,8 +369,8 @@
   </div>
   <h2 class="sec-h" id="agent-skills-sum-h">한눈에</h2>
   <div class="t5-sum">
-      <p>절차·전문지식을 폴더(SKILL.md + 참고 파일 + 스크립트)로 두고, 컨텍스트를 미리 채우지 않고 필요한 만큼 단계별로 불러옴</p>
-    <p class="t5-ana"><span class="lead">비유</span> man 페이지. <code>whatis</code> 한 줄 목록만 늘 떠 있고, 본문은 <code>man</code> 칠 때, 스크립트는 실행 결과만 화면에</p>
+      <p>절차·전문지식을 폴더(SKILL.md + 참고 파일 + 스크립트)로 둔다. 그리고 컨텍스트를 미리 채우지 않고, 필요한 만큼 단계별로 불러온다</p>
+    <p class="t5-ana"><span class="lead">비유</span> man 페이지와 같다. <code>whatis</code> 한 줄 목록만 늘 떠 있다. 본문은 <code>man</code> 을 칠 때 나온다. 스크립트는 실행 결과만 화면에 나온다</p>
   </div>
   <figure class="v3-img">
     <a class="v3-zoom" href="../images/agent-skills.webp"><img src="../images/agent-skills.webp" alt="Skill 은 이름·설명만 늘 약 100토큰, 발동하면 SKILL.md 본문(5천 미만), 참고 파일·스크립트는 필요할 때만 불러온다. 스크립트는 실행해 출력만 컨텍스트에 들어간다." loading="lazy" decoding="async"></a>
@@ -399,24 +399,32 @@
 <h3 id="principle-h">원리</h3>
 <p class="lead">3단계 불러오기</p>
 <ul>
-<li>1단계 메타데이터 : <code>name</code> · <code>description</code>. 시작 때 시스템 프롬프트에 들어감. Skill 당 약 100토큰.</li>
-<li>2단계 지침 : SKILL.md 본문. 요청이 description 과 맞으면 Claude 가 bash 로 읽음. 5천 토큰 미만.</li>
-<li>3단계 리소스·코드 : 참고 파일은 읽을 때만 들어옴(읽기 전 0). 스크립트는 실행하고 출력만 들어옴(코드는 안 들어옴).</li>
-<li>그래서 Skill 을 많이 깔아도 발동 전엔 이름·설명만 자리를 차지. 번들 파일 크기엔 사실상 한계가 없음.</li>
+<li>1단계 메타데이터 : <code>name</code> · <code>description</code> 이다. 시작 때 시스템 프롬프트에 들어간다. Skill 당 약 100토큰이다.</li>
+<li>2단계 지침 : SKILL.md 본문이다. 요청이 description 과 맞으면 Claude 가 bash 로 읽는다. 5천 토큰 미만이다.</li>
+<li>3단계 리소스·코드 : 참고 파일은 읽을 때만 들어온다(읽기 전 0). 스크립트는 실행하고 출력만 들어온다(코드는 안 들어온다).</li>
+<li>그래서 Skill 을 많이 깔아도 발동 전에는 이름·설명만 자리를 차지한다. 번들 파일 크기에는 사실상 한계가 없다.</li>
 </ul>
 <p class="lead">발동</p>
 <ul>
-<li>Claude 는 요청을 description 과 대조함 → description 에 "무엇을 하나 + 언제 쓰나"를 다 적어야 함. 100개 넘는 Skill 중에서도 이걸로 고름.</li>
+<li>Claude 는 요청을 description 과 대조한다. 그래서 description 에 "무엇을 하나 + 언제 쓰나"를 다 적어야 한다. 100개 넘는 Skill 중에서도 이것으로 고른다.</li>
 </ul>
 <p class="lead">잘 쪼개기</p>
 <ul>
-<li>SKILL.md 본문은 500줄 미만. 넘으면 파일로 나눔.</li>
-<li>참고 파일은 SKILL.md 에서 한 단계 깊이만. 파일이 파일을 부르면 <code>head</code> 로 일부만 읽혀 정보가 빠질 수 있음.</li>
-<li>불러온 뒤엔 모든 토큰이 대화와 자리를 다툼 → 짧게, Claude 가 아는 설명은 뺌.</li>
+<li>SKILL.md 본문은 500줄 미만으로 둔다. 넘으면 파일로 나눈다.</li>
+<li>참고 파일은 SKILL.md 에서 한 단계 깊이만 둔다. 파일이 파일을 부르면 <code>head</code> 로 일부만 읽혀 정보가 빠질 수 있다.</li>
+<li>불러온 뒤에는 모든 토큰이 대화와 자리를 다툰다. 그래서 짧게 쓰고, Claude 가 아는 설명은 뺀다.</li>
 </ul>
 <p class="lead">제약 (API)</p>
 <ul>
-<li>코드 실행 도구 필수 · 네트워크 없음 · 실행 중 패키지 설치 불가 · surface(쓰는 환경)끼리 동기화 안 됨 · ZDR 대상 아님 · 믿을 수 있는 출처만.</li>
+<li>API 에서는 아래 제약이 있다.<ul>
+<li>코드 실행 도구가 꼭 있어야 한다</li>
+<li>네트워크가 없다</li>
+<li>실행 중에 패키지를 설치할 수 없다</li>
+<li>surface(쓰는 환경)끼리 동기화되지 않는다</li>
+<li>ZDR 대상이 아니다</li>
+<li>믿을 수 있는 출처만 쓴다</li>
+</ul>
+</li>
 </ul>
 <p class="lead">핵심 질문 두 개</p>
 <ul>
@@ -433,11 +441,11 @@
   <section class="t5-flow tree" id="agent-skills-tree-1" aria-labelledby="agent-skills-tree-1-h" data-paths="n1 n2 n3|n1 n4 n5 n6 n7|n1 n4 n5 n8 n9|n1 n4 n5 n10 n11">
     <div class="t5-fh"><h3 id="agent-skills-tree-1-h">③ 어디에 싣나 <span class="pg">[3.8③]</span> <span class="pg">[2.5③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body is-deep">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>매 요청 전부 필요?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>매 요청에 전부 필요한가?</div>
       <div class="t5-fork" style="--n:2">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>예</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">시스템 프롬프트 + 캐싱</p><p>매 요청 전부 필요한 안정 지식 → 시스템 프롬프트 + <a href="caching.html">■ 프롬프트 캐싱</a></p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">시스템 프롬프트 + 캐싱</p><p>매 요청에 전부 필요한 안정 지식은 시스템 프롬프트에 넣고 <a href="caching.html">■ 프롬프트 캐싱</a> 을 쓴다</p></div>
         </div>
         <div class="t5-arm">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>아니오</span>
@@ -445,15 +453,15 @@
           <div class="t5-fork" style="--n:3">
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>가끔 쓰는 절차</span>
-              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Skills</p><p>가끔만 관련 있는 절차·전문지식 → Skills · MCP = 데이터·시스템에 연결 · Skills = 그 데이터로 무엇을 어떻게 할지(절차 지식). 둘은 같이 씀</p></div>
+              <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Skills</p><p>가끔만 관련 있는 절차·전문지식은 Skills 에 둔다. MCP 는 데이터·시스템에 연결한다. Skills 는 그 데이터로 무엇을 어떻게 할지(절차 지식)를 담는다. 둘은 같이 쓴다</p></div>
             </div>
             <div class="t5-arm is-leaf">
-              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>도구 정의가 많음</span>
-              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">tool search</p><p>도구 정의가 많아 컨텍스트를 먹음 → <a href="tool-search.html">◆ 도구 미리 싣기 vs tool search</a> <span class="note">(세 갈래를 한 표로 가른 건 추론)</span></p></div>
+              <span class="t5-edge" data-p="n8"><span class="t5-hl" aria-hidden="true"></span>도구 정의가 많다</span>
+              <div class="t5-leaf t5-ans" data-p="n9"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">tool search</p><p>도구 정의가 많아 컨텍스트를 먹으면 tool search 를 쓴다 (세 갈래를 한 표로 가른 건 추론). 자세한 것은 <a href="tool-search.html">◆ 도구 미리 싣기 vs tool search</a> 에 있다</p></div>
             </div>
             <div class="t5-arm is-leaf">
               <span class="t5-edge" data-p="n10"><span class="t5-hl" aria-hidden="true"></span>큰 지식</span>
-              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">RAG</p><p>큰 지식에서 chunk 찾기 → <a href="rag-pipeline.html">■ RAG 파이프라인</a> <span class="note">(세 갈래를 한 표로 가른 건 추론)</span></p></div>
+              <div class="t5-leaf t5-ans" data-p="n11"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">RAG</p><p>큰 지식에서는 chunk 를 찾는다 (세 갈래를 한 표로 가른 건 추론). 자세한 것은 <a href="rag-pipeline.html">■ RAG 파이프라인</a> 에 있다</p></div>
             </div>
           </div>
         </div>
@@ -463,19 +471,19 @@
   <section class="t5-flow tree" id="agent-skills-tree-2" aria-labelledby="agent-skills-tree-2-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7">
     <div class="t5-fh"><h3 id="agent-skills-tree-2-h">① 토큰 세기 <span class="pg">[3.8③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>어느 단계?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>어느 단계인가?</div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>발동 전</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Skill 당 약 100</p><p>발동 전엔 이름·설명만 자리를 차지</p></div>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">Skill 당 약 100</p><p>발동 전에는 이름·설명만 자리를 차지한다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>발동</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">5천 미만</p><p>SKILL.md 본문</p></div>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">5천 미만</p><p>SKILL.md 본문이 들어온다</p></div>
         </div>
         <div class="t5-arm is-leaf">
           <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>참고 파일·스크립트</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">읽기 전까지 0</p><p>참고 파일은 읽을 때 들어옴 · 스크립트는 실행하고 출력만 들어옴</p></div>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">읽기 전까지 0</p><p>참고 파일은 읽을 때 들어온다. 스크립트는 실행하고 출력만 들어온다</p></div>
         </div>
       </div>
     </div>
@@ -483,26 +491,26 @@
   <section class="t5-flow tree" id="agent-skills-tree-3" aria-labelledby="agent-skills-tree-3-h" data-paths="n1 n2 n3|n1 n4 n5|n1 n6 n7">
     <div class="t5-fh"><h3 id="agent-skills-tree-3-h">②④⑤ 고칠 곳 <span class="pg">[3.8③]</span></h3><button type="button" class="t5-pp">경로 따라가기</button></div>
     <div class="tree-body">
-      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>증상?</div>
+      <div class="t5-q" data-p="n1"><span class="t5-hl" aria-hidden="true"></span>증상이 무엇인가?</div>
       <div class="t5-fork" style="--n:3">
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>안 불림</span>
-          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">description</p><p>"무엇을 하나 + 언제 쓰나" 둘 다 적음 · 내가 실제로 쓰는 말투의 키워드를 더함 <span class="src">(Skilljar)</span></p></div>
+          <span class="t5-edge" data-p="n2"><span class="t5-hl" aria-hidden="true"></span>안 불린다</span>
+          <div class="t5-leaf t5-ans" data-p="n3"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">description</p><p>"무엇을 하나 + 언제 쓰나" 를 둘 다 적는다. 내가 실제로 쓰는 말투의 키워드를 더한다 <span class="src">(Skilljar)</span></p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>SKILL.md 가 김</span>
-          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">파일로 나눔</p><p>SKILL.md 본문 500줄 미만, 넘으면 파일로 나눔</p></div>
+          <span class="t5-edge" data-p="n4"><span class="t5-hl" aria-hidden="true"></span>SKILL.md 가 길다</span>
+          <div class="t5-leaf t5-ans" data-p="n5"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">파일로 나눈다</p><p>SKILL.md 본문은 500줄 미만으로 둔다. 넘으면 파일로 나눈다</p></div>
         </div>
         <div class="t5-arm is-leaf">
-          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>같은 코드를 매번 생성</span>
-          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">스크립트로</p><p>결정론적 작업은 스크립트로. SKILL.md 에 "읽지 말고 실행"을 적음</p></div>
+          <span class="t5-edge" data-p="n6"><span class="t5-hl" aria-hidden="true"></span>같은 코드를 매번 생성한다</span>
+          <div class="t5-leaf t5-ans" data-p="n7"><span class="t5-hl" aria-hidden="true"></span><p class="t5-ans-h">스크립트로</p><p>결정론적 작업은 스크립트로 둔다. SKILL.md 에 "읽지 말고 실행"을 적는다</p></div>
         </div>
       </div>
     </div>
   </section>
   <h3 class="v3-sub">흐름</h3>
   <figure class="fl" id="agent-skills-flow" aria-label="Agent Skills progressive disclosure 흐름 그림">
-    <script type="application/json" class="fl-data">{"cols":["Skill 폴더","bash","컨텍스트"],"blocks":[{"name":"`name`·`description`","var":false},{"name":"SKILL.md 본문","var":false},{"name":"참고 파일","var":false},{"name":"스크립트","var":false}],"rules":[null,null,null],"question":"Skill 을 60개 깔면 컨텍스트가 넘칠까?","scenes":[{"name":"① 발동 전","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["refund-policy/","SKILL.md · forms.md","scripts/calc.py"]}},{"kind":"move","step":"메타데이터","from":{"block":"`name`·`description`"},"to":2,"label":"Skill 당 약 100토큰","art":{"kind":"slip","lines":["name: refund-policy","description: 환불 규정","적용. 환불 문의 때"]}},{"kind":"end","label":"발동 전엔 이름·설명만 자리를 차지 — 본문·파일·스크립트는 아직 0"}]},{"name":"② 발동","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["refund-policy/","SKILL.md · forms.md","scripts/calc.py"]}},{"kind":"move","step":"메타데이터","from":{"block":"`name`·`description`"},"to":2,"label":"요청을 description 과 대조","art":{"kind":"slip","lines":["description: 환불 규정","적용. 환불 문의 때"]}},{"kind":"move","step":"지침","from":{"block":"SKILL.md 본문"},"to":2,"label":"발동할 때 · 5천 토큰 미만","art":{"kind":"slip","lines":["# 환불 절차","1. 주문일 확인","2. forms.md 양식 채움"]}},{"kind":"move","step":"리소스","from":{"block":"참고 파일"},"to":2,"label":"읽을 때 들어옴","art":{"kind":"slip","lines":["bash: cat forms.md","환불 신청 양식 …"]}},{"kind":"end","label":"필요한 만큼 단계별로 불러옴 — 쓰지 않는 Skill 은 이름·설명만"}]},{"name":"③ 스크립트","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["scripts/calc.py","(코드 180줄)"]}},{"kind":"move","step":"실행","from":{"block":"스크립트"},"to":1,"label":"스크립트는 실행하고","art":{"kind":"slip","lines":["$ python scripts/calc.py","--order A-1024"]}},{"kind":"move","step":"출력","from":{"col":1},"to":2,"label":"출력만 들어옴","art":{"kind":"slip","lines":["환불액: 26,000원"]}},{"kind":"end","label":"코드 180줄은 컨텍스트에 안 들어가고 출력 한 줄만"}]}]}</script>
+    <script type="application/json" class="fl-data">{"cols":["Skill 폴더","bash","컨텍스트"],"blocks":[{"name":"`name`·`description`","var":false},{"name":"SKILL.md 본문","var":false},{"name":"참고 파일","var":false},{"name":"스크립트","var":false}],"rules":[null,null,null],"question":"Skill 을 60개 깔면 컨텍스트가 넘칠까?","scenes":[{"name":"① 발동 전","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["refund-policy/","SKILL.md · forms.md","scripts/calc.py"]}},{"kind":"move","step":"메타데이터","from":{"block":"`name`·`description`"},"to":2,"label":"Skill 당 약 100토큰","art":{"kind":"slip","lines":["name: refund-policy","description: 환불 규정","적용. 환불 문의 때"]}},{"kind":"end","label":"발동 전에는 이름·설명만 자리를 차지한다. 본문·파일·스크립트는 아직 0 이다"}]},{"name":"② 발동","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["refund-policy/","SKILL.md · forms.md","scripts/calc.py"]}},{"kind":"move","step":"메타데이터","from":{"block":"`name`·`description`"},"to":2,"label":"요청을 description 과 대조한다","art":{"kind":"slip","lines":["description: 환불 규정","적용. 환불 문의 때"]}},{"kind":"move","step":"지침","from":{"block":"SKILL.md 본문"},"to":2,"label":"발동할 때 · 5천 토큰 미만","art":{"kind":"slip","lines":["# 환불 절차","1. 주문일 확인","2. forms.md 양식 채움"]}},{"kind":"move","step":"리소스","from":{"block":"참고 파일"},"to":2,"label":"읽을 때 들어온다","art":{"kind":"slip","lines":["bash: cat forms.md","환불 신청 양식 …"]}},{"kind":"end","label":"필요한 만큼 단계별로 불러온다. 쓰지 않는 Skill 은 이름·설명만 자리를 차지한다"}]},{"name":"③ 스크립트","verdict":"ok","blocks":null,"steps":[{"kind":"start","at":0,"label":"","art":{"kind":"slip","lines":["scripts/calc.py","(코드 180줄)"]}},{"kind":"move","step":"실행","from":{"block":"스크립트"},"to":1,"label":"스크립트는 실행한다","art":{"kind":"slip","lines":["$ python scripts/calc.py","--order A-1024"]}},{"kind":"move","step":"출력","from":{"col":1},"to":2,"label":"출력만 들어온다","art":{"kind":"slip","lines":["환불액: 26,000원"]}},{"kind":"end","label":"코드 180줄은 컨텍스트에 안 들어간다. 출력 한 줄만 들어간다"}]}]}</script>
     <p class="flx-note">그림 속 이름·금액·시간·토큰 수는 예시예요. 공식 한도·동작은 카드 본문 값이 기준.</p>
     <details class="fl-alt">
       <summary>장면 글로 보기</summary>
@@ -513,22 +521,22 @@
       <ol>
         <li>시작 : Skill 폴더 — 쪽지 : <span class="flx-alt-slip">refund-policy/ / SKILL.md · forms.md / scripts/calc.py</span></li>
         <li>메타데이터 : <code>name</code>·<code>description</code> → 컨텍스트 : Skill 당 약 100토큰 — 쪽지 : <span class="flx-alt-slip">name: refund-policy / description: 환불 규정 / 적용. 환불 문의 때</span></li>
-        <li>끝 : 발동 전엔 이름·설명만 자리를 차지 — 본문·파일·스크립트는 아직 0</li>
+        <li>끝 : 발동 전에는 이름·설명만 자리를 차지한다. 본문·파일·스크립트는 아직 0 이다</li>
       </ol>
       <p class="lead">② 발동 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : Skill 폴더 — 쪽지 : <span class="flx-alt-slip">refund-policy/ / SKILL.md · forms.md / scripts/calc.py</span></li>
-        <li>메타데이터 : <code>name</code>·<code>description</code> → 컨텍스트 : 요청을 description 과 대조 — 쪽지 : <span class="flx-alt-slip">description: 환불 규정 / 적용. 환불 문의 때</span></li>
+        <li>메타데이터 : <code>name</code>·<code>description</code> → 컨텍스트 : 요청을 description 과 대조한다 — 쪽지 : <span class="flx-alt-slip">description: 환불 규정 / 적용. 환불 문의 때</span></li>
         <li>지침 : SKILL.md 본문 → 컨텍스트 : 발동할 때 · 5천 토큰 미만 — 쪽지 : <span class="flx-alt-slip"># 환불 절차 / 1. 주문일 확인 / 2. forms.md 양식 채움</span></li>
-        <li>리소스 : 참고 파일 → 컨텍스트 : 읽을 때 들어옴 — 쪽지 : <span class="flx-alt-slip">bash: cat forms.md / 환불 신청 양식 …</span></li>
-        <li>끝 : 필요한 만큼 단계별로 불러옴 — 쓰지 않는 Skill 은 이름·설명만</li>
+        <li>리소스 : 참고 파일 → 컨텍스트 : 읽을 때 들어온다 — 쪽지 : <span class="flx-alt-slip">bash: cat forms.md / 환불 신청 양식 …</span></li>
+        <li>끝 : 필요한 만큼 단계별로 불러온다. 쓰지 않는 Skill 은 이름·설명만 자리를 차지한다</li>
       </ol>
       <p class="lead">③ 스크립트 <span class="fl-v is-ok">✓</span></p>
       <ol>
         <li>시작 : Skill 폴더 — 쪽지 : <span class="flx-alt-slip">scripts/calc.py / (코드 180줄)</span></li>
-        <li>실행 : 스크립트 → bash : 스크립트는 실행하고 — 쪽지 : <span class="flx-alt-slip">$ python scripts/calc.py / --order A-1024</span></li>
-        <li>출력 : bash → 컨텍스트 : 출력만 들어옴 — 쪽지 : <span class="flx-alt-slip">환불액: 26,000원</span></li>
-        <li>끝 : 코드 180줄은 컨텍스트에 안 들어가고 출력 한 줄만</li>
+        <li>실행 : 스크립트 → bash : 스크립트는 실행한다 — 쪽지 : <span class="flx-alt-slip">$ python scripts/calc.py / --order A-1024</span></li>
+        <li>출력 : bash → 컨텍스트 : 출력만 들어온다 — 쪽지 : <span class="flx-alt-slip">환불액: 26,000원</span></li>
+        <li>끝 : 코드 180줄은 컨텍스트에 안 들어간다. 출력 한 줄만 들어간다</li>
       </ol>
     </details>
   </figure>
@@ -537,11 +545,17 @@
       <ol class="how">
         <li id="agent-skills-rule-6"><span class="num" aria-hidden="true">⑥</span>
           <div class="how-body">
-            <p>API 제약</p>
-            <p>코드 실행 도구 필수 · 네트워크 없음 · 실행 중 패키지 설치 불가</p>
-            <p>surface(쓰는 환경)끼리 동기화 안 됨(claude.ai 에 올린 Skill 은 API 에 따로 올림) · 공유 범위 = claude.ai 개인 / API 워크스페이스 / Claude Code 개인·프로젝트 폴더</p>
-            <p>ZDR 대상 아님 · 믿을 수 있는 출처(직접 만듦 · Anthropic)만 — 외부 URL 을 가져오는 Skill 은 특히 위험 → <a href="injection-egress.html">■ 프롬프트 인젝션 피해 경로 끊기</a></p>
-            <p>API 에서 베타 종료 = 2026-08-19 (베타 헤더 불필요) <span class="post">시험 뒤 변경</span> <span class="note">헤더만 바뀜, 판단엔 영향 없음</span></p>
+            <p>API 에는 제약이 있다</p>
+            <ul class="dash">
+              <li>코드 실행 도구가 꼭 있어야 한다</li>
+              <li>네트워크가 없다</li>
+              <li>실행 중에 패키지를 설치할 수 없다</li>
+              <li>surface(쓰는 환경)끼리 동기화되지 않는다(claude.ai 에 올린 Skill 은 API 에 따로 올린다)</li>
+              <li>공유 범위는 claude.ai 개인 / API 워크스페이스 / Claude Code 개인·프로젝트 폴더다</li>
+              <li>ZDR 대상이 아니다</li>
+              <li>믿을 수 있는 출처(직접 만듦 · Anthropic)만 쓴다. 외부 URL 을 가져오는 Skill 은 특히 위험하다. 자세한 것은 <a href="injection-egress.html">■ 프롬프트 인젝션 피해 경로 끊기</a> 에 있다</li>
+            </ul>
+            <p>API 에서 베타는 2026-08-19 에 끝났다(베타 헤더가 필요 없다) <span class="post">시험 뒤 변경</span> <span class="note">헤더만 바뀜, 판단엔 영향 없음</span></p>
           </div>
         </li>
       </ol>
@@ -550,44 +564,54 @@
       <ol class="how">
         <li id="agent-skills-rule-1"><span class="num" aria-hidden="true">①</span>
           <div class="how-body">
-            <p class="lead">3단계 <span class="pg">[3.8③]</span> <span class="pg">[2.5③]</span></p>
+            <p class="lead">불러오기는 3단계다 <span class="pg">[3.8③]</span> <span class="pg">[2.5③]</span></p>
             <div class="tscroll t-wide" role="region" aria-label="표" tabindex="0">
             <table class="t-stack" role="table">
               <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">단계</th><th scope="col" role="columnheader">언제</th><th scope="col" role="columnheader">토큰</th><th scope="col" role="columnheader">무엇</th></tr></thead>
               <tbody role="rowgroup">
                 <tr role="row"><td data-label="단계" role="cell">1 메타데이터</td><td data-label="언제" role="cell">항상(시작 때 시스템 프롬프트에)</td><td data-label="토큰" role="cell">Skill 당 약 100</td><td data-label="무엇" role="cell"><code>name</code> · <code>description</code></td></tr>
                 <tr role="row"><td data-label="단계" role="cell">2 지침</td><td data-label="언제" role="cell">발동할 때</td><td data-label="토큰" role="cell">5천 미만</td><td data-label="무엇" role="cell">SKILL.md 본문</td></tr>
-                <tr role="row"><td data-label="단계" role="cell">3 리소스·코드</td><td data-label="언제" role="cell">필요할 때</td><td data-label="토큰" role="cell">읽기 전까지 0</td><td data-label="무엇" role="cell">참고 파일은 읽을 때 들어옴 · 스크립트는 실행하고 출력만 들어옴</td></tr>
+                <tr role="row"><td data-label="단계" role="cell">3 리소스·코드</td><td data-label="언제" role="cell">필요할 때</td><td data-label="토큰" role="cell">읽기 전까지 0</td><td data-label="무엇" role="cell">참고 파일은 읽을 때 들어온다. 스크립트는 실행하고 출력만 들어온다</td></tr>
               </tbody>
             </table>
             </div>
-            <p>발동 전엔 이름·설명만 자리를 차지 → Skill 을 많이 깔아도 컨텍스트 부담이 없음</p>
+            <p>발동 전에는 이름·설명만 자리를 차지한다. 그래서 Skill 을 많이 깔아도 컨텍스트 부담이 없다</p>
           </div>
         </li>
         <li id="agent-skills-rule-2"><span class="num" aria-hidden="true">②</span>
           <div class="how-body">
-            <p>발동 = 요청을 <code>description</code> 과 대조 → "무엇을 하나 + 언제 쓰나" 둘 다 적음. 100개 넘는 Skill 중 고르는 기준이 description</p>
-            <p>안 불리면 내가 실제로 쓰는 말투의 키워드를 더함 <span class="src">(Skilljar)</span></p>
+            <p><span class="lead">발동 :</span> Claude 는 요청을 <code>description</code> 과 대조한다. 그래서 "무엇을 하나 + 언제 쓰나" 를 둘 다 적는다. 100개 넘는 Skill 중에서 고르는 기준이 description 이다</p>
+            <p>안 불리면 내가 실제로 쓰는 말투의 키워드를 더한다 <span class="src">(Skilljar)</span></p>
           </div>
         </li>
         <li id="agent-skills-rule-3"><span class="num" aria-hidden="true">③</span>
           <div class="how-body">
             <p>무엇을 어디에 싣나</p>
-            <p>매 요청 전부 필요한 안정 지식 → 시스템 프롬프트 + <a href="caching.html">■ 프롬프트 캐싱</a> · 가끔만 관련 있는 절차·전문지식 → Skills <span class="src">(Skilljar : CLAUDE.md = 늘 적용되는 규칙 · Skills = 가끔만 관련 있는 절차)</span></p>
-            <p>도구 정의가 많아 컨텍스트를 먹음 → <a href="tool-search.html">◆ 도구 미리 싣기 vs tool search</a> · 큰 지식에서 chunk 찾기 → <a href="rag-pipeline.html">■ RAG 파이프라인</a> <span class="note">(세 갈래를 한 표로 가른 건 추론)</span></p>
-            <p>MCP vs Skills : MCP = 데이터·시스템에 연결 · Skills = 그 데이터로 무엇을 어떻게 할지(절차 지식). 연결할 라이브 시스템이 없으면 MCP 가 아님. 둘은 같이 씀</p>
+            <ul class="dash">
+              <li>매 요청에 전부 필요한 안정 지식은 시스템 프롬프트에 넣고 <a href="caching.html">■ 프롬프트 캐싱</a> 을 쓴다</li>
+              <li>가끔만 관련 있는 절차·전문지식은 Skills 에 둔다 <span class="src">(Skilljar : CLAUDE.md 는 늘 적용되는 규칙이다. Skills 는 가끔만 관련 있는 절차다)</span></li>
+              <li>도구 정의가 많아 컨텍스트를 먹으면 <a href="tool-search.html">◆ 도구 미리 싣기 vs tool search</a> 를 본다</li>
+              <li>큰 지식에서 chunk 를 찾으면 <a href="rag-pipeline.html">■ RAG 파이프라인</a> 을 본다</li>
+            </ul>
+            <p>세 갈래를 한 표로 가른 건 추론이다</p>
+            <p>MCP vs Skills : MCP 는 데이터·시스템에 연결한다. Skills 는 그 데이터로 무엇을 어떻게 할지(절차 지식)를 담는다. 연결할 라이브 시스템이 없으면 MCP 가 아니다. 둘은 같이 쓴다</p>
           </div>
         </li>
         <li id="agent-skills-rule-4"><span class="num" aria-hidden="true">④</span>
           <div class="how-body">
-            <p>쪼개는 법</p>
-            <p>SKILL.md 본문 500줄 미만, 넘으면 파일로 나눔 · 참고 파일은 SKILL.md 에서 한 단계 깊이만(파일이 파일을 부르면 <code>head</code> 로 일부만 읽힐 수 있음) · 100줄 넘는 참고 파일엔 맨 위 목차 · 도메인별로 나눠 무관한 파일은 안 불러옴</p>
-            <p>불러온 뒤엔 모든 토큰이 대화와 자리를 다툼 → 짧게. Claude 가 이미 아는 설명은 뺌</p>
+            <p>쪼개는 법은 다음과 같다</p>
+            <ul class="dash">
+              <li>SKILL.md 본문은 500줄 미만으로 둔다. 넘으면 파일로 나눈다</li>
+              <li>참고 파일은 SKILL.md 에서 한 단계 깊이만 둔다. 파일이 파일을 부르면 <code>head</code> 로 일부만 읽힐 수 있다</li>
+              <li>100줄 넘는 참고 파일에는 맨 위에 목차를 둔다</li>
+              <li>도메인별로 나눠서 무관한 파일은 안 불러온다</li>
+            </ul>
+            <p>불러온 뒤에는 모든 토큰이 대화와 자리를 다툰다. 그래서 짧게 쓴다. Claude 가 이미 아는 설명은 뺀다</p>
           </div>
         </li>
         <li id="agent-skills-rule-5"><span class="num" aria-hidden="true">⑤</span>
           <div class="how-body">
-            <p>결정론적 작업은 스크립트로 : 코드는 컨텍스트에 안 들어가고 출력만 → 같은 코드를 즉석 생성하는 것보다 효율적. SKILL.md 에 "읽지 말고 실행"을 적음 <span class="src">(docs + Skilljar)</span></p>
+            <p>결정론적 작업은 스크립트로 둔다. 코드는 컨텍스트에 안 들어가고 출력만 들어간다. 그래서 같은 코드를 즉석 생성하는 것보다 효율적이다. SKILL.md 에 "읽지 말고 실행"을 적는다 <span class="src">(docs + Skilljar)</span></p>
           </div>
         </li>
       </ol>
@@ -601,13 +625,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">조건</th><th scope="col" role="columnheader">답</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="조건" role="cell">절차·전문지식이 많고 요청마다 일부만 필요</td><td data-label="답" role="cell">Skills (progressive disclosure, 점진적 공개)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview" lang="en" rel="noopener">agent-skills overview</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">매 요청 늘 적용되는 규칙</td><td data-label="답" role="cell">늘 싣기(Claude Code 면 CLAUDE.md, API 면 시스템 프롬프트) + ■ 프롬프트 캐싱</td><td data-label="등급" role="cell"><span class="note">(Claude Code 쪽) · API 쪽은 추론</span></td><td data-label="근거" role="cell">Skilljar 434528 "Use CLAUDE.md for: Project-wide standards that always apply"</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">Skill 이 안 불림</td><td data-label="답" role="cell">description 에 무엇 + 언제 + 실제 쓰는 키워드</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview · <a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a> · Skilljar 434526</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">SKILL.md 가 길어짐</td><td data-label="답" role="cell">500줄 미만으로, 나머지는 한 단계 깊이 참고 파일로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a></td></tr>
-    <tr role="row"><td data-label="조건" role="cell">결정론적 작업(검증·변환)</td><td data-label="답" role="cell">스크립트로 두고 "읽지 말고 실행"</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview · Skilljar 434526</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">API 에서 Skills 사용</td><td data-label="답" role="cell">코드 실행 도구 + <code>container</code> 에 <code>skill_<wbr>id</code></td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
-    <tr role="row"><td data-label="조건" role="cell">ZDR 이 필요한 고객</td><td data-label="답" role="cell">Skills 는 ZDR 대상 아님 → 다른 방식 검토</td><td data-label="등급" role="cell"><span class="note">(대상 아님) · 대안은 추론</span></td><td data-label="근거" role="cell">overview</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">절차·전문지식이 많고 요청마다 일부만 필요하다</td><td data-label="답" role="cell">Skills (progressive disclosure, 점진적 공개)</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview" lang="en" rel="noopener">agent-skills overview</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">매 요청에 늘 적용되는 규칙이다</td><td data-label="답" role="cell">늘 싣는다(Claude Code 면 CLAUDE.md, API 면 시스템 프롬프트). 그리고 ■ 프롬프트 캐싱 을 쓴다</td><td data-label="등급" role="cell"><span class="note">(Claude Code 쪽) · API 쪽은 추론</span></td><td data-label="근거" role="cell">Skilljar 434528 "Use CLAUDE.md for: Project-wide standards that always apply"</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">Skill 이 안 불린다</td><td data-label="답" role="cell">description 에 무엇 + 언제 + 실제 쓰는 키워드를 적는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview · <a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a> · Skilljar 434526</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">SKILL.md 가 길어진다</td><td data-label="답" role="cell">500줄 미만으로 두고, 나머지는 한 단계 깊이 참고 파일로 뺀다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a></td></tr>
+    <tr role="row"><td data-label="조건" role="cell">결정론적 작업(검증·변환)이다</td><td data-label="답" role="cell">스크립트로 두고 "읽지 말고 실행"을 적는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview · Skilljar 434526</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">API 에서 Skills 를 쓴다</td><td data-label="답" role="cell">코드 실행 도구를 켜고 <code>container</code> 에 <code>skill_<wbr>id</code> 를 넣는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
+    <tr role="row"><td data-label="조건" role="cell">ZDR 이 필요한 고객이다</td><td data-label="답" role="cell">Skills 는 ZDR 대상이 아니다. 다른 방식을 검토한다</td><td data-label="등급" role="cell"><span class="note">(대상 아님) · 대안은 추론</span></td><td data-label="근거" role="cell">overview</td></tr>
   </tbody>
 </table>
 </div>
@@ -618,13 +642,13 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">변수</th><th scope="col" role="columnheader">값</th><th scope="col" role="columnheader">답 쪽</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="변수" role="cell">한 요청에 필요한 비율</td><td data-label="값" role="cell">전체 절차 중 일부</td><td data-label="답 쪽" role="cell">Skills</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">한 요청에 필요한 비율</td><td data-label="값" role="cell">전부</td><td data-label="답 쪽" role="cell">늘 싣기 + 캐싱</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">Skill 개수</td><td data-label="값" role="cell">수백 개</td><td data-label="답 쪽" role="cell">1단계만으로도 수만 토큰 → 늘 드는 비용을 셈에 넣음</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">절차가 외부 API 를 불러야 함</td><td data-label="값" role="cell">API surface</td><td data-label="답 쪽" role="cell">API Skills 는 네트워크 없음 → 도구·MCP 로</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">쓰는 surface</td><td data-label="값" role="cell">claude.ai 와 API 둘 다</td><td data-label="답 쪽" role="cell">각각 따로 올림</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">데이터 보존 계약</td><td data-label="값" role="cell">ZDR 필요</td><td data-label="답 쪽" role="cell">Skills 대상 아님</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
-    <tr role="row"><td data-label="변수" role="cell">Skill 출처</td><td data-label="값" role="cell">외부에서 받음 · 외부 URL 을 가져옴</td><td data-label="답 쪽" role="cell">전부 감사, 특히 위험</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">한 요청에 필요한 비율</td><td data-label="값" role="cell">전체 절차 중 일부다</td><td data-label="답 쪽" role="cell">Skills</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">판단 규칙 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">한 요청에 필요한 비율</td><td data-label="값" role="cell">전부다</td><td data-label="답 쪽" role="cell">늘 싣고 캐싱한다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 2</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">Skill 개수</td><td data-label="값" role="cell">수백 개다</td><td data-label="답 쪽" role="cell">1단계만으로도 수만 토큰이다. 늘 드는 비용을 셈에 넣는다</td><td data-label="등급" role="cell"><span class="calc">계산</span></td><td data-label="근거" role="cell">뒤집히는 때 1</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">절차가 외부 API 를 불러야 한다</td><td data-label="값" role="cell">API surface</td><td data-label="답 쪽" role="cell">API Skills 는 네트워크가 없다. 도구나 MCP 로 부른다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">쓰는 surface</td><td data-label="값" role="cell">claude.ai 와 API 둘 다</td><td data-label="답 쪽" role="cell">각각 따로 올린다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">데이터 보존 계약</td><td data-label="값" role="cell">ZDR 이 필요하다</td><td data-label="답 쪽" role="cell">Skills 는 대상이 아니다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
+    <tr role="row"><td data-label="변수" role="cell">Skill 출처</td><td data-label="값" role="cell">외부에서 받았거나, 외부 URL 을 가져온다</td><td data-label="답 쪽" role="cell">전부 감사한다. 외부 URL 을 가져오면 특히 위험하다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
   </tbody>
 </table>
 </div>
@@ -633,20 +657,20 @@
   <h2 class="sec-h" id="agent-skills-practice-h">연습 문제</h2>
 
   <section class="csx" id="agent-skills-case" aria-labelledby="agent-skills-case-h" data-tree="agent-skills-tree-1" data-path="[[&quot;n1&quot;,null],[&quot;n4&quot;,&quot;일부만 필요&quot;],[&quot;n5&quot;,null],[&quot;n6&quot;,&quot;절차 지식&quot;],[&quot;n7&quot;,null]]" data-flow="agent-skills-flow" data-scene="1">
-    <p class="csx-text">고객지원 에이전트에 환불·교환·배송 분쟁 같은 <mark class="csx-m" data-tag="절차 지식">상담 절차 60개<span class="csx-tag">절차 지식</span></mark>를 붙이려 한다. <mark class="csx-m" data-tag="일부만 필요">상담 한 건에는 그중 두세 개만 쓴다<span class="csx-tag">일부만 필요</span></mark>. 팀장은 "전부 시스템 프롬프트에 넣고 캐싱하면 싸다"고 한다. 절차를 어디에 둘까?</p>
+    <p class="csx-text">고객지원 에이전트에 환불·교환·배송 분쟁 같은 <mark class="csx-m" data-tag="절차 지식">상담 절차 60개<span class="csx-tag">절차 지식</span></mark>를 붙이려 한다. <mark class="csx-m" data-tag="일부만 필요">상담 한 건에는 그중 두세 개만 쓴다<span class="csx-tag">일부만 필요</span></mark>. 팀장은 "전부 시스템 프롬프트에 넣고 캐싱하면 싸다"고 한다. 절차를 어디에 둬야 하나?</p>
     <div class="csx-ctl"><button type="button" class="csx-go">지문에서 답까지 따라가기</button><button type="button" class="csx-flow" hidden>흐르는 모습 보기</button></div>
   </section>
   <h2 class="sec-h" id="agent-skills-exam-h">시험 대비</h2>
   <div class="t5-rest">
     <h3>함정</h3>
       <ul class="traps">
-        <li><span class="neq" aria-hidden="true">≠</span><span>"1단계 100토큰 → 2단계 SKILL.md → 3단계 5K 리소스"로 토큰 계산 → 5천은 2단계 SKILL.md 상한, 3단계는 읽기 전 0</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"Skill 을 많이 깔면 컨텍스트가 넘친다" → 발동 전엔 이름·설명만 <span class="src">(그래도 Skill 당 약 100토큰은 늘 듦 — 설명 쪽 뒤집히는 때 1)</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"가끔 쓰는 절차까지 전부 시스템 프롬프트에 넣고 캐싱" → 캐싱은 비용을 줄여도 컨텍스트 자리는 그대로 차지 <span class="gen">업계 일반</span> <span class="note">context rot 원칙의 적용</span></span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"SKILL.md 한 파일에 2천 줄" → 500줄 미만, 나머지는 파일로</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"claude.ai 에 올린 Skill 이 API 에서도 자동으로" → 따로 올림</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"description 은 '문서 작업 도움' 정도면 됨" → 무엇 + 언제, 구체적 키워드</span></li>
-        <li><span class="neq" aria-hidden="true">≠</span><span>"API Skill 이 외부 API 를 불러 최신 데이터를 가져온다" → API Skills 는 네트워크 없음</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"1단계 100토큰 → 2단계 SKILL.md → 3단계 5K 리소스" 로 토큰을 세는 것은 함정이다. 5천은 2단계 SKILL.md 의 상한이다. 3단계는 읽기 전에 0 이다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"Skill 을 많이 깔면 컨텍스트가 넘친다" 는 함정이다. 발동 전에는 이름·설명만 들어온다 <span class="src">(그래도 Skill 당 약 100토큰은 늘 든다. 설명 쪽 뒤집히는 때 1 에 있다)</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"가끔 쓰는 절차까지 전부 시스템 프롬프트에 넣고 캐싱한다" 는 함정이다. 캐싱은 비용을 줄여도 컨텍스트 자리는 그대로 차지한다 <span class="gen">업계 일반</span> <span class="note">context rot 원칙의 적용</span></span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"SKILL.md 한 파일에 2천 줄을 쓴다" 는 함정이다. 500줄 미만으로 두고, 나머지는 파일로 나눈다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"claude.ai 에 올린 Skill 이 API 에서도 자동으로 쓰인다" 는 함정이다. API 에 따로 올린다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"description 은 '문서 작업 도움' 정도면 된다" 는 함정이다. 무엇과 언제를 적고, 구체적 키워드를 넣는다</span></li>
+        <li><span class="neq" aria-hidden="true">≠</span><span>"API Skill 이 외부 API 를 불러 최신 데이터를 가져온다" 는 함정이다. API Skills 에는 네트워크가 없다</span></li>
       </ul>
     <h3>신호</h3>
       <div class="sheet">
@@ -669,39 +693,35 @@
 <h3 id="flips-h">뒤집히는 때</h3>
 <h4>1. Skill 을 수백 개 깔면 1단계도 무거워짐</h4>
 <ul>
-<li><span class="lead">조건 :</span> Skill 250개.</li>
-<li><span class="lead">계산 :</span> 250 × 약 100 = 약 2만 5천 토큰이 매 요청 늘 들어감. 20만 토큰 창의 약 12.5%.</li>
-<li><span class="lead">판단 :</span> 공식은 "많이 깔아도 부담 없음"이라 하지만, 그건 본문·파일이 안 들어온다는 뜻. description 당 약 100토큰은 늘 듦 → 수백 개면 늘 드는 비용을 셈에 넣음. 캐싱되는 앞부분이라 비용은 줄지만 자리는 그대로.</li>
+<li><span class="lead">조건 :</span> Skill 이 250개다.</li>
+<li><span class="lead">계산 :</span> 250 × 약 100 = 약 2만 5천 토큰이 매 요청에 늘 들어간다. 20만 토큰 창의 약 12.5% 다.</li>
+<li><span class="lead">판단 :</span> 공식은 "많이 깔아도 부담 없음"이라고 한다. 그러나 그것은 본문과 파일이 안 들어온다는 뜻이다. description 당 약 100토큰은 늘 든다. 그래서 수백 개면 늘 드는 비용을 셈에 넣는다. 캐싱되는 앞부분이라 비용은 줄지만, 자리는 그대로 차지한다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (Skill 당 약 100토큰은 확인)</li>
 <li><span class="lead">근거 :</span> overview · best-practices("potentially 100+ available Skills")</li>
 </ul>
 <h4>2. 절차가 매 요청 전부 필요하면 Skills 가 오히려 손해</h4>
 <ul>
-<li><span class="lead">조건 :</span> 절차 5개 × 3천 토큰 = 1만 5천, 모든 상담이 5개를 다 씀.</li>
-<li>계산 :</li>
-<li><span class="lead">늘 싣기 + 캐싱 :</span> 1만 5천 × 0.1 = 요청당 캐시 안 된 토큰 1,500개 값어치, 도구 호출 없음.</li>
-<li>
-<p class="lead">Skills : 1단계 500 + 매 상담 SKILL.md 5개를 읽는 bash 호출 5번 → 1만 5천이 대화 중간에 들어옴(그 턴엔 캐시 안 됨) + 호출 왕복 지연(latency).</p>
+<li><span class="lead">조건 :</span> 절차 5개 × 3천 토큰 = 1만 5천이다. 모든 상담이 5개를 다 쓴다.</li>
+<li>계산 :<ul>
+<li><span class="lead">늘 싣기 + 캐싱 :</span> 1만 5천 × 0.1 = 요청당 캐시 안 된 토큰 1,500개 값어치다. 도구 호출은 없다.</li>
+<li><span class="lead">Skills :</span> 1단계 500 에 더해, 매 상담 SKILL.md 5개를 읽는 bash 호출이 5번 일어난다. 1만 5천이 대화 중간에 들어온다(그 턴에는 캐시되지 않는다). 그리고 호출 왕복 지연(latency)이 생긴다.</li>
+</ul>
 </li>
-<li>
-<p>판단 : 전부 필요하면 progressive disclosure 가 아낄 게 없음 → 늘 싣기 + 캐싱. progressive disclosure 는 "일부만 필요"일 때 쓸 만함.</p>
-</li>
-<li><span class="lead">전제 :</span> 캐시 매 요청 적중 · 가격 배수 0.1 = 2026-09-28 조회값.</li>
+<li><span class="lead">판단 :</span> 전부 필요하면 progressive disclosure 가 아낄 것이 없다. 그래서 늘 싣고 캐싱한다. progressive disclosure 는 "일부만 필요"일 때 쓸 만하다.</li>
+<li><span class="lead">전제 :</span> 캐시가 매 요청 적중한다. 가격 배수 0.1 은 2026-09-28 조회값이다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span> (0.1배 · SKILL.md 는 bash 로 읽음은 확인)</li>
 <li><span class="lead">근거 :</span> ko-pricing · overview · Skilljar 434528</li>
 </ul>
 <h4>3. 절차 60개 중 한 상담에 3개 — Skills 가 자리·비용 모두 이김</h4>
 <ul>
-<li><span class="lead">조건 :</span> 절차 60개 × 평균 2,500토큰 = 15만. 한 상담에 3개.</li>
-<li>계산 :</li>
-<li><span class="lead">통째로 늘 싣기 :</span> 자리 15만(20만 창의 75%) · 캐시 적중 시 비용 15만 × 0.1 = 캐시 안 된 토큰 1만 5천개 값어치.</li>
-<li>
-<p class="lead">Skills : 자리 = 1단계 6천 + 본문 3개 7,500 = 1만 3,500 (약 91% 적음) · 비용 = 6천 × 0.1 + 7,500 = 캐시 안 된 토큰 8,100개 값어치 (약 46% 쌈).</p>
+<li><span class="lead">조건 :</span> 절차 60개 × 평균 2,500토큰 = 15만이다. 한 상담에 3개를 쓴다.</li>
+<li>계산 :<ul>
+<li><span class="lead">통째로 늘 싣기 :</span> 자리는 15만이다(20만 창의 75%). 캐시 적중 시 비용은 15만 × 0.1 = 캐시 안 된 토큰 1만 5천개 값어치다.</li>
+<li><span class="lead">Skills :</span> 자리는 1단계 6천 + 본문 3개 7,500 = 1만 3,500 이다(약 91% 적다). 비용은 6천 × 0.1 + 7,500 = 캐시 안 된 토큰 8,100개 값어치다(약 46% 싸다).</li>
+</ul>
 </li>
-<li>
-<p>판단 : 자리 차이가 크고 context rot(토큰이 늘수록 정확도·재현율 ↓)까지 생각하면 Skills.</p>
-</li>
-<li><span class="lead">전제 :</span> 캐시 적중 · 발동한 본문은 그 턴에 캐시 안 됨 · 절차 크기 균일.</li>
+<li><span class="lead">판단 :</span> 자리 차이가 크다. context rot(토큰이 늘수록 정확도·재현율이 떨어짐)까지 생각하면 Skills 를 쓴다.</li>
+<li><span class="lead">전제 :</span> 캐시가 적중한다. 발동한 본문은 그 턴에 캐시되지 않는다. 절차 크기는 고르다.</li>
 <li><span class="lead">등급 :</span> <span class="calc">계산</span></li>
 <li><span class="lead">근거 :</span> overview · ko-context-windows · ko-pricing</li>
 </ul>
@@ -712,24 +732,26 @@
 <table class="t-stack" role="table">
   <thead role="rowgroup"><tr role="row"><th scope="col" role="columnheader">오답</th><th scope="col" role="columnheader">왜 끌리나</th><th scope="col" role="columnheader">왜 틀리나</th><th scope="col" role="columnheader">등급</th><th scope="col" role="columnheader">근거</th></tr></thead>
   <tbody role="rowgroup">
-    <tr role="row"><td data-label="오답" role="cell">"1단계 100토큰 → 2단계 SKILL.md → 3단계 5K 리소스"로 토큰 계산</td><td data-label="왜 끌리나" role="cell">단계마다 숫자가 하나씩 있어 보임</td><td data-label="왜 틀리나" role="cell">5천은 2단계 SKILL.md 상한. 3단계는 읽기 전 0, 스크립트는 출력만</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Skill 을 많이 깔면 컨텍스트가 넘침"</td><td data-label="왜 끌리나" role="cell">설치 = 로드라고 생각</td><td data-label="왜 틀리나" role="cell">발동 전엔 이름·설명만</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"가끔 쓰는 절차까지 전부 시스템 프롬프트에 넣고 캐싱"</td><td data-label="왜 끌리나" role="cell">캐싱으로 비용이 싸짐</td><td data-label="왜 틀리나" role="cell">비용은 줄어도 자리는 그대로. 일부만 필요하면 progressive disclosure 가 자리·비용 모두 이김</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 계산</td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"SKILL.md 한 파일에 전부 (2천 줄)"</td><td data-label="왜 끌리나" role="cell">한 곳에 있어야 관리가 쉬워 보임</td><td data-label="왜 틀리나" role="cell">500줄 미만, 나머지는 참고 파일</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a> · Skilljar 434526</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"참고 파일이 다른 참고 파일을 불러도 됨"</td><td data-label="왜 끌리나" role="cell">폴더 구조처럼 자연스러움</td><td data-label="왜 틀리나" role="cell">중첩되면 일부만 읽힐 수 있음 → 한 단계 깊이</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"claude.ai 에 올린 Skill 이 API 에서도 자동"</td><td data-label="왜 끌리나" role="cell">같은 회사 제품</td><td data-label="왜 틀리나" role="cell">surface 끼리 동기화 안 됨</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"API Skill 이 외부 API 를 불러 최신 값을 가져옴"</td><td data-label="왜 끌리나" role="cell">Claude Code 에선 네트워크가 됨</td><td data-label="왜 틀리나" role="cell">API Skills 는 네트워크 없음</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"description 은 '문서 도와줌' 정도면 충분"</td><td data-label="왜 끌리나" role="cell">짧을수록 토큰이 적음</td><td data-label="왜 틀리나" role="cell">발동 기준이 description. 무엇 + 언제 + 키워드</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a></td></tr>
-    <tr role="row"><td data-label="오답" role="cell">"Skills 는 ZDR 계약에도 그대로 쓸 수 있음"</td><td data-label="왜 끌리나" role="cell">다른 API 기능처럼 생각</td><td data-label="왜 틀리나" role="cell">ZDR 대상 아님</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"1단계 100토큰 → 2단계 SKILL.md → 3단계 5K 리소스"로 토큰 계산</td><td data-label="왜 끌리나" role="cell">단계마다 숫자가 하나씩 있어 보인다</td><td data-label="왜 틀리나" role="cell">5천은 2단계 SKILL.md 의 상한이다. 3단계는 읽기 전에 0 이고, 스크립트는 출력만 들어온다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Skill 을 많이 깔면 컨텍스트가 넘침"</td><td data-label="왜 끌리나" role="cell">설치하면 로드된다고 생각한다</td><td data-label="왜 틀리나" role="cell">발동 전에는 이름·설명만 들어온다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"가끔 쓰는 절차까지 전부 시스템 프롬프트에 넣고 캐싱"</td><td data-label="왜 끌리나" role="cell">캐싱으로 비용이 싸진다</td><td data-label="왜 틀리나" role="cell">비용은 줄어도 자리는 그대로다. 일부만 필요하면 progressive disclosure 가 자리·비용 모두 이긴다</td><td data-label="등급" role="cell"><span class="gen">업계 일반</span> · 계산</td><td data-label="근거" role="cell">뒤집히는 때 3</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"SKILL.md 한 파일에 전부 (2천 줄)"</td><td data-label="왜 끌리나" role="cell">한 곳에 있어야 관리가 쉬워 보인다</td><td data-label="왜 틀리나" role="cell">500줄 미만으로 두고, 나머지는 참고 파일로 뺀다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a> · Skilljar 434526</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"참고 파일이 다른 참고 파일을 불러도 됨"</td><td data-label="왜 끌리나" role="cell">폴더 구조처럼 자연스럽다</td><td data-label="왜 틀리나" role="cell">중첩되면 일부만 읽힐 수 있다. 그래서 한 단계 깊이로 둔다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"claude.ai 에 올린 Skill 이 API 에서도 자동"</td><td data-label="왜 끌리나" role="cell">같은 회사 제품이다</td><td data-label="왜 틀리나" role="cell">surface 끼리 동기화되지 않는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"API Skill 이 외부 API 를 불러 최신 값을 가져옴"</td><td data-label="왜 끌리나" role="cell">Claude Code 에서는 네트워크가 된다</td><td data-label="왜 틀리나" role="cell">API Skills 에는 네트워크가 없다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"description 은 '문서 도와줌' 정도면 충분"</td><td data-label="왜 끌리나" role="cell">짧을수록 토큰이 적다</td><td data-label="왜 틀리나" role="cell">발동 기준이 description 이다. 무엇 + 언제 + 키워드를 적는다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell"><a class="src-link" href="https://code.claude.com/docs/en/best-practices" lang="en" rel="noopener">best-practices</a></td></tr>
+    <tr role="row"><td data-label="오답" role="cell">"Skills 는 ZDR 계약에도 그대로 쓸 수 있음"</td><td data-label="왜 끌리나" role="cell">다른 API 기능처럼 생각한다</td><td data-label="왜 틀리나" role="cell">ZDR 대상이 아니다</td><td data-label="등급" role="cell"></td><td data-label="근거" role="cell">overview</td></tr>
   </tbody>
 </table>
 </div>
 </section>
   </details>
   <h2 class="sec-h" id="agent-skills-ref-h">참고</h2>
+  <details class="t5-orig v3-more">
+    <summary>더 깊이 : CCA-F · 출처 · 상태 · 미해결 <span class="note">(참고)</span></summary>
   <div class="t5-rest">
     <h3>CCA-F</h3>
-      <p>겹침 (SKILL.md 설정·위치·<code>allowed-tools</code> 같은 Claude Code 구현) — 여기선 "무엇을 늘 싣고 무엇을 필요할 때 싣나"라는 컨텍스트 설계 판단으로 물음 <span class="note">(추론)</span></p>
+      <p>겹침 (SKILL.md 설정·위치·<code>allowed-tools</code> 같은 Claude Code 구현). 여기서는 "무엇을 늘 싣고 무엇을 필요할 때 싣나"라는 컨텍스트 설계 판단으로 묻는다 <span class="note">(추론)</span></p>
     <h3>출처</h3>
       <ul class="plain">
         <li><a class="src-link" href="https://everpath-course-content.s3-accelerate.amazonaws.com/instructor%2F6nizmqk8tpzpfjvt6qmmav7rh%2Fpublic%2F1783542810%2FClaude+Certified+Architect+%E2%80%93+Professional+Exam+Guide.pdf" rel="noopener">가이드 목표 3.8</a> <span class="src">공식 시험 가이드 v1.0</span></li>
@@ -752,11 +774,12 @@
 <section class="ex-sec" id="open-questions" aria-labelledby="open-questions-h">
 <h3 id="open-questions-h">미해결</h3>
 <ol>
-<li>Skill 개수 상한·1단계 토큰이 커질 때의 공식 권고 없음 (best-practices 는 "100개 넘는 Skill 중 고른다"까지만).</li>
-<li>"매 요청 전부 필요하면 늘 싣기" 는 Claude Code 쪽(CLAUDE.md vs Skills, Skilljar 434528)만 공식 문장이 있음. API 시스템 프롬프트 쪽은 같은 원리를 적용한 추론.</li>
-<li><a href="caching.html">■ 프롬프트 캐싱</a> <span class="rule-ref">· <a href="caching.html#caching-rule-5">규칙 ⑤</a></span> 의 Skills 줄("평소엔 이름·설명 약 100토큰만, 본문은 쓸 때 로드")은 이 카드와 겹침 → 캐싱 카드 ⑤ 끝에 "→ ■ Agent Skills progressive disclosure" 가리키기가 붙어 있음(2026-09-28 통합 때 확인). 짧은 요약 한 줄은 캐싱 쪽 판단(재사용 수단 가르기)에 필요해 둠.</li>
+<li>Skill 개수 상한과 1단계 토큰이 커질 때의 공식 권고는 없다 (best-practices 는 "100개 넘는 Skill 중 고른다"까지만 적는다).</li>
+<li>"매 요청 전부 필요하면 늘 싣기" 는 Claude Code 쪽(CLAUDE.md vs Skills, Skilljar 434528)에만 공식 문장이 있다. API 시스템 프롬프트 쪽은 같은 원리를 적용한 추론이다.</li>
+<li><a href="caching.html">■ 프롬프트 캐싱</a> <span class="rule-ref">· <a href="caching.html#caching-rule-5">규칙 ⑤</a></span> 의 Skills 줄("평소엔 이름·설명 약 100토큰만, 본문은 쓸 때 로드")은 이 카드와 겹친다. 그래서 캐싱 카드 ⑤ 끝에 "→ ■ Agent Skills progressive disclosure" 가리키기가 붙어 있다(2026-09-28 통합 때 확인). 짧은 요약 한 줄은 캐싱 쪽 판단(재사용 수단 가르기)에 필요해서 둔다.</li>
 </ol>
 </section>
+  </details>
 </article>
 
 <footer>
